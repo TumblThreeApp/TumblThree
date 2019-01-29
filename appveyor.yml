@@ -1,0 +1,22 @@
+version: 1.0.8.{build}
+image: Visual Studio 2017
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\SharedAssemblyInfo.cs'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+before_build:
+- ps: >-
+    ./scripts/appveyor-prebuild.ps1
+
+    nuget restore "src\TumblThree\TumblThree.sln"
+build:
+  project: src\TumblThree\TumblThree.sln
+  verbosity: normal
+after_build:
+- ps: ./scripts/appveyor-postbuild.ps1
+artifacts:
+- path: artifacts/*.zip
+  name: TumblThree
