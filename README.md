@@ -61,7 +61,7 @@ _Read this in other languages: [简体中文](https://github.com/Emphasia/TumblT
 
 ## Download:
 
-Latest releases can be found [here](https://github.com/johanneszab/TumblThree/releases).
+Latest releases can be found [here](https://github.com/TumblThreeApp/TumblThree/releases).
 
 ## Screenshot:
 ![TumblThree Main UI](http://www.jzab.de/sites/default/files/images/tumblthree.png?raw=true "TumblThree Main UI")
@@ -142,13 +142,13 @@ Most likely you don't have to change any of the other connection settings. In pa
 ## How To Build The Source Code To Help Further Developing:
 
 * Download [Visual Studio](https://www.visualstudio.com/vs/community/). The minimum required version is Visual Studio 2015 (C# 6.0 feature support). You also need _Blend for Visual Studio SDK for .NET_ which includes the System.Windows.Interactivity and Microsoft.Expression.Interactions .dlls.
-* Download the [source code as .zip file](https://github.com/johanneszab/TumblThree/archive/master.zip) or use the [GitHub Desktop](https://desktop.github.com/) and [checkout the code](https://github.com/johanneszab/TumblThree.git).
+* Download the [source code as .zip file](https://github.com/TumblThreeApp/TumblThree/archive/master.zip) or use the [GitHub Desktop](https://desktop.github.com/) and [checkout the code](https://github.com/TumblThreeApp/TumblThree.git).
 * Open the TumblThree.sln solution file in the src/ directory of the code.
 * Build the Source once before editing anything. Build->Build Solution.
 
 ## Translations wanted:
 
-* If you want to help translate TumblThree, there are two resource files (.resx) which contain all the strings used in the application. One for [the user interface](https://github.com/johanneszab/TumblThree/blob/master/src/TumblThree/TumblThree.Presentation/Properties/Resources.resx#L120) and one for the [underlying application](https://github.com/johanneszab/TumblThree/blob/master/src/TumblThree/TumblThree.Applications/Properties/Resources.resx#L120).  
+* If you want to help translate TumblThree, there are two resource files (.resx) which contain all the strings used in the application. One for [the user interface](https://github.com/TumblThreeApp/TumblThree/blob/master/src/TumblThree/TumblThree.Presentation/Properties/Resources.resx#L120) and one for the [underlying application](https://github.com/TumblThreeApp/TumblThree/blob/master/src/TumblThree/TumblThree.Applications/Properties/Resources.resx#L120).  
 * Translate all the words or its meanings between the two value tags and create a pull request on github or simply send me the files via email.
  
 ## New Feature Requests:

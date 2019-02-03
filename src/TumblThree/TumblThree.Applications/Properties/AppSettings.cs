@@ -238,7 +238,7 @@ namespace TumblThree.Applications.Properties
             RequestTokenUrl = @"https://www.tumblr.com/oauth/request_token";
             AuthorizeUrl = @"https://www.tumblr.com/oauth/authorize";
             AccessTokenUrl = @"https://www.tumblr.com/oauth/access_token";
-            OAuthCallbackUrl = @"https://github.com/johanneszab/TumblThree";
+            OAuthCallbackUrl = @"https://github.com/TumblThreeApp/TumblThree";
             ApiKey = "x8pd1InspmnuLSFKT4jNxe8kQUkbRXPNkAffntAFSk01UjRsLV";
             SecretKey = "Mul4BviRQgPLuhN1xzEqmXzwvoWicEoc4w6ftWBGWtioEvexmM";
             UserAgent =

@@ -923,7 +923,7 @@ namespace TumblThree.Applications.ViewModels
             {
                 ApiKey = "x8pd1InspmnuLSFKT4jNxe8kQUkbRXPNkAffntAFSk01UjRsLV";
                 SecretKey = "Mul4BviRQgPLuhN1xzEqmXzwvoWicEoc4w6ftWBGWtioEvexmM";
-                OAuthCallbackUrl = @"https://github.com/johanneszab/TumblThree";
+                OAuthCallbackUrl = @"https://github.com/TumblThreeApp/TumblThree";
                 OAuthToken = string.Empty;
                 OAuthTokenSecret = string.Empty;
                 DownloadLocation = "Blogs";
