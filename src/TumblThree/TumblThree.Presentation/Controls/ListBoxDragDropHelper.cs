@@ -161,6 +161,7 @@ namespace TumblThree.Presentation.Controls
             {
                 return;
             }
+
             object targetData = ((ListBoxItem)sender).DataContext;
             int newIndex = listBox.Items.IndexOf(targetData);
 
@@ -186,6 +187,7 @@ namespace TumblThree.Presentation.Controls
             {
                 return;
             }
+
             int newIndex = listBox.Items.Count - 1;
 
             if (e.Effects == DragDropEffects.Move)
@@ -209,6 +211,7 @@ namespace TumblThree.Presentation.Controls
             {
                 return false;
             }
+
             var items = e.Data.GetData(typeof(TItem[])) as TItem[];
             return items != null && items.Any();
         }
@@ -265,6 +268,7 @@ namespace TumblThree.Presentation.Controls
                     }
                 }
             }
+
             return null;
         }
     }

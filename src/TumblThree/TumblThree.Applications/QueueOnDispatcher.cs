@@ -1,10 +1,6 @@
-﻿#region Imports
-
-using System;
+﻿using System;
 using System.Text;
 using System.Windows.Threading;
-
-#endregion
 
 namespace TumblThree.Applications
 {
@@ -38,7 +34,7 @@ namespace TumblThree.Applications
         ///     <para>
         ///         For additional operations on the UI thread, you can get a
         ///         reference to the UI thread's dispatcher thanks to the property
-        ///         <see cref="UIDispatcher" />
+        ///         <see cref="UIDispatcher" />.
         ///     </para>
         ///     .
         /// </summary>
@@ -49,13 +45,19 @@ namespace TumblThree.Applications
         public static void CheckBeginInvokeOnUI(Action action)
         {
             if (action == null)
+            {
                 return;
-            
+            }
+
             CheckDispatcher();
             if (UIDispatcher.CheckAccess())
+            {
                 action();
+            }
             else
+            {
                 UIDispatcher.BeginInvoke(action);
+            }
         }
 
         /// <summary>
@@ -80,13 +82,15 @@ namespace TumblThree.Applications
         public static void Initialize()
         {
             if (UIDispatcher != null && UIDispatcher.Thread.IsAlive)
+            {
                 return;
+            }
 
             UIDispatcher = Dispatcher.CurrentDispatcher;
         }
 
         /// <summary>
-        ///     Resets the class by deleting the <see cref="UIDispatcher" />
+        ///     Resets the class by deleting the <see cref="UIDispatcher" />.
         /// </summary>
         public static void Reset() => UIDispatcher = null;
     }

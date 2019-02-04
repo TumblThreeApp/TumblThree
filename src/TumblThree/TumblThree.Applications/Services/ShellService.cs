@@ -12,7 +12,8 @@ using TumblThree.Applications.Views;
 
 namespace TumblThree.Applications.Services
 {
-    [Export(typeof(IShellService)), Export]
+    [Export(typeof(IShellService))]
+    [Export]
     internal class ShellService : Model, IShellService
     {
         private readonly List<ApplicationBusyContext> applicationBusyContext;
@@ -99,10 +100,10 @@ namespace TumblThree.Applications.Services
         {
             add
             {
-                closing += value;
+                Closing1 += value;
                 InitializeClosingEvent();
             }
-            remove => closing -= value;
+            remove => Closing1 -= value;
         }
 
         public void ShowError(Exception exception, string displayMessage)
@@ -141,9 +142,9 @@ namespace TumblThree.Applications.Services
             set => SetProperty(ref oauthManager, value);
         }
 
-        private event CancelEventHandler closing;
+        private event CancelEventHandler Closing1;
 
-        protected virtual void OnClosing(CancelEventArgs e) => closing?.Invoke(this, e);
+        protected virtual void OnClosing(CancelEventArgs e) => Closing1?.Invoke(this, e);
 
         private void ApplicationBusyContextDisposeCallback(ApplicationBusyContext context)
         {
@@ -154,8 +155,10 @@ namespace TumblThree.Applications.Services
         private void InitializeClosingEvent()
         {
             if (isClosingEventInitialized)
+            {
                 return;
-            
+            }
+
             isClosingEventInitialized = true;
             shellView.Value.Closing += ShellViewClosing;
         }

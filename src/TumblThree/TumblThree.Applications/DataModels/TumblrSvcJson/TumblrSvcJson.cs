@@ -4,10 +4,17 @@ using System.Runtime.Serialization;
 
 namespace TumblThree.Applications.DataModels.TumblrSvcJson
 {
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable SA1134 // Attributes should not share line
+#pragma warning disable SA1300 // Element should begin with upper-case letter
+#pragma warning disable SA1402 // File may only contain a single type
+
     [DataContract]
     public class TumblrJson
     {
         [DataMember(EmitDefaultValue = false)] public Meta meta { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public Response response { get; set; }
     }
 
@@ -15,7 +22,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Response
     {
         [DataMember(EmitDefaultValue = false)] public int seconds_since_last_activity { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public List<Post> posts { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public TrackingHtml tracking_html { get; set; }
     }
 
@@ -23,6 +32,7 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Meta
     {
         [DataMember(EmitDefaultValue = false)] public int status { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string msg { get; set; }
     }
 
@@ -30,24 +40,43 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Theme
     {
         [DataMember(EmitDefaultValue = false)] public int header_full_width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int header_full_height { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int header_focus_width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int header_focus_height { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string avatar_shape { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string background_color { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string body_font { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string header_bounds { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string header_image { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string header_image_focused { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string header_image_scaled { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool header_stretch { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string link_color { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_avatar { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_description { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_header_image { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_title { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string title_color { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string title_font { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string title_font_weight { get; set; }
     }
 
@@ -55,19 +84,33 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Blog
     {
         [DataMember(EmitDefaultValue = false)] public string name { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string title { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string description { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int updated { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string uuid { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string key { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public Theme theme { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool can_message { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool share_likes { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool share_following { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool is_nsfw { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool is_adult { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool can_be_followed { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string placement_id { get; set; }
     }
 
@@ -75,6 +118,7 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class NsfwSurvey
     {
         [DataMember(EmitDefaultValue = false)] public string type { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string href { get; set; }
     }
 
@@ -94,24 +138,43 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Theme2
     {
         [DataMember(EmitDefaultValue = false)] public string avatar_shape { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string background_color { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string body_font { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string header_bounds { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string header_image { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string header_image_focused { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string header_image_scaled { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool header_stretch { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string link_color { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_avatar { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_description { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_header_image { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_title { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string title_color { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string title_font { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string title_font_weight { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int? header_full_width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int? header_full_height { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int? header_focus_width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int? header_focus_height { get; set; }
     }
 
@@ -119,12 +182,19 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Blog2
     {
         [DataMember(EmitDefaultValue = false)] public string name { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool active { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public List<Theme2> theme { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool share_likes { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool share_following { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool can_be_followed { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string uuid { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool is_adult { get; set; }
     }
 
@@ -138,10 +208,15 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Trail
     {
         [DataMember(EmitDefaultValue = false)] public Blog2 blog { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public Post2 post { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string content_raw { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string content { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool is_current_item { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool? is_root_item { get; set; }
     }
 
@@ -149,6 +224,7 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class LinkImageDimensions
     {
         [DataMember(EmitDefaultValue = false)] public int width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int height { get; set; }
     }
 
@@ -156,7 +232,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class OriginalSize
     {
         [DataMember(EmitDefaultValue = false)] public string url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int height { get; set; }
     }
 
@@ -164,7 +242,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class AltSize
     {
         [DataMember(EmitDefaultValue = false)] public string url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int height { get; set; }
     }
 
@@ -172,9 +252,13 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Exif
     {
         [DataMember(EmitDefaultValue = false)] public string Camera { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string ISO { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string Aperture { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string Exposure { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string FocalLength { get; set; }
     }
 
@@ -182,8 +266,11 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Photo
     {
         [DataMember(EmitDefaultValue = false)] public string caption { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public OriginalSize original_size { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public List<AltSize> alt_sizes { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public Exif exif { get; set; }
     }
 
@@ -191,22 +278,39 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class SharePopoverData
     {
         [DataMember(EmitDefaultValue = false)] public string tumblelog_name { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string embed_key { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string embed_did { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string post_id { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string root_id { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string post_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string post_tiny_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int is_private { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool has_user { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool has_facebook { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string twitter_username { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string permalink_label { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_reporting_links { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string abuse_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_pinterest { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public object pinterest_share_window { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_reddit { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool show_flagging { get; set; }
     }
 
@@ -214,8 +318,11 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Notes
     {
         [DataMember(EmitDefaultValue = false)] public int count { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string less { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string more { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string current { get; set; }
     }
 
@@ -223,7 +330,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Dialogue
     {
         [DataMember(EmitDefaultValue = false)] public string name { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string label { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string phrase { get; set; }
     }
 
@@ -231,7 +340,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class PinterestShareWindowClass
     {
         [DataMember(EmitDefaultValue = false)] public string url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string name { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string dimensions { get; set; }
     }
 
@@ -239,8 +350,11 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class PhotosetPhoto
     {
         [DataMember(EmitDefaultValue = false)] public int width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int height { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string low_res { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string high_res { get; set; }
     }
 
@@ -248,116 +362,222 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Post : ICloneable
     {
         [DataMember(EmitDefaultValue = false)] public string type { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool is_nsfw_based_on_score { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public List<string> supply_logging { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public Blog blog { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool is_nsfw { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public double nsfw_score { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public Links _links { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string id { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string post_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string slug { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string date { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int timestamp { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string state { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string format { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblog_key { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public List<string> tags { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string short_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string summary { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool is_blocks_post_format { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string recommended_source { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string recommended_color { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool followed { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool liked { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string source_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string source_title { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string caption { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public Reblog reblog { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public List<Trail> trail { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string video_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool html5_capable { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public Video video { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string thumbnail_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int thumbnail_width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int thumbnail_height { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public float duration { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public object player { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string audio_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string audio_source_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string audio_type { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string video_type { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string link_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string image_permalink { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public List<Photo> photos { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_from_id { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_from_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_from_name { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_from_title { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_from_uuid { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool reblogged_from_can_message { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool reblogged_from_following { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_root_id { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_root_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_root_name { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_root_title { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_root_uuid { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool reblogged_root_can_message { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool reblogged_root_following { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool can_like { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool can_reblog { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool can_send_in_message { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool can_reply { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool display_avatar { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string tumblelog_key { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string tumblelog_uuid { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string root_id { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public SharePopoverData share_popover_data { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string posted_on_tooltip { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string tag_layout_class { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool has_custom_source_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string tumblelog { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string reblogged_from_tumblr_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public Notes notes { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool reblogged_from_followed { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string post_html { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string asking_name { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string asking_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string question { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string answer { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string photoset_layout { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public List<PhotosetPhoto> photoset_photos { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int? year { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string track { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool? is_external { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string title { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string body { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string text { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string source { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string artist { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string track_name { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string album_art { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string embed { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int plays { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string album { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public List<Dialogue> dialogue { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool? is_anonymous { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool? is_submission { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool should_bypass_tagfiltering { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool should_bypass_safemode { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public bool can_modify_safe_mode { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public object survey { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string link_image { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public LinkImageDimensions link_image_dimensions { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public object link_author { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string excerpt { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string publisher { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string description { get; set; }
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         [OnDeserializing]
@@ -479,7 +699,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class PixelbugUrl
     {
         [DataMember(EmitDefaultValue = false)] public string type { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string script { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string img { get; set; }
     }
 
@@ -487,7 +709,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class PixelbugPost
     {
         [DataMember(EmitDefaultValue = false)] public string type { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string script { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string img { get; set; }
     }
 
@@ -495,6 +719,7 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Player
     {
         [DataMember(EmitDefaultValue = false)] public int width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public string embed_code { get; set; }
     }
 
@@ -502,7 +727,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class Youtube
     {
         [DataMember(EmitDefaultValue = false)] public string video_id { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int width { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public int height { get; set; }
     }
 
@@ -516,6 +743,13 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
     public class TrackingHtml
     {
         [DataMember(EmitDefaultValue = false)] public PixelbugUrl pixelbug_url { get; set; }
+
         [DataMember(EmitDefaultValue = false)] public PixelbugPost pixelbug_post { get; set; }
     }
+
+#pragma warning restore SA1402 // File may only contain a single type
+#pragma warning restore SA1300 // Element should begin with upper-case letter
+#pragma warning restore SA1134 // Attributes should not share line
+#pragma warning restore IDE1006 // Naming Styles
+#pragma warning restore CA1707 // Identifiers should not contain underscores
 }

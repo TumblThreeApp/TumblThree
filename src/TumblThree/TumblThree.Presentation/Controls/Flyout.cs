@@ -22,8 +22,7 @@ namespace TumblThree.Presentation.Controls
             StaysOpenProperty.OverrideMetadata(typeof(Flyout), new FrameworkPropertyMetadata(false));
             AllowsTransparencyProperty.OverrideMetadata(typeof(Flyout), new FrameworkPropertyMetadata(true));
             PopupAnimationProperty.OverrideMetadata(typeof(Flyout), new FrameworkPropertyMetadata(PopupAnimation.Slide));
-            IsOpenProperty.OverrideMetadata(typeof(Flyout),
-                new FrameworkPropertyMetadata(IsOpenPropertyChangedCallback, IsOpenCoerceValueCallback));
+            IsOpenProperty.OverrideMetadata(typeof(Flyout), new FrameworkPropertyMetadata(IsOpenPropertyChangedCallback, IsOpenCoerceValueCallback));
         }
 
         public Flyout()
@@ -95,6 +94,7 @@ namespace TumblThree.Presentation.Controls
             {
                 IsOpen = false;
             }
+
             base.OnPreviewKeyUp(e);
         }
 
@@ -121,6 +121,7 @@ namespace TumblThree.Presentation.Controls
             {
                 return DependencyProperty.UnsetValue;
             }
+
             return baseValue;
         }
     }

@@ -71,14 +71,14 @@ namespace TumblThree.Applications.Auth
             _random = new Random();
             _params = new Dictionary<string, string>
             {
-                ["consumer_key"] = "",
-                ["consumer_secret"] = "",
+                ["consumer_key"] = string.Empty,
+                ["consumer_secret"] = string.Empty,
                 ["timestamp"] = GenerateTimeStamp(),
                 ["nonce"] = GenerateNonce(),
                 ["signature_method"] = "HMAC-SHA1",
-                ["signature"] = "",
-                ["token"] = "",
-                ["token_secret"] = "",
+                ["signature"] = string.Empty,
+                ["token"] = string.Empty,
+                ["token_secret"] = string.Empty,
                 ["version"] = "1.0"
             };
         }
@@ -98,10 +98,8 @@ namespace TumblThree.Applications.Auth
         ///         For twitter at least, the access tokens never expire.
         ///     </para>
         /// </remarks>
-        public OAuthManager(string consumerKey,
-            string consumerSecret,
-            string token,
-            string tokenSecret) : this()
+        public OAuthManager(string consumerKey, string consumerSecret, string token, string tokenSecret)
+            : this()
 
         {
             _params["consumer_key"] = consumerKey;
@@ -141,6 +139,7 @@ namespace TumblThree.Applications.Auth
 
                 throw new ArgumentException(ix);
             }
+
             set
             {
                 if (!_params.ContainsKey(ix))
@@ -170,8 +169,8 @@ namespace TumblThree.Applications.Auth
         ///         Each new request should get a new, current timestamp, and a
         ///         nonce. This helper method does both of those things. This gets
         ///         called before generating an authorization header, as for example
-        ///         when the user of this class calls <see cref='AcquireRequestToken'>.
-        ///     </para>
+        ///         when the user of this class calls <see cref='AcquireRequestToken' />.
+        ///     </para>.
         /// </remarks>
         private void NewRequest()
         {
@@ -205,7 +204,7 @@ namespace TumblThree.Applications.Auth
         ///         and this one is no exception.
         ///     </para>
         /// </remarks>
-        /// <returns>the nonce</returns>
+        /// <returns>the nonce.</returns>
         private string GenerateNonce()
         {
             var sb = new StringBuilder();
@@ -235,16 +234,16 @@ namespace TumblThree.Applications.Auth
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         For example, given a url like http://foo?a=7&guff, the
+        ///         For example, given a url like http://foo?a=7&amp;guff, the
         ///         returned value will be a Dictionary of string-to-string
         ///         relations.  There will be 2 entries in the Dictionary: "a"=>7,
         ///         and "guff"=>"".
         ///     </para>
         /// </remarks>
-        /// <param name="queryString">The query string part of the Url</param>
+        /// <param name="queryString">The query string part of the Url.</param>
         /// <returns>
         ///     A Dictionary containing the set of
-        ///     parameter names and associated values
+        ///     parameter names and associated values.
         /// </returns>
         private Dictionary<string, string> ExtractQueryParameters(string queryString)
         {
@@ -286,8 +285,8 @@ namespace TumblThree.Applications.Auth
         ///     OAuth (RFC 5849) requires that the characters be upper case
         ///     throughout OAuth.
         /// </summary>
-        /// <param name="value">The value to encode</param>
-        /// <returns>the Url-encoded version of that string</returns>
+        /// <param name="value">The value to encode.</param>
+        /// <returns>the Url-encoded version of that string.</returns>
         public static string UrlEncode(string value)
         {
             var result = new StringBuilder();
@@ -299,7 +298,7 @@ namespace TumblThree.Applications.Auth
                 }
                 else
                 {
-                    result.Append('%' + string.Format("{0:X2}", (int)symbol));
+                    result.Append('%' + $"{(int)symbol:X2}");
                 }
             }
 
@@ -323,22 +322,15 @@ namespace TumblThree.Applications.Auth
         ///         This method emits a string suitable for the latter.
         ///     </para>
         /// </remarks>
-        /// <param name="parameters">
-        ///     The Dictionary of
-        ///     parameters. It need not be sorted.
-        /// </param>
-        /// <returns>a string representing the parameters</returns>
+        /// <returns>a string representing the parameters.</returns>
         private static string EncodeRequestParameters(ICollection<KeyValuePair<string, string>> p)
         {
             var sb = new StringBuilder();
             foreach (KeyValuePair<string, string> item in p.OrderBy(x => x.Key))
             {
-                if (!string.IsNullOrEmpty(item.Value) &&
-                    !item.Key.EndsWith("secret"))
+                if (!string.IsNullOrEmpty(item.Value) && !item.Key.EndsWith("secret"))
                 {
-                    sb.AppendFormat("oauth_{0}=\"{1}\", ",
-                        item.Key,
-                        UrlEncode(item.Value));
+                    sb.AppendFormat("oauth_{0}=\"{1}\", ", item.Key, UrlEncode(item.Value));
                 }
             }
 
@@ -377,14 +369,13 @@ namespace TumblThree.Applications.Auth
         ///         need to perform the first 2 steps again.
         ///     </para>
         /// </remarks>
-        /// <seealso cref='AcquireAccessToken'>
-        ///     </example>
-        ///     <returns>
-        ///         a response object that contains the entire text of the response,
-        ///         as well as extracted parameters. This method presumes the
-        ///         response is query-param encoded. In other words,
-        ///         poauth_token=foo&something_else=bar.
-        ///     </returns>
+        /// <seealso cref='AcquireAccessToken' />
+        /// <returns>
+        ///     a response object that contains the entire text of the response,
+        ///     as well as extracted parameters. This method presumes the
+        ///     response is query-param encoded. In other words,
+        ///     poauth_token=foo&amp;something_else=bar.
+        /// </returns>
         public OAuthResponse AcquireRequestToken(string uri, string method)
         {
             NewRequest();
@@ -446,14 +437,13 @@ namespace TumblThree.Applications.Auth
         ///         need to perform the first 2 steps again.
         ///     </para>
         /// </remarks>
-        /// <seealso cref='AcquireRequestToken'>
-        ///     </example>
-        ///     <returns>
-        ///         a response object that contains the entire text of the response,
-        ///         as well as extracted parameters. This method presumes the
-        ///         response is query-param encoded. In other words,
-        ///         poauth_token=foo&something_else=bar.
-        ///     </returns>
+        /// <seealso cref='AcquireRequestToken'/>
+        /// <returns>
+        ///     a response object that contains the entire text of the response,
+        ///     as well as extracted parameters. This method presumes the
+        ///     response is query-param encoded. In other words,
+        ///     poauth_token=foo&amp;something_else=bar.
+        /// </returns>
         public OAuthResponse AcquireAccessToken(string uri, string method, string pin)
         {
             NewRequest();
@@ -492,7 +482,7 @@ namespace TumblThree.Applications.Auth
         ///         returns the result.
         ///     </para>
         /// </remarks>
-        /// <seealso cref='GenerateauthHeader'>
+        /// <seealso cref='GenerateauthHeader' />
         public string GenerateauthHeader(string uri, string method)
         {
             NewRequest();
@@ -594,14 +584,9 @@ namespace TumblThree.Applications.Auth
                 throw new NotImplementedException();
             }
 
-            string keystring = string.Format("{0}&{1}",
-                UrlEncode(this["consumer_secret"]),
-                UrlEncode(this["token_secret"]));
-            var hmacsha1 = new HMACSHA1
-            {
-                Key = Encoding.ASCII.GetBytes(keystring)
-            };
-            return hmacsha1;
+            var keyString = $"{UrlEncode(this["consumer_secret"])}&{UrlEncode(this["token_secret"])}";
+
+            return new HMACSHA1 { Key = Encoding.ASCII.GetBytes(keyString) };
         }
     }
 

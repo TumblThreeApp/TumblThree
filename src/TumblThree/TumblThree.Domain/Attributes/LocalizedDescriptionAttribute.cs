@@ -11,7 +11,7 @@ namespace TumblThree.Domain.Attributes
 
         public LocalizedDescriptionAttribute(string resourceKey, Type resourceType)
         {
-            this.resourceManager = new ResourceManager(resourceType);
+            resourceManager = new ResourceManager(resourceType);
             this.resourceKey = resourceKey;
         }
 

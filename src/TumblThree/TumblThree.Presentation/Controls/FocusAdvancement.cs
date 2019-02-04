@@ -22,18 +22,33 @@ namespace TumblThree.Presentation.Controls
         private static void OnAdvancesByEnterKeyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var element = d as UIElement;
-            if (element == null) return;
+            if (element == null)
+            {
+                return;
+            }
 
-            if ((bool)e.NewValue) element.KeyDown += Keydown;
-            else element.KeyDown -= Keydown;
+            if ((bool)e.NewValue)
+            {
+                element.KeyDown += Keydown;
+            }
+            else
+            {
+                element.KeyDown -= Keydown;
+            }
         }
 
         private static void Keydown(object sender, KeyEventArgs e)
         {
-            if (!e.Key.Equals(Key.Enter)) return;
+            if (!e.Key.Equals(Key.Enter))
+            {
+                return;
+            }
 
             var element = sender as UIElement;
-            if (element != null) element.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            if (element != null)
+            {
+                element.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
         }
     }
 }

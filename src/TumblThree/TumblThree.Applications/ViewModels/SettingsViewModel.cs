@@ -22,133 +22,130 @@ namespace TumblThree.Applications.ViewModels
     [Export]
     public class SettingsViewModel : ViewModel<ISettingsView>
     {
-        private readonly DelegateCommand authenticateCommand;
-        private readonly DelegateCommand browseDownloadLocationCommand;
-        private readonly DelegateCommand browseExportLocationCommand;
-        private readonly DelegateCommand enableAutoDownloadCommand;
-        private readonly DelegateCommand exportCommand;
-        private readonly AsyncDelegateCommand saveCommand;
-        private readonly AsyncDelegateCommand tumblrLoginCommand;
-        private readonly AsyncDelegateCommand tumblrLogoutCommand;
-        private readonly AsyncDelegateCommand tumblrSubmitTFACommand;
+        private readonly DelegateCommand _authenticateCommand;
+        private readonly DelegateCommand _browseDownloadLocationCommand;
+        private readonly DelegateCommand _browseExportLocationCommand;
+        private readonly DelegateCommand _enableAutoDownloadCommand;
+        private readonly DelegateCommand _exportCommand;
+        private readonly AsyncDelegateCommand _saveCommand;
+        private readonly AsyncDelegateCommand _tumblrLoginCommand;
+        private readonly AsyncDelegateCommand _tumblrLogoutCommand;
+        private readonly AsyncDelegateCommand _tumblrSubmitTfaCommand;
 
-        private readonly IFolderBrowserDialog folderBrowserDialog;
-        private readonly IFileDialogService fileDialogService;
-        private readonly ExportFactory<AuthenticateViewModel> authenticateViewModelFactory;
-        private readonly FileType bloglistExportFileType;
-        private readonly AppSettings settings;
+        private readonly IFolderBrowserDialog _folderBrowserDialog;
+        private readonly IFileDialogService _fileDialogService;
+        private readonly ExportFactory<AuthenticateViewModel> _authenticateViewModelFactory;
+        private readonly FileType _bloglistExportFileType;
+        private readonly AppSettings _settings;
 
-        private string apiKey;
-        private bool autoDownload;
-        private long bandwidth;
-        private double progressUpdateInterval;
-        private string blogType;
-        private bool checkClipboard;
-        private bool checkDirectoryForFiles;
-        private bool checkOnlineStatusOnStartup;
-        private int connectionTimeInterval;
-        private bool createAudioMeta;
-        private bool createImageMeta;
-        private bool createVideoMeta;
-        private bool dumpCrawlerData;
-        private bool regExPhotos;
-        private bool regExVideos;
-        private string downloadPages;
-        private int pageSize;
-        private string downloadFrom;
-        private string downloadTo;
-        private string tags;
-        private bool downloadRebloggedPosts;
-        private bool deleteOnlyIndex;
-        private bool downloadAudios;
-        private bool downloadConversations;
-        private bool downloadImages;
-        private bool downloadLinks;
-        private string downloadLocation;
-        private string exportLocation;
-        private bool downloadQuotes;
-        private bool downloadTexts;
-        private bool downloadAnswers;
-        private bool downloadUrlList;
-        private bool downloadVideos;
-        private bool enablePreview;
-        private bool forceSize;
-        private bool forceRescan;
-        private string imageSize;
-        private bool limitConnections;
-        private bool limitScanBandwidth;
-        private int maxConnections;
-        private string oauthCallbackUrl;
-        private string oauthToken;
-        private string oauthTokenSecret;
-        private int concurrentBlogs;
-        private int concurrentConnections;
-        private int concurrentVideoConnections;
-        private int concurrentScans;
-        private bool portableMode;
-        private bool loadAllDatabases;
-        private string proxyHost;
-        private string proxyPort;
-        private string proxyUsername;
-        private string proxyPassword;
-        private bool downloadGfycat;
-        private bool downloadImgur;
-        private bool downloadWebmshare;
-        private bool downloadMixtape;
-        private bool downloadUguu;
-        private bool downloadSafeMoe;
-        private bool downloadLoliSafe;
-        private bool downloadCatBox;
-        private MetadataType metadataFormat;
-        private GfycatTypes gfycatType;
-        private WebmshareTypes webmshareType;
-        private MixtapeTypes mixtapeType;
-        private UguuTypes uguuType;
-        private SafeMoeTypes safeMoeType;
-        private LoliSafeTypes loliSafeType;
-        private CatBoxTypes catBoxType;
-        private bool removeIndexAfterCrawl;
-        private string secretKey;
-        private bool showPicturePreview;
-        private bool displayConfirmationDialog;
-        private bool skipGif;
-        private int timeOut;
-        private string timerInterval;
-        private int videoSize;
-        private int settingsTabIndex;
-        private string userAgent;
-        private string tumblrUser = string.Empty;
-        private string tumblrPassword = string.Empty;
-        private bool tumblrLoggedIn = false;
-        private bool tumblrTFADetected = false;
-        private string tumblrTFAAuthCode = string.Empty;
-        private string tumblrEmail = string.Empty;
+        private string _apiKey;
+        private bool _autoDownload;
+        private long _bandwidth;
+        private double _progressUpdateInterval;
+        private string _blogType;
+        private bool _checkClipboard;
+        private bool _checkDirectoryForFiles;
+        private bool _checkOnlineStatusOnStartup;
+        private int _connectionTimeInterval;
+        private bool _createAudioMeta;
+        private bool _createImageMeta;
+        private bool _createVideoMeta;
+        private bool _dumpCrawlerData;
+        private bool _regExPhotos;
+        private bool _regExVideos;
+        private string _downloadPages;
+        private int _pageSize;
+        private string _downloadFrom;
+        private string _downloadTo;
+        private string _tags;
+        private bool _downloadRebloggedPosts;
+        private bool _deleteOnlyIndex;
+        private bool _downloadAudios;
+        private bool _downloadConversations;
+        private bool _downloadImages;
+        private bool _downloadLinks;
+        private string _downloadLocation;
+        private string _exportLocation;
+        private bool _downloadQuotes;
+        private bool _downloadTexts;
+        private bool _downloadAnswers;
+        private bool _downloadUrlList;
+        private bool _downloadVideos;
+        private bool _enablePreview;
+        private bool _forceSize;
+        private bool _forceRescan;
+        private string _imageSize;
+        private bool _limitConnections;
+        private bool _limitScanBandwidth;
+        private int _maxConnections;
+        private string _oauthCallbackUrl;
+        private string _oauthToken;
+        private string _oauthTokenSecret;
+        private int _concurrentBlogs;
+        private int _concurrentConnections;
+        private int _concurrentVideoConnections;
+        private int _concurrentScans;
+        private bool _portableMode;
+        private bool _loadAllDatabases;
+        private string _proxyHost;
+        private string _proxyPort;
+        private string _proxyUsername;
+        private string _proxyPassword;
+        private bool _downloadGfycat;
+        private bool _downloadImgur;
+        private bool _downloadWebmshare;
+        private bool _downloadMixtape;
+        private bool _downloadUguu;
+        private bool _downloadSafeMoe;
+        private bool _downloadLoliSafe;
+        private bool _downloadCatBox;
+        private MetadataType _metadataFormat;
+        private GfycatTypes _gfycatType;
+        private WebmshareTypes _webmshareType;
+        private MixtapeTypes _mixtapeType;
+        private UguuTypes _uguuType;
+        private SafeMoeTypes _safeMoeType;
+        private LoliSafeTypes _loliSafeType;
+        private CatBoxTypes _catBoxType;
+        private bool _removeIndexAfterCrawl;
+        private string _secretKey;
+        private bool _showPicturePreview;
+        private bool _displayConfirmationDialog;
+        private bool _skipGif;
+        private int _timeOut;
+        private string _timerInterval;
+        private int _videoSize;
+        private int _settingsTabIndex;
+        private string _userAgent;
+        private string _tumblrUser = string.Empty;
+        private string _tumblrPassword = string.Empty;
+        private bool _tumblrLoggedIn = false;
+        private bool _tumblrTfaDetected = false;
+        private string _tumblrTfaAuthCode = string.Empty;
+        private string _tumblrEmail = string.Empty;
 
         [ImportingConstructor]
-        public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService,
-            IManagerService managerService, ILoginService loginService, IFolderBrowserDialog folderBrowserDialog,
-            IFileDialogService fileDialogService,
-            ExportFactory<AuthenticateViewModel> authenticateViewModelFactory)
+        public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService, ILoginService loginService, IFolderBrowserDialog folderBrowserDialog, IFileDialogService fileDialogService, ExportFactory<AuthenticateViewModel> authenticateViewModelFactory)
             : base(view)
         {
-            this.folderBrowserDialog = folderBrowserDialog;
-            this.fileDialogService = fileDialogService;
+            _folderBrowserDialog = folderBrowserDialog;
+            _fileDialogService = fileDialogService;
             ShellService = shellService;
-            settings = ShellService.Settings;
+            _settings = ShellService.Settings;
             CrawlerService = crawlerService;
             ManagerService = managerService;
             LoginService = loginService;
-            this.authenticateViewModelFactory = authenticateViewModelFactory;
-            browseDownloadLocationCommand = new DelegateCommand(BrowseDownloadLocation);
-            browseExportLocationCommand = new DelegateCommand(BrowseExportLocation);
-            authenticateCommand = new DelegateCommand(Authenticate);
-            tumblrLoginCommand = new AsyncDelegateCommand(TumblrLogin);
-            tumblrLogoutCommand = new AsyncDelegateCommand(TumblrLogout);
-            tumblrSubmitTFACommand = new AsyncDelegateCommand(TumblrSubmitTFA);
-            saveCommand = new AsyncDelegateCommand(Save);
-            enableAutoDownloadCommand = new DelegateCommand(EnableAutoDownload);
-            exportCommand = new DelegateCommand(ExportBlogs);
-            bloglistExportFileType = new FileType(Resources.Textfile, SupportedFileTypes.BloglistExportFileType);
+            _authenticateViewModelFactory = authenticateViewModelFactory;
+            _browseDownloadLocationCommand = new DelegateCommand(BrowseDownloadLocation);
+            _browseExportLocationCommand = new DelegateCommand(BrowseExportLocation);
+            _authenticateCommand = new DelegateCommand(Authenticate);
+            _tumblrLoginCommand = new AsyncDelegateCommand(TumblrLogin);
+            _tumblrLogoutCommand = new AsyncDelegateCommand(TumblrLogout);
+            _tumblrSubmitTfaCommand = new AsyncDelegateCommand(TumblrSubmitTfa);
+            _saveCommand = new AsyncDelegateCommand(Save);
+            _enableAutoDownloadCommand = new DelegateCommand(EnableAutoDownload);
+            _exportCommand = new DelegateCommand(ExportBlogs);
+            _bloglistExportFileType = new FileType(Resources.Textfile, SupportedFileTypes.BloglistExportFileType);
 
             Task loadSettingsTask = Load();
             view.Closed += ViewClosed;
@@ -162,540 +159,542 @@ namespace TumblThree.Applications.ViewModels
 
         public ILoginService LoginService { get; }
 
-        public ICommand BrowseDownloadLocationCommand => browseDownloadLocationCommand;
+        public ICommand BrowseDownloadLocationCommand => _browseDownloadLocationCommand;
 
-        public ICommand AuthenticateCommand => authenticateCommand;
+        public ICommand AuthenticateCommand => _authenticateCommand;
 
-        public ICommand TumblrLoginCommand => tumblrLoginCommand;
+        public ICommand TumblrLoginCommand => _tumblrLoginCommand;
 
-        public ICommand TumblrLogoutCommand => tumblrLogoutCommand;
+        public ICommand TumblrLogoutCommand => _tumblrLogoutCommand;
 
-        public ICommand TumblrSubmitTFACommand => tumblrSubmitTFACommand;
+        public ICommand TumblrSubmitTfaCommand => _tumblrSubmitTfaCommand;
 
-        public ICommand SaveCommand => saveCommand;
+        public ICommand SaveCommand => _saveCommand;
 
-        public ICommand EnableAutoDownloadCommand => enableAutoDownloadCommand;
+        public ICommand EnableAutoDownloadCommand => _enableAutoDownloadCommand;
 
-        public ICommand ExportCommand => exportCommand;
+        public ICommand ExportCommand => _exportCommand;
 
-        public ICommand BrowseExportLocationCommand => browseExportLocationCommand;
+        public ICommand BrowseExportLocationCommand => _browseExportLocationCommand;
 
         public string OAuthToken
         {
-            get => oauthToken;
-            set => SetProperty(ref oauthToken, value);
+            get => _oauthToken;
+            set => SetProperty(ref _oauthToken, value);
         }
 
         public string OAuthTokenSecret
         {
-            get => oauthTokenSecret;
-            set => SetProperty(ref oauthTokenSecret, value);
+            get => _oauthTokenSecret;
+            set => SetProperty(ref _oauthTokenSecret, value);
         }
 
         public string ApiKey
         {
-            get => apiKey;
-            set => SetProperty(ref apiKey, value);
+            get => _apiKey;
+            set => SetProperty(ref _apiKey, value);
         }
 
         public string SecretKey
         {
-            get => secretKey;
-            set => SetProperty(ref secretKey, value);
+            get => _secretKey;
+            set => SetProperty(ref _secretKey, value);
         }
 
         public string OAuthCallbackUrl
         {
-            get => oauthCallbackUrl;
-            set => SetProperty(ref oauthCallbackUrl, value);
+            get => _oauthCallbackUrl;
+            set => SetProperty(ref _oauthCallbackUrl, value);
         }
 
         public string DownloadLocation
         {
-            get => downloadLocation;
-            set => SetProperty(ref downloadLocation, value);
+            get => _downloadLocation;
+            set => SetProperty(ref _downloadLocation, value);
         }
 
         public string ExportLocation
         {
-            get => exportLocation;
-            set => SetProperty(ref exportLocation, value);
+            get => _exportLocation;
+            set => SetProperty(ref _exportLocation, value);
         }
 
         public int ConcurrentConnections
         {
-            get => concurrentConnections;
-            set => SetProperty(ref concurrentConnections, value);
+            get => _concurrentConnections;
+            set => SetProperty(ref _concurrentConnections, value);
         }
 
         public int ConcurrentVideoConnections
         {
-            get => concurrentVideoConnections;
-            set => SetProperty(ref concurrentVideoConnections, value);
+            get => _concurrentVideoConnections;
+            set => SetProperty(ref _concurrentVideoConnections, value);
         }
 
         public int ConcurrentBlogs
         {
-            get => concurrentBlogs;
-            set => SetProperty(ref concurrentBlogs, value);
+            get => _concurrentBlogs;
+            set => SetProperty(ref _concurrentBlogs, value);
         }
 
         public int ConcurrentScans
         {
-            get => concurrentScans;
-            set => SetProperty(ref concurrentScans, value);
+            get => _concurrentScans;
+            set => SetProperty(ref _concurrentScans, value);
         }
 
         public int TimeOut
         {
-            get => timeOut;
-            set => SetProperty(ref timeOut, value);
+            get => _timeOut;
+            set => SetProperty(ref _timeOut, value);
         }
 
         public bool LimitConnections
         {
-            get => limitConnections;
-            set => SetProperty(ref limitConnections, value);
+            get => _limitConnections;
+            set => SetProperty(ref _limitConnections, value);
         }
 
         public int MaxConnections
         {
-            get => maxConnections;
-            set => SetProperty(ref maxConnections, value);
+            get => _maxConnections;
+            set => SetProperty(ref _maxConnections, value);
         }
 
         public int ConnectionTimeInterval
         {
-            get => connectionTimeInterval;
-            set => SetProperty(ref connectionTimeInterval, value);
+            get => _connectionTimeInterval;
+            set => SetProperty(ref _connectionTimeInterval, value);
         }
 
         public long Bandwidth
         {
-            get => bandwidth;
-            set => SetProperty(ref bandwidth, value);
+            get => _bandwidth;
+            set => SetProperty(ref _bandwidth, value);
         }
 
         public double ProgressUpdateInterval
         {
-            get => progressUpdateInterval;
-            set => SetProperty(ref progressUpdateInterval, value);
+            get => _progressUpdateInterval;
+            set => SetProperty(ref _progressUpdateInterval, value);
         }
 
         public bool LimitScanBandwidth
         {
-            get => limitScanBandwidth;
-            set => SetProperty(ref limitScanBandwidth, value);
+            get => _limitScanBandwidth;
+            set => SetProperty(ref _limitScanBandwidth, value);
         }
 
         public string ImageSize
         {
-            get => imageSize;
-            set => SetProperty(ref imageSize, value);
+            get => _imageSize;
+            set => SetProperty(ref _imageSize, value);
         }
 
         public int VideoSize
         {
-            get => videoSize;
-            set => SetProperty(ref videoSize, value);
+            get => _videoSize;
+            set => SetProperty(ref _videoSize, value);
         }
 
         public string BlogType
         {
-            get => blogType;
-            set => SetProperty(ref blogType, value);
+            get => _blogType;
+            set => SetProperty(ref _blogType, value);
         }
 
         public bool CheckClipboard
         {
-            get => checkClipboard;
-            set => SetProperty(ref checkClipboard, value);
+            get => _checkClipboard;
+            set => SetProperty(ref _checkClipboard, value);
         }
 
         public bool DisplayConfirmationDialog
         {
-            get => displayConfirmationDialog;
-            set => SetProperty(ref displayConfirmationDialog, value);
+            get => _displayConfirmationDialog;
+            set => SetProperty(ref _displayConfirmationDialog, value);
         }
 
         public bool ShowPicturePreview
         {
-            get => showPicturePreview;
-            set => SetProperty(ref showPicturePreview, value);
+            get => _showPicturePreview;
+            set => SetProperty(ref _showPicturePreview, value);
         }
 
         public bool DeleteOnlyIndex
         {
-            get => deleteOnlyIndex;
-            set => SetProperty(ref deleteOnlyIndex, value);
+            get => _deleteOnlyIndex;
+            set => SetProperty(ref _deleteOnlyIndex, value);
         }
 
         public bool CheckOnlineStatusOnStartup
         {
-            get => checkOnlineStatusOnStartup;
-            set => SetProperty(ref checkOnlineStatusOnStartup, value);
+            get => _checkOnlineStatusOnStartup;
+            set => SetProperty(ref _checkOnlineStatusOnStartup, value);
         }
 
         public bool SkipGif
         {
-            get => skipGif;
-            set => SetProperty(ref skipGif, value);
+            get => _skipGif;
+            set => SetProperty(ref _skipGif, value);
         }
 
         public bool EnablePreview
         {
-            get => enablePreview;
-            set => SetProperty(ref enablePreview, value);
+            get => _enablePreview;
+            set => SetProperty(ref _enablePreview, value);
         }
 
         public bool AutoDownload
         {
-            get => autoDownload;
-            set => SetProperty(ref autoDownload, value);
+            get => _autoDownload;
+            set => SetProperty(ref _autoDownload, value);
         }
 
         public bool RemoveIndexAfterCrawl
         {
-            get => removeIndexAfterCrawl;
-            set => SetProperty(ref removeIndexAfterCrawl, value);
+            get => _removeIndexAfterCrawl;
+            set => SetProperty(ref _removeIndexAfterCrawl, value);
         }
 
         public bool ForceSize
         {
-            get => forceSize;
-            set => SetProperty(ref forceSize, value);
+            get => _forceSize;
+            set => SetProperty(ref _forceSize, value);
         }
 
         public bool ForceRescan
         {
-            get => forceRescan;
-            set => SetProperty(ref forceRescan, value);
+            get => _forceRescan;
+            set => SetProperty(ref _forceRescan, value);
         }
 
         public bool CheckDirectoryForFiles
         {
-            get => checkDirectoryForFiles;
-            set => SetProperty(ref checkDirectoryForFiles, value);
+            get => _checkDirectoryForFiles;
+            set => SetProperty(ref _checkDirectoryForFiles, value);
         }
 
         public bool DownloadUrlList
         {
-            get => downloadUrlList;
-            set => SetProperty(ref downloadUrlList, value);
+            get => _downloadUrlList;
+            set => SetProperty(ref _downloadUrlList, value);
         }
 
         public bool PortableMode
         {
-            get => portableMode;
-            set => SetProperty(ref portableMode, value);
+            get => _portableMode;
+            set => SetProperty(ref _portableMode, value);
         }
 
         public bool LoadAllDatabases
         {
-            get => loadAllDatabases;
-            set => SetProperty(ref loadAllDatabases, value);
+            get => _loadAllDatabases;
+            set => SetProperty(ref _loadAllDatabases, value);
         }
 
         public string ProxyHost
         {
-            get => proxyHost;
-            set => SetProperty(ref proxyHost, value);
+            get => _proxyHost;
+            set => SetProperty(ref _proxyHost, value);
         }
 
         public string ProxyPort
         {
-            get => proxyPort;
-            set => SetProperty(ref proxyPort, value);
+            get => _proxyPort;
+            set => SetProperty(ref _proxyPort, value);
         }
 
         public string ProxyUsername
         {
-            get => proxyUsername;
-            set => SetProperty(ref proxyUsername, value);
+            get => _proxyUsername;
+            set => SetProperty(ref _proxyUsername, value);
         }
 
         public string ProxyPassword
         {
-            get => proxyPassword;
-            set => SetProperty(ref proxyPassword, value);
+            get => _proxyPassword;
+            set => SetProperty(ref _proxyPassword, value);
         }
 
         public bool DownloadImages
         {
-            get => downloadImages;
-            set => SetProperty(ref downloadImages, value);
+            get => _downloadImages;
+            set => SetProperty(ref _downloadImages, value);
         }
 
         public bool DownloadVideos
         {
-            get => downloadVideos;
-            set => SetProperty(ref downloadVideos, value);
+            get => _downloadVideos;
+            set => SetProperty(ref _downloadVideos, value);
         }
 
         public bool DownloadAudios
         {
-            get => downloadAudios;
-            set => SetProperty(ref downloadAudios, value);
+            get => _downloadAudios;
+            set => SetProperty(ref _downloadAudios, value);
         }
 
         public bool DownloadTexts
         {
-            get => downloadTexts;
-            set => SetProperty(ref downloadTexts, value);
+            get => _downloadTexts;
+            set => SetProperty(ref _downloadTexts, value);
         }
 
         public bool DownloadAnswers
         {
-            get => downloadAnswers;
-            set => SetProperty(ref downloadAnswers, value);
+            get => _downloadAnswers;
+            set => SetProperty(ref _downloadAnswers, value);
         }
 
         public bool DownloadQuotes
         {
-            get => downloadQuotes;
-            set => SetProperty(ref downloadQuotes, value);
+            get => _downloadQuotes;
+            set => SetProperty(ref _downloadQuotes, value);
         }
 
         public bool DownloadConversations
         {
-            get => downloadConversations;
-            set => SetProperty(ref downloadConversations, value);
+            get => _downloadConversations;
+            set => SetProperty(ref _downloadConversations, value);
         }
 
         public bool DownloadLinks
         {
-            get => downloadLinks;
-            set => SetProperty(ref downloadLinks, value);
+            get => _downloadLinks;
+            set => SetProperty(ref _downloadLinks, value);
         }
 
         public bool CreateImageMeta
         {
-            get => createImageMeta;
-            set => SetProperty(ref createImageMeta, value);
+            get => _createImageMeta;
+            set => SetProperty(ref _createImageMeta, value);
         }
 
         public bool CreateVideoMeta
         {
-            get => createVideoMeta;
-            set => SetProperty(ref createVideoMeta, value);
+            get => _createVideoMeta;
+            set => SetProperty(ref _createVideoMeta, value);
         }
 
         public bool CreateAudioMeta
         {
-            get => createAudioMeta;
-            set => SetProperty(ref createAudioMeta, value);
+            get => _createAudioMeta;
+            set => SetProperty(ref _createAudioMeta, value);
         }
 
         public MetadataType MetadataFormat
         {
-            get => metadataFormat;
-            set => SetProperty(ref metadataFormat, value);
+            get => _metadataFormat;
+            set => SetProperty(ref _metadataFormat, value);
         }
 
         public bool DumpCrawlerData
         {
-            get => dumpCrawlerData;
-            set => SetProperty(ref dumpCrawlerData, value);
+            get => _dumpCrawlerData;
+            set => SetProperty(ref _dumpCrawlerData, value);
         }
 
         public bool RegExPhotos
         {
-            get => regExPhotos;
-            set => SetProperty(ref regExPhotos, value);
+            get => _regExPhotos;
+            set => SetProperty(ref _regExPhotos, value);
         }
 
         public bool RegExVideos
         {
-            get => regExVideos;
-            set => SetProperty(ref regExVideos, value);
+            get => _regExVideos;
+            set => SetProperty(ref _regExVideos, value);
         }
 
         public string DownloadPages
         {
-            get => downloadPages;
-            set => SetProperty(ref downloadPages, value);
+            get => _downloadPages;
+            set => SetProperty(ref _downloadPages, value);
         }
 
         public int PageSize
         {
-            get => pageSize;
-            set => SetProperty(ref pageSize, value);
+            get => _pageSize;
+            set => SetProperty(ref _pageSize, value);
         }
 
         public string DownloadFrom
         {
-            get => downloadFrom;
-            set => SetProperty(ref downloadFrom, value);
+            get => _downloadFrom;
+            set => SetProperty(ref _downloadFrom, value);
         }
 
         public string DownloadTo
         {
-            get => downloadTo;
-            set => SetProperty(ref downloadTo, value);
+            get => _downloadTo;
+            set => SetProperty(ref _downloadTo, value);
         }
 
         public bool DownloadGfycat
         {
-            get => downloadGfycat;
-            set => SetProperty(ref downloadGfycat, value);
+            get => _downloadGfycat;
+            set => SetProperty(ref _downloadGfycat, value);
         }
 
         public GfycatTypes GfycatType
         {
-            get => gfycatType;
-            set => SetProperty(ref gfycatType, value);
+            get => _gfycatType;
+            set => SetProperty(ref _gfycatType, value);
         }
 
         public bool DownloadImgur
         {
-            get => downloadImgur;
-            set => SetProperty(ref downloadImgur, value);
+            get => _downloadImgur;
+            set => SetProperty(ref _downloadImgur, value);
         }
 
         public bool DownloadWebmshare
         {
-            get => downloadWebmshare;
-            set => SetProperty(ref downloadWebmshare, value);
+            get => _downloadWebmshare;
+            set => SetProperty(ref _downloadWebmshare, value);
         }
 
         public WebmshareTypes WebmshareType
         {
-            get => webmshareType;
-            set => SetProperty(ref webmshareType, value);
+            get => _webmshareType;
+            set => SetProperty(ref _webmshareType, value);
         }
 
         public bool DownloadMixtape
         {
-            get => downloadMixtape;
-            set => SetProperty(ref downloadMixtape, value);
+            get => _downloadMixtape;
+            set => SetProperty(ref _downloadMixtape, value);
         }
 
         public MixtapeTypes MixtapeType
         {
-            get => mixtapeType;
-            set => SetProperty(ref mixtapeType, value);
+            get => _mixtapeType;
+            set => SetProperty(ref _mixtapeType, value);
         }
 
         public bool DownloadUguu
         {
-            get => downloadUguu;
-            set => SetProperty(ref downloadUguu, value);
+            get => _downloadUguu;
+            set => SetProperty(ref _downloadUguu, value);
         }
 
         public UguuTypes UguuType
         {
-            get => uguuType;
-            set => SetProperty(ref uguuType, value);
+            get => _uguuType;
+            set => SetProperty(ref _uguuType, value);
         }
 
         public bool DownloadSafeMoe
         {
-            get => downloadSafeMoe;
-            set => SetProperty(ref downloadSafeMoe, value);
+            get => _downloadSafeMoe;
+            set => SetProperty(ref _downloadSafeMoe, value);
         }
 
         public SafeMoeTypes SafeMoeType
         {
-            get => safeMoeType;
-            set => SetProperty(ref safeMoeType, value);
+            get => _safeMoeType;
+            set => SetProperty(ref _safeMoeType, value);
         }
 
         public bool DownloadLoliSafe
         {
-            get => downloadLoliSafe;
-            set => SetProperty(ref downloadLoliSafe, value);
+            get => _downloadLoliSafe;
+            set => SetProperty(ref _downloadLoliSafe, value);
         }
 
         public LoliSafeTypes LoliSafeType
         {
-            get => loliSafeType;
-            set => SetProperty(ref loliSafeType, value);
+            get => _loliSafeType;
+            set => SetProperty(ref _loliSafeType, value);
         }
 
         public bool DownloadCatBox
         {
-            get => downloadCatBox;
-            set => SetProperty(ref downloadCatBox, value);
+            get => _downloadCatBox;
+            set => SetProperty(ref _downloadCatBox, value);
         }
 
         public CatBoxTypes CatBoxType
         {
-            get => catBoxType;
-            set => SetProperty(ref catBoxType, value);
+            get => _catBoxType;
+            set => SetProperty(ref _catBoxType, value);
         }
 
         public string Tags
         {
-            get => tags;
-            set => SetProperty(ref tags, value);
+            get => _tags;
+            set => SetProperty(ref _tags, value);
         }
 
         public bool DownloadRebloggedPosts
         {
-            get => downloadRebloggedPosts;
-            set => SetProperty(ref downloadRebloggedPosts, value);
+            get => _downloadRebloggedPosts;
+            set => SetProperty(ref _downloadRebloggedPosts, value);
         }
 
         public string TimerInterval
         {
-            get => timerInterval;
-            set => SetProperty(ref timerInterval, value);
+            get => _timerInterval;
+            set => SetProperty(ref _timerInterval, value);
         }
 
         public int SettingsTabIndex
         {
-            get => settingsTabIndex;
-            set => SetProperty(ref settingsTabIndex, value);
+            get => _settingsTabIndex;
+            set => SetProperty(ref _settingsTabIndex, value);
         }
 
         public string UserAgent
         {
-            get => userAgent;
-            set => SetProperty(ref userAgent, value);
+            get => _userAgent;
+            set => SetProperty(ref _userAgent, value);
         }
 
         public string TumblrUser
         {
-            get => tumblrUser;
-            set => SetProperty(ref tumblrUser, value);
+            get => _tumblrUser;
+            set => SetProperty(ref _tumblrUser, value);
         }
 
         public string TumblrPassword
         {
-            get => tumblrPassword;
-            set => SetProperty(ref tumblrPassword, value);
+            get => _tumblrPassword;
+            set => SetProperty(ref _tumblrPassword, value);
         }
 
         public bool TumblrLoggedIn
         {
-            get => tumblrLoggedIn;
-            set => SetProperty(ref tumblrLoggedIn, value);
+            get => _tumblrLoggedIn;
+            set => SetProperty(ref _tumblrLoggedIn, value);
         }
 
-        public bool TumblrTFADetected
+        public bool TumblrTfaDetected
         {
-            get => tumblrTFADetected;
-            set => SetProperty(ref tumblrTFADetected, value);
+            get => _tumblrTfaDetected;
+            set => SetProperty(ref _tumblrTfaDetected, value);
         }
 
-        public string TumblrTFAAuthCode
+        public string TumblrTfaAuthCode
         {
-            get => tumblrTFAAuthCode;
-            set => SetProperty(ref tumblrTFAAuthCode, value);
+            get => _tumblrTfaAuthCode;
+            set => SetProperty(ref _tumblrTfaAuthCode, value);
         }
 
         public string TumblrEmail
         {
-            get => tumblrEmail;
-            set => SetProperty(ref tumblrEmail, value);
+            get => _tumblrEmail;
+            set => SetProperty(ref _tumblrEmail, value);
         }
 
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
         {
-            if (enableAutoDownloadCommand.CanExecute(null))
-                enableAutoDownloadCommand.Execute(null);
+            if (_enableAutoDownloadCommand.CanExecute(null))
+            {
+                _enableAutoDownloadCommand.Execute(null);
+            }
         }
 
         private void EnableAutoDownload()
@@ -704,8 +703,7 @@ namespace TumblThree.Applications.ViewModels
             {
                 if (!CrawlerService.IsTimerSet)
                 {
-                    TimeSpan alertTime;
-                    TimeSpan.TryParse(TimerInterval, out alertTime);
+                    TimeSpan.TryParse(TimerInterval, out var alertTime);
                     DateTime current = DateTime.Now;
                     TimeSpan timeToGo = alertTime - current.TimeOfDay;
                     if (timeToGo < TimeSpan.Zero)
@@ -739,23 +737,27 @@ namespace TumblThree.Applications.ViewModels
         private void OnTimedEvent()
         {
             if (CrawlerService.AutoDownloadCommand.CanExecute(null))
+            {
                 QueueOnDispatcher.CheckBeginInvokeOnUI(() => CrawlerService.AutoDownloadCommand.Execute(null));
-            
+            }
+
             CrawlerService.Timer.Change(new TimeSpan(24, 00, 00), Timeout.InfiniteTimeSpan);
         }
 
         private void BrowseDownloadLocation()
         {
-            folderBrowserDialog.SelectedPath = DownloadLocation;
-            folderBrowserDialog.ShowNewFolderButton = true;
-            if (folderBrowserDialog.ShowDialog() == true)
-                DownloadLocation = folderBrowserDialog.SelectedPath;
+            _folderBrowserDialog.SelectedPath = DownloadLocation;
+            _folderBrowserDialog.ShowNewFolderButton = true;
+            if (_folderBrowserDialog.ShowDialog() == true)
+            {
+                DownloadLocation = _folderBrowserDialog.SelectedPath;
+            }
         }
 
         private void BrowseExportLocation()
         {
             FileDialogResult result =
-                fileDialogService.ShowSaveFileDialog(ShellService.ShellView, bloglistExportFileType, ExportLocation);
+                _fileDialogService.ShowSaveFileDialog(ShellService.ShellView, _bloglistExportFileType, ExportLocation);
             if (!result.IsValid)
             {
                 return;
@@ -768,10 +770,10 @@ namespace TumblThree.Applications.ViewModels
         {
             try
             {
-                var url = @"https://www.tumblr.com/login";
+                const string url = @"https://www.tumblr.com/login";
                 ShellService.Settings.OAuthCallbackUrl = "https://www.tumblr.com/dashboard";
 
-                AuthenticateViewModel authenticateViewModel = authenticateViewModelFactory.CreateExport().Value;
+                AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
                 authenticateViewModel.AddUrl(url);
                 authenticateViewModel.ShowDialog(ShellService.ShellView);
             }
@@ -793,8 +795,8 @@ namespace TumblThree.Applications.ViewModels
             {
             }
 
-            TumblrTFADetected = LoginService.CheckIfTumblrTFANeeded();
-            if (!TumblrTFADetected)
+            TumblrTfaDetected = LoginService.CheckIfTumblrTFANeeded();
+            if (!TumblrTfaDetected)
             {
                 await UpdateTumblrLogin();
             }
@@ -806,11 +808,11 @@ namespace TumblThree.Applications.ViewModels
             await UpdateTumblrLogin();
         }
 
-        private async Task TumblrSubmitTFA()
+        private async Task TumblrSubmitTfa()
         {
             try
             {
-                await LoginService.PerformTumblrTFALoginAsync(TumblrUser, TumblrTFAAuthCode);
+                await LoginService.PerformTumblrTFALoginAsync(TumblrUser, TumblrTfaAuthCode);
                 await UpdateTumblrLogin();
             }
             catch
@@ -837,87 +839,87 @@ namespace TumblThree.Applications.ViewModels
 
         private void LoadSettings()
         {
-            if (settings != null)
+            if (_settings != null)
             {
-                ApiKey = settings.ApiKey;
-                SecretKey = settings.SecretKey;
-                OAuthToken = settings.OAuthToken;
-                OAuthTokenSecret = settings.OAuthTokenSecret;
-                OAuthCallbackUrl = settings.OAuthCallbackUrl;
-                DownloadLocation = settings.DownloadLocation;
-                ExportLocation = settings.ExportLocation;
-                ConcurrentConnections = settings.ConcurrentConnections;
-                ConcurrentVideoConnections = settings.ConcurrentVideoConnections;
-                ConcurrentBlogs = settings.ConcurrentBlogs;
-                ConcurrentScans = settings.ConcurrentScans;
-                LimitScanBandwidth = settings.LimitScanBandwidth;
-                ImageSize = settings.ImageSize;
-                VideoSize = settings.VideoSize;
-                BlogType = settings.BlogType;
-                TimeOut = settings.TimeOut;
-                LimitConnections = settings.LimitConnections;
-                MaxConnections = settings.MaxConnections;
-                connectionTimeInterval = settings.ConnectionTimeInterval;
-                Bandwidth = settings.Bandwidth;
-                ProgressUpdateInterval = settings.ProgressUpdateInterval;
-                CheckClipboard = settings.CheckClipboard;
-                ShowPicturePreview = settings.ShowPicturePreview;
-                DisplayConfirmationDialog = settings.DisplayConfirmationDialog;
-                DeleteOnlyIndex = settings.DeleteOnlyIndex;
-                CheckOnlineStatusOnStartup = settings.CheckOnlineStatusOnStartup;
-                SkipGif = settings.SkipGif;
-                EnablePreview = settings.EnablePreview;
-                RemoveIndexAfterCrawl = settings.RemoveIndexAfterCrawl;
-                DownloadImages = settings.DownloadImages;
-                DownloadVideos = settings.DownloadVideos;
-                DownloadTexts = settings.DownloadTexts;
-                DownloadAnswers = settings.DownloadAnswers;
-                DownloadAudios = settings.DownloadAudios;
-                DownloadConversations = settings.DownloadConversations;
-                DownloadLinks = settings.DownloadLinks;
-                DownloadQuotes = settings.DownloadQuotes;
-                CreateImageMeta = settings.CreateImageMeta;
-                CreateVideoMeta = settings.CreateVideoMeta;
-                CreateAudioMeta = settings.CreateAudioMeta;
-                MetadataFormat = settings.MetadataFormat;
-                DumpCrawlerData = settings.DumpCrawlerData;
-                RegExPhotos = settings.RegExPhotos;
-                RegExVideos = settings.RegExVideos;
-                DownloadPages = settings.DownloadPages;
-                PageSize = settings.PageSize;
-                DownloadFrom = settings.DownloadFrom;
-                DownloadTo = settings.DownloadTo;
-                Tags = settings.Tags;
-                DownloadImgur = settings.DownloadImgur;
-                DownloadGfycat = settings.DownloadGfycat;
-                DownloadWebmshare = settings.DownloadWebmshare;
-                DownloadMixtape = settings.DownloadMixtape;
-                DownloadUguu = settings.DownloadUguu;
-                DownloadSafeMoe = settings.DownloadSafeMoe;
-                DownloadLoliSafe = settings.DownloadLoliSafe;
-                DownloadCatBox = settings.DownloadCatBox;
-                GfycatType = settings.GfycatType;
-                WebmshareType = settings.WebmshareType;
-                MixtapeType = settings.MixtapeType;
-                UguuType = settings.UguuType;
-                SafeMoeType = settings.SafeMoeType;
-                LoliSafeType = settings.LoliSafeType;
-                CatBoxType = settings.CatBoxType;
-                DownloadRebloggedPosts = settings.DownloadRebloggedPosts;
-                AutoDownload = settings.AutoDownload;
-                ForceSize = settings.ForceSize;
-                ForceRescan = settings.ForceRescan;
-                CheckDirectoryForFiles = settings.CheckDirectoryForFiles;
-                DownloadUrlList = settings.DownloadUrlList;
-                PortableMode = settings.PortableMode;
-                LoadAllDatabases = settings.LoadAllDatabases;
-                ProxyHost = settings.ProxyHost;
-                ProxyPort = settings.ProxyPort;
-                ProxyUsername = settings.ProxyUsername;
-                ProxyPassword = settings.ProxyPassword;
-                TimerInterval = settings.TimerInterval;
-                SettingsTabIndex = settings.SettingsTabIndex;
-                UserAgent = settings.UserAgent;
+                ApiKey = _settings.ApiKey;
+                SecretKey = _settings.SecretKey;
+                OAuthToken = _settings.OAuthToken;
+                OAuthTokenSecret = _settings.OAuthTokenSecret;
+                OAuthCallbackUrl = _settings.OAuthCallbackUrl;
+                DownloadLocation = _settings.DownloadLocation;
+                ExportLocation = _settings.ExportLocation;
+                ConcurrentConnections = _settings.ConcurrentConnections;
+                ConcurrentVideoConnections = _settings.ConcurrentVideoConnections;
+                ConcurrentBlogs = _settings.ConcurrentBlogs;
+                ConcurrentScans = _settings.ConcurrentScans;
+                LimitScanBandwidth = _settings.LimitScanBandwidth;
+                ImageSize = _settings.ImageSize;
+                VideoSize = _settings.VideoSize;
+                BlogType = _settings.BlogType;
+                TimeOut = _settings.TimeOut;
+                LimitConnections = _settings.LimitConnections;
+                MaxConnections = _settings.MaxConnections;
+                _connectionTimeInterval = _settings.ConnectionTimeInterval;
+                Bandwidth = _settings.Bandwidth;
+                ProgressUpdateInterval = _settings.ProgressUpdateInterval;
+                CheckClipboard = _settings.CheckClipboard;
+                ShowPicturePreview = _settings.ShowPicturePreview;
+                DisplayConfirmationDialog = _settings.DisplayConfirmationDialog;
+                DeleteOnlyIndex = _settings.DeleteOnlyIndex;
+                CheckOnlineStatusOnStartup = _settings.CheckOnlineStatusOnStartup;
+                SkipGif = _settings.SkipGif;
+                EnablePreview = _settings.EnablePreview;
+                RemoveIndexAfterCrawl = _settings.RemoveIndexAfterCrawl;
+                DownloadImages = _settings.DownloadImages;
+                DownloadVideos = _settings.DownloadVideos;
+                DownloadTexts = _settings.DownloadTexts;
+                DownloadAnswers = _settings.DownloadAnswers;
+                DownloadAudios = _settings.DownloadAudios;
+                DownloadConversations = _settings.DownloadConversations;
+                DownloadLinks = _settings.DownloadLinks;
+                DownloadQuotes = _settings.DownloadQuotes;
+                CreateImageMeta = _settings.CreateImageMeta;
+                CreateVideoMeta = _settings.CreateVideoMeta;
+                CreateAudioMeta = _settings.CreateAudioMeta;
+                MetadataFormat = _settings.MetadataFormat;
+                DumpCrawlerData = _settings.DumpCrawlerData;
+                RegExPhotos = _settings.RegExPhotos;
+                RegExVideos = _settings.RegExVideos;
+                DownloadPages = _settings.DownloadPages;
+                PageSize = _settings.PageSize;
+                DownloadFrom = _settings.DownloadFrom;
+                DownloadTo = _settings.DownloadTo;
+                Tags = _settings.Tags;
+                DownloadImgur = _settings.DownloadImgur;
+                DownloadGfycat = _settings.DownloadGfycat;
+                DownloadWebmshare = _settings.DownloadWebmshare;
+                DownloadMixtape = _settings.DownloadMixtape;
+                DownloadUguu = _settings.DownloadUguu;
+                DownloadSafeMoe = _settings.DownloadSafeMoe;
+                DownloadLoliSafe = _settings.DownloadLoliSafe;
+                DownloadCatBox = _settings.DownloadCatBox;
+                GfycatType = _settings.GfycatType;
+                WebmshareType = _settings.WebmshareType;
+                MixtapeType = _settings.MixtapeType;
+                UguuType = _settings.UguuType;
+                SafeMoeType = _settings.SafeMoeType;
+                LoliSafeType = _settings.LoliSafeType;
+                CatBoxType = _settings.CatBoxType;
+                DownloadRebloggedPosts = _settings.DownloadRebloggedPosts;
+                AutoDownload = _settings.AutoDownload;
+                ForceSize = _settings.ForceSize;
+                ForceRescan = _settings.ForceRescan;
+                CheckDirectoryForFiles = _settings.CheckDirectoryForFiles;
+                DownloadUrlList = _settings.DownloadUrlList;
+                PortableMode = _settings.PortableMode;
+                LoadAllDatabases = _settings.LoadAllDatabases;
+                ProxyHost = _settings.ProxyHost;
+                ProxyPort = _settings.ProxyPort;
+                ProxyUsername = _settings.ProxyUsername;
+                ProxyPassword = _settings.ProxyPassword;
+                TimerInterval = _settings.TimerInterval;
+                SettingsTabIndex = _settings.SettingsTabIndex;
+                UserAgent = _settings.UserAgent;
             }
             else
             {
@@ -1021,7 +1023,10 @@ namespace TumblThree.Applications.ViewModels
                 CrawlerService.LibraryLoaded = new TaskCompletionSource<bool>();
                 CrawlerService.DatabasesLoaded = new TaskCompletionSource<bool>();
                 if (CrawlerService.StopCommand.CanExecute(null))
+                {
                     CrawlerService.StopCommand.Execute(null);
+                }
+
                 CrawlerService.LoadLibraryCommand.Execute(null);
                 CrawlerService.LoadAllDatabasesCommand.Execute(null);
                 await Task.WhenAll(CrawlerService.LibraryLoaded.Task, CrawlerService.DatabasesLoaded.Task);
@@ -1032,7 +1037,10 @@ namespace TumblThree.Applications.ViewModels
                 CrawlerService.LibraryLoaded = new TaskCompletionSource<bool>();
                 CrawlerService.DatabasesLoaded = new TaskCompletionSource<bool>();
                 if (CrawlerService.StopCommand.CanExecute(null))
+                {
                     CrawlerService.StopCommand.Execute(null);
+                }
+
                 CrawlerService.LoadLibraryCommand.Execute(null);
                 CrawlerService.LoadAllDatabasesCommand.Execute(null);
                 await Task.WhenAll(CrawlerService.LibraryLoaded.Task, CrawlerService.DatabasesLoaded.Task);
@@ -1042,102 +1050,105 @@ namespace TumblThree.Applications.ViewModels
             {
                 CrawlerService.DatabasesLoaded = new TaskCompletionSource<bool>();
                 if (CrawlerService.StopCommand.CanExecute(null))
+                {
                     CrawlerService.StopCommand.Execute(null);
+                }
+
                 CrawlerService.LoadAllDatabasesCommand.Execute(null);
             }
         }
 
         private bool DownloadLocationChanged()
         {
-            return !settings.DownloadLocation.Equals(DownloadLocation);
+            return !_settings.DownloadLocation.Equals(DownloadLocation);
         }
 
         private bool LoadAllDatabasesChanged()
         {
-            return !settings.LoadAllDatabases.Equals(LoadAllDatabases);
+            return !_settings.LoadAllDatabases.Equals(LoadAllDatabases);
         }
 
         private void SaveSettings()
         {
-            settings.DownloadLocation = DownloadLocation;
-            settings.ExportLocation = ExportLocation;
-            settings.ConcurrentConnections = ConcurrentConnections;
-            settings.ConcurrentVideoConnections = ConcurrentVideoConnections;
-            settings.ConcurrentBlogs = ConcurrentBlogs;
-            settings.ConcurrentScans = ConcurrentScans;
-            settings.LimitScanBandwidth = LimitScanBandwidth;
-            settings.TimeOut = TimeOut;
-            settings.LimitConnections = LimitConnections;
-            settings.MaxConnections = MaxConnections;
-            settings.ConnectionTimeInterval = ConnectionTimeInterval;
-            settings.ProgressUpdateInterval = ProgressUpdateInterval;
-            settings.Bandwidth = Bandwidth;
-            settings.ImageSize = ImageSize;
-            settings.VideoSize = VideoSize;
-            settings.BlogType = BlogType;
-            settings.CheckClipboard = CheckClipboard;
-            settings.ShowPicturePreview = ShowPicturePreview;
-            settings.DisplayConfirmationDialog = DisplayConfirmationDialog;
-            settings.DeleteOnlyIndex = DeleteOnlyIndex;
-            settings.CheckOnlineStatusOnStartup = CheckOnlineStatusOnStartup;
-            settings.SkipGif = SkipGif;
-            settings.EnablePreview = EnablePreview;
-            settings.RemoveIndexAfterCrawl = RemoveIndexAfterCrawl;
-            settings.DownloadImages = DownloadImages;
-            settings.DownloadVideos = DownloadVideos;
-            settings.DownloadTexts = DownloadTexts;
-            settings.DownloadAnswers = DownloadAnswers;
-            settings.DownloadAudios = DownloadAudios;
-            settings.DownloadConversations = DownloadConversations;
-            settings.DownloadQuotes = DownloadQuotes;
-            settings.DownloadLinks = DownloadLinks;
-            settings.CreateImageMeta = CreateImageMeta;
-            settings.CreateVideoMeta = CreateVideoMeta;
-            settings.CreateAudioMeta = CreateAudioMeta;
-            settings.MetadataFormat = MetadataFormat;
-            settings.DumpCrawlerData = DumpCrawlerData;
-            settings.RegExPhotos = RegExPhotos;
-            settings.RegExVideos = RegExVideos;
-            settings.DownloadPages = DownloadPages;
-            settings.PageSize = PageSize;
-            settings.DownloadFrom = DownloadFrom;
-            settings.DownloadTo = DownloadTo;
-            settings.Tags = Tags;
-            settings.DownloadRebloggedPosts = DownloadRebloggedPosts;
-            settings.ApiKey = ApiKey;
-            settings.SecretKey = SecretKey;
-            settings.OAuthToken = OAuthToken;
-            settings.OAuthTokenSecret = OAuthTokenSecret;
-            settings.OAuthCallbackUrl = OAuthCallbackUrl;
-            settings.AutoDownload = AutoDownload;
-            settings.ForceSize = ForceSize;
-            settings.ForceRescan = ForceRescan;
-            settings.DownloadImgur = DownloadImgur;
-            settings.DownloadGfycat = DownloadGfycat;
-            settings.DownloadWebmshare = DownloadWebmshare;
-            settings.DownloadMixtape = DownloadMixtape;
-            settings.DownloadUguu = DownloadUguu;
-            settings.DownloadSafeMoe = DownloadSafeMoe;
-            settings.DownloadLoliSafe = DownloadLoliSafe;
-            settings.DownloadCatBox = DownloadCatBox;
-            settings.GfycatType = GfycatType;
-            settings.WebmshareType = WebmshareType;
-            settings.MixtapeType = MixtapeType;
-            settings.UguuType = UguuType;
-            settings.SafeMoeType = SafeMoeType;
-            settings.LoliSafeType = LoliSafeType;
-            settings.CatBoxType = CatBoxType;
-            settings.CheckDirectoryForFiles = CheckDirectoryForFiles;
-            settings.DownloadUrlList = DownloadUrlList;
-            settings.PortableMode = PortableMode;
-            settings.LoadAllDatabases = LoadAllDatabases;
-            settings.ProxyHost = ProxyHost;
-            settings.ProxyPort = ProxyPort;
-            settings.ProxyUsername = ProxyUsername;
-            settings.ProxyPassword = ProxyPassword;
-            settings.TimerInterval = TimerInterval;
-            settings.SettingsTabIndex = SettingsTabIndex;
-            settings.UserAgent = UserAgent;
+            _settings.DownloadLocation = DownloadLocation;
+            _settings.ExportLocation = ExportLocation;
+            _settings.ConcurrentConnections = ConcurrentConnections;
+            _settings.ConcurrentVideoConnections = ConcurrentVideoConnections;
+            _settings.ConcurrentBlogs = ConcurrentBlogs;
+            _settings.ConcurrentScans = ConcurrentScans;
+            _settings.LimitScanBandwidth = LimitScanBandwidth;
+            _settings.TimeOut = TimeOut;
+            _settings.LimitConnections = LimitConnections;
+            _settings.MaxConnections = MaxConnections;
+            _settings.ConnectionTimeInterval = ConnectionTimeInterval;
+            _settings.ProgressUpdateInterval = ProgressUpdateInterval;
+            _settings.Bandwidth = Bandwidth;
+            _settings.ImageSize = ImageSize;
+            _settings.VideoSize = VideoSize;
+            _settings.BlogType = BlogType;
+            _settings.CheckClipboard = CheckClipboard;
+            _settings.ShowPicturePreview = ShowPicturePreview;
+            _settings.DisplayConfirmationDialog = DisplayConfirmationDialog;
+            _settings.DeleteOnlyIndex = DeleteOnlyIndex;
+            _settings.CheckOnlineStatusOnStartup = CheckOnlineStatusOnStartup;
+            _settings.SkipGif = SkipGif;
+            _settings.EnablePreview = EnablePreview;
+            _settings.RemoveIndexAfterCrawl = RemoveIndexAfterCrawl;
+            _settings.DownloadImages = DownloadImages;
+            _settings.DownloadVideos = DownloadVideos;
+            _settings.DownloadTexts = DownloadTexts;
+            _settings.DownloadAnswers = DownloadAnswers;
+            _settings.DownloadAudios = DownloadAudios;
+            _settings.DownloadConversations = DownloadConversations;
+            _settings.DownloadQuotes = DownloadQuotes;
+            _settings.DownloadLinks = DownloadLinks;
+            _settings.CreateImageMeta = CreateImageMeta;
+            _settings.CreateVideoMeta = CreateVideoMeta;
+            _settings.CreateAudioMeta = CreateAudioMeta;
+            _settings.MetadataFormat = MetadataFormat;
+            _settings.DumpCrawlerData = DumpCrawlerData;
+            _settings.RegExPhotos = RegExPhotos;
+            _settings.RegExVideos = RegExVideos;
+            _settings.DownloadPages = DownloadPages;
+            _settings.PageSize = PageSize;
+            _settings.DownloadFrom = DownloadFrom;
+            _settings.DownloadTo = DownloadTo;
+            _settings.Tags = Tags;
+            _settings.DownloadRebloggedPosts = DownloadRebloggedPosts;
+            _settings.ApiKey = ApiKey;
+            _settings.SecretKey = SecretKey;
+            _settings.OAuthToken = OAuthToken;
+            _settings.OAuthTokenSecret = OAuthTokenSecret;
+            _settings.OAuthCallbackUrl = OAuthCallbackUrl;
+            _settings.AutoDownload = AutoDownload;
+            _settings.ForceSize = ForceSize;
+            _settings.ForceRescan = ForceRescan;
+            _settings.DownloadImgur = DownloadImgur;
+            _settings.DownloadGfycat = DownloadGfycat;
+            _settings.DownloadWebmshare = DownloadWebmshare;
+            _settings.DownloadMixtape = DownloadMixtape;
+            _settings.DownloadUguu = DownloadUguu;
+            _settings.DownloadSafeMoe = DownloadSafeMoe;
+            _settings.DownloadLoliSafe = DownloadLoliSafe;
+            _settings.DownloadCatBox = DownloadCatBox;
+            _settings.GfycatType = GfycatType;
+            _settings.WebmshareType = WebmshareType;
+            _settings.MixtapeType = MixtapeType;
+            _settings.UguuType = UguuType;
+            _settings.SafeMoeType = SafeMoeType;
+            _settings.LoliSafeType = LoliSafeType;
+            _settings.CatBoxType = CatBoxType;
+            _settings.CheckDirectoryForFiles = CheckDirectoryForFiles;
+            _settings.DownloadUrlList = DownloadUrlList;
+            _settings.PortableMode = PortableMode;
+            _settings.LoadAllDatabases = LoadAllDatabases;
+            _settings.ProxyHost = ProxyHost;
+            _settings.ProxyPort = ProxyPort;
+            _settings.ProxyUsername = ProxyUsername;
+            _settings.ProxyPassword = ProxyPassword;
+            _settings.TimerInterval = TimerInterval;
+            _settings.SettingsTabIndex = SettingsTabIndex;
+            _settings.UserAgent = UserAgent;
         }
     }
 }

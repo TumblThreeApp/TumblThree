@@ -35,11 +35,9 @@ namespace TumblThree.Applications.Services
             downloadLink = null;
             try
             {
-                HttpWebRequest request = webRequestFactory.CreateGetReqeust(
-                    @"https://api.github.com/repos/tumblthreeapp/tumblthree/releases/latest");
+                HttpWebRequest request = webRequestFactory.CreateGetReqeust("https://api.github.com/repos/tumblthreeapp/tumblthree/releases/latest");
                 string result = await webRequestFactory.ReadReqestToEndAsync(request);
-                XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result),
-                    new XmlDictionaryReaderQuotas());
+                XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), new XmlDictionaryReaderQuotas());
                 XElement root = XElement.Load(jsonReader);
                 version = root.Element("tag_name").Value;
                 downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value;
@@ -60,7 +58,9 @@ namespace TumblThree.Applications.Services
                 var newVersion = new Version(version.Substring(1));
 
                 if (newVersion > new Version(ApplicationInfo.Version))
-                    return true;             
+                {
+                    return true;
+                }
             }
             catch (Exception exception)
             {
@@ -78,8 +78,10 @@ namespace TumblThree.Applications.Services
         public Uri GetDownloadUri()
         {
             if (downloadLink == null)
+            {
                 return null;
-            
+            }
+
             return new Uri(downloadLink);
         }
     }

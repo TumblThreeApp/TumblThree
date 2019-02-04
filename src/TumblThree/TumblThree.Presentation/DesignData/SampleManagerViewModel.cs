@@ -12,7 +12,8 @@ namespace TumblThree.Presentation.DesignData
 {
     public class SampleManagerViewModel : ManagerViewModel
     {
-        public SampleManagerViewModel() : base(new MockManagerView(), new MockShellService(),
+        public SampleManagerViewModel()
+            : base(new MockManagerView(), new MockShellService(),
             new Lazy<ISelectionService>(() => new MockSelectionService()), null,
             new Lazy<IManagerService>(() => new MockManagerService()))
         {
@@ -25,7 +26,7 @@ namespace TumblThree.Presentation.DesignData
                     TotalCount = 234,
                     Progress = 66,
                     Online = true,
-                    Tags = "",
+                    Tags = string.Empty,
                     DateAdded = DateTime.Now,
                     Rating = 33
                 },

@@ -8,7 +8,8 @@ using TumblThree.Domain.Models.Files;
 
 namespace TumblThree.Applications.Services
 {
-    [Export, Export(typeof(IManagerService))]
+    [Export]
+    [Export(typeof(IManagerService))]
     internal class ManagerService : Model, IManagerService
     {
         private readonly IList<IFiles> databases;
@@ -33,7 +34,9 @@ namespace TumblThree.Applications.Services
                 foreach (IFiles db in databases)
                 {
                     if (db.CheckIfFileExistsInDB(url))
+                    {
                         return true;
+                    }
                 }
 
                 return false;

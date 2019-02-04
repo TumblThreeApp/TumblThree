@@ -5,7 +5,8 @@ namespace TumblThree.Presentation.DesignData
 {
     public class SampleAboutViewModel : AboutViewModel
     {
-        public SampleAboutViewModel() : base(new MockAboutView(), null)
+        public SampleAboutViewModel()
+            : base(new MockAboutView(), null)
         {
         }
 

@@ -93,8 +93,7 @@ namespace TumblThree.Applications.Parser
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Conversation, post.Element("conversation-text")?.Value) +
                    Environment.NewLine +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Tags,
-                       string.Join(", ", post.Elements("tag").Select(x => x.Value).ToArray())) + Environment.NewLine;
+                   string.Format(CultureInfo.CurrentCulture, Resources.Tags, string.Join(", ", post.Elements("tag").Select(x => x.Value).ToArray())) + Environment.NewLine;
         }
 
         public string ParseLink(XElement post)

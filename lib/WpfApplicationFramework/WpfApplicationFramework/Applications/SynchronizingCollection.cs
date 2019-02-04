@@ -33,14 +33,14 @@ namespace System.Waf.Applications
         public SynchronizingCollection(IEnumerable<TOriginal> originalCollection, Func<TOriginal, T> factory)
             : base(new ObservableCollection<T>())
         {
-            if (originalCollection == null) { throw new ArgumentNullException("originalCollection"); }
-            if (factory == null) { throw new ArgumentNullException("factory"); }
+            if (originalCollection == null) { throw new ArgumentNullException(nameof(originalCollection)); }
+            if (factory == null) { throw new ArgumentNullException(nameof(factory)); }
 
-            this.mapping = new List<Tuple<TOriginal, T>>();
+            mapping = new List<Tuple<TOriginal, T>>();
             this.originalCollection = originalCollection;
             this.factory = factory;
-            this.itemComparer = EqualityComparer<T>.Default;
-            this.originalItemComparer = EqualityComparer<TOriginal>.Default;
+            itemComparer = EqualityComparer<T>.Default;
+            originalItemComparer = EqualityComparer<TOriginal>.Default;
 
             INotifyCollectionChanged collectionChanged = originalCollection as INotifyCollectionChanged;
             if (collectionChanged != null)
@@ -48,7 +48,7 @@ namespace System.Waf.Applications
                 CollectionChangedEventManager.AddHandler(collectionChanged, OriginalCollectionChanged);
             }
 
-            innerCollection = (ObservableCollection<T>)this.Items;
+            innerCollection = (ObservableCollection<T>)Items;
             foreach (TOriginal item in originalCollection)
             {
                 innerCollection.Add(CreateItem(item));

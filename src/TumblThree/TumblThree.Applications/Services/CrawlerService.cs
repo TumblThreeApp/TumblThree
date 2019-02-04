@@ -12,199 +12,202 @@ using TumblThree.Domain.Queue;
 
 namespace TumblThree.Applications.Services
 {
-    [Export(typeof(ICrawlerService)), Export]
+    [Export(typeof(ICrawlerService))]
+    [Export]
     public class CrawlerService : Model, ICrawlerService
     {
-        private readonly ObservableCollection<QueueListItem> activeItems;
-        private readonly ReadOnlyObservableList<QueueListItem> readonlyActiveItems;
-        private ICommand addBlogCommand;
-        private ICommand importBlogsCommand;
-        private ICommand autoDownloadCommand;
-        private ICommand crawlCommand;
-        private ICommand enqueueSelectedCommand;
-        private ICommand loadLibraryCommand;
-        private ICommand loadAllDatabasesCommand;
-        private ICommand checkIfDatabasesCompleteCommand;
-        private bool isCrawl;
-        private bool isPaused;
-        private bool isTimerSet;
-        private TaskCompletionSource<bool> libraryLoaded;
-        private TaskCompletionSource<bool> databasesLoaded;
-        private ICommand listenClipboardCommand;
-        private string newBlogUrl;
-        private ICommand pauseCommand;
-        private ICommand removeBlogCommand;
-        private ICommand removeBlogFromQueueCommand;
-        private ICommand resumeCommand;
-        private ICommand showFilesCommand;
-        private ICommand stopCommand;
-        private RateLimiter timeconstraint;
-        private Timer timer;
+        private readonly ObservableCollection<QueueListItem> _activeItems;
+        private readonly ReadOnlyObservableList<QueueListItem> _readonlyActiveItems;
+        private ICommand _addBlogCommand;
+        private ICommand _importBlogsCommand;
+        private ICommand _autoDownloadCommand;
+        private ICommand _crawlCommand;
+        private ICommand _enqueueSelectedCommand;
+        private ICommand _loadLibraryCommand;
+        private ICommand _loadAllDatabasesCommand;
+        private ICommand _checkIfDatabasesCompleteCommand;
+        private bool _isCrawl;
+        private bool _isPaused;
+        private bool _isTimerSet;
+        private TaskCompletionSource<bool> _libraryLoaded;
+        private TaskCompletionSource<bool> _databasesLoaded;
+        private ICommand _listenClipboardCommand;
+        private string _newBlogUrl;
+        private ICommand _pauseCommand;
+        private ICommand _removeBlogCommand;
+        private ICommand _removeBlogFromQueueCommand;
+        private ICommand _resumeCommand;
+        private ICommand _showFilesCommand;
+        private ICommand _stopCommand;
+        private RateLimiter _timeconstraint;
+        private Timer _timer;
 
         [ImportingConstructor]
         public CrawlerService(IShellService shellService)
         {
-            timeconstraint =
+            _timeconstraint =
                 RateLimiter.Create(shellService.Settings.MaxConnections /
                                    (double)shellService.Settings.ConnectionTimeInterval);
 
-            activeItems = new ObservableCollection<QueueListItem>();
-            readonlyActiveItems = new ReadOnlyObservableList<QueueListItem>(activeItems);
-            libraryLoaded = new TaskCompletionSource<bool>();
-            databasesLoaded = new TaskCompletionSource<bool>();
-            activeItems.CollectionChanged += ActiveItemsCollectionChanged;
+            _activeItems = new ObservableCollection<QueueListItem>();
+            _readonlyActiveItems = new ReadOnlyObservableList<QueueListItem>(_activeItems);
+            _libraryLoaded = new TaskCompletionSource<bool>();
+            _databasesLoaded = new TaskCompletionSource<bool>();
+            _activeItems.CollectionChanged += ActiveItemsCollectionChanged;
         }
 
         public bool IsTimerSet
         {
-            get => isTimerSet;
-            set => SetProperty(ref isTimerSet, value);
+            get => _isTimerSet;
+            set => SetProperty(ref _isTimerSet, value);
         }
 
         public TaskCompletionSource<bool> LibraryLoaded
         {
-            get => libraryLoaded;
-            set => SetProperty(ref libraryLoaded, value);
+            get => _libraryLoaded;
+            set => SetProperty(ref _libraryLoaded, value);
         }
 
         public TaskCompletionSource<bool> DatabasesLoaded
         {
-            get => databasesLoaded;
-            set => SetProperty(ref databasesLoaded, value);
+            get => _databasesLoaded;
+            set => SetProperty(ref _databasesLoaded, value);
         }
 
         public Timer Timer
         {
-            get => timer;
-            set => SetProperty(ref timer, value);
+            get => _timer;
+            set => SetProperty(ref _timer, value);
         }
 
-        public IReadOnlyObservableList<QueueListItem> ActiveItems => readonlyActiveItems;
+        public IReadOnlyObservableList<QueueListItem> ActiveItems => _readonlyActiveItems;
 
         public ICommand ImportBlogsCommand
         {
-            get => importBlogsCommand;
-            set => SetProperty(ref importBlogsCommand, value);
+            get => _importBlogsCommand;
+            set => SetProperty(ref _importBlogsCommand, value);
         }
 
         public ICommand AddBlogCommand
         {
-            get => addBlogCommand;
-            set => SetProperty(ref addBlogCommand, value);
+            get => _addBlogCommand;
+            set => SetProperty(ref _addBlogCommand, value);
         }
 
         public ICommand RemoveBlogCommand
         {
-            get => removeBlogCommand;
-            set => SetProperty(ref removeBlogCommand, value);
+            get => _removeBlogCommand;
+            set => SetProperty(ref _removeBlogCommand, value);
         }
 
         public ICommand ShowFilesCommand
         {
-            get => showFilesCommand;
-            set => SetProperty(ref showFilesCommand, value);
+            get => _showFilesCommand;
+            set => SetProperty(ref _showFilesCommand, value);
         }
 
         public ICommand EnqueueSelectedCommand
         {
-            get => enqueueSelectedCommand;
-            set => SetProperty(ref enqueueSelectedCommand, value);
+            get => _enqueueSelectedCommand;
+            set => SetProperty(ref _enqueueSelectedCommand, value);
         }
 
         public ICommand LoadLibraryCommand
         {
-            get => loadLibraryCommand;
-            set => SetProperty(ref loadLibraryCommand, value);
+            get => _loadLibraryCommand;
+            set => SetProperty(ref _loadLibraryCommand, value);
         }
 
         public ICommand LoadAllDatabasesCommand
         {
-            get => loadAllDatabasesCommand;
-            set => SetProperty(ref loadAllDatabasesCommand, value);
+            get => _loadAllDatabasesCommand;
+            set => SetProperty(ref _loadAllDatabasesCommand, value);
         }
 
         public ICommand CheckIfDatabasesCompleteCommand
         {
-            get => checkIfDatabasesCompleteCommand;
-            set => SetProperty(ref checkIfDatabasesCompleteCommand, value);
+            get => _checkIfDatabasesCompleteCommand;
+            set => SetProperty(ref _checkIfDatabasesCompleteCommand, value);
         }
 
         public ICommand RemoveBlogFromQueueCommand
         {
-            get => removeBlogFromQueueCommand;
-            set => SetProperty(ref removeBlogFromQueueCommand, value);
+            get => _removeBlogFromQueueCommand;
+            set => SetProperty(ref _removeBlogFromQueueCommand, value);
         }
 
         public ICommand ListenClipboardCommand
         {
-            get => listenClipboardCommand;
-            set => SetProperty(ref listenClipboardCommand, value);
+            get => _listenClipboardCommand;
+            set => SetProperty(ref _listenClipboardCommand, value);
         }
 
         public ICommand CrawlCommand
         {
-            get => crawlCommand;
-            set => SetProperty(ref crawlCommand, value);
+            get => _crawlCommand;
+            set => SetProperty(ref _crawlCommand, value);
         }
 
         public ICommand PauseCommand
         {
-            get => pauseCommand;
-            set => SetProperty(ref pauseCommand, value);
+            get => _pauseCommand;
+            set => SetProperty(ref _pauseCommand, value);
         }
 
         public ICommand ResumeCommand
         {
-            get => resumeCommand;
-            set => SetProperty(ref resumeCommand, value);
+            get => _resumeCommand;
+            set => SetProperty(ref _resumeCommand, value);
         }
 
         public ICommand StopCommand
         {
-            get => stopCommand;
-            set => SetProperty(ref stopCommand, value);
+            get => _stopCommand;
+            set => SetProperty(ref _stopCommand, value);
         }
 
         public ICommand AutoDownloadCommand
         {
-            get => autoDownloadCommand;
-            set => SetProperty(ref autoDownloadCommand, value);
+            get => _autoDownloadCommand;
+            set => SetProperty(ref _autoDownloadCommand, value);
         }
 
         public bool IsCrawl
         {
-            get => isCrawl;
-            set => SetProperty(ref isCrawl, value);
+            get => _isCrawl;
+            set => SetProperty(ref _isCrawl, value);
         }
 
         public bool IsPaused
         {
-            get => isPaused;
-            set => SetProperty(ref isPaused, value);
+            get => _isPaused;
+            set => SetProperty(ref _isPaused, value);
         }
 
         public string NewBlogUrl
         {
-            get => newBlogUrl;
-            set => SetProperty(ref newBlogUrl, value);
+            get => _newBlogUrl;
+            set => SetProperty(ref _newBlogUrl, value);
         }
 
         public RateLimiter Timeconstraint
         {
-            get => timeconstraint;
-            set => SetProperty(ref timeconstraint, value);
+            get => _timeconstraint;
+            set => SetProperty(ref _timeconstraint, value);
         }
 
-        public void AddActiveItems(QueueListItem itemToAdd) => activeItems.Add(itemToAdd);
+        public void AddActiveItems(QueueListItem itemToAdd) => _activeItems.Add(itemToAdd);
 
-        public void RemoveActiveItem(QueueListItem itemToRemove) => activeItems.Remove(itemToRemove);
+        public void RemoveActiveItem(QueueListItem itemToRemove) => _activeItems.Remove(itemToRemove);
 
-        public void ClearItems() => activeItems.Clear();
+        public void ClearItems() => _activeItems.Clear();
 
         private void ActiveItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add | e.Action == NotifyCollectionChangedAction.Remove)
+            {
                 RaisePropertyChanged("ActiveItems");
+            }
         }
     }
 }

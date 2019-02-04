@@ -11,7 +11,7 @@ namespace TumblThree.Presentation.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var type = (BlogTypes) value;
+            var type = (BlogTypes)value;
             switch (type)
             {
                 case BlogTypes.tumblr:
@@ -29,9 +29,9 @@ namespace TumblThree.Presentation.Converters
                 case BlogTypes.twitter:
                     return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeTwitter);
                 case BlogTypes.all:
-                    return "";
+                    return string.Empty;
                 default:
-                    return "";
+                    return string.Empty;
             }
         }
 

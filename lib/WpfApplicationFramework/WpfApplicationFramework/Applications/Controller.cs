@@ -25,8 +25,8 @@ namespace System.Waf.Applications
         [Obsolete("Please use the PropertyChangedEventManager.AddHandler instead.")]
         protected void AddWeakEventListener(INotifyPropertyChanged source, PropertyChangedEventHandler handler)
         {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            if (handler == null) { throw new ArgumentNullException("handler"); }
+            if (source == null) { throw new ArgumentNullException(nameof(source)); }
+            if (handler == null) { throw new ArgumentNullException(nameof(handler)); }
 
             PropertyChangedEventListener listener = new PropertyChangedEventListener(source, handler);
 
@@ -45,8 +45,8 @@ namespace System.Waf.Applications
         [Obsolete("Please use the PropertyChangedEventManager.RemoveHandler instead.")]
         protected void RemoveWeakEventListener(INotifyPropertyChanged source, PropertyChangedEventHandler handler)
         {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            if (handler == null) { throw new ArgumentNullException("handler"); }
+            if (source == null) { throw new ArgumentNullException(nameof(source)); }
+            if (handler == null) { throw new ArgumentNullException(nameof(handler)); }
 
             PropertyChangedEventListener listener = propertyChangedListeners.LastOrDefault(l =>
                 l.Source == source && l.Handler == handler);
@@ -68,8 +68,8 @@ namespace System.Waf.Applications
         [Obsolete("Please use the CollectionChangedEventManager.AddHandler instead.")]
         protected void AddWeakEventListener(INotifyCollectionChanged source, NotifyCollectionChangedEventHandler handler)
         {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            if (handler == null) { throw new ArgumentNullException("handler"); }
+            if (source == null) { throw new ArgumentNullException(nameof(source)); }
+            if (handler == null) { throw new ArgumentNullException(nameof(handler)); }
 
             CollectionChangedEventListener listener = new CollectionChangedEventListener(source, handler);
 
@@ -88,8 +88,8 @@ namespace System.Waf.Applications
         [Obsolete("Please use the CollectionChangedChangedEventManager.RemoveHandler instead.")]
         protected void RemoveWeakEventListener(INotifyCollectionChanged source, NotifyCollectionChangedEventHandler handler)
         {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            if (handler == null) { throw new ArgumentNullException("handler"); }
+            if (source == null) { throw new ArgumentNullException(nameof(source)); }
+            if (handler == null) { throw new ArgumentNullException(nameof(handler)); }
 
             CollectionChangedEventListener listener = collectionChangedListeners.LastOrDefault(l =>
                 l.Source == source && l.Handler == handler);

@@ -16,36 +16,36 @@ namespace TumblThree.Applications.ViewModels
     [Export]
     public class AboutViewModel : ViewModel<IAboutView>
     {
-        private readonly AsyncDelegateCommand checkForUpdatesCommand;
-        private readonly DelegateCommand downloadCommand;
-        private readonly DelegateCommand showWebsiteCommand;
+        private readonly AsyncDelegateCommand _checkForUpdatesCommand;
+        private readonly DelegateCommand _downloadCommand;
+        private readonly DelegateCommand _showWebsiteCommand;
 
-        private readonly IApplicationUpdateService applicationUpdateService;
-        private bool isCheckInProgress;
-        private bool isLatestVersionAvailable;
-        private string updateText;
+        private readonly IApplicationUpdateService _applicationUpdateService;
+        private bool _isCheckInProgress;
+        private bool _isLatestVersionAvailable;
+        private string _updateText;
 
         [ImportingConstructor]
         public AboutViewModel(IAboutView view, IApplicationUpdateService applicationUpdateService)
             : base(view)
         {
-            showWebsiteCommand = new DelegateCommand(ShowWebsite);
-            checkForUpdatesCommand = new AsyncDelegateCommand(CheckForUpdates);
-            downloadCommand = new DelegateCommand(DownloadNewVersion);
-            this.applicationUpdateService = applicationUpdateService;
+            _showWebsiteCommand = new DelegateCommand(ShowWebsite);
+            _checkForUpdatesCommand = new AsyncDelegateCommand(CheckForUpdates);
+            _downloadCommand = new DelegateCommand(DownloadNewVersion);
+            _applicationUpdateService = applicationUpdateService;
         }
 
-        public ICommand ShowWebsiteCommand => showWebsiteCommand;
+        public ICommand ShowWebsiteCommand => _showWebsiteCommand;
 
-        public ICommand CheckForUpdatesCommand => checkForUpdatesCommand;
+        public ICommand CheckForUpdatesCommand => _checkForUpdatesCommand;
 
-        public ICommand DownloadCommand => downloadCommand;
+        public ICommand DownloadCommand => _downloadCommand;
 
         public string ProductName => ApplicationInfo.ProductName;
 
         public string Version => ApplicationInfo.Version;
 
-        public string OSVersion => Environment.OSVersion.ToString();
+        public string OsVersion => Environment.OSVersion.ToString();
 
         public string NetVersion => Environment.Version.ToString();
 
@@ -53,20 +53,20 @@ namespace TumblThree.Applications.ViewModels
 
         public bool IsCheckInProgress
         {
-            get => isCheckInProgress;
-            set => SetProperty(ref isCheckInProgress, value);
+            get => _isCheckInProgress;
+            set => SetProperty(ref _isCheckInProgress, value);
         }
 
         public bool IsLatestVersionAvailable
         {
-            get => isLatestVersionAvailable;
-            set => SetProperty(ref isLatestVersionAvailable, value);
+            get => _isLatestVersionAvailable;
+            set => SetProperty(ref _isLatestVersionAvailable, value);
         }
 
         public string UpdateText
         {
-            get => updateText;
-            set => SetProperty(ref updateText, value);
+            get => _updateText;
+            set => SetProperty(ref _updateText, value);
         }
 
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
@@ -84,17 +84,19 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
-        private void DownloadNewVersion() => Process.Start(new ProcessStartInfo(applicationUpdateService.GetDownloadUri().AbsoluteUri));
+        private void DownloadNewVersion() => Process.Start(new ProcessStartInfo(_applicationUpdateService.GetDownloadUri().AbsoluteUri));
 
         private async Task CheckForUpdates()
         {
             if (IsCheckInProgress || IsLatestVersionAvailable)
+            {
                 return;
-            
+            }
+
             IsCheckInProgress = true;
             IsLatestVersionAvailable = false;
             UpdateText = string.Empty;
-            await CheckForUpdatesComplete(applicationUpdateService.GetLatestReleaseFromServer());
+            await CheckForUpdatesComplete(_applicationUpdateService.GetLatestReleaseFromServer());
         }
 
         private async Task CheckForUpdatesComplete(Task<string> task)
@@ -102,10 +104,9 @@ namespace TumblThree.Applications.ViewModels
             IsCheckInProgress = false;
             if (await task == null)
             {
-                if (applicationUpdateService.IsNewVersionAvailable())
+                if (_applicationUpdateService.IsNewVersionAvailable())
                 {
-                    UpdateText = string.Format(CultureInfo.CurrentCulture, Resources.NewVersionAvailable,
-                        applicationUpdateService.GetNewAvailableVersion());
+                    UpdateText = string.Format(CultureInfo.CurrentCulture, Resources.NewVersionAvailable, _applicationUpdateService.GetNewAvailableVersion());
                     IsLatestVersionAvailable = true;
                 }
                 else

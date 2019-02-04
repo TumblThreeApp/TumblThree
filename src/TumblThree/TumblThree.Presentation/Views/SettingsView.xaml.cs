@@ -9,10 +9,11 @@ using TumblThree.Applications.Views;
 namespace TumblThree.Presentation.Views
 {
     /// <summary>
-    ///     Interaction logic for SettingsView.xaml
+    ///     Interaction logic for SettingsView.xaml.
     /// </summary>
-    [Export(typeof(ISettingsView)), PartCreationPolicy(CreationPolicy.NonShared)]
-    public partial class SettingsView : Window, ISettingsView
+    [Export(typeof(ISettingsView))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public partial class SettingsView : ISettingsView
     {
         private readonly Lazy<SettingsViewModel> viewModel;
 
@@ -40,9 +41,9 @@ namespace TumblThree.Presentation.Views
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            this.MinWidth = this.ActualWidth;
-            this.MinHeight = this.ActualHeight;
-            this.MaxHeight = this.ActualHeight;
+            MinWidth = ActualWidth;
+            MinHeight = ActualHeight;
+            MaxHeight = ActualHeight;
         }
     }
 }

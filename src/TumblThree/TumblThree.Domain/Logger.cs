@@ -10,8 +10,7 @@ namespace TumblThree.Domain
         [Conditional("DEBUG")]
         public static void Verbose(string format, params object[] arguments)
         {
-            Debug.WriteLine("> {0:HH:mm:ss.fff} > {1}", DateTime.Now,
-                string.Format(CultureInfo.InvariantCulture, format, arguments));
+            Debug.WriteLine("> {0:HH:mm:ss.fff} > {1}", DateTime.Now, string.Format(CultureInfo.InvariantCulture, format, arguments));
         }
 
         public static void Information(string format, params object[] arguments)

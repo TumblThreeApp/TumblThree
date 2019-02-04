@@ -17,8 +17,8 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentNullException">fileType must not be null.</exception>
         public static FileDialogResult ShowOpenFileDialog(this IFileDialogService service, FileType fileType)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
-            if (fileType == null) { throw new ArgumentNullException("fileType"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            if (fileType == null) { throw new ArgumentNullException(nameof(fileType)); }
             return service.ShowOpenFileDialog(null, new FileType[] { fileType }, fileType, null);
         }
 
@@ -33,8 +33,8 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentNullException">fileType must not be null.</exception>
         public static FileDialogResult ShowOpenFileDialog(this IFileDialogService service, object owner, FileType fileType)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
-            if (fileType == null) { throw new ArgumentNullException("fileType"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            if (fileType == null) { throw new ArgumentNullException(nameof(fileType)); }
             return service.ShowOpenFileDialog(owner, new FileType[] { fileType }, fileType, null);
         }
 
@@ -49,8 +49,8 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentNullException">fileType must not be null.</exception>
         public static FileDialogResult ShowOpenFileDialog(this IFileDialogService service, FileType fileType, string defaultFileName)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
-            if (fileType == null) { throw new ArgumentNullException("fileType"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            if (fileType == null) { throw new ArgumentNullException(nameof(fileType)); }
             return service.ShowOpenFileDialog(null, new FileType[] { fileType }, fileType, defaultFileName);
         }
 
@@ -66,8 +66,8 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentNullException">fileType must not be null.</exception>
         public static FileDialogResult ShowOpenFileDialog(this IFileDialogService service, object owner, FileType fileType, string defaultFileName)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
-            if (fileType == null) { throw new ArgumentNullException("fileType"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            if (fileType == null) { throw new ArgumentNullException(nameof(fileType)); }
             return service.ShowOpenFileDialog(owner, new FileType[] { fileType }, fileType, defaultFileName);
         }
 
@@ -82,7 +82,7 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentException">fileTypes must contain at least one item.</exception>
         public static FileDialogResult ShowOpenFileDialog(this IFileDialogService service, IEnumerable<FileType> fileTypes)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             return service.ShowOpenFileDialog(null, fileTypes, null, null);
         }
 
@@ -98,7 +98,7 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentException">fileTypes must contain at least one item.</exception>
         public static FileDialogResult ShowOpenFileDialog(this IFileDialogService service, object owner, IEnumerable<FileType> fileTypes)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             return service.ShowOpenFileDialog(owner, fileTypes, null, null);
         }
 
@@ -116,7 +116,7 @@ namespace System.Waf.Applications.Services
         public static FileDialogResult ShowOpenFileDialog(this IFileDialogService service, IEnumerable<FileType> fileTypes, 
             FileType defaultFileType, string defaultFileName)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             return service.ShowOpenFileDialog(null, fileTypes, defaultFileType, defaultFileName);
         }
 
@@ -130,8 +130,8 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentNullException">fileType must not be null.</exception>
         public static FileDialogResult ShowSaveFileDialog(this IFileDialogService service, FileType fileType)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
-            if (fileType == null) { throw new ArgumentNullException("fileType"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            if (fileType == null) { throw new ArgumentNullException(nameof(fileType)); }
             return service.ShowSaveFileDialog(null, new FileType[] { fileType }, fileType, null);
         }
 
@@ -146,8 +146,8 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentNullException">fileType must not be null.</exception>
         public static FileDialogResult ShowSaveFileDialog(this IFileDialogService service, object owner, FileType fileType)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
-            if (fileType == null) { throw new ArgumentNullException("fileType"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            if (fileType == null) { throw new ArgumentNullException(nameof(fileType)); }
             return service.ShowSaveFileDialog(owner, new FileType[] { fileType }, fileType, null);
         }
 
@@ -162,8 +162,8 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentNullException">fileType must not be null.</exception>
         public static FileDialogResult ShowSaveFileDialog(this IFileDialogService service, FileType fileType, string defaultFileName)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
-            if (fileType == null) { throw new ArgumentNullException("fileType"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            if (fileType == null) { throw new ArgumentNullException(nameof(fileType)); }
             return service.ShowSaveFileDialog(null, new FileType[] { fileType }, fileType, defaultFileName);
         }
 
@@ -179,8 +179,8 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentNullException">fileType must not be null.</exception>
         public static FileDialogResult ShowSaveFileDialog(this IFileDialogService service, object owner, FileType fileType, string defaultFileName)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
-            if (fileType == null) { throw new ArgumentNullException("fileType"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            if (fileType == null) { throw new ArgumentNullException(nameof(fileType)); }
             return service.ShowSaveFileDialog(owner, new FileType[] { fileType }, fileType, defaultFileName);
         }
 
@@ -195,7 +195,7 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentException">fileTypes must contain at least one item.</exception>
         public static FileDialogResult ShowSaveFileDialog(this IFileDialogService service, IEnumerable<FileType> fileTypes)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             return service.ShowSaveFileDialog(null, fileTypes, null, null);
         }
 
@@ -211,7 +211,7 @@ namespace System.Waf.Applications.Services
         /// <exception cref="ArgumentException">fileTypes must contain at least one item.</exception>
         public static FileDialogResult ShowSaveFileDialog(this IFileDialogService service, object owner, IEnumerable<FileType> fileTypes)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             return service.ShowSaveFileDialog(owner, fileTypes, null, null);
         }
 
@@ -229,7 +229,7 @@ namespace System.Waf.Applications.Services
         public static FileDialogResult ShowSaveFileDialog(this IFileDialogService service, IEnumerable<FileType> fileTypes, 
             FileType defaultFileType, string defaultFileName)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             return service.ShowSaveFileDialog(null, fileTypes, defaultFileType, defaultFileName);
         }
     }

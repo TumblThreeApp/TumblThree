@@ -11,7 +11,8 @@ using TumblThree.Domain;
 
 namespace TumblThree.Applications.Services
 {
-    [Export(typeof(IConfirmTumblrPrivacyConsent)), Export]
+    [Export(typeof(IConfirmTumblrPrivacyConsent))]
+    [Export]
     internal class ConfirmTumblrPrivacyConsent : IConfirmTumblrPrivacyConsent
     {
         private readonly IWebRequestFactory webRequestFactory;
@@ -20,8 +21,7 @@ namespace TumblThree.Applications.Services
         private string tumblrKey = string.Empty;
 
         [ImportingConstructor]
-        public ConfirmTumblrPrivacyConsent(IShellService shellService, ISharedCookieService cookieService,
-            IWebRequestFactory webRequestFactory)
+        public ConfirmTumblrPrivacyConsent(IShellService shellService, ISharedCookieService cookieService, IWebRequestFactory webRequestFactory)
         {
             this.webRequestFactory = webRequestFactory;
             this.cookieService = cookieService;
@@ -36,14 +36,12 @@ namespace TumblThree.Applications.Services
             }
             catch (TimeoutException timeoutException)
             {
-                Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.TimeoutReachedShort, Resources.ConfirmingTumblrPrivacyConsent),
-                    timeoutException);
+                Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.TimeoutReachedShort, Resources.ConfirmingTumblrPrivacyConsent), timeoutException);
                 shellService.ShowError(timeoutException, Resources.ConfirmingTumblrPrivacyConsentFailed);
             }
             catch (Exception exception)
             {
-                Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.ConfirmingTumblrPrivacyConsentFailed),
-                    exception);
+                Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.ConfirmingTumblrPrivacyConsentFailed), exception);
                 shellService.ShowError(exception, Resources.ConfirmingTumblrPrivacyConsentFailed);
             }
         }
@@ -51,14 +49,16 @@ namespace TumblThree.Applications.Services
         private async Task PerformPrivacyConsentRequestAsync()
         {
             if (CheckIfLoggedInAsync())
+            {
                 return;
+            }
+
             await UpdateTumblrKey();
-            var referer = @"https://www.tumblr.com/privacy/consent?redirect=";
+            const string referer = @"https://www.tumblr.com/privacy/consent?redirect=";
             var headers = new Dictionary<string, string> { { "X-tumblr-form-key", tumblrKey } };
             HttpWebRequest request =
                 webRequestFactory.CreatePostXhrReqeust("https://www.tumblr.com/svc/privacy/consent", referer, headers);
-            var requestBody =
-                "{\"eu_resident\":true,\"gdpr_is_acceptable_age\":true,\"gdpr_consent_core\":true,\"gdpr_consent_first_party_ads\":true,\"gdpr_consent_third_party_ads\":true,\"gdpr_consent_search_history\":true,\"redirect_to\":\"\"}";
+            const string requestBody = "{\"eu_resident\":true,\"gdpr_is_acceptable_age\":true,\"gdpr_consent_core\":true,\"gdpr_consent_first_party_ads\":true,\"gdpr_consent_third_party_ads\":true,\"gdpr_consent_search_history\":true,\"redirect_to\":\"\"}";
             request.ContentType = "application/json";
             await webRequestFactory.PerformPostXHRReqeustAsync(request, requestBody);
             using (var response = await request.GetResponseAsync() as HttpWebResponse)
@@ -77,7 +77,7 @@ namespace TumblThree.Applications.Services
 
         private async Task<string> GetRequestAsync()
         {
-            var requestUrl = "https://www.tumblr.com/";
+            const string requestUrl = "https://www.tumblr.com/";
             HttpWebRequest request = webRequestFactory.CreateGetReqeust(requestUrl);
             return await webRequestFactory.ReadReqestToEndAsync(request);
         }

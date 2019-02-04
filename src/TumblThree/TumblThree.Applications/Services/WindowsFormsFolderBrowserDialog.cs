@@ -22,8 +22,6 @@ namespace TumblThree.Applications.Services
             ShowNewFolderButton = false;
         }
 
-        #region IFolderBrowserDialog Members
-
         public string Description
         {
             get => description ?? string.Empty;
@@ -45,7 +43,11 @@ namespace TumblThree.Applications.Services
             using (FolderBrowserDialog dialog = CreateDialog())
             {
                 bool result = dialog.ShowDialog() == DialogResult.OK;
-                if (result) SelectedPath = dialog.SelectedPath;
+                if (result)
+                {
+                    SelectedPath = dialog.SelectedPath;
+                }
+
                 return result;
             }
         }
@@ -55,12 +57,14 @@ namespace TumblThree.Applications.Services
             using (FolderBrowserDialog dialog = CreateDialog())
             {
                 bool result = dialog.ShowDialog(owner.AsWin32Window()) == DialogResult.OK;
-                if (result) SelectedPath = dialog.SelectedPath;
+                if (result)
+                {
+                    SelectedPath = dialog.SelectedPath;
+                }
+
                 return result;
             }
         }
-
-        #endregion
 
         private FolderBrowserDialog CreateDialog()
         {
@@ -84,10 +88,6 @@ namespace TumblThree.Applications.Services
     {
         public Wpf32Window(Window window) => Handle = new WindowInteropHelper(window).Handle;
 
-        #region IWin32Window Members
-
         public IntPtr Handle { get; private set; }
-
-        #endregion
     }
 }

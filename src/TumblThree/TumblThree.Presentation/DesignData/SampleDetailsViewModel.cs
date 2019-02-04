@@ -8,7 +8,8 @@ namespace TumblThree.Presentation.DesignData
 {
     public class SampleDetailsViewModel : DetailsAllViewModel
     {
-        public SampleDetailsViewModel() : base(new MockDetailsView(), null)
+        public SampleDetailsViewModel()
+            : base(new MockDetailsView(), null)
         {
             var BlogFile = new[]
             {

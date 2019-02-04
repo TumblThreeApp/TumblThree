@@ -17,53 +17,51 @@ namespace TumblThree.Applications.ViewModels
     [Export]
     public class ShellViewModel : ViewModel<IShellView>
     {
-        private readonly DelegateCommand closeErrorCommand;
-        private readonly DelegateCommand exitCommand;
-        private readonly DelegateCommand garbageCollectorCommand;
-        private readonly DelegateCommand showAboutCommand;
-        private readonly DelegateCommand showSettingsCommand;
+        private readonly DelegateCommand _closeErrorCommand;
+        private readonly DelegateCommand _exitCommand;
+        private readonly DelegateCommand _garbageCollectorCommand;
+        private readonly DelegateCommand _showAboutCommand;
+        private readonly DelegateCommand _showSettingsCommand;
 
-        private readonly ExportFactory<AboutViewModel> aboutViewModelFactory;
-        private readonly ObservableCollection<Tuple<Exception, string>> errors;
-        private readonly AppSettings settings;
-        private readonly ExportFactory<SettingsViewModel> settingsViewModelFactory;
+        private readonly ExportFactory<AboutViewModel> _aboutViewModelFactory;
+        private readonly ObservableCollection<Tuple<Exception, string>> _errors;
+        private readonly AppSettings _settings;
+        private readonly ExportFactory<SettingsViewModel> _settingsViewModelFactory;
 
-        private object detailsView;
+        private object _detailsView;
 
         [ImportingConstructor]
-        public ShellViewModel(IShellView view, IShellService shellService, ICrawlerService crawlerService,
-            ExportFactory<SettingsViewModel> settingsViewModelFactory,
-            ExportFactory<AboutViewModel> aboutViewModelFactory)
+        public ShellViewModel(IShellView view, IShellService shellService, ICrawlerService crawlerService, ExportFactory<SettingsViewModel> settingsViewModelFactory, ExportFactory<AboutViewModel> aboutViewModelFactory)
             : base(view)
         {
             ShellService = shellService;
             CrawlerService = crawlerService;
-            settings = shellService.Settings;
-            this.settingsViewModelFactory = settingsViewModelFactory;
-            this.aboutViewModelFactory = aboutViewModelFactory;
-            errors = new ObservableCollection<Tuple<Exception, string>>();
-            exitCommand = new DelegateCommand(Close);
-            closeErrorCommand = new DelegateCommand(CloseError);
-            garbageCollectorCommand = new DelegateCommand(GC.Collect);
-            showSettingsCommand = new DelegateCommand(ShowSettingsView);
-            showAboutCommand = new DelegateCommand(ShowAboutView);
+            _settings = shellService.Settings;
+            _settingsViewModelFactory = settingsViewModelFactory;
+            _aboutViewModelFactory = aboutViewModelFactory;
+            _errors = new ObservableCollection<Tuple<Exception, string>>();
+            _exitCommand = new DelegateCommand(Close);
+            _closeErrorCommand = new DelegateCommand(CloseError);
+            _garbageCollectorCommand = new DelegateCommand(GC.Collect);
+            _showSettingsCommand = new DelegateCommand(ShowSettingsView);
+            _showAboutCommand = new DelegateCommand(ShowAboutView);
 
-            errors.CollectionChanged += ErrorsCollectionChanged;
+            _errors.CollectionChanged += ErrorsCollectionChanged;
             view.Closed += ViewClosed;
 
             // Restore the window size when the values are valid.
-            if (settings.Left >= 0 && settings.Top >= 0 && settings.Width > 0 && settings.Height > 0
-                && settings.Left + settings.Width <= view.VirtualScreenWidth
-                && settings.Top + settings.Height <= view.VirtualScreenHeight)
+            if (_settings.Left >= 0 && _settings.Top >= 0 && _settings.Width > 0 && _settings.Height > 0
+                && _settings.Left + _settings.Width <= view.VirtualScreenWidth
+                && _settings.Top + _settings.Height <= view.VirtualScreenHeight)
             {
-                view.Left = settings.Left;
-                view.Top = settings.Top;
-                view.Height = settings.Height;
-                view.Width = settings.Width;
-                view.GridSplitterPosition = settings.GridSplitterPosition;
+                view.Left = _settings.Left;
+                view.Top = _settings.Top;
+                view.Height = _settings.Height;
+                view.Width = _settings.Width;
+                view.GridSplitterPosition = _settings.GridSplitterPosition;
             }
 
-            view.IsMaximized = settings.IsMaximized;
+            view.IsMaximized = _settings.IsMaximized;
         }
 
         public string Title => ApplicationInfo.ProductName;
@@ -72,24 +70,24 @@ namespace TumblThree.Applications.ViewModels
 
         public ICrawlerService CrawlerService { get; }
 
-        public IReadOnlyList<Tuple<Exception, string>> Errors => errors;
+        public IReadOnlyList<Tuple<Exception, string>> Errors => _errors;
 
-        public Tuple<Exception, string> LastError => errors.LastOrDefault();
+        public Tuple<Exception, string> LastError => _errors.LastOrDefault();
 
-        public ICommand ExitCommand => exitCommand;
+        public ICommand ExitCommand => _exitCommand;
 
-        public ICommand CloseErrorCommand => closeErrorCommand;
+        public ICommand CloseErrorCommand => _closeErrorCommand;
 
-        public ICommand GarbageCollectorCommand => garbageCollectorCommand;
+        public ICommand GarbageCollectorCommand => _garbageCollectorCommand;
 
-        public ICommand ShowSettingsCommand => showSettingsCommand;
+        public ICommand ShowSettingsCommand => _showSettingsCommand;
 
-        public ICommand ShowAboutCommand => showAboutCommand;
+        public ICommand ShowAboutCommand => _showAboutCommand;
 
         public object DetailsView
         {
-            get => detailsView;
-            private set => SetProperty(ref detailsView, value);
+            get => _detailsView;
+            private set => SetProperty(ref _detailsView, value);
         }
 
         public bool IsDetailsViewVisible
@@ -122,13 +120,13 @@ namespace TumblThree.Applications.ViewModels
 
         public void ShowSettingsView()
         {
-            SettingsViewModel settingsViewModel = settingsViewModelFactory.CreateExport().Value;
+            SettingsViewModel settingsViewModel = _settingsViewModelFactory.CreateExport().Value;
             settingsViewModel.ShowDialog(ShellService.ShellView);
         }
 
         public void ShowAboutView()
         {
-            AboutViewModel aboutViewModel = aboutViewModelFactory.CreateExport().Value;
+            AboutViewModel aboutViewModel = _aboutViewModelFactory.CreateExport().Value;
             aboutViewModel.ShowDialog(ShellService.ShellView);
         }
 
@@ -136,12 +134,12 @@ namespace TumblThree.Applications.ViewModels
         {
             var errorMessage = new Tuple<Exception, string>(exception, message);
             if (
-                !errors.Any(
+                !_errors.Any(
                     error =>
                         (error.Item1?.ToString() ?? "null") == (errorMessage.Item1?.ToString() ?? "null") &&
                         error.Item2 == errorMessage.Item2))
             {
-                errors.Add(errorMessage);
+                _errors.Add(errorMessage);
             }
         }
 
@@ -157,20 +155,22 @@ namespace TumblThree.Applications.ViewModels
 
         private void CloseError()
         {
-            if (errors.Any())
-                errors.RemoveAt(errors.Count - 1);
+            if (_errors.Any())
+            {
+                _errors.RemoveAt(_errors.Count - 1);
+            }
         }
 
         private void ErrorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => RaisePropertyChanged(nameof(LastError));
 
         private void ViewClosed(object sender, EventArgs e)
         {
-            settings.Left = ViewCore.Left;
-            settings.Top = ViewCore.Top;
-            settings.Height = ViewCore.Height;
-            settings.Width = ViewCore.Width;
-            settings.IsMaximized = ViewCore.IsMaximized;
-            settings.GridSplitterPosition = ViewCore.GridSplitterPosition;
+            _settings.Left = ViewCore.Left;
+            _settings.Top = ViewCore.Top;
+            _settings.Height = ViewCore.Height;
+            _settings.Width = ViewCore.Width;
+            _settings.IsMaximized = ViewCore.IsMaximized;
+            _settings.GridSplitterPosition = ViewCore.GridSplitterPosition;
         }
     }
 }

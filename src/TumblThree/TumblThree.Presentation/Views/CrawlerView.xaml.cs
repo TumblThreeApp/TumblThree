@@ -8,7 +8,7 @@ using TumblThree.Applications.Views;
 namespace TumblThree.Presentation.Views
 {
     /// <summary>
-    ///     Interaction logic for CrawlerView.xaml
+    ///     Interaction logic for CrawlerView.xaml.
     /// </summary>
     [Export(typeof(ICrawlerView))]
     public partial class CrawlerView : ICrawlerView

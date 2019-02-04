@@ -11,15 +11,12 @@ namespace TumblThree.Presentation.Controls
 {
     public static class SelectionBehavior
     {
-        private static readonly List<Tuple<IMultiSelector, INotifyCollectionChanged>> multiSelectorWithObservableList =
-            new List<Tuple<IMultiSelector, INotifyCollectionChanged>>();
+        private static readonly List<Tuple<IMultiSelector, INotifyCollectionChanged>> multiSelectorWithObservableList = new List<Tuple<IMultiSelector, INotifyCollectionChanged>>();
 
         private static readonly HashSet<Selector> selectorsThatAreUpdating = new HashSet<Selector>();
         private static readonly HashSet<object> syncListsThatAreUpdating = new HashSet<object>();
 
-        public static readonly DependencyProperty SyncSelectedItemsProperty =
-            DependencyProperty.RegisterAttached("SyncSelectedItems", typeof(IList), typeof(SelectionBehavior),
-                new FrameworkPropertyMetadata(null, SyncSelectedItemsPropertyChanged));
+        public static readonly DependencyProperty SyncSelectedItemsProperty = DependencyProperty.RegisterAttached("SyncSelectedItems", typeof(IList), typeof(SelectionBehavior), new FrameworkPropertyMetadata(null, SyncSelectedItemsPropertyChanged));
 
         [AttachedPropertyBrowsableForType(typeof(Selector))]
         public static IList GetSyncSelectedItems(DependencyObject obj)
@@ -37,9 +34,9 @@ namespace TumblThree.Presentation.Controls
             var selector = element as Selector;
             if (selector == null)
             {
-                throw new ArgumentException("The attached property SelectedItems can only be used with a Selector.",
-                    nameof(element));
+                throw new ArgumentException("The attached property SelectedItems can only be used with a Selector.", nameof(element));
             }
+
             TryCleanUpOldItem(selector);
             try
             {
@@ -59,6 +56,7 @@ namespace TumblThree.Presentation.Controls
                 {
                     multiSelector.SelectedItems.Clear();
                 }
+
                 foreach (object item in list)
                 {
                     multiSelector.SelectedItems.Add(item);
@@ -70,8 +68,7 @@ namespace TumblThree.Presentation.Controls
                     return;
                 }
 
-                multiSelectorWithObservableList.Add(new Tuple<IMultiSelector, INotifyCollectionChanged>(multiSelector,
-                    observableList));
+                multiSelectorWithObservableList.Add(new Tuple<IMultiSelector, INotifyCollectionChanged>(multiSelector, observableList));
                 CollectionChangedEventManager.AddHandler(observableList, ListCollectionChanged);
             }
             finally
@@ -160,6 +157,7 @@ namespace TumblThree.Presentation.Controls
                 {
                     list.Remove(item);
                 }
+
                 foreach (object item in e.AddedItems)
                 {
                     list.Add(item);
@@ -177,10 +175,12 @@ namespace TumblThree.Presentation.Controls
             {
                 return new ListBoxAdapter((ListBox)selector);
             }
+
             if (selector is MultiSelector)
             {
                 return new MultiSelectorAdapter((MultiSelector)selector);
             }
+
             return null;
         }
 

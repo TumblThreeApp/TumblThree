@@ -12,6 +12,7 @@ using System.Xml;
 
 namespace TumblThree.Domain.Models.Blogs
 {
+#pragma warning disable SX1309 // Field names should begin with underscore
     [DataContract]
     public class Blog : Model, IBlog
     {
@@ -111,9 +112,11 @@ namespace TumblThree.Domain.Models.Blogs
             Video
         }
 
-        [DataMember] public PostType States { get; set; }
+        [DataMember]
+        public PostType States { get; set; }
 
-        [DataMember] public string Version { get; set; }
+        [DataMember]
+        public string Version { get; set; }
 
         [DataMember]
         public int DuplicatePhotos
@@ -312,15 +315,20 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
-        [DataMember] public string Name { get; set; }
+        [DataMember]
+        public string Name { get; set; }
 
-        [DataMember] public string Url { get; set; }
+        [DataMember]
+        public string Url { get; set; }
 
-        [DataMember] public string Location { get; set; }
+        [DataMember]
+        public string Location { get; set; }
 
-        [DataMember] public string ChildId { get; set; }
+        [DataMember]
+        public string ChildId { get; set; }
 
-        [DataMember] public BlogTypes BlogType { get; set; }
+        [DataMember]
+        public BlogTypes BlogType { get; set; }
 
         [DataMember]
         public int DownloadedImages
@@ -754,9 +762,11 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
-        [DataMember] public bool Dirty { get; set; }
+        [DataMember]
+        public bool Dirty { get; set; }
 
-        [DataMember] public Exception LoadError { get; set; }
+        [DataMember]
+        public Exception LoadError { get; set; }
 
         public List<string> Links
         {
@@ -786,11 +796,14 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
-        [DataMember] public string Description { get; set; }
+        [DataMember]
+        public string Description { get; set; }
 
-        [DataMember] public string Title { get; set; }
+        [DataMember]
+        public string Title { get; set; }
 
-        [DataMember] public ulong LastId { get; set; }
+        [DataMember]
+        public ulong LastId { get; set; }
 
         [DataMember]
         public bool SkipGif
@@ -901,7 +914,10 @@ namespace TumblThree.Domain.Models.Blogs
         public string DownloadLocation()
         {
             if (string.IsNullOrWhiteSpace(FileDownloadLocation))
+            {
                 return Path.Combine((Directory.GetParent(Location).FullName), Name);
+            }
+
             return FileDownloadLocation;
         }
 
@@ -920,8 +936,7 @@ namespace TumblThree.Domain.Models.Blogs
 
         private IBlog LoadCore(string fileLocation)
         {
-            using (var stream = new FileStream(fileLocation,
-                FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var stream = new FileStream(fileLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 var serializer = new DataContractJsonSerializer(GetType());
                 var blog = (IBlog)serializer.ReadObject(stream);
@@ -1014,4 +1029,5 @@ namespace TumblThree.Domain.Models.Blogs
             lockObjectDirectory = new object();
         }
     }
+#pragma warning restore SX1309 // Field names should begin with underscore
 }

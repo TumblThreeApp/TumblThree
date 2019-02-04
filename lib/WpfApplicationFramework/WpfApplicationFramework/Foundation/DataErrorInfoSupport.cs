@@ -23,7 +23,7 @@ namespace System.Waf.Foundation
         /// <exception cref="ArgumentNullException">instance must not be <c>null</c>.</exception>
         public DataErrorInfoSupport(object instance)
         {
-            if (instance == null) { throw new ArgumentNullException("instance"); }
+            if (instance == null) { throw new ArgumentNullException(nameof(instance)); }
             this.instance = instance;
         }
 

@@ -25,64 +25,64 @@ namespace TumblThree.Applications.Controllers
     [Export]
     internal class QueueController
     {
-        private readonly ICrawlerService crawlerService;
-        private readonly IDetailsService detailsService;
-        private readonly IFileDialogService fileDialogService;
-        private readonly IManagerService managerService;
-        private readonly IShellService shellService;
+        private readonly ICrawlerService _crawlerService;
+        private readonly IDetailsService _detailsService;
+        private readonly IFileDialogService _fileDialogService;
+        private readonly IManagerService _managerService;
+        private readonly IShellService _shellService;
 
-        private readonly DelegateCommand clearQueueCommand;
-        private readonly DelegateCommand openQueueCommand;
-        private readonly DelegateCommand removeSelectedCommand;
-        private readonly DelegateCommand saveQueueCommand;
-        private readonly DelegateCommand showBlogDetailsCommand;
+        private readonly DelegateCommand _clearQueueCommand;
+        private readonly DelegateCommand _openQueueCommand;
+        private readonly DelegateCommand _removeSelectedCommand;
+        private readonly DelegateCommand _saveQueueCommand;
+        private readonly DelegateCommand _showBlogDetailsCommand;
 
-        private readonly Lazy<QueueViewModel> queueViewModel;
+        private readonly Lazy<QueueViewModel> _queueViewModel;
 
-        private readonly FileType saveQueuelistFileType;
+        private readonly FileType _saveQueuelistFileType;
 
-        private readonly FileType openQueuelistFileType;
+        private readonly FileType _openQueuelistFileType;
 
         [ImportingConstructor]
         public QueueController(IFileDialogService fileDialogService, IShellService shellService, IDetailsService detailsService,
             IManagerService managerService, ICrawlerService crawlerService, Lazy<QueueViewModel> queueViewModel)
         {
-            this.fileDialogService = fileDialogService;
-            this.shellService = shellService;
-            this.queueViewModel = queueViewModel;
-            this.managerService = managerService;
-            this.crawlerService = crawlerService;
-            this.detailsService = detailsService;
-            removeSelectedCommand = new DelegateCommand(RemoveSelected, CanRemoveSelected);
-            showBlogDetailsCommand = new DelegateCommand(ShowBlogDetails);
-            openQueueCommand = new DelegateCommand(OpenList);
-            saveQueueCommand = new DelegateCommand(SaveList);
-            clearQueueCommand = new DelegateCommand(ClearList);
-            openQueuelistFileType = new FileType(Resources.Queuelist, SupportedFileTypes.QueueFileExtensions);
-            saveQueuelistFileType = new FileType(Resources.Queuelist, SupportedFileTypes.QueueFileExtensions.First());
+            _fileDialogService = fileDialogService;
+            _shellService = shellService;
+            _queueViewModel = queueViewModel;
+            _managerService = managerService;
+            _crawlerService = crawlerService;
+            _detailsService = detailsService;
+            _removeSelectedCommand = new DelegateCommand(RemoveSelected, CanRemoveSelected);
+            _showBlogDetailsCommand = new DelegateCommand(ShowBlogDetails);
+            _openQueueCommand = new DelegateCommand(OpenList);
+            _saveQueueCommand = new DelegateCommand(SaveList);
+            _clearQueueCommand = new DelegateCommand(ClearList);
+            _openQueuelistFileType = new FileType(Resources.Queuelist, SupportedFileTypes.QueueFileExtensions);
+            _saveQueuelistFileType = new FileType(Resources.Queuelist, SupportedFileTypes.QueueFileExtensions[0]);
         }
 
         public QueueSettings QueueSettings { get; set; }
 
         public QueueManager QueueManager { get; set; }
 
-        private QueueViewModel QueueViewModel => queueViewModel.Value;
+        private QueueViewModel QueueViewModel => _queueViewModel.Value;
 
         public void Initialize()
         {
             QueueViewModel.QueueManager = QueueManager;
-            QueueViewModel.RemoveSelectedCommand = removeSelectedCommand;
-            QueueViewModel.ShowBlogDetailsCommand = showBlogDetailsCommand;
-            QueueViewModel.OpenQueueCommand = openQueueCommand;
-            QueueViewModel.SaveQueueCommand = saveQueueCommand;
-            QueueViewModel.ClearQueueCommand = clearQueueCommand;
+            QueueViewModel.RemoveSelectedCommand = _removeSelectedCommand;
+            QueueViewModel.ShowBlogDetailsCommand = _showBlogDetailsCommand;
+            QueueViewModel.OpenQueueCommand = _openQueueCommand;
+            QueueViewModel.SaveQueueCommand = _saveQueueCommand;
+            QueueViewModel.ClearQueueCommand = _clearQueueCommand;
             QueueViewModel.InsertBlogFilesAction = InsertBlogFiles;
 
-            crawlerService.RemoveBlogFromQueueCommand = removeSelectedCommand;
+            _crawlerService.RemoveBlogFromQueueCommand = _removeSelectedCommand;
 
             QueueViewModel.PropertyChanged += QueueViewModelPropertyChanged;
 
-            shellService.QueueView = QueueViewModel.View;
+            _shellService.QueueView = QueueViewModel.View;
         }
 
         public void Run()
@@ -104,11 +104,8 @@ namespace TumblThree.Applications.Controllers
 
         private void RemoveSelected()
         {
-            QueueListItem[] queueItemsToExclude =
-                QueueViewModel.SelectedQueueItems.Except(new[] { QueueViewModel.SelectedQueueItem }).ToArray();
-            QueueListItem nextQueueItem =
-                CollectionHelper.GetNextElementOrDefault(QueueManager.Items.Except(queueItemsToExclude).ToArray(),
-                    QueueViewModel.SelectedQueueItem);
+            QueueListItem[] queueItemsToExclude = QueueViewModel.SelectedQueueItems.Except(new[] { QueueViewModel.SelectedQueueItem }).ToArray();
+            QueueListItem nextQueueItem = CollectionHelper.GetNextElementOrDefault(QueueManager.Items.Except(queueItemsToExclude).ToArray(), QueueViewModel.SelectedQueueItem);
 
             QueueManager.RemoveItems(QueueViewModel.SelectedQueueItems);
             QueueViewModel.SelectedQueueItem = nextQueueItem ?? QueueManager.Items.LastOrDefault();
@@ -116,8 +113,8 @@ namespace TumblThree.Applications.Controllers
 
         private void ShowBlogDetails()
         {
-            detailsService.SelectBlogFiles(QueueViewModel.SelectedQueueItems.Select(x => x.Blog).ToArray());
-            shellService.ShowDetailsView();
+            _detailsService.SelectBlogFiles(QueueViewModel.SelectedQueueItems.Select(x => x.Blog).ToArray());
+            _shellService.ShowDetailsView();
         }
 
         private void InsertBlogFiles(int index, IEnumerable<IBlog> blogFiles) =>
@@ -125,7 +122,7 @@ namespace TumblThree.Applications.Controllers
 
         private void OpenList()
         {
-            FileDialogResult result = fileDialogService.ShowOpenFileDialog(shellService.ShellView, openQueuelistFileType);
+            FileDialogResult result = _fileDialogService.ShowOpenFileDialog(_shellService.ShellView, _openQueuelistFileType);
             if (!result.IsValid)
             {
                 return;
@@ -149,7 +146,7 @@ namespace TumblThree.Applications.Controllers
             catch (Exception ex)
             {
                 Logger.Error("QueueController:OpenListCore: {0}", ex);
-                shellService.ShowError(ex, Resources.CouldNotLoadQueuelist);
+                _shellService.ShowError(ex, Resources.CouldNotLoadQueuelist);
                 return;
             }
 
@@ -160,29 +157,25 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
-                InsertBlogFiles(index,
-                    names.Zip(blogTypes, Tuple.Create).Select(x =>
-                        managerService.BlogFiles.First(blogs =>
-                            blogs.Name.Equals(x.Item1) && blogs.BlogType.Equals(x.Item2))));
+                InsertBlogFiles(index, names.Zip(blogTypes, Tuple.Create).Select(x => _managerService.BlogFiles.First(blogs => blogs.Name.Equals(x.Item1) && blogs.BlogType.Equals(x.Item2))));
             }
             catch (Exception ex)
             {
                 Logger.Error("QueueController.InsertFileCore: {0}", ex);
-                shellService.ShowError(ex, Resources.CouldNotLoadQueuelist);
+                _shellService.ShowError(ex, Resources.CouldNotLoadQueuelist);
             }
         }
 
         private void SaveList()
         {
-            FileDialogResult result = fileDialogService.ShowSaveFileDialog(shellService.ShellView, saveQueuelistFileType);
+            FileDialogResult result = _fileDialogService.ShowSaveFileDialog(_shellService.ShellView, _saveQueuelistFileType);
             if (!result.IsValid)
             {
                 return;
             }
 
             var queueList = new QueueSettings();
-            queueList.ReplaceAll(QueueManager.Items.Select(item => item.Blog.Name).ToList(),
-                QueueManager.Items.Select(item => item.Blog.BlogType).ToList());
+            queueList.ReplaceAll(QueueManager.Items.Select(item => item.Blog.Name).ToList(), QueueManager.Items.Select(item => item.Blog.BlogType).ToList());
 
             try
             {
@@ -205,7 +198,7 @@ namespace TumblThree.Applications.Controllers
             catch (Exception ex)
             {
                 Logger.Error("QueueController:SaveList: {0}", ex);
-                shellService.ShowError(ex, Resources.CouldNotSaveQueueList);
+                _shellService.ShowError(ex, Resources.CouldNotSaveQueueList);
             }
         }
 
@@ -219,6 +212,6 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
-        private void UpdateCommands() => removeSelectedCommand.RaiseCanExecuteChanged();
+        private void UpdateCommands() => _removeSelectedCommand.RaiseCanExecuteChanged();
     }
 }

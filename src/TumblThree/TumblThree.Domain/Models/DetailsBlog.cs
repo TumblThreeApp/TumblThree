@@ -187,7 +187,8 @@ namespace TumblThree.Domain.Models
             }
         }
 
-        [DataMember] public new bool? Dirty { get; set; }
+        [DataMember]
+        public new bool? Dirty { get; set; }
 
         [DataMember]
         public new bool? SkipGif

@@ -17,71 +17,71 @@ namespace TumblThree.Applications.ViewModels
     [Export]
     public class ManagerViewModel : ViewModel<IManagerView>
     {
-        private ICommand copyUrlCommand;
-        private ICommand checkStatusCommand;
-        private ICommand showDetailsCommand;
-        private ICommand showFilesCommand;
-        private ICommand visitBlogCommand;
+        private ICommand _copyUrlCommand;
+        private ICommand _checkStatusCommand;
+        private ICommand _showDetailsCommand;
+        private ICommand _showFilesCommand;
+        private ICommand _visitBlogCommand;
 
-        private readonly Lazy<ICrawlerService> crawlerService;
-        private readonly Lazy<IManagerService> managerService;
-        private readonly Lazy<ISelectionService> selectionService;
-        private Blog selectedBlogFile;
+        private readonly Lazy<ICrawlerService> _crawlerService;
+        private readonly Lazy<IManagerService> _managerService;
+        private readonly Lazy<ISelectionService> _selectionService;
+        private Blog _selectedBlogFile;
 
         [ImportingConstructor]
-        public ManagerViewModel(IManagerView view, IShellService shellService, Lazy<ISelectionService> selectionService,
-            Lazy<ICrawlerService> crawlerService, Lazy<IManagerService> managerService) : base(view)
+        public ManagerViewModel(IManagerView view, IShellService shellService, Lazy<ISelectionService> selectionService, Lazy<ICrawlerService> crawlerService, Lazy<IManagerService> managerService)
+            : base(view)
         {
             ShellService = shellService;
-            this.selectionService = selectionService;
-            this.crawlerService = crawlerService;
-            this.managerService = managerService;
+            _selectionService = selectionService;
+            _crawlerService = crawlerService;
+            _managerService = managerService;
 
             ShellService.Closing += ViewClosed;
         }
 
-        public ISelectionService SelectionService => selectionService.Value;
+        public ISelectionService SelectionService => _selectionService.Value;
 
         public IShellService ShellService { get; }
 
-        public ICrawlerService CrawlerService => crawlerService.Value;
+        public ICrawlerService CrawlerService => _crawlerService.Value;
 
-        public IManagerService ManagerService => managerService.Value;
+        public IManagerService ManagerService => _managerService.Value;
 
         public ICommand ShowFilesCommand
         {
-            get => showFilesCommand;
-            set => SetProperty(ref showFilesCommand, value);
+            get => _showFilesCommand;
+            set => SetProperty(ref _showFilesCommand, value);
         }
 
         public ICommand VisitBlogCommand
         {
-            get => visitBlogCommand;
-            set => SetProperty(ref visitBlogCommand, value);
+            get => _visitBlogCommand;
+            set => SetProperty(ref _visitBlogCommand, value);
         }
 
         public ICommand ShowDetailsCommand
         {
-            get => showDetailsCommand;
-            set => SetProperty(ref showDetailsCommand, value);
+            get => _showDetailsCommand;
+            set => SetProperty(ref _showDetailsCommand, value);
         }
 
         public ICommand CopyUrlCommand
         {
-            get => copyUrlCommand;
-            set => SetProperty(ref copyUrlCommand, value);
+            get => _copyUrlCommand;
+            set => SetProperty(ref _copyUrlCommand, value);
         }
 
         public ICommand CheckStatusCommand
         {
-            get => checkStatusCommand;
-            set => SetProperty(ref checkStatusCommand, value);
+            get => _checkStatusCommand;
+            set => SetProperty(ref _checkStatusCommand, value);
         }
 
         public Blog SelectedBlogFile
         {
-            get => selectedBlogFile;
-            set => SetProperty(ref selectedBlogFile, value);
+            get => _selectedBlogFile;
+            set => SetProperty(ref _selectedBlogFile, value);
         }
 
         public IReadOnlyObservableList<QueueListItem> QueueItems { get; set; }
@@ -93,8 +93,9 @@ namespace TumblThree.Applications.ViewModels
             try
             {
                 if (ShellService.Settings.ColumnSettings.Count != 0)
+                {
                     ViewCore.DataGridColumnRestore = ShellService.Settings.ColumnSettings;
-                
+                }
             }
             catch (Exception ex)
             {
@@ -106,8 +107,10 @@ namespace TumblThree.Applications.ViewModels
 
         public void QueueItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add | e.Action == NotifyCollectionChangedAction.Remove)            
+            if (e.Action == NotifyCollectionChangedAction.Add | e.Action == NotifyCollectionChangedAction.Remove)
+            {
                 RaisePropertyChanged("QueueItems");
+            }
         }
     }
 }

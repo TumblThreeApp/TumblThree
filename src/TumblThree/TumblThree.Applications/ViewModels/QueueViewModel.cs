@@ -15,67 +15,68 @@ namespace TumblThree.Applications.ViewModels
     [Export]
     public class QueueViewModel : ViewModel<IQueueView>
     {
-        private ICommand clearQueueCommand;
-        private ICommand openQueueCommand;
-        private ICommand removeSelectedCommand;
-        private ICommand saveQueueCommand;
-        private ICommand showBlogDetailsCommand;
+        private ICommand _clearQueueCommand;
+        private ICommand _openQueueCommand;
+        private ICommand _removeSelectedCommand;
+        private ICommand _saveQueueCommand;
+        private ICommand _showBlogDetailsCommand;
 
-        private QueueManager queueManager;
-        private QueueListItem selectedQueueItem;
-        private readonly ObservableCollection<QueueListItem> selectedQueueItems;
+        private QueueManager _queueManager;
+        private QueueListItem _selectedQueueItem;
+        private readonly ObservableCollection<QueueListItem> _selectedQueueItems;
 
         [ImportingConstructor]
-        public QueueViewModel(IQueueView view, ICrawlerService crawlerService) : base(view)
+        public QueueViewModel(IQueueView view, ICrawlerService crawlerService)
+            : base(view)
         {
-            selectedQueueItems = new ObservableCollection<QueueListItem>();
+            _selectedQueueItems = new ObservableCollection<QueueListItem>();
             CrawlerService = crawlerService;
         }
 
         public QueueManager QueueManager
         {
-            get => queueManager;
-            set => SetProperty(ref queueManager, value);
+            get => _queueManager;
+            set => SetProperty(ref _queueManager, value);
         }
 
         public ICrawlerService CrawlerService { get; }
 
         public QueueListItem SelectedQueueItem
         {
-            get => selectedQueueItem;
-            set => SetProperty(ref selectedQueueItem, value);
+            get => _selectedQueueItem;
+            set => SetProperty(ref _selectedQueueItem, value);
         }
 
-        public IList<QueueListItem> SelectedQueueItems => selectedQueueItems;
+        public IList<QueueListItem> SelectedQueueItems => _selectedQueueItems;
 
         public ICommand RemoveSelectedCommand
         {
-            get => removeSelectedCommand;
-            set => SetProperty(ref removeSelectedCommand, value);
+            get => _removeSelectedCommand;
+            set => SetProperty(ref _removeSelectedCommand, value);
         }
 
         public ICommand ShowBlogDetailsCommand
         {
-            get => showBlogDetailsCommand;
-            set => SetProperty(ref showBlogDetailsCommand, value);
+            get => _showBlogDetailsCommand;
+            set => SetProperty(ref _showBlogDetailsCommand, value);
         }
 
         public ICommand OpenQueueCommand
         {
-            get => openQueueCommand;
-            set => SetProperty(ref openQueueCommand, value);
+            get => _openQueueCommand;
+            set => SetProperty(ref _openQueueCommand, value);
         }
 
         public ICommand SaveQueueCommand
         {
-            get => saveQueueCommand;
-            set => SetProperty(ref saveQueueCommand, value);
+            get => _saveQueueCommand;
+            set => SetProperty(ref _saveQueueCommand, value);
         }
 
         public ICommand ClearQueueCommand
         {
-            get => clearQueueCommand;
-            set => SetProperty(ref clearQueueCommand, value);
+            get => _clearQueueCommand;
+            set => SetProperty(ref _clearQueueCommand, value);
         }
 
         public Action<int, IEnumerable<IBlog>> InsertBlogFilesAction { get; set; }

@@ -77,7 +77,7 @@ namespace System.Waf.Applications
         /// <exception cref="ArgumentNullException">The argument recentFiles must not be null.</exception>
         public void Load(IEnumerable<RecentFile> recentFiles)
         {
-            if (recentFiles == null) { throw new ArgumentNullException("recentFiles"); }
+            if (recentFiles == null) { throw new ArgumentNullException(nameof(recentFiles)); }
 
             Clear();
             AddRange(recentFiles.Take(maxFilesNumber));
@@ -124,7 +124,7 @@ namespace System.Waf.Applications
         /// <exception cref="ArgumentException">The argument recentFile was not found in the recent files list.</exception>
         public void Remove(RecentFile recentFile)
         {
-            if (recentFile == null) { throw new ArgumentNullException("recentFile"); }
+            if (recentFile == null) { throw new ArgumentNullException(nameof(recentFile)); }
             if (recentFiles.Remove(recentFile))
             {
                 recentFile.PropertyChanged -= RecentFilePropertyChanged;
@@ -139,7 +139,7 @@ namespace System.Waf.Applications
 
         void IXmlSerializable.ReadXml(XmlReader reader)
         {
-            if (reader == null) { throw new ArgumentNullException("reader"); }
+            if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
 
             reader.ReadToDescendant("RecentFile");
             while (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "RecentFile")
@@ -153,7 +153,7 @@ namespace System.Waf.Applications
 
         void IXmlSerializable.WriteXml(XmlWriter writer)
         {
-            if (writer == null) { throw new ArgumentNullException("writer"); }
+            if (writer == null) { throw new ArgumentNullException(nameof(writer)); }
 
             foreach (RecentFile recentFile in recentFiles)
             {

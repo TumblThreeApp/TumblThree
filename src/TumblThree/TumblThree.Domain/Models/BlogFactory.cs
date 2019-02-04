@@ -30,15 +30,30 @@ namespace TumblThree.Domain.Models
         {
             blogUrl = urlValidator.AddHttpsProtocol(blogUrl);
             if (urlValidator.IsValidTumblrUrl(blogUrl))
+            {
                 return TumblrBlog.Create(blogUrl, path);
+            }
+
             if (urlValidator.IsValidTumblrHiddenUrl(blogUrl))
+            {
                 return TumblrHiddenBlog.Create(blogUrl, path);
+            }
+
             if (urlValidator.IsValidTumblrLikedByUrl(blogUrl))
+            {
                 return TumblrLikedByBlog.Create(blogUrl, path);
+            }
+
             if (urlValidator.IsValidTumblrSearchUrl(blogUrl))
+            {
                 return TumblrSearchBlog.Create(blogUrl, path);
+            }
+
             if (urlValidator.IsValidTumblrTagSearchUrl(blogUrl))
+            {
                 return TumblrTagSearchBlog.Create(blogUrl, path);
+            }
+
             throw new ArgumentException("Website is not supported!", nameof(blogUrl));
         }
     }

@@ -35,9 +35,9 @@ namespace TumblThree.Applications.Crawler
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
             IPostQueue<TumblrPost> postQueue, IBlog blog)
-            : base(shellService, crawlerService, ct, pt, progress, webRequestFactory, cookieService, tumblrParser, imgurParser,
-                gfycatParser, webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue,
-                blog)
+            : base(shellService, crawlerService, pt, progress, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
+                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog,
+                ct)
         {
             this.downloader = downloader;
         }
@@ -68,7 +68,7 @@ namespace TumblThree.Applications.Crawler
 
             blog.Save();
 
-            UpdateProgressQueueInformation("");
+            UpdateProgressQueueInformation(string.Empty);
         }
 
         private async Task GetUrlsAsync()
@@ -130,7 +130,9 @@ namespace TumblThree.Applications.Crawler
             catch (WebException webException)
             {
                 if (webException.Status == WebExceptionStatus.RequestCanceled)
+                {
                     return;
+                }
 
                 Logger.Error("TumblrLikedByCrawler:IsBlogOnlineAsync:WebException {0}", webException);
                 shellService.ShowError(webException, Resources.BlogIsOffline, blog.Name);
@@ -146,7 +148,9 @@ namespace TumblThree.Applications.Crawler
         private long CreateStartPagination()
         {
             if (string.IsNullOrEmpty(blog.DownloadTo))
+            {
                 return DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
 
             DateTime downloadTo = DateTime.ParseExact(blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
                 DateTimeStyles.None);
@@ -183,7 +187,9 @@ namespace TumblThree.Applications.Crawler
             while (true)
             {
                 if (CheckIfShouldStop())
+                {
                     return;
+                }
 
                 CheckIfShouldPause();
 
@@ -207,7 +213,9 @@ namespace TumblThree.Applications.Crawler
                 pagination = ExtractNextPageLink(document);
                 crawlerNumber++;
                 if (!CheckIfWithinTimespan(pagination))
+                {
                     return;
+                }
             }
         }
 
@@ -218,16 +226,17 @@ namespace TumblThree.Applications.Crawler
             // <div id="pagination" class="pagination "><a id="previous_page_link" href="/liked/by/wallpaperfx/page/3/-1457140452" class="previous button chrome">Previous</a>
             // <a id="next_page_link" href="/liked/by/wallpaperfx/page/5/1457139681" class="next button chrome blue">Next</a></div></div>
 
-            long unixTime = 0;
-            var pagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
-            long.TryParse(Regex.Match(document, pagination).Groups[3].Value, out unixTime);
+            const string pagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
+            long.TryParse(Regex.Match(document, pagination).Groups[3].Value, out var unixTime);
             return unixTime;
         }
 
         private bool CheckIfWithinTimespan(long pagination)
         {
             if (string.IsNullOrEmpty(blog.DownloadFrom))
+            {
                 return true;
+            }
 
             DateTime downloadFrom = DateTime.ParseExact(blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
                 DateTimeStyles.None);
@@ -238,22 +247,32 @@ namespace TumblThree.Applications.Crawler
         private void AddPhotoUrlToDownloadList(string document)
         {
             if (!blog.DownloadPhoto)
+            {
                 return;
+            }
+
             AddTumblrPhotoUrl(document);
 
             if (blog.RegExPhotos)
+            {
                 AddGenericPhotoUrl(document);
+            }
         }
 
         private void AddVideoUrlToDownloadList(string document)
         {
             if (!blog.DownloadVideo)
+            {
                 return;
+            }
+
             AddTumblrVideoUrl(document);
             AddInlineTumblrVideoUrl(document, tumblrParser.GetTumblrVVideoUrlRegex());
 
             if (blog.RegExVideos)
+            {
                 AddGenericVideoUrl(document);
+            }
         }
     }
 }

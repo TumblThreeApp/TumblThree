@@ -15,33 +15,34 @@ using TumblThree.Domain.Queue;
 
 namespace TumblThree.Applications.Controllers
 {
-    [Export(typeof(IModuleController)), Export]
+    [Export(typeof(IModuleController))]
+    [Export]
     internal class ModuleController : IModuleController
     {
-        private const string appSettingsFileName = "Settings.json";
-        private const string managerSettingsFileName = "Manager.json";
-        private const string queueSettingsFileName = "Queuelist.json";
-        private const string cookiesFileName = "Cookies.json";
+        private const string AppSettingsFileName = "Settings.json";
+        private const string ManagerSettingsFileName = "Manager.json";
+        private const string QueueSettingsFileName = "Queuelist.json";
+        private const string CookiesFileName = "Cookies.json";
 
-        private readonly ISharedCookieService cookieService;
-        private readonly IEnvironmentService environmentService;
-        private readonly Lazy<ShellService> shellService;
+        private readonly ISharedCookieService _cookieService;
+        private readonly IEnvironmentService _environmentService;
+        private readonly Lazy<ShellService> _shellService;
 
-        private readonly Lazy<CrawlerController> crawlerController;
-        private readonly Lazy<DetailsController> detailsController;
-        private readonly Lazy<ManagerController> managerController;
-        private readonly Lazy<QueueController> queueController;
+        private readonly Lazy<CrawlerController> _crawlerController;
+        private readonly Lazy<DetailsController> _detailsController;
+        private readonly Lazy<ManagerController> _managerController;
+        private readonly Lazy<QueueController> _queueController;
 
-        private readonly QueueManager queueManager;
-        private readonly ISettingsProvider settingsProvider;
-        private readonly IConfirmTumblrPrivacyConsent confirmTumblrPrivacyConsent;
+        private readonly QueueManager _queueManager;
+        private readonly ISettingsProvider _settingsProvider;
+        private readonly IConfirmTumblrPrivacyConsent _confirmTumblrPrivacyConsent;
 
-        private readonly Lazy<ShellViewModel> shellViewModel;
+        private readonly Lazy<ShellViewModel> _shellViewModel;
 
-        private AppSettings appSettings;
-        private ManagerSettings managerSettings;
-        private QueueSettings queueSettings;
-        private List<Cookie> cookieList;
+        private AppSettings _appSettings;
+        private ManagerSettings _managerSettings;
+        private QueueSettings _queueSettings;
+        private List<Cookie> _cookieList;
 
         [ImportingConstructor]
         public ModuleController(Lazy<ShellService> shellService, IEnvironmentService environmentService,
@@ -50,62 +51,64 @@ namespace TumblThree.Applications.Controllers
             Lazy<DetailsController> detailsController,
             Lazy<CrawlerController> crawlerController, Lazy<ShellViewModel> shellViewModel)
         {
-            this.shellService = shellService;
-            this.environmentService = environmentService;
-            this.confirmTumblrPrivacyConsent = confirmTumblrPrivacyConsent;
-            this.settingsProvider = settingsProvider;
-            this.cookieService = cookieService;
-            this.detailsController = detailsController;
-            this.managerController = managerController;
-            this.queueController = queueController;
-            this.crawlerController = crawlerController;
-            this.shellViewModel = shellViewModel;
-            queueManager = new QueueManager();
+            _shellService = shellService;
+            _environmentService = environmentService;
+            _confirmTumblrPrivacyConsent = confirmTumblrPrivacyConsent;
+            _settingsProvider = settingsProvider;
+            _cookieService = cookieService;
+            _detailsController = detailsController;
+            _managerController = managerController;
+            _queueController = queueController;
+            _crawlerController = crawlerController;
+            _shellViewModel = shellViewModel;
+            _queueManager = new QueueManager();
         }
 
-        private ShellService ShellService => shellService.Value;
+        private ShellService ShellService => _shellService.Value;
 
-        private ManagerController ManagerController => managerController.Value;
+        private ManagerController ManagerController => _managerController.Value;
 
-        private QueueController QueueController => queueController.Value;
+        private QueueController QueueController => _queueController.Value;
 
-        private DetailsController DetailsController => detailsController.Value;
+        private DetailsController DetailsController => _detailsController.Value;
 
-        private CrawlerController CrawlerController => crawlerController.Value;
+        private CrawlerController CrawlerController => _crawlerController.Value;
 
-        private ShellViewModel ShellViewModel => shellViewModel.Value;
+        private ShellViewModel ShellViewModel => _shellViewModel.Value;
 
         public void Initialize()
         {
-            string savePath = environmentService.AppSettingsPath;
-            if (CheckIfPortableMode(appSettingsFileName))
+            string savePath = _environmentService.AppSettingsPath;
+            if (CheckIfPortableMode(AppSettingsFileName))
+            {
                 savePath = AppDomain.CurrentDomain.BaseDirectory;
+            }
 
-            appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, appSettingsFileName));
-            queueSettings = LoadSettings<QueueSettings>(Path.Combine(savePath, queueSettingsFileName));
-            managerSettings = LoadSettings<ManagerSettings>(Path.Combine(savePath, managerSettingsFileName));
-            cookieList = LoadSettings<List<Cookie>>(Path.Combine(savePath, cookiesFileName));
+            _appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, AppSettingsFileName));
+            _queueSettings = LoadSettings<QueueSettings>(Path.Combine(savePath, QueueSettingsFileName));
+            _managerSettings = LoadSettings<ManagerSettings>(Path.Combine(savePath, ManagerSettingsFileName));
+            _cookieList = LoadSettings<List<Cookie>>(Path.Combine(savePath, CookiesFileName));
 
-            ShellService.Settings = appSettings;
+            ShellService.Settings = _appSettings;
             ShellService.ShowErrorAction = ShellViewModel.ShowError;
             ShellService.ShowDetailsViewAction = ShowDetailsView;
             ShellService.ShowQueueViewAction = ShowQueueView;
             ShellService.UpdateDetailsViewAction = UpdateDetailsView;
             ShellService.InitializeOAuthManager();
 
-            ManagerController.QueueManager = queueManager;
-            ManagerController.ManagerSettings = managerSettings;
+            ManagerController.QueueManager = _queueManager;
+            ManagerController.ManagerSettings = _managerSettings;
             ManagerController.BlogManagerFinishedLoadingLibrary += OnBlogManagerFinishedLoadingLibrary;
-            QueueController.QueueSettings = queueSettings;
-            QueueController.QueueManager = queueManager;
-            DetailsController.QueueManager = queueManager;
-            CrawlerController.QueueManager = queueManager;
+            QueueController.QueueSettings = _queueSettings;
+            QueueController.QueueManager = _queueManager;
+            DetailsController.QueueManager = _queueManager;
+            CrawlerController.QueueManager = _queueManager;
 
             Task managerControllerInit = ManagerController.InitializeAsync();
             QueueController.Initialize();
             DetailsController.Initialize();
             CrawlerController.Initialize();
-            cookieService.SetUriCookie(cookieList);
+            _cookieService.SetUriCookie(_cookieList);
         }
 
         public async void Run()
@@ -116,7 +119,7 @@ namespace TumblThree.Applications.Controllers
             // Let the UI to initialize first before loading the queuelist.
             await Dispatcher.CurrentDispatcher.InvokeAsync(ManagerController.RestoreColumn, DispatcherPriority.ApplicationIdle);
             await Dispatcher.CurrentDispatcher.InvokeAsync(QueueController.Run, DispatcherPriority.ApplicationIdle);
-            await confirmTumblrPrivacyConsent.ConfirmPrivacyConsentAsync();
+            await _confirmTumblrPrivacyConsent.ConfirmPrivacyConsentAsync();
         }
 
         public void Shutdown()
@@ -126,14 +129,16 @@ namespace TumblThree.Applications.Controllers
             ManagerController.Shutdown();
             CrawlerController.Shutdown();
 
-            string savePath = environmentService.AppSettingsPath;
-            if (appSettings.PortableMode)
+            string savePath = _environmentService.AppSettingsPath;
+            if (_appSettings.PortableMode)
+            {
                 savePath = AppDomain.CurrentDomain.BaseDirectory;
+            }
 
-            SaveSettings(Path.Combine(savePath, appSettingsFileName), appSettings);
-            SaveSettings(Path.Combine(savePath, queueSettingsFileName), queueSettings);
-            SaveSettings(Path.Combine(savePath, managerSettingsFileName), managerSettings);
-            SaveSettings(Path.Combine(savePath, cookiesFileName), new List<Cookie>(cookieService.GetAllCookies()));
+            SaveSettings(Path.Combine(savePath, AppSettingsFileName), _appSettings);
+            SaveSettings(Path.Combine(savePath, QueueSettingsFileName), _queueSettings);
+            SaveSettings(Path.Combine(savePath, ManagerSettingsFileName), _managerSettings);
+            SaveSettings(Path.Combine(savePath, CookiesFileName), new List<Cookie>(_cookieService.GetAllCookies()));
         }
 
         private void OnBlogManagerFinishedLoadingLibrary(object sender, EventArgs e)
@@ -150,7 +155,7 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
-                return settingsProvider.LoadSettings<T>(fileName);
+                return _settingsProvider.LoadSettings<T>(fileName);
             }
             catch (Exception ex)
             {
@@ -163,7 +168,7 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
-                settingsProvider.SaveSettings(fileName, settings);
+                _settingsProvider.SaveSettings(fileName, settings);
             }
             catch (Exception ex)
             {
@@ -184,7 +189,9 @@ namespace TumblThree.Applications.Controllers
         private void UpdateDetailsView()
         {
             if (!ShellViewModel.IsQueueViewVisible)
+            {
                 ShellViewModel.IsDetailsViewVisible = true;
+            }
         }
     }
 }

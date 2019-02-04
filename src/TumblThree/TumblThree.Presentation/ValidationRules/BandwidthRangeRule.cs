@@ -22,6 +22,7 @@ namespace TumblThree.Presentation.ValidationRules
             {
                 return new ValidationResult(false, string.Format(CultureInfo.CurrentCulture, Resources.IntTypeError));
             }
+
             return new ValidationResult(false, string.Format(CultureInfo.CurrentCulture, Resources.BandwidthRangeError));
         }
     }

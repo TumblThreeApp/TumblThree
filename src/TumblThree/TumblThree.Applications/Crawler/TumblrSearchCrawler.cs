@@ -36,9 +36,9 @@ namespace TumblThree.Applications.Crawler
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
             IPostQueue<TumblrPost> postQueue, IBlog blog)
-            : base(shellService, crawlerService, ct, pt, progress, webRequestFactory, cookieService, tumblrParser, imgurParser,
-                gfycatParser, webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue,
-                blog)
+            : base(shellService, crawlerService, pt, progress, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
+                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog,
+                ct)
         {
             this.downloader = downloader;
         }
@@ -69,7 +69,7 @@ namespace TumblThree.Applications.Crawler
 
             blog.Save();
 
-            UpdateProgressQueueInformation("");
+            UpdateProgressQueueInformation(string.Empty);
         }
 
         private async Task GetUrlsAsync()
@@ -117,7 +117,9 @@ namespace TumblThree.Applications.Crawler
         private async Task<string> GetSearchPageAsync(int pageNumber)
         {
             if (shellService.Settings.LimitConnections)
+            {
                 crawlerService.Timeconstraint.Acquire();
+            }
 
             return await RequestPostAsync(pageNumber);
         }
@@ -155,7 +157,9 @@ namespace TumblThree.Applications.Crawler
             while (true)
             {
                 if (CheckIfShouldStop())
+                {
                     return;
+                }
 
                 CheckIfShouldPause();
 
@@ -177,7 +181,9 @@ namespace TumblThree.Applications.Crawler
                 }
 
                 if (!string.IsNullOrEmpty(blog.DownloadPages))
+                {
                     return;
+                }
 
                 Interlocked.Increment(ref numberOfPagesCrawled);
                 UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
@@ -189,22 +195,32 @@ namespace TumblThree.Applications.Crawler
         private void AddPhotoUrlToDownloadList(string document)
         {
             if (!blog.DownloadPhoto)
+            {
                 return;
+            }
+
             AddTumblrPhotoUrl(document);
 
             if (blog.RegExPhotos)
+            {
                 AddGenericPhotoUrl(document);
+            }
         }
 
         private void AddVideoUrlToDownloadList(string document)
         {
             if (!blog.DownloadVideo)
+            {
                 return;
+            }
+
             AddTumblrVideoUrl(document);
             AddInlineTumblrVideoUrl(document, tumblrParser.GetTumblrVVideoUrlRegex());
 
             if (blog.RegExVideos)
+            {
                 AddGenericVideoUrl(document);
+            }
         }
     }
 }

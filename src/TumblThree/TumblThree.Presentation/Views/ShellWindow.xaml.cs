@@ -38,6 +38,7 @@ namespace TumblThree.Presentation.Views
         public bool IsMaximized
         {
             get { return WindowState == WindowState.Maximized; }
+
             set
             {
                 if (value)

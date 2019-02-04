@@ -58,18 +58,24 @@ namespace TumblThree.Applications.Downloader
         protected override async Task<bool> DownloadBinaryPostAsync(TumblrPost downloadItem)
         {
             if (!(downloadItem is PhotoPost))
+            {
                 return await base.DownloadBinaryPostAsync(downloadItem);
+            }
 
             string url = Url(downloadItem);
 
             if (blog.ForceSize)
+            {
                 url = ResizeTumblrImageUrl(url);
+            }
 
             foreach (string host in shellService.Settings.TumblrHosts)
             {
                 url = BuildRawImageUrl(url, host);
                 if (await base.DownloadBinaryPostAsync(new PhotoPost(url, downloadItem.Id, downloadItem.Date)))
+                {
                     return true;
+                }
             }
 
             return await base.DownloadBinaryPostAsync(downloadItem);
@@ -84,7 +90,9 @@ namespace TumblThree.Applications.Downloader
         public string BuildRawImageUrl(string url, string host)
         {
             if (shellService.Settings.ImageSize != "raw")
+            {
                 return url;
+            }
 
             string path = new Uri(url).LocalPath.TrimStart('/');
             var imageDimension = new Regex("_\\d+");

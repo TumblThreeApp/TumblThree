@@ -11,8 +11,8 @@ namespace System.Waf.Applications
 
         public PropertyChangedEventListener(INotifyPropertyChanged source, PropertyChangedEventHandler handler)
         {
-            if (source == null) { throw new ArgumentNullException("source"); }
-            if (handler == null) { throw new ArgumentNullException("handler"); }
+            if (source == null) { throw new ArgumentNullException(nameof(source)); }
+            if (handler == null) { throw new ArgumentNullException(nameof(handler)); }
             this.source = source;
             this.handler = handler;
         }

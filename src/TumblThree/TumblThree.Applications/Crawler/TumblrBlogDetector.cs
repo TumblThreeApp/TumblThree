@@ -9,7 +9,7 @@ using TumblThree.Applications.Services;
 namespace TumblThree.Applications.Crawler
 {
     [Export(typeof(ITumblrBlogDetector))]
-    class TumblrBlogDetector : ITumblrBlogDetector
+    public class TumblrBlogDetector : ITumblrBlogDetector
     {
         private readonly IWebRequestFactory webRequestFactory;
         private readonly IShellService shellService;

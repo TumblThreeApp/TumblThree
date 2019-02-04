@@ -37,10 +37,11 @@ namespace TumblThree.Applications.Crawler
             this.managerService = managerService;
             this.shellService = shellService;
             this.cookieService = cookieService;
-            this.settings = shellService.Settings;
+            settings = shellService.Settings;
         }
 
-        [ImportMany(typeof(ICrawler))] private IEnumerable<Lazy<ICrawler, ICrawlerData>> DownloaderFactoryLazy { get; set; }
+        [ImportMany(typeof(ICrawler))]
+        private IEnumerable<Lazy<ICrawler, ICrawlerData>> DownloaderFactoryLazy { get; set; }
 
         public ICrawler GetCrawler(IBlog blog)
         {
@@ -55,7 +56,7 @@ namespace TumblThree.Applications.Crawler
             throw new ArgumentException("Website is not supported!", "blogType");
         }
 
-        public ICrawler GetCrawler(IBlog blog, CancellationToken ct, PauseToken pt, IProgress<DownloadProgress> progress)
+        public ICrawler GetCrawler(IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
         {
             IPostQueue<TumblrPost> postQueue = GetProducerConsumerCollection();
             IFiles files = LoadFiles(blog);
@@ -68,7 +69,7 @@ namespace TumblThree.Applications.Crawler
                     IPostQueue<TumblrCrawlerData<Post>> jsonApiQueue = GetJsonQueue<Post>();
                     return new TumblrBlogCrawler(shellService, ct, pt, progress, crawlerService, webRequestFactory, cookieService,
                         GetTumblrDownloader(ct, pt, progress, blog, files, postQueue),
-                        GetTumblrJsonDownloader(ct, pt, jsonApiQueue, blog), GetTumblrApiJsonToTextParser(blog), GetTumblrParser(),
+                        GetTumblrJsonDownloader(jsonApiQueue, blog, pt, ct), GetTumblrApiJsonToTextParser(blog), GetTumblrParser(),
                         imgurParser, gfycatParser, GetWebmshareParser(), GetMixtapeParser(), GetUguuParser(), GetSafeMoeParser(),
                         GetLoliSafeParser(), GetCatBoxParser(), postQueue, jsonApiQueue, blog);
                 case BlogTypes.tmblrpriv:
@@ -76,7 +77,7 @@ namespace TumblThree.Applications.Crawler
                         GetJsonQueue<DataModels.TumblrSvcJson.Post>();
                     return new TumblrHiddenCrawler(shellService, ct, pt, progress, crawlerService, webRequestFactory,
                         cookieService, GetTumblrDownloader(ct, pt, progress, blog, files, postQueue),
-                        GetTumblrJsonDownloader(ct, pt, jsonSvcQueue, blog), GetTumblrSvcJsonToTextParser(blog), GetTumblrParser(),
+                        GetTumblrJsonDownloader(jsonSvcQueue, blog, pt, ct), GetTumblrSvcJsonToTextParser(blog), GetTumblrParser(),
                         imgurParser, gfycatParser, GetWebmshareParser(), GetMixtapeParser(), GetUguuParser(), GetSafeMoeParser(),
                         GetLoliSafeParser(), GetCatBoxParser(), postQueue, jsonSvcQueue, blog);
                 case BlogTypes.tlb:
@@ -177,14 +178,14 @@ namespace TumblThree.Applications.Crawler
                 crawlerService, blog, files);
         }
 
-        private TumblrXmlDownloader GetTumblrXmlDownloader(CancellationToken ct, PauseToken pt,
-            IPostQueue<TumblrCrawlerData<XDocument>> xmlQueue, IBlog blog)
+        private TumblrXmlDownloader GetTumblrXmlDownloader(IPostQueue<TumblrCrawlerData<XDocument>> xmlQueue, IBlog blog,
+            PauseToken pt, CancellationToken ct)
         {
             return new TumblrXmlDownloader(shellService, ct, pt, xmlQueue, crawlerService, blog);
         }
 
-        private TumblrJsonDownloader<T> GetTumblrJsonDownloader<T>(CancellationToken ct, PauseToken pt,
-            IPostQueue<TumblrCrawlerData<T>> jsonQueue, IBlog blog)
+        private TumblrJsonDownloader<T> GetTumblrJsonDownloader<T>(IPostQueue<TumblrCrawlerData<T>> jsonQueue, IBlog blog,
+            PauseToken pt, CancellationToken ct)
         {
             return new TumblrJsonDownloader<T>(shellService, ct, pt, jsonQueue, crawlerService, blog);
         }

@@ -12,11 +12,7 @@ namespace TumblThree.Presentation.Controls
 {
     public static class DataGridHideColumns
     {
-        #region HideColumns
-        #region HideColumnsHeader
-        public static readonly DependencyProperty HideColumnsHeaderProperty =
-            DependencyProperty.RegisterAttached("HideColumnsHeader",
-            typeof(object), typeof(DataGridHideColumns));
+        public static readonly DependencyProperty HideColumnsHeaderProperty = DependencyProperty.RegisterAttached("HideColumnsHeader", typeof(object), typeof(DataGridHideColumns));
 
         public static object GetHideColumnsHeader(DataGrid obj)
         {
@@ -27,12 +23,8 @@ namespace TumblThree.Presentation.Controls
         {
             obj.SetValue(HideColumnsHeaderProperty, value);
         }
-        #endregion HideColumnsHeader
 
-        #region HideColumnsHeaderTemplate
-        public static readonly DependencyProperty HideColumnsHeaderTemplateProperty =
-            DependencyProperty.RegisterAttached("HideColumnsHeaderTemplate",
-            typeof(DataTemplate), typeof(DataGridHideColumns));
+        public static readonly DependencyProperty HideColumnsHeaderTemplateProperty = DependencyProperty.RegisterAttached("HideColumnsHeaderTemplate", typeof(DataTemplate), typeof(DataGridHideColumns));
 
         public static DataTemplate GetHideColumnsHeaderTemplate(DataGrid obj)
         {
@@ -43,12 +35,8 @@ namespace TumblThree.Presentation.Controls
         {
             obj.SetValue(HideColumnsHeaderTemplateProperty, value);
         }
-        #endregion HideColumnsHeaderTemplate
 
-        #region HideColumnsIcon
-        public static readonly DependencyProperty HideColumnsIconProperty =
-            DependencyProperty.RegisterAttached("HideColumnsIcon",
-            typeof(object), typeof(DataGridHideColumns));
+        public static readonly DependencyProperty HideColumnsIconProperty = DependencyProperty.RegisterAttached("HideColumnsIcon", typeof(object), typeof(DataGridHideColumns));
 
         public static object GetHideColumnsIcon(DataGrid obj)
         {
@@ -59,13 +47,8 @@ namespace TumblThree.Presentation.Controls
         {
             obj.SetValue(HideColumnsIconProperty, value);
         }
-        #endregion HideColumnsIcon
 
-        #region CanUserHideColumns
-        public static readonly DependencyProperty CanUserHideColumnsProperty =
-            DependencyProperty.RegisterAttached("CanUserHideColumns",
-            typeof(bool), typeof(DataGridHideColumns),
-            new UIPropertyMetadata(false, OnCanUserHideColumnsChanged));
+        public static readonly DependencyProperty CanUserHideColumnsProperty = DependencyProperty.RegisterAttached("CanUserHideColumns", typeof(bool), typeof(DataGridHideColumns), new UIPropertyMetadata(false, OnCanUserHideColumnsChanged));
 
         public static bool GetCanUserHideColumns(DataGrid obj)
         {
@@ -81,7 +64,9 @@ namespace TumblThree.Presentation.Controls
         {
             DataGrid dataGrid = d as DataGrid;
             if (dataGrid == null)
+            {
                 return;
+            }
 
             if ((bool)e.NewValue == false)
             {
@@ -96,18 +81,22 @@ namespace TumblThree.Presentation.Controls
                 dataGrid.Loaded += new RoutedEventHandler(dataGrid_Loaded);
             }
             else
+            {
                 SetupColumnHeaders(dataGrid);
+            }
         }
 
         private static void dataGrid_Loaded(object sender, RoutedEventArgs e)
         {
             DataGrid dataGrid = sender as DataGrid;
             if (dataGrid == null)
-                return;
-
-            if (BindingOperations.IsDataBound(dataGrid, DataGrid.ItemsSourceProperty))
             {
-                Binding b = BindingOperations.GetBinding(dataGrid, DataGrid.ItemsSourceProperty);
+                return;
+            }
+
+            if (BindingOperations.IsDataBound(dataGrid, ItemsControl.ItemsSourceProperty))
+            {
+                Binding b = BindingOperations.GetBinding(dataGrid, ItemsControl.ItemsSourceProperty);
                 dataGrid.TargetUpdated += new EventHandler<DataTransferEventArgs>(dataGrid_TargetUpdated);
 
                 string xaml = XamlWriter.Save(b);
@@ -115,29 +104,37 @@ namespace TumblThree.Presentation.Controls
                 if (b2 != null)
                 {
                     b2.NotifyOnTargetUpdated = true;
-                    BindingOperations.ClearBinding(dataGrid, DataGrid.ItemsSourceProperty);
-                    BindingOperations.SetBinding(dataGrid, DataGrid.ItemsSourceProperty, b2);
+                    BindingOperations.ClearBinding(dataGrid, ItemsControl.ItemsSourceProperty);
+                    BindingOperations.SetBinding(dataGrid, ItemsControl.ItemsSourceProperty, b2);
                 }
             }
             else
+            {
                 SetupColumnHeaders(dataGrid);
+            }
         }
 
         private static void dataGrid_TargetUpdated(object sender, DataTransferEventArgs e)
         {
-            if (e.Property != DataGrid.ItemsSourceProperty)
+            if (e.Property != ItemsControl.ItemsSourceProperty)
+            {
                 return;
+            }
 
             DataGrid dataGrid = sender as DataGrid;
             if (dataGrid == null)
+            {
                 return;
+            }
 
             EventHandler handler = null;
             handler = delegate
             {
                 RemoveAllItems(dataGrid);
                 if (SetupColumnHeaders(dataGrid))
+                {
                     dataGrid.LayoutUpdated -= handler;
+                }
             };
 
             dataGrid.LayoutUpdated += handler;
@@ -146,7 +143,9 @@ namespace TumblThree.Presentation.Controls
         private static DataGridColumnHeader[] GetColumnHeaders(DataGrid dataGrid)
         {
             if (dataGrid == null)
+            {
                 return null;
+            }
 
             dataGrid.UpdateLayout();
             DataGridColumnHeader[] columnHeaders = CustomVisualTreeHelper<DataGridColumnHeader>.FindChildrenRecursive(dataGrid);
@@ -160,18 +159,26 @@ namespace TumblThree.Presentation.Controls
         private static string GetColumnName(DataGridColumn column)
         {
             if (column == null)
+            {
                 return string.Empty;
+            }
 
             if (column.Header != null)
+            {
                 return column.Header.ToString();
+            }
             else
+            {
                 return string.Format("Column {0}", column.DisplayIndex);
+            }
         }
 
         private static MenuItem GenerateItem(DataGrid dataGrid, DataGridColumn column)
         {
             if (column == null)
+            {
                 return null;
+            }
 
             MenuItem item = new MenuItem
             {
@@ -180,7 +187,9 @@ namespace TumblThree.Presentation.Controls
                 Header = GetColumnName(column)
             };
             if (string.IsNullOrEmpty(item.Header as string))
+            {
                 return null;
+            }
 
             item.ToolTip = string.Format("Toggle column '{0}' visibility.", item.Header);
 
@@ -203,14 +212,18 @@ namespace TumblThree.Presentation.Controls
         public static MenuItem[] GetAttachedItems(DataGridColumnHeader columnHeader)
         {
             if (columnHeader == null || columnHeader.ContextMenu == null)
+            {
                 return null;
+            }
 
             ItemsControl itemsContainer = (from object i in columnHeader.ContextMenu.Items
                                            where i is MenuItem && ((MenuItem)i).Tag != null && ((MenuItem)i).Tag.ToString() == "ItemsContainer"
                                            select i).FirstOrDefault() as MenuItem;
 
             if (itemsContainer == null)
+            {
                 itemsContainer = columnHeader.ContextMenu;
+            }
 
             return (from object i in itemsContainer.Items
                     where i is MenuItem && ((MenuItem)i).Tag is DataGridColumn
@@ -220,12 +233,16 @@ namespace TumblThree.Presentation.Controls
         private static DataGridColumn GetColumnFromName(DataGrid dataGrid, string columnName)
         {
             if (string.IsNullOrEmpty(columnName))
+            {
                 return null;
+            }
 
             foreach (DataGridColumn column in dataGrid.Columns)
             {
                 if (GetColumnName(column) == columnName)
+                {
                     return column;
+                }
             }
 
             return null;
@@ -234,7 +251,9 @@ namespace TumblThree.Presentation.Controls
         private static DataGridColumnHeader GetColumnHeaderFromColumn(DataGrid dataGrid, DataGridColumn column)
         {
             if (dataGrid == null || column == null)
+            {
                 return null;
+            }
 
             DataGridColumnHeader[] columnHeaders = GetColumnHeaders(dataGrid);
             return (from DataGridColumnHeader columnHeader in columnHeaders
@@ -245,7 +264,9 @@ namespace TumblThree.Presentation.Controls
         public static void RemoveAllItems(DataGrid dataGrid)
         {
             if (dataGrid == null)
+            {
                 return;
+            }
 
             foreach (DataGridColumn column in dataGrid.Columns)
             {
@@ -256,13 +277,17 @@ namespace TumblThree.Presentation.Controls
         public static void RemoveAllItems(DataGrid dataGrid, DataGridColumn column)
         {
             if (dataGrid == null || column == null)
+            {
                 return;
+            }
 
             DataGridColumnHeader columnHeader = GetColumnHeaderFromColumn(dataGrid, column);
             List<MenuItem> itemsToRemove = new List<MenuItem>();
 
             if (columnHeader == null)
+            {
                 return;
+            }
 
             // Mark items and/or items container for removal.
             if (columnHeader.ContextMenu != null)
@@ -271,7 +296,9 @@ namespace TumblThree.Presentation.Controls
                 {
                     if (item is MenuItem && ((MenuItem)item).Tag != null
                         && (((MenuItem)item).Tag.ToString() == "ItemsContainer" || ((MenuItem)item).Tag is DataGridColumn))
+                    {
                         itemsToRemove.Add((MenuItem)item);
+                    }
                 }
             }
 
@@ -291,7 +318,9 @@ namespace TumblThree.Presentation.Controls
         private static void SetItemIsChecked(DataGrid dataGrid, DataGridColumn column, bool isChecked)
         {
             if (dataGrid == null || column == null)
+            {
                 return;
+            }
 
             // Deny request if there are no other columns visible. Otherwise,
             // they'd have no way of changing the visibility of any columns
@@ -306,7 +335,9 @@ namespace TumblThree.Presentation.Controls
                 ShowColumn(dataGrid, column);
             }
             else if (!isChecked)
+            {
                 column.Visibility = Visibility.Hidden;
+            }
 
             DataGridColumnHeader[] columnHeaders = GetColumnHeaders(dataGrid);
             ItemsControl itemsContainer = null;
@@ -318,7 +349,9 @@ namespace TumblThree.Presentation.Controls
                 if (columnHeader != null)
                 {
                     if (columnHeader.ContextMenu == null)
+                    {
                         continue;
+                    }
 
                     itemsContainer = (from object i in columnHeader.ContextMenu.Items
                                       where i is MenuItem && ((MenuItem)i).Header == containerHeader
@@ -326,7 +359,9 @@ namespace TumblThree.Presentation.Controls
                 }
 
                 if (itemsContainer == null)
+                {
                     itemsContainer = columnHeader.ContextMenu;
+                }
 
                 foreach (object item in itemsContainer.Items)
                 {
@@ -342,15 +377,21 @@ namespace TumblThree.Presentation.Controls
         private static void SetupColumnHeader(DataGridColumnHeader columnHeader)
         {
             if (columnHeader == null)
+            {
                 return;
+            }
 
             DataGrid dataGrid = CustomVisualTreeHelper<DataGrid>.FindAncestor(columnHeader);
             if (dataGrid == null)
+            {
                 return;
+            }
 
             DataGridColumnHeader[] columnHeaders = GetColumnHeaders(dataGrid);
             if (columnHeaders == null)
+            {
                 return;
+            }
 
             SetupColumnHeader(dataGrid, columnHeaders, columnHeader);
         }
@@ -358,7 +399,9 @@ namespace TumblThree.Presentation.Controls
         private static void SetupColumnHeader(DataGrid dataGrid, DataGridColumnHeader[] columnHeaders, DataGridColumnHeader columnHeader)
         {
             if (columnHeader.ContextMenu == null)
+            {
                 columnHeader.ContextMenu = new ContextMenu();
+            }
 
             ItemsControl itemsContainer = null;
             itemsContainer = columnHeader.ContextMenu;
@@ -382,7 +425,9 @@ namespace TumblThree.Presentation.Controls
                     columnHeader.ContextMenu.Items.Add(itemsContainer);
                 }
                 else
+                {
                     return;
+                }
             }
 
             foreach (DataGridColumnHeader columnHeader2 in columnHeaders)
@@ -393,6 +438,7 @@ namespace TumblThree.Presentation.Controls
                 {
                     continue;
                 }
+
                 itemsContainer.Items.Add(GenerateItem(dataGrid, columnHeader2.Column));
             }
         }
@@ -400,8 +446,10 @@ namespace TumblThree.Presentation.Controls
         public static bool SetupColumnHeaders(DataGrid dataGrid)
         {
             DataGridColumnHeader[] columnHeaders = GetColumnHeaders(dataGrid);
-            if (columnHeaders == null || columnHeaders.Count() == 0)
+            if (columnHeaders == null || columnHeaders.Length == 0)
+            {
                 return false;
+            }
 
             RemoveAllItems(dataGrid);
             columnHeaders = GetColumnHeaders(dataGrid);
@@ -416,13 +464,18 @@ namespace TumblThree.Presentation.Controls
         public static void LoadColumnChecks(DataGrid dataGrid)
         {
             if (dataGrid == null)
+            {
                 return;
+            }
 
             foreach (DataGridColumn column in dataGrid.Columns)
             {
                 DataGridColumnHeader columnHeader = GetColumnHeaderFromColumn(dataGrid, column);
                 if (columnHeader == null)
+                {
                     continue;
+                }
+
                 SyncItemsOnColumnHeader(columnHeader);
             }
         }
@@ -441,7 +494,9 @@ namespace TumblThree.Presentation.Controls
         private static void ShowColumn(DataGrid dataGrid, DataGridColumn column)
         {
             if (dataGrid == null || column == null)
+            {
                 return;
+            }
 
             column.Visibility = Visibility.Visible;
 
@@ -453,6 +508,7 @@ namespace TumblThree.Presentation.Controls
                 vis.Add(c, c.Visibility);
                 c.Visibility = Visibility.Visible;
             }
+
             dataGrid.UpdateLayout();
 
             DataGridColumnHeader columnHeader = GetColumnHeaderFromColumn(dataGrid, column);
@@ -465,6 +521,7 @@ namespace TumblThree.Presentation.Controls
                     c.Visibility = vis[c];
                 }
             }
+
             dataGrid.UpdateLayout();
 
             // Now we need to uncheck items that are associated with hidden
@@ -487,9 +544,7 @@ namespace TumblThree.Presentation.Controls
                 }
             }
         }
-        #endregion CanUserHideColumns
 
-        #region CustomVisualTreeHelper
         private static class CustomVisualTreeHelper<TReturn> where TReturn : DependencyObject
         {
             public static TReturn FindAncestor(DependencyObject descendant)
@@ -504,6 +559,7 @@ namespace TumblThree.Presentation.Controls
                 {
                     return (TReturn)parent;
                 }
+
                 return default(TReturn);
             }
 
@@ -520,6 +576,7 @@ namespace TumblThree.Presentation.Controls
                         return (TReturn)child;
                     }
                 }
+
                 return default(TReturn);
             }
 
@@ -537,13 +594,14 @@ namespace TumblThree.Presentation.Controls
                     }
                     else
                     {
-                        child = CustomVisualTreeHelper<TReturn>.FindChildRecursive(child);
+                        child = FindChildRecursive(child);
                         if (child is TReturn)
                         {
                             return (TReturn)child;
                         }
                     }
                 }
+
                 return default(TReturn);
             }
 
@@ -561,6 +619,7 @@ namespace TumblThree.Presentation.Controls
                         children[childIndex] = (TReturn)child;
                     }
                 }
+
                 return children.ToArray();
             }
 
@@ -578,12 +637,11 @@ namespace TumblThree.Presentation.Controls
                         children.Add((TReturn)child);
                     }
 
-                    children.AddRange(CustomVisualTreeHelper<TReturn>.FindChildrenRecursive(child));
+                    children.AddRange(FindChildrenRecursive(child));
                 }
+
                 return children.ToArray();
             }
         }
-        #endregion CustomVisualTreeHelper
-        #endregion HideColumns
     }
 }

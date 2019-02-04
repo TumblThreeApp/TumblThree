@@ -10,7 +10,8 @@ namespace TumblThree.Applications.ViewModels
     public class CrawlerViewModel : ViewModel<ICrawlerView>
     {
         [ImportingConstructor]
-        public CrawlerViewModel(ICrawlerView view, IShellService shellService, ICrawlerService crawlerService) : base(view)
+        public CrawlerViewModel(ICrawlerView view, IShellService shellService, ICrawlerService crawlerService)
+            : base(view)
         {
             CrawlerService = crawlerService;
             ShellService = shellService;

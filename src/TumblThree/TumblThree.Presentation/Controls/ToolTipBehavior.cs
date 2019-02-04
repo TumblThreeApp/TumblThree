@@ -7,9 +7,7 @@ namespace TumblThree.Presentation.Controls
 {
     public static class ToolTipBehavior
     {
-        public static readonly DependencyProperty AutoToolTipProperty =
-            DependencyProperty.RegisterAttached("AutoToolTip", typeof(bool), typeof(ToolTipBehavior),
-                new FrameworkPropertyMetadata(false, AutoToolTipPropertyChanged));
+        public static readonly DependencyProperty AutoToolTipProperty = DependencyProperty.RegisterAttached("AutoToolTip", typeof(bool), typeof(ToolTipBehavior), new FrameworkPropertyMetadata(false, AutoToolTipPropertyChanged));
 
         [AttachedPropertyBrowsableForType(typeof(TextBlock))]
         public static bool GetAutoToolTip(DependencyObject element)
@@ -18,6 +16,7 @@ namespace TumblThree.Presentation.Controls
             {
                 throw new ArgumentNullException(nameof(element));
             }
+
             return (bool)element.GetValue(AutoToolTipProperty);
         }
 
@@ -27,6 +26,7 @@ namespace TumblThree.Presentation.Controls
             {
                 throw new ArgumentNullException(nameof(element));
             }
+
             element.SetValue(AutoToolTipProperty, value);
         }
 
@@ -37,14 +37,14 @@ namespace TumblThree.Presentation.Controls
             {
                 throw new ArgumentException("The attached property AutoToolTip can only be used with a TextBlock.", nameof(element));
             }
+
             if (textBlock.TextTrimming == TextTrimming.None)
             {
                 throw new InvalidOperationException(
                     "The attached property AutoToolTip can only be used with a TextBlock that uses one of the TextTrimming options.");
             }
 
-            DependencyPropertyDescriptor textDescriptor = DependencyPropertyDescriptor.FromProperty(TextBlock.TextProperty,
-                typeof(TextBlock));
+            DependencyPropertyDescriptor textDescriptor = DependencyPropertyDescriptor.FromProperty(TextBlock.TextProperty, typeof(TextBlock));
             if (e.NewValue.Equals(true))
             {
                 ComputeAutoToolTip(textBlock);

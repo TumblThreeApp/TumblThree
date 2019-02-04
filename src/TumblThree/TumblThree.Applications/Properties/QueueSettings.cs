@@ -20,9 +20,11 @@ namespace TumblThree.Applications.Properties
             types = new List<BlogTypes>();
         }
 
-        [DataMember] public string LastCrawledBlogName { get; set; }
+        [DataMember]
+        public string LastCrawledBlogName { get; set; }
 
-        [DataMember] public BlogTypes LastCrawledBlogType { get; set; }
+        [DataMember]
+        public BlogTypes LastCrawledBlogType { get; set; }
 
         public IReadOnlyList<string> Names => names;
 

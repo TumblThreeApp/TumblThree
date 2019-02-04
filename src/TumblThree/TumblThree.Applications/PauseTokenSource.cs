@@ -21,7 +21,9 @@ namespace TumblThree.Applications
             get
             {
                 lock (m_lockObject)
+                {
                     return m_paused;
+                }
             }
         }
 
@@ -32,8 +34,10 @@ namespace TumblThree.Applications
             lock (m_lockObject)
             {
                 if (m_paused)
+                {
                     return;
-                
+                }
+
                 m_paused = true;
                 m_pauseResponse = s_completedTcs;
                 m_resumeRequest = new TaskCompletionSource<bool>();
@@ -47,8 +51,10 @@ namespace TumblThree.Applications
             lock (m_lockObject)
             {
                 if (!m_paused)
+                {
                     return;
-                
+                }
+
                 m_paused = false;
                 resumeRequest = m_resumeRequest;
                 m_resumeRequest = null;
@@ -67,8 +73,10 @@ namespace TumblThree.Applications
             lock (m_lockObject)
             {
                 if (m_paused)
+                {
                     return m_pauseResponse.Task;
-                
+                }
+
                 m_paused = true;
                 m_pauseResponse = new TaskCompletionSource<bool>();
                 m_resumeRequest = new TaskCompletionSource<bool>();
@@ -86,8 +94,10 @@ namespace TumblThree.Applications
             lock (m_lockObject)
             {
                 if (!m_paused)
+                {
                     return s_completedTcs.Task;
-                
+                }
+
                 response = m_pauseResponse;
                 resumeTask = m_resumeRequest.Task;
             }

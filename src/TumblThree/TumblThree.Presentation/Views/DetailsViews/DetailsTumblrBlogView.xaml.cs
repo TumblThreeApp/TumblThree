@@ -10,7 +10,7 @@ using TumblThree.Applications.Views;
 namespace TumblThree.Presentation.Views
 {
     /// <summary>
-    ///     Interaction logic for QueueView.xaml
+    ///     Interaction logic for QueueView.xaml.
     /// </summary>
     [Export("TumblrBlogView", typeof(IDetailsView))]
     public partial class DetailsTumblrBlogView : IDetailsView
