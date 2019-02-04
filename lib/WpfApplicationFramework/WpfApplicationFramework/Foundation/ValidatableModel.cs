@@ -26,7 +26,7 @@ namespace System.Waf.Foundation
         /// </summary>
         protected ValidatableModel()
         {
-            this.errors = new Dictionary<string, List<ValidationResult>>();
+            errors = new Dictionary<string, List<ValidationResult>>();
         }
 
 
@@ -66,17 +66,15 @@ namespace System.Waf.Foundation
         {
             if (!string.IsNullOrEmpty(propertyName))
             {
-                List<ValidationResult> result;
-                if (errors.TryGetValue(propertyName, out result))
+                if (errors.TryGetValue(propertyName, out var result))
                 {
                     return result;
                 }
+
                 return noErrors;
             }
-            else
-            {
-                return errors.Values.SelectMany(x => x).Distinct().ToArray();
-            }
+
+            return errors.Values.SelectMany(x => x).Distinct().ToArray();
         }
         
         IEnumerable INotifyDataErrorInfo.GetErrors(string propertyName)

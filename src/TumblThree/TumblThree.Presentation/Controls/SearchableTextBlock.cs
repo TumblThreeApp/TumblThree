@@ -26,7 +26,7 @@ namespace TumblThree.Presentation.Controls
             DependencyProperty.Register(nameof(IsMatchCase), typeof(bool), typeof(SearchableTextBlock),
                 new FrameworkPropertyMetadata(false, ControlPropertyChangedCallback));
 
-        private IReadOnlyList<string> textParts = new string[0];
+        private IReadOnlyList<string> textParts = Array.Empty<string>();
 
         public new string Text
         {
@@ -105,6 +105,7 @@ namespace TumblThree.Presentation.Controls
                 {
                     break;
                 }
+
                 textParts.Add(text.Substring(index, (position - index)));
                 textParts.Add(text.Substring(position, searchText.Length));
                 index = position + searchText.Length;

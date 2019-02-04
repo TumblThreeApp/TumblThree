@@ -34,7 +34,7 @@ namespace TumblThree.Presentation
             base.OnStartup(e);
 
             InitializeCultures();
-            System.Net.ServicePointManager.DefaultConnectionLimit = 400;
+            ServicePointManager.DefaultConnectionLimit = 400;
             // Trust all SSL hosts since tumblr.com messed up their ssl cert on amazon s3.
             ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateCertificate);
 
@@ -66,6 +66,7 @@ namespace TumblThree.Presentation
             {
                 moduleController.Initialize();
             }
+
             foreach (IModuleController moduleController in moduleControllers)
             {
                 moduleController.Run();
@@ -102,6 +103,7 @@ namespace TumblThree.Presentation
             {
                 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(Settings.Default.Culture);
             }
+
             if (!string.IsNullOrEmpty(Settings.Default.UICulture))
             {
                 CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(Settings.Default.UICulture);
@@ -129,9 +131,7 @@ namespace TumblThree.Presentation
 
             if (!isTerminating)
             {
-                MessageBox.Show(string.Format(CultureInfo.CurrentCulture,
-                    Presentation.Properties.Resources.UnknownError, e.ToString()),
-                    ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Presentation.Properties.Resources.UnknownError, e.ToString()), ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

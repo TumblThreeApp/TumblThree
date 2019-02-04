@@ -5,7 +5,7 @@ namespace TumblThree.Domain
     public static class JsonFormatter
     {
         /// <summary>
-        ///     Adds indentation and line breaks to output of JavaScriptSerializer
+        ///     Adds indentation and line breaks to output of JavaScriptSerializer.
         /// </summary>
         public static string FormatOutput(string jsonString)
         {

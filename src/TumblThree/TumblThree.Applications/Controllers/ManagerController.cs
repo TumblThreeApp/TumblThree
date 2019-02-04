@@ -30,43 +30,39 @@ namespace TumblThree.Applications.Controllers
     [Export]
     internal class ManagerController
     {
-        private readonly IBlogFactory blogFactory;
-        private readonly ICrawlerService crawlerService;
-        private readonly IClipboardService clipboardService;
-        private readonly ICrawlerFactory crawlerFactory;
-        private readonly IManagerService managerService;
-        private readonly Lazy<ManagerViewModel> managerViewModel;
-        private readonly IMessageService messageService;
-        private readonly ISelectionService selectionService;
-        private readonly IShellService shellService;
-        private readonly ISettingsService settingsService;
-        private readonly ITumblrBlogDetector tumblrBlogDetector;
+        private readonly IBlogFactory _blogFactory;
+        private readonly ICrawlerService _crawlerService;
+        private readonly IClipboardService _clipboardService;
+        private readonly ICrawlerFactory _crawlerFactory;
+        private readonly IManagerService _managerService;
+        private readonly Lazy<ManagerViewModel> _managerViewModel;
+        private readonly IMessageService _messageService;
+        private readonly ISelectionService _selectionService;
+        private readonly IShellService _shellService;
+        private readonly ISettingsService _settingsService;
+        private readonly ITumblrBlogDetector _tumblrBlogDetector;
 
-        private readonly AsyncDelegateCommand checkStatusCommand;
-        private readonly DelegateCommand copyUrlCommand;
-        private readonly DelegateCommand checkIfDatabasesCompleteCommand;
-        private readonly AsyncDelegateCommand importBlogsCommand;
-        private readonly AsyncDelegateCommand addBlogCommand;
-        private readonly DelegateCommand autoDownloadCommand;
-        private readonly DelegateCommand enqueueSelectedCommand;
-        private readonly DelegateCommand listenClipboardCommand;
-        private readonly AsyncDelegateCommand loadLibraryCommand;
-        private readonly AsyncDelegateCommand loadAllDatabasesCommand;
-        private readonly DelegateCommand removeBlogCommand;
-        private readonly DelegateCommand showDetailsCommand;
-        private readonly DelegateCommand showFilesCommand;
-        private readonly DelegateCommand visitBlogCommand;
+        private readonly AsyncDelegateCommand _checkStatusCommand;
+        private readonly DelegateCommand _copyUrlCommand;
+        private readonly DelegateCommand _checkIfDatabasesCompleteCommand;
+        private readonly AsyncDelegateCommand _importBlogsCommand;
+        private readonly AsyncDelegateCommand _addBlogCommand;
+        private readonly DelegateCommand _autoDownloadCommand;
+        private readonly DelegateCommand _enqueueSelectedCommand;
+        private readonly DelegateCommand _listenClipboardCommand;
+        private readonly AsyncDelegateCommand _loadLibraryCommand;
+        private readonly AsyncDelegateCommand _loadAllDatabasesCommand;
+        private readonly DelegateCommand _removeBlogCommand;
+        private readonly DelegateCommand _showDetailsCommand;
+        private readonly DelegateCommand _showFilesCommand;
+        private readonly DelegateCommand _visitBlogCommand;
 
-        private SemaphoreSlim addBlogSemaphoreSlim = new SemaphoreSlim(1);
-        private readonly object lockObject = new object();
-
-        #region Delegates
+        private readonly SemaphoreSlim _addBlogSemaphoreSlim = new SemaphoreSlim(1);
+        private readonly object _lockObject = new object();
 
         public delegate void BlogManagerFinishedLoadingLibraryHandler(object sender, EventArgs e);
 
         public delegate void BlogManagerFinishedLoadingDatabasesHandler(object sender, EventArgs e);
-
-        #endregion
 
         [ImportingConstructor]
         public ManagerController(IShellService shellService, ISelectionService selectionService, ICrawlerService crawlerService,
@@ -74,34 +70,34 @@ namespace TumblThree.Applications.Controllers
             ICrawlerFactory crawlerFactory, IBlogFactory blogFactory, ITumblrBlogDetector tumblrBlogDetector,
             IMessageService messageService, Lazy<ManagerViewModel> managerViewModel)
         {
-            this.shellService = shellService;
-            this.selectionService = selectionService;
-            this.clipboardService = clipboardService;
-            this.crawlerService = crawlerService;
-            this.managerService = managerService;
-            this.managerViewModel = managerViewModel;
-            this.settingsService = settingsService;
-            this.messageService = messageService;
-            this.crawlerFactory = crawlerFactory;
-            this.blogFactory = blogFactory;
-            this.tumblrBlogDetector = tumblrBlogDetector;
-            importBlogsCommand = new AsyncDelegateCommand(ImportBlogs);
-            addBlogCommand = new AsyncDelegateCommand(AddBlog, CanAddBlog);
-            removeBlogCommand = new DelegateCommand(RemoveBlog, CanRemoveBlog);
-            showFilesCommand = new DelegateCommand(ShowFiles, CanShowFiles);
-            visitBlogCommand = new DelegateCommand(VisitBlog, CanVisitBlog);
-            enqueueSelectedCommand = new DelegateCommand(EnqueueSelected, CanEnqueueSelected);
-            loadLibraryCommand = new AsyncDelegateCommand(LoadLibraryAsync, CanLoadLibrary);
-            loadAllDatabasesCommand = new AsyncDelegateCommand(LoadAllDatabasesAsync, CanLoadAllDatbases);
-            checkIfDatabasesCompleteCommand = new DelegateCommand(CheckIfDatabasesComplete, CanCheckIfDatabasesComplete);
-            listenClipboardCommand = new DelegateCommand(ListenClipboard);
-            autoDownloadCommand = new DelegateCommand(EnqueueAutoDownload, CanEnqueueAutoDownload);
-            showDetailsCommand = new DelegateCommand(ShowDetailsCommand);
-            copyUrlCommand = new DelegateCommand(CopyUrl, CanCopyUrl);
-            checkStatusCommand = new AsyncDelegateCommand(CheckStatusAsync, CanCheckStatus);
+            _shellService = shellService;
+            _selectionService = selectionService;
+            _clipboardService = clipboardService;
+            _crawlerService = crawlerService;
+            _managerService = managerService;
+            _managerViewModel = managerViewModel;
+            _settingsService = settingsService;
+            _messageService = messageService;
+            _crawlerFactory = crawlerFactory;
+            _blogFactory = blogFactory;
+            _tumblrBlogDetector = tumblrBlogDetector;
+            _importBlogsCommand = new AsyncDelegateCommand(ImportBlogs);
+            _addBlogCommand = new AsyncDelegateCommand(AddBlog, CanAddBlog);
+            _removeBlogCommand = new DelegateCommand(RemoveBlog, CanRemoveBlog);
+            _showFilesCommand = new DelegateCommand(ShowFiles, CanShowFiles);
+            _visitBlogCommand = new DelegateCommand(VisitBlog, CanVisitBlog);
+            _enqueueSelectedCommand = new DelegateCommand(EnqueueSelected, CanEnqueueSelected);
+            _loadLibraryCommand = new AsyncDelegateCommand(LoadLibraryAsync, CanLoadLibrary);
+            _loadAllDatabasesCommand = new AsyncDelegateCommand(LoadAllDatabasesAsync, CanLoadAllDatbases);
+            _checkIfDatabasesCompleteCommand = new DelegateCommand(CheckIfDatabasesComplete, CanCheckIfDatabasesComplete);
+            _listenClipboardCommand = new DelegateCommand(ListenClipboard);
+            _autoDownloadCommand = new DelegateCommand(EnqueueAutoDownload, CanEnqueueAutoDownload);
+            _showDetailsCommand = new DelegateCommand(ShowDetailsCommand);
+            _copyUrlCommand = new DelegateCommand(CopyUrl, CanCopyUrl);
+            _checkStatusCommand = new AsyncDelegateCommand(CheckStatusAsync, CanCheckStatus);
         }
 
-        private ManagerViewModel ManagerViewModel => managerViewModel.Value;
+        private ManagerViewModel ManagerViewModel => _managerViewModel.Value;
 
         public ManagerSettings ManagerSettings { get; set; }
 
@@ -113,23 +109,23 @@ namespace TumblThree.Applications.Controllers
 
         public async Task InitializeAsync()
         {
-            crawlerService.ImportBlogsCommand = importBlogsCommand;
-            crawlerService.AddBlogCommand = addBlogCommand;
-            crawlerService.RemoveBlogCommand = removeBlogCommand;
-            crawlerService.ShowFilesCommand = showFilesCommand;
-            crawlerService.EnqueueSelectedCommand = enqueueSelectedCommand;
-            crawlerService.LoadLibraryCommand = loadLibraryCommand;
-            crawlerService.LoadAllDatabasesCommand = loadAllDatabasesCommand;
-            crawlerService.CheckIfDatabasesCompleteCommand = checkIfDatabasesCompleteCommand;
-            crawlerService.AutoDownloadCommand = autoDownloadCommand;
-            crawlerService.ListenClipboardCommand = listenClipboardCommand;
-            crawlerService.PropertyChanged += CrawlerServicePropertyChanged;
+            _crawlerService.ImportBlogsCommand = _importBlogsCommand;
+            _crawlerService.AddBlogCommand = _addBlogCommand;
+            _crawlerService.RemoveBlogCommand = _removeBlogCommand;
+            _crawlerService.ShowFilesCommand = _showFilesCommand;
+            _crawlerService.EnqueueSelectedCommand = _enqueueSelectedCommand;
+            _crawlerService.LoadLibraryCommand = _loadLibraryCommand;
+            _crawlerService.LoadAllDatabasesCommand = _loadAllDatabasesCommand;
+            _crawlerService.CheckIfDatabasesCompleteCommand = _checkIfDatabasesCompleteCommand;
+            _crawlerService.AutoDownloadCommand = _autoDownloadCommand;
+            _crawlerService.ListenClipboardCommand = _listenClipboardCommand;
+            _crawlerService.PropertyChanged += CrawlerServicePropertyChanged;
 
-            ManagerViewModel.ShowFilesCommand = showFilesCommand;
-            ManagerViewModel.VisitBlogCommand = visitBlogCommand;
-            ManagerViewModel.ShowDetailsCommand = showDetailsCommand;
-            ManagerViewModel.CopyUrlCommand = copyUrlCommand;
-            ManagerViewModel.CheckStatusCommand = checkStatusCommand;
+            ManagerViewModel.ShowFilesCommand = _showFilesCommand;
+            ManagerViewModel.VisitBlogCommand = _visitBlogCommand;
+            ManagerViewModel.ShowDetailsCommand = _showDetailsCommand;
+            ManagerViewModel.CopyUrlCommand = _copyUrlCommand;
+            ManagerViewModel.CheckStatusCommand = _checkStatusCommand;
 
             ManagerViewModel.PropertyChanged += ManagerViewModelPropertyChanged;
 
@@ -139,24 +135,26 @@ namespace TumblThree.Applications.Controllers
             BlogManagerFinishedLoadingLibrary += OnBlogManagerFinishedLoadingLibrary;
             BlogManagerFinishedLoadingDatabases += OnBlogManagerFinishedLoadingDatabases;
 
-            shellService.ContentView = ManagerViewModel.View;
+            _shellService.ContentView = ManagerViewModel.View;
 
             // Refresh command availability on selection change.
             ManagerViewModel.PropertyChanged += (sender, e) =>
             {
                 if (e.PropertyName != nameof(ManagerViewModel.SelectedBlogFile))
+                {
                     return;
+                }
 
-                showFilesCommand.RaiseCanExecuteChanged();
-                visitBlogCommand.RaiseCanExecuteChanged();
-                showDetailsCommand.RaiseCanExecuteChanged();
-                copyUrlCommand.RaiseCanExecuteChanged();
-                checkStatusCommand.RaiseCanExecuteChanged();
+                _showFilesCommand.RaiseCanExecuteChanged();
+                _visitBlogCommand.RaiseCanExecuteChanged();
+                _showDetailsCommand.RaiseCanExecuteChanged();
+                _copyUrlCommand.RaiseCanExecuteChanged();
+                _checkStatusCommand.RaiseCanExecuteChanged();
             };
 
-            if (shellService.Settings.CheckClipboard)
+            if (_shellService.Settings.CheckClipboard)
             {
-                shellService.ClipboardMonitor.OnClipboardContentChanged += OnClipboardContentChanged;
+                _shellService.ClipboardMonitor.OnClipboardContentChanged += OnClipboardContentChanged;
             }
 
             await LoadDataBasesAsync();
@@ -167,15 +165,17 @@ namespace TumblThree.Applications.Controllers
         }
 
         private void OnBlogManagerFinishedLoadingLibrary(object sender, EventArgs e) =>
-            crawlerService.LibraryLoaded.SetResult(true);
+            _crawlerService.LibraryLoaded.SetResult(true);
 
         private void OnBlogManagerFinishedLoadingDatabases(object sender, EventArgs e) =>
-            crawlerService.DatabasesLoaded.SetResult(true);
+            _crawlerService.DatabasesLoaded.SetResult(true);
 
         private void QueueItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add | e.Action == NotifyCollectionChangedAction.Remove)
+            {
                 ManagerViewModel.QueueItems = QueueManager.Items;
+            }
         }
 
         private async Task LoadDataBasesAsync()
@@ -191,15 +191,15 @@ namespace TumblThree.Applications.Controllers
         private async Task LoadLibraryAsync()
         {
             Logger.Verbose("ManagerController.LoadLibrary:Start");
-            managerService.BlogFiles.Clear();
-            string path = Path.Combine(shellService.Settings.DownloadLocation, "Index");
+            _managerService.BlogFiles.Clear();
+            string path = Path.Combine(_shellService.Settings.DownloadLocation, "Index");
 
             if (Directory.Exists(path))
             {
                 IReadOnlyList<IBlog> files = await GetIBlogsAsync(path);
                 foreach (IBlog file in files)
                 {
-                    managerService.BlogFiles.Add(file);
+                    _managerService.BlogFiles.Add(file);
                 }
             }
 
@@ -227,15 +227,29 @@ namespace TumblThree.Applications.Controllers
                 try
                 {
                     if (filename.EndsWith(BlogTypes.tumblr.ToString()))
+                    {
                         blogs.Add(new TumblrBlog().Load(filename));
+                    }
+
                     if (filename.EndsWith(BlogTypes.tmblrpriv.ToString()))
+                    {
                         blogs.Add(new TumblrHiddenBlog().Load(filename));
+                    }
+
                     if (filename.EndsWith(BlogTypes.tlb.ToString()))
+                    {
                         blogs.Add(new TumblrLikedByBlog().Load(filename));
+                    }
+
                     if (filename.EndsWith(BlogTypes.tumblrsearch.ToString()))
+                    {
                         blogs.Add(new TumblrSearchBlog().Load(filename));
+                    }
+
                     if (filename.EndsWith(BlogTypes.tumblrtagsearch.ToString()))
+                    {
                         blogs.Add(new TumblrTagSearchBlog().Load(filename));
+                    }
                 }
                 catch (SerializationException ex)
                 {
@@ -247,7 +261,7 @@ namespace TumblThree.Applications.Controllers
             {
                 string failedBlogNames = failedToLoadBlogs.Aggregate((a, b) => a + ", " + b);
                 Logger.Verbose("ManagerController:GetIBlogsCore: {0}", failedBlogNames);
-                shellService.ShowError(new SerializationException(), Resources.CouldNotLoadLibrary, failedBlogNames);
+                _shellService.ShowError(new SerializationException(), Resources.CouldNotLoadLibrary, failedBlogNames);
             }
 
             Logger.Verbose("ManagerController.GetIBlogsCore End");
@@ -258,15 +272,15 @@ namespace TumblThree.Applications.Controllers
         private async Task LoadAllDatabasesAsync()
         {
             Logger.Verbose("ManagerController.LoadAllDatabasesAsync:Start");
-            managerService.ClearDatabases();
-            string path = Path.Combine(shellService.Settings.DownloadLocation, "Index");
+            _managerService.ClearDatabases();
+            string path = Path.Combine(_shellService.Settings.DownloadLocation, "Index");
 
             if (Directory.Exists(path))
             {
                 IReadOnlyList<IFiles> databases = await GetIFilesAsync(path);
                 foreach (IFiles database in databases)
                 {
-                    managerService.AddDatabase(database);
+                    _managerService.AddDatabase(database);
                 }
             }
 
@@ -293,8 +307,10 @@ namespace TumblThree.Applications.Controllers
                 try
                 {
                     IFiles database = new Files().Load(filename);
-                    if (shellService.Settings.LoadAllDatabases)
+                    if (_shellService.Settings.LoadAllDatabases)
+                    {
                         databases.Add(database);
+                    }
                 }
                 catch (SerializationException ex)
                 {
@@ -304,16 +320,16 @@ namespace TumblThree.Applications.Controllers
 
             if (failedToLoadDatabases.Any())
             {
-                IEnumerable<IBlog> blogs = managerService.BlogFiles;
+                IEnumerable<IBlog> blogs = _managerService.BlogFiles;
                 IEnumerable<IBlog> failedToLoadBlogs = blogs.Where(blog => failedToLoadDatabases.Contains(blog.ChildId));
 
                 string failedBlogNames = failedToLoadDatabases.Aggregate((a, b) => a + ", " + b);
                 Logger.Verbose("ManagerController:GetIFilesCore: {0}", failedBlogNames);
-                shellService.ShowError(new SerializationException(), Resources.CouldNotLoadLibrary, failedBlogNames);
+                _shellService.ShowError(new SerializationException(), Resources.CouldNotLoadLibrary, failedBlogNames);
 
                 foreach (IBlog failedToLoadBlog in failedToLoadBlogs)
                 {
-                    managerService.BlogFiles.Remove(failedToLoadBlog);
+                    _managerService.BlogFiles.Remove(failedToLoadBlog);
                 }
             }
 
@@ -324,34 +340,36 @@ namespace TumblThree.Applications.Controllers
 
         private void CheckIfDatabasesComplete()
         {
-            IEnumerable<IBlog> blogs = managerService.BlogFiles;
+            IEnumerable<IBlog> blogs = _managerService.BlogFiles;
             List<IBlog> incompleteBlogs = blogs.Where(blog => !File.Exists(blog.ChildId)).ToList();
 
             if (!incompleteBlogs.Any())
+            {
                 return;
+            }
 
             string incompleteBlogNames = incompleteBlogs.Select(blog => blog.ChildId).Aggregate((a, b) => a + ", " + b);
             Logger.Verbose("ManagerController:CheckIfDatabasesComplete: {0}", incompleteBlogNames);
-            shellService.ShowError(new SerializationException(), Resources.CouldNotLoadLibrary, incompleteBlogNames);
+            _shellService.ShowError(new SerializationException(), Resources.CouldNotLoadLibrary, incompleteBlogNames);
 
             foreach (IBlog incompleteBlog in incompleteBlogs)
             {
-                managerService.BlogFiles.Remove(incompleteBlog);
+                _managerService.BlogFiles.Remove(incompleteBlog);
             }
         }
 
         private async Task CheckBlogsOnlineStatusAsync()
         {
-            if (shellService.Settings.CheckOnlineStatusOnStartup)
+            if (_shellService.Settings.CheckOnlineStatusOnStartup)
             {
-                IEnumerable<IBlog> blogs = managerService.BlogFiles;
+                IEnumerable<IBlog> blogs = _managerService.BlogFiles;
                 await Task.Run(() => ThrottledCheckStatusOfBlogsAsync(blogs));
             }
         }
 
         private async Task CheckStatusAsync()
         {
-            IEnumerable<IBlog> blogs = selectionService.SelectedBlogFiles.ToArray();
+            IEnumerable<IBlog> blogs = _selectionService.SelectedBlogFiles.ToArray();
             await Task.Run(() => ThrottledCheckStatusOfBlogsAsync(blogs));
         }
 
@@ -367,8 +385,8 @@ namespace TumblThree.Applications.Controllers
             await semaphoreSlim.WaitAsync();
             try
             {
-                ICrawler crawler = crawlerFactory.GetCrawler(blog, new CancellationToken(), new PauseToken(),
-                    new Progress<DownloadProgress>());
+                ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), new PauseToken(),
+                    new CancellationToken());
                 await crawler.IsBlogOnlineAsync();
             }
             finally
@@ -377,61 +395,61 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
-        private bool CanLoadLibrary() => !crawlerService.IsCrawl;
+        private bool CanLoadLibrary() => !_crawlerService.IsCrawl;
 
-        private bool CanLoadAllDatbases() => !crawlerService.IsCrawl;
+        private bool CanLoadAllDatbases() => !_crawlerService.IsCrawl;
 
-        private bool CanCheckIfDatabasesComplete() => crawlerService.DatabasesLoaded.Task.GetAwaiter().IsCompleted &&
-                                                      crawlerService.LibraryLoaded.Task.GetAwaiter().IsCompleted;
+        private bool CanCheckIfDatabasesComplete() => _crawlerService.DatabasesLoaded.Task.GetAwaiter().IsCompleted &&
+                                                      _crawlerService.LibraryLoaded.Task.GetAwaiter().IsCompleted;
 
         private bool CanEnqueueSelected() => ManagerViewModel.SelectedBlogFile != null && ManagerViewModel.SelectedBlogFile.Online;
 
-        private void EnqueueSelected() => Enqueue(selectionService.SelectedBlogFiles.Where(blog => blog.Online).ToArray());
+        private void EnqueueSelected() => Enqueue(_selectionService.SelectedBlogFiles.Where(blog => blog.Online).ToArray());
 
         private void Enqueue(IEnumerable<IBlog> blogFiles) => QueueManager.AddItems(blogFiles.Select(x => new QueueListItem(x)));
 
-        private bool CanEnqueueAutoDownload() => managerService.BlogFiles.Any();
+        private bool CanEnqueueAutoDownload() => _managerService.BlogFiles.Any();
 
         private void EnqueueAutoDownload()
         {
-            if (shellService.Settings.BlogType == shellService.Settings.BlogTypes.ElementAtOrDefault(0))
+            if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(0))
             {
             }
 
-            if (shellService.Settings.BlogType == shellService.Settings.BlogTypes.ElementAtOrDefault(1))
+            if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(1))
             {
-                Enqueue(managerService.BlogFiles.Where(blog => blog.Online).ToArray());
+                Enqueue(_managerService.BlogFiles.Where(blog => blog.Online).ToArray());
             }
 
-            if (shellService.Settings.BlogType == shellService.Settings.BlogTypes.ElementAtOrDefault(2))
+            if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(2))
             {
                 Enqueue(
-                    managerService
+                    _managerService
                         .BlogFiles.Where(blog => blog.Online && blog.LastCompleteCrawl != new DateTime(0L, DateTimeKind.Utc))
                         .ToArray());
             }
 
-            if (shellService.Settings.BlogType == shellService.Settings.BlogTypes.ElementAtOrDefault(3))
+            if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(3))
             {
                 Enqueue(
-                    managerService
+                    _managerService
                         .BlogFiles.Where(blog => blog.Online && blog.LastCompleteCrawl == new DateTime(0L, DateTimeKind.Utc))
                         .ToArray());
             }
 
-            if (crawlerService.IsCrawl && crawlerService.IsPaused)
+            if (_crawlerService.IsCrawl && _crawlerService.IsPaused)
             {
-                crawlerService.ResumeCommand.CanExecute(null);
-                crawlerService.ResumeCommand.Execute(null);
+                _crawlerService.ResumeCommand.CanExecute(null);
+                _crawlerService.ResumeCommand.Execute(null);
             }
-            else if (!crawlerService.IsCrawl)
+            else if (!_crawlerService.IsCrawl)
             {
-                crawlerService.CrawlCommand.CanExecute(null);
-                crawlerService.CrawlCommand.Execute(null);
+                _crawlerService.CrawlCommand.CanExecute(null);
+                _crawlerService.CrawlCommand.Execute(null);
             }
         }
 
-        private bool CanAddBlog() => blogFactory.IsValidTumblrBlogUrl(crawlerService.NewBlogUrl);
+        private bool CanAddBlog() => _blogFactory.IsValidTumblrBlogUrl(_crawlerService.NewBlogUrl);
 
         private async Task AddBlog()
         {
@@ -454,7 +472,9 @@ namespace TumblThree.Applications.Controllers
                 };
 
                 if (fileBrowser.ShowDialog() != DialogResult.OK)
+                {
                     return;
+                }
 
                 var path = fileBrowser.FileName;
 
@@ -485,18 +505,20 @@ namespace TumblThree.Applications.Controllers
 
         private void RemoveBlog()
         {
-            IBlog[] blogs = selectionService.SelectedBlogFiles.ToArray();
+            IBlog[] blogs = _selectionService.SelectedBlogFiles.ToArray();
 
-            if (shellService.Settings.DisplayConfirmationDialog)
+            if (_shellService.Settings.DisplayConfirmationDialog)
             {
                 string blogNames = string.Join(", ", blogs.Select(blog => blog.Name));
                 string message = string.Empty;
                 message = string.Format(
-                    shellService.Settings.DeleteOnlyIndex ? Resources.DeleteBlogsDialog : Resources.DeleteBlogsAndFilesDialog,
+                    _shellService.Settings.DeleteOnlyIndex ? Resources.DeleteBlogsDialog : Resources.DeleteBlogsAndFilesDialog,
                     blogNames);
 
-                if (!messageService.ShowYesNoQuestion(this, message))
+                if (!_messageService.ShowYesNoQuestion(this, message))
+                {
                     return;
+                }
             }
 
             RemoveBlog(blogs);
@@ -506,7 +528,7 @@ namespace TumblThree.Applications.Controllers
         {
             foreach (IBlog blog in blogs)
             {
-                if (!shellService.Settings.DeleteOnlyIndex)
+                if (!_shellService.Settings.DeleteOnlyIndex)
                 {
                     try
                     {
@@ -516,7 +538,7 @@ namespace TumblThree.Applications.Controllers
                     catch (Exception ex)
                     {
                         Logger.Error("ManagerController:RemoveBlog: {0}", ex);
-                        shellService.ShowError(ex, Resources.CouldNotRemoveBlog, blog.Name);
+                        _shellService.ShowError(ex, Resources.CouldNotRemoveBlog, blog.Name);
                         return;
                     }
                 }
@@ -530,14 +552,14 @@ namespace TumblThree.Applications.Controllers
                 catch (Exception ex)
                 {
                     Logger.Error("ManagerController:RemoveBlog: {0}", ex);
-                    shellService.ShowError(ex, Resources.CouldNotRemoveBlogIndex, blog.Name);
+                    _shellService.ShowError(ex, Resources.CouldNotRemoveBlogIndex, blog.Name);
                     return;
                 }
 
-                managerService.BlogFiles.Remove(blog);
-                if (shellService.Settings.LoadAllDatabases)
+                _managerService.BlogFiles.Remove(blog);
+                if (_shellService.Settings.LoadAllDatabases)
                 {
-                    managerService.RemoveDatabase(managerService.Databases
+                    _managerService.RemoveDatabase(_managerService.Databases
                                                                 .FirstOrDefault(db =>
                                                                     db.Name.Equals(blog.Name) &&
                                                                     db.BlogType.Equals(blog.BlogType)));
@@ -551,7 +573,7 @@ namespace TumblThree.Applications.Controllers
 
         private void ShowFiles()
         {
-            foreach (IBlog blog in selectionService.SelectedBlogFiles.ToArray())
+            foreach (IBlog blog in _selectionService.SelectedBlogFiles.ToArray())
             {
                 Process.Start("explorer.exe", blog.DownloadLocation());
             }
@@ -561,19 +583,19 @@ namespace TumblThree.Applications.Controllers
 
         private void VisitBlog()
         {
-            foreach (IBlog blog in selectionService.SelectedBlogFiles.ToArray())
+            foreach (IBlog blog in _selectionService.SelectedBlogFiles.ToArray())
             {
                 Process.Start(blog.Url);
             }
         }
 
-        private void ShowDetailsCommand() => shellService.ShowDetailsView();
+        private void ShowDetailsCommand() => _shellService.ShowDetailsView();
 
         private void CopyUrl()
         {
-            List<string> urls = selectionService.SelectedBlogFiles.Select(blog => blog.Url).ToList();
+            List<string> urls = _selectionService.SelectedBlogFiles.Select(blog => blog.Url).ToList();
             urls.Sort();
-            clipboardService.SetText(string.Join(Environment.NewLine, urls));
+            _clipboardService.SetText(string.Join(Environment.NewLine, urls));
         }
 
         private bool CanCopyUrl() => ManagerViewModel.SelectedBlogFile != null;
@@ -583,35 +605,41 @@ namespace TumblThree.Applications.Controllers
         private async Task AddBlogAsync(string blogUrl)
         {
             if (string.IsNullOrEmpty(blogUrl))
-                blogUrl = crawlerService.NewBlogUrl;
+            {
+                blogUrl = _crawlerService.NewBlogUrl;
+            }
 
             IBlog blog = CheckIfCrawlableBlog(blogUrl);
 
             blog = await CheckIfBlogIsHiddenTumblrBlogAsync(blog);
 
-            lock (lockObject)
+            lock (_lockObject)
             {
                 if (CheckIfBlogAlreadyExists(blog))
+                {
                     return;
+                }
 
                 SaveBlog(blog);
             }
 
-            blog = settingsService.TransferGlobalSettingsToBlog(blog);
+            blog = _settingsService.TransferGlobalSettingsToBlog(blog);
             await UpdateMetaInformationAsync(blog);
         }
 
         private void SaveBlog(IBlog blog)
         {
             if (blog.Save())
+            {
                 AddToManager(blog);
+            }
         }
 
         private bool CheckIfBlogAlreadyExists(IBlog blog)
         {
-            if (managerService.BlogFiles.Any(blogs => blogs.Name.Equals(blog.Name) && blogs.BlogType.Equals(blog.BlogType)))
+            if (_managerService.BlogFiles.Any(blogs => blogs.Name.Equals(blog.Name) && blogs.BlogType.Equals(blog.BlogType)))
             {
-                shellService.ShowError(null, Resources.BlogAlreadyExist, blog.Name);
+                _shellService.ShowError(null, Resources.BlogAlreadyExist, blog.Name);
                 return true;
             }
 
@@ -620,31 +648,32 @@ namespace TumblThree.Applications.Controllers
 
         private async Task UpdateMetaInformationAsync(IBlog blog)
         {
-            ICrawler crawler = crawlerFactory.GetCrawler(blog, new CancellationToken(), new PauseToken(),
-                new Progress<DownloadProgress>());
+            ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), new PauseToken(),
+                new CancellationToken());
 
             await crawler.UpdateMetaInformationAsync();
         }
 
         private IBlog CheckIfCrawlableBlog(string blogUrl)
         {
-            return blogFactory.GetBlog(blogUrl, Path.Combine(shellService.Settings.DownloadLocation, "Index"));
+            return _blogFactory.GetBlog(blogUrl, Path.Combine(_shellService.Settings.DownloadLocation, "Index"));
         }
 
         private void AddToManager(IBlog blog)
         {
-            QueueOnDispatcher.CheckBeginInvokeOnUI(() => managerService.BlogFiles.Add(blog));
-            if (shellService.Settings.LoadAllDatabases)
-                managerService.AddDatabase(new Files().Load(blog.ChildId));
+            QueueOnDispatcher.CheckBeginInvokeOnUI(() => _managerService.BlogFiles.Add(blog));
+            if (_shellService.Settings.LoadAllDatabases)
+            {
+                _managerService.AddDatabase(new Files().Load(blog.ChildId));
+            }
         }
 
         private async Task<IBlog> CheckIfBlogIsHiddenTumblrBlogAsync(IBlog blog)
         {
-            if (blog.GetType() == typeof(TumblrBlog) && await tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url))
+            if (blog.GetType() == typeof(TumblrBlog) && await _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url))
             {
                 RemoveBlog(new[] { blog });
-                blog = TumblrHiddenBlog.Create("https://www.tumblr.com/dashboard/blog/" + blog.Name,
-                    Path.Combine(shellService.Settings.DownloadLocation, "Index"));
+                blog = TumblrHiddenBlog.Create("https://www.tumblr.com/dashboard/blog/" + blog.Name, Path.Combine(_shellService.Settings.DownloadLocation, "Index"));
             }
 
             return blog;
@@ -653,7 +682,9 @@ namespace TumblThree.Applications.Controllers
         private void OnClipboardContentChanged(object sender, EventArgs e)
         {
             if (!Clipboard.ContainsText())
+            {
                 return;
+            }
 
             // Count each whitespace as new url
             string[] urls = Clipboard.GetText().Split();
@@ -665,7 +696,7 @@ namespace TumblThree.Applications.Controllers
         {
             var semaphoreSlim = new SemaphoreSlim(25);
 
-            await addBlogSemaphoreSlim.WaitAsync();
+            await _addBlogSemaphoreSlim.WaitAsync();
             try
             {
                 IEnumerable<Task> tasks = urls.Select(async url => await AddBlogsAsync(semaphoreSlim, url));
@@ -673,7 +704,7 @@ namespace TumblThree.Applications.Controllers
             }
             finally
             {
-                addBlogSemaphoreSlim.Release();
+                _addBlogSemaphoreSlim.Release();
             }
         }
 
@@ -695,29 +726,37 @@ namespace TumblThree.Applications.Controllers
 
         private void ListenClipboard()
         {
-            if (shellService.Settings.CheckClipboard)
-                shellService.ClipboardMonitor.OnClipboardContentChanged += OnClipboardContentChanged;
+            if (_shellService.Settings.CheckClipboard)
+            {
+                _shellService.ClipboardMonitor.OnClipboardContentChanged += OnClipboardContentChanged;
+            }
             else
-                shellService.ClipboardMonitor.OnClipboardContentChanged -= OnClipboardContentChanged;
+            {
+                _shellService.ClipboardMonitor.OnClipboardContentChanged -= OnClipboardContentChanged;
+            }
         }
 
         private void CrawlerServicePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(crawlerService.NewBlogUrl))
-                addBlogCommand.RaiseCanExecuteChanged();
+            if (e.PropertyName == nameof(_crawlerService.NewBlogUrl))
+            {
+                _addBlogCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private void ManagerViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ManagerViewModel.SelectedBlogFile))
+            {
                 UpdateCommands();
+            }
         }
 
         private void UpdateCommands()
         {
-            enqueueSelectedCommand.RaiseCanExecuteChanged();
-            removeBlogCommand.RaiseCanExecuteChanged();
-            showFilesCommand.RaiseCanExecuteChanged();
+            _enqueueSelectedCommand.RaiseCanExecuteChanged();
+            _removeBlogCommand.RaiseCanExecuteChanged();
+            _showFilesCommand.RaiseCanExecuteChanged();
         }
 
         public void RestoreColumn() => ManagerViewModel.DataGridColumnRestore();

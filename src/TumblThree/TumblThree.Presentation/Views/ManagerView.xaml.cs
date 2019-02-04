@@ -19,7 +19,7 @@ using TumblThree.Domain.Queue;
 namespace TumblThree.Presentation.Views
 {
     /// <summary>
-    ///     Interaction logic for ManagerView.xaml
+    ///     Interaction logic for ManagerView.xaml.
     /// </summary>
     [Export(typeof(IManagerView))]
     public partial class ManagerView : IManagerView
@@ -56,8 +56,10 @@ namespace TumblThree.Presentation.Views
                 {
                     columnSettings.Add(column.Header, Tuple.Create(column.DisplayIndex, column.Width.Value, column.Visibility));
                 }
+
                 return columnSettings;
             }
+
             set
             {
                 foreach (DataGridColumn column in blogFilesGrid.Columns)
@@ -68,6 +70,7 @@ namespace TumblThree.Presentation.Views
                     column.Width = new DataGridLength(entry.Item2, DataGridLengthUnitType.Pixel);
                     column.Visibility = entry.Item3;
                 }
+
                 DataGridHideColumns.LoadColumnChecks(blogFilesGrid);
             }
         }
@@ -84,6 +87,7 @@ namespace TumblThree.Presentation.Views
             {
                 return;
             }
+
             ListSortDirection newDirection = e.Column.SortDirection == ListSortDirection.Ascending
                 ? ListSortDirection.Descending
                 : ListSortDirection.Ascending;
@@ -103,7 +107,9 @@ namespace TumblThree.Presentation.Views
         private void DataGridRowMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (ViewModel.CrawlerService.EnqueueSelectedCommand.CanExecute(null))
+            {
                 ViewModel.CrawlerService.EnqueueSelectedCommand.Execute(null);
+            }
         }
 
         private void DataGridRowMouseMove(object sender, MouseEventArgs e)
@@ -113,7 +119,9 @@ namespace TumblThree.Presentation.Views
                 var draggedItem = (DataGridRow)sender;
 
                 if (draggedItem.IsEditing)
+                {
                     return;
+                }
 
                 List<QueueListItem> items = blogFilesGrid.ItemsSource.Cast<IBlog>().Select(x => new QueueListItem(x)).ToList();
                 IEnumerable<QueueListItem> selectedItems = blogFilesGrid.SelectedItems

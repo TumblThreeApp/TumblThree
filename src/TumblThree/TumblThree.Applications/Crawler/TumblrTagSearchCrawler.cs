@@ -34,9 +34,9 @@ namespace TumblThree.Applications.Crawler
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
             IPostQueue<TumblrPost> postQueue, IBlog blog)
-            : base(shellService, crawlerService, ct, pt, progress, webRequestFactory, cookieService, tumblrParser, imgurParser,
-                gfycatParser, webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue,
-                blog)
+            : base(shellService, crawlerService, pt, progress, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
+                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog,
+                ct)
         {
             this.downloader = downloader;
         }
@@ -67,7 +67,7 @@ namespace TumblThree.Applications.Crawler
 
             blog.Save();
 
-            UpdateProgressQueueInformation("");
+            UpdateProgressQueueInformation(string.Empty);
         }
 
         private async Task GetUrlsAsync()
@@ -176,7 +176,9 @@ namespace TumblThree.Applications.Crawler
         private async Task<string> GetTaggedSearchPageAsync(long pagination)
         {
             if (shellService.Settings.LimitConnections)
+            {
                 crawlerService.Timeconstraint.Acquire();
+            }
 
             return await GetRequestAsync("https://www.tumblr.com/tagged/" + blog.Name + "?before=" + pagination);
         }
@@ -186,7 +188,9 @@ namespace TumblThree.Applications.Crawler
             while (true)
             {
                 if (CheckIfShouldStop())
+                {
                     return;
+                }
 
                 CheckIfShouldPause();
 
@@ -210,16 +214,23 @@ namespace TumblThree.Applications.Crawler
                 pagination = ExtractNextPageLink(document);
 
                 if (pagination < nextCrawlersPagination)
+                {
                     return;
+                }
+
                 if (!CheckIfWithinTimespan(pagination))
+                {
                     return;
+                }
             }
         }
 
         private bool CheckIfWithinTimespan(long pagination)
         {
             if (string.IsNullOrEmpty(blog.DownloadFrom))
+            {
                 return true;
+            }
 
             DateTime downloadFrom = DateTime.ParseExact(blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
                 DateTimeStyles.None);
@@ -230,22 +241,32 @@ namespace TumblThree.Applications.Crawler
         private void AddPhotoUrlToDownloadList(string document)
         {
             if (!blog.DownloadPhoto)
+            {
                 return;
+            }
+
             AddTumblrPhotoUrl(document);
 
             if (blog.RegExPhotos)
+            {
                 AddGenericPhotoUrl(document);
+            }
         }
 
         private void AddVideoUrlToDownloadList(string document)
         {
             if (!blog.DownloadVideo)
+            {
                 return;
+            }
+
             AddTumblrVideoUrl(document);
             AddInlineTumblrVideoUrl(document, tumblrParser.GetTumblrVVideoUrlRegex());
 
             if (blog.RegExVideos)
+            {
                 AddGenericVideoUrl(document);
+            }
         }
     }
 }

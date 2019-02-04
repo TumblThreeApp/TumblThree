@@ -10,6 +10,6 @@ namespace TumblThree.Applications.Crawler
     {
         ICrawler GetCrawler(IBlog blog);
 
-        ICrawler GetCrawler(IBlog blog, CancellationToken ct, PauseToken pt, IProgress<DownloadProgress> progress);
+        ICrawler GetCrawler(IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct);
     }
 }

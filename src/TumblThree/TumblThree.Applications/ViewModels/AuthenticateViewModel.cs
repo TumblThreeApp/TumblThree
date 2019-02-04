@@ -10,7 +10,7 @@ namespace TumblThree.Applications.ViewModels
     [Export]
     public class AuthenticateViewModel : ViewModel<IAuthenticateView>
     {
-        private string oauthCallbackUrl;
+        private string _oauthCallbackUrl;
 
         [ImportingConstructor]
         public AuthenticateViewModel(IAuthenticateView view, IShellService shellService)
@@ -18,15 +18,15 @@ namespace TumblThree.Applications.ViewModels
         {
             view.Closed += ViewClosed;
             ShellService = shellService;
-            oauthCallbackUrl = shellService.Settings.OAuthCallbackUrl;
+            _oauthCallbackUrl = shellService.Settings.OAuthCallbackUrl;
         }
 
         public IShellService ShellService { get; }
 
         public string OAuthCallbackUrl
         {
-            get => oauthCallbackUrl;
-            set => SetProperty(ref oauthCallbackUrl, value);
+            get => _oauthCallbackUrl;
+            set => SetProperty(ref _oauthCallbackUrl, value);
         }
 
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);

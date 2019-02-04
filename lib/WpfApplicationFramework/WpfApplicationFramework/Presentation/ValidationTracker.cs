@@ -17,7 +17,7 @@ namespace System.Waf.Presentation
         public ValidationTracker(DependencyObject owner)
         {
             this.owner = owner;
-            this.errors = new List<Tuple<object, ValidationError>>();
+            errors = new List<Tuple<object, ValidationError>>();
 
             Validation.AddErrorHandler(owner, ErrorChangedHandler);
         }

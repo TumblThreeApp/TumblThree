@@ -54,7 +54,7 @@ namespace System.Waf.Applications
 
         void IXmlSerializable.ReadXml(XmlReader reader)
         {
-            if (reader == null) { throw new ArgumentNullException("reader"); }
+            if (reader == null) { throw new ArgumentNullException(nameof(reader)); }
 
             IsPinned = bool.Parse(reader.GetAttribute("IsPinned"));
             path = reader.ReadElementContentAsString();
@@ -62,7 +62,7 @@ namespace System.Waf.Applications
 
         void IXmlSerializable.WriteXml(XmlWriter writer)
         {
-            if (writer == null) { throw new ArgumentNullException("writer"); }
+            if (writer == null) { throw new ArgumentNullException(nameof(writer)); }
 
             writer.WriteAttributeString("IsPinned", IsPinned.ToString(CultureInfo.InvariantCulture));
             writer.WriteString(Path);

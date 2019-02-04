@@ -10,7 +10,8 @@ using TumblThree.Applications.Extensions;
 
 namespace TumblThree.Applications.Services
 {
-    [Export, Export(typeof(ILoginService))]
+    [Export]
+    [Export(typeof(ILoginService))]
     internal class LoginService : ILoginService
     {
         private readonly IShellService shellService;
@@ -32,12 +33,14 @@ namespace TumblThree.Applications.Services
         {
             try
             {
-                string document = await RequestTumblrKey();
+                var document = await RequestTumblrKey().ConfigureAwait(false);
                 tumblrKey = ExtractTumblrKey(document);
-                await Register(login, password);
-                document = await Authenticate(login, password);
+                await Register(login, password).ConfigureAwait(false);
+                document = await Authenticate(login, password).ConfigureAwait(false);
                 if (tfaNeeded)
+                {
                     tumblrTFAKey = ExtractTumblrTFAKey(document);
+                }
             }
             catch (TimeoutException)
             {
@@ -46,10 +49,10 @@ namespace TumblThree.Applications.Services
 
         public void PerformTumblrLogout()
         {
-            HttpWebRequest request = webRequestFactory.CreateGetReqeust("https://www.tumblr.com/");
+            var request = webRequestFactory.CreateGetReqeust("https://www.tumblr.com/");
             cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
             cookieService.RemoveUriCookie(new Uri("https://www.tumblr.com"));
-            Cookie tosCookie =
+            var tosCookie =
                 request.CookieContainer.GetCookies(
                     new Uri("https://www.tumblr.com/"))["pfg"]; // pfg cookie contains ToS/GDPR agreement
             var tosCookieCollection = new CookieCollection
@@ -65,7 +68,7 @@ namespace TumblThree.Applications.Services
         {
             try
             {
-                await SubmitTFAAuthCode(login, tumblrTFAAuthCode);
+                await SubmitTFAAuthCode(login, tumblrTFAAuthCode).ConfigureAwait(false);
             }
             catch (TimeoutException)
             {
@@ -76,13 +79,13 @@ namespace TumblThree.Applications.Services
 
         private async Task<string> RequestTumblrKey()
         {
-            var url = "https://www.tumblr.com/login";
-            HttpWebRequest request = webRequestFactory.CreateGetReqeust(url);
+            const string url = "https://www.tumblr.com/login";
+            var request = webRequestFactory.CreateGetReqeust(url);
             cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
-            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
+            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut).ConfigureAwait(false) as HttpWebResponse)
             {
                 cookieService.SetUriCookie(response.Cookies);
-                using (Stream stream = webRequestFactory.GetStreamForApiRequest(response.GetResponseStream()))
+                using (var stream = webRequestFactory.GetStreamForApiRequest(response.GetResponseStream()))
                 {
                     using (var buffer = new BufferedStream(stream))
                     {
@@ -97,26 +100,26 @@ namespace TumblThree.Applications.Services
 
         private async Task Register(string login, string password)
         {
-            var url = "https://www.tumblr.com/svc/account/register";
-            var referer = "https://www.tumblr.com/login";
+            const string url = "https://www.tumblr.com/svc/account/register";
+            const string referer = "https://www.tumblr.com/login";
             var headers = new Dictionary<string, string>();
-            HttpWebRequest request = webRequestFactory.CreatePostXhrReqeust(url, referer, headers);
+            var request = webRequestFactory.CreatePostXhrReqeust(url, referer, headers);
             cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
             var parameters = new Dictionary<string, string>
             {
                 { "determine_email", login },
-                { "user[email]", "" },
-                { "user[password]", "" },
-                { "tumblelog[name]", "" },
-                { "user[age]", "" },
+                { "user[email]", string.Empty },
+                { "user[password]", string.Empty },
+                { "tumblelog[name]", string.Empty },
+                { "user[age]", string.Empty },
                 { "context", "no_referer" },
                 { "version", "STANDARD" },
-                { "follow", "" },
+                { "follow", string.Empty },
                 { "form_key", tumblrKey },
                 { "seen_suggestion", "0" },
                 { "used_suggestion", "0" },
                 { "used_auto_suggestion", "0" },
-                { "about_tumblr_slide", "" },
+                { "about_tumblr_slide", string.Empty },
                 { "tracking_url", "/login" },
                 { "tracking_version", "modal" },
                 {
@@ -125,8 +128,8 @@ namespace TumblThree.Applications.Services
                 },
                 { "action", "signup_determine" },
             };
-            await webRequestFactory.PerformPostReqeustAsync(request, parameters);
-            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
+            await webRequestFactory.PerformPostReqeustAsync(request, parameters).ConfigureAwait(false);
+            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut).ConfigureAwait(false) as HttpWebResponse)
             {
                 cookieService.SetUriCookie(response.Cookies);
             }
@@ -134,34 +137,34 @@ namespace TumblThree.Applications.Services
 
         private async Task<string> Authenticate(string login, string password)
         {
-            var url = "https://www.tumblr.com/login";
-            var referer = "https://www.tumblr.com/login";
+            const string url = "https://www.tumblr.com/login";
+            const string referer = "https://www.tumblr.com/login";
             var headers = new Dictionary<string, string>();
-            HttpWebRequest request = webRequestFactory.CreatePostReqeust(url, referer, headers);
+            var request = webRequestFactory.CreatePostReqeust(url, referer, headers);
             cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
             var parameters = new Dictionary<string, string>
             {
                 { "determine_email", login },
                 { "user[email]", login },
                 { "user[password]", password },
-                { "tumblelog[name]", "" },
-                { "user[age]", "" },
+                { "tumblelog[name]", string.Empty },
+                { "user[age]", string.Empty },
                 { "context", "no_referer" },
                 { "version", "STANDARD" },
-                { "follow", "" },
+                { "follow", string.Empty },
                 { "form_key", tumblrKey },
                 { "seen_suggestion", "0" },
                 { "used_suggestion", "0" },
                 { "used_auto_suggestion", "0" },
-                { "about_tumblr_slide", "" },
+                { "about_tumblr_slide", string.Empty },
                 {
                     "random_username_suggestions",
                     "[\"KawaiiBouquetStranger\",\"KeenTravelerFury\",\"RainyMakerTastemaker\",\"SuperbEnthusiastCollective\",\"TeenageYouthFestival\"]"
                 },
                 { "action", "signup_determine" }
             };
-            await webRequestFactory.PerformPostReqeustAsync(request, parameters);
-            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
+            await webRequestFactory.PerformPostReqeustAsync(request, parameters).ConfigureAwait(false);
+            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut).ConfigureAwait(false) as HttpWebResponse)
             {
                 if (request.Address == new Uri("https://www.tumblr.com/login")) // TFA required
                 {
@@ -188,20 +191,20 @@ namespace TumblThree.Applications.Services
 
         private async Task SubmitTFAAuthCode(string login, string tumblrTFAAuthCode)
         {
-            var url = "https://www.tumblr.com/login";
-            var referer = "https://www.tumblr.com/login";
+            const string url = "https://www.tumblr.com/login";
+            const string referer = "https://www.tumblr.com/login";
             var headers = new Dictionary<string, string>();
-            HttpWebRequest request = webRequestFactory.CreatePostReqeust(url, referer, headers);
+            var request = webRequestFactory.CreatePostReqeust(url, referer, headers);
             cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
             var parameters = new Dictionary<string, string>
             {
                 { "determine_email", login },
                 { "user[email]", login },
-                { "tumblelog[name]", "" },
-                { "user[age]", "" },
+                { "tumblelog[name]", string.Empty },
+                { "user[age]", string.Empty },
                 { "context", "login" },
                 { "version", "STANDARD" },
-                { "follow", "" },
+                { "follow", string.Empty },
                 { "form_key", tumblrKey },
                 { "tfa_form_key", tumblrTFAKey },
                 { "tfa_response_field", tumblrTFAAuthCode },
@@ -209,15 +212,15 @@ namespace TumblThree.Applications.Services
                 { "seen_suggestion", "0" },
                 { "used_suggestion", "0" },
                 { "used_auto_suggestion", "0" },
-                { "about_tumblr_slide", "" },
+                { "about_tumblr_slide", string.Empty },
                 {
                     "random_username_suggestions",
                     "[\"KawaiiBouquetStranger\",\"KeenTravelerFury\",\"RainyMakerTastemaker\",\"SuperbEnthusiastCollective\",\"TeenageYouthFestival\"]"
                 },
                 { "action", "signup_determine" }
             };
-            await webRequestFactory.PerformPostReqeustAsync(request, parameters);
-            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
+            await webRequestFactory.PerformPostReqeustAsync(request, parameters).ConfigureAwait(false);
+            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut).ConfigureAwait(false) as HttpWebResponse)
             {
                 cookieService.SetUriCookie(request.CookieContainer.GetCookies(new Uri("https://www.tumblr.com/")));
             }
@@ -225,17 +228,17 @@ namespace TumblThree.Applications.Services
 
         public bool CheckIfLoggedInAsync()
         {
-            HttpWebRequest request = webRequestFactory.CreateGetReqeust("https://www.tumblr.com/");
+            var request = webRequestFactory.CreateGetReqeust("https://www.tumblr.com/");
             cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
             return request.CookieContainer.GetCookieHeader(new Uri("https://www.tumblr.com/")).Contains("pfs");
         }
 
         public async Task<string> GetTumblrUsernameAsync()
         {
-            var tumblrAccountSettingsUrl = "https://www.tumblr.com/settings/account";
-            HttpWebRequest request = webRequestFactory.CreateGetReqeust(tumblrAccountSettingsUrl);
+            const string tumblrAccountSettingsUrl = "https://www.tumblr.com/settings/account";
+            var request = webRequestFactory.CreateGetReqeust(tumblrAccountSettingsUrl);
             cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
-            string document = await webRequestFactory.ReadReqestToEndAsync(request);
+            var document = await webRequestFactory.ReadReqestToEndAsync(request).ConfigureAwait(false);
             return ExtractTumblrUsername(document);
         }
 

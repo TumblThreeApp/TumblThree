@@ -15,10 +15,12 @@ namespace TumblThree.Presentation.Converters
             {
                 return DependencyProperty.UnsetValue;
             }
+
             if (values[1] == DependencyProperty.UnsetValue)
             {
                 return DependencyProperty.UnsetValue;
             }
+
             if (values[2] == DependencyProperty.UnsetValue)
             {
                 return DependencyProperty.UnsetValue;
@@ -27,7 +29,7 @@ namespace TumblThree.Presentation.Converters
             var downloaded = (int)values[0];
             var total = (int)values[1];
             int duplicates = System.Convert.ToInt32(values[2]);
-            
+
             return string.Format(CultureInfo.CurrentCulture, Resources.DetailsProgress, downloaded, total, duplicates);
         }
 

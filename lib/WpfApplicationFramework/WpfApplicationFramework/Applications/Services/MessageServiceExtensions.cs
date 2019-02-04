@@ -13,7 +13,7 @@
         /// <exception cref="ArgumentNullException">The argument service must not be null.</exception>
         public static void ShowMessage(this IMessageService service, string message)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             service.ShowMessage(null, message);
         }
 
@@ -25,7 +25,7 @@
         /// <exception cref="ArgumentNullException">The argument service must not be null.</exception>
         public static void ShowWarning(this IMessageService service, string message)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             service.ShowWarning(null, message);
         }
 
@@ -37,7 +37,7 @@
         /// <exception cref="ArgumentNullException">The argument service must not be null.</exception>
         public static void ShowError(this IMessageService service, string message)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             service.ShowError(null, message);
         }
 
@@ -50,7 +50,7 @@
         /// <exception cref="ArgumentNullException">The argument service must not be null.</exception>
         public static bool? ShowQuestion(this IMessageService service, string message)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             return service.ShowQuestion(null, message);
         }
 
@@ -63,7 +63,7 @@
         /// <exception cref="ArgumentNullException">The argument service must not be null.</exception>
         public static bool ShowYesNoQuestion(this IMessageService service, string message)
         {
-            if (service == null) { throw new ArgumentNullException("service"); }
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
             return service.ShowYesNoQuestion(null, message);
         }
     }

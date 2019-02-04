@@ -20,7 +20,10 @@ namespace TumblThree.Applications
         public void Report(T value)
         {
             if (!reportProgressAfterThrottling)
+            {
                 return;
+            }
+
             _progress.Report(value);
             reportProgressAfterThrottling = false;
         }

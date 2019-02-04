@@ -16,10 +16,8 @@ namespace TumblThree.Presentation.Controls
 
         static Rating()
         {
-            MinimumProperty.OverrideMetadata(typeof(Rating),
-                new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsMeasure));
-            MaximumProperty.OverrideMetadata(typeof(Rating),
-                new FrameworkPropertyMetadata(5.0, FrameworkPropertyMetadataOptions.AffectsMeasure));
+            MinimumProperty.OverrideMetadata(typeof(Rating), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsMeasure));
+            MaximumProperty.OverrideMetadata(typeof(Rating), new FrameworkPropertyMetadata(5.0, FrameworkPropertyMetadataOptions.AffectsMeasure));
             IsSnapToTickEnabledProperty.OverrideMetadata(typeof(Rating), new FrameworkPropertyMetadata(true));
             SmallChangeProperty.OverrideMetadata(typeof(Rating), new FrameworkPropertyMetadata(1.0));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Rating), new FrameworkPropertyMetadata(typeof(Rating)));
@@ -27,7 +25,7 @@ namespace TumblThree.Presentation.Controls
 
         public Rating()
         {
-            ratingItems = new ReadOnlyCollection<RatingItem>(new RatingItem[0]);
+            ratingItems = new ReadOnlyCollection<RatingItem>(Array.Empty<RatingItem>());
         }
 
         public override void OnApplyTemplate()
@@ -89,6 +87,7 @@ namespace TumblThree.Presentation.Controls
                 item.Click += ItemClick;
                 items.Add(item);
             }
+
             ratingItems = new ReadOnlyCollection<RatingItem>(items);
             itemsControl.ItemsSource = ratingItems;
         }

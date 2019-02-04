@@ -44,11 +44,15 @@ namespace TumblThree.Applications.Downloader
             foreach (TumblrCrawlerData<T> downloadItem in jsonQueue.GetConsumingEnumerable())
             {
                 if (ct.IsCancellationRequested)
+                {
                     break;
-                
+                }
+
                 if (pt.IsPaused)
+                {
                     pt.WaitWhilePausedWithResponseAsyc().Wait();
-                
+                }
+
                 trackedTasks.Add(DownloadPostAsync(downloadItem));
             }
 

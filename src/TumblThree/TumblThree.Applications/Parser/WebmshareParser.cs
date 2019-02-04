@@ -15,7 +15,7 @@ namespace TumblThree.Applications.Parser
 
         public string CreateWebmshareUrl(string webshareId, string detectedUrl, WebmshareTypes webmshareType)
         {
-            var url = "";
+            var url = string.Empty;
             switch (webmshareType)
             {
                 case WebmshareTypes.Mp4:

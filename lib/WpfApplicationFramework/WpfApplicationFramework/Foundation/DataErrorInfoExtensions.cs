@@ -15,7 +15,7 @@ namespace System.Waf.Foundation
         /// <exception cref="ArgumentNullException">The argument instance must not be null.</exception>
         public static string Validate(this IDataErrorInfo instance)
         {
-            if (instance == null) { throw new ArgumentNullException("instance"); }
+            if (instance == null) { throw new ArgumentNullException(nameof(instance)); }
 
             return instance.Error ?? "";
         }
@@ -29,7 +29,7 @@ namespace System.Waf.Foundation
         /// <exception cref="ArgumentNullException">The argument instance must not be null.</exception>
         public static string Validate(this IDataErrorInfo instance, string memberName)
         {
-            if (instance == null) { throw new ArgumentNullException("instance"); }
+            if (instance == null) { throw new ArgumentNullException(nameof(instance)); }
 
             return instance[memberName] ?? "";
         }

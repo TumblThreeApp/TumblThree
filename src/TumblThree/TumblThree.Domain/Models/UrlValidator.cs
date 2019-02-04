@@ -43,9 +43,15 @@ namespace TumblThree.Domain.Models
         public string AddHttpsProtocol(string url)
         {
             if (url == null)
+            {
                 return string.Empty;
+            }
+
             if (!url.Contains("http"))
+            {
                 return "https://" + url;
+            }
+
             return url;
         }
     }

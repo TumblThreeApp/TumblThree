@@ -55,7 +55,7 @@ namespace System.Waf.Applications.Services
 
         private static IEnumerable<string> CheckFileExtensions(IEnumerable<string> fileExtensions)
         {
-            if (fileExtensions == null) { throw new ArgumentNullException("fileExtensions"); }
+            if (fileExtensions == null) { throw new ArgumentNullException(nameof(fileExtensions)); }
             foreach (string fileExtension in fileExtensions)
             {
                 if (string.IsNullOrEmpty(fileExtension) || fileExtension[0] != '.') 

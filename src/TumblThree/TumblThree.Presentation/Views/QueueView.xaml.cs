@@ -15,7 +15,7 @@ using TumblThree.Presentation.Controls;
 namespace TumblThree.Presentation.Views
 {
     /// <summary>
-    ///     Interaction logic for QueueView.xaml
+    ///     Interaction logic for QueueView.xaml.
     /// </summary>
     [Export(typeof(IQueueView))]
     public partial class QueueView : IQueueView

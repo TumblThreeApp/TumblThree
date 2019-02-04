@@ -40,9 +40,9 @@ namespace TumblThree.Applications.Crawler
         protected List<string> tags = new List<string>();
         protected int numberOfPagesCrawled = 0;
 
-        protected AbstractCrawler(IShellService shellService, ICrawlerService crawlerService, CancellationToken ct, PauseToken pt,
-            IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
-            IPostQueue<TumblrPost> postQueue, IBlog blog)
+        protected AbstractCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory,
+            ISharedCookieService cookieService, IPostQueue<TumblrPost> postQueue, IBlog blog,
+            PauseToken pt, CancellationToken ct)
         {
             this.shellService = shellService;
             this.crawlerService = crawlerService;
@@ -70,7 +70,9 @@ namespace TumblThree.Applications.Crawler
             catch (WebException webException)
             {
                 if (webException.Status == WebExceptionStatus.RequestCanceled)
+                {
                     return;
+                }
 
                 Logger.Error("AbstractCrawler:IsBlogOnlineAsync:WebException {0}", webException);
                 shellService.ShowError(webException, Resources.BlogIsOffline, blog.Name);
@@ -95,7 +97,9 @@ namespace TumblThree.Applications.Crawler
         protected async Task<T> ThrottleConnectionAsync<T>(string url, Func<string, Task<T>> method)
         {
             if (shellService.Settings.LimitConnections)
+            {
                 crawlerService.Timeconstraint.Acquire();
+            }
 
             return await method(url);
         }
@@ -106,7 +110,7 @@ namespace TumblThree.Applications.Crawler
             var requestRegistration = new CancellationTokenRegistration();
             try
             {
-                HttpWebRequest request = webRequestFactory.CreateGetReqeust(url, "", headers);
+                HttpWebRequest request = webRequestFactory.CreateGetReqeust(url, string.Empty, headers);
                 cookieHosts = cookieHosts ?? new List<string>();
                 foreach (string cookieHost in cookieHosts)
                 {
@@ -197,8 +201,10 @@ namespace TumblThree.Applications.Crawler
         {
             ulong lastId = blog.LastId;
             if (blog.ForceRescan)
+            {
                 return 0;
-            
+            }
+
             return !string.IsNullOrEmpty(blog.DownloadPages) ? 0 : lastId;
         }
 
@@ -230,7 +236,9 @@ namespace TumblThree.Applications.Crawler
         protected void CheckIfShouldPause()
         {
             if (pt.IsPaused)
+            {
                 pt.WaitWhilePausedWithResponseAsyc().Wait();
+            }
         }
 
         protected void HandleTimeoutException(TimeoutException timeoutException, string duringAction)
@@ -244,7 +252,9 @@ namespace TumblThree.Applications.Crawler
         {
             var resp = (HttpWebResponse)webException.Response;
             if (resp.StatusCode != HttpStatusCode.ServiceUnavailable)
+            {
                 return false;
+            }
 
             Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.NotLoggedIn, blog.Name), webException);
             shellService.ShowError(webException, Resources.NotLoggedIn, blog.Name);
@@ -255,7 +265,9 @@ namespace TumblThree.Applications.Crawler
         {
             var resp = (HttpWebResponse)webException.Response;
             if (resp.StatusCode != HttpStatusCode.NotFound)
+            {
                 return false;
+            }
 
             Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.BlogIsOffline, blog.Name), webException);
             shellService.ShowError(webException, Resources.BlogIsOffline, blog.Name);
@@ -266,7 +278,9 @@ namespace TumblThree.Applications.Crawler
         {
             var resp = (HttpWebResponse)webException.Response;
             if ((int)resp.StatusCode != 429)
+            {
                 return false;
+            }
 
             Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.LimitExceeded, blog.Name), webException);
             shellService.ShowError(webException, Resources.LimitExceeded, blog.Name);
@@ -277,7 +291,9 @@ namespace TumblThree.Applications.Crawler
         {
             var resp = (HttpWebResponse)webException.Response;
             if (resp.StatusCode != HttpStatusCode.Unauthorized)
+            {
                 return false;
+            }
 
             Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.PasswordProtected, blog.Name),
                 webException);

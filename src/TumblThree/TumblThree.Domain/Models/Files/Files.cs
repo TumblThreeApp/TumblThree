@@ -33,13 +33,17 @@ namespace TumblThree.Domain.Models.Files
             links = new List<string>();
         }
 
-        [DataMember] public string Name { get; set; }
+        [DataMember]
+        public string Name { get; set; }
 
-        [DataMember] public string Location { get; set; }
+        [DataMember]
+        public string Location { get; set; }
 
-        [DataMember] public BlogTypes BlogType { get; set; }
+        [DataMember]
+        public BlogTypes BlogType { get; set; }
 
-        [DataMember] public string Version { get; set; }
+        [DataMember]
+        public string Version { get; set; }
 
         public IList<string> Links
         {
@@ -84,8 +88,7 @@ namespace TumblThree.Domain.Models.Files
 
         private IFiles LoadCore(string fileLocation)
         {
-            using (var stream = new FileStream(fileLocation,
-                FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var stream = new FileStream(fileLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 var serializer = new DataContractJsonSerializer(GetType());
                 var file = (Files)serializer.ReadObject(stream);

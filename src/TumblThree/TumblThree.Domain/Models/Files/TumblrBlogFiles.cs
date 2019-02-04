@@ -5,7 +5,8 @@ namespace TumblThree.Domain.Models.Files
     [DataContract]
     public class TumblrBlogFiles : Files
     {
-        public TumblrBlogFiles(string name, string location) : base(name, location)
+        public TumblrBlogFiles(string name, string location)
+            : base(name, location)
         {
             BlogType = BlogTypes.tumblr;
         }

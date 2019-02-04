@@ -51,8 +51,7 @@ namespace TumblThree.Applications.Parser
 
         public string ParseGfycatCajaxResponse(string result, GfycatTypes gfycatType)
         {
-            XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result),
-                new XmlDictionaryReaderQuotas());
+            XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), new XmlDictionaryReaderQuotas());
             XElement root = XElement.Load(jsonReader);
             string url;
             switch (gfycatType)

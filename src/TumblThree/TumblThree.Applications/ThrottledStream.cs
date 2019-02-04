@@ -19,7 +19,7 @@ namespace TumblThree.Applications
         private static long processed;
 
         /// <summary>
-        ///     Creates a new Stream with Databandwith cap
+        ///     Creates a new Stream with Databandwith cap.
         /// </summary>
         /// <param name="parentStream"></param>
         /// <param name="maxBytesPerSecond"></param>
@@ -37,7 +37,7 @@ namespace TumblThree.Applications
         }
 
         /// <summary>
-        ///     Number of Bytes that are allowed per second
+        ///     Number of Bytes that are allowed per second.
         /// </summary>
         private long MaxBytesPerSecond
         {

@@ -73,7 +73,7 @@
                 </Label>
 
                 <Label Content="{x:Static p:Resources.OperatingSystem}" Grid.Row="5" />
-                <Label Content="{Binding OSVersion}" Grid.Column="1" Grid.Row="5" />
+                <Label Content="{Binding OsVersion}" Grid.Column="1" Grid.Row="5" />
 
                 <Label Content="{x:Static p:Resources.NetFramework}" Grid.Row="6" />
                 <Label Grid.Column="1" Grid.Row="6">

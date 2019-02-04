@@ -25,8 +25,7 @@ namespace TumblThree.Applications.Downloader
         protected readonly CancellationToken ct;
         protected readonly PauseToken pt;
 
-        public TumblrXmlDownloader(IShellService shellService, CancellationToken ct, PauseToken pt,
-            IPostQueue<TumblrCrawlerData<XDocument>> xmlQueue, ICrawlerService crawlerService, IBlog blog)
+        public TumblrXmlDownloader(IShellService shellService, CancellationToken ct, PauseToken pt, IPostQueue<TumblrCrawlerData<XDocument>> xmlQueue, ICrawlerService crawlerService, IBlog blog)
         {
             this.shellService = shellService;
             this.crawlerService = crawlerService;

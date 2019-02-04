@@ -36,8 +36,8 @@ namespace TumblThree.Domain.Models.Blogs
             return blog;
         }
 
-        protected new static string ExtractName(string url) => url.Split('/')[5];
+        protected static new string ExtractName(string url) => url.Split('/')[5];
 
-        protected new static string ExtractUrl(string url) => "https://" + ExtractName(url) + ".tumblr.com/";
+        protected static new string ExtractUrl(string url) => "https://" + ExtractName(url) + ".tumblr.com/";
     }
 }

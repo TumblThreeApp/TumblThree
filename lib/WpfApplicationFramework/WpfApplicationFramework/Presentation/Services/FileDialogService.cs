@@ -29,7 +29,7 @@ namespace System.Waf.Presentation.Services
         /// <exception cref="ArgumentException">fileTypes must contain at least one item.</exception>
         public FileDialogResult ShowOpenFileDialog(object owner, IEnumerable<FileType> fileTypes, FileType defaultFileType, string defaultFileName)
         {
-            if (fileTypes == null) { throw new ArgumentNullException("fileTypes"); }
+            if (fileTypes == null) { throw new ArgumentNullException(nameof(fileTypes)); }
             if (!fileTypes.Any()) { throw new ArgumentException("The fileTypes collection must contain at least one item."); }
 
             OpenFileDialog dialog = new OpenFileDialog();
@@ -49,7 +49,7 @@ namespace System.Waf.Presentation.Services
         /// <exception cref="ArgumentException">fileTypes must contain at least one item.</exception>
         public FileDialogResult ShowSaveFileDialog(object owner, IEnumerable<FileType> fileTypes, FileType defaultFileType, string defaultFileName)
         {
-            if (fileTypes == null) { throw new ArgumentNullException("fileTypes"); }
+            if (fileTypes == null) { throw new ArgumentNullException(nameof(fileTypes)); }
             if (!fileTypes.Any()) { throw new ArgumentException("The fileTypes collection must contain at least one item."); }
 
             SaveFileDialog dialog = new SaveFileDialog();

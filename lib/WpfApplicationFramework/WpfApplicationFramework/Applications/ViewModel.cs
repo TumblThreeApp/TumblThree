@@ -19,7 +19,7 @@ namespace System.Waf.Applications
         /// <param name="view">The view.</param>
         protected ViewModel(IView view)
         {
-            if (view == null) { throw new ArgumentNullException("view"); }
+            if (view == null) { throw new ArgumentNullException(nameof(view)); }
             this.view = view;
             
             // Check if the code is running within the WPF application model

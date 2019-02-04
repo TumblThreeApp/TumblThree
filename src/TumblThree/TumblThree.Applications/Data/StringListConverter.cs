@@ -9,12 +9,12 @@ namespace TumblThree.Applications.Data
     {
         public static string ToString(IEnumerable<string> list, string separator = null)
         {
-            return string.Join(GetSeparator(separator), list ?? new string[0]);
+            return string.Join(GetSeparator(separator), list ?? Array.Empty<string>());
         }
 
         public static IEnumerable<string> FromString(string text, string separator = null)
         {
-            return (text ?? "").Split(new[] { GetSeparator(separator).Trim(' ') }, StringSplitOptions.RemoveEmptyEntries)
+            return (text ?? string.Empty).Split(new[] { GetSeparator(separator).Trim(' ') }, StringSplitOptions.RemoveEmptyEntries)
                                .Select(x => x.Trim(' ')).Where(x => !string.IsNullOrEmpty(x)).ToArray();
         }
 

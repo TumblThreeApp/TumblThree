@@ -45,7 +45,7 @@ namespace System.Waf.Applications
         /// <exception cref="ArgumentNullException">The execute argument must not be null.</exception>
         public DelegateCommand(Action<object> execute, Func<object, bool> canExecute)
         {
-            if (execute == null) { throw new ArgumentNullException("execute"); }
+            if (execute == null) { throw new ArgumentNullException(nameof(execute)); }
 
             this.execute = execute;
             this.canExecute = canExecute;

@@ -15,6 +15,7 @@ namespace TumblThree.Presentation.Converters
             {
                 return value == null ? Visibility.Visible : Visibility.Collapsed;
             }
+
             return value != null ? Visibility.Visible : Visibility.Collapsed;
         }
 

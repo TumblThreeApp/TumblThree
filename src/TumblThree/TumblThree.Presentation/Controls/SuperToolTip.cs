@@ -7,10 +7,10 @@ namespace TumblThree.Presentation.Controls
     {
         public static readonly DependencyProperty DescriptionProperty =
             DependencyProperty.Register(nameof(Description), typeof(string), typeof(SuperToolTip),
-                new FrameworkPropertyMetadata(""));
+                new FrameworkPropertyMetadata(string.Empty));
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register(nameof(Title), typeof(string), typeof(SuperToolTip), new FrameworkPropertyMetadata(""));
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(SuperToolTip), new FrameworkPropertyMetadata(string.Empty));
 
         static SuperToolTip()
         {

@@ -7,7 +7,8 @@ using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Applications.Services
 {
-    [Export, Export(typeof(ISelectionService))]
+    [Export]
+    [Export(typeof(ISelectionService))]
     internal class SelectionService : Model, ISelectionService
     {
         private readonly ObservableRangeCollection<IBlog> selectedBlogFiles;

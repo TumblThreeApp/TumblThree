@@ -9,7 +9,8 @@ namespace TumblThree.Presentation.DesignData
 {
     public class SampleShellViewModel : ShellViewModel
     {
-        public SampleShellViewModel() : base(new MockShellView(), new MockShellService(), new MockCrawlerService(), null, null)
+        public SampleShellViewModel()
+            : base(new MockShellView(), new MockShellService(), new MockCrawlerService(), null, null)
         {
             ShellService.QueueView = new Control();
             IsQueueViewVisible = true;

@@ -52,7 +52,7 @@ namespace TumblThree.Applications.Parser
         {
             Regex regex = GetImgurImageRegex();
             foreach (Match match in regex.Matches(searchableText))
-            {             
+            {
                 yield return match.Groups[1].Value;
             }
         }

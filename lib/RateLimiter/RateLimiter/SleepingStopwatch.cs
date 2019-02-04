@@ -24,7 +24,9 @@ namespace Guava.RateLimiter
         public long ReadMicros()
         {
             if (!Stopwatch.IsHighResolution)
+            {
                 return _stopwatch.ElapsedMilliseconds * 1000; //_stopwatch.ElapsedTicks / Stopwatch.Frequency;
+            }
 
             return _stopwatch.ElapsedTicks * 1000000 / Stopwatch.Frequency;
         }

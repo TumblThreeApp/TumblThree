@@ -22,7 +22,9 @@ namespace TumblThree.Applications.Parser
             {
                 string imageUrl = match.Groups[1].Value;
                 if (imageUrl.Contains("avatar") || imageUrl.Contains("previews"))
+                {
                     continue;
+                }
 
                 yield return imageUrl;
             }
@@ -46,7 +48,9 @@ namespace TumblThree.Applications.Parser
             {
                 string imageUrl = match.Groups[1].Value;
                 if (imageUrl.Contains("avatar") || imageUrl.Contains("previews"))
+                {
                     continue;
+                }
 
                 yield return imageUrl;
             }

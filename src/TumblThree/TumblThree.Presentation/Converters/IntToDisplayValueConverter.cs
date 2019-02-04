@@ -9,7 +9,7 @@ namespace TumblThree.Presentation.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var number = (int)value;
-            return number != 0 ? (object)number : "";
+            return number != 0 ? (object)number : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

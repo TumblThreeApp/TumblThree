@@ -12,10 +12,11 @@ using TumblThree.Applications.Views;
 namespace TumblThree.Presentation.Views
 {
     /// <summary>
-    ///     Interaction logic for SettingsView.xaml
+    ///     Interaction logic for SettingsView.xaml.
     /// </summary>
-    [Export(typeof(IAuthenticateView)), PartCreationPolicy(CreationPolicy.NonShared)]
-    public partial class AuthenticateView : Window, IAuthenticateView
+    [Export(typeof(IAuthenticateView))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
+    public partial class AuthenticateView : IAuthenticateView
     {
         private readonly Lazy<AuthenticateViewModel> viewModel;
 
@@ -68,7 +69,7 @@ namespace TumblThree.Presentation.Views
         {
             if (browser == null)
             {
-                throw new ArgumentNullException("browser");
+                throw new ArgumentNullException(nameof(browser));
             }
 
             // get an IWebBrowser2 from the document
@@ -78,8 +79,7 @@ namespace TumblThree.Presentation.Views
                 var IID_IWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
                 var IID_IWebBrowser2 = new Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E");
 
-                object webBrowser;
-                sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out webBrowser);
+                sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out var webBrowser);
                 if (webBrowser != null)
                 {
                     webBrowser.GetType()
@@ -89,12 +89,13 @@ namespace TumblThree.Presentation.Views
             }
         }
 
-        [ComImport, Guid("6D5140C1-7436-11CE-8034-00AA006009FA"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        [ComImport]
+        [Guid("6D5140C1-7436-11CE-8034-00AA006009FA")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         private interface IOleServiceProvider
         {
             [PreserveSig]
-            int QueryService([In] ref Guid guidService, [In] ref Guid riid,
-                [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
+            int QueryService([In] ref Guid guidService, [In] ref Guid riid, [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
         }
     }
 }
