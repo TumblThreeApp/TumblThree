@@ -1,14 +1,15 @@
 # TumblThree 简体中文
 
-这儿是[TumblThree](https://github.com/johanneszab/TumblThree)的英语和简体中文的源文件。
+这儿是[TumblThree](https://github.com/TumblThreeApp/TumblThree)的英语和简体中文的源文件。
 
-This is Emphasia's Simplified Chinese translation for [johanneszab's TumblThree](https://github.com/johanneszab/TumblThree).
+This is Emphasia's Simplified Chinese translation for [TumblThree](https://github.com/TumblThreeApp/TumblThree).
 
-- 作者页面：https://www.jzab.de/content/tumblthree
-- 未来的新功能与改进：https://github.com/johanneszab/TumblThree/wiki/New-Feature-Requests-and-Possible-Enhancements
+
+- 原作者repo：[johanneszab/TumblThree](https://github.com/johanneszab/TumblThree)
+- 现项目repo：[TumblThreeApp/TumblThree](https://github.com/TumblThreeApp/TumblThree)
 - 程序BUG或建议：
-  - 向作者提*（建议英语）*：https://github.com/johanneszab/TumblThree/issues
-  - 向我提*（中英皆可）*：https://github.com/Emphasia/TumblThree-zh/issues
+  - 向开发者提 *（建议英语）* ：https://github.com/TumblThreeApp/TumblThree/issues
+  - 向我提 *（中英皆可）* ：https://github.com/Emphasia/TumblThree-zh/issues
   - 注意：在国内的网络环境下，**设定用于下载的代理**可能是必须的，这并不是TumblThree的BUG。
 
 ## 下载 Download
@@ -21,7 +22,7 @@ This is Emphasia's Simplified Chinese translation for [johanneszab's TumblThree]
 >
 > 同步的版本因新功能的增加可能会有未翻译和错误的情况，而完全翻译的版本一般会晚一个版本。
 
-TumblThree作者的最新版本、别的版本及更新历史：https://github.com/johanneszab/TumblThree/releases
+TumblThree作者的最新版本、别的版本及更新历史：https://github.com/TumblThreeApp/TumblThree/releases
 
 ## 新手入门 Getting Started
 
@@ -33,7 +34,6 @@ TumblThree作者的最新版本、别的版本及更新历史：https://github.c
   要改变单独某个博客的下载，在`主界面`选中该博客，转到右侧`详细`标签页并更改设置。同时更改多个博客的下载设置请使用`Shift + 左键`或`Ctrl + A`全选。
 - 注意：你可能总是想要选中启用：
   - _下载转发的帖_：下载博主转发的帖子而不只是其原创的帖子 。
-  - _强制重新扫描_：强制重新扫描会重新扫描爬取整个博客而不仅是上一次成功爬取后新增加的帖子。博客数据（总贴数、各类帖数、重复数等）当前只能在爬取整个博客时才会更新。因此，此功能不开启可能会导致实际下载的数量比显示的多。如果你不在乎显示的数据，关闭此功能可以减少扫描的时间因为程序会跳过扫描已下载的帖子。
 
 当你感觉**下载速度不理想时**可能想更改的设置：
 
@@ -49,7 +49,7 @@ TumblThree作者的最新版本、别的版本及更新历史：https://github.c
 ## 使用指南 Usage
 
 - 下载并解压 `.zip` 文件，运行 `TumblThree.exe`。
-- 复制想要备份或下载的tumblr博客`URL`(http(s)://\*.tumblr.com\*)到底部的文本框（或使用剪贴板监视功能自动添加）后，点击右边的 `添加博客`。
+- 复制想要备份或下载的tumblr博客`URL`(blogname.tumblr.com)到底部的文本框（或使用剪贴板监视功能自动添加）后，点击右边的 `添加博客`。
 - 先将要处理的博客`添加到队列`，然后单击`开始`来开始下载（爬取），程序将自动检查队列中的博客并处理，直到你按下`停止` 。当然，你可以也可以先开始再向队列中添加博客。
 - 队列中博客左边的蓝条表明这个博客正在下载，左边的博客管理器也表明了各个博客的状态（红色为离线，绿色为下载中，紫色为等待）。
 - 你可在`设置`中设置并行的博客数目，下载目录和指定图片分辨率，或自动下载的时间。
@@ -63,11 +63,11 @@ TumblThree作者的最新版本、别的版本及更新历史：https://github.c
     2. 在`详细`标签页`密码`文本框输入该博客的密码
     3. 将该博客添加到队列并下载
   - 下载隐藏博客（需要登录才可以浏览）的帖子：
-    1. 到`设置`，单击`授权`，`登录`tumblr，登陆成功后弹出窗口会自动关闭
+    1. 到`设置` -> `连接`标签页填入 *登录邮箱与密码* ，单击`授权`登录tumblr，登陆成功后标签页将显示你的邮箱地址
     2. 添加该博客
     3. 将该博客添加到队列并下载
   - 下载某用户喜欢过的图片和视频：
-    1. 到`设置`，单击`授权`，`登录`tumblr，登陆成功后弹出窗口会自动关闭
+    1. 到`设置` -> `连接`标签页填入 *登录邮箱与密码* ，单击`授权`登录tumblr，登陆成功后标签页将显示你的邮箱地址
     2. 添加该博客（包括liked/by字符串 e.g. https://www.tumblr.com/liked/by/wallpaperfx/）
     3. 将该博客添加到队列并下载
 
@@ -75,11 +75,11 @@ TumblThree作者的最新版本、别的版本及更新历史：https://github.c
     + `Likes` -> Share posts you like (使 “喜欢”页 公开)
     + `Visibility` -> _blog_ is explicit (使 NSFW “喜欢” 可见/可下载)
   - 下载tumblr搜索结果中的图片和视频：
-    1. 到`设置`，单击`授权`，`登录`tumblr，登陆成功后弹出窗口会自动关闭
+    1. 到`设置` -> `连接`标签页填入 *登录邮箱与密码* ，单击`授权`登录tumblr，登陆成功后标签页将显示你的邮箱地址
     2. 添加该博客（包括以‘+’分隔的关键词 e.g.  https://www.tumblr.com/search/my+keyword）
     3. 将该博客添加到队列并下载
   - 下载tumblr标签搜索结果中的图片和视频：
-    1. 到`设置`，单击`授权`，`登录`tumblr，登陆成功后弹出窗口会自动关闭
+    1. 到`设置` -> `连接`标签页填入 *登录邮箱与密码* ，单击`授权`登录tumblr，登陆成功后标签页将显示你的邮箱地址
     2. 添加该博客（包括以‘+’分隔的标签 e.g.  https://www.tumblr.com/tagged/my+special+tags）
     3. 将该博客添加到队列并下载
 
@@ -97,8 +97,11 @@ TumblThree作者的最新版本、别的版本及更新历史：https://github.c
   - `Ctrl + Shift + G` - 开始垃圾回收
 
 - 保存的文件
-  - 注意：以下文件都以json格式保存
-  - 设置文件Settings.json保存在 C:\\Users\\*用户名*\\AppData\\Local\\TumblThree\\
+
+  注意：以下文件都以json格式保存于 _%LOCALAPPDATA%_ （C:\\Users\\*用户名*\\AppData\\Local\\）
+
+  - 登陆成功后，用户名邮箱地址与密码不保存，但cookies将生成并保存于_%LOCALAPPDATA%\TumblThree_
+  - 设置文件Settings.json保存在 _%LOCALAPPDATA%\TumblThree_
   - 你可以使用 *便携模式* (设置->全局) 将设置文件保存在程序根目录
   - 对每个博客，在下载目录（默认在程序根目录下的 _.\\Blogs\\_）下有一个以博客名命名的 索引(*Index*)文件夹 中有 数据库(序列化类) 文件。其中储存了博客URL、何时添加、哪些文件已被下载等信息。这使你能够移动已下载的文件到别的目录而不影响下载过程。
 
@@ -113,7 +116,7 @@ TumblThree作者的最新版本、别的版本及更新历史：https://github.c
 ## 功能 Features
 
 * 多线程下载
-* 监视剪贴板中URL(*http(s)://\*.tumblr.com\**)并自动添加博客到列表
+* 监视剪贴板中URL(*blogname.tumblr.com*)并自动添加博客到列表
 * 图片和视频可预览
 * 可自定义下载目录
 * 可导出下载地址而不实际下载
@@ -122,7 +125,7 @@ TumblThree作者的最新版本、别的版本及更新历史：https://github.c
 * 可设置指定（下载）分辨率
 * 可跳过下载已在别的博客（当前已加载的）下载过的文件
 * 可用便携模式
-* 可用HTTP代理
+* 可用HTTP代理（调用系统代理即IE）
 * 可限制带宽和线程
 * 可设置自动下载
 * 使用SSL而不是不安全的HTTP连接
@@ -134,7 +137,7 @@ TumblThree作者的最新版本、别的版本及更新历史：https://github.c
 * 可下载图片、视频、音频的元数据
 * 可下载内嵌的图片和视频
 * 可下载safe-mode、密码保护或隐藏以及NSFW的博客
-* 可下载外链 Imgur.com, Gfycat.com 和 Webmshare.com 的帖子
+* 可下载外链 Imgur, Gfycat, webmshare, Mixtape, lolisafe, Uguu, Catbox, SafeMoe 的帖子
 * 可仅下载原创帖而跳过转发帖
 * 可仅下载带标签（或指定标签）的帖子
 * 可下载特定页数或时间段内的帖子而不是整个博客
