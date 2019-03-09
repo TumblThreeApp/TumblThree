@@ -8,15 +8,14 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 before_build:
-- ps: >-
-    ./scripts/appveyor-prebuild.ps1
+- ps: scripts/appveyor-prebuild.ps1
 
     nuget restore "src\TumblThree\TumblThree.sln"
 build:
   project: src\TumblThree\TumblThree.sln
   verbosity: normal
 after_build:
-- ps: ./scripts/appveyor-postbuild.ps1
+- ps: scripts/appveyor-postbuild.ps1
 artifacts:
 - path: artifacts/*.zip
   name: TumblThree
