@@ -23,36 +23,36 @@ namespace TumblThree.Applications.Crawler
 {
     public abstract class AbstractCrawler
     {
-        protected readonly IBlog blog;
-        protected readonly IProgress<DownloadProgress> progress;
-        protected readonly ISharedCookieService cookieService;
-        protected readonly IWebRequestFactory webRequestFactory;
-        protected readonly object lockObjectDb = new object();
-        protected readonly object lockObjectDirectory = new object();
-        protected readonly object lockObjectDownload = new object();
-        protected readonly object lockObjectProgress = new object();
-        protected readonly ICrawlerService crawlerService;
-        protected readonly IShellService shellService;
-        protected readonly PauseToken pt;
-        protected readonly CancellationToken ct;
-        protected readonly IPostQueue<TumblrPost> postQueue;
-        protected ConcurrentBag<TumblrPost> statisticsBag = new ConcurrentBag<TumblrPost>();
-        protected List<string> tags = new List<string>();
-        protected int numberOfPagesCrawled = 0;
+        protected IBlog Blog { get; }
+        protected IProgress<DownloadProgress> Progress { get; }
+        protected ISharedCookieService CookieService { get; }
+        protected IWebRequestFactory WebRequestFactory { get; }
+        protected object LockObjectDb { get; } = new object();
+        protected object LockObjectDirectory { get; } = new object();
+        protected object LockObjectDownload { get; } = new object();
+        protected object LockObjectProgress { get; } = new object();
+        protected ICrawlerService CrawlerService { get; }
+        protected IShellService ShellService { get; }
+        protected PauseToken Pt { get; }
+        protected CancellationToken Ct { get; }
+        protected IPostQueue<TumblrPost> PostQueue { get; }
+        protected ConcurrentBag<TumblrPost> StatisticsBag { get; set; } = new ConcurrentBag<TumblrPost>();
+        protected List<string> Tags { get; set; } = new List<string>();
+        protected int NumberOfPagesCrawled;
 
         protected AbstractCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IPostQueue<TumblrPost> postQueue, IBlog blog,
             PauseToken pt, CancellationToken ct)
         {
-            this.shellService = shellService;
-            this.crawlerService = crawlerService;
-            this.webRequestFactory = webRequestFactory;
-            this.cookieService = cookieService;
-            this.postQueue = postQueue;
-            this.blog = blog;
-            this.pt = pt;
-            this.ct = ct;
-            this.progress = progress;
+            ShellService = shellService;
+            CrawlerService = crawlerService;
+            WebRequestFactory = webRequestFactory;
+            CookieService = cookieService;
+            PostQueue = postQueue;
+            Blog = blog;
+            Progress = progress;
+            Pt = pt;
+            Ct = ct;
         }
 
         public virtual async Task UpdateMetaInformationAsync()
@@ -64,8 +64,8 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                await RequestDataAsync(blog.Url);
-                blog.Online = true;
+                await RequestDataAsync(Blog.Url);
+                Blog.Online = true;
             }
             catch (WebException webException)
             {
@@ -75,13 +75,13 @@ namespace TumblThree.Applications.Crawler
                 }
 
                 Logger.Error("AbstractCrawler:IsBlogOnlineAsync:WebException {0}", webException);
-                shellService.ShowError(webException, Resources.BlogIsOffline, blog.Name);
-                blog.Online = false;
+                ShellService.ShowError(webException, Resources.BlogIsOffline, Blog.Name);
+                Blog.Online = false;
             }
             catch (TimeoutException timeoutException)
             {
                 HandleTimeoutException(timeoutException, Resources.OnlineChecking);
-                blog.Online = false;
+                Blog.Online = false;
             }
         }
 
@@ -91,14 +91,14 @@ namespace TumblThree.Applications.Crawler
             {
                 Progress = string.Format(CultureInfo.CurrentCulture, format, args)
             };
-            progress.Report(newProgress);
+            Progress.Report(newProgress);
         }
 
         protected async Task<T> ThrottleConnectionAsync<T>(string url, Func<string, Task<T>> method)
         {
-            if (shellService.Settings.LimitConnections)
+            if (ShellService.Settings.LimitConnections)
             {
-                crawlerService.Timeconstraint.Acquire();
+                CrawlerService.Timeconstraint.Acquire();
             }
 
             return await method(url);
@@ -110,15 +110,15 @@ namespace TumblThree.Applications.Crawler
             var requestRegistration = new CancellationTokenRegistration();
             try
             {
-                HttpWebRequest request = webRequestFactory.CreateGetReqeust(url, string.Empty, headers);
+                HttpWebRequest request = WebRequestFactory.CreateGetReqeust(url, string.Empty, headers);
                 cookieHosts = cookieHosts ?? new List<string>();
                 foreach (string cookieHost in cookieHosts)
                 {
-                    cookieService.GetUriCookie(request.CookieContainer, new Uri(cookieHost));
+                    CookieService.GetUriCookie(request.CookieContainer, new Uri(cookieHost));
                 }
 
-                requestRegistration = ct.Register(() => request.Abort());
-                return await webRequestFactory.ReadReqestToEndAsync(request);
+                requestRegistration = Ct.Register(() => request.Abort());
+                return await WebRequestFactory.ReadReqestToEndAsync(request);
             }
             finally
             {
@@ -139,7 +139,7 @@ namespace TumblThree.Applications.Crawler
             catch (SerializationException serializationException)
             {
                 Logger.Error("AbstractCrawler:ConvertJsonToClass<T>: {0}", "Could not parse data");
-                shellService.ShowError(serializationException, Resources.PostNotParsable, blog.Name);
+                ShellService.ShowError(serializationException, Resources.PostNotParsable, Blog.Name);
                 return new T();
             }
         }
@@ -158,9 +158,9 @@ namespace TumblThree.Applications.Crawler
 
         protected virtual IEnumerable<int> GetPageNumbers()
         {
-            return string.IsNullOrEmpty(blog.DownloadPages)
-                ? Enumerable.Range(0, shellService.Settings.ConcurrentScans)
-                : RangeToSequence(blog.DownloadPages);
+            return string.IsNullOrEmpty(Blog.DownloadPages)
+                ? Enumerable.Range(0, ShellService.Settings.ConcurrentScans)
+                : RangeToSequence(Blog.DownloadPages);
         }
 
         protected static bool TestRange(int numberToCheck, int bottom, int top)
@@ -193,59 +193,59 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddToDownloadList(TumblrPost addToList)
         {
-            postQueue.Add(addToList);
-            statisticsBag.Add(addToList);
+            PostQueue.Add(addToList);
+            StatisticsBag.Add(addToList);
         }
 
         protected ulong GetLastPostId()
         {
-            ulong lastId = blog.LastId;
-            if (blog.ForceRescan)
+            ulong lastId = Blog.LastId;
+            if (Blog.ForceRescan)
             {
                 return 0;
             }
 
-            return !string.IsNullOrEmpty(blog.DownloadPages) ? 0 : lastId;
+            return !string.IsNullOrEmpty(Blog.DownloadPages) ? 0 : lastId;
         }
 
         protected void UpdateBlogStats()
         {
-            blog.TotalCount = statisticsBag.Count;
-            blog.Photos = statisticsBag.Count(url => url.GetType() == typeof(PhotoPost));
-            blog.Videos = statisticsBag.Count(url => url.GetType() == typeof(VideoPost));
-            blog.Audios = statisticsBag.Count(url => url.GetType() == typeof(AudioPost));
-            blog.Texts = statisticsBag.Count(url => url.GetType() == typeof(TextPost));
-            blog.Answers = statisticsBag.Count(url => url.GetType() == typeof(AnswerPost));
-            blog.Conversations = statisticsBag.Count(url => url.GetType() == typeof(ConversationPost));
-            blog.Quotes = statisticsBag.Count(url => url.GetType() == typeof(QuotePost));
-            blog.NumberOfLinks = statisticsBag.Count(url => url.GetType() == typeof(LinkPost));
-            blog.PhotoMetas = statisticsBag.Count(url => url.GetType() == typeof(PhotoMetaPost));
-            blog.VideoMetas = statisticsBag.Count(url => url.GetType() == typeof(VideoMetaPost));
-            blog.AudioMetas = statisticsBag.Count(url => url.GetType() == typeof(AudioMetaPost));
+            Blog.TotalCount = StatisticsBag.Count;
+            Blog.Photos = StatisticsBag.Count(url => url.GetType() == typeof(PhotoPost));
+            Blog.Videos = StatisticsBag.Count(url => url.GetType() == typeof(VideoPost));
+            Blog.Audios = StatisticsBag.Count(url => url.GetType() == typeof(AudioPost));
+            Blog.Texts = StatisticsBag.Count(url => url.GetType() == typeof(TextPost));
+            Blog.Answers = StatisticsBag.Count(url => url.GetType() == typeof(AnswerPost));
+            Blog.Conversations = StatisticsBag.Count(url => url.GetType() == typeof(ConversationPost));
+            Blog.Quotes = StatisticsBag.Count(url => url.GetType() == typeof(QuotePost));
+            Blog.NumberOfLinks = StatisticsBag.Count(url => url.GetType() == typeof(LinkPost));
+            Blog.PhotoMetas = StatisticsBag.Count(url => url.GetType() == typeof(PhotoMetaPost));
+            Blog.VideoMetas = StatisticsBag.Count(url => url.GetType() == typeof(VideoMetaPost));
+            Blog.AudioMetas = StatisticsBag.Count(url => url.GetType() == typeof(AudioMetaPost));
         }
 
-        protected int DetermineDuplicates<T>() => statisticsBag.Where(url => url.GetType() == typeof(T))
+        protected int DetermineDuplicates<T>() => StatisticsBag.Where(url => url.GetType() == typeof(T))
                                 .GroupBy(url => url.Url)
                                 .Where(g => g.Count() > 1)
                                 .Sum(g => g.Count() - 1);
 
-        protected void CleanCollectedBlogStatistics() => statisticsBag = null;
+        protected void CleanCollectedBlogStatistics() => StatisticsBag = null;
 
-        protected bool CheckIfShouldStop() => ct.IsCancellationRequested;
+        protected bool CheckIfShouldStop() => Ct.IsCancellationRequested;
 
         protected void CheckIfShouldPause()
         {
-            if (pt.IsPaused)
+            if (Pt.IsPaused)
             {
-                pt.WaitWhilePausedWithResponseAsyc().Wait();
+                Pt.WaitWhilePausedWithResponseAsyc().Wait();
             }
         }
 
         protected void HandleTimeoutException(TimeoutException timeoutException, string duringAction)
         {
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.TimeoutReached, blog.Name),
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.TimeoutReached, Blog.Name),
                 timeoutException);
-            shellService.ShowError(timeoutException, Resources.TimeoutReached, duringAction, blog.Name);
+            ShellService.ShowError(timeoutException, Resources.TimeoutReached, duringAction, Blog.Name);
         }
 
         protected bool HandleServiceUnavailableWebException(WebException webException)
@@ -256,8 +256,8 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.NotLoggedIn, blog.Name), webException);
-            shellService.ShowError(webException, Resources.NotLoggedIn, blog.Name);
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.NotLoggedIn, Blog.Name), webException);
+            ShellService.ShowError(webException, Resources.NotLoggedIn, Blog.Name);
             return true;
         }
 
@@ -269,8 +269,8 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.BlogIsOffline, blog.Name), webException);
-            shellService.ShowError(webException, Resources.BlogIsOffline, blog.Name);
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.BlogIsOffline, Blog.Name), webException);
+            ShellService.ShowError(webException, Resources.BlogIsOffline, Blog.Name);
             return true;
         }
 
@@ -282,8 +282,8 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.LimitExceeded, blog.Name), webException);
-            shellService.ShowError(webException, Resources.LimitExceeded, blog.Name);
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.LimitExceeded, Blog.Name), webException);
+            ShellService.ShowError(webException, Resources.LimitExceeded, Blog.Name);
             return true;
         }
 
@@ -295,9 +295,9 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.PasswordProtected, blog.Name),
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.PasswordProtected, Blog.Name),
                 webException);
-            shellService.ShowError(webException, Resources.PasswordProtected, blog.Name);
+            ShellService.ShowError(webException, Resources.PasswordProtected, Blog.Name);
             return true;
         }
     }

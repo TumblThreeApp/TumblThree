@@ -53,30 +53,30 @@ namespace TumblThree.Applications.Crawler
             await grabber;
 
             UpdateProgressQueueInformation(Resources.ProgressUniqueDownloads);
-            blog.DuplicatePhotos = DetermineDuplicates<PhotoPost>();
-            blog.DuplicateVideos = DetermineDuplicates<VideoPost>();
-            blog.DuplicateAudios = DetermineDuplicates<AudioPost>();
-            blog.TotalCount = (blog.TotalCount - blog.DuplicatePhotos - blog.DuplicateAudios - blog.DuplicateVideos);
+            Blog.DuplicatePhotos = DetermineDuplicates<PhotoPost>();
+            Blog.DuplicateVideos = DetermineDuplicates<VideoPost>();
+            Blog.DuplicateAudios = DetermineDuplicates<AudioPost>();
+            Blog.TotalCount = (Blog.TotalCount - Blog.DuplicatePhotos - Blog.DuplicateAudios - Blog.DuplicateVideos);
 
             CleanCollectedBlogStatistics();
 
             await download;
 
-            if (!ct.IsCancellationRequested)
+            if (!Ct.IsCancellationRequested)
             {
-                blog.LastCompleteCrawl = DateTime.Now;
+                Blog.LastCompleteCrawl = DateTime.Now;
             }
 
-            blog.Save();
+            Blog.Save();
 
             UpdateProgressQueueInformation(string.Empty);
         }
 
         private async Task GetUrlsAsync()
         {
-            semaphoreSlim = new SemaphoreSlim(shellService.Settings.ConcurrentScans);
+            semaphoreSlim = new SemaphoreSlim(ShellService.Settings.ConcurrentScans);
             trackedTasks = new List<Task>();
-            tumblrKey = await UpdateTumblrKeyAsync("https://www.tumblr.com/search/" + blog.Name);
+            tumblrKey = await UpdateTumblrKeyAsync("https://www.tumblr.com/search/" + Blog.Name);
 
             GenerateTags();
 
@@ -89,7 +89,7 @@ namespace TumblThree.Applications.Crawler
 
             await Task.WhenAll(trackedTasks);
 
-            postQueue.CompleteAdding();
+            PostQueue.CompleteAdding();
 
             UpdateBlogStats();
         }
@@ -116,9 +116,9 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetSearchPageAsync(int pageNumber)
         {
-            if (shellService.Settings.LimitConnections)
+            if (ShellService.Settings.LimitConnections)
             {
-                crawlerService.Timeconstraint.Acquire();
+                CrawlerService.Timeconstraint.Acquire();
             }
 
             return await RequestPostAsync(pageNumber);
@@ -129,22 +129,22 @@ namespace TumblThree.Applications.Crawler
             var requestRegistration = new CancellationTokenRegistration();
             try
             {
-                string url = "https://www.tumblr.com/search/" + blog.Name + "/post_page/" + pageNumber;
-                string referer = @"https://www.tumblr.com/search/" + blog.Name;
+                string url = "https://www.tumblr.com/search/" + Blog.Name + "/post_page/" + pageNumber;
+                string referer = @"https://www.tumblr.com/search/" + Blog.Name;
                 var headers = new Dictionary<string, string> { { "X-tumblr-form-key", tumblrKey }, { "DNT", "1" } };
-                HttpWebRequest request = webRequestFactory.CreatePostXhrReqeust(url, referer, headers);
-                cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
+                HttpWebRequest request = WebRequestFactory.CreatePostXhrReqeust(url, referer, headers);
+                CookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
 
                 //Example request body, searching for cars:
                 //q=cars&sort=top&post_view=masonry&blogs_before=8&num_blogs_shown=8&num_posts_shown=20&before=24&blog_page=2&safe_mode=true&post_page=2&filter_nsfw=true&filter_post_type=&next_ad_offset=0&ad_placement_id=0&more_posts=true
 
-                string requestBody = "q=" + blog.Name + "&sort=top&post_view=masonry&num_posts_shown=" +
-                                     ((pageNumber - 1) * blog.PageSize) + "&before=" + ((pageNumber - 1) * blog.PageSize) +
+                string requestBody = "q=" + Blog.Name + "&sort=top&post_view=masonry&num_posts_shown=" +
+                                     ((pageNumber - 1) * Blog.PageSize) + "&before=" + ((pageNumber - 1) * Blog.PageSize) +
                                      "&safe_mode=false&post_page=" + pageNumber +
                                      "&filter_nsfw=false&filter_post_type=&next_ad_offset=0&ad_placement_id=0&more_posts=true";
-                await webRequestFactory.PerformPostXHRReqeustAsync(request, requestBody);
-                requestRegistration = ct.Register(() => request.Abort());
-                return await webRequestFactory.ReadReqestToEndAsync(request);
+                await WebRequestFactory.PerformPostXHRReqeustAsync(request, requestBody);
+                requestRegistration = Ct.Register(() => request.Abort());
+                return await WebRequestFactory.ReadReqestToEndAsync(request);
             }
             finally
             {
@@ -180,28 +180,28 @@ namespace TumblThree.Applications.Crawler
                 {
                 }
 
-                if (!string.IsNullOrEmpty(blog.DownloadPages))
+                if (!string.IsNullOrEmpty(Blog.DownloadPages))
                 {
                     return;
                 }
 
-                Interlocked.Increment(ref numberOfPagesCrawled);
-                UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
-                response = await GetSearchPageAsync((crawlerNumber + shellService.Settings.ConcurrentScans));
-                crawlerNumber += shellService.Settings.ConcurrentScans;
+                Interlocked.Increment(ref NumberOfPagesCrawled);
+                UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, NumberOfPagesCrawled);
+                response = await GetSearchPageAsync((crawlerNumber + ShellService.Settings.ConcurrentScans));
+                crawlerNumber += ShellService.Settings.ConcurrentScans;
             }
         }
 
         private void AddPhotoUrlToDownloadList(string document)
         {
-            if (!blog.DownloadPhoto)
+            if (!Blog.DownloadPhoto)
             {
                 return;
             }
 
             AddTumblrPhotoUrl(document);
 
-            if (blog.RegExPhotos)
+            if (Blog.RegExPhotos)
             {
                 AddGenericPhotoUrl(document);
             }
@@ -209,7 +209,7 @@ namespace TumblThree.Applications.Crawler
 
         private void AddVideoUrlToDownloadList(string document)
         {
-            if (!blog.DownloadVideo)
+            if (!Blog.DownloadVideo)
             {
                 return;
             }
@@ -217,7 +217,7 @@ namespace TumblThree.Applications.Crawler
             AddTumblrVideoUrl(document);
             AddInlineTumblrVideoUrl(document, tumblrParser.GetTumblrVVideoUrlRegex());
 
-            if (blog.RegExVideos)
+            if (Blog.RegExVideos)
             {
                 AddGenericVideoUrl(document);
             }

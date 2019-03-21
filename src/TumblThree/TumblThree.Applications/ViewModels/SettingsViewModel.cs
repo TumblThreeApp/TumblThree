@@ -1016,7 +1016,7 @@ namespace TumblThree.Applications.ViewModels
 
         private async Task ApplySettings(bool downloadLocationChanged, bool loadAllDatabasesChanged)
         {
-            CrawlerService.Timeconstraint.SetRate((MaxConnections / (double)ConnectionTimeInterval));
+            CrawlerService.Timeconstraint.SetRate(MaxConnections / (double)ConnectionTimeInterval);
 
             if (loadAllDatabasesChanged && downloadLocationChanged)
             {

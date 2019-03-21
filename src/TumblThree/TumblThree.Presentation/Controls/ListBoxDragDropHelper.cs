@@ -254,18 +254,18 @@ namespace TumblThree.Presentation.Controls
         {
             for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                var child = VisualTreeHelper.GetChild(obj, i);
+
                 if (child is TChild)
                 {
                     return (TChild)child;
                 }
-                else
+
+                var childOfChild = FindVisualChild<TChild>(child);
+
+                if (childOfChild != null)
                 {
-                    var childOfChild = FindVisualChild<TChild>(child);
-                    if (childOfChild != null)
-                    {
-                        return childOfChild;
-                    }
+                    return childOfChild;
                 }
             }
 

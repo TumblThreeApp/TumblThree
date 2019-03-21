@@ -81,7 +81,7 @@ namespace TumblThree.Applications.Parser
                     url = root.Element("gfyItem").Element("webpUrl").Value;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(gfycatType));
             }
 
             return url;

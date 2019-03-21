@@ -29,7 +29,7 @@ namespace TumblThree.Applications.Parser
 
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(webmshareType));
             }
 
             return url;

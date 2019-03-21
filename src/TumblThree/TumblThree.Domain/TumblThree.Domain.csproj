@@ -82,7 +82,6 @@
     <Compile Include="Models\Files\IFiles.cs" />
     <Compile Include="Models\IUrlValidator.cs" />
     <Compile Include="Models\MixtapeTypes.cs" />
-    <Compile Include="Models\PostCounter.cs" />
     <Compile Include="Models\Blogs\TumblrHiddenBlog.cs" />
     <Compile Include="Models\Blogs\TumblrBlog.cs" />
     <Compile Include="Models\Blogs\TumblrLikedByBlog.cs" />

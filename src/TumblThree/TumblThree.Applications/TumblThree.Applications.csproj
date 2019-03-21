@@ -108,7 +108,6 @@
     <Compile Include="DataModels\DownloadProgress.cs" />
     <Compile Include="DataModels\IPostQueue.cs" />
     <Compile Include="DataModels\PostQueue.cs" />
-    <Compile Include="DataModels\TumblrCrawlerData\ITumblrCrawlerData.cs" />
     <Compile Include="DataModels\TumblrPosts\PhotoMetaPost.cs" />
     <Compile Include="DataModels\TumblrPosts\ExternalVideoPost.cs" />
     <Compile Include="DataModels\TumblrPosts\ExternalPhotoPost.cs" />

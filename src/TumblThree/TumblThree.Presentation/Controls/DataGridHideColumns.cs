@@ -163,14 +163,7 @@ namespace TumblThree.Presentation.Controls
                 return string.Empty;
             }
 
-            if (column.Header != null)
-            {
-                return column.Header.ToString();
-            }
-            else
-            {
-                return string.Format("Column {0}", column.DisplayIndex);
-            }
+            return column.Header != null ? column.Header.ToString() : $"Column {column.DisplayIndex}";
         }
 
         private static MenuItem GenerateItem(DataGrid dataGrid, DataGridColumn column)
@@ -588,17 +581,17 @@ namespace TumblThree.Presentation.Controls
                 for (int childIndex = 0; childIndex < childCount; childIndex++)
                 {
                     child = VisualTreeHelper.GetChild(parent, childIndex);
+
                     if (child is TReturn)
                     {
                         return (TReturn)child;
                     }
-                    else
+
+                    child = FindChildRecursive(child);
+
+                    if (child is TReturn)
                     {
-                        child = FindChildRecursive(child);
-                        if (child is TReturn)
-                        {
-                            return (TReturn)child;
-                        }
+                        return (TReturn)child;
                     }
                 }
 

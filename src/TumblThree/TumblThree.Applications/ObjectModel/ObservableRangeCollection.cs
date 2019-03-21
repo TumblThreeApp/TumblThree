@@ -11,7 +11,6 @@ namespace TumblThree.Applications.ObjectModel
         /// Initializes a new instance of the <see cref="ObservableRangeCollection{T}"/> class.
         /// </summary>
         public ObservableRangeCollection()
-            : base()
         {
         }
 

@@ -8,48 +8,48 @@ namespace TumblThree.Domain.Models
     [Export(typeof(IBlogFactory))]
     public class BlogFactory : IBlogFactory
     {
-        private readonly IUrlValidator urlValidator;
+        private readonly IUrlValidator _urlValidator;
 
         [ImportingConstructor]
         internal BlogFactory(IUrlValidator urlValidator)
         {
-            this.urlValidator = urlValidator;
+            _urlValidator = urlValidator;
         }
 
         public bool IsValidTumblrBlogUrl(string blogUrl)
         {
-            blogUrl = urlValidator.AddHttpsProtocol(blogUrl);
-            return urlValidator.IsValidTumblrUrl(blogUrl)
-                   || urlValidator.IsValidTumblrHiddenUrl(blogUrl)
-                   || urlValidator.IsValidTumblrLikedByUrl(blogUrl)
-                   || urlValidator.IsValidTumblrSearchUrl(blogUrl)
-                   || urlValidator.IsValidTumblrTagSearchUrl(blogUrl);
+            blogUrl = _urlValidator.AddHttpsProtocol(blogUrl);
+            return _urlValidator.IsValidTumblrUrl(blogUrl)
+                   || _urlValidator.IsValidTumblrHiddenUrl(blogUrl)
+                   || _urlValidator.IsValidTumblrLikedByUrl(blogUrl)
+                   || _urlValidator.IsValidTumblrSearchUrl(blogUrl)
+                   || _urlValidator.IsValidTumblrTagSearchUrl(blogUrl);
         }
 
         public IBlog GetBlog(string blogUrl, string path)
         {
-            blogUrl = urlValidator.AddHttpsProtocol(blogUrl);
-            if (urlValidator.IsValidTumblrUrl(blogUrl))
+            blogUrl = _urlValidator.AddHttpsProtocol(blogUrl);
+            if (_urlValidator.IsValidTumblrUrl(blogUrl))
             {
                 return TumblrBlog.Create(blogUrl, path);
             }
 
-            if (urlValidator.IsValidTumblrHiddenUrl(blogUrl))
+            if (_urlValidator.IsValidTumblrHiddenUrl(blogUrl))
             {
                 return TumblrHiddenBlog.Create(blogUrl, path);
             }
 
-            if (urlValidator.IsValidTumblrLikedByUrl(blogUrl))
+            if (_urlValidator.IsValidTumblrLikedByUrl(blogUrl))
             {
                 return TumblrLikedByBlog.Create(blogUrl, path);
             }
 
-            if (urlValidator.IsValidTumblrSearchUrl(blogUrl))
+            if (_urlValidator.IsValidTumblrSearchUrl(blogUrl))
             {
                 return TumblrSearchBlog.Create(blogUrl, path);
             }
 
-            if (urlValidator.IsValidTumblrTagSearchUrl(blogUrl))
+            if (_urlValidator.IsValidTumblrTagSearchUrl(blogUrl))
             {
                 return TumblrTagSearchBlog.Create(blogUrl, path);
             }

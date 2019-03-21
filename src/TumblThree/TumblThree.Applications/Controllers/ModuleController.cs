@@ -45,11 +45,17 @@ namespace TumblThree.Applications.Controllers
         private List<Cookie> _cookieList;
 
         [ImportingConstructor]
-        public ModuleController(Lazy<ShellService> shellService, IEnvironmentService environmentService,
-            IConfirmTumblrPrivacyConsent confirmTumblrPrivacyConsent, ISettingsProvider settingsProvider,
-            ISharedCookieService cookieService, Lazy<ManagerController> managerController, Lazy<QueueController> queueController,
+        public ModuleController(
+            Lazy<ShellService> shellService,
+            IEnvironmentService environmentService,
+            IConfirmTumblrPrivacyConsent confirmTumblrPrivacyConsent,
+            ISettingsProvider settingsProvider,
+            ISharedCookieService cookieService,
+            Lazy<ManagerController> managerController,
+            Lazy<QueueController> queueController,
             Lazy<DetailsController> detailsController,
-            Lazy<CrawlerController> crawlerController, Lazy<ShellViewModel> shellViewModel)
+            Lazy<CrawlerController> crawlerController,
+            Lazy<ShellViewModel> shellViewModel)
         {
             _shellService = shellService;
             _environmentService = environmentService;

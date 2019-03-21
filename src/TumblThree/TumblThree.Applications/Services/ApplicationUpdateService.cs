@@ -12,8 +12,6 @@ using TumblThree.Domain;
 
 namespace TumblThree.Applications.Services
 {
-    /// <summary>
-    /// </summary>
     [Export(typeof(IApplicationUpdateService))]
     public class ApplicationUpdateService : IApplicationUpdateService
     {

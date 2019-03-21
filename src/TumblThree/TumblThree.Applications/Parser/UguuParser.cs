@@ -28,22 +28,22 @@ namespace TumblThree.Applications.Parser
                     url = detectedUrl;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(uguuType));
             }
 
             return url;
         }
 
-        public IEnumerable<string> SearchForUguuUrl(string searchableText, UguuTypes UguuType)
+        public IEnumerable<string> SearchForUguuUrl(string searchableText, UguuTypes uguuType)
         {
-            Regex regex = GetUguuUrlRegex();
+            var regex = GetUguuUrlRegex();
             foreach (Match match in regex.Matches(searchableText))
             {
-                string temp = match.Groups[0].ToString();
-                string id = match.Groups[2].Value;
-                string url = temp.Split('\"').First();
+                var temp = match.Groups[0].ToString();
+                var id = match.Groups[2].Value;
+                var url = temp.Split('\"').First();
 
-                yield return CreateUguuUrl(id, url, UguuType);
+                yield return CreateUguuUrl(id, url, uguuType);
             }
         }
     }

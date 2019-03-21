@@ -174,14 +174,14 @@ namespace TumblThree.Applications.Crawler
         private TumblrDownloader GetTumblrDownloader(CancellationToken ct, PauseToken pt, IProgress<DownloadProgress> progress,
             IBlog blog, IFiles files, IPostQueue<TumblrPost> postQueue)
         {
-            return new TumblrDownloader(shellService, managerService, ct, pt, progress, postQueue, GetFileDownloader(ct),
-                crawlerService, blog, files);
+            return new TumblrDownloader(shellService, managerService, pt, progress, postQueue, GetFileDownloader(ct),
+                crawlerService, blog, files, ct);
         }
 
         private TumblrXmlDownloader GetTumblrXmlDownloader(IPostQueue<TumblrCrawlerData<XDocument>> xmlQueue, IBlog blog,
             PauseToken pt, CancellationToken ct)
         {
-            return new TumblrXmlDownloader(shellService, ct, pt, xmlQueue, crawlerService, blog);
+            return new TumblrXmlDownloader(shellService, pt, xmlQueue, crawlerService, blog, ct);
         }
 
         private TumblrJsonDownloader<T> GetTumblrJsonDownloader<T>(IPostQueue<TumblrCrawlerData<T>> jsonQueue, IBlog blog,
@@ -209,7 +209,7 @@ namespace TumblThree.Applications.Crawler
                 case MetadataType.Json:
                     return new TumblrApiJsonToJsonParser<Post>();
                 default:
-                    throw new ArgumentException("Website is not supported!", "blogType");
+                    throw new ArgumentException("Website is not supported!", nameof(blog));
             }
         }
 
@@ -222,7 +222,7 @@ namespace TumblThree.Applications.Crawler
                 case MetadataType.Json:
                     return new TumblrSvcJsonToJsonParser<DataModels.TumblrSvcJson.Post>();
                 default:
-                    throw new ArgumentException("Website is not supported!", "blogType");
+                    throw new ArgumentException("Website is not supported!", nameof(blog));
             }
         }
 

@@ -62,10 +62,10 @@ namespace TumblThree.Presentation.Views
 
             set
             {
-                foreach (DataGridColumn column in blogFilesGrid.Columns)
+                foreach (var column in blogFilesGrid.Columns)
                 {
-                    Tuple<int, double, Visibility> entry;
-                    value.TryGetValue(column.Header, out entry);
+                    value.TryGetValue(column.Header, out var entry);
+
                     column.DisplayIndex = entry.Item1;
                     column.Width = new DataGridLength(entry.Item2, DataGridLengthUnitType.Pixel);
                     column.Visibility = entry.Item3;

@@ -49,8 +49,8 @@ namespace TumblThree.Applications.Crawler
         protected async Task<string> GetRequestAsync(string url)
         {
             var headers = new Dictionary<string, string>();
-            string username = blog.Name + ".tumblr.com";
-            string password = blog.Password;
+            string username = Blog.Name + ".tumblr.com";
+            string password = Blog.Password;
             string encoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
             headers.Add("Authorization", "Basic " + encoded);
             string[] cookieHosts = { "https://www.tumblr.com/" };
@@ -80,19 +80,9 @@ namespace TumblThree.Applications.Crawler
             return Regex.Match(document, "id=\"tumblr_form_key\" content=\"([\\S]*)\">").Groups[1].Value;
         }
 
-        /// <returns>
-        ///     Return the url without the size and type suffix (e.g.
-        ///     https://68.media.tumblr.com/51a99943f4aa7068b6fd9a6b36e4961b/tumblr_mnj6m9Huml1qat3lvo1).
-        /// </returns>
-        protected string GetCoreImageUrl(string url)
-        {
-            // return url.Split('_')[0] + "_" + url.Split('_')[1];
-            return url;
-        }
-
         protected string ImageSize()
         {
-            return shellService.Settings.ImageSize == "raw" ? "1280" : shellService.Settings.ImageSize;
+            return ShellService.Settings.ImageSize == "raw" ? "1280" : ShellService.Settings.ImageSize;
         }
 
         protected string ResizeTumblrImageUrl(string imageUrl)
@@ -112,20 +102,20 @@ namespace TumblThree.Applications.Crawler
 
         protected void GenerateTags()
         {
-            if (!string.IsNullOrWhiteSpace(blog.Tags))
+            if (!string.IsNullOrWhiteSpace(Blog.Tags))
             {
-                tags = blog.Tags.Split(',').Select(x => x.Trim()).ToList();
+                Tags = Blog.Tags.Split(',').Select(x => x.Trim()).ToList();
             }
         }
 
         protected bool CheckIfSkipGif(string imageUrl)
         {
-            return blog.SkipGif && imageUrl.EndsWith(".gif") || imageUrl.EndsWith(".gifv");
+            return Blog.SkipGif && imageUrl.EndsWith(".gif") || imageUrl.EndsWith(".gifv");
         }
 
         protected void AddWebmshareUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in webmshareParser.SearchForWebmshareUrl(post, blog.WebmshareType))
+            foreach (string imageUrl in webmshareParser.SearchForWebmshareUrl(post, Blog.WebmshareType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
@@ -139,7 +129,7 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddMixtapeUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in mixtapeParser.SearchForMixtapeUrl(post, blog.MixtapeType))
+            foreach (string imageUrl in mixtapeParser.SearchForMixtapeUrl(post, Blog.MixtapeType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
@@ -153,7 +143,7 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddUguuUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in uguuParser.SearchForUguuUrl(post, blog.UguuType))
+            foreach (string imageUrl in uguuParser.SearchForUguuUrl(post, Blog.UguuType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
@@ -167,7 +157,7 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddSafeMoeUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in safemoeParser.SearchForSafeMoeUrl(post, blog.SafeMoeType))
+            foreach (string imageUrl in safemoeParser.SearchForSafeMoeUrl(post, Blog.SafeMoeType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
@@ -181,7 +171,7 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddLoliSafeUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in lolisafeParser.SearchForLoliSafeUrl(post, blog.LoliSafeType))
+            foreach (string imageUrl in lolisafeParser.SearchForLoliSafeUrl(post, Blog.LoliSafeType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
@@ -195,7 +185,7 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddCatBoxUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in catboxParser.SearchForCatBoxUrl(post, blog.CatBoxType))
+            foreach (string imageUrl in catboxParser.SearchForCatBoxUrl(post, Blog.CatBoxType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
@@ -209,7 +199,7 @@ namespace TumblThree.Applications.Crawler
 
         protected async Task AddGfycatUrlAsync(string post, string timestamp)
         {
-            foreach (string videoUrl in await gfycatParser.SearchForGfycatUrlAsync(post, blog.GfycatType))
+            foreach (string videoUrl in await gfycatParser.SearchForGfycatUrlAsync(post, Blog.GfycatType))
             {
                 if (CheckIfSkipGif(videoUrl))
                 {
@@ -267,7 +257,7 @@ namespace TumblThree.Applications.Crawler
             foreach (string videoUrl in tumblrParser.SearchForTumblrVideoUrl(post))
             {
                 string url = videoUrl;
-                if (shellService.Settings.VideoSize == 480)
+                if (ShellService.Settings.VideoSize == 480)
                 {
                     url += "_480";
                 }
@@ -282,7 +272,7 @@ namespace TumblThree.Applications.Crawler
             {
                 string videoUrl = match.Groups[1].Value;
 
-                if (shellService.Settings.VideoSize == 480)
+                if (ShellService.Settings.VideoSize == 480)
                 {
                     videoUrl += "_480";
                 }

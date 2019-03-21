@@ -41,6 +41,7 @@ namespace TumblThree.Applications.ViewModels
 
         public ICommand DownloadCommand => _downloadCommand;
 
+#pragma warning disable CA1822
         public string ProductName => ApplicationInfo.ProductName;
 
         public string Version => ApplicationInfo.Version;
@@ -50,6 +51,7 @@ namespace TumblThree.Applications.ViewModels
         public string NetVersion => Environment.Version.ToString();
 
         public bool Is64BitProcess => Environment.Is64BitProcess;
+#pragma warning restore CA1822
 
         public bool IsCheckInProgress
         {
