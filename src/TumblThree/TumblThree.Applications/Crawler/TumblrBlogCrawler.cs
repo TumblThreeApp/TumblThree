@@ -674,12 +674,14 @@ namespace TumblThree.Applications.Crawler
 
         private string ParseImageUrl(Post post)
         {
-            return (string)post.GetType().GetProperty("photo_url_" + ImageSize()).GetValue(post, null) ?? post.PhotoUrl1280;
+            // TODO: Not use reflection here? We know the types...
+            return (string)post.GetType().GetProperty("PhotoUrl" + ImageSize()).GetValue(post, null) ?? post.PhotoUrl1280;
         }
 
         private string ParseImageUrl(Photo post)
         {
-            return (string)post.GetType().GetProperty("photo_url_" + ImageSize()).GetValue(post, null) ?? post.PhotoUrl1280;
+            // TODO: Not use reflection here? We know the types...
+            return (string)post.GetType().GetProperty("PhotoUrl" + ImageSize()).GetValue(post, null) ?? post.PhotoUrl1280;
         }
 
         private static string InlineSearch(Post post)
