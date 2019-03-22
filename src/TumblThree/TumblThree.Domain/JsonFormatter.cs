@@ -38,26 +38,30 @@ namespace TumblThree.Domain
                     {
                         if (character == ',')
                         {
-                            stringBuilder.Append(character);
-                            stringBuilder.Append("\r\n");
-                            stringBuilder.Append('\t', indentation);
+                            stringBuilder
+                                .Append(character)
+                                .Append("\r\n")
+                                .Append('\t', indentation);
                         }
                         else if (character == '[' || character == '{')
                         {
-                            stringBuilder.Append(character);
-                            stringBuilder.Append("\r\n");
-                            stringBuilder.Append('\t', ++indentation);
+                            stringBuilder
+                                .Append(character)
+                                .Append("\r\n")
+                                .Append('\t', ++indentation);
                         }
                         else if (character == ']' || character == '}')
                         {
-                            stringBuilder.Append("\r\n");
-                            stringBuilder.Append('\t', --indentation);
-                            stringBuilder.Append(character);
+                            stringBuilder
+                                .Append("\r\n")
+                                .Append('\t', --indentation)
+                                .Append(character);
                         }
                         else if (character == ':')
                         {
-                            stringBuilder.Append(character);
-                            stringBuilder.Append('\t');
+                            stringBuilder
+                                .Append(character)
+                                .Append('\t');
                         }
                         else
                         {

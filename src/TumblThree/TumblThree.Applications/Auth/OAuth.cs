@@ -586,7 +586,9 @@ namespace TumblThree.Applications.Auth
 
             var keyString = $"{UrlEncode(this["consumer_secret"])}&{UrlEncode(this["token_secret"])}";
 
+#pragma warning disable CA5350
             return new HMACSHA1 { Key = Encoding.ASCII.GetBytes(keyString) };
+#pragma warning restore CA5350
         }
     }
 

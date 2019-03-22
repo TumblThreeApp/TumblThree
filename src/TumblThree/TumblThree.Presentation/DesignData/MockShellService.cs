@@ -13,6 +13,8 @@ namespace TumblThree.Presentation.DesignData
 {
     public class MockShellService : Model, IShellService
     {
+        public event CancelEventHandler Closing;
+
         public MockShellService() => Settings = new AppSettings();
 
         public AppSettings Settings { get; set; }
@@ -31,7 +33,12 @@ namespace TumblThree.Presentation.DesignData
 
         public bool IsApplicationBusy { get; set; }
 
-        public event CancelEventHandler Closing;
+        public ClipboardMonitor ClipboardMonitor { get; set; }
+
+        public OAuthManager OAuthManager { get; set; }
+
+        public IDisposable SetApplicationBusy() => null;
+
 
         public void ShowError(Exception exception, string displayMessage)
         {
@@ -50,20 +57,6 @@ namespace TumblThree.Presentation.DesignData
         }
 
         public void AddTaskToCompleteBeforeShutdown(Task task)
-        {
-        }
-
-        public ClipboardMonitor ClipboardMonitor { get; set; }
-
-        public OAuthManager OAuthManager { get; set; }
-
-        public IDisposable SetApplicationBusy() => null;
-
-        public void ShowSettingsView()
-        {
-        }
-
-        public void ShowAboutView()
         {
         }
 

@@ -19,16 +19,18 @@ namespace TumblThree.Applications
         {
             if (UIDispatcher == null)
             {
-                var error = new StringBuilder("The DispatcherHelper is not initialized.");
-                error.AppendLine();
-                error.Append("Call DispatcherHelper.Initialize() in the static App constructor.");
+                var error =
+                    new StringBuilder("The DispatcherHelper is not initialized.")
+                    .AppendLine()
+                    .Append("Call DispatcherHelper.Initialize() in the static App constructor.");
+
                 throw new InvalidOperationException(error.ToString());
             }
         }
 
         /// <summary>
         ///     Executes an action on the UI thread. If this method is called
-        ///     from the UI thread, the action is executed immendiately. If the
+        ///     from the UI thread, the action is executed immediately. If the
         ///     method is called from another thread, the action will be enqueued
         ///     on the UI thread's dispatcher and executed asynchronously.
         ///     <para>

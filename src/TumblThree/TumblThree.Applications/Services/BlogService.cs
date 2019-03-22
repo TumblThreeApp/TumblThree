@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
-
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Models.Files;
 
@@ -10,102 +8,101 @@ namespace TumblThree.Applications.Services
 {
     public class BlogService : IBlogService
     {
-        protected readonly IBlog blog;
-        protected readonly IFiles files;
-        protected readonly object lockObjectProgress = new object();
-        protected readonly object lockObjectPostCount = new object();
-        protected readonly object lockObjectDb = new object();
-        protected readonly object lockObjectDirectory = new object();
+        private readonly IBlog _blog;
+        private readonly IFiles _files;
+        private readonly object _lockObjectProgress = new object();
+        private readonly object _lockObjectPostCount = new object();
+        private readonly object _lockObjectDb = new object();
+        private readonly object _lockObjectDirectory = new object();
 
         public BlogService(IBlog blog, IFiles files)
         {
-            this.blog = blog;
-            this.files = files;
+            _blog = blog;
+            _files = files;
         }
 
         public void UpdateBlogProgress()
         {
-            lock (lockObjectProgress)
+            lock (_lockObjectProgress)
             {
-                blog.DownloadedImages++;
-                blog.Progress = (int)(blog.DownloadedImages / (double)blog.TotalCount * 100);
+                _blog.DownloadedImages++;
+                _blog.Progress = (int)(_blog.DownloadedImages / (double)_blog.TotalCount * 100);
             }
         }
 
         public void UpdateBlogPostCount(string propertyName)
         {
-            lock (lockObjectPostCount)
+            lock (_lockObjectPostCount)
             {
-                PropertyInfo property = typeof(IBlog).GetProperty(propertyName);
-                var postCounter = (int)property.GetValue(blog);
+                var property = typeof(IBlog).GetProperty(propertyName);
+                var postCounter = (int)property.GetValue(_blog);
                 postCounter++;
-                property.SetValue(blog, postCounter, null);
+                property.SetValue(_blog, postCounter, null);
             }
         }
 
         public void UpdateBlogDB(string fileName)
         {
-            lock (lockObjectProgress)
+            lock (_lockObjectProgress)
             {
-                files.Links.Add(fileName);
+                _files.Links.Add(fileName);
             }
         }
 
         public bool CreateDataFolder()
         {
-            if (string.IsNullOrEmpty(blog.Name))
+            if (string.IsNullOrEmpty(_blog.Name))
             {
                 return false;
             }
 
-            string blogPath = blog.DownloadLocation();
+            var blogPath = _blog.DownloadLocation();
 
             if (!Directory.Exists(blogPath))
             {
                 Directory.CreateDirectory(blogPath);
-                return true;
             }
 
             return true;
         }
 
-        public virtual bool CheckIfFileExistsInDB(string url)
+        public bool CheckIfFileExistsInDB(string url)
         {
-            string fileName = url.Split('/').Last();
-            Monitor.Enter(lockObjectDb);
-            if (files.Links.Contains(fileName))
+            var fileName = url.Split('/').Last();
+            Monitor.Enter(_lockObjectDb);
+            if (_files.Links.Contains(fileName))
             {
-                Monitor.Exit(lockObjectDb);
+                Monitor.Exit(_lockObjectDb);
                 return true;
             }
 
-            Monitor.Exit(lockObjectDb);
+            Monitor.Exit(_lockObjectDb);
             return false;
         }
 
-        public virtual bool CheckIfBlogShouldCheckDirectory(string url)
+        public bool CheckIfBlogShouldCheckDirectory(string url)
         {
-            return blog.CheckDirectoryForFiles && CheckIfFileExistsInDirectory(url);
+            return _blog.CheckDirectoryForFiles && CheckIfFileExistsInDirectory(url);
         }
 
-        public virtual bool CheckIfFileExistsInDirectory(string url)
+        public bool CheckIfFileExistsInDirectory(string url)
         {
-            string fileName = url.Split('/').Last();
-            Monitor.Enter(lockObjectDirectory);
-            string blogPath = blog.DownloadLocation();
+            var fileName = url.Split('/').Last();
+            Monitor.Enter(_lockObjectDirectory);
+            var blogPath = _blog.DownloadLocation();
             if (File.Exists(Path.Combine(blogPath, fileName)))
             {
-                Monitor.Exit(lockObjectDirectory);
+                Monitor.Exit(_lockObjectDirectory);
                 return true;
             }
 
-            Monitor.Exit(lockObjectDirectory);
+            Monitor.Exit(_lockObjectDirectory);
             return false;
         }
 
-        public virtual void SaveFiles()
+        public void SaveFiles()
         {
-            files.Save();
+            _files.Save();
         }
     }
 }

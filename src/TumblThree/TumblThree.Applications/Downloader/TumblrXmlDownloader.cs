@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.DataModels.TumblrCrawlerData;
 using TumblThree.Applications.Properties;
@@ -16,40 +14,40 @@ using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Applications.Downloader
 {
-    public class TumblrXmlDownloader : ICrawlerDataDownloader
+    public sealed class TumblrXmlDownloader : ICrawlerDataDownloader
     {
-        protected readonly IBlog blog;
-        protected readonly ICrawlerService crawlerService;
-        protected readonly IPostQueue<TumblrCrawlerData<XDocument>> xmlQueue;
-        protected readonly IShellService shellService;
-        protected readonly CancellationToken ct;
-        protected readonly PauseToken pt;
+        private readonly IBlog _blog;
+        private readonly ICrawlerService _crawlerService;
+        private readonly IPostQueue<TumblrCrawlerData<XDocument>> _xmlQueue;
+        private readonly IShellService _shellService;
+        private readonly CancellationToken _ct;
+        private readonly PauseToken _pt;
 
-        public TumblrXmlDownloader(IShellService shellService, CancellationToken ct, PauseToken pt, IPostQueue<TumblrCrawlerData<XDocument>> xmlQueue, ICrawlerService crawlerService, IBlog blog)
+        public TumblrXmlDownloader(IShellService shellService, PauseToken pt, IPostQueue<TumblrCrawlerData<XDocument>> xmlQueue, ICrawlerService crawlerService, IBlog blog, CancellationToken ct)
         {
-            this.shellService = shellService;
-            this.crawlerService = crawlerService;
-            this.blog = blog;
-            this.ct = ct;
-            this.pt = pt;
-            this.xmlQueue = xmlQueue;
+            _shellService = shellService;
+            _crawlerService = crawlerService;
+            _blog = blog;
+            _ct = ct;
+            _pt = pt;
+            _xmlQueue = xmlQueue;
         }
 
-        public virtual async Task DownloadCrawlerDataAsync()
+        public async Task DownloadCrawlerDataAsync()
         {
             var trackedTasks = new List<Task>();
-            blog.CreateDataFolder();
+            _blog.CreateDataFolder();
 
-            foreach (TumblrCrawlerData<XDocument> downloadItem in xmlQueue.GetConsumingEnumerable())
+            foreach (TumblrCrawlerData<XDocument> downloadItem in _xmlQueue.GetConsumingEnumerable())
             {
-                if (ct.IsCancellationRequested)
+                if (_ct.IsCancellationRequested)
                 {
                     break;
                 }
 
-                if (pt.IsPaused)
+                if (_pt.IsPaused)
                 {
-                    pt.WaitWhilePausedWithResponseAsyc().Wait();
+                    _pt.WaitWhilePausedWithResponseAsyc().Wait();
                 }
 
                 trackedTasks.Add(DownloadPostAsync(downloadItem));
@@ -71,7 +69,7 @@ namespace TumblThree.Applications.Downloader
 
         private async Task DownloadTextPostAsync(TumblrCrawlerData<XDocument> crawlerData)
         {
-            string blogDownloadLocation = blog.DownloadLocation();
+            string blogDownloadLocation = _blog.DownloadLocation();
             string fileLocation = FileLocation(blogDownloadLocation, crawlerData.Filename);
             await AppendToTextFileAsync(fileLocation, crawlerData.Data);
         }
@@ -88,8 +86,8 @@ namespace TumblThree.Applications.Downloader
             catch (IOException ex) when ((ex.HResult & 0xFFFF) == 0x27 || (ex.HResult & 0xFFFF) == 0x70)
             {
                 Logger.Error("TumblrXmlDownloader:AppendToTextFile: {0}", ex);
-                shellService.ShowError(ex, Resources.DiskFull);
-                crawlerService.StopCommand.Execute(null);
+                _shellService.ShowError(ex, Resources.DiskFull);
+                _crawlerService.StopCommand.Execute(null);
             }
             catch
             {

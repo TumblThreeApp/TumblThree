@@ -18,9 +18,9 @@ namespace TumblThree.Applications.Downloader
         protected List<string> tags = new List<string>();
         protected int numberOfPagesCrawled = 0;
 
-        public TumblrDownloader(IShellService shellService, IManagerService managerService, CancellationToken ct, PauseToken pt,
+        public TumblrDownloader(IShellService shellService, IManagerService managerService, PauseToken pt,
             IProgress<DownloadProgress> progress, IPostQueue<TumblrPost> postQueue, FileDownloader fileDownloader,
-            ICrawlerService crawlerService, IBlog blog, IFiles files)
+            ICrawlerService crawlerService, IBlog blog, IFiles files, CancellationToken ct)
             : base(shellService, managerService, ct, pt, progress, postQueue, fileDownloader, crawlerService, blog, files)
         {
         }
@@ -45,12 +45,10 @@ namespace TumblThree.Applications.Downloader
                    .ToString();
         }
 
-        /// <returns>
-        ///     Return the url without the size and type suffix (e.g.
-        ///     https://68.media.tumblr.com/51a99943f4aa7068b6fd9a6b36e4961b/tumblr_mnj6m9Huml1qat3lvo1).
-        /// </returns>
         protected override string GetCoreImageUrl(string url)
         {
+            // Return the url without the size and type suffix (e.g.
+            // https://68.media.tumblr.com/51a99943f4aa7068b6fd9a6b36e4961b/tumblr_mnj6m9Huml1qat3lvo1).
             // return url.Split('_')[0] + "_" + url.Split('_')[1];
             return url;
         }

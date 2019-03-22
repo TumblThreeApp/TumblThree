@@ -8,7 +8,7 @@ namespace TumblThree.Domain.Models.Files
         public TumblrHiddenBlogFiles(string name, string location)
             : base(name, location)
         {
-            BlogType = BlogTypes.tmblrpriv;
+            BlogType = Models.BlogTypes.tmblrpriv;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace TumblThree.Domain.Models.Files
         public TumblrTagSearchBlogFiles(string name, string location)
             : base(name, location)
         {
-            BlogType = BlogTypes.tumblrtagsearch;
+            BlogType = Models.BlogTypes.tumblrtagsearch;
         }
     }
 }

@@ -768,11 +768,7 @@ namespace TumblThree.Domain.Models.Blogs
         [DataMember]
         public Exception LoadError { get; set; }
 
-        public List<string> Links
-        {
-            get => links;
-            protected set { }
-        }
+        public List<string> Links => links;
 
         [DataMember]
         public string LastDownloadedPhoto

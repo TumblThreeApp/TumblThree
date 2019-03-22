@@ -1,6 +1,6 @@
 ﻿namespace TumblThree.Applications.DataModels.TumblrCrawlerData
 {
-    public class TumblrCrawlerData<T> : ITumblrCrawlerData
+    public class TumblrCrawlerData<T>
     {
         public T Data { get; protected set; }
 

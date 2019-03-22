@@ -4,8 +4,6 @@ using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Applications.Services
 {
-    /// <summary>
-    /// </summary>
     [Export(typeof(ISettingsService))]
     public class SettingsService : ISettingsService
     {

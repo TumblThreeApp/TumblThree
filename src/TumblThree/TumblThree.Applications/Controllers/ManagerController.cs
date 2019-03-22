@@ -509,9 +509,8 @@ namespace TumblThree.Applications.Controllers
 
             if (_shellService.Settings.DisplayConfirmationDialog)
             {
-                string blogNames = string.Join(", ", blogs.Select(blog => blog.Name));
-                string message = string.Empty;
-                message = string.Format(
+                var blogNames = string.Join(", ", blogs.Select(blog => blog.Name));
+                var message = string.Format(
                     _shellService.Settings.DeleteOnlyIndex ? Resources.DeleteBlogsDialog : Resources.DeleteBlogsAndFilesDialog,
                     blogNames);
 

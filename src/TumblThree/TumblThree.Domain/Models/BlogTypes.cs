@@ -2,6 +2,7 @@
 {
     public enum BlogTypes
     {
+#pragma warning disable SA1300
         tumblr,
         tmblrpriv,
         instagram,
@@ -10,5 +11,6 @@
         tumblrsearch,
         tumblrtagsearch,
         all
+#pragma warning restore SA1300
     }
 }
