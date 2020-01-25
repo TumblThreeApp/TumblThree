@@ -88,7 +88,7 @@ namespace TumblThree.Domain.Models.Files
             {
                 var serializer = new DataContractJsonSerializer(GetType());
                 var file = (Files)serializer.ReadObject(stream);
-                file.Location = Path.Combine((Directory.GetParent(fileLocation).FullName));
+                file.Location = Path.Combine(Directory.GetParent(fileLocation).FullName);
                 return file;
             }
         }

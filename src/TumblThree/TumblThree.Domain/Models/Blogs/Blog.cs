@@ -95,6 +95,7 @@ namespace TumblThree.Domain.Models.Blogs
         private int settingsTabIndex;
         private int progress;
         private int quotes;
+        private BlogTypes blogType;
 
         [DataMember(Name = "Links")]
         private readonly List<string> links = new List<string>();
@@ -117,6 +118,9 @@ namespace TumblThree.Domain.Models.Blogs
 
         [DataMember]
         public string Version { get; set; }
+
+        [DataMember]
+        public BlogTypes OriginalBlogType { get; set; }
 
         [DataMember]
         public int DuplicatePhotos
@@ -328,7 +332,15 @@ namespace TumblThree.Domain.Models.Blogs
         public string ChildId { get; set; }
 
         [DataMember]
-        public BlogTypes BlogType { get; set; }
+        public BlogTypes BlogType
+        {
+            get => blogType;
+            set
+            {
+                SetProperty(ref blogType, value);
+                Dirty = true;
+            }
+        }
 
         [DataMember]
         public int DownloadedImages
@@ -936,8 +948,17 @@ namespace TumblThree.Domain.Models.Blogs
             {
                 var serializer = new DataContractJsonSerializer(GetType());
                 var blog = (IBlog)serializer.ReadObject(stream);
-                blog.Location = Path.Combine((Directory.GetParent(fileLocation).FullName));
-                blog.ChildId = Path.Combine(blog.Location, blog.Name + "_files." + blog.BlogType);
+
+                if (blog.Version == "3")
+                {
+                    Enum.TryParse(Path.GetExtension(fileLocation).Replace(".",""), out BlogTypes blogType);
+                    blog.OriginalBlogType = blogType;
+                    blog.Version = "4";
+                }
+
+                blog.Location = Path.Combine(Directory.GetParent(fileLocation).FullName);
+                blog.ChildId = Path.Combine(blog.Location, blog.Name + "_files." + blog.OriginalBlogType);
+
                 return blog;
             }
         }
@@ -959,9 +980,9 @@ namespace TumblThree.Domain.Models.Blogs
 
         private void SaveBlog()
         {
-            string currentIndex = Path.Combine(Location, Name + "." + BlogType);
-            string newIndex = Path.Combine(Location, Name + "." + BlogType + ".new");
-            string backupIndex = Path.Combine(Location, Name + "." + BlogType + ".bak");
+            string currentIndex = Path.Combine(Location, Name + "." + OriginalBlogType);
+            string newIndex = Path.Combine(Location, Name + "." + OriginalBlogType + ".new");
+            string backupIndex = Path.Combine(Location, Name + "." + OriginalBlogType + ".bak");
 
             if (File.Exists(currentIndex))
             {
