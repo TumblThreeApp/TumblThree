@@ -22,7 +22,7 @@ namespace TumblThree.Applications.Crawler
     [Export(typeof(ICrawler))]
     [ExportMetadata("BlogType", typeof(TumblrSearchBlog))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class TumblrSearchCrawler : AbstractTumblrCrawler, ICrawler
+    public class TumblrSearchCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
         private readonly IDownloader downloader;
         private string tumblrKey = string.Empty;
@@ -30,14 +30,15 @@ namespace TumblThree.Applications.Crawler
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
 
-        public TumblrSearchCrawler(IShellService shellService, CancellationToken ct, PauseToken pt,
-            IProgress<DownloadProgress> progress, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
+        private int numberOfPagesCrawled;
+
+        public TumblrSearchCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
-            IPostQueue<TumblrPost> postQueue, IBlog blog)
-            : base(shellService, crawlerService, pt, progress, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog,
+            IPostQueue<TumblrPost> postQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
+                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, progress, pt,
                 ct)
         {
             this.downloader = downloader;
@@ -185,8 +186,8 @@ namespace TumblThree.Applications.Crawler
                     return;
                 }
 
-                Interlocked.Increment(ref NumberOfPagesCrawled);
-                UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, NumberOfPagesCrawled);
+                Interlocked.Increment(ref numberOfPagesCrawled);
+                UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
                 response = await GetSearchPageAsync((crawlerNumber + ShellService.Settings.ConcurrentScans));
                 crawlerNumber += ShellService.Settings.ConcurrentScans;
             }
@@ -215,12 +216,26 @@ namespace TumblThree.Applications.Crawler
             }
 
             AddTumblrVideoUrl(document);
-            AddInlineTumblrVideoUrl(document, tumblrParser.GetTumblrVVideoUrlRegex());
+            AddInlineTumblrVideoUrl(document, TumblrParser.GetTumblrVVideoUrlRegex());
 
             if (Blog.RegExVideos)
             {
                 AddGenericVideoUrl(document);
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                semaphoreSlim?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -17,7 +17,7 @@ using TumblThree.Domain.Models.Files;
 
 namespace TumblThree.Applications.Downloader
 {
-    public abstract class AbstractDownloader : IDownloader
+    public abstract class AbstractDownloader : IDownloader, IDisposable
     {
         protected readonly IBlog blog;
         protected readonly IFiles files;
@@ -361,6 +361,21 @@ namespace TumblThree.Applications.Downloader
             {
                 pt.WaitWhilePausedWithResponseAsyc().Wait();
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                concurrentConnectionsSemaphore?.Dispose();
+                concurrentVideoConnectionsSemaphore?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -18,15 +18,15 @@ namespace TumblThree.Applications.Downloader
 {
     public class TumblrJsonDownloader<T> : ICrawlerDataDownloader
     {
-        protected readonly IBlog blog;
-        protected readonly ICrawlerService crawlerService;
-        protected readonly IPostQueue<TumblrCrawlerData<T>> jsonQueue;
-        protected readonly IShellService shellService;
-        protected readonly CancellationToken ct;
-        protected readonly PauseToken pt;
+        private readonly IBlog blog;
+        private readonly ICrawlerService crawlerService;
+        private readonly IPostQueue<TumblrCrawlerData<T>> jsonQueue;
+        private readonly IShellService shellService;
+        private readonly CancellationToken ct;
+        private readonly PauseToken pt;
 
-        public TumblrJsonDownloader(IShellService shellService, CancellationToken ct, PauseToken pt,
-            IPostQueue<TumblrCrawlerData<T>> jsonQueue, ICrawlerService crawlerService, IBlog blog)
+        public TumblrJsonDownloader(IShellService shellService, PauseToken pt, IPostQueue<TumblrCrawlerData<T>> jsonQueue,
+            ICrawlerService crawlerService, IBlog blog, CancellationToken ct)
         {
             this.shellService = shellService;
             this.crawlerService = crawlerService;

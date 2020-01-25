@@ -5,7 +5,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +24,7 @@ namespace TumblThree.Applications.Crawler
     [Export(typeof(ICrawler))]
     [ExportMetadata("BlogType", typeof(TumblrHiddenBlog))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class TumblrHiddenCrawler : AbstractTumblrCrawler, ICrawler
+    public class TumblrHiddenCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
@@ -39,15 +38,16 @@ namespace TumblThree.Applications.Crawler
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
 
-        public TumblrHiddenCrawler(IShellService shellService, CancellationToken ct, PauseToken pt,
-            IProgress<DownloadProgress> progress, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
+        private int numberOfPagesCrawled;
+
+        public TumblrHiddenCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
             ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
-            IPostQueue<TumblrPost> postQueue, IPostQueue<TumblrCrawlerData<Post>> jsonQueue, IBlog blog)
-            : base(shellService, crawlerService, pt, progress, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog,
+            IPostQueue<TumblrPost> postQueue, IPostQueue<TumblrCrawlerData<Post>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
+                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, progress, pt,
                 ct)
         {
             this.downloader = downloader;
@@ -408,8 +408,8 @@ namespace TumblThree.Applications.Crawler
                 {
                 }
 
-                Interlocked.Increment(ref NumberOfPagesCrawled);
-                UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, NumberOfPagesCrawled);
+                Interlocked.Increment(ref numberOfPagesCrawled);
+                UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
 
                 string document = await GetSvcPageAsync(Blog.PageSize.ToString(), (Blog.PageSize * crawlerNumber).ToString());
                 response = ConvertJsonToClass<TumblrJson>(document);
@@ -518,7 +518,7 @@ namespace TumblThree.Applications.Crawler
             //var videoUrls = new HashSet<string>();
 
             AddTumblrVideoUrl(InlineSearch(postCopy));
-            AddInlineTumblrVideoUrl(InlineSearch(postCopy), tumblrParser.GetTumblrVVideoUrlRegex());
+            AddInlineTumblrVideoUrl(InlineSearch(postCopy), TumblrParser.GetTumblrVVideoUrlRegex());
             if (Blog.RegExVideos)
             {
                 AddGenericInlineVideoUrl(postCopy);
@@ -783,6 +783,20 @@ namespace TumblThree.Applications.Crawler
             {
                 AddCatBoxUrl(searchableText, timestamp);
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                semaphoreSlim?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

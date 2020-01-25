@@ -16,7 +16,7 @@ using TumblThree.Domain.Queue;
 namespace TumblThree.Applications.Controllers
 {
     [Export]
-    internal class CrawlerController
+    internal class CrawlerController : IDisposable
     {
         private readonly ICrawlerFactory _crawlerFactory;
         private readonly ICrawlerService _crawlerService;
@@ -242,6 +242,20 @@ namespace TumblThree.Applications.Controllers
         {
             var progressHandler = new Progress<DownloadProgress>(value => { queueListItem.Progress = value.Progress; });
             return new ProgressThrottler<DownloadProgress>(progressHandler, _shellService.Settings.ProgressUpdateInterval);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _crawlerCancellationTokenSource?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

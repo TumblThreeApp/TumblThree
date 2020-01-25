@@ -45,7 +45,7 @@ namespace TumblThree.Applications.Controllers
 
             if (viewModel == null)
             {
-                throw new ArgumentException("Website is not supported!", "blogType");
+                throw new ArgumentException("Website is not supported!", nameof(blog));
             }
 
             return viewModel;

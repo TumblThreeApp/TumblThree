@@ -18,32 +18,39 @@ namespace TumblThree.Applications.Crawler
 {
     public abstract class AbstractTumblrCrawler : AbstractCrawler
     {
-        protected readonly ITumblrParser tumblrParser;
-        protected readonly IImgurParser imgurParser;
-        protected readonly IGfycatParser gfycatParser;
-        protected readonly IWebmshareParser webmshareParser;
-        protected readonly IMixtapeParser mixtapeParser;
-        protected readonly IUguuParser uguuParser;
-        protected readonly ISafeMoeParser safemoeParser;
-        protected readonly ILoliSafeParser lolisafeParser;
-        protected readonly ICatBoxParser catboxParser;
+        public ITumblrParser TumblrParser { get; }
 
-        protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, PauseToken pt,
-            IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
+        public IImgurParser ImgurParser { get; }
+
+        public IGfycatParser GfycatParser { get; }
+
+        public IWebmshareParser WebmshareParser { get; }
+
+        public IMixtapeParser MixtapeParser { get; }
+
+        public IUguuParser UguuParser { get; }
+
+        public ISafeMoeParser SafemoeParser { get; }
+
+        public ILoliSafeParser LolisafeParser { get; }
+
+        public ICatBoxParser CatboxParser { get; }
+
+        protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
             ITumblrParser tumblrParser, IImgurParser imgurParser, IGfycatParser gfycatParser, IWebmshareParser webmshareParser,
             IMixtapeParser mixtapeParser, IUguuParser uguuParser, ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser,
-            ICatBoxParser catboxParser, IPostQueue<TumblrPost> postQueue, IBlog blog, CancellationToken ct)
+            ICatBoxParser catboxParser, IPostQueue<TumblrPost> postQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, progress, webRequestFactory, cookieService, postQueue, blog, pt, ct)
         {
-            this.tumblrParser = tumblrParser;
-            this.imgurParser = imgurParser;
-            this.gfycatParser = gfycatParser;
-            this.webmshareParser = webmshareParser;
-            this.mixtapeParser = mixtapeParser;
-            this.uguuParser = uguuParser;
-            this.safemoeParser = safemoeParser;
-            this.lolisafeParser = lolisafeParser;
-            this.catboxParser = catboxParser;
+            this.TumblrParser = tumblrParser;
+            this.ImgurParser = imgurParser;
+            this.GfycatParser = gfycatParser;
+            this.WebmshareParser = webmshareParser;
+            this.MixtapeParser = mixtapeParser;
+            this.UguuParser = uguuParser;
+            this.SafemoeParser = safemoeParser;
+            this.LolisafeParser = lolisafeParser;
+            this.CatboxParser = catboxParser;
         }
 
         protected async Task<string> GetRequestAsync(string url)
@@ -115,130 +122,130 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddWebmshareUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in webmshareParser.SearchForWebmshareUrl(post, Blog.WebmshareType))
+            foreach (string imageUrl in WebmshareParser.SearchForWebmshareUrl(post, Blog.WebmshareType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
                     continue;
                 }
 
-                AddToDownloadList(new VideoPost(imageUrl, webmshareParser.GetWebmshareId(imageUrl),
+                AddToDownloadList(new VideoPost(imageUrl, WebmshareParser.GetWebmshareId(imageUrl),
                     timestamp));
             }
         }
 
         protected void AddMixtapeUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in mixtapeParser.SearchForMixtapeUrl(post, Blog.MixtapeType))
+            foreach (string imageUrl in MixtapeParser.SearchForMixtapeUrl(post, Blog.MixtapeType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
                     continue;
                 }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, mixtapeParser.GetMixtapeId(imageUrl),
+                AddToDownloadList(new ExternalVideoPost(imageUrl, MixtapeParser.GetMixtapeId(imageUrl),
                     timestamp));
             }
         }
 
         protected void AddUguuUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in uguuParser.SearchForUguuUrl(post, Blog.UguuType))
+            foreach (string imageUrl in UguuParser.SearchForUguuUrl(post, Blog.UguuType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
                     continue;
                 }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, uguuParser.GetUguuId(imageUrl),
+                AddToDownloadList(new ExternalVideoPost(imageUrl, UguuParser.GetUguuId(imageUrl),
                     timestamp));
             }
         }
 
         protected void AddSafeMoeUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in safemoeParser.SearchForSafeMoeUrl(post, Blog.SafeMoeType))
+            foreach (string imageUrl in SafemoeParser.SearchForSafeMoeUrl(post, Blog.SafeMoeType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
                     continue;
                 }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, safemoeParser.GetSafeMoeId(imageUrl),
+                AddToDownloadList(new ExternalVideoPost(imageUrl, SafemoeParser.GetSafeMoeId(imageUrl),
                     timestamp));
             }
         }
 
         protected void AddLoliSafeUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in lolisafeParser.SearchForLoliSafeUrl(post, Blog.LoliSafeType))
+            foreach (string imageUrl in LolisafeParser.SearchForLoliSafeUrl(post, Blog.LoliSafeType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
                     continue;
                 }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, lolisafeParser.GetLoliSafeId(imageUrl),
+                AddToDownloadList(new ExternalVideoPost(imageUrl, LolisafeParser.GetLoliSafeId(imageUrl),
                     timestamp));
             }
         }
 
         protected void AddCatBoxUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in catboxParser.SearchForCatBoxUrl(post, Blog.CatBoxType))
+            foreach (string imageUrl in CatboxParser.SearchForCatBoxUrl(post, Blog.CatBoxType))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
                     continue;
                 }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, catboxParser.GetCatBoxId(imageUrl),
+                AddToDownloadList(new ExternalVideoPost(imageUrl, CatboxParser.GetCatBoxId(imageUrl),
                     timestamp));
             }
         }
 
         protected async Task AddGfycatUrlAsync(string post, string timestamp)
         {
-            foreach (string videoUrl in await gfycatParser.SearchForGfycatUrlAsync(post, Blog.GfycatType))
+            foreach (string videoUrl in await GfycatParser.SearchForGfycatUrlAsync(post, Blog.GfycatType))
             {
                 if (CheckIfSkipGif(videoUrl))
                 {
                     continue;
                 }
 
-                AddToDownloadList(new ExternalVideoPost(videoUrl, gfycatParser.GetGfycatId(videoUrl), timestamp));
+                AddToDownloadList(new ExternalVideoPost(videoUrl, GfycatParser.GetGfycatId(videoUrl), timestamp));
             }
         }
 
         protected void AddImgurUrl(string post, string timestamp)
         {
-            foreach (string imageUrl in imgurParser.SearchForImgurUrl(post))
+            foreach (string imageUrl in ImgurParser.SearchForImgurUrl(post))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
                     continue;
                 }
 
-                AddToDownloadList(new ExternalPhotoPost(imageUrl, imgurParser.GetImgurId(imageUrl), timestamp));
+                AddToDownloadList(new ExternalPhotoPost(imageUrl, ImgurParser.GetImgurId(imageUrl), timestamp));
             }
         }
 
         protected async Task AddImgurAlbumUrlAsync(string post, string timestamp)
         {
-            foreach (string imageUrl in await imgurParser.SearchForImgurUrlFromAlbumAsync(post))
+            foreach (string imageUrl in await ImgurParser.SearchForImgurUrlFromAlbumAsync(post))
             {
                 if (CheckIfSkipGif(imageUrl))
                 {
                     continue;
                 }
 
-                AddToDownloadList(new ExternalPhotoPost(imageUrl, imgurParser.GetImgurId(imageUrl), timestamp));
+                AddToDownloadList(new ExternalPhotoPost(imageUrl, ImgurParser.GetImgurId(imageUrl), timestamp));
             }
         }
 
         protected void AddTumblrPhotoUrl(string post)
         {
-            foreach (string imageUrl in tumblrParser.SearchForTumblrPhotoUrl(post))
+            foreach (string imageUrl in TumblrParser.SearchForTumblrPhotoUrl(post))
             {
                 string url = imageUrl;
                 if (CheckIfSkipGif(url))
@@ -254,7 +261,7 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddTumblrVideoUrl(string post)
         {
-            foreach (string videoUrl in tumblrParser.SearchForTumblrVideoUrl(post))
+            foreach (string videoUrl in TumblrParser.SearchForTumblrVideoUrl(post))
             {
                 string url = videoUrl;
                 if (ShellService.Settings.VideoSize == 480)
@@ -283,9 +290,9 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddGenericPhotoUrl(string post)
         {
-            foreach (string imageUrl in tumblrParser.SearchForGenericPhotoUrl(post))
+            foreach (string imageUrl in TumblrParser.SearchForGenericPhotoUrl(post))
             {
-                if (tumblrParser.IsTumblrUrl(imageUrl))
+                if (TumblrParser.IsTumblrUrl(imageUrl))
                 {
                     continue;
                 }
@@ -301,9 +308,9 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddGenericVideoUrl(string post)
         {
-            foreach (string videoUrl in tumblrParser.SearchForGenericVideoUrl(post))
+            foreach (string videoUrl in TumblrParser.SearchForGenericVideoUrl(post))
             {
-                if (tumblrParser.IsTumblrUrl(videoUrl))
+                if (TumblrParser.IsTumblrUrl(videoUrl))
                 {
                     continue;
                 }

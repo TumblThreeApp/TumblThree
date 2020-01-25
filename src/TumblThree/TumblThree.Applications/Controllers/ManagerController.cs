@@ -28,7 +28,7 @@ using Clipboard = System.Windows.Clipboard;
 namespace TumblThree.Applications.Controllers
 {
     [Export]
-    internal class ManagerController
+    internal class ManagerController : IDisposable
     {
         private readonly IBlogFactory _blogFactory;
         private readonly ICrawlerService _crawlerService;
@@ -759,5 +759,19 @@ namespace TumblThree.Applications.Controllers
         }
 
         public void RestoreColumn() => ManagerViewModel.DataGridColumnRestore();
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _addBlogSemaphoreSlim.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

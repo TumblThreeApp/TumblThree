@@ -38,7 +38,6 @@ namespace TumblThree.Applications.Crawler
         protected IPostQueue<TumblrPost> PostQueue { get; }
         protected ConcurrentBag<TumblrPost> StatisticsBag { get; set; } = new ConcurrentBag<TumblrPost>();
         protected List<string> Tags { get; set; } = new List<string>();
-        protected int NumberOfPagesCrawled;
 
         protected AbstractCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IPostQueue<TumblrPost> postQueue, IBlog blog,
