@@ -58,6 +58,13 @@ namespace TumblThree.Applications.Crawler
 
         public override async Task IsBlogOnlineAsync()
         {
+            if (!await CheckIfLoggedInAsync())
+            {
+                Logger.Error("TumblrHiddenCrawler:GetUrlsAsync: {0}", "User not logged in");
+                ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
+                PostQueue.CompleteAdding();
+            }
+
             try
             {
                 tumblrKey = await UpdateTumblrKeyAsync("https://www.tumblr.com/dashboard/blog/" + Blog.Name);
@@ -182,15 +189,6 @@ namespace TumblThree.Applications.Crawler
             trackedTasks = new List<Task>();
 
             GenerateTags();
-
-            if (!await CheckIfLoggedInAsync())
-            {
-                Logger.Error("TumblrHiddenCrawler:GetUrlsAsync: {0}", "User not logged in");
-                ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
-                PostQueue.CompleteAdding();
-                incompleteCrawl = true;
-                return incompleteCrawl;
-            }
 
             foreach (int pageNumber in GetPageNumbers())
             {

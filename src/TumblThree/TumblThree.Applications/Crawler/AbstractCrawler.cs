@@ -250,7 +250,7 @@ namespace TumblThree.Applications.Crawler
         protected bool HandleServiceUnavailableWebException(WebException webException)
         {
             var resp = (HttpWebResponse)webException.Response;
-            if (resp.StatusCode != HttpStatusCode.ServiceUnavailable)
+            if (!(resp.StatusCode == HttpStatusCode.ServiceUnavailable || resp.StatusCode == HttpStatusCode.Unauthorized))
             {
                 return false;
             }
