@@ -95,9 +95,9 @@ namespace TumblThree.Applications.Crawler
 
         protected async Task<T> ThrottleConnectionAsync<T>(string url, Func<string, Task<T>> method)
         {
-            if (ShellService.Settings.LimitConnections)
+            if (ShellService.Settings.LimitConnectionsApi)
             {
-                CrawlerService.Timeconstraint.Acquire();
+                CrawlerService.TimeconstraintApi.Acquire();
             }
 
             return await method(url);

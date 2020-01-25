@@ -46,7 +46,8 @@ namespace TumblThree.Applications.ViewModels
         private bool _checkClipboard;
         private bool _checkDirectoryForFiles;
         private bool _checkOnlineStatusOnStartup;
-        private int _connectionTimeInterval;
+        private int _connectionTimeIntervalApi;
+        private int _connectionTimeIntervalSvc;
         private bool _createAudioMeta;
         private bool _createImageMeta;
         private bool _createVideoMeta;
@@ -75,9 +76,11 @@ namespace TumblThree.Applications.ViewModels
         private bool _forceSize;
         private bool _forceRescan;
         private string _imageSize;
-        private bool _limitConnections;
+        private bool _limitConnectionsApi;
+        private bool _limitConnectionsSvc;
         private bool _limitScanBandwidth;
-        private int _maxConnections;
+        private int _maxConnectionsApi;
+        private int _maxConnectionsSvc;
         private string _oauthCallbackUrl;
         private string _oauthToken;
         private string _oauthTokenSecret;
@@ -249,22 +252,40 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _timeOut, value);
         }
 
-        public bool LimitConnections
+        public bool LimitConnectionsApi
         {
-            get => _limitConnections;
-            set => SetProperty(ref _limitConnections, value);
+            get => _limitConnectionsApi;
+            set => SetProperty(ref _limitConnectionsApi, value);
         }
 
-        public int MaxConnections
+        public bool LimitConnectionsSvc
         {
-            get => _maxConnections;
-            set => SetProperty(ref _maxConnections, value);
+            get => _limitConnectionsSvc;
+            set => SetProperty(ref _limitConnectionsSvc, value);
         }
 
-        public int ConnectionTimeInterval
+        public int MaxConnectionsApi
         {
-            get => _connectionTimeInterval;
-            set => SetProperty(ref _connectionTimeInterval, value);
+            get => _maxConnectionsApi;
+            set => SetProperty(ref _maxConnectionsApi, value);
+        }
+
+        public int MaxConnectionsSvc
+        {
+            get => _maxConnectionsSvc;
+            set => SetProperty(ref _maxConnectionsSvc, value);
+        }
+
+        public int ConnectionTimeIntervalApi
+        {
+            get => _connectionTimeIntervalApi;
+            set => SetProperty(ref _connectionTimeIntervalApi, value);
+        }
+
+        public int ConnectionTimeIntervalSvc
+        {
+            get => _connectionTimeIntervalSvc;
+            set => SetProperty(ref _connectionTimeIntervalSvc, value);
         }
 
         public long Bandwidth
@@ -857,9 +878,12 @@ namespace TumblThree.Applications.ViewModels
                 VideoSize = _settings.VideoSize;
                 BlogType = _settings.BlogType;
                 TimeOut = _settings.TimeOut;
-                LimitConnections = _settings.LimitConnections;
-                MaxConnections = _settings.MaxConnections;
-                _connectionTimeInterval = _settings.ConnectionTimeInterval;
+                LimitConnectionsApi = _settings.LimitConnectionsApi;
+                LimitConnectionsSvc = _settings.LimitConnectionsSvc;
+                MaxConnectionsApi = _settings.MaxConnectionsApi;
+                MaxConnectionsSvc = _settings.MaxConnectionsSvc;
+                ConnectionTimeIntervalApi = _settings.ConnectionTimeIntervalApi;
+                ConnectionTimeIntervalSvc = _settings.ConnectionTimeIntervalSvc;
                 Bandwidth = _settings.Bandwidth;
                 ProgressUpdateInterval = _settings.ProgressUpdateInterval;
                 CheckClipboard = _settings.CheckClipboard;
@@ -936,9 +960,12 @@ namespace TumblThree.Applications.ViewModels
                 ConcurrentScans = 4;
                 LimitScanBandwidth = false;
                 TimeOut = 60;
-                LimitConnections = true;
-                MaxConnections = 90;
-                ConnectionTimeInterval = 60;
+                LimitConnectionsApi = true;
+                LimitConnectionsSvc = true;
+                MaxConnectionsApi = 90;
+                MaxConnectionsSvc = 90;
+                ConnectionTimeIntervalApi = 60;
+                ConnectionTimeIntervalSvc = 60;
                 ProgressUpdateInterval = 100;
                 Bandwidth = 0;
                 ImageSize = "raw";
@@ -1016,7 +1043,8 @@ namespace TumblThree.Applications.ViewModels
 
         private async Task ApplySettings(bool downloadLocationChanged, bool loadAllDatabasesChanged)
         {
-            CrawlerService.Timeconstraint.SetRate(MaxConnections / (double)ConnectionTimeInterval);
+            CrawlerService.TimeconstraintApi.SetRate(MaxConnectionsApi / (double)ConnectionTimeIntervalApi);
+            CrawlerService.TimeconstraintSvc.SetRate(MaxConnectionsSvc / (double)ConnectionTimeIntervalSvc);
 
             if (loadAllDatabasesChanged && downloadLocationChanged)
             {
@@ -1078,9 +1106,12 @@ namespace TumblThree.Applications.ViewModels
             _settings.ConcurrentScans = ConcurrentScans;
             _settings.LimitScanBandwidth = LimitScanBandwidth;
             _settings.TimeOut = TimeOut;
-            _settings.LimitConnections = LimitConnections;
-            _settings.MaxConnections = MaxConnections;
-            _settings.ConnectionTimeInterval = ConnectionTimeInterval;
+            _settings.LimitConnectionsApi = LimitConnectionsApi;
+            _settings.LimitConnectionsSvc = LimitConnectionsSvc;
+            _settings.MaxConnectionsApi = MaxConnectionsApi;
+            _settings.MaxConnectionsSvc = MaxConnectionsSvc;
+            _settings.ConnectionTimeIntervalApi = ConnectionTimeIntervalApi;
+            _settings.ConnectionTimeIntervalSvc = ConnectionTimeIntervalSvc;
             _settings.ProgressUpdateInterval = ProgressUpdateInterval;
             _settings.Bandwidth = Bandwidth;
             _settings.ImageSize = ImageSize;
