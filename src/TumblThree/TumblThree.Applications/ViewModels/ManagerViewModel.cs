@@ -22,6 +22,7 @@ namespace TumblThree.Applications.ViewModels
         private ICommand _showDetailsCommand;
         private ICommand _showFilesCommand;
         private ICommand _visitBlogCommand;
+        private ICommand _visitBlogOnTumbexCommand;
 
         private readonly Lazy<ICrawlerService> _crawlerService;
         private readonly Lazy<IManagerService> _managerService;
@@ -58,6 +59,12 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _visitBlogCommand;
             set => SetProperty(ref _visitBlogCommand, value);
+        }
+
+        public ICommand VisitBlogOnTumbexCommand
+        {
+            get => _visitBlogOnTumbexCommand;
+            set => SetProperty(ref _visitBlogOnTumbexCommand, value);
         }
 
         public ICommand ShowDetailsCommand

@@ -974,4 +974,7 @@ Note: The tumblr api is only used for regular tumblr blog downloads.</value>
 raw - download "_raw" photos if available, or 1280px else (broken!).
 best - download largest size possible (SVC only), or 1280px else.</value>
   </data>
+  <data name="VisitBlogOnTumbex" xml:space="preserve">
+    <value>Open the site in the web browser (on tumbex.com)</value>
+  </data>
 </root>
