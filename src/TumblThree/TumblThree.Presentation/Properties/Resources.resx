@@ -965,4 +965,13 @@ A too small value will decrease the scanning speed.
 Set a number/time pair.
 Note: The tumblr api is only used for regular tumblr blog downloads.</value>
   </data>
+  <data name="ToolTipImageSize" xml:space="preserve">
+    <value>Photo size to download</value>
+  </data>
+  <data name="ToolTipImageSizeDescription" xml:space="preserve">
+    <value>Photo size to download in pixels.
+
+raw - download "_raw" photos if available, or 1280px else (broken!).
+best - download largest size possible (SVC only), or 1280px else.</value>
+  </data>
 </root>
