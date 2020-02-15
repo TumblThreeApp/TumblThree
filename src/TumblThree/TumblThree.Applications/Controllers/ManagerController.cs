@@ -546,7 +546,7 @@ namespace TumblThree.Applications.Controllers
                     }
                 }
 
-                string indexFile = Path.Combine(blog.Location, blog.Name) + "." + blog.BlogType;
+                string indexFile = Path.Combine(blog.Location, blog.Name) + "." + blog.OriginalBlogType;
                 try
                 {
                     File.Delete(indexFile);
@@ -631,12 +631,19 @@ namespace TumblThree.Applications.Controllers
                 {
                     return;
                 }
-
+                SetDefaultTumblrBlogCrawler(blog);
                 SaveBlog(blog);
             }
 
             blog = _settingsService.TransferGlobalSettingsToBlog(blog);
             await UpdateMetaInformationAsync(blog);
+        }
+
+        private void SetDefaultTumblrBlogCrawler(IBlog blog)
+        {
+            if (_shellService.Settings.OverrideTumblrBlogCrawler)
+                if (blog.BlogType == BlogTypes.tumblr || blog.BlogType == BlogTypes.tmblrpriv)
+                    blog.BlogType = _shellService.Settings.TumblrBlogCrawlerType.MapToBlogType();
         }
 
         private void SaveBlog(IBlog blog)
@@ -649,12 +656,18 @@ namespace TumblThree.Applications.Controllers
 
         private bool CheckIfBlogAlreadyExists(IBlog blog)
         {
-            if (_managerService.BlogFiles.Any(blogs => blogs.Name.Equals(blog.Name) && blogs.BlogType.Equals(blog.BlogType)))
+            if (_managerService.BlogFiles.Any(blogs => blogs.Name.Equals(blog.Name) && (blogs.BlogType.Equals(blog.BlogType) || CheckifBlogsAreTumblrBlogs(blogs, blog))))
             {
                 _shellService.ShowError(null, Resources.BlogAlreadyExist, blog.Name);
                 return true;
             }
 
+            return false;
+        }
+
+        private bool CheckifBlogsAreTumblrBlogs(IBlog blogs, IBlog toMatch) {
+            if (blogs.BlogType == BlogTypes.tumblr || blogs.BlogType == BlogTypes.tmblrpriv)
+                return toMatch.BlogType == BlogTypes.tumblr || toMatch.BlogType == BlogTypes.tmblrpriv;
             return false;
         }
 

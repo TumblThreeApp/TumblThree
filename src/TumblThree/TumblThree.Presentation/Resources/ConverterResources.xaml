@@ -48,5 +48,7 @@
     <c:IsBlogInQueueMultiConverter x:Key="IsBlogInQueueMultiConverter" />
 
     <c:NullImageConverter x:Key="NullImageConverter" />
+    
+    <c:TumblrBlogCrawlerTypesConverter x:Key="TumblrBlogCrawlerTypesConverter" />
 
 </ResourceDictionary>
