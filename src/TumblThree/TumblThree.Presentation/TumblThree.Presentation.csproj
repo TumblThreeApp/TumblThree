@@ -321,11 +321,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\AddQueue.png" />
-    <Resource Include="Resources\Images\RemoveBlog.png" />
-    <Resource Include="Resources\Images\RemoveQueue.png" />
-  </ItemGroup>
-  <ItemGroup>
     <CodeAnalysisDictionary Include="Properties\CodeAnalysisDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -347,18 +342,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\About.png" />
-    <Resource Include="Resources\Images\AddBlog.png" />
-    <Resource Include="Resources\Images\Clipboard.png" />
-    <Resource Include="Resources\Images\Download.png" />
-    <Resource Include="Resources\Images\Explorer.png" />
-    <Resource Include="Resources\Images\Pause.png" />
-    <Resource Include="Resources\Images\Resume.png" />
-    <Resource Include="Resources\Images\Scan.png" />
-    <Resource Include="Resources\Images\Settings.png" />
-    <Resource Include="Resources\Images\Stop.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\Tumblr.png" />
   </ItemGroup>
   <ItemGroup>
@@ -366,12 +349,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Behaviors\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\ImportBlogFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\Play.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FontAwesome.WPF">
