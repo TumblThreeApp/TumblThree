@@ -14,6 +14,7 @@ namespace TumblThree.Presentation.DesignData
     public class MockShellService : Model, IShellService
     {
         public event CancelEventHandler Closing;
+        public event EventHandler SettingsUpdatedHandler;
 
         public MockShellService() => Settings = new AppSettings();
 
@@ -57,6 +58,10 @@ namespace TumblThree.Presentation.DesignData
         }
 
         public void AddTaskToCompleteBeforeShutdown(Task task)
+        {
+        }
+
+        public void SettingsUpdated()
         {
         }
 

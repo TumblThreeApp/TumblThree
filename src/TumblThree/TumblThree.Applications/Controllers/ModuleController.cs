@@ -100,6 +100,7 @@ namespace TumblThree.Applications.Controllers
             ShellService.ShowDetailsViewAction = ShowDetailsView;
             ShellService.ShowQueueViewAction = ShowQueueView;
             ShellService.UpdateDetailsViewAction = UpdateDetailsView;
+            ShellService.SettingsUpdatedHandler += OnSettingsUpdated;
             ShellService.InitializeOAuthManager();
 
             ManagerController.QueueManager = _queueManager;
@@ -135,6 +136,11 @@ namespace TumblThree.Applications.Controllers
             ManagerController.Shutdown();
             CrawlerController.Shutdown();
 
+            SaveSettings();
+        }
+
+        private void SaveSettings()
+        {
             string savePath = _environmentService.AppSettingsPath;
             if (_appSettings.PortableMode)
             {
@@ -145,6 +151,11 @@ namespace TumblThree.Applications.Controllers
             SaveSettings(Path.Combine(savePath, QueueSettingsFileName), _queueSettings);
             SaveSettings(Path.Combine(savePath, ManagerSettingsFileName), _managerSettings);
             SaveSettings(Path.Combine(savePath, CookiesFileName), new List<Cookie>(_cookieService.GetAllCookies()));
+        }
+
+        private void OnSettingsUpdated(object sender, EventArgs e)
+        {
+            SaveSettings();
         }
 
         private void OnBlogManagerFinishedLoadingLibrary(object sender, EventArgs e)

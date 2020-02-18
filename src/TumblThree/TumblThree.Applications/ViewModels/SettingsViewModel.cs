@@ -1057,6 +1057,8 @@ namespace TumblThree.Applications.ViewModels
             bool loadAllDatabasesChanged = LoadAllDatabasesChanged();
             SaveSettings();
             await ApplySettings(downloadLocationChanged, loadAllDatabasesChanged);
+
+            ShellService.SettingsUpdated();
         }
 
         private async Task ApplySettings(bool downloadLocationChanged, bool loadAllDatabasesChanged)

@@ -30,6 +30,8 @@ namespace TumblThree.Applications.Services
         private object queueView;
         private object settingsView;
 
+        public event EventHandler SettingsUpdatedHandler;
+
         [ImportingConstructor]
         public ShellService(Lazy<IShellView> shellView)
         {
@@ -171,6 +173,11 @@ namespace TumblThree.Applications.Services
             OAuthManager["consumer_secret"] = Settings.SecretKey;
             OAuthManager["token"] = Settings.OAuthToken;
             OAuthManager["token_secret"] = Settings.OAuthTokenSecret;
+        }
+
+        public void SettingsUpdated()
+        {
+            SettingsUpdatedHandler.Invoke(null, EventArgs.Empty);
         }
     }
 }
