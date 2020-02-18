@@ -263,7 +263,7 @@ namespace TumblThree.Applications.Crawler
             string document = await GetSvcPageAsync("1", "0");
             var response = ConvertJsonToClass<TumblrJson>(document);
 
-            ulong.TryParse(Blog.Title = response.response.posts.FirstOrDefault().id, out var highestId);
+            ulong.TryParse(Blog.Title = response.response.posts.FirstOrDefault()?.id, out var highestId);
             return highestId;
         }
 
