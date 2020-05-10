@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,7 +41,7 @@ namespace TumblThree.Applications.Crawler
 
         private int numberOfPagesCrawled;
 
-        public TumblrHiddenCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
+        public TumblrHiddenCrawler(IShellService shellService, ICrawlerService crawlerService, IHttpRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
             ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
@@ -334,22 +335,16 @@ namespace TumblThree.Applications.Crawler
 
         protected virtual async Task<string> RequestDataAsync(string limit, string offset)
         {
-            var requestRegistration = new CancellationTokenRegistration();
-            try
+            string url = @"https://www.tumblr.com/svc/indash_blog?tumblelog_name_or_id=" + Blog.Name +
+                         @"&post_id=&limit=" + limit + "&offset=" + offset + "&should_bypass_safemode=true";
+            string referer = @"https://www.tumblr.com/dashboard/blog/" + Blog.Name;
+            var headers = new Dictionary<string, string> { { "X-tumblr-form-key", tumblrKey } };
+            using (HttpRequestMessage request = HttpRequestFactory.GetXhrReqeustMessage(url, referer, headers))
             {
-                string url = @"https://www.tumblr.com/svc/indash_blog?tumblelog_name_or_id=" + Blog.Name +
-                             @"&post_id=&limit=" + limit + "&offset=" + offset + "&should_bypass_safemode=true";
-                string referer = @"https://www.tumblr.com/dashboard/blog/" + Blog.Name;
-                var headers = new Dictionary<string, string> { { "X-tumblr-form-key", tumblrKey } };
-                HttpWebRequest request = WebRequestFactory.CreateGetXhrReqeust(url, referer, headers);
-                CookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
-                CookieService.GetUriCookie(request.CookieContainer, new Uri("https://" + Blog.Name.Replace("+", "-") + ".tumblr.com"));
-                requestRegistration = Ct.Register(() => request.Abort());
-                return await WebRequestFactory.ReadReqestToEndAsync(request);
-            }
-            finally
-            {
-                requestRegistration.Dispose();
+                //CookieService.FillUriCookie(new Uri("https://www.tumblr.com/"));
+                //CookieService.FillUriCookie(new Uri("https://" + Blog.Name.Replace("+", "-") + ".tumblr.com"));
+                var res = await HttpRequestFactory.SendAsync(request);
+                return await res.Content.ReadAsStringAsync();
             }
         }
 

@@ -12,7 +12,7 @@ namespace TumblThree.Applications.Services
 
         bool CheckIfTumblrTFANeeded();
 
-        bool CheckIfLoggedInAsync();
+        bool CheckIfLoggedIn();
 
         Task<string> GetTumblrUsernameAsync();
     }

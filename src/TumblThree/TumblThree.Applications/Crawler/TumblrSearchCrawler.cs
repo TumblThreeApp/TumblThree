@@ -32,7 +32,7 @@ namespace TumblThree.Applications.Crawler
 
         private int numberOfPagesCrawled;
 
-        public TumblrSearchCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
+        public TumblrSearchCrawler(IShellService shellService, ICrawlerService crawlerService, IHttpRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
@@ -127,30 +127,21 @@ namespace TumblThree.Applications.Crawler
 
         protected virtual async Task<string> RequestPostAsync(int pageNumber)
         {
-            var requestRegistration = new CancellationTokenRegistration();
-            try
-            {
-                string url = "https://www.tumblr.com/search/" + Blog.Name + "/post_page/" + pageNumber;
-                string referer = @"https://www.tumblr.com/search/" + Blog.Name;
-                var headers = new Dictionary<string, string> { { "X-tumblr-form-key", tumblrKey }, { "DNT", "1" } };
-                HttpWebRequest request = WebRequestFactory.CreatePostXhrReqeust(url, referer, headers);
-                CookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
+            string url = "https://www.tumblr.com/search/" + Blog.Name + "/post_page/" + pageNumber;
+            string referer = @"https://www.tumblr.com/search/" + Blog.Name;
+            var headers = new Dictionary<string, string> { { "X-tumblr-form-key", tumblrKey }, { "DNT", "1" } };
+            var request = HttpRequestFactory.PostXhrReqeustMessage(url, referer, headers);
+            //CookieService.FillUriCookie(new Uri("https://www.tumblr.com/"));
 
-                //Example request body, searching for cars:
-                //q=cars&sort=top&post_view=masonry&blogs_before=8&num_blogs_shown=8&num_posts_shown=20&before=24&blog_page=2&safe_mode=true&post_page=2&filter_nsfw=true&filter_post_type=&next_ad_offset=0&ad_placement_id=0&more_posts=true
+            //Example request body, searching for cars:
+            //q=cars&sort=top&post_view=masonry&blogs_before=8&num_blogs_shown=8&num_posts_shown=20&before=24&blog_page=2&safe_mode=true&post_page=2&filter_nsfw=true&filter_post_type=&next_ad_offset=0&ad_placement_id=0&more_posts=true
 
-                string requestBody = "q=" + Blog.Name + "&sort=top&post_view=masonry&num_posts_shown=" +
-                                     ((pageNumber - 1) * Blog.PageSize) + "&before=" + ((pageNumber - 1) * Blog.PageSize) +
-                                     "&safe_mode=false&post_page=" + pageNumber +
-                                     "&filter_nsfw=false&filter_post_type=&next_ad_offset=0&ad_placement_id=0&more_posts=true";
-                await WebRequestFactory.PerformPostXHRReqeustAsync(request, requestBody);
-                requestRegistration = Ct.Register(() => request.Abort());
-                return await WebRequestFactory.ReadReqestToEndAsync(request);
-            }
-            finally
-            {
-                requestRegistration.Dispose();
-            }
+            string requestBody = "q=" + Blog.Name + "&sort=top&post_view=masonry&num_posts_shown=" +
+                                    ((pageNumber - 1) * Blog.PageSize) + "&before=" + ((pageNumber - 1) * Blog.PageSize) +
+                                    "&safe_mode=false&post_page=" + pageNumber +
+                                    "&filter_nsfw=false&filter_post_type=&next_ad_offset=0&ad_placement_id=0&more_posts=true";
+            var res = await HttpRequestFactory.PostXHRReqeustAsync(request, requestBody);
+            return await res.Content.ReadAsStringAsync();
         }
 
         private async Task AddUrlsToDownloadListAsync(string response, int crawlerNumber)

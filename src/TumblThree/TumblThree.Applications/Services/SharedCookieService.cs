@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 
 namespace TumblThree.Applications.Services
@@ -11,34 +12,41 @@ namespace TumblThree.Applications.Services
     [Export]
     public class SharedCookieService : ISharedCookieService
     {
-        private readonly CookieContainer cookieContainer = new CookieContainer();
+        public CookieContainer CookieContainer { get; } = new CookieContainer();
 
-        public void GetUriCookie(CookieContainer request, Uri uri)
+        public void FillUriCookie(Uri uri, CookieContainer container = null)
         {
-            foreach (Cookie cookie in cookieContainer.GetCookies(uri))
+            if (container == null) container = this.CookieContainer;
+            foreach (Cookie cookie in CookieContainer.GetCookies(uri))
             {
-                request.Add(cookie);
+                container.Add(cookie);
             }
         }
 
+        public void RefreshAllCookies(CookieContainer originCookies)
+        {
+            foreach (Cookie cookie in this.GetAllCookies(originCookies))
+            {
+                CookieContainer.Add(cookie);
+            }
+        }
         public void SetUriCookie(IEnumerable cookies)
         {
             foreach (Cookie cookie in cookies)
             {
-                cookieContainer.Add(cookie);
+                CookieContainer.Add(cookie);
             }
         }
 
         public void RemoveUriCookie(Uri uri)
         {
-            CookieCollection cookies = cookieContainer.GetCookies(uri);
-            foreach (Cookie cookie in cookies)
+            foreach (Cookie cookie in this.CookieContainer.GetCookies(uri))
             {
                 cookie.Expired = true;
             }
         }
 
-        public IEnumerable<Cookie> GetAllCookies()
+        public IEnumerable<Cookie> GetAllCookies(CookieContainer cookieContainer)
         {
             var k = (Hashtable)cookieContainer
                                      .GetType().GetField("m_domainTable", BindingFlags.Instance | BindingFlags.NonPublic)

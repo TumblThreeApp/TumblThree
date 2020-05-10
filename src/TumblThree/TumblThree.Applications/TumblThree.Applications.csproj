@@ -51,6 +51,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -93,7 +94,7 @@
     <Compile Include="Parser\IUguuParser.cs" />
     <Compile Include="Parser\IWebmshareParser.cs" />
     <Compile Include="Services\ILoginService.cs" />
-    <Compile Include="Services\IWebRequestFactory.cs" />
+    <Compile Include="Services\IHttpRequestFactory.cs" />
     <Compile Include="Crawler\TumblrBlogDetector.cs" />
     <Compile Include="Parser\LoliSafeParser.cs" />
     <Compile Include="Parser\MixtapeParser.cs" />
@@ -104,7 +105,7 @@
     <Compile Include="Parser\TumblrApiJsonToText.cs" />
     <Compile Include="Parser\UguuParser.cs" />
     <Compile Include="Parser\WebmshareParser.cs" />
-    <Compile Include="Services\WebRequestFactory.cs" />
+    <Compile Include="Services\HttpRequestFactory.cs" />
     <Compile Include="DataModels\DownloadProgress.cs" />
     <Compile Include="DataModels\IPostQueue.cs" />
     <Compile Include="DataModels\PostQueue.cs" />
@@ -260,7 +261,14 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http.WinHttpHandler">
+      <Version>4.7.0</Version>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="Properties\CodeAnalysisDictionary.xml" />
   </ItemGroup>

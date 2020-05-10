@@ -7,10 +7,12 @@ namespace TumblThree.Applications.Services
 {
     public interface ISharedCookieService
     {
-        IEnumerable<Cookie> GetAllCookies();
+        CookieContainer CookieContainer { get; }
+        IEnumerable<Cookie> GetAllCookies(CookieContainer cookieContainer);
 
-        void GetUriCookie(CookieContainer request, Uri uri);
+        void FillUriCookie(Uri uri, CookieContainer container = null);
 
+        void RefreshAllCookies(CookieContainer cookies);
         void SetUriCookie(IEnumerable cookies);
 
         void RemoveUriCookie(Uri uri);

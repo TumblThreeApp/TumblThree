@@ -11,13 +11,13 @@ namespace TumblThree.Applications.Crawler
     [Export(typeof(ITumblrBlogDetector))]
     public class TumblrBlogDetector : ITumblrBlogDetector
     {
-        private readonly IWebRequestFactory webRequestFactory;
+        private readonly IHttpRequestFactory webRequestFactory;
         private readonly IShellService shellService;
         protected readonly ISharedCookieService cookieService;
 
         [ImportingConstructor]
         public TumblrBlogDetector(IShellService shellService, ISharedCookieService cookieService,
-            IWebRequestFactory webRequestFactory)
+            IHttpRequestFactory webRequestFactory)
         {
             this.webRequestFactory = webRequestFactory;
             this.cookieService = cookieService;
@@ -44,15 +44,9 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetUrlRedirection(string url)
         {
-            HttpWebRequest request = webRequestFactory.CreateGetReqeust(url);
-            cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
-            string location;
-            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
-            {
-                location = response.ResponseUri.ToString();
-            }
-
-            return location;
+            var res = await webRequestFactory.GetReqeust(url);
+            //cookieService.FillUriCookie(new Uri("https://www.tumblr.com/"));
+            return res.Headers.Location.AbsoluteUri;
         }
     }
 }

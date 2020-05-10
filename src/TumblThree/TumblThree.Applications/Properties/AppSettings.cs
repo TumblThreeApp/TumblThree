@@ -311,7 +311,7 @@ namespace TumblThree.Applications.Properties
         public string ProxyHost { get; set; }
 
         [DataMember]
-        public string ProxyPort { get; set; }
+        public string ProxyPort { get; set; } //
 
         [DataMember]
         public string ProxyUsername { get; set; }

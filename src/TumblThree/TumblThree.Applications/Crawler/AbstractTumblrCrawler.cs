@@ -36,7 +36,7 @@ namespace TumblThree.Applications.Crawler
 
         public ICatBoxParser CatboxParser { get; }
 
-        protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
+        protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, IHttpRequestFactory webRequestFactory, ISharedCookieService cookieService,
             ITumblrParser tumblrParser, IImgurParser imgurParser, IGfycatParser gfycatParser, IWebmshareParser webmshareParser,
             IMixtapeParser mixtapeParser, IUguuParser uguuParser, ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser,
             ICatBoxParser catboxParser, IPostQueue<TumblrPost> postQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)

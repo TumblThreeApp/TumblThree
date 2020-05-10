@@ -863,7 +863,7 @@ namespace TumblThree.Applications.ViewModels
 
         private void CheckIfTumblrLoggedIn()
         {
-            TumblrLoggedIn = LoginService.CheckIfLoggedInAsync();
+            TumblrLoggedIn = LoginService.CheckIfLoggedIn();
         }
 
         public async Task Load()

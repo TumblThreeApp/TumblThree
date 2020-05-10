@@ -41,7 +41,7 @@ namespace TumblThree.Applications.Crawler
 
         private int numberOfPagesCrawled;
 
-        public TumblrBlogCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
+        public TumblrBlogCrawler(IShellService shellService, ICrawlerService crawlerService, IHttpRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
             ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser,

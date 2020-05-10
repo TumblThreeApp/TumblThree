@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -26,7 +27,8 @@ namespace TumblThree.Applications.Crawler
         protected IBlog Blog { get; }
         protected IProgress<DownloadProgress> Progress { get; }
         protected ISharedCookieService CookieService { get; }
-        protected IWebRequestFactory WebRequestFactory { get; }
+
+        protected IHttpRequestFactory HttpRequestFactory { get; }
         protected object LockObjectDb { get; } = new object();
         protected object LockObjectDirectory { get; } = new object();
         protected object LockObjectDownload { get; } = new object();
@@ -39,13 +41,16 @@ namespace TumblThree.Applications.Crawler
         protected ConcurrentBag<TumblrPost> StatisticsBag { get; set; } = new ConcurrentBag<TumblrPost>();
         protected List<string> Tags { get; set; } = new List<string>();
 
-        protected AbstractCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory,
+        protected AbstractCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IHttpRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IPostQueue<TumblrPost> postQueue, IBlog blog,
             PauseToken pt, CancellationToken ct)
         {
             ShellService = shellService;
             CrawlerService = crawlerService;
-            WebRequestFactory = webRequestFactory;
+
+            //_httpClientHandler = httpClientHandler;
+            //_httpClient = httpClient;
+            HttpRequestFactory = webRequestFactory;
             CookieService = cookieService;
             PostQueue = postQueue;
             Blog = blog;
@@ -63,24 +68,23 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                await RequestDataAsync(Blog.Url);
-                Blog.Online = true;
-            }
-            catch (WebException webException)
-            {
-                if (webException.Status == WebExceptionStatus.RequestCanceled)
+                var res = await HttpRequestFactory.GetReqeust(Blog.Url);
+                if (res.IsSuccessStatusCode)
+                    Blog.Online = true;
+                else
                 {
-                    return;
+                    Logger.Warning("AbstractCrawler:IsBlogOnlineAsync not success: {0}", res.ReasonPhrase);
+                    //ShellService.ShowError(res.ReasonPhrase, Resources.BlogIsOffline, Blog.Name);
+                    Blog.Online = false;
                 }
-
-                Logger.Error("AbstractCrawler:IsBlogOnlineAsync:WebException {0}", webException);
-                ShellService.ShowError(webException, Resources.BlogIsOffline, Blog.Name);
-                Blog.Online = false;
             }
-            catch (TimeoutException timeoutException)
+            catch (Exception ex)
             {
-                HandleTimeoutException(timeoutException, Resources.OnlineChecking);
+                Logger.Error("AbstractCrawler:IsBlogOnlineAsync: Exception {0}", ex);
+                ShellService.ShowError(ex, Resources.BlogIsOffline, Blog.Name);
                 Blog.Online = false;
+
+                throw;
             }
         }
 
@@ -106,23 +110,14 @@ namespace TumblThree.Applications.Crawler
         protected async Task<string> RequestDataAsync(string url, Dictionary<string, string> headers = null,
             IEnumerable<string> cookieHosts = null)
         {
-            var requestRegistration = new CancellationTokenRegistration();
-            try
+            var res = await HttpRequestFactory.GetReqeust(url, string.Empty, headers);
+            /*cookieHosts = cookieHosts ?? new List<string>();
+            foreach (string cookieHost in cookieHosts)
             {
-                HttpWebRequest request = WebRequestFactory.CreateGetReqeust(url, string.Empty, headers);
-                cookieHosts = cookieHosts ?? new List<string>();
-                foreach (string cookieHost in cookieHosts)
-                {
-                    CookieService.GetUriCookie(request.CookieContainer, new Uri(cookieHost));
-                }
+                CookieService.FillUriCookie(new Uri(cookieHost));
+            }*/
 
-                requestRegistration = Ct.Register(() => request.Abort());
-                return await WebRequestFactory.ReadReqestToEndAsync(request);
-            }
-            finally
-            {
-                requestRegistration.Dispose();
-            }
+            return await res.Content.ReadAsStringAsync();
         }
 
         public virtual T ConvertJsonToClass<T>(string json) where T : new()

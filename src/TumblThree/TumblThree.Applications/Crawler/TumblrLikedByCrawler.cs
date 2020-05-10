@@ -31,7 +31,7 @@ namespace TumblThree.Applications.Crawler
 
         private int numberOfPagesCrawled;
 
-        public TumblrLikedByCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
+        public TumblrLikedByCrawler(IShellService shellService, ICrawlerService crawlerService, IHttpRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,

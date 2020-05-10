@@ -19,10 +19,10 @@ namespace TumblThree.Applications.Parser
     public class GfycatParser : IGfycatParser
     {
         private readonly AppSettings settings;
-        private readonly IWebRequestFactory webRequestFactory;
+        private readonly IHttpRequestFactory webRequestFactory;
         private readonly CancellationToken ct;
 
-        public GfycatParser(AppSettings settings, IWebRequestFactory webRequestFactory, CancellationToken ct)
+        public GfycatParser(AppSettings settings, IHttpRequestFactory webRequestFactory, CancellationToken ct)
         {
             this.settings = settings;
             this.webRequestFactory = webRequestFactory;
@@ -35,18 +35,10 @@ namespace TumblThree.Applications.Parser
 
         public virtual async Task<string> RequestGfycatCajax(string gfyId)
         {
-            var requestRegistration = new CancellationTokenRegistration();
-            try
-            {
                 string url = @"https://gfycat.com/cajax/get/" + gfyId;
-                HttpWebRequest request = webRequestFactory.CreateGetXhrReqeust(url);
-                requestRegistration = ct.Register(() => request.Abort());
-                return await webRequestFactory.ReadReqestToEndAsync(request);
-            }
-            finally
-            {
-                requestRegistration.Dispose();
-            }
+                var request = webRequestFactory.GetXhrReqeustMessage(url);
+                var res = await webRequestFactory.SendAsync(request);
+                return await res.Content.ReadAsStringAsync();
         }
 
         public string ParseGfycatCajaxResponse(string result, GfycatTypes gfycatType)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows.Threading;
@@ -24,6 +25,7 @@ namespace TumblThree.Applications.Controllers
         private const string QueueSettingsFileName = "Queuelist.json";
         private const string CookiesFileName = "Cookies.json";
 
+        private IHttpRequestFactory _httpRequestFactory { get; }
         private readonly ISharedCookieService _cookieService;
         private readonly IEnvironmentService _environmentService;
         private readonly Lazy<ShellService> _shellService;
@@ -51,6 +53,7 @@ namespace TumblThree.Applications.Controllers
             IConfirmTumblrPrivacyConsent confirmTumblrPrivacyConsent,
             ISettingsProvider settingsProvider,
             ISharedCookieService cookieService,
+            IHttpRequestFactory httpRequestFactory,
             Lazy<ManagerController> managerController,
             Lazy<QueueController> queueController,
             Lazy<DetailsController> detailsController,
@@ -62,6 +65,7 @@ namespace TumblThree.Applications.Controllers
             _confirmTumblrPrivacyConsent = confirmTumblrPrivacyConsent;
             _settingsProvider = settingsProvider;
             _cookieService = cookieService;
+            _httpRequestFactory = httpRequestFactory;
             _detailsController = detailsController;
             _managerController = managerController;
             _queueController = queueController;
@@ -150,7 +154,7 @@ namespace TumblThree.Applications.Controllers
             SaveSettings(Path.Combine(savePath, AppSettingsFileName), _appSettings);
             SaveSettings(Path.Combine(savePath, QueueSettingsFileName), _queueSettings);
             SaveSettings(Path.Combine(savePath, ManagerSettingsFileName), _managerSettings);
-            SaveSettings(Path.Combine(savePath, CookiesFileName), new List<Cookie>(_cookieService.GetAllCookies()));
+            SaveSettings(Path.Combine(savePath, CookiesFileName), new List<Cookie>(_cookieService.GetAllCookies(_cookieService.CookieContainer)));
         }
 
         private void OnSettingsUpdated(object sender, EventArgs e)

@@ -781,7 +781,7 @@
                                 </Button.ToolTip>
                             </Button>
                         </Grid>
-                        <!--<Grid MinHeight="46" Height="Auto" Grid.Row="7">
+                        <Grid MinHeight="46" Height="Auto" Grid.Row="7">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -838,7 +838,7 @@
                          Text="{Binding ProxyPassword, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                          Grid.Column="3" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center"
                          Margin="00,0,10,0" />
-                        </Grid>-->
+                        </Grid>
                     </Grid>
                 </TabItem>
                 <TabItem Header="{x:Static p:Resources.Blog}">

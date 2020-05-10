@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using TumblThree.Applications.Extensions;
@@ -14,10 +15,10 @@ namespace TumblThree.Applications.Downloader
         public static readonly int BufferSize = 512 * 4096;
         private readonly AppSettings settings;
         private readonly CancellationToken ct;
-        private readonly IWebRequestFactory webRequestFactory;
+        private readonly IHttpRequestFactory webRequestFactory;
         private readonly ISharedCookieService cookieService;
 
-        public FileDownloader(AppSettings settings, CancellationToken ct, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService)
+        public FileDownloader(AppSettings settings, CancellationToken ct, IHttpRequestFactory webRequestFactory, ISharedCookieService cookieService)
         {
             this.settings = settings;
             this.ct = ct;
@@ -42,7 +43,7 @@ namespace TumblThree.Applications.Downloader
             {
                 var fileInfo = new FileInfo(destinationPath);
                 totalBytesReceived = fileInfo.Length;
-                if (totalBytesReceived >= await CheckDownloadSizeAsync(url).TimeoutAfter(settings.TimeOut)) return true;
+                if (totalBytesReceived >= await CheckDownloadSizeAsync(url)) return true;
             }
 
             if (ct.IsCancellationRequested) return false;
@@ -61,16 +62,16 @@ namespace TumblThree.Applications.Downloader
 
                     try
                     {
-                        var request = webRequestFactory.CreateGetReqeust(url);
-                        requestRegistration = ct.Register(() => request.Abort());
-                        request.AddRange(totalBytesReceived);
+                        var request = await webRequestFactory.GetReqeustMessage(url);
+                        request.Headers.Range = new RangeHeaderValue(0, totalBytesReceived);
 
                         long totalBytesToReceive = 0;
-                        using (var response = await request.GetResponseAsync().TimeoutAfter(settings.TimeOut))
+                        
+                        using (var response = await webRequestFactory.SendAsync(request))
                         {
-                            totalBytesToReceive = totalBytesReceived + response.ContentLength;
+                            totalBytesToReceive = totalBytesReceived + (long)response.Content.Headers.ContentLength;
 
-                            using (var responseStream = response.GetResponseStream())
+                            using (var responseStream = await response.Content.ReadAsStreamAsync())
                             {
                                 using (var throttledStream = GetStreamForDownload(responseStream))
                                 {
@@ -124,39 +125,21 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
-        private async Task<long> CheckDownloadSizeAsync(string url)
+        private async Task<long?> CheckDownloadSizeAsync(string url)
         {
-            var requestRegistration = new CancellationTokenRegistration();
-            try
-            {
-                var request = webRequestFactory.CreateGetReqeust(url);
-                requestRegistration = ct.Register(() => request.Abort());
-
-                using (var response = await request.GetResponseAsync())
-                {
-                    return response.ContentLength;
-                }
-            }
-            finally
-            {
-                requestRegistration.Dispose();
-            }
+            var request = await webRequestFactory.GetReqeust(url);
+            return request.Content.Headers.ContentLength;
         }
 
         public async Task<Stream> ReadFromUrlIntoStreamAsync(string url)
         {
-            var request = webRequestFactory.CreateGetReqeust(url);
-
-            using (var response = await request.GetResponseAsync() as HttpWebResponse)
+            var res = await webRequestFactory.GetReqeust(url);
+            if (res.IsSuccessStatusCode)
             {
-                if (response?.StatusCode == HttpStatusCode.OK)
-                {
-                    var responseStream = response.GetResponseStream();
-                    return GetStreamForDownload(responseStream);
-                }
-
-                return null;
+                var responseStream = await res.Content.ReadAsStreamAsync();
+                return GetStreamForDownload(responseStream);
             }
+            return null;
         }
 
         private Stream GetStreamForDownload(Stream stream)
