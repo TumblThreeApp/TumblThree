@@ -281,6 +281,7 @@ namespace TumblThree.Applications.Crawler
             if (disposing)
             {
                 semaphoreSlim?.Dispose();
+                downloader.Dispose();
             }
         }
 

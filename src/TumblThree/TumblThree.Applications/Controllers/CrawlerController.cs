@@ -188,6 +188,7 @@ namespace TumblThree.Applications.Controllers
 
                     ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), pt, ct);
                     crawler.IsBlogOnlineAsync().Wait(4000);
+                    crawler.Dispose();
 
                     if (_crawlerService.ActiveItems.Any(item =>
                         item.Blog.Name.Equals(nextQueueItem.Blog.Name) &&
@@ -225,6 +226,7 @@ namespace TumblThree.Applications.Controllers
 
             ICrawler crawler = _crawlerFactory.GetCrawler(blog, progress, pt, ct);
             await crawler.CrawlAsync();
+            crawler.Dispose();
 
             Monitor.Enter(_lockObject);
             QueueOnDispatcher.CheckBeginInvokeOnUI(() => _crawlerService.RemoveActiveItem(queueListItem));

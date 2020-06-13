@@ -392,6 +392,7 @@ namespace TumblThree.Applications.Controllers
                 ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), new PauseToken(),
                     new CancellationToken());
                 await crawler.IsBlogOnlineAsync();
+                crawler.Dispose();
             }
             finally
             {
@@ -677,6 +678,7 @@ namespace TumblThree.Applications.Controllers
                 new CancellationToken());
 
             await crawler.UpdateMetaInformationAsync();
+            crawler.Dispose();
         }
 
         private IBlog CheckIfCrawlableBlog(string blogUrl)

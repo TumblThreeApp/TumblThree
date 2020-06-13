@@ -34,6 +34,7 @@ namespace TumblThree.Applications.Downloader
 
         private SemaphoreSlim concurrentConnectionsSemaphore;
         private SemaphoreSlim concurrentVideoConnectionsSemaphore;
+        private readonly Dictionary<string, StreamWriter> streamWriters = new Dictionary<string, StreamWriter>();
 
         protected AbstractDownloader(IShellService shellService, IManagerService managerService, CancellationToken ct, PauseToken pt, IProgress<DownloadProgress> progress, IPostQueue<TumblrPost> postQueue, FileDownloader fileDownloader, ICrawlerService crawlerService = null, IBlog blog = null, IFiles files = null)
         {
@@ -122,12 +123,9 @@ namespace TumblThree.Applications.Downloader
             {
                 lock (lockObjectDownload)
                 {
-                    using (var sw = new StreamWriter(fileLocation, true))
-                    {
-                        sw.WriteLine(text);
-                    }
+                    StreamWriter sw = GetTextAppenderStreamWriter(fileLocation);
+                    sw.WriteLine(text);
                 }
-
                 return true;
             }
             catch (IOException ex) when ((ex.HResult & 0xFFFF) == 0x27 || (ex.HResult & 0xFFFF) == 0x70)
@@ -141,6 +139,18 @@ namespace TumblThree.Applications.Downloader
             {
                 return false;
             }
+        }
+
+        private StreamWriter GetTextAppenderStreamWriter(string key)
+        {
+            if (streamWriters.ContainsKey(key))
+            {
+                return streamWriters[key];
+            }
+            StreamWriter sw = new StreamWriter(key, true);
+            streamWriters.Add(key, sw);
+
+            return sw;
         }
 
         public virtual async Task<bool> DownloadBlogAsync()
@@ -369,6 +379,11 @@ namespace TumblThree.Applications.Downloader
             {
                 concurrentConnectionsSemaphore?.Dispose();
                 concurrentVideoConnectionsSemaphore?.Dispose();
+
+                foreach (var sw in streamWriters.Values)
+                {
+                    sw.Dispose();
+                }
             }
         }
 
