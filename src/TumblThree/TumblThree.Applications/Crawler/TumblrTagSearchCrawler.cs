@@ -273,7 +273,7 @@ namespace TumblThree.Applications.Crawler
         {
             if (disposing)
             {
-                semaphoreSlim.Dispose();
+                semaphoreSlim?.Dispose();
                 downloader.Dispose();
             }
         }
