@@ -119,6 +119,15 @@ namespace TumblThree.Applications.Properties
         public int ConnectionTimeIntervalApi { get; set; }
 
         [DataMember]
+        public bool LimitConnectionsSearchApi { get; set; }
+
+        [DataMember]
+        public int MaxConnectionsSearchApi { get; set; }
+
+        [DataMember]
+        public int ConnectionTimeIntervalSearchApi { get; set; }
+
+        [DataMember]
         public bool LimitConnectionsSvc { get; set; }
 
         [DataMember]
@@ -368,6 +377,9 @@ namespace TumblThree.Applications.Properties
             LimitConnectionsApi = true;
             MaxConnectionsApi = 90;
             ConnectionTimeIntervalApi = 60;
+            LimitConnectionsSearchApi = true;
+            MaxConnectionsSearchApi = 90;
+            ConnectionTimeIntervalSearchApi = 60;
             LimitConnectionsSvc = true;
             MaxConnectionsSvc = 90;
             ConnectionTimeIntervalSvc = 60;

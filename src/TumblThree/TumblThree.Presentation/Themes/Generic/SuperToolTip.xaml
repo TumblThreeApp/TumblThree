@@ -1,6 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ctrl="clr-namespace:TumblThree.Presentation.Controls">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrl="clr-namespace:TumblThree.Presentation.Controls">
 
     <Style TargetType="ctrl:SuperToolTip">
         <Setter Property="Template">
@@ -12,8 +13,11 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Label Content="{TemplateBinding Title}" Grid.Row="0" FontWeight="SemiBold" />
-                        <Label Content="{TemplateBinding Description}" Grid.Row="1" />
+                        <Label
+                            Grid.Row="0"
+                            Content="{TemplateBinding Title}"
+                            FontWeight="SemiBold" />
+                        <Label Grid.Row="1" Content="{TemplateBinding Description}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

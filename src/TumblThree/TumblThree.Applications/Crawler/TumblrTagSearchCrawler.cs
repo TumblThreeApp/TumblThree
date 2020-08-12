@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using TumblThree.Applications.DataModels;
+using TumblThree.Applications.DataModels.TumblrCrawlerData;
 using TumblThree.Applications.DataModels.TumblrPosts;
+using TumblThree.Applications.DataModels.TumblrTaggedSearchJson;
 using TumblThree.Applications.Downloader;
 using TumblThree.Applications.Parser;
 using TumblThree.Applications.Properties;
@@ -23,7 +27,11 @@ namespace TumblThree.Applications.Crawler
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class TumblrTagSearchCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
+        private static readonly Regex extractJsonFromSearch = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);");
+
         private readonly IDownloader downloader;
+        private readonly IPostQueue<TumblrCrawlerData<Datum>> jsonQueue;
+        private readonly ICrawlerDataDownloader crawlerDataDownloader;
 
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
@@ -31,14 +39,16 @@ namespace TumblThree.Applications.Crawler
         private int numberOfPagesCrawled;
 
         public TumblrTagSearchCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
-            ISharedCookieService cookieService, IDownloader downloader, ITumblrParser tumblrParser, IImgurParser imgurParser,
+            ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
-            IPostQueue<TumblrPost> postQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            IPostQueue<TumblrPost> postQueue, IPostQueue<TumblrCrawlerData<Datum>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
                 webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, progress, pt, ct)
         {
             this.downloader = downloader;
+            this.jsonQueue = jsonQueue;
+            this.crawlerDataDownloader = crawlerDataDownloader;
         }
 
         public async Task CrawlAsync()
@@ -47,6 +57,12 @@ namespace TumblThree.Applications.Crawler
 
             Task grabber = GetUrlsAsync();
             Task<bool> download = downloader.DownloadBlogAsync();
+
+            Task crawlerDownloader = Task.CompletedTask;
+            if (Blog.DumpCrawlerData)
+            {
+                crawlerDownloader = crawlerDataDownloader.DownloadCrawlerDataAsync();
+            }
 
             await grabber;
 
@@ -58,6 +74,7 @@ namespace TumblThree.Applications.Crawler
 
             CleanCollectedBlogStatistics();
 
+            await crawlerDownloader;
             await download;
 
             if (!Ct.IsCancellationRequested)
@@ -85,30 +102,43 @@ namespace TumblThree.Applications.Crawler
 
             GenerateTags();
 
-            long crawlerTimeOffset = GenerateCrawlerTimeOffsets();
-
-            foreach (int pageNumber in GetPageNumbers())
-            {
-                await semaphoreSlim.WaitAsync();
-
-                trackedTasks.Add(CrawlPageAsync(pageNumber, crawlerTimeOffset));
-            }
-
+            await semaphoreSlim.WaitAsync();
+            trackedTasks.Add(CrawlPageAsync());
             await Task.WhenAll(trackedTasks);
 
             PostQueue.CompleteAdding();
+            jsonQueue.CompleteAdding();
 
             UpdateBlogStats();
         }
 
-        private async Task CrawlPageAsync(int pageNumber, long crawlerTimeOffset)
+        private async Task CrawlPageAsync()
         {
             try
             {
-                long pagination = DateTimeOffset.Now.ToUnixTimeSeconds() - (pageNumber * crawlerTimeOffset);
-                long nextCrawlersPagination =
-                    DateTimeOffset.Now.ToUnixTimeSeconds() - ((pageNumber + 1) * crawlerTimeOffset);
-                await AddUrlsToDownloadListAsync(pagination, nextCrawlersPagination);
+                string document = await GetTaggedSearchPageAsync();
+                string json = extractJsonFromSearch.Match(document).Groups[1].Value;
+                TagSearch result = ConvertJsonToClass<TagSearch>(json);
+                string nextUrl = result.ApiUrl + result.Tagged.NextLink.Href;
+                string bearerToken = result.ApiFetchStore.APITOKEN;
+
+                DownloadMedia(result);
+                while (true)
+                {
+                    if (CheckIfShouldStop())
+                    {
+                        return;
+                    }
+
+                    CheckIfShouldPause();
+
+
+                    document = await GetRequestAsync(nextUrl, bearerToken);
+                    TumblrTageedSearchApi apiresult = ConvertJsonToClass<TumblrTageedSearchApi>(document);
+                    nextUrl = result.ApiUrl + apiresult.Response.Posts.Links.Next.Href;
+
+                    DownloadMedia(apiresult);
+                }
             }
             catch (TimeoutException timeoutException)
             {
@@ -123,105 +153,64 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        private long GenerateCrawlerTimeOffsets()
+        protected async Task<string> GetRequestAsync(string url, string bearerToken)
         {
-            long tagsIntroduced = 1178470824; // Unix time of 05/06/2007 @ 5:00pm (UTC)
-            if (!string.IsNullOrEmpty(Blog.DownloadFrom))
+            if (ShellService.Settings.LimitConnectionsSearchApi)
             {
-                DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None);
-                var dateTimeOffset = new DateTimeOffset(downloadFrom);
-                tagsIntroduced = dateTimeOffset.ToUnixTimeSeconds();
+                CrawlerService.TimeconstraintSearchApi.Acquire();
             }
-
-            long unixTimeNow = DateTimeOffset.Now.ToUnixTimeSeconds();
-            if (!string.IsNullOrEmpty(Blog.DownloadTo))
-            {
-                DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None);
-                var dateTimeOffset = new DateTimeOffset(downloadTo);
-                unixTimeNow = dateTimeOffset.ToUnixTimeSeconds();
-            }
-
-            long tagsLifeTime = unixTimeNow - tagsIntroduced;
-            return tagsLifeTime / ShellService.Settings.ConcurrentScans;
+            string[] cookieHosts = { "https://www.tumblr.com/" };
+            return await RequestApiDataAsync(url, bearerToken, null, cookieHosts);
         }
 
-        private async Task<bool> CheckIfLoggedInAsync()
+        private void DownloadMedia(TumblrTageedSearchApi post)
         {
             try
             {
-                string document = await GetTaggedSearchPageAsync(DateTimeOffset.Now.ToUnixTimeSeconds());
-                return !document.Contains("SearchResultsModel");
-            }
-            catch (WebException webException) when (webException.Status == WebExceptionStatus.RequestCanceled)
-            {
-                return true;
+                foreach (var data in post.Response.Posts.Data)
+                {
+                    if (!CheckIfWithinTimespan(data.Timestamp))
+                    {
+                        continue;
+                    }
+                    foreach (var content in data.Content)
+                    {
+                        DownloadMedia(content, data.Id, data.Timestamp, data.Tags);
+                    }
+                    AddToJsonQueue(new TumblrCrawlerData<Datum>(Path.ChangeExtension(data.Id, ".json"), data));
+                }
             }
             catch (TimeoutException timeoutException)
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
-                return false;
+            }
+            catch
+            {
             }
         }
 
-        private long ExtractNextPageLink(string document)
+        private void DownloadMedia(TagSearch post)
         {
-            long unixTime = 0;
-            string pagination = "id=\"next_page_link\" href=\"/tagged/" + Regex.Escape(Blog.Name) + "\\?before=";
-            long.TryParse(Regex.Match(document, pagination + "([\\d]*)\"").Groups[1].Value, out unixTime);
-            return unixTime;
-        }
-
-        private async Task<string> GetTaggedSearchPageAsync(long pagination)
-        {
-            if (ShellService.Settings.LimitConnectionsApi)
+            try
             {
-                CrawlerService.TimeconstraintApi.Acquire();
+                foreach (var data in post.Tagged.Objects)
+                {
+                    if (!CheckIfWithinTimespan(data.Timestamp))
+                    {
+                        continue;
+                    }
+                    foreach (var content in data.Content)
+                    {
+                        DownloadMedia(content, data.Id, data.Timestamp, data.Tags);
+                    }
+                }
             }
-
-            return await GetRequestAsync("https://www.tumblr.com/tagged/" + Blog.Name + "?before=" + pagination);
-        }
-
-        private async Task AddUrlsToDownloadListAsync(long pagination, long nextCrawlersPagination)
-        {
-            while (true)
+            catch (TimeoutException timeoutException)
             {
-                if (CheckIfShouldStop())
-                {
-                    return;
-                }
-
-                CheckIfShouldPause();
-
-                string document = await GetTaggedSearchPageAsync(pagination);
-                if (document.Contains("<div class=\"no_posts_found\""))
-                {
-                    return;
-                }
-
-                try
-                {
-                    AddPhotoUrlToDownloadList(document);
-                    AddVideoUrlToDownloadList(document);
-                }
-                catch (NullReferenceException)
-                {
-                }
-
-                Interlocked.Increment(ref numberOfPagesCrawled);
-                UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
-                pagination = ExtractNextPageLink(document);
-
-                if (pagination < nextCrawlersPagination)
-                {
-                    return;
-                }
-
-                if (!CheckIfWithinTimespan(pagination))
-                {
-                    return;
-                }
+                HandleTimeoutException(timeoutException, Resources.Crawling);
+            }
+            catch
+            {
             }
         }
 
@@ -238,35 +227,73 @@ namespace TumblThree.Applications.Crawler
             return pagination >= dateTimeOffset.ToUnixTimeSeconds();
         }
 
-        private void AddPhotoUrlToDownloadList(string document)
+        private void DownloadMedia(Content content, String id, long timestamp, IList<string> tags)
         {
-            if (!Blog.DownloadPhoto)
+            string type = content.Type;
+            string url = string.Empty;
+            if (type == "video")
+                url = content.Url;
+            else
+                url = content.Media?[0].Url;
+            if (url == null)
+                return;
+            if (!CheckIfContainsTaggedPost(tags))
             {
                 return;
             }
-
-            AddTumblrPhotoUrl(document);
-
-            if (Blog.RegExPhotos)
+            if (CheckIfSkipGif(url))
             {
-                AddGenericPhotoUrl(document);
+                return;
+            }
+            if (type == "video")
+            {
+                if (Blog.DownloadVideo)
+                    AddToDownloadList(new VideoPost(url, id, timestamp.ToString()));
+            }
+            else
+            {
+                if (Blog.DownloadPhoto)
+                    AddToDownloadList(new PhotoPost(url, id, timestamp.ToString()));
             }
         }
 
-        private void AddVideoUrlToDownloadList(string document)
+        private bool CheckIfContainsTaggedPost(IList<string> tags)
         {
-            if (!Blog.DownloadVideo)
+            return !Tags.Any() || tags.Any(x => Tags.Contains(x, StringComparer.OrdinalIgnoreCase));
+        }
+
+        private void AddToJsonQueue(TumblrCrawlerData<Datum> addToList)
+        {
+            if (Blog.DumpCrawlerData)
+                jsonQueue.Add(addToList);
+        }
+
+        private async Task<bool> CheckIfLoggedInAsync()
+        {
+            try
             {
-                return;
+                string document = await GetTaggedSearchPageAsync();
+                return document.Contains("API_TOKEN");
+            }
+            catch (WebException webException) when (webException.Status == WebExceptionStatus.RequestCanceled)
+            {
+                return true;
+            }
+            catch (TimeoutException timeoutException)
+            {
+                HandleTimeoutException(timeoutException, Resources.Crawling);
+                return false;
+            }
+        }
+
+        private async Task<string> GetTaggedSearchPageAsync()
+        {
+            if (ShellService.Settings.LimitConnectionsSearchApi)
+            {
+                CrawlerService.TimeconstraintSearchApi.Acquire();
             }
 
-            AddTumblrVideoUrl(document);
-            AddInlineTumblrVideoUrl(document, TumblrParser.GetTumblrVVideoUrlRegex());
-
-            if (Blog.RegExVideos)
-            {
-                AddGenericVideoUrl(document);
-            }
+            return await GetRequestAsync("https://www.tumblr.com/tagged/" + Blog.Name);
         }
 
         protected virtual void Dispose(bool disposing)

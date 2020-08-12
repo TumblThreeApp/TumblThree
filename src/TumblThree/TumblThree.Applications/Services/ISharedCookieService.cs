@@ -9,10 +9,13 @@ namespace TumblThree.Applications.Services
     {
         IEnumerable<Cookie> GetAllCookies();
 
+        void GetTumblrConsentCookies(CookieContainer request);
+
         void GetUriCookie(CookieContainer request, Uri uri);
 
         void SetUriCookie(IEnumerable cookies);
 
         void RemoveUriCookie(Uri uri);
+
     }
 }

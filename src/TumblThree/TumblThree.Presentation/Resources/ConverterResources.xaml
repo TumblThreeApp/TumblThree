@@ -1,7 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:waf="http://waf.codeplex.com/schemas"
-                    xmlns:c="clr-namespace:TumblThree.Presentation.Converters">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:TumblThree.Presentation.Converters"
+    xmlns:waf="http://waf.codeplex.com/schemas">
 
     <waf:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
@@ -48,7 +49,7 @@
     <c:IsBlogInQueueMultiConverter x:Key="IsBlogInQueueMultiConverter" />
 
     <c:NullImageConverter x:Key="NullImageConverter" />
-    
+
     <c:TumblrBlogCrawlerTypesConverter x:Key="TumblrBlogCrawlerTypesConverter" />
 
 </ResourceDictionary>

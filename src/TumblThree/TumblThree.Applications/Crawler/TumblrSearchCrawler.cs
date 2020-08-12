@@ -95,6 +95,24 @@ namespace TumblThree.Applications.Crawler
             UpdateBlogStats();
         }
 
+        protected new async Task<string> UpdateTumblrKeyAsync(string url)
+        {
+            try
+            {
+                string document = await RequestDataAsync(url);
+                return ExtractTumblrKey(document);
+            }
+            catch (WebException webException) when (webException.Status == WebExceptionStatus.RequestCanceled)
+            {
+                return string.Empty;
+            }
+            catch (TimeoutException timeoutException)
+            {
+                HandleTimeoutException(timeoutException, Resources.OnlineChecking);
+                return string.Empty;
+            }
+        }
+
         private async Task CrawlPageAsync(int pageNumber)
         {
             try
@@ -134,7 +152,7 @@ namespace TumblThree.Applications.Crawler
                 string referer = @"https://www.tumblr.com/search/" + Blog.Name;
                 var headers = new Dictionary<string, string> { { "X-tumblr-form-key", tumblrKey }, { "DNT", "1" } };
                 HttpWebRequest request = WebRequestFactory.CreatePostXhrReqeust(url, referer, headers);
-                CookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
+                CookieService.GetTumblrConsentCookies(request.CookieContainer);
 
                 //Example request body, searching for cars:
                 //q=cars&sort=top&post_view=masonry&blogs_before=8&num_blogs_shown=8&num_posts_shown=20&before=24&blog_page=2&safe_mode=true&post_page=2&filter_nsfw=true&filter_post_type=&next_ad_offset=0&ad_placement_id=0&more_posts=true
@@ -165,14 +183,14 @@ namespace TumblThree.Applications.Crawler
                 CheckIfShouldPause();
 
                 var result = ConvertJsonToClass<TumblrSearchJson>(response);
-                if (string.IsNullOrEmpty(result.response.posts_html))
+                if (string.IsNullOrEmpty(result.Response.PostsHtml))
                 {
                     return;
                 }
 
                 try
                 {
-                    string html = result.response.posts_html;
+                    string html = result.Response.PostsHtml;
                     html = Regex.Unescape(html);
                     AddPhotoUrlToDownloadList(html);
                     AddVideoUrlToDownloadList(html);
@@ -188,7 +206,7 @@ namespace TumblThree.Applications.Crawler
 
                 Interlocked.Increment(ref numberOfPagesCrawled);
                 UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
-                response = await GetSearchPageAsync((crawlerNumber + ShellService.Settings.ConcurrentScans));
+                response = await GetSearchPageAsync(crawlerNumber + ShellService.Settings.ConcurrentScans);
                 crawlerNumber += ShellService.Settings.ConcurrentScans;
             }
         }

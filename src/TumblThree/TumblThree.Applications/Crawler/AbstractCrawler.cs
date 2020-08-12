@@ -125,13 +125,39 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
+        protected async Task<string> RequestApiDataAsync(string url, string bearerToken, Dictionary<string, string> headers = null,
+    IEnumerable<string> cookieHosts = null)
+        {
+            var requestRegistration = new CancellationTokenRegistration();
+            try
+            {
+                HttpWebRequest request = WebRequestFactory.CreateGetReqeust(url, string.Empty, headers);
+                cookieHosts = cookieHosts ?? new List<string>();
+                foreach (string cookieHost in cookieHosts)
+                {
+                    CookieService.GetUriCookie(request.CookieContainer, new Uri(cookieHost));
+                }
+
+                request.PreAuthenticate = true;
+                request.Headers.Add("Authorization", "Bearer " + bearerToken);
+                request.Accept = "application/json";
+
+                requestRegistration = Ct.Register(() => request.Abort());
+                return await WebRequestFactory.ReadReqestToEndAsync(request);
+            }
+            finally
+            {
+                requestRegistration.Dispose();
+            }
+        }
+
         public virtual T ConvertJsonToClass<T>(string json) where T : new()
         {
             try
             {
                 using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(json)))
                 {
-                    var serializer = new DataContractJsonSerializer((typeof(T)));
+                    var serializer = new DataContractJsonSerializer(typeof(T));
                     return (T)serializer.ReadObject(ms);
                 }
             }

@@ -21,6 +21,16 @@ namespace TumblThree.Applications.Services
             }
         }
 
+        public void GetTumblrConsentCookies(CookieContainer request)
+        {
+            foreach (Cookie cookie in cookieContainer.GetCookies(new Uri("https://www.tumblr.com/")))
+            {
+                if (cookie.Name != "pfg")
+                    continue;
+                request.Add(cookie);
+            }
+        }
+
         public void SetUriCookie(IEnumerable cookies)
         {
             foreach (Cookie cookie in cookies)

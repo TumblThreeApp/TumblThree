@@ -1,5 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <BitmapSource x:Key="MusicManagerIcon">Images/Tumblr.ico</BitmapSource>
     <BitmapSource x:Key="TumblThreeIcon">Images/Tumblr.png</BitmapSource>
@@ -28,7 +27,10 @@
                     <VisualBrush>
                         <VisualBrush.Visual>
                             <Border BorderBrush="Transparent" BorderThickness="0.5">
-                                <TextBlock Text="&#xE100;" FontFamily="Segoe UI Symbol" FontSize="20" />
+                                <TextBlock
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="20"
+                                    Text="&#xE100;" />
                             </Border>
                         </VisualBrush.Visual>
                     </VisualBrush>
@@ -47,7 +49,10 @@
                     <VisualBrush>
                         <VisualBrush.Visual>
                             <Border BorderBrush="Transparent" BorderThickness="0.5">
-                                <TextBlock Text="&#xE102;" FontFamily="Segoe UI Symbol" FontSize="20" />
+                                <TextBlock
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="20"
+                                    Text="&#xE102;" />
                             </Border>
                         </VisualBrush.Visual>
                     </VisualBrush>
@@ -66,7 +71,10 @@
                     <VisualBrush>
                         <VisualBrush.Visual>
                             <Border BorderBrush="Transparent" BorderThickness="0.5">
-                                <TextBlock Text="&#xE103;" FontFamily="Segoe UI Symbol" FontSize="20" />
+                                <TextBlock
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="20"
+                                    Text="&#xE103;" />
                             </Border>
                         </VisualBrush.Visual>
                     </VisualBrush>
@@ -85,7 +93,10 @@
                     <VisualBrush>
                         <VisualBrush.Visual>
                             <Border BorderBrush="Transparent" BorderThickness="0.5">
-                                <TextBlock Text="&#xE117;" FontFamily="Segoe UI Symbol" FontSize="20" />
+                                <TextBlock
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="20"
+                                    Text="&#xE117;" />
                             </Border>
                         </VisualBrush.Visual>
                     </VisualBrush>
@@ -104,7 +115,10 @@
                     <VisualBrush>
                         <VisualBrush.Visual>
                             <Border BorderBrush="Transparent" BorderThickness="0.5">
-                                <TextBlock Text="&#xE15B;" FontFamily="Segoe UI Symbol" FontSize="20" />
+                                <TextBlock
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="20"
+                                    Text="&#xE15B;" />
                             </Border>
                         </VisualBrush.Visual>
                     </VisualBrush>
@@ -123,7 +137,10 @@
                     <VisualBrush>
                         <VisualBrush.Visual>
                             <Border BorderBrush="Transparent" BorderThickness="0.5">
-                                <TextBlock Text="&#xE101;" FontFamily="Segoe UI Symbol" FontSize="20" />
+                                <TextBlock
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="20"
+                                    Text="&#xE101;" />
                             </Border>
                         </VisualBrush.Visual>
                     </VisualBrush>
@@ -142,7 +159,10 @@
                     <VisualBrush>
                         <VisualBrush.Visual>
                             <Border BorderBrush="Transparent" BorderThickness="0.5">
-                                <TextBlock Text="&#xE110;" FontFamily="Segoe UI Symbol" FontSize="20" />
+                                <TextBlock
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="20"
+                                    Text="&#xE110;" />
                             </Border>
                         </VisualBrush.Visual>
                     </VisualBrush>
@@ -161,7 +181,10 @@
                     <VisualBrush>
                         <VisualBrush.Visual>
                             <Border BorderBrush="Transparent" BorderThickness="0.5">
-                                <TextBlock Text="&#xE1FD;" FontFamily="Segoe UI Symbol" FontSize="20" />
+                                <TextBlock
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="20"
+                                    Text="&#xE1FD;" />
                             </Border>
                         </VisualBrush.Visual>
                     </VisualBrush>
