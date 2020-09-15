@@ -14,6 +14,7 @@ using TumblThree.Applications.Views;
 using CefSharp;
 using CefSharp.Wpf;
 using TumblThree.Presentation.AjaxInterception;
+using System.Net;
 
 namespace TumblThree.Presentation.Views
 {
@@ -56,8 +57,8 @@ namespace TumblThree.Presentation.Views
                     cookieString.Append(delimiter);
                     cookieString.Append(cookie.Name);
                     cookieString.Append('=');
-                    cookieString.Append(cookie.Value);
-                    delimiter = "; ";
+                    cookieString.Append(WebUtility.UrlEncode(cookie.Value));
+                    delimiter = ",";
                 }
 
                 return cookieString.ToString();

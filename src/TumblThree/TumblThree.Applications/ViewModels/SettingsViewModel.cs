@@ -812,10 +812,11 @@ namespace TumblThree.Applications.ViewModels
                 authenticateViewModel.AddUrl(url);
                 authenticateViewModel.ShowDialog(ShellService.ShellView);
 
-                String cookies = ((IAuthenticateView)authenticateViewModel.View).GetCookies(url);
+                String cookies = ((IAuthenticateView)authenticateViewModel.View).GetCookies("https://www.tumblr.com/");
                 CookieContainer cookieCon = new CookieContainer();
-                cookieCon.SetCookies(new Uri(url), cookies);
-                LoginService.AddCookies(cookieCon.GetCookies(new Uri(url)));
+                cookieCon.SetCookies(new Uri("https://www.tumblr.com/"), cookies);
+                LoginService.AddCookies(cookieCon.GetCookies(new Uri("https://www.tumblr.com/")));
+                CheckIfTumblrLoggedIn();
             }
             catch (WebException ex)
             {
