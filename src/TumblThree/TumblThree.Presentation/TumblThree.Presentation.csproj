@@ -80,6 +80,9 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AjaxInterception\InteractionHandler.cs" />
+    <Compile Include="AjaxInterception\jsMapInterface.cs" />
+    <Compile Include="AjaxInterception\RenderHandler.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -351,6 +354,9 @@
     <Folder Include="Behaviors\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CefSharp.Wpf">
+      <Version>84.4.10</Version>
+    </PackageReference>
     <PackageReference Include="FontAwesome.WPF">
       <Version>4.7.0.9</Version>
     </PackageReference>

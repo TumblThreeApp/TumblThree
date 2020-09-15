@@ -12,5 +12,6 @@ namespace TumblThree.Applications.Views
         void AddUrl(string url);
 
         string GetUrl();
+        String GetCookies(String url);
     }
 }

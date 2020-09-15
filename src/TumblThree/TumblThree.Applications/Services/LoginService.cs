@@ -47,6 +47,11 @@ namespace TumblThree.Applications.Services
             }
         }
 
+        public void AddCookies(CookieCollection cookies)
+        {
+            cookieService.SetUriCookie(cookies);
+        }
+
         public void PerformTumblrLogout()
         {
             var request = webRequestFactory.CreateGetReqeust("https://www.tumblr.com/");
