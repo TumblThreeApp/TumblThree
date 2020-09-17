@@ -329,6 +329,9 @@ namespace TumblThree.Applications.Properties
         public string ProxyPassword { get; set; }
 
         [DataMember]
+        public System.Diagnostics.TraceLevel LogLevel { get; set; }		//Todo: combobox in settings dialog?
+
+        [DataMember]
         public int SettingsTabIndex { get; set; }
 
         [DataMember]
@@ -426,6 +429,11 @@ namespace TumblThree.Applications.Properties
             ProxyPort = string.Empty;
             ProxyUsername = string.Empty;
             ProxyPassword = string.Empty;
+#if DEBUG
+            LogLevel = System.Diagnostics.TraceLevel.Verbose;
+#else
+            LogLevel = System.Diagnostics.TraceLevel.Info;
+#endif
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
         }
 
