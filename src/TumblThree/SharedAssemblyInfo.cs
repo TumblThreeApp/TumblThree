@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TumblThree")]
-[assembly: AssemblyCopyright("Copyright (C) 2016-2018 Johannes Meyer zum Alten Borgloh")]
+[assembly: AssemblyCopyright("Copyright (C) 2016-2020 Johannes Meyer zum Alten Borgloh")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(false)] // The WinRT API is not CLS-compliant (e.g. usage of uint)
