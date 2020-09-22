@@ -1,86 +1,101 @@
-﻿<Window x:Class="TumblThree.Presentation.Views.SettingsView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:p="clr-namespace:TumblThree.Presentation.Properties"
-        xmlns:ctrl="clr-namespace:TumblThree.Presentation.Controls"
-        xmlns:vr="clr-namespace:TumblThree.Presentation.ValidationRules"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:TumblThree.Applications.ViewModels;assembly=TumblThree.Applications"
-        xmlns:Models="clr-namespace:TumblThree.Domain.Models;assembly=TumblThree.Domain"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d" Title="Settings" Height="740" Width="760"
-        d:DataContext="{d:DesignInstance vm:SettingsViewModel}" SizeToContent="Width" ResizeMode="CanResize"
-        ContentRendered="Window_ContentRendered"> 
-    
+﻿<Window
+    x:Class="TumblThree.Presentation.Views.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Models="clr-namespace:TumblThree.Domain.Models;assembly=TumblThree.Domain"
+    xmlns:ctrl="clr-namespace:TumblThree.Presentation.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:TumblThree.Presentation.Properties"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:TumblThree.Applications.ViewModels;assembly=TumblThree.Applications"
+    xmlns:vr="clr-namespace:TumblThree.Presentation.ValidationRules"
+    Title="Settings"
+    Width="760"
+    Height="740"
+    d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
+    ContentRendered="Window_ContentRendered"
+    ResizeMode="CanResize"
+    SizeToContent="Width"
+    mc:Ignorable="d">
+
     <Window.Resources>
-        <ObjectDataProvider MethodName="GetValues"
-        ObjectType="{x:Type sys:Enum}"
-        x:Key="TumblrBlogCrawlerTypes">
+        <ObjectDataProvider
+            x:Key="TumblrBlogCrawlerTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:TumblrBlogCrawlerTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <ObjectDataProvider MethodName="GetValues"
-        ObjectType="{x:Type sys:Enum}"
-        x:Key="GfycatTypes">
+        <ObjectDataProvider
+            x:Key="GfycatTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:GfycatTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <ObjectDataProvider MethodName="GetValues"
-        ObjectType="{x:Type sys:Enum}"
-        x:Key="WebmshareTypes">
+        <ObjectDataProvider
+            x:Key="WebmshareTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:WebmshareTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <ObjectDataProvider MethodName="GetValues"
-         ObjectType="{x:Type sys:Enum}"
-         x:Key="MixtapeTypes">
+        <ObjectDataProvider
+            x:Key="MixtapeTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:MixtapeTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <ObjectDataProvider MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}"
-                            x:Key="UguuTypes">
+        <ObjectDataProvider
+            x:Key="UguuTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:UguuTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <ObjectDataProvider MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}"
-                            x:Key="SafeMoeTypes">
+        <ObjectDataProvider
+            x:Key="SafeMoeTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:SafeMoeTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <ObjectDataProvider MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}"
-                            x:Key="LoliSafeTypes">
+        <ObjectDataProvider
+            x:Key="LoliSafeTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:LoliSafeTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <ObjectDataProvider MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}"
-                            x:Key="CatBoxTypes">
+        <ObjectDataProvider
+            x:Key="CatBoxTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:CatBoxTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <ObjectDataProvider MethodName="GetValues"
-        ObjectType="{x:Type sys:Enum}"
-        x:Key="MetadataType">
+        <ObjectDataProvider
+            x:Key="MetadataType"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:MetadataType" />
             </ObjectDataProvider.MethodParameters>
@@ -95,7 +110,7 @@
             </Grid.RowDefinitions>
             <TabControl Grid.Row="0" SelectedIndex="{Binding SettingsTabIndex}">
                 <TabItem Header="{x:Static p:Resources.General}">
-                    <Grid MinHeight="46" Height="Auto">
+                    <Grid Height="Auto" MinHeight="46">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
@@ -112,34 +127,73 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Grid Height="Auto" Grid.Row="0">
+                        <Grid Grid.Row="0" Height="Auto">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="downloadLocationLabel" Grid.Column="0" Content="{x:Static p:Resources.DownloadLocation}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" MinWidth="140" />
-                            <TextBox x:Name="downloadLocationtextBox"
-                         Text="{Binding DownloadLocation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Grid.Column="1" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" />
-                            <Button x:Name="browseDownloadLocationButton" Content="{x:Static p:Resources.Browse}"
-                        Command="{Binding BrowseDownloadLocationCommand}" Grid.Column="2" HorizontalAlignment="Right"
-                        VerticalAlignment="Center" Margin="10" Height="26" MinWidth="75" />
+                            <Label
+                                x:Name="downloadLocationLabel"
+                                Grid.Column="0"
+                                MinWidth="140"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.DownloadLocation}" />
+                            <TextBox
+                                x:Name="downloadLocationtextBox"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Text="{Binding DownloadLocation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                TextWrapping="Wrap" />
+                            <Button
+                                x:Name="browseDownloadLocationButton"
+                                Grid.Column="2"
+                                Height="26"
+                                MinWidth="75"
+                                Margin="10"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Command="{Binding BrowseDownloadLocationCommand}"
+                                Content="{x:Static p:Resources.Browse}" />
                         </Grid>
-                        <CheckBox x:Name="checkBoxEnablePreview" Content="{x:Static p:Resources.EnablePreview}"
-                              IsChecked="{Binding EnablePreview, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" Margin="10" />
-                        <CheckBox x:Name="checkBoxCheckStatusOnStartup" Content="{x:Static p:Resources.CheckStatusOnStartup}"
-                              IsChecked="{Binding CheckOnlineStatusOnStartup, Mode=TwoWay}" Grid.Column="0" Grid.Row="2"
-                              Margin="10" />
-                        <CheckBox x:Name="checkBoxDeleteIndex" Content="{x:Static p:Resources.DeleteIndex}"
-                              IsChecked="{Binding DeleteOnlyIndex, Mode=TwoWay}" Grid.Column="0" Grid.Row="3" Margin="10" />
-                        <CheckBox x:Name="checkBoxRemoveIndex" Content="{x:Static p:Resources.RemoveIndex}"
-                              IsChecked="{Binding RemoveIndexAfterCrawl, Mode=TwoWay}" Grid.Column="0" Grid.Row="4"
-                              Margin="10" />
-                        <CheckBox x:Name="checkBoxPortableMode" Content="{x:Static p:Resources.PortableMode}"
-                        IsChecked="{Binding PortableMode, Mode=TwoWay}" Grid.Column="0" Grid.Row="5"
-                        Margin="10">
+                        <CheckBox
+                            x:Name="checkBoxEnablePreview"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.EnablePreview}"
+                            IsChecked="{Binding EnablePreview, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxCheckStatusOnStartup"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.CheckStatusOnStartup}"
+                            IsChecked="{Binding CheckOnlineStatusOnStartup, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDeleteIndex"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DeleteIndex}"
+                            IsChecked="{Binding DeleteOnlyIndex, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxRemoveIndex"
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.RemoveIndex}"
+                            IsChecked="{Binding RemoveIndexAfterCrawl, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxPortableMode"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.PortableMode}"
+                            IsChecked="{Binding PortableMode, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
@@ -149,13 +203,20 @@
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <CheckBox x:Name="checkBoxDisplayConfirmationDialog" Content="{x:Static p:Resources.DisplayConfirmationDialog}"
-                        IsChecked="{Binding DisplayConfirmationDialog, Mode=TwoWay}" Grid.Column="0" Grid.Row="6"
-                        Margin="10">
-                        </CheckBox>
-                        <CheckBox x:Name="checkBoxLoadAllDatabases" Content="{x:Static p:Resources.LoadAllDatabases}"
-                        IsChecked="{Binding LoadAllDatabases, Mode=TwoWay}" Grid.Column="0" Grid.Row="7"
-                        Margin="10">
+                        <CheckBox
+                            x:Name="checkBoxDisplayConfirmationDialog"
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DisplayConfirmationDialog}"
+                            IsChecked="{Binding DisplayConfirmationDialog, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxLoadAllDatabases"
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.LoadAllDatabases}"
+                            IsChecked="{Binding LoadAllDatabases, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
@@ -165,7 +226,10 @@
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <Grid Height="Auto" Grid.Row="8" HorizontalAlignment="Left">
+                        <Grid
+                            Grid.Row="8"
+                            Height="Auto"
+                            HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -173,11 +237,21 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <CheckBox x:Name="autoDownloadEnableCheckBox" Grid.Column="0"
-                          Content="{x:Static p:Resources.EnableAutoDownload}" IsChecked="{Binding AutoDownload}"
-                          IsEnabled="True" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" />
-                            <TextBox x:Name="autoDownloadSetTimerComboBox" Grid.Column="1" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="60">
+                            <CheckBox
+                                x:Name="autoDownloadEnableCheckBox"
+                                Grid.Column="0"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.EnableAutoDownload}"
+                                IsChecked="{Binding AutoDownload}"
+                                IsEnabled="True" />
+                            <TextBox
+                                x:Name="autoDownloadSetTimerComboBox"
+                                Grid.Column="1"
+                                MinWidth="60"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
                                     <Binding Path="TimerInterval" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -186,23 +260,44 @@
                                     </Binding>
                                 </TextBox.Text>
                             </TextBox>
-                            <Label x:Name="autoDownloadTimerLabel" Grid.Column="2" Content="{x:Static p:Resources.Timer}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" />
-                            <ComboBox x:Name="autoDownloadChoseBlogsComboBox" Grid.Column="3"
-                          ItemsSource="{Binding ShellService.Settings.BlogTypes}" SelectedValuePath="."
-                          SelectedValue="{Binding BlogType}"
-                          SelectedItem="{Binding BlogType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                          HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="60" />
-                            <Label x:Name="autoDownloadBlogsLabel" Grid.Column="4" Content="{x:Static p:Resources.AutoDownloadBlogs}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <Label
+                                x:Name="autoDownloadTimerLabel"
+                                Grid.Column="2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.Timer}" />
+                            <ComboBox
+                                x:Name="autoDownloadChoseBlogsComboBox"
+                                Grid.Column="3"
+                                MinWidth="60"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                ItemsSource="{Binding ShellService.Settings.BlogTypes}"
+                                SelectedItem="{Binding BlogType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                SelectedValue="{Binding BlogType}"
+                                SelectedValuePath="." />
+                            <Label
+                                x:Name="autoDownloadBlogsLabel"
+                                Grid.Column="4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.AutoDownloadBlogs}" />
                         </Grid>
-                        <Grid Height="Auto" Grid.Row="9" HorizontalAlignment="Left">
+                        <Grid
+                            Grid.Row="9"
+                            Height="Auto"
+                            HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="ProgressUpdateIntervalLabel" Grid.Column="0" Content="{x:Static p:Resources.ProgressUpdateInterval}"
-                                   VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
+                            <Label
+                                x:Name="ProgressUpdateIntervalLabel"
+                                Grid.Column="0"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.ProgressUpdateInterval}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -212,11 +307,14 @@
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBox x:Name="ProgressUpdateIntervalTextBox" Grid.Column="3" HorizontalAlignment="Left"
-                                     VerticalAlignment="Center" MinWidth="60">
+                            <TextBox
+                                x:Name="ProgressUpdateIntervalTextBox"
+                                Grid.Column="3"
+                                MinWidth="60"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
-                                    <Binding Path="ProgressUpdateInterval" UpdateSourceTrigger="PropertyChanged">
-                                    </Binding>
+                                    <Binding Path="ProgressUpdateInterval" UpdateSourceTrigger="PropertyChanged" />
                                 </TextBox.Text>
                                 <TextBox.ToolTip>
                                     <ToolTip>
@@ -234,30 +332,50 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="buttonExportBlogs" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="10"
-                        VerticalAlignment="Center" Content="{x:Static p:Resources.Export}"
-                        Command="{Binding ExportCommand}" IsEnabled="True" MinWidth="90">
+                            <Button
+                                x:Name="buttonExportBlogs"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                MinWidth="90"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Command="{Binding ExportCommand}"
+                                Content="{x:Static p:Resources.Export}"
+                                IsEnabled="True">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipExportBlogs}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipExportBlogsDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipExportBlogsDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Button.ToolTip>
                             </Button>
-                            <TextBox x:Name="exportLocationtextBox"
-                         Text="{Binding ExportLocation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" />
-                            <Button x:Name="browseExportLocationButton" Content="{x:Static p:Resources.Browse}"
-                        Command="{Binding BrowseExportLocationCommand}" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right"
-                        VerticalAlignment="Center" Margin="10" Height="26" MinWidth="75" />
+                            <TextBox
+                                x:Name="exportLocationtextBox"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Text="{Binding ExportLocation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                TextWrapping="Wrap" />
+                            <Button
+                                x:Name="browseExportLocationButton"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Height="26"
+                                MinWidth="75"
+                                Margin="10"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Command="{Binding BrowseExportLocationCommand}"
+                                Content="{x:Static p:Resources.Browse}" />
                         </Grid>
                     </Grid>
                 </TabItem>
                 <TabItem Header="{x:Static p:Resources.Connection}">
-                    <Grid MinHeight="46" Height="Auto">
+                    <Grid Height="Auto" MinHeight="46">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
@@ -274,15 +392,23 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="0">
+                        <Grid
+                            Grid.Row="0"
+                            Height="Auto"
+                            MinHeight="46">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="parallelConnectionsLabel" Grid.Column="0"
-                       Content="{x:Static p:Resources.ConcurrentConnections}" VerticalAlignment="Center" Margin="10"
-                       HorizontalAlignment="Left" MinWidth="140">
+                            <Label
+                                x:Name="parallelConnectionsLabel"
+                                Grid.Column="0"
+                                MinWidth="140"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.ConcurrentConnections}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -292,21 +418,41 @@
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBlock Grid.Column="1" MinWidth="20" HorizontalAlignment="Stretch" TextWrapping="Wrap"
-                           VerticalAlignment="Center" Text="{Binding Value, ElementName=concurrentConnectionsSlider}" />
-                            <Slider x:Name="concurrentConnectionsSlider" Grid.Column="2" SmallChange="1"
-                        Value="{Binding ConcurrentConnections, UpdateSourceTrigger=PropertyChanged}"
-                        HorizontalAlignment="Stretch" VerticalAlignment="Center" Maximum="100" MinWidth="250" Minimum="1" />
+                            <TextBlock
+                                Grid.Column="1"
+                                MinWidth="20"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Text="{Binding Value, ElementName=concurrentConnectionsSlider}"
+                                TextWrapping="Wrap" />
+                            <Slider
+                                x:Name="concurrentConnectionsSlider"
+                                Grid.Column="2"
+                                MinWidth="250"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Maximum="100"
+                                Minimum="1"
+                                SmallChange="1"
+                                Value="{Binding ConcurrentConnections, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="1">
+                        <Grid
+                            Grid.Row="1"
+                            Height="Auto"
+                            MinHeight="46">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="concurrentVideoConnectionsLabel" Grid.Column="0"
-                       Content="{x:Static p:Resources.ConcurrentVideoConnections}" VerticalAlignment="Center" Margin="10"
-                       HorizontalAlignment="Left" MinWidth="140">
+                            <Label
+                                x:Name="concurrentVideoConnectionsLabel"
+                                Grid.Column="0"
+                                MinWidth="140"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.ConcurrentVideoConnections}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -316,20 +462,41 @@
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBlock Grid.Column="1" MinWidth="20" HorizontalAlignment="Stretch" TextWrapping="Wrap"
-                           VerticalAlignment="Center" Text="{Binding Value, ElementName=concurrentVideoConnectionsSlider}" />
-                            <Slider x:Name="concurrentVideoConnectionsSlider" Grid.Column="2" SmallChange="1"
-                        Value="{Binding ConcurrentVideoConnections, UpdateSourceTrigger=PropertyChanged}"
-                        HorizontalAlignment="Stretch" VerticalAlignment="Center" Maximum="100" MinWidth="250" Minimum="1" />
+                            <TextBlock
+                                Grid.Column="1"
+                                MinWidth="20"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Text="{Binding Value, ElementName=concurrentVideoConnectionsSlider}"
+                                TextWrapping="Wrap" />
+                            <Slider
+                                x:Name="concurrentVideoConnectionsSlider"
+                                Grid.Column="2"
+                                MinWidth="250"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Maximum="100"
+                                Minimum="1"
+                                SmallChange="1"
+                                Value="{Binding ConcurrentVideoConnections, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="2">
+                        <Grid
+                            Grid.Row="2"
+                            Height="Auto"
+                            MinHeight="46">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="concurrentBlogsLabel" Grid.Column="0" Content="{x:Static p:Resources.ConcurrentBlogs}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" MinWidth="140">
+                            <Label
+                                x:Name="concurrentBlogsLabel"
+                                Grid.Column="0"
+                                MinWidth="140"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.ConcurrentBlogs}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -339,13 +506,28 @@
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBlock Grid.Column="1" HorizontalAlignment="Stretch" MinWidth="20" TextWrapping="Wrap"
-                           VerticalAlignment="Center" Text="{Binding Value, ElementName=concurrentBlogsSlider}" />
-                            <Slider x:Name="concurrentBlogsSlider" Grid.Column="2" SmallChange="1"
-                        Value="{Binding ConcurrentBlogs, UpdateSourceTrigger=PropertyChanged}"
-                        HorizontalAlignment="Stretch" VerticalAlignment="Center" Maximum="40" MinWidth="250" Minimum="1" />
+                            <TextBlock
+                                Grid.Column="1"
+                                MinWidth="20"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Text="{Binding Value, ElementName=concurrentBlogsSlider}"
+                                TextWrapping="Wrap" />
+                            <Slider
+                                x:Name="concurrentBlogsSlider"
+                                Grid.Column="2"
+                                MinWidth="250"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Maximum="40"
+                                Minimum="1"
+                                SmallChange="1"
+                                Value="{Binding ConcurrentBlogs, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="3">
+                        <Grid
+                            Grid.Row="3"
+                            Height="Auto"
+                            MinHeight="46">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -353,8 +535,13 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Label x:Name="imageSizeLabel" Grid.Column="0" Content="{x:Static p:Resources.ImageSize}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
+                            <Label
+                                x:Name="imageSizeLabel"
+                                Grid.Column="0"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.ImageSize}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -364,11 +551,16 @@
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <ComboBox x:Name="imageSizeComboBox" Grid.Column="1"
-                          ItemsSource="{Binding ShellService.Settings.ImageSizes}" SelectedValuePath="."
-                          SelectedValue="{Binding ImageSize}"
-                          SelectedItem="{Binding ImageSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                          HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="40">
+                            <ComboBox
+                                x:Name="imageSizeComboBox"
+                                Grid.Column="1"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                ItemsSource="{Binding ShellService.Settings.ImageSizes}"
+                                SelectedItem="{Binding ImageSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                SelectedValue="{Binding ImageSize}"
+                                SelectedValuePath=".">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -378,8 +570,12 @@
                                     </ToolTip>
                                 </ComboBox.ToolTip>
                             </ComboBox>
-                            <Label x:Name="timeOutLabel" Grid.Column="2" Content="{x:Static p:Resources.TimeOut}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Label
+                                x:Name="timeOutLabel"
+                                Grid.Column="2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.TimeOut}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -389,8 +585,12 @@
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBox x:Name="timeOutComboBox" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center"
-                         MinWidth="40">
+                            <TextBox
+                                x:Name="timeOutComboBox"
+                                Grid.Column="3"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
                                     <Binding Path="TimeOut" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -408,22 +608,39 @@
                                 </TextBox.ToolTip>
                             </TextBox>
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="4">
+                        <Grid
+                            Grid.Row="4"
+                            Height="Auto"
+                            MinHeight="46">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="videoSizeLabel" Grid.Column="0" Content="{x:Static p:Resources.VideoSize}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" />
-                            <ComboBox x:Name="videoSizeComboBox" Grid.Column="1"
-                          ItemsSource="{Binding ShellService.Settings.VideoSizes}" SelectedValuePath="."
-                          SelectedValue="{Binding VideoSize}"
-                          SelectedItem="{Binding VideoSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                          HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="40" />
-                            <Label x:Name="scanConnectionsLabel" Grid.Column="2" Content="{x:Static p:Resources.ScanConnections}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Label
+                                x:Name="videoSizeLabel"
+                                Grid.Column="0"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.VideoSize}" />
+                            <ComboBox
+                                x:Name="videoSizeComboBox"
+                                Grid.Column="1"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                ItemsSource="{Binding ShellService.Settings.VideoSizes}"
+                                SelectedItem="{Binding VideoSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                SelectedValue="{Binding VideoSize}"
+                                SelectedValuePath="." />
+                            <Label
+                                x:Name="scanConnectionsLabel"
+                                Grid.Column="2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.ScanConnections}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -433,8 +650,12 @@
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBox x:Name="scanBandwidthComboBox" Grid.Column="3" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="40">
+                            <TextBox
+                                x:Name="scanBandwidthComboBox"
+                                Grid.Column="3"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
                                     <Binding Path="ConcurrentScans" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -444,40 +665,55 @@
                                 </TextBox.Text>
                             </TextBox>
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="5">
+                        <Grid
+                            Grid.Row="5"
+                            Height="Auto"
+                            MinHeight="46">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <CheckBox x:Name="checkBoxLimitScan" Content="{x:Static p:Resources.LimitScan}"
-                          IsChecked="{Binding LimitScanBandwidth, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
-                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
+                            <CheckBox
+                                x:Name="checkBoxLimitScan"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.LimitScan}"
+                                IsChecked="{Binding LimitScanBandwidth, Mode=TwoWay}">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLimitScan}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipLimitScanDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLimitScanDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <Label x:Name="bandwidthLabel" Grid.Column="2" Content="{x:Static p:Resources.Bandwidth}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Label
+                                x:Name="bandwidthLabel"
+                                Grid.Column="2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.Bandwidth}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLimitBandwidth}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipLimitBandwidthDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLimitBandwidthDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBox x:Name="bandwidthComboBox" Grid.Column="3" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="40">
+                            <TextBox
+                                x:Name="bandwidthComboBox"
+                                Grid.Column="3"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
                                     <Binding Path="Bandwidth" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -487,7 +723,11 @@
                                 </TextBox.Text>
                             </TextBox>
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="6" HorizontalAlignment="Left">
+                        <Grid
+                            Grid.Row="6"
+                            Height="Auto"
+                            MinHeight="46"
+                            HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -496,33 +736,45 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <CheckBox x:Name="checkBoxLimitConnectionsApi" Content="{x:Static p:Resources.LimitConnectionsApi}"
-                          IsChecked="{Binding LimitConnectionsApi, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
-                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
+                            <CheckBox
+                                x:Name="checkBoxLimitConnectionsApi"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.LimitConnectionsApi}"
+                                IsChecked="{Binding LimitConnectionsApi, Mode=TwoWay}">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLimitConnectionsApi}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipLimitConnectionsApiDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLimitConnectionsApiDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <Label x:Name="maxConnectionsApiLabel" Grid.Column="2" Content="{x:Static p:Resources.MaxConnections}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Label
+                                x:Name="maxConnectionsApiLabel"
+                                Grid.Column="2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.MaxConnections}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLimitConnectionsApi}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipLimitConnectionsApiDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLimitConnectionsApiDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBox x:Name="maxConnectionsApiComboBox" Grid.Column="3" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="40">
+                            <TextBox
+                                x:Name="maxConnectionsApiComboBox"
+                                Grid.Column="3"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
                                     <Binding Path="MaxConnectionsApi" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -531,21 +783,27 @@
                                     </Binding>
                                 </TextBox.Text>
                             </TextBox>
-                            <Label x:Name="ConnectionTimeIntervalApiLabel" Grid.Column="4"
-                       Content="{x:Static p:Resources.ConnectionTimeInterval}" VerticalAlignment="Center"
-                       HorizontalAlignment="Left">
+                            <Label
+                                x:Name="ConnectionTimeIntervalApiLabel"
+                                Grid.Column="4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.ConnectionTimeInterval}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLimitConnectionsApi}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipLimitConnectionsApiDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLimitConnectionsApiDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBox x:Name="ConnectionTimeIntervalApiComboBox" Grid.Column="5" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="40">
+                            <TextBox
+                                x:Name="ConnectionTimeIntervalApiComboBox"
+                                Grid.Column="5"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
                                     <Binding Path="ConnectionTimeIntervalApi" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -555,7 +813,11 @@
                                 </TextBox.Text>
                             </TextBox>
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="7" HorizontalAlignment="Left">
+                        <Grid
+                            Grid.Row="7"
+                            Height="Auto"
+                            MinHeight="46"
+                            HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -564,33 +826,45 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <CheckBox x:Name="checkBoxLimitConnectionsSvc" Content="{x:Static p:Resources.LimitConnectionsSvc}"
-                          IsChecked="{Binding LimitConnectionsSvc, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
-                          VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
+                            <CheckBox
+                                x:Name="checkBoxLimitConnectionsSvc"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.LimitConnectionsSvc}"
+                                IsChecked="{Binding LimitConnectionsSvc, Mode=TwoWay}">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLimitConnectionsSvc}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipLimitConnectionsSvcDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLimitConnectionsSvcDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <Label x:Name="maxConnectionsSvcLabel" Grid.Column="2" Content="{x:Static p:Resources.MaxConnections}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Label
+                                x:Name="maxConnectionsSvcLabel"
+                                Grid.Column="2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.MaxConnections}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLimitConnectionsSvc}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipLimitConnectionsSvcDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLimitConnectionsSvcDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBox x:Name="maxConnectionsSvcComboBox" Grid.Column="3" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="40">
+                            <TextBox
+                                x:Name="maxConnectionsSvcComboBox"
+                                Grid.Column="3"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
                                     <Binding Path="MaxConnectionsSvc" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -599,21 +873,27 @@
                                     </Binding>
                                 </TextBox.Text>
                             </TextBox>
-                            <Label x:Name="ConnectionTimeIntervalSvcLabel" Grid.Column="4"
-                       Content="{x:Static p:Resources.ConnectionTimeInterval}" VerticalAlignment="Center"
-                       HorizontalAlignment="Left">
+                            <Label
+                                x:Name="ConnectionTimeIntervalSvcLabel"
+                                Grid.Column="4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.ConnectionTimeInterval}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLimitConnectionsSvc}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipLimitConnectionsSvcDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLimitConnectionsSvcDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
-                            <TextBox x:Name="ConnectionTimeIntervalSvcComboBox" Grid.Column="5" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="40">
+                            <TextBox
+                                x:Name="ConnectionTimeIntervalSvcComboBox"
+                                Grid.Column="5"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
                                     <Binding Path="ConnectionTimeIntervalSvc" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
@@ -623,24 +903,39 @@
                                 </TextBox.Text>
                             </TextBox>
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="8" HorizontalAlignment="Left">
+                        <Grid
+                            Grid.Row="8"
+                            Height="Auto"
+                            MinHeight="46"
+                            HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="UserAgentLabel" Grid.Column="0" Content="{x:Static p:Resources.UserAgent}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
-                            </Label>
-                            <TextBox x:Name="UserAgentTextBox" Grid.Column="3" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="160">
+                            <Label
+                                x:Name="UserAgentLabel"
+                                Grid.Column="0"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.UserAgent}" />
+                            <TextBox
+                                x:Name="UserAgentTextBox"
+                                Grid.Column="3"
+                                MinWidth="160"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
-                                    <Binding Path="UserAgent" UpdateSourceTrigger="PropertyChanged">
-                                    </Binding>
+                                    <Binding Path="UserAgent" UpdateSourceTrigger="PropertyChanged" />
                                 </TextBox.Text>
                             </TextBox>
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="9" HorizontalAlignment="Left">
+                        <Grid
+                            Grid.Row="9"
+                            Height="Auto"
+                            MinHeight="46"
+                            HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -652,75 +947,51 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="TumblrLoginLabel" Grid.Column="0" Content="{x:Static p:Resources.TumblrLogin}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
-                                <Label.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTumblrLogin}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipTumblrLoginDescription}" />
-                                        </StackPanel>
-                                    </ToolTip>
-                                </Label.ToolTip>
-                            </Label>
-                            <TextBox x:Name="TumblrLoginTextBox" Grid.Column="3" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="160" ctrl:FocusAdvancement.AdvancesByEnterKey="True">
-                                <TextBox.Text>
-                                    <Binding Path="TumblrUser" UpdateSourceTrigger="PropertyChanged">
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                            <Label x:Name="TumblrPasswordLabel" Grid.Column="4"
-                       Content="{x:Static p:Resources.TumblrPassword}" VerticalAlignment="Center"
-                       HorizontalAlignment="Left" Margin="10">
-                                <Label.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTumblrPassword}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipTumblrPasswordDescription}" />
-                                        </StackPanel>
-                                    </ToolTip>
-                                </Label.ToolTip>
-                            </Label>
-                            <TextBox x:Name="TumblrPasswordTextBox" Grid.Column="5" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="160">
-                                <TextBox.Text>
-                                    <Binding Path="TumblrPassword" UpdateSourceTrigger="PropertyChanged">
-                                    </Binding>
-                                </TextBox.Text>
-                                <TextBox.InputBindings>
-                                    <KeyBinding Command="{Binding TumblrLoginCommand}" Key="Return" />
-                                </TextBox.InputBindings>
-                            </TextBox>
-                            <Button x:Name="tumblrAuthenticate" Grid.Column="6" HorizontalAlignment="Left" Margin="10"
-                        VerticalAlignment="Center" Content="{x:Static p:Resources.Authenticate}"
-                        Command="{Binding TumblrLoginCommand}" IsEnabled="True" MinWidth="90">
+                            <Button
+                                x:Name="buttonAuthenticate"
+                                Grid.Column="0"
+                                MinWidth="90"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Command="{Binding AuthenticateCommand}"
+                                Content="{x:Static p:Resources.Authenticate}"
+                                IsEnabled="True">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipAuthenticate}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipAuthenticateDescription}" />
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipAuthenticateBrowser}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipAuthenticateBrowserDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Button.ToolTip>
                             </Button>
-                            <Button x:Name="tumblrLogout" Grid.Column="6" HorizontalAlignment="Left" Margin="10"
-                        VerticalAlignment="Center" Content="{x:Static p:Resources.Logout}" Visibility="{Binding TumblrLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}"
-                        Command="{Binding TumblrLogoutCommand}" IsEnabled="True" MinWidth="90">
+                            <Button
+                                x:Name="tumblrLogout"
+                                Grid.Column="6"
+                                MinWidth="90"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Command="{Binding TumblrLogoutCommand}"
+                                Content="{x:Static p:Resources.Logout}"
+                                IsEnabled="True"
+                                Visibility="{Binding TumblrLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLogout}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipLogoutDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLogoutDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Button.ToolTip>
                             </Button>
-                            <Label x:Name="TumblrLoggedInLabel" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0">
+                            <Label
+                                x:Name="TumblrLoggedInLabel"
+                                Grid.Column="7"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <Label.Style>
                                     <Style TargetType="{x:Type Label}">
                                         <Setter Property="Content" Value="{x:Static p:Resources.LoggedOut}" />
@@ -732,7 +1003,12 @@
                                     </Style>
                                 </Label.Style>
                             </Label>
-                            <Label x:Name="TumblrUsernameLabel" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-5,0,0,0">
+                            <Label
+                                x:Name="TumblrUsernameLabel"
+                                Grid.Column="8"
+                                Margin="-5,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <Label.Style>
                                     <Style TargetType="{x:Type Label}">
                                         <Setter Property="Label.Content" Value="" />
@@ -745,7 +1021,12 @@
                                 </Label.Style>
                             </Label>
                         </Grid>
-                        <Grid MinHeight="46" Height="Auto" Grid.Row="10" HorizontalAlignment="Left" Visibility="{Binding TumblrTfaDetected, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid
+                            Grid.Row="10"
+                            Height="Auto"
+                            MinHeight="46"
+                            HorizontalAlignment="Left"
+                            Visibility="{Binding TumblrTfaDetected, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -754,28 +1035,41 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="TumblrTFANeededLabel" Grid.Column="0" Content="{x:Static p:Resources.TFANeeded}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
-                            </Label>
-                            <TextBox x:Name="TumblrTFATextBox" Grid.Column="3" HorizontalAlignment="Left"
-                         VerticalAlignment="Center" MinWidth="120">
+                            <Label
+                                x:Name="TumblrTFANeededLabel"
+                                Grid.Column="0"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.TFANeeded}" />
+                            <TextBox
+                                x:Name="TumblrTFATextBox"
+                                Grid.Column="3"
+                                MinWidth="120"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                                 <TextBox.Text>
-                                    <Binding Path="TumblrTfaAuthCode" UpdateSourceTrigger="PropertyChanged">
-                                </Binding>
+                                    <Binding Path="TumblrTfaAuthCode" UpdateSourceTrigger="PropertyChanged" />
                                 </TextBox.Text>
                                 <TextBox.InputBindings>
-                                    <KeyBinding Command="{Binding TumblrSubmitTfaCommand}" Key="Return" />
+                                    <KeyBinding Key="Return" Command="{Binding TumblrSubmitTfaCommand}" />
                                 </TextBox.InputBindings>
                             </TextBox>
-                            <Button x:Name="tumblrSubmitTFA" Grid.Column="4" HorizontalAlignment="Left" Margin="10"
-                        VerticalAlignment="Center" Content="{x:Static p:Resources.Submit}"
-                        Command="{Binding TumblrSubmitTfaCommand}" IsEnabled="True" MinWidth="90">
+                            <Button
+                                x:Name="tumblrSubmitTFA"
+                                Grid.Column="4"
+                                MinWidth="90"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Command="{Binding TumblrSubmitTfaCommand}"
+                                Content="{x:Static p:Resources.Submit}"
+                                IsEnabled="True">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipAuthenticate}" />
-                                            <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipAuthenticateDescription}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipAuthenticateDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Button.ToolTip>
@@ -842,7 +1136,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="{x:Static p:Resources.Blog}">
-                    <Grid MinHeight="46" Height="Auto">
+                    <Grid Height="Auto" MinHeight="46">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -868,177 +1162,304 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Label x:Name="perBlogLabel" Grid.Column="0" Grid.Row="0" Margin="5"
-                       Content="{x:Static p:Resources.DefaultSettingsForBlogs}">
+                        <Label
+                            x:Name="perBlogLabel"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="5"
+                            Content="{x:Static p:Resources.DefaultSettingsForBlogs}">
                             <Label.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
-                                        <TextBlock FontWeight="Bold"
-                                           Text="{x:Static p:Resources.ToolTipDefaultSettingsForBlogs}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDefaultSettingsForBlogsDescription}" />
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDefaultSettingsForBlogs}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDefaultSettingsForBlogsDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </Label.ToolTip>
                         </Label>
-                        <CheckBox x:Name="checkBoxDownloadImages" Content="{x:Static p:Resources.DownloadImages}"
-                          IsChecked="{Binding DownloadImages, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="10" />
-                        <CheckBox x:Name="checkBoxDownloadImagesText" Content="{x:Static p:Resources.DownloadImageMeta}"
-                          IsChecked="{Binding CreateImageMeta, Mode=TwoWay}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Margin="10"
-                          HorizontalAlignment="Left" />
-                        <CheckBox x:Name="checkBoxDownloadVideos" Content="{x:Static p:Resources.DownloadVideos}"
-                          IsChecked="{Binding DownloadVideos, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Margin="10" />
-                        <CheckBox x:Name="checkBoxDownloadVideosText" Content="{x:Static p:Resources.DownloadVideoMeta}"
-                          IsChecked="{Binding CreateVideoMeta, Mode=TwoWay}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Margin="10"
-                          HorizontalAlignment="Left" />
-                        <CheckBox x:Name="checkBoxDownloadAudios" Content="{x:Static p:Resources.DownloadAudios}"
-                          IsChecked="{Binding DownloadAudios, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Margin="10" />
-                        <CheckBox x:Name="checkBoxDownloadAudiosText" Content="{x:Static p:Resources.DownloadAudioMeta}"
-                          IsChecked="{Binding CreateAudioMeta, Mode=TwoWay}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3" Margin="10"
-                          HorizontalAlignment="Left" />
-                        <CheckBox x:Name="checkBoxDownloadTexts" Content="{x:Static p:Resources.DownloadTexts}"
-                          IsChecked="{Binding DownloadTexts, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Margin="10" />
-                        <CheckBox x:Name="checkBoxDownloadQuotes" Content="{x:Static p:Resources.DownloadQuotes}"
-                          IsChecked="{Binding DownloadQuotes, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" Margin="10" />
-                        <CheckBox x:Name="checkBoxDownloadConversations" Content="{x:Static p:Resources.DownloadConversations}"
-                          IsChecked="{Binding DownloadConversations, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"
-                          Margin="10" />
-                        <CheckBox x:Name="checkBoxDownloadLinks" Content="{x:Static p:Resources.DownloadLinks}"
-                          IsChecked="{Binding DownloadLinks, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Margin="10" />
-                        <CheckBox x:Name="checkBoxDownloadAnswers" Content="{x:Static p:Resources.DownloadAnswers}"
-                          IsChecked="{Binding DownloadAnswers, Mode=TwoWay}" Grid.Column="0" Grid.Row="8" Margin="10" />
-                        <CheckBox x:Name="checkBoxDownloadRebloggedPosts" Content="{x:Static p:Resources.DownloadRebloggedPosts}"
-                          IsChecked="{Binding DownloadRebloggedPosts, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="9" Margin="10" />
-                        <Label Grid.Column="0" Grid.Row="10" x:Name="metadataFormatLabel" Content="{x:Static p:Resources.MetadataFormat}"
-                       VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" />
-                        <ComboBox x:Name="metadataFormatComboBox" Grid.Column="1" Grid.Row="10" Margin="5" 
-                          ItemsSource="{Binding Source={StaticResource MetadataType}}" SelectedValuePath="."
-                          SelectedValue="{Binding MetadataFormat}"
-                          SelectedItem="{Binding MetadataFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Center" MinWidth="40" />
-                        <CheckBox x:Name="checkBoxOverrideTumblrBlogCrawler" Content="{x:Static p:Resources.OverrideTumblrBlogCrawler}"
-                          IsChecked="{Binding OverrideTumblrBlogCrawler, Mode=TwoWay}" Grid.Column="2" Grid.Row="10"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" >
+                        <CheckBox
+                            x:Name="checkBoxDownloadImages"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadImages}"
+                            IsChecked="{Binding DownloadImages, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadImagesText"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            Content="{x:Static p:Resources.DownloadImageMeta}"
+                            IsChecked="{Binding CreateImageMeta, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadVideos"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadVideos}"
+                            IsChecked="{Binding DownloadVideos, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadVideosText"
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            Content="{x:Static p:Resources.DownloadVideoMeta}"
+                            IsChecked="{Binding CreateVideoMeta, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadAudios"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadAudios}"
+                            IsChecked="{Binding DownloadAudios, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadAudiosText"
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            Content="{x:Static p:Resources.DownloadAudioMeta}"
+                            IsChecked="{Binding CreateAudioMeta, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadTexts"
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadTexts}"
+                            IsChecked="{Binding DownloadTexts, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadQuotes"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadQuotes}"
+                            IsChecked="{Binding DownloadQuotes, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadConversations"
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadConversations}"
+                            IsChecked="{Binding DownloadConversations, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadLinks"
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadLinks}"
+                            IsChecked="{Binding DownloadLinks, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadAnswers"
+                            Grid.Row="8"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadAnswers}"
+                            IsChecked="{Binding DownloadAnswers, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxDownloadRebloggedPosts"
+                            Grid.Row="9"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadRebloggedPosts}"
+                            IsChecked="{Binding DownloadRebloggedPosts, Mode=TwoWay}" />
+                        <Label
+                            x:Name="metadataFormatLabel"
+                            Grid.Row="10"
+                            Grid.Column="0"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.MetadataFormat}" />
+                        <ComboBox
+                            x:Name="metadataFormatComboBox"
+                            Grid.Row="10"
+                            Grid.Column="1"
+                            MinWidth="40"
+                            Margin="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding Source={StaticResource MetadataType}}"
+                            SelectedItem="{Binding MetadataFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding MetadataFormat}"
+                            SelectedValuePath="." />
+                        <CheckBox
+                            x:Name="checkBoxOverrideTumblrBlogCrawler"
+                            Grid.Row="10"
+                            Grid.Column="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.OverrideTumblrBlogCrawler}"
+                            IsChecked="{Binding OverrideTumblrBlogCrawler, Mode=TwoWay}">
                             <CheckBox.ToolTip>
-                            <ToolTip>
-                                <StackPanel>
-                                    <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipOverrideTumblrBlogCrawler}" />
-                                    <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipOverrideTumblrBlogCrawlerDescription}" />
-                                </StackPanel>
-                            </ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipOverrideTumblrBlogCrawler}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipOverrideTumblrBlogCrawlerDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <ComboBox x:Name="defaultTumblrBlogFormatComboBox" Grid.Column="3" Grid.Row="10" Margin="5" 
-                          ItemsSource="{Binding Source={StaticResource TumblrBlogCrawlerTypes}}" SelectedValuePath="."
-                          SelectedValue="{Binding TumblrBlogCrawlerType}"
-                          SelectedItem="{Binding TumblrBlogCrawlerType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Center" MinWidth="40" >
+                        <ComboBox
+                            x:Name="defaultTumblrBlogFormatComboBox"
+                            Grid.Row="10"
+                            Grid.Column="3"
+                            MinWidth="40"
+                            Margin="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding Source={StaticResource TumblrBlogCrawlerTypes}}"
+                            SelectedItem="{Binding TumblrBlogCrawlerType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding TumblrBlogCrawlerType}"
+                            SelectedValuePath=".">
                             <ComboBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipBlogtypeCrawler}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipBlogtypeCrawlerDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipBlogtypeCrawlerDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </ComboBox.ToolTip>
                         </ComboBox>
-                        <Label Grid.Column="0" Grid.Row="11" Content="{x:Static p:Resources.DownloadPages}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" >
+                        <Label
+                            Grid.Row="11"
+                            Grid.Column="0"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.DownloadPages}">
                             <Label.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadPages}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDownloadPagesDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadPagesDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </Label.ToolTip>
                         </Label>
-                        <TextBox 
-                         Text="{Binding DownloadPages, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Grid.Column="1" Grid.Row="11" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" >
+                        <TextBox
+                            Grid.Row="11"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Text="{Binding DownloadPages, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            TextWrapping="Wrap">
                             <TextBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadPages}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDownloadPagesDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadPagesDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </TextBox.ToolTip>
                         </TextBox>
-                        <Label Grid.Column="2" Grid.Row="11" Content="{x:Static p:Resources.PageSize}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" >
+                        <Label
+                            Grid.Row="11"
+                            Grid.Column="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.PageSize}">
                             <Label.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipPageSize}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipPageSizeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipPageSizeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </Label.ToolTip>
                         </Label>
-                        <TextBox Text="{Binding PageSize, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Grid.Column="3" Grid.Row="11" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center"
-                         Margin="00,0,10,0" >
+                        <TextBox
+                            Grid.Row="11"
+                            Grid.Column="3"
+                            Margin="00,0,10,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Text="{Binding PageSize, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            TextWrapping="Wrap">
                             <TextBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipPageSize}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipPageSizeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipPageSizeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </TextBox.ToolTip>
                         </TextBox>
-                        <Label Grid.Column="0" Grid.Row="12" Content="{x:Static p:Resources.DownloadFrom}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" >
+                        <Label
+                            Grid.Row="12"
+                            Grid.Column="0"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.DownloadFrom}">
                             <Label.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadFrom}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDownloadFromDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadFromDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </Label.ToolTip>
                         </Label>
-                        <TextBox 
-                         Text="{Binding DownloadFrom, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Grid.Column="1" Grid.Row="12" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center" >
+                        <TextBox
+                            Grid.Row="12"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Text="{Binding DownloadFrom, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            TextWrapping="Wrap">
                             <TextBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadFrom}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDownloadFromDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadFromDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </TextBox.ToolTip>
                         </TextBox>
-                        <Label Grid.Column="2" Grid.Row="12" Content="{x:Static p:Resources.DownloadTo}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" >
+                        <Label
+                            Grid.Row="12"
+                            Grid.Column="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.DownloadTo}">
                             <Label.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadTo}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDownloadToDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadToDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </Label.ToolTip>
                         </Label>
-                        <TextBox Text="{Binding DownloadTo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Grid.Column="3" Grid.Row="12" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center"
-                         Margin="00,0,10,0" >
+                        <TextBox
+                            Grid.Row="12"
+                            Grid.Column="3"
+                            Margin="00,0,10,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Text="{Binding DownloadTo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            TextWrapping="Wrap">
                             <TextBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadTo}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDownloadToDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadToDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </TextBox.ToolTip>
@@ -1058,101 +1479,146 @@
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>-->
-                        <CheckBox x:Name="checkBoxDownloadUrlList" Content="{x:Static p:Resources.DownloadUrlList}"
-                          IsChecked="{Binding DownloadUrlList, Mode=TwoWay}" VerticalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="13" Margin="10">
+                        <CheckBox
+                            x:Name="checkBoxDownloadUrlList"
+                            Grid.Row="13"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.DownloadUrlList}"
+                            IsChecked="{Binding DownloadUrlList, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadUrlList}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDownloadUrlListDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadUrlListDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <Label Grid.Column="2" Grid.Row="13" Content="{x:Static p:Resources.Tags}"
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" >
+                        <Label
+                            Grid.Row="13"
+                            Grid.Column="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.Tags}">
                             <Label.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTags}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipTagsDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipTagsDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </Label.ToolTip>
                         </Label>
-                        <TextBox Text="{Binding Tags, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                         Grid.Column="3" Grid.Row="13" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center"
-                         Margin="00,0,10,0" >
+                        <TextBox
+                            Grid.Row="13"
+                            Grid.Column="3"
+                            Margin="00,0,10,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Text="{Binding Tags, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            TextWrapping="Wrap">
                             <TextBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTags}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipTagsDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipTagsDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </TextBox.ToolTip>
                         </TextBox>
-                        <CheckBox x:Name="checkBoxSkipGif" Content="{x:Static p:Resources.SkipGif}"
-                          IsChecked="{Binding SkipGif, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="14" Margin="10" />
-                        <CheckBox x:Name="checkBoxForceSize" Content="{x:Static p:Resources.ForceSize}"
-                          IsChecked="{Binding ForceSize, Mode=TwoWay}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="14" Margin="10">
+                        <CheckBox
+                            x:Name="checkBoxSkipGif"
+                            Grid.Row="14"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.SkipGif}"
+                            IsChecked="{Binding SkipGif, Mode=TwoWay}" />
+                        <CheckBox
+                            x:Name="checkBoxForceSize"
+                            Grid.Row="14"
+                            Grid.Column="2"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.ForceSize}"
+                            IsChecked="{Binding ForceSize, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipForceSize}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipForceSizeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipForceSizeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <CheckBox x:Name="checkBoxRegExPhotos" Content="{x:Static p:Resources.RegExPhotos}"
-                          IsChecked="{Binding RegExPhotos, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="15" Margin="10">
+                        <CheckBox
+                            x:Name="checkBoxRegExPhotos"
+                            Grid.Row="15"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.RegExPhotos}"
+                            IsChecked="{Binding RegExPhotos, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipRegExPhotos}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipRegExPhotosDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipRegExPhotosDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <CheckBox x:Name="checkBoxDumpCrawlerData" Content="{x:Static p:Resources.DumpCrawlerData}"
-                          IsChecked="{Binding DumpCrawlerData, Mode=TwoWay}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="16" Margin="10">
+                        <CheckBox
+                            x:Name="checkBoxDumpCrawlerData"
+                            Grid.Row="16"
+                            Grid.Column="2"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DumpCrawlerData}"
+                            IsChecked="{Binding DumpCrawlerData, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDumpCrawlerData}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDumpCrawlerDataDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDumpCrawlerDataDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <CheckBox x:Name="checkBoxRegExVideo" Content="{x:Static p:Resources.RegExVideos}"
-                                  IsChecked="{Binding RegExVideos, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="16" Margin="10">
+                        <CheckBox
+                            x:Name="checkBoxRegExVideo"
+                            Grid.Row="16"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.RegExVideos}"
+                            IsChecked="{Binding RegExVideos, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipRegExVideos}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipRegExVideosDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipRegExVideosDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <CheckBox x:Name="checkBoxForceRescan" Content="{x:Static p:Resources.ForceRescan}"
-                                  IsChecked="{Binding ForceRescan, Mode=TwoWay}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="15" Margin="10">
+                        <CheckBox
+                            x:Name="checkBoxForceRescan"
+                            Grid.Row="15"
+                            Grid.Column="2"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.ForceRescan}"
+                            IsChecked="{Binding ForceRescan, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipForceRescan}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipForceRescanDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipForceRescanDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
@@ -1160,7 +1626,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="{x:Static p:Resources.ExternalSettings}">
-                    <Grid MinHeight="46" Height="Auto">
+                    <Grid Height="Auto" MinHeight="46">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -1171,234 +1637,273 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Label x:Name="perBlogLabelExternal" Grid.Column="0" Grid.Row="0" Margin="5"
-                       Content="{x:Static p:Resources.DefaultSettingsForBlogs}">
+                        <Label
+                            x:Name="perBlogLabelExternal"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="5"
+                            Content="{x:Static p:Resources.DefaultSettingsForBlogs}">
                             <Label.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
-                                        <TextBlock FontWeight="Bold"
-                                           Text="{x:Static p:Resources.ToolTipDefaultSettingsForBlogs}" />
-                                        <TextBlock xml:space="preserve"
-                                           Text="{x:Static p:Resources.ToolTipDefaultSettingsForBlogsDescription}" />
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDefaultSettingsForBlogs}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDefaultSettingsForBlogsDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </Label.ToolTip>
                         </Label>
-                        <CheckBox Content="{x:Static p:Resources.DownloadImgur}"
-                                  IsChecked="{Binding DownloadImgur, Mode=TwoWay}" Grid.Column="0" Grid.Row="1"
-                                   Margin="10,13,10,10">
+                        <CheckBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="10,13,10,10"
+                            Content="{x:Static p:Resources.DownloadImgur}"
+                            IsChecked="{Binding DownloadImgur, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadImgur}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipDownloadImgurDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadImgurDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
 
-                        <CheckBox Content="{x:Static p:Resources.DownloadGfycat}"
-                                  IsChecked="{Binding DownloadGfycat, Mode=TwoWay}" Grid.Column="0" Grid.Row="2"
-                                  Margin="10" >
+                        <CheckBox
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadGfycat}"
+                            IsChecked="{Binding DownloadGfycat, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadGfycat}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipDownloadGfycatDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadGfycatDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
 
-                        <ComboBox Grid.Column="2" Grid.Row="2" Margin="5"
-                                ItemsSource="{Binding Source={StaticResource GfycatTypes}}" SelectedValuePath="."
-                                SelectedValue="{Binding GfycatType}"
-                                SelectedItem="{Binding GfycatType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ComboBox
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Margin="5"
+                            ItemsSource="{Binding Source={StaticResource GfycatTypes}}"
+                            SelectedItem="{Binding GfycatType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding GfycatType}"
+                            SelectedValuePath=".">
                             <ComboBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipGfycatFiletype}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipGfycatFiletypeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipGfycatFiletypeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </ComboBox.ToolTip>
                         </ComboBox>
 
-                        <CheckBox Content="{x:Static p:Resources.DownloadWebmshare}"
-                                  IsChecked="{Binding DownloadWebmshare, Mode=TwoWay}" Grid.Column="0" Grid.Row="3"
-                                  Margin="10" >
+                        <CheckBox
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadWebmshare}"
+                            IsChecked="{Binding DownloadWebmshare, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadWebmshare}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipDownloadWebmshareDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadWebmshareDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
 
-                        <ComboBox Grid.Column="2" Grid.Row="3" Margin="5"
-                                ItemsSource="{Binding Source={StaticResource WebmshareTypes}}" SelectedValuePath="."
-                              SelectedValue="{Binding WebmshareType}"
-                              SelectedItem="{Binding WebmshareType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ComboBox
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Margin="5"
+                            ItemsSource="{Binding Source={StaticResource WebmshareTypes}}"
+                            SelectedItem="{Binding WebmshareType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding WebmshareType}"
+                            SelectedValuePath=".">
                             <ComboBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipWebmshareFiletype}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipWebmshareFiletypeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipWebmshareFiletypeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </ComboBox.ToolTip>
                         </ComboBox>
 
-                        <CheckBox Content="{x:Static p:Resources.DownloadMixtape}"
-                                  IsChecked="{Binding DownloadMixtape, Mode=TwoWay}" Grid.Column="0" Grid.Row="4"
-                                  Margin="10">
+                        <CheckBox
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadMixtape}"
+                            IsChecked="{Binding DownloadMixtape, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadMixtape}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipDownloadMixtapeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadMixtapeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <ComboBox Grid.Column="2" Grid.Row="4" Margin="5"
-                                  ItemsSource="{Binding Source={StaticResource MixtapeTypes}}" SelectedValuePath="."
-                                  SelectedValue="{Binding MixtapeType}"
-                                  SelectedItem="{Binding MixtapeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ComboBox
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Margin="5"
+                            ItemsSource="{Binding Source={StaticResource MixtapeTypes}}"
+                            SelectedItem="{Binding MixtapeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding MixtapeType}"
+                            SelectedValuePath=".">
                             <ComboBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipMixtapeFiletype}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipMixtapeFiletypeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipMixtapeFiletypeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </ComboBox.ToolTip>
                         </ComboBox>
 
-                        <CheckBox Content="{x:Static p:Resources.DownloadUguu}"
-                                  IsChecked="{Binding DownloadUguu, Mode=TwoWay}" Grid.Column="0" Grid.Row="5"
-                                  Margin="10">
+                        <CheckBox
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadUguu}"
+                            IsChecked="{Binding DownloadUguu, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadUguu}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipDownloadUguuDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadUguuDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <ComboBox Grid.Column="2" Grid.Row="5" Margin="5"
-                                  ItemsSource="{Binding Source={StaticResource UguuTypes}}" SelectedValuePath="."
-                                  SelectedValue="{Binding UguuType}"
-                                  SelectedItem="{Binding UguuType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ComboBox
+                            Grid.Row="5"
+                            Grid.Column="2"
+                            Margin="5"
+                            ItemsSource="{Binding Source={StaticResource UguuTypes}}"
+                            SelectedItem="{Binding UguuType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding UguuType}"
+                            SelectedValuePath=".">
                             <ComboBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipUguuFiletype}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipUguuFiletypeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipUguuFiletypeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </ComboBox.ToolTip>
                         </ComboBox>
 
-                        <CheckBox Content="{x:Static p:Resources.DownloadSafeMoe}"
-                                  IsChecked="{Binding DownloadSafeMoe, Mode=TwoWay}" Grid.Column="0" Grid.Row="6"
-                                  Margin="10" >
+                        <CheckBox
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadSafeMoe}"
+                            IsChecked="{Binding DownloadSafeMoe, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadSafeMoe}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipDownloadSafeMoeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadSafeMoeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
 
-                        <ComboBox Grid.Column="2" Grid.Row="6" Margin="5"
-                                  ItemsSource="{Binding Source={StaticResource SafeMoeTypes}}" SelectedValuePath="."
-                                  SelectedValue="{Binding SafeMoeType}"
-                                  SelectedItem="{Binding SafeMoeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ComboBox
+                            Grid.Row="6"
+                            Grid.Column="2"
+                            Margin="5"
+                            ItemsSource="{Binding Source={StaticResource SafeMoeTypes}}"
+                            SelectedItem="{Binding SafeMoeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding SafeMoeType}"
+                            SelectedValuePath=".">
                             <ComboBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipSafeMoeFiletype}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipSafeMoeFiletypeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipSafeMoeFiletypeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </ComboBox.ToolTip>
                         </ComboBox>
-                        <CheckBox Content="{x:Static p:Resources.DownloadLoliSafe}"
-                                  IsChecked="{Binding DownloadLoliSafe, Mode=TwoWay}" Grid.Column="0" Grid.Row="7"
-                                  Margin="10" >
+                        <CheckBox
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadLoliSafe}"
+                            IsChecked="{Binding DownloadLoliSafe, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadLoliSafe}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipDownloadLoliSafeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadLoliSafeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <ComboBox Grid.Column="2" Grid.Row="7" Margin="5"
-                                  ItemsSource="{Binding Source={StaticResource LoliSafeTypes}}" SelectedValuePath="."
-                                  SelectedValue="{Binding LoliSafeType}"
-                                  SelectedItem="{Binding LoliSafeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ComboBox
+                            Grid.Row="7"
+                            Grid.Column="2"
+                            Margin="5"
+                            ItemsSource="{Binding Source={StaticResource LoliSafeTypes}}"
+                            SelectedItem="{Binding LoliSafeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding LoliSafeType}"
+                            SelectedValuePath=".">
                             <ComboBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLoliSafeFiletype}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipLoliSafeFiletypeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLoliSafeFiletypeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </ComboBox.ToolTip>
                         </ComboBox>
 
-                        <CheckBox Content="{x:Static p:Resources.DownloadCatBox}"
-                                  IsChecked="{Binding DownloadCatBox, Mode=TwoWay}" Grid.Column="0" Grid.Row="8"
-                                  Margin="10" >
+                        <CheckBox
+                            Grid.Row="8"
+                            Grid.Column="0"
+                            Margin="10"
+                            Content="{x:Static p:Resources.DownloadCatBox}"
+                            IsChecked="{Binding DownloadCatBox, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadCatBox}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipDownloadCatBoxDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadCatBoxDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
 
-                        <ComboBox Grid.Column="2" Grid.Row="8" Margin="5"
-                                  ItemsSource="{Binding Source={StaticResource CatBoxTypes}}" SelectedValuePath="."
-                                  SelectedValue="{Binding CatBoxType}"
-                                  SelectedItem="{Binding CatBoxType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ComboBox
+                            Grid.Row="8"
+                            Grid.Column="2"
+                            Margin="5"
+                            ItemsSource="{Binding Source={StaticResource CatBoxTypes}}"
+                            SelectedItem="{Binding CatBoxType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding CatBoxType}"
+                            SelectedValuePath=".">
                             <ComboBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipCatBoxFiletype}" />
-                                        <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipCatBoxFiletypeDescription}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipCatBoxFiletypeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </ComboBox.ToolTip>
@@ -1406,7 +1911,10 @@
                     </Grid>
                 </TabItem>
             </TabControl>
-            <Grid MinHeight="36" Height="Auto" Grid.Row="1">
+            <Grid
+                Grid.Row="1"
+                Height="Auto"
+                MinHeight="36">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -1415,7 +1923,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Button x:Name="buttonAuthenticate" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="10"
+                <!--<Button x:Name="buttonAuthenticate" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="10"
                         VerticalAlignment="Center" Content="{x:Static p:Resources.Authenticate}"
                         Command="{Binding AuthenticateCommand}" IsEnabled="True" MinWidth="90">
                     <Button.ToolTip>
@@ -1427,10 +1935,18 @@
                             </StackPanel>
                         </ToolTip>
                     </Button.ToolTip>
-                </Button>
-                <Button Command="{Binding SaveCommand}" Height="Auto" Grid.Column="1" Grid.Row="0"
-                        HorizontalAlignment="Right" VerticalAlignment="Center" Content="{x:Static p:Resources.Save}"
-                        Margin="10" MinWidth="50" Click="closeWindow" />
+                </Button>-->
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Height="Auto"
+                    MinWidth="50"
+                    Margin="10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Click="closeWindow"
+                    Command="{Binding SaveCommand}"
+                    Content="{x:Static p:Resources.Save}" />
             </Grid>
         </Grid>
     </ScrollViewer>

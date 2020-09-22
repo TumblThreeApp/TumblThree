@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Net;
+using System.Threading.Tasks;
 using System.Waf.Applications;
 
 using TumblThree.Applications.Services;
@@ -36,6 +38,8 @@ namespace TumblThree.Applications.ViewModels
         private void ViewClosed(object sender, EventArgs e)
         {
         }
+
+        public Task<CookieCollection> GetCookies(String url) => ViewCore.GetCookies(url);
 
         public void AddUrl(string url) => ViewCore.AddUrl(url);
 

@@ -17,5 +17,7 @@ namespace TumblThree.Applications.Services
 
         void RemoveUriCookie(Uri uri);
 
+        void RemoveTumblrAuthenticationCookies();
+
     }
 }

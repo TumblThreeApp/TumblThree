@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Threading.Tasks;
 using System.Waf.Applications;
 
 namespace TumblThree.Applications.Views
@@ -12,6 +14,7 @@ namespace TumblThree.Applications.Views
         void AddUrl(string url);
 
         string GetUrl();
-        String GetCookies(String url);
+
+        Task<CookieCollection> GetCookies(String url);
     }
 }

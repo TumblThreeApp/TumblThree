@@ -22,7 +22,7 @@ namespace TumblThree.Applications.ViewModels
     [Export]
     public class SettingsViewModel : ViewModel<ISettingsView>
     {
-        private readonly DelegateCommand _authenticateCommand;
+        private readonly AsyncDelegateCommand _authenticateCommand;
         private readonly DelegateCommand _browseDownloadLocationCommand;
         private readonly DelegateCommand _browseExportLocationCommand;
         private readonly DelegateCommand _enableAutoDownloadCommand;
@@ -143,7 +143,7 @@ namespace TumblThree.Applications.ViewModels
             _authenticateViewModelFactory = authenticateViewModelFactory;
             _browseDownloadLocationCommand = new DelegateCommand(BrowseDownloadLocation);
             _browseExportLocationCommand = new DelegateCommand(BrowseExportLocation);
-            _authenticateCommand = new DelegateCommand(Authenticate);
+            _authenticateCommand = new AsyncDelegateCommand(Authenticate);
             _tumblrLoginCommand = new AsyncDelegateCommand(TumblrLogin);
             _tumblrLogoutCommand = new AsyncDelegateCommand(TumblrLogout);
             _tumblrSubmitTfaCommand = new AsyncDelegateCommand(TumblrSubmitTfa);
@@ -801,29 +801,19 @@ namespace TumblThree.Applications.ViewModels
             ExportLocation = result.FileName;
         }
 
-        private void Authenticate()
+        private async Task Authenticate()
         {
-            try
-            {
-                const string url = @"https://www.tumblr.com/login";
-                ShellService.Settings.OAuthCallbackUrl = "https://www.tumblr.com/dashboard_";
+            const string url = @"https://www.tumblr.com/login";
+            ShellService.Settings.OAuthCallbackUrl = "https://www.tumblr.com/dashboard_";
 
-                AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
-                authenticateViewModel.AddUrl(url);
-                authenticateViewModel.ShowDialog(ShellService.ShellView);
+            AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
+            authenticateViewModel.AddUrl(url);
+            authenticateViewModel.ShowDialog(ShellService.ShellView);
 
-                String cookies = ((IAuthenticateView)authenticateViewModel.View).GetCookies("https://www.tumblr.com/");
-                CookieContainer cookieCon = new CookieContainer();
-                cookieCon.SetCookies(new Uri("https://www.tumblr.com/"), cookies);
-                LoginService.AddCookies(cookieCon.GetCookies(new Uri("https://www.tumblr.com/")));
-                CheckIfTumblrLoggedIn();
-            }
-            catch (WebException ex)
-            {
-                Logger.Error("SettingsViewModel:Authenticate: {0}", ex);
-                ShellService.ShowError(ex, Resources.AuthenticationFailure, ex.Message);
-                return;
-            }
+            var cookies = await authenticateViewModel.GetCookies("https://www.tumblr.com/");
+
+            LoginService.AddCookies(cookies);
+            await UpdateTumblrLogin();
         }
 
         private async Task TumblrLogin()
