@@ -13,15 +13,17 @@ namespace TumblThree.Applications.ViewModels
         private string _oauthCallbackUrl;
 
         [ImportingConstructor]
-        public AuthenticateViewModel(IAuthenticateView view, IShellService shellService)
+        public AuthenticateViewModel(IAuthenticateView view, IShellService shellService, ILoginService loginService)
             : base(view)
         {
             view.Closed += ViewClosed;
             ShellService = shellService;
+            LoginService = loginService;
             _oauthCallbackUrl = shellService.Settings.OAuthCallbackUrl;
         }
 
         public IShellService ShellService { get; }
+        public ILoginService LoginService { get; }
 
         public string OAuthCallbackUrl
         {

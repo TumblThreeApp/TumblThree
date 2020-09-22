@@ -1,6 +1,7 @@
 version: 1.0.10.{build}
 image: Visual Studio 2017
 configuration: Release
+platform: x64
 assembly_info:
   patch: true
   file: '**\SharedAssemblyInfo.cs'

@@ -806,11 +806,17 @@ namespace TumblThree.Applications.ViewModels
             try
             {
                 const string url = @"https://www.tumblr.com/login";
-                ShellService.Settings.OAuthCallbackUrl = "https://www.tumblr.com/dashboard";
+                ShellService.Settings.OAuthCallbackUrl = "https://www.tumblr.com/dashboard_";
 
                 AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
                 authenticateViewModel.AddUrl(url);
                 authenticateViewModel.ShowDialog(ShellService.ShellView);
+
+                String cookies = ((IAuthenticateView)authenticateViewModel.View).GetCookies("https://www.tumblr.com/");
+                CookieContainer cookieCon = new CookieContainer();
+                cookieCon.SetCookies(new Uri("https://www.tumblr.com/"), cookies);
+                LoginService.AddCookies(cookieCon.GetCookies(new Uri("https://www.tumblr.com/")));
+                CheckIfTumblrLoggedIn();
             }
             catch (WebException ex)
             {
