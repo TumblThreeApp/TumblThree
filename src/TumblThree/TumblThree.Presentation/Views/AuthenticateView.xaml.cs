@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows;
@@ -12,7 +14,6 @@ using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using CefSharp;
 using CefSharp.Wpf;
-using System.Net;
 
 namespace TumblThree.Presentation.Views
 {
@@ -66,21 +67,55 @@ namespace TumblThree.Presentation.Views
             var cookieManager = Cef.GetGlobalCookieManager();
             var cookies = await cookieManager.VisitUrlCookiesAsync(url, true);
 
-            var cookieCollection = GetCookies(cookies);
+            // don't ask why, but one cookieCollection works and the other not
+            var cookieHeader = GetCookieHeader(cookies);
+            CookieContainer cookieCon = new CookieContainer();
+            cookieCon.SetCookies(new Uri("https://www.tumblr.com/"), cookieHeader);
+            var cookieCollection = FixCookieDates(cookieCon.GetCookies(new Uri("https://www.tumblr.com/")));
+
+            //var cookieCollection = GetCookies(cookies);
             return cookieCollection;
         }
 
-        private static CookieCollection GetCookies(List<CefSharp.Cookie> cookies)
+        //private static CookieCollection GetCookies(List<CefSharp.Cookie> cookies)
+        //{
+        //    CookieCollection cookieCollection = new CookieCollection();
+        //    foreach (var cookie in cookies)
+        //    {
+        //        var transferCookie = new System.Net.Cookie(cookie.Name, WebUtility.UrlEncode(cookie.Value), cookie.Path, cookie.Domain);
+        //        transferCookie.Expires = cookie.Expires.Value;
+        //        transferCookie.HttpOnly = cookie.HttpOnly;
+        //        transferCookie.Secure = cookie.Secure;
+        //        cookieCollection.Add(transferCookie);
+        //    }
+        //    return cookieCollection;
+        //}
+
+        private static string GetCookieHeader(List<CefSharp.Cookie> cookies)
         {
-            CookieCollection cookieCollection = new CookieCollection();
+            StringBuilder cookieString = new StringBuilder();
+            string delimiter = string.Empty;
+
             foreach (var cookie in cookies)
             {
-                var transferCookie = new System.Net.Cookie(cookie.Name, cookie.Value, cookie.Path, cookie.Domain);
-                transferCookie.Expires = cookie.Expires.Value;
-                transferCookie.HttpOnly = cookie.HttpOnly;
-                cookieCollection.Add(transferCookie);
+                cookieString.Append(delimiter)
+                    .Append(cookie.Name)
+                    .Append('=')
+                    .Append(WebUtility.UrlEncode(cookie.Value));
+                delimiter = ",";
             }
-            return cookieCollection;
+
+            return cookieString.ToString();
+        }
+
+        private static CookieCollection FixCookieDates(CookieCollection cookieCol)
+        {
+            foreach (System.Net.Cookie cookie in cookieCol)
+            {
+                if (cookie.Expires.Equals(DateTime.MinValue) && cookie.Expires.Kind == DateTimeKind.Unspecified)
+                    cookie.Expires = new DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            }
+            return cookieCol;
         }
 
         private void Browser_Navigated(object sender, RoutedEventArgs e)
