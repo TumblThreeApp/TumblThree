@@ -2,7 +2,7 @@
 
 Your contributions to TumblThree are welcome, and warmly received! In doing so, here are the guidelines we'd appreciate you following:
 
- - [Code of Conduct](CodeOfConduct.md)
+ - [Code of Conduct](code_of_conduct.md)
  - [Got a Question or Problem?](#question)
  - [Problems?](#issue)
  - [Something Missing?](#feature)
