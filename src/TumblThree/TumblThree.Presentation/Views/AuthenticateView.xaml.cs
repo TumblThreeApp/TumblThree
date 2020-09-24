@@ -71,7 +71,7 @@ namespace TumblThree.Presentation.Views
             var cookieHeader = GetCookieHeader(cookies);
             CookieContainer cookieCon = new CookieContainer();
             cookieCon.SetCookies(new Uri("https://www.tumblr.com/"), cookieHeader);
-            var cookieCollection = cookieCon.GetCookies(new Uri("https://www.tumblr.com/"));
+            var cookieCollection = FixCookieDates(cookieCon.GetCookies(new Uri("https://www.tumblr.com/")));
 
             //var cookieCollection = GetCookies(cookies);
             return cookieCollection;
@@ -106,6 +106,16 @@ namespace TumblThree.Presentation.Views
             }
 
             return cookieString.ToString();
+        }
+
+        private static CookieCollection FixCookieDates(CookieCollection cookieCol)
+        {
+            foreach (System.Net.Cookie cookie in cookieCol)
+            {
+                if (cookie.Expires.Equals(DateTime.MinValue) && cookie.Expires.Kind == DateTimeKind.Unspecified)
+                    cookie.Expires = new DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            }
+            return cookieCol;
         }
 
         private void Browser_Navigated(object sender, RoutedEventArgs e)
