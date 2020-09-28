@@ -1,10 +1,10 @@
 # TumblThree - A Tumblr Blog Backup Application
 
-[![Join the chat at https://gitter.im/TumblThree/community](https://badges.gitter.im/TumblThree/community.svg)](https://gitter.im/TumblThree/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build status](https://ci.appveyor.com/api/projects/status/k7jwdst7q7gp3i1h/branch/master?svg=true)](https://ci.appveyor.com/project/gpriaulx/tumblthree/branch/master)
+[![Join the chat at https://gitter.im/TumblThree/community](https://badges.gitter.im/TumblThree/community.svg)](https://gitter.im/TumblThree/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build status](https://ci.appveyor.com/api/projects/status/dbrmr06nm3jif5bd/branch/master?svg=true)](https://ci.appveyor.com/project/TumblThreeApp/tumblthree/branch/master)
 
 TumblThree is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), a free and open source Tumblr blog backup application, using C# with WPF and the MVVM pattern. It uses the [Win Application Framework (WAF)](https://github.com/jbe2277/waf). It downloads photo, video, audio and text posts from a given tumblr blog.
 
-_Read this in other languages: [简体中文](https://github.com/Emphasia/TumblThree-zh)._
+_Read this in other languages: [简体中文](README.zh-cn.md)._
 
 ## Features:
 

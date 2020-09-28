@@ -1,3 +1,5 @@
+#version: 1.0.10.{build}
+image: Visual Studio 2017
 init:
   # Set "build version number" to "short-commit-hash" or when tagged to "tag name" (Travis style)
   - ps: >-
@@ -12,25 +14,60 @@ init:
       {
         Update-AppveyorBuild -Version "1.0.10.$env:APPVEYOR_BUILD_NUMBER"
       }
-#version: 1.0.10.{build}
-image: Visual Studio 2017
-configuration: Release
-platform: x64
+environment:
+  DeployApiCode:
+    secure: jgYawyAbq3Q76D1Ze0oho6jobDKCkcEeTNbg5NoYi6o=
+  matrix:
+  - job_name: build_x64_m
+    job_group: build
+  - job_name: build_x64
+    job_group: build
+  - job_name: build_x86
+    job_group: build
+  - job_name: deployZips
+    job_depends_on: build
+matrix:
+  fast_finish: true
 assembly_info:
   patch: true
   file: '**\SharedAssemblyInfo.cs'
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
+configuration: Release
 for:
--
-  branches:
-    only:
-    - master
-  #version: 1.0.10.{build}
--
-  configuration: Release
-
+  -
+    branches:
+      only:
+      - master
+    matrix:
+      only:
+        - job_name: build_x64_m
+    skip_tags: true
+    environment:
+      PLATFORM: x64
+  -
+    matrix:
+      only:
+        - job_name: build_x64
+    skip_non_tags: true
+    environment:
+      PLATFORM: x64
+  -
+    matrix:
+      only:
+        - job_name: build_x86
+    skip_non_tags: true
+    environment:
+      PLATFORM: x86
+  -
+    matrix:
+      only:
+        - job_name: deployZips
+    skip_non_tags: true
+    build: off
+    environment:
+      DeployNow: true
 before_build:
 - ps: scripts/appveyor-prebuild.ps1
 
@@ -44,6 +81,8 @@ after_build:
 artifacts:
 - path: artifacts/*.zip
   name: TumblThree
+before_deploy:
+- ps: scripts/appveyor-predeploy.ps1
 deploy:
   release: TumblThree-v$(MY_BUILD_VERSION)
   description: 'Release description'
@@ -55,4 +94,4 @@ deploy:
   prerelease: false
   on:
     #branch: master                 # release from master branch only
-    APPVEYOR_REPO_TAG: true        # deploy on tag push only
+    DeployNow: true                 # deploy on tag push only

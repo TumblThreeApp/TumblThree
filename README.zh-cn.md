@@ -1,8 +1,8 @@
 # TumblThree 简体中文
 
-这儿是[TumblThree](https://github.com/TumblThreeApp/TumblThree)的英语和简体中文的源文件。
+这儿是[TumblThree](https://github.com/TumblThreeApp/TumblThree)的英语和简体中文的源文件。 [![Build status](https://ci.appveyor.com/api/projects/status/dbrmr06nm3jif5bd/branch/master?svg=true)](https://ci.appveyor.com/project/TumblThreeApp/tumblthree/branch/master)
 
-This is Emphasia's Simplified Chinese translation for [TumblThree](https://github.com/TumblThreeApp/TumblThree).
+Simplified Chinese translation for [TumblThree](https://github.com/TumblThreeApp/TumblThree) (translated by Emphasia).
 
 
 - 原作者repo：[johanneszab/TumblThree](https://github.com/johanneszab/TumblThree)
@@ -14,7 +14,7 @@ This is Emphasia's Simplified Chinese translation for [TumblThree](https://githu
 
 ## 下载 Download
 
-👉 https://github.com/Emphasia/TumblThree-zh/releases
+👉 https://github.com/TumblThreeApp/TumblThree/releases
 
 > 因语言文件越来越臃肿，作者已将主程序和语言文件分别发布。
 >

@@ -1,11 +1,11 @@
 # Harvest Data
-$harvestPath = "$env:APPVEYOR_BUILD_FOLDER\src\TumblThree\TumblThree.Presentation\bin\x64\Release"
+$harvestPath = "$env:APPVEYOR_BUILD_FOLDER\src\TumblThree\TumblThree.Presentation\bin\$env:PLATFORM\Release"
 $fileVersion = (Get-Item "$harvestPath\TumblThree.exe").VersionInfo.ProductVersion
 
 # Artifacts Paths
 $artifactsPath = "$env:APPVEYOR_BUILD_FOLDER\artifacts"
-$applicationArtifactsPath = "$artifactsPath\Application\TumbleThree"
-$translationArtifactsPath = "$artifactsPath\Translations\TumbleThree"
+$applicationArtifactsPath = "$artifactsPath\Application\TumblThree"
+$translationArtifactsPath = "$artifactsPath\Translations\TumblThree"
 
 New-Item -ItemType Directory -Force -Path $applicationArtifactsPath
 New-Item -ItemType Directory -Force -Path $translationArtifactsPath
@@ -35,9 +35,9 @@ foreach ($tf in $translationFolders) {
 }
 
 # Zip Application
-$applicationZipPath = "$artifactsPath\TumblThree-v$fileVersion-Application.zip"
-Compress-Archive -Path "$artifactsPath\Application\TumbleThree\" -DestinationPath "$applicationZipPath"
+$applicationZipPath = "$artifactsPath\TumblThree-v$fileVersion-$env:PLATFORM-Application.zip"
+Compress-Archive -Path "$artifactsPath\Application\TumblThree\" -DestinationPath "$applicationZipPath"
 
 # Zip Translations
-$translationZipPath = "$artifactsPath\TumblThree-v$fileVersion-Translations.zip"
-Compress-Archive -Path "$artifactsPath\Translations\TumbleThree\" -DestinationPath "$translationZipPath"
+$translationZipPath = "$artifactsPath\TumblThree-v$fileVersion-$env:PLATFORM-Translations.zip"
+Compress-Archive -Path "$artifactsPath\Translations\TumblThree\" -DestinationPath "$translationZipPath"
