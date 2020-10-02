@@ -153,4 +153,4 @@ Most likely you don't have to change any of the other connection settings. In pa
  
 ## New Feature Requests:
 
-* [See the Wiki page for ideas of new or missing features](https://github.com/johanneszab/TumblThree/wiki/New-Feature-Requests-and-Possible-Enhancements) and add your thoughts.
+* [See the Wiki page for ideas of new or missing features](https://github.com/TumblThreeApp/TumblThree/wiki/New-Feature-Requests-and-Possible-Enhancements) and add your thoughts.
