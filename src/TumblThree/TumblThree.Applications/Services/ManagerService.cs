@@ -13,7 +13,6 @@ namespace TumblThree.Applications.Services
     internal class ManagerService : Model, IManagerService
     {
         private readonly IList<IFiles> databases;
-        private readonly object checkFilesLock = new object();
         private readonly object databasesLock = new object();
 
         [ImportingConstructor]
@@ -29,16 +28,12 @@ namespace TumblThree.Applications.Services
 
         public bool CheckIfFileExistsInDB(string url)
         {
-            lock (checkFilesLock)
+            lock (databasesLock)
             {
                 foreach (IFiles db in databases)
                 {
-                    if (db.CheckIfFileExistsInDB(url))
-                    {
-                        return true;
-                    }
+                    if (db.CheckIfFileExistsInDB(url)) return true;
                 }
-
                 return false;
             }
         }

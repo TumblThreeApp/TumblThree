@@ -22,7 +22,7 @@ namespace TumblThree.Applications.ViewModels
     [Export]
     public class SettingsViewModel : ViewModel<ISettingsView>
     {
-        private readonly DelegateCommand _authenticateCommand;
+        private readonly AsyncDelegateCommand _authenticateCommand;
         private readonly DelegateCommand _browseDownloadLocationCommand;
         private readonly DelegateCommand _browseExportLocationCommand;
         private readonly DelegateCommand _enableAutoDownloadCommand;
@@ -143,7 +143,7 @@ namespace TumblThree.Applications.ViewModels
             _authenticateViewModelFactory = authenticateViewModelFactory;
             _browseDownloadLocationCommand = new DelegateCommand(BrowseDownloadLocation);
             _browseExportLocationCommand = new DelegateCommand(BrowseExportLocation);
-            _authenticateCommand = new DelegateCommand(Authenticate);
+            _authenticateCommand = new AsyncDelegateCommand(Authenticate);
             _tumblrLoginCommand = new AsyncDelegateCommand(TumblrLogin);
             _tumblrLogoutCommand = new AsyncDelegateCommand(TumblrLogout);
             _tumblrSubmitTfaCommand = new AsyncDelegateCommand(TumblrSubmitTfa);
@@ -801,23 +801,19 @@ namespace TumblThree.Applications.ViewModels
             ExportLocation = result.FileName;
         }
 
-        private void Authenticate()
+        private async Task Authenticate()
         {
-            try
-            {
-                const string url = @"https://www.tumblr.com/login";
-                ShellService.Settings.OAuthCallbackUrl = "https://www.tumblr.com/dashboard";
+            const string url = @"https://www.tumblr.com/login";
+            ShellService.Settings.OAuthCallbackUrl = "https://www.tumblr.com/dashboard_";
 
-                AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
-                authenticateViewModel.AddUrl(url);
-                authenticateViewModel.ShowDialog(ShellService.ShellView);
-            }
-            catch (WebException ex)
-            {
-                Logger.Error("SettingsViewModel:Authenticate: {0}", ex);
-                ShellService.ShowError(ex, Resources.AuthenticationFailure, ex.Message);
-                return;
-            }
+            AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
+            authenticateViewModel.AddUrl(url);
+            authenticateViewModel.ShowDialog(ShellService.ShellView);
+
+            var cookies = await authenticateViewModel.GetCookies("https://www.tumblr.com/");
+
+            LoginService.AddCookies(cookies);
+            await UpdateTumblrLogin();
         }
 
         private async Task TumblrLogin()
@@ -1046,8 +1042,7 @@ namespace TumblThree.Applications.ViewModels
                 ProxyPort = string.Empty;
                 TimerInterval = "22:40:00";
                 SettingsTabIndex = 0;
-                UserAgent =
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36";
+                UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36";
             }
         }
 

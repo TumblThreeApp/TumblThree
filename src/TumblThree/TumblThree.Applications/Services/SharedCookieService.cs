@@ -31,11 +31,26 @@ namespace TumblThree.Applications.Services
             }
         }
 
+        public void RemoveTumblrAuthenticationCookies()
+        {
+            foreach (Cookie cookie in cookieContainer.GetCookies(new Uri("https://www.tumblr.com/")))
+            {
+                if (cookie.Name == "pfg")
+                    cookie.Expired = true;
+            }
+        }
+
         public void SetUriCookie(IEnumerable cookies)
         {
             foreach (Cookie cookie in cookies)
             {
-                cookieContainer.Add(cookie);
+                try
+                {
+                    cookieContainer.Add(cookie);
+                }
+                catch (CookieException)
+                {
+                }
             }
         }
 

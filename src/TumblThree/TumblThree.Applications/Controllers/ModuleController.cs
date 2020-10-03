@@ -131,7 +131,6 @@ namespace TumblThree.Applications.Controllers
             // Let the UI to initialize first before loading the queuelist.
             await Dispatcher.CurrentDispatcher.InvokeAsync(ManagerController.RestoreColumn, DispatcherPriority.ApplicationIdle);
             await Dispatcher.CurrentDispatcher.InvokeAsync(QueueController.Run, DispatcherPriority.ApplicationIdle);
-            await _confirmTumblrPrivacyConsent.ConfirmPrivacyConsentAsync();
         }
 
         public void Shutdown()

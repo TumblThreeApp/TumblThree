@@ -37,7 +37,7 @@ namespace TumblThree.Applications.Parser
             using (var ms = new MemoryStream())
             {
                 serializer.WriteObject(ms, postCopy);
-                return JsonFormatter.FormatOutput(Encoding.UTF8.GetString(ms.ToArray()));
+                return JsonFormatter.FormatOutput(Encoding.UTF8.GetString(ms.ToArray())) + ",";
             }
         }
     }

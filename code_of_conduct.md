@@ -5,5 +5,5 @@ If you’re being harassed, noticed someone else being harassed, or have any oth
 ## Code of Conduct
 
 1. Be nice.
-2. Don't be a dick.
+2. Don't be a jerk.
 

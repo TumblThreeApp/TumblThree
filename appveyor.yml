@@ -1,16 +1,78 @@
-version: 1.0.10.{build}
+#version: 1.0.10.{build}
 image: Visual Studio 2017
-configuration: Release
+init:
+  # Set "build version number" to "short-commit-hash" or when tagged to "tag name" (Travis style)
+  - ps: >-
+      if ($env:APPVEYOR_REPO_TAG -eq "true")
+      {
+        $x = $env:APPVEYOR_REPO_TAG_NAME
+        if($x.startswith("v","CurrentCultureIgnoreCase")) { $x = $x.substring(1) }
+        Update-AppveyorBuild -Version "$x"
+        $env:MY_BUILD_VERSION="$x"
+      }
+      else
+      {
+        Update-AppveyorBuild -Version "1.0.10.$env:APPVEYOR_BUILD_NUMBER"
+      }
+environment:
+  DeployApiCode:
+    secure: jgYawyAbq3Q76D1Ze0oho6jobDKCkcEeTNbg5NoYi6o=
+  matrix:
+  - job_name: build_x64_m
+    job_group: build
+  - job_name: build_x64
+    job_group: build
+  - job_name: build_x86
+    job_group: build
+  - job_name: deployZips
+    job_depends_on: build
+matrix:
+  fast_finish: true
 assembly_info:
   patch: true
   file: '**\SharedAssemblyInfo.cs'
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
+configuration: Release
+for:
+  -
+    branches:
+      only:
+      - master
+    matrix:
+      only:
+        - job_name: build_x64_m
+    skip_tags: true
+    environment:
+      PLATFORM: x64
+  -
+    matrix:
+      only:
+        - job_name: build_x64
+    skip_non_tags: true
+    environment:
+      PLATFORM: x64
+  -
+    matrix:
+      only:
+        - job_name: build_x86
+    skip_non_tags: true
+    environment:
+      PLATFORM: x86
+  -
+    matrix:
+      only:
+        - job_name: deployZips
+    skip_non_tags: true
+    build: off
+    environment:
+      DeployNow: true
 before_build:
 - ps: scripts/appveyor-prebuild.ps1
 
     nuget restore "src\TumblThree\TumblThree.sln"
+
 build:
   project: src\TumblThree\TumblThree.sln
   verbosity: normal
@@ -19,3 +81,17 @@ after_build:
 artifacts:
 - path: artifacts/*.zip
   name: TumblThree
+before_deploy:
+- ps: scripts/appveyor-predeploy.ps1
+deploy:
+  release: TumblThree-v$(MY_BUILD_VERSION)
+  description: 'Release description'
+  provider: GitHub
+  auth_token:
+    secure: f9Te5YVSvTyx7Mpv3fzxeg/qdCX5jhP1Sy86qXKdy702FlcaQ8OHrohzn4M/TZCM
+  artifact: /.*\.zip/              # upload all zips to release assets
+  draft: true
+  prerelease: false
+  on:
+    #branch: master                 # release from master branch only
+    DeployNow: true                 # deploy on tag push only

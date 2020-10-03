@@ -47,19 +47,14 @@ namespace TumblThree.Applications.Services
             }
         }
 
+        public void AddCookies(CookieCollection cookies)
+        {
+            cookieService.SetUriCookie(cookies);
+        }
+
         public void PerformTumblrLogout()
         {
-            var request = webRequestFactory.CreateGetReqeust("https://www.tumblr.com/");
-            cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
-            cookieService.RemoveUriCookie(new Uri("https://www.tumblr.com"));
-            var tosCookie =
-                request.CookieContainer.GetCookies(
-                    new Uri("https://www.tumblr.com/"))["pfg"]; // pfg cookie contains ToS/GDPR agreement
-            var tosCookieCollection = new CookieCollection
-            {
-                tosCookie
-            };
-            cookieService.SetUriCookie(tosCookieCollection);
+            cookieService.RemoveTumblrAuthenticationCookies();
         }
 
         public bool CheckIfTumblrTFANeeded() => tfaNeeded;

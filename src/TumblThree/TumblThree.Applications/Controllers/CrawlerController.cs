@@ -179,41 +179,52 @@ namespace TumblThree.Applications.Controllers
                     pt.WaitWhilePausedWithResponseAsyc().Wait();
                 }
 
-                Monitor.Enter(_lockObject);
-                if (_crawlerService.ActiveItems.Count < QueueManager.Items.Count)
+                bool lockTaken = false;
+                Monitor.Enter(_lockObject, ref lockTaken);
+                try
                 {
-                    IEnumerable<QueueListItem> queueList = QueueManager.Items.Except(_crawlerService.ActiveItems);
-                    QueueListItem nextQueueItem = queueList.First();
-                    IBlog blog = nextQueueItem.Blog;
-
-                    ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), pt, ct);
-                    crawler.IsBlogOnlineAsync().Wait(4000);
-                    crawler.Dispose();
-
-                    if (_crawlerService.ActiveItems.Any(item =>
-                        item.Blog.Name.Equals(nextQueueItem.Blog.Name) &&
-                        item.Blog.BlogType.Equals(nextQueueItem.Blog.BlogType)))
+                    if (_crawlerService.ActiveItems.Count < QueueManager.Items.Count)
                     {
-                        QueueOnDispatcher.CheckBeginInvokeOnUI(() => QueueManager.RemoveItem(nextQueueItem));
-                        Monitor.Exit(_lockObject);
-                        continue;
-                    }
+                        IEnumerable<QueueListItem> queueList = QueueManager.Items.Except(_crawlerService.ActiveItems);
+                        QueueListItem nextQueueItem = queueList.First();
+                        IBlog blog = nextQueueItem.Blog;
 
-                    if (!nextQueueItem.Blog.Online)
+                        ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), pt, ct);
+                        crawler.IsBlogOnlineAsync().Wait(4000);
+                        crawler.Dispose();
+
+                        if (_crawlerService.ActiveItems.Any(item =>
+                            item.Blog.Name.Equals(nextQueueItem.Blog.Name) &&
+                            item.Blog.BlogType.Equals(nextQueueItem.Blog.BlogType)))
+                        {
+                            QueueOnDispatcher.CheckBeginInvokeOnUI(() => QueueManager.RemoveItem(nextQueueItem));
+                            Monitor.Exit(_lockObject);
+                            continue;
+                        }
+
+                        if (!nextQueueItem.Blog.Online)
+                        {
+                            QueueOnDispatcher.CheckBeginInvokeOnUI(() => QueueManager.RemoveItem(nextQueueItem));
+                            Monitor.Exit(_lockObject);
+                            continue;
+                        }
+
+                        _crawlerService.AddActiveItems(nextQueueItem);
+                        Monitor.Exit(_lockObject);
+                        lockTaken = false;
+                        await StartSiteSpecificDownloaderAsync(nextQueueItem, pt, ct);
+                    }
+                    else
                     {
-                        QueueOnDispatcher.CheckBeginInvokeOnUI(() => QueueManager.RemoveItem(nextQueueItem));
                         Monitor.Exit(_lockObject);
-                        continue;
+                        lockTaken = false;
+                        await Task.Delay(4000, ct);
                     }
-
-                    _crawlerService.AddActiveItems(nextQueueItem);
-                    Monitor.Exit(_lockObject);
-                    await StartSiteSpecificDownloaderAsync(nextQueueItem, pt, ct);
                 }
-                else
+                catch (Exception)
                 {
-                    Monitor.Exit(_lockObject);
-                    await Task.Delay(4000, ct);
+                    if (lockTaken) Monitor.Exit(_lockObject);
+                    throw;
                 }
             }
         }

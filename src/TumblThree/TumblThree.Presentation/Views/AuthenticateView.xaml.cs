@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Controls;
 
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
+using CefSharp;
+using CefSharp.Wpf;
 
 namespace TumblThree.Presentation.Views
 {
@@ -19,12 +25,13 @@ namespace TumblThree.Presentation.Views
     public partial class AuthenticateView : IAuthenticateView
     {
         private readonly Lazy<AuthenticateViewModel> viewModel;
+        private String _url;
 
         public AuthenticateView()
         {
             InitializeComponent();
             viewModel = new Lazy<AuthenticateViewModel>(() => ViewHelper.GetViewModel<AuthenticateViewModel>(this));
-            browser.Navigated += Browser_Navigated;
+            browser.Loaded += Browser_Navigated;
         }
 
         private AuthenticateViewModel ViewModel
@@ -34,28 +41,89 @@ namespace TumblThree.Presentation.Views
 
         public void ShowDialog(object owner)
         {
+            browser.IsBrowserInitializedChanged += OnLoad;
             Owner = owner as Window;
             ShowDialog();
         }
 
+        private void OnLoad(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (browser.IsBrowserInitialized)
+                browser.Load(_url);
+        }
+
         public void AddUrl(string url)
         {
-            browser.Source = new Uri(url);
+            _url = url;
         }
 
         public string GetUrl()
         {
-            return browser.Source.ToString();
+            return browser.Address;
         }
 
-        private void Browser_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        public async Task<CookieCollection> GetCookies(String url)
         {
-            SetSilent(browser, true); // make it silent, no js error popus.
+            var cookieManager = Cef.GetGlobalCookieManager();
+            var cookies = await cookieManager.VisitUrlCookiesAsync(url, true);
 
+            // don't ask why, but one cookieCollection works and the other not
+            var cookieHeader = GetCookieHeader(cookies);
+            CookieContainer cookieCon = new CookieContainer();
+            cookieCon.SetCookies(new Uri("https://www.tumblr.com/"), cookieHeader);
+            var cookieCollection = FixCookieDates(cookieCon.GetCookies(new Uri("https://www.tumblr.com/")));
+
+            //var cookieCollection = GetCookies(cookies);
+            return cookieCollection;
+        }
+
+        //private static CookieCollection GetCookies(List<CefSharp.Cookie> cookies)
+        //{
+        //    CookieCollection cookieCollection = new CookieCollection();
+        //    foreach (var cookie in cookies)
+        //    {
+        //        var transferCookie = new System.Net.Cookie(cookie.Name, WebUtility.UrlEncode(cookie.Value), cookie.Path, cookie.Domain);
+        //        transferCookie.Expires = cookie.Expires.Value;
+        //        transferCookie.HttpOnly = cookie.HttpOnly;
+        //        transferCookie.Secure = cookie.Secure;
+        //        cookieCollection.Add(transferCookie);
+        //    }
+        //    return cookieCollection;
+        //}
+
+        private static string GetCookieHeader(List<CefSharp.Cookie> cookies)
+        {
+            StringBuilder cookieString = new StringBuilder();
+            string delimiter = string.Empty;
+
+            foreach (var cookie in cookies)
+            {
+                cookieString.Append(delimiter)
+                    .Append(cookie.Name)
+                    .Append('=')
+                    .Append(WebUtility.UrlEncode(cookie.Value));
+                delimiter = ",";
+            }
+
+            return cookieString.ToString();
+        }
+
+        private static CookieCollection FixCookieDates(CookieCollection cookieCol)
+        {
+            foreach (System.Net.Cookie cookie in cookieCol)
+            {
+                if (cookie.Expires.Equals(DateTime.MinValue) && cookie.Expires.Kind == DateTimeKind.Unspecified)
+                    cookie.Expires = new DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            }
+            return cookieCol;
+        }
+
+        private void Browser_Navigated(object sender, RoutedEventArgs e)
+        {
             try
             {
-                var wb = (WebBrowser)sender;
-                if (wb.Source.ToString().Equals(ViewModel.OAuthCallbackUrl))
+                var cwb = (ChromiumWebBrowser)sender;
+                if (cwb.Address.Equals(ViewModel.OAuthCallbackUrl))
                 {
                     Close();
                 }
@@ -69,29 +137,33 @@ namespace TumblThree.Presentation.Views
         {
             if (browser == null)
             {
-                throw new ArgumentNullException(nameof(browser));
+                throw new ArgumentNullException("browser");
             }
 
             // get an IWebBrowser2 from the document
             var sp = browser.Document as IOleServiceProvider;
+            if (sp != null)
+            {
+                var IID_IWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
+                var IID_IWebBrowser2 = new Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E");
 
-            if (sp == null) return;
-
-            var iidIWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
-            var iidIWebBrowser2 = new Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E");
-
-            sp.QueryService(ref iidIWebBrowserApp, ref iidIWebBrowser2, out var webBrowser);
-
-            webBrowser?.GetType().InvokeMember("Silent", BindingFlags.Instance | BindingFlags.Public | BindingFlags.PutDispProperty, null, webBrowser, new object[] { silent });
+                object webBrowser;
+                sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out webBrowser);
+                if (webBrowser != null)
+                {
+                    webBrowser.GetType()
+                              .InvokeMember("Silent", BindingFlags.Instance | BindingFlags.Public | BindingFlags.PutDispProperty,
+                                  null, webBrowser, new object[] { silent });
+                }
+            }
         }
 
-        [ComImport]
-        [Guid("6D5140C1-7436-11CE-8034-00AA006009FA")]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        [ComImport, Guid("6D5140C1-7436-11CE-8034-00AA006009FA"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         private interface IOleServiceProvider
         {
             [PreserveSig]
-            int QueryService([In] ref Guid guidService, [In] ref Guid riid, [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
+            int QueryService([In] ref Guid guidService, [In] ref Guid riid,
+                [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
         }
     }
 }

@@ -17,8 +17,7 @@ namespace TumblThree.Domain.Models.Files
         [DataMember(Name = "Links")]
         protected List<string> links;
 
-        private object _lockObjectProgress = new object();
-        private object _lockObjectDb = new object();
+        private object _lockList = new object();
 
         public Files()
         {
@@ -49,7 +48,7 @@ namespace TumblThree.Domain.Models.Files
 
         public void AddFileToDb(string fileName)
         {
-            lock (_lockObjectProgress)
+            lock (_lockList)
             {
                 Links.Add(fileName);
             }
@@ -58,15 +57,15 @@ namespace TumblThree.Domain.Models.Files
         public virtual bool CheckIfFileExistsInDB(string url)
         {
             string fileName = url.Split('/').Last();
-            Monitor.Enter(_lockObjectDb);
-            if (Links.Contains(fileName))
+            Monitor.Enter(_lockList);
+            try
             {
-                Monitor.Exit(_lockObjectDb);
-                return true;
+                return Links.Contains(fileName);
             }
-
-            Monitor.Exit(_lockObjectDb);
-            return false;
+            finally
+            {
+                Monitor.Exit(_lockList);
+            }
         }
 
         public IFiles Load(string fileLocation)
@@ -139,8 +138,7 @@ namespace TumblThree.Domain.Models.Files
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)
         {
-            _lockObjectDb = new object();
-            _lockObjectProgress = new object();
+            _lockList = new object();
         }
     }
 }

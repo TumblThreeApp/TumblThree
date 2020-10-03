@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 
 namespace TumblThree.Applications.Services
 {
@@ -15,5 +16,7 @@ namespace TumblThree.Applications.Services
         bool CheckIfLoggedInAsync();
 
         Task<string> GetTumblrUsernameAsync();
+
+        void AddCookies(CookieCollection cookies);
     }
 }
