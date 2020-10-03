@@ -17,27 +17,8 @@ namespace TumblThree.Domain
             TextWriterTraceListener listener = (TextWriterTraceListener)Trace.Listeners["MyListener"];
             if (listener != null) Trace.Listeners.Remove(listener);
             listener = new TextWriterTraceListener(filename, "MyListener");
-            SourceLevels srcLevel;
-            switch (maximumLogLevel)
-            {
-                case TraceLevel.Verbose:
-                    srcLevel = SourceLevels.Verbose;
-                    break;
-                case TraceLevel.Info:
-                    srcLevel = SourceLevels.Information;
-                    break;
-                case TraceLevel.Warning:
-                    srcLevel = SourceLevels.Warning;
-                    break;
-                case TraceLevel.Error:
-                    srcLevel = SourceLevels.Error;
-                    break;
-                default:
-                    srcLevel = SourceLevels.Off;
-                    break;
-            }
             _traceSource = new TraceSource("TumblThreeApp.TumblThree");
-            _traceSource.Switch = new SourceSwitch("MySourceSwitch", srcLevel.ToString());
+            _traceSource.Switch = new SourceSwitch("MySourceSwitch", ConvertTraceLevelToSourceLevels(maximumLogLevel).ToString());
             _traceSource.Listeners.Add(listener);
 #if DEBUG
             Trace.AutoFlush = true;
@@ -45,6 +26,11 @@ namespace TumblThree.Domain
             Trace.AutoFlush = false;
 #endif
             Trace.IndentSize = 4;
+        }
+
+        public static void ChangeLogLevel(TraceLevel maximumLogLevel)
+        {
+            _traceSource.Switch = new SourceSwitch("MySourceSwitch", ConvertTraceLevelToSourceLevels(maximumLogLevel).ToString());
         }
 
         [Conditional("DEBUG")]
@@ -66,6 +52,30 @@ namespace TumblThree.Domain
         public static void Error(string format, params object[] arguments)
         {
             Log(TraceEventType.Error, format, arguments);
+        }
+
+        private static SourceLevels ConvertTraceLevelToSourceLevels(TraceLevel maximumLogLevel)
+        {
+            SourceLevels srcLevel;
+            switch (maximumLogLevel)
+            {
+                case TraceLevel.Verbose:
+                    srcLevel = SourceLevels.Verbose;
+                    break;
+                case TraceLevel.Info:
+                    srcLevel = SourceLevels.Information;
+                    break;
+                case TraceLevel.Warning:
+                    srcLevel = SourceLevels.Warning;
+                    break;
+                case TraceLevel.Error:
+                    srcLevel = SourceLevels.Error;
+                    break;
+                default:
+                    srcLevel = SourceLevels.Off;
+                    break;
+            }
+            return srcLevel;
         }
 
         private static void Log(TraceEventType eventType, string format, params object[] arguments)

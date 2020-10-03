@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 
@@ -31,6 +32,8 @@ namespace TumblThree.Applications.Properties
             {
                 "data.tumblr.com"
             };
+
+        private static string[] logLevels = Enum.GetNames(typeof(System.Diagnostics.TraceLevel));
 
         public AppSettings()
         {
@@ -329,7 +332,7 @@ namespace TumblThree.Applications.Properties
         public string ProxyPassword { get; set; }
 
         [DataMember]
-        public System.Diagnostics.TraceLevel LogLevel { get; set; }		//Todo: combobox in settings dialog?
+        public string LogLevel { get; set; }
 
         [DataMember]
         public int SettingsTabIndex { get; set; }
@@ -342,6 +345,8 @@ namespace TumblThree.Applications.Properties
         public ObservableCollection<string> VideoSizes => new ObservableCollection<string>(videoSizes);
 
         public ObservableCollection<string> BlogTypes => new ObservableCollection<string>(blogTypes);
+
+        public ObservableCollection<string> LogLevels => new ObservableCollection<string>(logLevels);
 
         public string[] TumblrHosts
         {
@@ -429,9 +434,9 @@ namespace TumblThree.Applications.Properties
             ProxyUsername = string.Empty;
             ProxyPassword = string.Empty;
 #if DEBUG
-            LogLevel = System.Diagnostics.TraceLevel.Verbose;
+            LogLevel = nameof(System.Diagnostics.TraceLevel.Verbose);
 #else
-            LogLevel = System.Diagnostics.TraceLevel.Info;
+            LogLevel = nameof(System.Diagnostics.TraceLevel.Info);
 #endif
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
         }

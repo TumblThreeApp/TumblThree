@@ -703,4 +703,13 @@ Por exemplo. Grande carro grande, pesquisas de ursos para grandes carros grandes
   <data name="ToolTipVideoConnectionsDescription" xml:space="preserve">
     <value>O host vt.tumblr.com fecha regularmente conexões se o número for muito alto.</value>
   </data>
+  <data name="LogLevel" xml:space="preserve">
+    <value>Log Level</value>
+  </data>
+  <data name="ToolTipLogLevel" xml:space="preserve">
+    <value>Specify the log level.</value>
+  </data>
+  <data name="ToolTipLogLevelDescription" xml:space="preserve">
+    <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
+  </data>
 </root>

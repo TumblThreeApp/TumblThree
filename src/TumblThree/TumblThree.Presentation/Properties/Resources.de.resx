@@ -700,4 +700,13 @@ Z.B. großes großes Auto, Bären sucht nach großen großen Autos und Bären.</
   <data name="ToolTipVideoConnectionsDescription" xml:space="preserve">
     <value>Der vt.tumblr.com-Host schließt regelmäßig Verbindungen, wenn die Nummer zu hoch ist.</value>
   </data>
+  <data name="LogLevel" xml:space="preserve">
+    <value>Protokollstufe</value>
+  </data>
+  <data name="ToolTipLogLevel" xml:space="preserve">
+    <value>Legt die Protokollstufe fest.</value>
+  </data>
+  <data name="ToolTipLogLevelDescription" xml:space="preserve">
+    <value>Legt die Protokollstufe (von nur Fehler (Error) bis Detailiert (Verbose)) fest oder schaltet die Protokollierung ab.</value>
+  </data>
 </root>

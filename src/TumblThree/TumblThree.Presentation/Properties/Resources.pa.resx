@@ -696,4 +696,13 @@ E.g. ਬਹੁਤ ਵੱਡੀ ਕਾਰ, ਸ਼ਾਨਦਾਰ ਵੱਡੀਆ�
   <data name="ToolTipVideoConnectionsDescription" xml:space="preserve">
     <value>Vt.tumblr.com ਹੋਸਟ ਨੇ ਨਿਯਮਿਤ ਤੌਰ ਤੇ ਕੁਨੈਕਸ਼ਨ ਬੰਦ ਕਰ ਦਿੱਤੇ ਹਨ ਜੇ ਨੰਬਰ ਬਹੁਤ ਜ਼ਿਆਦਾ ਹੈ.</value>
   </data>
+  <data name="LogLevel" xml:space="preserve">
+    <value>Log Level</value>
+  </data>
+  <data name="ToolTipLogLevel" xml:space="preserve">
+    <value>Specify the log level.</value>
+  </data>
+  <data name="ToolTipLogLevelDescription" xml:space="preserve">
+    <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
+  </data>
 </root>

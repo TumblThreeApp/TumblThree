@@ -128,6 +128,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _tumblrTfaDetected = false;
         private string _tumblrTfaAuthCode = string.Empty;
         private string _tumblrEmail = string.Empty;
+        private string _logLevel = string.Empty;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService, ILoginService loginService, IFolderBrowserDialog folderBrowserDialog, IFileDialogService fileDialogService, ExportFactory<AuthenticateViewModel> authenticateViewModelFactory)
@@ -722,6 +723,12 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _tumblrEmail, value);
         }
 
+        public string LogLevel
+        {
+            get => _logLevel;
+            set => SetProperty(ref _logLevel, value);
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -956,6 +963,7 @@ namespace TumblThree.Applications.ViewModels
                 TimerInterval = _settings.TimerInterval;
                 SettingsTabIndex = _settings.SettingsTabIndex;
                 UserAgent = _settings.UserAgent;
+                LogLevel = _settings.LogLevel;
             }
             else
             {
@@ -1043,6 +1051,7 @@ namespace TumblThree.Applications.ViewModels
                 TimerInterval = "22:40:00";
                 SettingsTabIndex = 0;
                 UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36";
+                LogLevel = nameof(System.Diagnostics.TraceLevel.Verbose);
             }
         }
 
@@ -1050,14 +1059,19 @@ namespace TumblThree.Applications.ViewModels
         {
             bool downloadLocationChanged = DownloadLocationChanged();
             bool loadAllDatabasesChanged = LoadAllDatabasesChanged();
+            bool logLevelChanged = LogLevelChanged();
             SaveSettings();
-            await ApplySettings(downloadLocationChanged, loadAllDatabasesChanged);
+            await ApplySettings(downloadLocationChanged, loadAllDatabasesChanged, logLevelChanged);
 
             ShellService.SettingsUpdated();
         }
 
-        private async Task ApplySettings(bool downloadLocationChanged, bool loadAllDatabasesChanged)
+        private async Task ApplySettings(bool downloadLocationChanged, bool loadAllDatabasesChanged, bool logLevelChanged)
         {
+            if (logLevelChanged)
+            {
+                Logger.ChangeLogLevel((System.Diagnostics.TraceLevel)Enum.Parse(typeof(System.Diagnostics.TraceLevel), _settings.LogLevel));
+            }
             CrawlerService.TimeconstraintApi.SetRate(MaxConnectionsApi / (double)ConnectionTimeIntervalApi);
             CrawlerService.TimeconstraintSvc.SetRate(MaxConnectionsSvc / (double)ConnectionTimeIntervalSvc);
 
@@ -1109,6 +1123,11 @@ namespace TumblThree.Applications.ViewModels
         private bool LoadAllDatabasesChanged()
         {
             return !_settings.LoadAllDatabases.Equals(LoadAllDatabases);
+        }
+
+        private bool LogLevelChanged()
+        {
+            return !_settings.LogLevel.Equals(LogLevel);
         }
 
         private void SaveSettings()
@@ -1197,6 +1216,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.TimerInterval = TimerInterval;
             _settings.SettingsTabIndex = SettingsTabIndex;
             _settings.UserAgent = UserAgent;
+            _settings.LogLevel = LogLevel;
         }
     }
 }

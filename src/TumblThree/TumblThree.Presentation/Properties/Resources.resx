@@ -987,4 +987,13 @@ best - download largest size possible (SVC only), or 1280px else.</value>
     <value>Defines the default Tumblr Blog Crawler implementation 
 used for scraping when adding a new Tumblr blog.</value>
   </data>
+  <data name="LogLevel" xml:space="preserve">
+    <value>Log Level</value>
+  </data>
+  <data name="ToolTipLogLevel" xml:space="preserve">
+    <value>Specify the log level.</value>
+  </data>
+  <data name="ToolTipLogLevelDescription" xml:space="preserve">
+    <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
+  </data>
 </root>

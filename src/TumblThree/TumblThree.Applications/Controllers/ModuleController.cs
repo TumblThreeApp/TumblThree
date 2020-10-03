@@ -94,7 +94,7 @@ namespace TumblThree.Applications.Controllers
 
             _appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, AppSettingsFileName));
 
-            Logger.Initialize(logPath, _appSettings.LogLevel);
+            Logger.Initialize(logPath, (System.Diagnostics.TraceLevel)Enum.Parse(typeof(System.Diagnostics.TraceLevel), _appSettings.LogLevel));
 
             _queueSettings = LoadSettings<QueueSettings>(Path.Combine(savePath, QueueSettingsFileName));
             _managerSettings = LoadSettings<ManagerSettings>(Path.Combine(savePath, ManagerSettingsFileName));

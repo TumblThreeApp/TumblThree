@@ -970,6 +970,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log Level.
+        /// </summary>
+        public static string LogLevel {
+            get {
+                return ResourceManager.GetString("LogLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logout.
         /// </summary>
         public static string Logout {
@@ -2123,6 +2132,24 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipLoadAllDatabasesDescription {
             get {
                 return ResourceManager.GetString("ToolTipLoadAllDatabasesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify the log level..
+        /// </summary>
+        public static string ToolTipLogLevel {
+            get {
+                return ResourceManager.GetString("ToolTipLogLevel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Specify the log level (from Error only to Verbose details) or put it Off..
+        /// </summary>
+        public static string ToolTipLogLevelDescription {
+            get {
+                return ResourceManager.GetString("ToolTipLogLevelDescription", resourceCulture);
             }
         }
         
