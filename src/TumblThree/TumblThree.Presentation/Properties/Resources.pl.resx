@@ -702,4 +702,13 @@ Na przykład. wielki samochód, poszukuje wielkich samochodów i niedźwiedzi.</
   <data name="ToolTipVideoConnectionsDescription" xml:space="preserve">
     <value>Oficer vt.tumblr.com regularnie zamyka połączenia, jeśli liczba jest za wysoka.</value>
   </data>
+  <data name="LogLevel" xml:space="preserve">
+    <value>Log Level</value>
+  </data>
+  <data name="ToolTipLogLevel" xml:space="preserve">
+    <value>Specify the log level.</value>
+  </data>
+  <data name="ToolTipLogLevelDescription" xml:space="preserve">
+    <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
+  </data>
 </root>

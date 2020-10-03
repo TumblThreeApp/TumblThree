@@ -85,12 +85,17 @@ namespace TumblThree.Applications.Controllers
         public void Initialize()
         {
             string savePath = _environmentService.AppSettingsPath;
+            string logPath = Path.GetFullPath(Path.Combine(savePath, ".."));
             if (CheckIfPortableMode(AppSettingsFileName))
             {
                 savePath = AppDomain.CurrentDomain.BaseDirectory;
+                logPath = savePath;
             }
 
             _appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, AppSettingsFileName));
+
+            Logger.Initialize(logPath, (System.Diagnostics.TraceLevel)Enum.Parse(typeof(System.Diagnostics.TraceLevel), _appSettings.LogLevel));
+
             _queueSettings = LoadSettings<QueueSettings>(Path.Combine(savePath, QueueSettingsFileName));
             _managerSettings = LoadSettings<ManagerSettings>(Path.Combine(savePath, ManagerSettingsFileName));
             _cookieList = LoadSettings<List<Cookie>>(Path.Combine(savePath, CookiesFileName));

@@ -126,6 +126,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Height="Auto">
                             <Grid.ColumnDefinitions>
@@ -326,7 +327,50 @@
                                 </TextBox.ToolTip>
                             </TextBox>
                         </Grid>
-                        <Grid Grid.Row="10" Grid.ColumnSpan="2">
+                        <Grid Grid.Row="10" Grid.ColumnSpan="1"
+                            Height="Auto"
+                            HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                x:Name="LogLevelLabel"
+                                Grid.Column="0"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.LogLevel}">
+                                <Label.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLogLevel}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipLogLevelDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Label.ToolTip>
+                            </Label>
+                            <ComboBox
+                                x:Name="LogLevelComboBox"
+                                Grid.Column="3"
+                                MinWidth="60"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                ItemsSource="{Binding ShellService.Settings.LogLevels}"
+                                SelectedItem="{Binding LogLevel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                SelectedValue="{Binding LogLevel}"
+                                SelectedValuePath=".">
+                                <ComboBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLogLevel}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipLogLevelDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </ComboBox.ToolTip>
+                            </ComboBox>
+                        </Grid>
+                        <Grid Grid.Row="11" Grid.ColumnSpan="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
