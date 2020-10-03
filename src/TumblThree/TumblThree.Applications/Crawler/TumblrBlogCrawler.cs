@@ -414,7 +414,10 @@ namespace TumblThree.Applications.Crawler
 
         private bool CheckPostAge(TumblrApiJson response)
         {
-            ulong.TryParse(response.Posts.FirstOrDefault().Id, out var highestPostId);
+            ulong highestPostId = 0;
+            var post = response.Posts.FirstOrDefault();
+            if (post == null) return false;
+            ulong.TryParse(post.Id, out highestPostId);
 
             return highestPostId >= GetLastPostId();
         }
