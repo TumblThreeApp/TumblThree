@@ -43,7 +43,7 @@ namespace TumblThree.Applications.Services
 
         public void UpdateBlogDB(string fileName)
         {
-            lock (_lockObjectProgress)
+            lock (_lockObjectDb)
             {
                 _files.Links.Add(fileName);
             }
@@ -70,14 +70,14 @@ namespace TumblThree.Applications.Services
         {
             var fileName = url.Split('/').Last();
             Monitor.Enter(_lockObjectDb);
-            if (_files.Links.Contains(fileName))
+            try
+            {
+                return _files.Links.Contains(fileName);
+            }
+            finally
             {
                 Monitor.Exit(_lockObjectDb);
-                return true;
             }
-
-            Monitor.Exit(_lockObjectDb);
-            return false;
         }
 
         public bool CheckIfBlogShouldCheckDirectory(string url)
@@ -89,15 +89,15 @@ namespace TumblThree.Applications.Services
         {
             var fileName = url.Split('/').Last();
             Monitor.Enter(_lockObjectDirectory);
-            var blogPath = _blog.DownloadLocation();
-            if (File.Exists(Path.Combine(blogPath, fileName)))
+            try
+            {
+                var blogPath = _blog.DownloadLocation();
+                return File.Exists(Path.Combine(blogPath, fileName));
+            }
+            finally
             {
                 Monitor.Exit(_lockObjectDirectory);
-                return true;
             }
-
-            Monitor.Exit(_lockObjectDirectory);
-            return false;
         }
 
         public void SaveFiles()

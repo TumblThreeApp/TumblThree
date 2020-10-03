@@ -868,7 +868,7 @@ namespace TumblThree.Domain.Models.Blogs
 
         public void AddFileToDb(string fileName)
         {
-            lock (lockObjectProgress)
+            lock (lockObjectDb)
             {
                 Links.Add(fileName);
             }
@@ -889,14 +889,14 @@ namespace TumblThree.Domain.Models.Blogs
         {
             string fileName = url.Split('/').Last();
             Monitor.Enter(lockObjectDb);
-            if (Links.Contains(fileName))
+            try
+            {
+                return Links.Contains(fileName);
+            }
+            finally
             {
                 Monitor.Exit(lockObjectDb);
-                return true;
             }
-
-            Monitor.Exit(lockObjectDb);
-            return false;
         }
 
         public virtual bool CheckIfBlogShouldCheckDirectory(string url)
@@ -909,14 +909,14 @@ namespace TumblThree.Domain.Models.Blogs
             string fileName = url.Split('/').Last();
             Monitor.Enter(lockObjectDirectory);
             string blogPath = DownloadLocation();
-            if (File.Exists(Path.Combine(blogPath, fileName)))
+            try
+            {
+                return File.Exists(Path.Combine(blogPath, fileName));
+            }
+            finally
             {
                 Monitor.Exit(lockObjectDirectory);
-                return true;
             }
-
-            Monitor.Exit(lockObjectDirectory);
-            return false;
         }
 
         public string DownloadLocation()
