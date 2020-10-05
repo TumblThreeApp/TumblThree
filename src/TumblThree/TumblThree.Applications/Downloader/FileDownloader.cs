@@ -61,7 +61,7 @@ namespace TumblThree.Applications.Downloader
 
                     try
                     {
-                        var request = webRequestFactory.CreateGetReqeust(url);
+                        var request = webRequestFactory.CreateGetRequest(url);
                         requestRegistration = ct.Register(() => request.Abort());
                         request.AddRange(totalBytesReceived);
 
@@ -129,7 +129,7 @@ namespace TumblThree.Applications.Downloader
             var requestRegistration = new CancellationTokenRegistration();
             try
             {
-                var request = webRequestFactory.CreateGetReqeust(url);
+                var request = webRequestFactory.CreateGetRequest(url);
                 requestRegistration = ct.Register(() => request.Abort());
 
                 using (var response = await request.GetResponseAsync())
@@ -145,7 +145,7 @@ namespace TumblThree.Applications.Downloader
 
         public async Task<Stream> ReadFromUrlIntoStreamAsync(string url)
         {
-            var request = webRequestFactory.CreateGetReqeust(url);
+            var request = webRequestFactory.CreateGetRequest(url);
 
             using (var response = await request.GetResponseAsync() as HttpWebResponse)
             {

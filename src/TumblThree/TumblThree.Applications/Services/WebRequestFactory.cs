@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,12 +28,12 @@ namespace TumblThree.Applications.Services
             this.settings = settings;
         }
 
-        private HttpWebRequest CreateStubRequest(string url, string referer = "", Dictionary<string, string> headers = null)
+        private HttpWebRequest CreateStubRequest(string url, string referer = "", Dictionary<string, string> headers = null, bool allowAutoRedirect = true)
         {
             var request = (HttpWebRequest)WebRequest.Create(HttpUtility.UrlDecode(url));
             request.ProtocolVersion = HttpVersion.Version11;
             request.UserAgent = settings.UserAgent;
-            request.AllowAutoRedirect = true;
+            request.AllowAutoRedirect = allowAutoRedirect;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
             //request.KeepAlive = true;
@@ -60,14 +62,14 @@ namespace TumblThree.Applications.Services
             return request;
         }
 
-        public HttpWebRequest CreateGetReqeust(string url, string referer = "", Dictionary<string, string> headers = null)
+        public HttpWebRequest CreateGetRequest(string url, string referer = "", Dictionary<string, string> headers = null, bool allowAutoRedirect = true)
         {
-            HttpWebRequest request = CreateStubRequest(url, referer, headers);
+            HttpWebRequest request = CreateStubRequest(url, referer, headers, allowAutoRedirect);
             request.Method = "GET";
             return request;
         }
 
-        public HttpWebRequest CreateGetXhrReqeust(string url, string referer = "", Dictionary<string, string> headers = null)
+        public HttpWebRequest CreateGetXhrRequest(string url, string referer = "", Dictionary<string, string> headers = null)
         {
             HttpWebRequest request = CreateStubRequest(url, referer, headers);
             request.Method = "GET";
@@ -76,7 +78,7 @@ namespace TumblThree.Applications.Services
             return request;
         }
 
-        public HttpWebRequest CreatePostReqeust(string url, string referer = "", Dictionary<string, string> headers = null)
+        public HttpWebRequest CreatePostRequest(string url, string referer = "", Dictionary<string, string> headers = null)
         {
             HttpWebRequest request = CreateStubRequest(url, referer, headers);
             request.Method = "POST";
@@ -84,15 +86,15 @@ namespace TumblThree.Applications.Services
             return request;
         }
 
-        public HttpWebRequest CreatePostXhrReqeust(string url, string referer = "", Dictionary<string, string> headers = null)
+        public HttpWebRequest CreatePostXhrRequest(string url, string referer = "", Dictionary<string, string> headers = null)
         {
-            HttpWebRequest request = CreatePostReqeust(url, referer, headers);
+            HttpWebRequest request = CreatePostRequest(url, referer, headers);
             request.Accept = "application/json, text/javascript, */*; q=0.01";
             request.Headers["X-Requested-With"] = "XMLHttpRequest";
             return request;
         }
 
-        public async Task PerformPostReqeustAsync(HttpWebRequest request, Dictionary<string, string> parameters)
+        public async Task PerformPostRequestAsync(HttpWebRequest request, Dictionary<string, string> parameters)
         {
             string requestBody = UrlEncode(parameters);
             using (Stream postStream = await request.GetRequestStreamAsync().TimeoutAfter(shellService.Settings.TimeOut))
@@ -103,7 +105,7 @@ namespace TumblThree.Applications.Services
             }
         }
 
-        public async Task PerformPostXHRReqeustAsync(HttpWebRequest request, string requestBody)
+        public async Task PerformPostXHRRequestAsync(HttpWebRequest request, string requestBody)
         {
             using (Stream postStream = await request.GetRequestStreamAsync())
             {
@@ -123,7 +125,7 @@ namespace TumblThree.Applications.Services
             return (response.StatusCode == HttpStatusCode.OK);
         }
 
-        public async Task<string> ReadReqestToEndAsync(HttpWebRequest request)
+        public async Task<string> ReadRequestToEndAsync(HttpWebRequest request)
         {
             using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
             {
@@ -134,6 +136,32 @@ namespace TumblThree.Applications.Services
                         using (var reader = new StreamReader(buffer))
                         {
                             return reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+        }
+
+        public async Task<ResponseDetails> ReadRequestToEnd2Async(HttpWebRequest request)
+        {
+            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
+            {
+                if (response.StatusCode == HttpStatusCode.Found)
+                {
+                    response.Close();
+                    if (response.Headers.AllKeys.Contains("Set-Cookie"))
+                        cookieService.SetUriCookie(CookieParser.GetAllCookiesFromHeader(response.Headers["Set-Cookie"], "www.tumblr.com"));
+
+                    return new ResponseDetails() { HttpStatusCode = response.StatusCode, RedirectUrl = response.Headers["Location"] };
+                }
+                using (Stream stream = GetStreamForApiRequest(response.GetResponseStream()))
+                {
+                    using (var buffer = new BufferedStream(stream))
+                    {
+                        using (var reader = new StreamReader(buffer))
+                        {
+                            string content = reader.ReadToEnd();
+                            return new ResponseDetails() { HttpStatusCode = response.StatusCode, Response = content };
                         }
                     }
                 }

@@ -112,8 +112,9 @@ namespace TumblThree.Applications.Crawler
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Verbose("TumblrLikedByCrawler:CrawlPageAsync: {0}", e.ToString());
             }
             finally
             {
@@ -195,6 +196,10 @@ namespace TumblThree.Applications.Crawler
                 CheckIfShouldPause();
 
                 string document = await GetRequestAsync(Blog.Url + "/page/" + crawlerNumber + "/" + pagination);
+                if (document.Length == 0)
+                {
+                    throw new Exception("TumblrLikedByCrawler:AddUrlsToDownloadListAsync: empty document");
+                }
                 if (document.Contains("<div class=\"no_posts_found\""))
                 {
                     return;

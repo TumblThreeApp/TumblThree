@@ -7,21 +7,23 @@ namespace TumblThree.Applications.Services
 {
     public interface IWebRequestFactory
     {
-        HttpWebRequest CreateGetReqeust(string url, string referer = "", Dictionary<string, string> headers = null);
+        HttpWebRequest CreateGetRequest(string url, string referer = "", Dictionary<string, string> headers = null, bool allowAutoRedirect = true);
 
-        HttpWebRequest CreateGetXhrReqeust(string url, string referer = "", Dictionary<string, string> headers = null);
+        HttpWebRequest CreateGetXhrRequest(string url, string referer = "", Dictionary<string, string> headers = null);
 
-        HttpWebRequest CreatePostReqeust(string url, string referer = "", Dictionary<string, string> headers = null);
+        HttpWebRequest CreatePostRequest(string url, string referer = "", Dictionary<string, string> headers = null);
 
-        HttpWebRequest CreatePostXhrReqeust(string url, string referer = "", Dictionary<string, string> headers = null);
+        HttpWebRequest CreatePostXhrRequest(string url, string referer = "", Dictionary<string, string> headers = null);
 
-        Task PerformPostReqeustAsync(HttpWebRequest request, Dictionary<string, string> parameters);
+        Task PerformPostRequestAsync(HttpWebRequest request, Dictionary<string, string> parameters);
 
-        Task PerformPostXHRReqeustAsync(HttpWebRequest request, string requestBody);
+        Task PerformPostXHRRequestAsync(HttpWebRequest request, string requestBody);
 
         Task<bool> RemotePageIsValidAsync(string url);
 
-        Task<string> ReadReqestToEndAsync(HttpWebRequest request);
+        Task<string> ReadRequestToEndAsync(HttpWebRequest request);
+
+        Task<ResponseDetails> ReadRequestToEnd2Async(HttpWebRequest request);
 
         Stream GetStreamForApiRequest(Stream stream);
 

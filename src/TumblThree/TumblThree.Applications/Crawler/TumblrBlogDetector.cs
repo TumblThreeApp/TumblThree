@@ -44,7 +44,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetUrlRedirection(string url)
         {
-            HttpWebRequest request = webRequestFactory.CreateGetReqeust(url);
+            HttpWebRequest request = webRequestFactory.CreateGetRequest(url);
             cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
             string location;
             using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)

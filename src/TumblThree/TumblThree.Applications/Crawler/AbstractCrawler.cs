@@ -109,15 +109,27 @@ namespace TumblThree.Applications.Crawler
             var requestRegistration = new CancellationTokenRegistration();
             try
             {
-                HttpWebRequest request = WebRequestFactory.CreateGetReqeust(url, string.Empty, headers);
-                cookieHosts = cookieHosts ?? new List<string>();
-                foreach (string cookieHost in cookieHosts)
+                int redirects = 0;
+                ResponseDetails responseDetails;
+                do
                 {
-                    CookieService.GetUriCookie(request.CookieContainer, new Uri(cookieHost));
-                }
+                    HttpWebRequest request = WebRequestFactory.CreateGetRequest(url, string.Empty, headers, false);
+                    cookieHosts = cookieHosts ?? new List<string>();
+                    foreach (string cookieHost in cookieHosts)
+                    {
+                        CookieService.GetUriCookie(request.CookieContainer, new Uri(cookieHost));
+                    }
 
-                requestRegistration = Ct.Register(() => request.Abort());
-                return await WebRequestFactory.ReadReqestToEndAsync(request);
+                    requestRegistration = Ct.Register(() => request.Abort());
+                    responseDetails = await WebRequestFactory.ReadRequestToEnd2Async(request);
+                    if (responseDetails.HttpStatusCode == HttpStatusCode.Found)
+                        url = request.RequestUri.GetLeftPart(UriPartial.Authority) + responseDetails.RedirectUrl;
+
+                } while (responseDetails.HttpStatusCode == HttpStatusCode.Found && redirects++ < 5);
+
+                if (responseDetails.HttpStatusCode == HttpStatusCode.Found) throw new WebException("Too many automatic redirections were attempted.", WebExceptionStatus.ProtocolError);
+
+                return responseDetails.Response;
             }
             finally
             {
@@ -126,12 +138,12 @@ namespace TumblThree.Applications.Crawler
         }
 
         protected async Task<string> RequestApiDataAsync(string url, string bearerToken, Dictionary<string, string> headers = null,
-    IEnumerable<string> cookieHosts = null)
+            IEnumerable<string> cookieHosts = null)
         {
             var requestRegistration = new CancellationTokenRegistration();
             try
             {
-                HttpWebRequest request = WebRequestFactory.CreateGetReqeust(url, string.Empty, headers);
+                HttpWebRequest request = WebRequestFactory.CreateGetRequest(url, string.Empty, headers);
                 cookieHosts = cookieHosts ?? new List<string>();
                 foreach (string cookieHost in cookieHosts)
                 {
@@ -143,7 +155,7 @@ namespace TumblThree.Applications.Crawler
                 request.Accept = "application/json";
 
                 requestRegistration = Ct.Register(() => request.Abort());
-                return await WebRequestFactory.ReadReqestToEndAsync(request);
+                return await WebRequestFactory.ReadRequestToEndAsync(request);
             }
             finally
             {

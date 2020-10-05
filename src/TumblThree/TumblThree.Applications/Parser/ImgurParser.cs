@@ -38,9 +38,9 @@ namespace TumblThree.Applications.Parser
             var requestRegistration = new CancellationTokenRegistration();
             try
             {
-                HttpWebRequest request = webRequestFactory.CreateGetReqeust(imgurAlbumUrl);
+                HttpWebRequest request = webRequestFactory.CreateGetRequest(imgurAlbumUrl);
                 requestRegistration = ct.Register(() => request.Abort());
-                return await webRequestFactory.ReadReqestToEndAsync(request);
+                return await webRequestFactory.ReadRequestToEndAsync(request);
             }
             finally
             {

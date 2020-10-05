@@ -48,8 +48,9 @@ namespace TumblThree.Applications.Services
                 {
                     cookieContainer.Add(cookie);
                 }
-                catch (CookieException)
+                catch (CookieException e)
                 {
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                 }
             }
         }
@@ -78,6 +79,8 @@ namespace TumblThree.Applications.Services
                     var cl = (CookieCollection)((DictionaryEntry)e).Value;
                     foreach (Cookie fc in cl)
                     {
+                        if (fc.Expires.Equals(DateTime.MinValue) && fc.Expires.Kind == DateTimeKind.Unspecified)
+                            fc.Expires = new DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                         yield return fc;
                     }
                 }

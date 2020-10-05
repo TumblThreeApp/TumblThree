@@ -113,6 +113,7 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\QueueController.cs" />
+    <Compile Include="CookieParser.cs" />
     <Compile Include="Crawler\AbstractTumblrCrawler.cs" />
     <Compile Include="DataModels\TumblrApi\Conversation.cs" />
     <Compile Include="DataModels\TumblrApi\Photo.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Parser\ITumblrToText.cs" />
     <Compile Include="Parser\IUguuParser.cs" />
     <Compile Include="Parser\IWebmshareParser.cs" />
+    <Compile Include="ResponseDetails.cs" />
     <Compile Include="Services\ILoginService.cs" />
     <Compile Include="Services\IWebRequestFactory.cs" />
     <Compile Include="Crawler\TumblrBlogDetector.cs" />

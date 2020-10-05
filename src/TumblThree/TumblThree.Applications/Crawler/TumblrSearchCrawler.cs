@@ -151,7 +151,7 @@ namespace TumblThree.Applications.Crawler
                 string url = "https://www.tumblr.com/search/" + Blog.Name + "/post_page/" + pageNumber;
                 string referer = @"https://www.tumblr.com/search/" + Blog.Name;
                 var headers = new Dictionary<string, string> { { "X-tumblr-form-key", tumblrKey }, { "DNT", "1" } };
-                HttpWebRequest request = WebRequestFactory.CreatePostXhrReqeust(url, referer, headers);
+                HttpWebRequest request = WebRequestFactory.CreatePostXhrRequest(url, referer, headers);
                 CookieService.GetTumblrConsentCookies(request.CookieContainer);
 
                 //Example request body, searching for cars:
@@ -161,9 +161,9 @@ namespace TumblThree.Applications.Crawler
                                      ((pageNumber - 1) * Blog.PageSize) + "&before=" + ((pageNumber - 1) * Blog.PageSize) +
                                      "&safe_mode=false&post_page=" + pageNumber +
                                      "&filter_nsfw=false&filter_post_type=&next_ad_offset=0&ad_placement_id=0&more_posts=true";
-                await WebRequestFactory.PerformPostXHRReqeustAsync(request, requestBody);
+                await WebRequestFactory.PerformPostXHRRequestAsync(request, requestBody);
                 requestRegistration = Ct.Register(() => request.Abort());
-                return await WebRequestFactory.ReadReqestToEndAsync(request);
+                return await WebRequestFactory.ReadRequestToEndAsync(request);
             }
             finally
             {
