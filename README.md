@@ -68,18 +68,18 @@ Latest releases can be found [here](https://github.com/TumblThreeApp/TumblThree/
 
 ## Application Usage:
 
-Read our wiki page about [Application Usage](wiki/How-to-use-the-Application)
+Read our wiki page about [Application Usage](https://github.com/TumblThreeApp/TumblThree/wiki/How-to-use-the-Application)
 
 ## Getting Started:
 
-The default settings should cover most users. You should only have to change the download location and the kind of posts you want to download. You can find more information in our wiki [Getting Started](wiki/Getting-Started).
+The default settings should cover most users. You should only have to change the download location and the kind of posts you want to download. You can find more information in our wiki [Getting Started](https://github.com/TumblThreeApp/TumblThree/wiki/Getting-Started).
 
 ## Limitations and Further Insights:
 
 * The old datasets from TumblTwo and TumblOne are __not__ compatible.
 * No more support for Windows XP.
 
-More information about TumblThree can be found in our wiki [Insights](wiki/Insights).
+More information about TumblThree can be found in our wiki [Insights](https://github.com/TumblThreeApp/TumblThree/wiki/Insights).
  
 ## How To Build The Source Code To Help Further Developing:
 

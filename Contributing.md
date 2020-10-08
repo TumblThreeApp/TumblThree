@@ -34,10 +34,10 @@ If you would like to implement a new feature yourself then first consider what k
 - PowerShell
 
 ### How To Build The Source Code
-A summary of the steps necessary to build the source code is available on the Wiki page "[How to build the source code and help further developing](wiki/How-to-build-the-source-code-and-help-further-developing)".
+A summary of the steps necessary to build the source code is available on the Wiki page "[How to build the source code and help further developing](https://github.com/TumblThreeApp/TumblThree/wiki/How-to-build-the-source-code-and-help-further-developing)".
 
 ### New code contributions and Ideas
-Besides the information already mentioned in the section "[Something Missing?](#feature)" above, you can find more information and ideas on the Wiki page "[New Feature Requests and Possible Enhancements](wiki/New-Feature-Requests-and-Possible-Enhancements)".
+Besides the information already mentioned in the section "[Something Missing?](#feature)" above, you can find more information and ideas on the Wiki page "[New Feature Requests and Possible Enhancements](https://github.com/TumblThreeApp/TumblThree/wiki/New-Feature-Requests-and-Possible-Enhancements)".
 
 ## <a name="rules"></a> Other Contributions
 
@@ -50,7 +50,7 @@ The following points shall give you an example and are not meant to be a fixed l
 
 ### Do you like to write?
 - Write and improve the project’s documentation
-- Improve the existing [Wiki](/wiki)
+- Improve the existing [Wiki](https://github.com/TumblThreeApp/TumblThree/wiki)
 - Write content for the new TumblThree website (eg. GitHub Pages) and build a menu structure
 
 ### Do you like organizing?
