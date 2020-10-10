@@ -417,7 +417,7 @@ namespace TumblThree.Applications.Crawler
             ulong highestPostId = 0;
             var post = response.Posts.FirstOrDefault();
             if (post == null) return false;
-            ulong.TryParse(post.Id, out highestPostId);
+            _ = ulong.TryParse(post.Id, out highestPostId);
 
             return highestPostId >= GetLastPostId();
         }

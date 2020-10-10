@@ -97,7 +97,14 @@ namespace TumblThree.Applications.Controllers
                 _resumeCommand.Execute(null);
             }
 
-            _crawlerCancellationTokenSource.Cancel();
+            try
+            {
+                _crawlerCancellationTokenSource.Cancel();
+            }
+            catch
+            {
+                // sometimes it fails to cancel the crawlers, because they are already cancelled/disposed
+            }
             _crawlerService.IsCrawl = false;
             _crawlCommand.RaiseCanExecuteChanged();
             _pauseCommand.RaiseCanExecuteChanged();
@@ -155,8 +162,9 @@ namespace TumblThree.Applications.Controllers
             {
                 await Task.WhenAll(_runningTasks.ToArray());
             }
-            catch
+            catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
             }
             finally
             {
