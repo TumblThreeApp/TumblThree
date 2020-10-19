@@ -708,15 +708,25 @@ namespace TumblThree.Applications.Controllers
 
         private void OnClipboardContentChanged(object sender, EventArgs e)
         {
-            if (!Clipboard.ContainsText())
+            try
             {
-                return;
+                if (!Clipboard.ContainsText())
+                {
+                    return;
+                }
+
+                // Count each whitespace as new url
+                string content = Clipboard.GetText();
+                if (content == null) return;
+                string[] urls = content.Split();
+
+                Task.Run(() => AddBlogBatchedAsync(urls));
             }
-
-            // Count each whitespace as new url
-            string[] urls = Clipboard.GetText().Split();
-
-            Task.Run(() => AddBlogBatchedAsync(urls));
+            catch (Exception ex)
+            {
+                Logger.Error($"ManagerController:OnClipboardContentChanged: {ex}");
+                _shellService.ShowError(ex, "error getting clipboard content");
+            }
         }
 
         private async Task AddBlogBatchedAsync(IEnumerable<string> urls)
