@@ -63,6 +63,8 @@ _Read this in other languages: [简体中文](README.zh-cn.md)._
 
 Latest releases can be found [here](https://github.com/TumblThreeApp/TumblThree/releases).
 
+*If you experience crashes right before or while logging in, it may be that on your system the "[Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48145)" is missing. You can download it from MS.*
+
 ## Screenshot:
 ![TumblThree Main UI](http://www.jzab.de/sites/default/files/images/tumblthree.png?raw=true "TumblThree Main UI")
 
