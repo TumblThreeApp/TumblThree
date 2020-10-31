@@ -99,3 +99,7 @@ More information about TumblThree can be found in our wiki [Insights](https://gi
 
 * You can find useful information about How and What you can contribute to the TumblThree project [here](Contributing.md).
 * Also see the [wiki page for ideas of new or missing features](https://github.com/TumblThreeApp/TumblThree/wiki/New-Feature-Requests-and-Possible-Enhancements) and add your thoughts.
+
+## Contributors ✨
+
+Last but not least see also the list of [contributors](Contributors.md) who participated in this project.
