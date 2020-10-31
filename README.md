@@ -1,6 +1,10 @@
+<img align="left" width="60" height="60" src="https://user-images.githubusercontent.com/71355143/97790805-1e444100-1bcc-11eb-90c7-bafda041bf94.png" alt="TumblThree Logo">
+
 # TumblThree - A Tumblr Blog Backup Application
 
 [![Build status](https://ci.appveyor.com/api/projects/status/dbrmr06nm3jif5bd/branch/master?svg=true)](https://ci.appveyor.com/project/TumblThreeApp/tumblthree/branch/master)
+![GitHub All Releases (archived repo)](https://img.shields.io/github/downloads/johanneszab/TumblThree/total?label=downloads%20%28archived%20repo%29&style=social)
+[![Github Releases (current repo)](https://img.shields.io/github/downloads/TumblThreeApp/TumblThree/total.svg?style=flat)](https://github.com/TumblThreeApp/TumblThree/releases)
 
 TumblThree is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), a free and open source Tumblr blog backup application, using C# with WPF and the MVVM pattern. It uses the [Win Application Framework (WAF)](https://github.com/jbe2277/waf). It downloads photo, video, audio and text posts from a given tumblr blog.
 
@@ -83,7 +87,7 @@ The default settings should cover most users. You should only have to change the
 
 More information about TumblThree can be found in our wiki [Insights](https://github.com/TumblThreeApp/TumblThree/wiki/Insights).
  
-## How To Build The Source Code To Help Further Developing:
+## How to Build the Source Code to Help Further Developing:
 
 * Download [Visual Studio](https://www.visualstudio.com/vs/community/). The minimum required version is Visual Studio 2015 (C# 6.0 feature support).
 * Download the [source code as .zip file](https://github.com/TumblThreeApp/TumblThree/archive/master.zip) or use the [GitHub Desktop](https://desktop.github.com/) and [checkout the code](https://github.com/TumblThreeApp/TumblThree.git).
