@@ -5,9 +5,10 @@ Your contributions to TumblThree are welcome, and warmly received! In doing so, 
 
  - [Code of Conduct](code_of_conduct.md)
  - [Got a Question or Problem?](#question)
- - [Problems?](#issue)
+ - [Found an Error?](#issue)
  - [Something Missing?](#feature)
- - [Coding](#rules)
+ - [Where can I find what to contribute?](#where)
+ - [Coding](#code)
  - [Other Contributions](#other)
 
 ## <a name="question"></a> Got a Question or Problem?
@@ -25,9 +26,13 @@ You can request a new feature by submitting an issue to our [GitHub Repository](
 If you would like to implement a new feature yourself then first consider what kind of change it is:
 
 * **Major Changes** - A new feature that is beyond an engineered extensibility point or otherwise of a non-trivial nature... Ensure an issue is open first. Failing to do so may result in your PR being rejected.
-* **Small Changes** - A simple change, bugfix, or feature leveraging a planned extension point... You may create an issue if one doesn't already exist and a PR with no further consultation. Your PR has a higher probability of being accepted, but if no discussion has taken place prior to submission, prefix your PR with [WIP] to signify that your work is in progress, and discussion should take place within the pull request.
+* **Small Changes** - A simple change, bugfix, or feature leveraging a planned extension point... You may create an issue if one doesn't already exist and a PR with no further consultation. Your PR has a higher probability of being accepted. But if no discussion has taken place prior to submission, prefix your PR with [WIP] to signify that your work is in progress, and discussion should take place within the pull request.
 
-## <a name="rules"></a> Coding
+## <a name="where"></a> Where can I find what to contribute?
+
+If you are not sure what you can contribute, please read the sections on this page. You can also have a look on the [Issues](https://github.com/TumblThreeApp/TumblThree/issues) and search for labels like [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/beginner)](https://github.com/TumblThreeApp/TumblThree/issues?q=is%3Aissue+is%3Aopen+label%3Abeginner) or [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/good%20first%20issue)](https://github.com/TumblThreeApp/TumblThree/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22). Or you go through the [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/help%20wanted)](https://github.com/TumblThreeApp/TumblThree/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) issues and look, if something interests you and looks feasible to you.
+
+## <a name="code"></a> Coding
 
 ### Development  Environment
 - Visual Studio 2017 (or higher), with all .Net features and latest patches/updates
@@ -41,7 +46,7 @@ Besides the information already mentioned in the section "[Something Missing?](#
 
 ## <a name="other"></a> Other Contributions
 
-Of course, you don’t have to contribute code to TumblThree. If you don't know how to code, there are other ways you can provide your help and support.
+Of course, you donâ€™t have to contribute code to TumblThree. If you don't know how to code, there are other ways you can provide your help and support.
 The following points shall give you an example and are not meant to be a fixed list of what can be done. Whatever your ideas and plans for your contribution are, get in contact with us or open an [issue](https://github.com/TumblThreeApp/TumblThree/issues/new).
 
 ### Do you like to design?
@@ -49,7 +54,7 @@ The following points shall give you an example and are not meant to be a fixed l
 - Design new graphics for the buttons in the TumblThree application
 
 ### Do you like to write?
-- Write and improve the project’s documentation
+- Write and improve the projectâ€™s documentation
 - Improve the existing [Wiki](https://github.com/TumblThreeApp/TumblThree/wiki)
 - Write content for the new TumblThree website (e.g. GitHub Pages) and build a menu structure
 
