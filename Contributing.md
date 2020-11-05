@@ -10,6 +10,7 @@ Your contributions to TumblThree are welcome, and warmly received! In doing so, 
  - [Where can I find what to contribute?](#where)
  - [Coding](#code)
  - [Other Contributions](#other)
+ - [How to Open a TumblThree Pull Request?](#pullrequest)
 
 ## <a name="question"></a> Got a Question or Problem?
 
@@ -66,3 +67,7 @@ The following points shall give you an example and are not meant to be a fixed l
 ### Do you like helping people?
 - Answer questions for people on open issues
 - Help moderate discussion boards or conversation channels
+
+## <a name="pullrequest"></a> How to Open a TumblThree Pull Request?
+
+You can find a summary in our [Wiki](https://github.com/TumblThreeApp/TumblThree/wiki) if you are new to Git. It shows you [How to Open a TumblThree Pull Request](https://github.com/TumblThreeApp/TumblThree/wiki/How-to-Open-a-TumblThree-Pull-Request.md) to contribute any file (whether it's code or not) to our repository.
