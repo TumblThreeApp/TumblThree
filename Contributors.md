@@ -7,6 +7,10 @@ People are giving themselves and their free time to contribute to our project in
 * [Johannes Meyer zum Alten Borgloh](https://github.com/johanneszab) Originator 💻 🚧 📖 🌍 💬
 * [Thomas](https://github.com/thomas694) 💻 🚧 📖
 * [Eliette Priaulx](https://github.com/elipriaulx) 💻 🚧
+* [Apostol Apostolov](https://github.com/apoapostolov) 🐛 💬
+* [Kvothe1970](https://github.com/Kvothe1970) 🐛 💬
+* [Taranchuk](https://github.com/Taranchuk) 🐛 💬
+* [keokitsune](https://github.com/keokitsune) 💬
 * [amigre38](https://github.com/amigre38) 💻
 * [ShadowBlade72](https://github.com/ShadowBlade72) 💻
 * [Emphasia](https://github.com/Emphasia) 🌍
@@ -18,6 +22,7 @@ People are giving themselves and their free time to contribute to our project in
 * [blackgur](https://github.com/blackgur) 🌍
 * [Darío](https://github.com/apokalipsys) 💻 📖
 * [ErikBrown2](https://github.com/ErikBrown2) 💬
+* [HRXN](https://github.com/Hrxn) 💬
 * [YFdyh000](https://github.com/yfdyh000) 💻
 * Your Name?
 
