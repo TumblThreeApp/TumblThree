@@ -1,6 +1,13 @@
+<img align="left" width="60" height="60" src="https://user-images.githubusercontent.com/71355143/97790805-1e444100-1bcc-11eb-90c7-bafda041bf94.png" alt="TumblThree Logo">
+
 # TumblThree 简体中文
 
 这儿是[TumblThree](https://github.com/TumblThreeApp/TumblThree)的英语和简体中文的源文件。 [![Build status](https://ci.appveyor.com/api/projects/status/dbrmr06nm3jif5bd/branch/master?svg=true)](https://ci.appveyor.com/project/TumblThreeApp/tumblthree/branch/master)
+[![GitHub All Releases (archived repo)](https://img.shields.io/github/downloads/johanneszab/TumblThree/total?label=downloads%20%28archived%20repo%29&style=social)](https://github.com/johanneszab/TumblThree)
+[![Github Releases (current repo)](https://img.shields.io/github/downloads/TumblThreeApp/TumblThree/total.svg?style=flat)](https://github.com/TumblThreeApp/TumblThree/releases)
+
+[![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat)](https://www.firsttimersonly.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
 Simplified Chinese translation for [TumblThree](https://github.com/TumblThreeApp/TumblThree) (translated by Emphasia).
 
