@@ -88,7 +88,8 @@ namespace TumblThree.Applications.Downloader
                     {
                         var serializer = new DataContractJsonSerializer(data.GetType());
                         serializer.WriteObject(writer, data);
-                        await writer.FlushAsync();
+                        writer.Flush();
+                        await Task.CompletedTask;
                     }
                 }
             }
