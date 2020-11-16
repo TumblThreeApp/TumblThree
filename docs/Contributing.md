@@ -115,6 +115,8 @@ The following points shall give you an example and are not meant to be a fixed l
 
 You can find a short guide in our [Wiki](../../../wiki) if you are new to Git. It shows you [How to Open a TumblThree Pull Request](../../../wiki/How-to-Open-a-TumblThree-Pull-Request) to contribute any file (whether it's code or not) to our repository.
 
+By submitting a pull request for this project, you agree to license your contribution under the MIT license to this project.
+
 ## Collaborators
 
 The people who are most active in the community.

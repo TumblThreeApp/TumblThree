@@ -24,6 +24,8 @@ People are giving themselves and their free time to contribute to our project in
 * [ErikBrown2](https://github.com/ErikBrown2) 💬
 * [HRXN](https://github.com/Hrxn) 💬
 * [YFdyh000](https://github.com/yfdyh000) 💻
+* [Canna Wen](https://github.com/cannawen) 📖
+* [MaxNau](https://github.com/MaxNau) 💻
 * Your Name?
 
 Did we forget someone? Please drop us a line.
