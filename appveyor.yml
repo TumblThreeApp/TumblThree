@@ -37,9 +37,9 @@ assembly_info:
 configuration: Release
 for:
   -
-    branches:
-      only:
-      - master
+    #branches:
+    #  only:
+    #  - master
     matrix:
       only:
         - job_name: build_x64_m
