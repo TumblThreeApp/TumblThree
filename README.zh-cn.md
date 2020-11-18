@@ -151,8 +151,3 @@ TumblThree作者的最新版本、别的版本及更新历史：https://github.c
 * 可下载某用户喜欢❤过的图片和视频 (e.g. https://www.tumblr.com/liked/by/wallpaperfx/) (需要登录)
 * 可下载tumblr搜索结果中的图片和视频 (e.g. http://www.tumblr.com/search/my+keywords)
 * 可下载tumblr标签搜索结果中的图片和视频 (e.g. http://www.tumblr.com/tagged/my+keywords) (需要登录)
-
-
-### 不足之处 Limitations
-
-- Windows XP 已不支持
