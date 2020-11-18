@@ -3,8 +3,8 @@
 First off, thank you for considering contributing to TumblThree. It's people like you that make TumblThree such a great application. 
 Your contributions to TumblThree are welcome, and warmly received! In doing so, here are the guidelines we'd appreciate you following:
 
- - [New to Open Source Software?](New-to-OSS.md)
- - [Code of Conduct](code_of_conduct.md)
+ - [New to Open Source Software?](docs/New-to-OSS.md)
+ - [Code of Conduct](docs/code_of_conduct.md)
  - [Got a Question, found an error or something missing?](#issues)
  - [Where can I find what to contribute?](#where)
  - [Coding](#code)
@@ -44,7 +44,7 @@ If you are not sure what you can contribute, please read the sections on this pa
 
 Welcome! We aim to be a newbie-friendly community, so we have reserved [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/first-timers-only)](https://github.com/TumblThreeApp/TumblThree/issues?q=is%3Aissue+is%3Aopen+label%3A%22first-timers-only%22) issues for first-time OSS contributors.
 
-[Click here to learn more](New-to-OSS.md).
+[Click here to learn more](docs/New-to-OSS.md).
 
 ### Find something to work on
 
@@ -142,7 +142,7 @@ Take initiative, and be an active member of the community! Some examples:
 - Suggest process improvements
 - Answer questions that people ask on GitHub
 - Take on larger or more complex issues
-- Write [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/first-timers-only)](New-to-OSS.md) issues
+- Write [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/first-timers-only)](docs/New-to-OSS.md) issues
 
 ## The lifecycle of an issue
 

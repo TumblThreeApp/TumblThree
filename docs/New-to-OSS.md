@@ -11,7 +11,7 @@ If you are new to OSS and GitHub, you can [read this article](https://opensource
 - Good first-timer stories will be tagged [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/first-timers-only)](https://github.com/TumblThreeApp/TumblThree/issues?q=is%3Aissue+is%3Aopen+label%3A%22first-timers-only%22). These are reserved for people who have never contributed a pull request (PR) to OSS
 - Do not feel limited to the [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/first-timers-only)](https://github.com/TumblThreeApp/TumblThree/issues?q=is%3Aissue+is%3Aopen+label%3A%22first-timers-only%22) tag. You are encouraged to take on regular [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/help%20wanted)](https://github.com/TumblThreeApp/TumblThree/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) issues as well
 - Remember to comment on the issue saying that you would like to volunteer!
-- Please read through the [Contributing Guidelines](Contributing.md) and [Code of Conduct](code_of_conduct.md)
+- Please read through the [Contributing Guidelines](../Contributing.md) and [Code of Conduct](code_of_conduct.md)
 - We aim to be newbie-friendly, so let us know if anything is confusing and needs more documentation (or create a pull request yourself, filling in any missing documentation to help the next person!)
 - We want to hear from you! Don't be shy to ask any questions about our process, or technical details
 - When asking for help, be sure to include any relevant screenshots or error messages, along with what steps you have taken to try to fix the problem! This will help us understand what is going wrong, and what suggestions _not_ to give you, since you have already tried them ;)

@@ -1,4 +1,5 @@
 #version: 1.0.10.{build}
+skip_branch_with_pr: true
 image: Visual Studio 2017
 init:
   # Set "build version number" to "short-commit-hash" or when tagged to "tag name" (Travis style)

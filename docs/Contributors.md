@@ -43,4 +43,4 @@ We're currently looking for contributions for the following:
 - [ ] Translations
 - [ ] ...
 
-For more information, please refer to our [Contributing](Contributing.md) guide.
+For more information, please refer to our [Contributing](../Contributing.md) guide.

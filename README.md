@@ -107,7 +107,7 @@ More information about TumblThree can be found in our wiki [Insights](https://gi
 We like the [all-contributors](https://allcontributors.org/) specification. Contributions of any kind are welcome!
 If you've ever wanted to contribute to open source, and a great cause, now is your chance!
 
-* You can find useful information about How and What you can contribute to the TumblThree project [here](docs/Contributing.md).
+* You can find useful information about How and What you can contribute to the TumblThree project [here](Contributing.md).
 * Also see the [wiki page for ideas of new or missing features](https://github.com/TumblThreeApp/TumblThree/wiki/New-Feature-Requests-and-Possible-Enhancements) and add your thoughts.
 
 ## Contributors ✨
