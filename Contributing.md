@@ -50,7 +50,7 @@ Welcome! We aim to be a newbie-friendly community, so we have reserved [![](http
 
 - Find a [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/help%20wanted)](https://github.com/TumblThreeApp/TumblThree/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) issue and leave a comment saying you would like to work on it
 - A maintainer will confirm the issue has been assigned to you
-- If there are no open issues, you can come up with your own issue, or look on our [ideas page](../../../wiki/New-Feature-Requests-and-Possible-Enhancements) if something interests you
+- If there are no open issues, you can come up with your own issue, or look on our [ideas page](../../wiki/New-Feature-Requests-and-Possible-Enhancements) if something interests you
 - Issues tagged [![](https://img.shields.io/github/labels/TumblThreeApp/TumblThree/first-timers-only)](https://github.com/TumblThreeApp/TumblThree/issues?q=is%3Aissue+is%3Aopen+label%3A%22first-timers-only%22) are reserved for those who have never made a PR to an open source community
 
 ### Work on an issue
@@ -60,7 +60,7 @@ Welcome! We aim to be a newbie-friendly community, so we have reserved [![](http
 
 ### Make a PR
 
-So you have finished working on your issue, congratulations! It's time to get it merged back into the main repo via a [pull request](../../../wiki/How-to-Open-a-TumblThree-Pull-Request).
+So you have finished working on your issue, congratulations! It's time to get it merged back into the main repo via a [pull request](../../wiki/How-to-Open-a-TumblThree-Pull-Request).
 
 #### Required
 - If you are making a PR, you should have an issue assigned to you[1]
@@ -81,10 +81,10 @@ If you are not finished an issue but would like feedback, you can make a PR aski
 - PowerShell
 
 ### How to Build the Source Code
-A summary of the steps necessary to build the source code is available on the Wiki page "[How to build the source code and help further developing](../../../wiki/How-to-build-the-source-code-and-help-further-developing)".
+A summary of the steps necessary to build the source code is available on the Wiki page "[How to build the source code and help further developing](../../wiki/How-to-build-the-source-code-and-help-further-developing)".
 
 ### New Code Contributions and Ideas
-Besides the information already mentioned in the section "[Something Missing?](#feature)" above, you can find more information and ideas on the Wiki page "[New Feature Requests and Possible Enhancements](../../../wiki/New-Feature-Requests-and-Possible-Enhancements)".
+Besides the information already mentioned in the section "[Something Missing?](#feature)" above, you can find more information and ideas on the Wiki page "[New Feature Requests and Possible Enhancements](../../wiki/New-Feature-Requests-and-Possible-Enhancements)".
 
 ## <a name="other"></a> Other Contributions
 
@@ -97,7 +97,7 @@ The following points shall give you an example and are not meant to be a fixed l
 
 ### Do you like to write?
 - Write and improve the project’s documentation
-- Improve the existing [Wiki](../../../wiki)
+- Improve the existing [Wiki](../../wiki)
 - Write content for the new TumblThree website (e.g. GitHub Pages) and build a menu structure
 
 ### Do you like organizing?
@@ -113,7 +113,7 @@ The following points shall give you an example and are not meant to be a fixed l
 
 **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
 
-You can find a short guide in our [Wiki](../../../wiki) if you are new to Git. It shows you [How to Open a TumblThree Pull Request](../../../wiki/How-to-Open-a-TumblThree-Pull-Request) to contribute any file (whether it's code or not) to our repository.
+You can find a short guide in our [Wiki](../../wiki) if you are new to Git. It shows you [How to Open a TumblThree Pull Request](../../wiki/How-to-Open-a-TumblThree-Pull-Request) to contribute any file (whether it's code or not) to our repository.
 
 By submitting a pull request for this project, you agree to license your contribution under the MIT license to this project.
 
@@ -168,7 +168,7 @@ The code is released to production when needed.
 ## All Contributors
 
 We like the [all-contributors](https://allcontributors.org/) specification. Contributions of any kind are welcome!
-See the [list of contributors](Contributors.md)!
+See the [list of contributors](docs/Contributors.md)!
 
 --- 
 
