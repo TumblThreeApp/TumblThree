@@ -1,6 +1,253 @@
+<!DOCTYPE html>
 <html>
-<title>TumblThree</title>
+<head>
+<meta charset="utf-8" /><title>TumblThree - A Tumblr Backup Application - TumblThreeApp.github.io</title><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="TumblThree - A Tumblr Backup Application" />
+<meta property="og:description" content="TumblThree is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), a free and open source Tumblr blog backup application, using C# with WPF and the MVVM pattern. It uses the [Win Application Framework (WAF)](https://github.com/jbe2277/waf). It downloads photo, video, audio and text posts from a given tumblr blog." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tumblthreeapp.github.io/TumblThree/" />
+<meta property="article:published_time" content="2020-11-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-11-23T00:00:00+00:00" />
+<link rel="stylesheet" type="text/css" media="screen" href="css/main.css" /><link rel="stylesheet" type="text/css" href="css/dark.css" media="(prefers-color-scheme: dark)" />
+<script src="js/main.js"></script>
+</head>
 <body>
-Welcome to the new TumblThree page.
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title"></h1>
+	<div class="site-description"><h2></h2><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/TumblThreeApp/TumblThree" title="Github"><img src="icon/github.svg" alt="Github"></a></ul>
+		</nav>
+	</div>
+</div>
+
+		<div class="post-header">
+			<h1 class="title">TumblThree - A Tumblr Backup Application</h1>
+		</div>
+
+		<div class="markdown">
+
+<ul>
+<li><a href="#what">TumblThree - A Tumblr Backup Application</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#started">Getting Started</a></li>
+<li><a href="#insight">Further Insights</a></li>
+<li><a href="#download">Download</a></li>
+</ul>
+
+<p><a name="what"></a></p>
+
+<h1 id="tumblthree-a-tumblr-backup-application">TumblThree - A Tumblr Backup Application</h1>
+
+<p>TumblThree is the code rewrite of <a href="https://github.com/johanneszab/TumblTwo">TumblTwo</a>, a free and open source Tumblr blog backup application, using C# with WPF and the MVVM pattern. It uses the <a href="https://github.com/jbe2277/waf">Win Application Framework (WAF)</a>. It downloads photo, video, audio and text posts from a given tumblr blog.</p>
+
+<h2 id="screenshots">Screenshots:</h2>
+
+<p><a href="images/tumblthree.png"><img src="images/tumblthree_small.png" alt="TumblThree - A Tumblr Backup Application" /></a></p>
+
+<p><a name="features"></a></p>
+
+<h2 id="features">Features:</h2>
+
+<ul>
+<li>Source code at github (Written in C# using WPF and MVVM).</li>
+<li>Multiple concurrent downloads of a single blog.</li>
+<li>Multiple concurrent downloads of different blogs.</li>
+<li>Internationalization support (currently available: en, zh, ru, de, fr).</li>
+<li>A download queue.</li>
+<li>Autosave of the queuelist.</li>
+<li>Save, clear and restore the queuelist.</li>
+<li>A clipboard monitor that detects <em>blogname.tumblr.com</em> urls in the clipboard (copy and paste) and automatically adds the blog to the bloglist.</li>
+<li>A settings panel (change download location, turn preview off/on, define number of concurrent downloads, set the imagesize of downloaded pictures, set download defaults, enable portable mode, etc.).</li>
+<li>Uses Windows proxy settings.</li>
+<li>A bandwidth throttler.</li>
+<li>An option to download an url list instead of the actual files.</li>
+<li>Set a start time for a automatic download (e.g. during nights).</li>
+<li>An option to skip the download of a file if it has already been downloaded before in any currently added blog.</li>
+<li>Uses SSL connections.</li>
+<li>Preview of photos &amp; videos.</li>
+<li>Taskbar buttons and key bindings.</li>
+</ul>
+
+<h3 id="blog-backup-download">Blog backup/download:</h3>
+
+<ul>
+<li>Download of photo, video (only tumblr.com hosted), text, audio, quote, conversation, link and question posts.</li>
+<li>Download meta information for photo, video and audio posts.</li>
+<li>Downloads inlined photos and videos (e.g. photos embedded in question&amp;answer posts).</li>
+<li>Download of _raw image files (original/higher resolution pictures).</li>
+<li>Support for downloading Imgur, Gfycat, Webmshare, Mixtape, Lolisafe, Uguu, Catbox and SafeMoe linked files in tumblr posts.</li>
+<li>Download of safe mode/NSFW blogs.</li>
+<li>Allows to download only original content of the blog and skip reblogged posts.</li>
+<li>Can download only tagged posts.</li>
+<li>Can download only specific blog pages instead of the whole blog.</li>
+<li>Allows to download blog posts in a defined time span.</li>
+<li>Can download hidden blogs (login required / dash board blogs).</li>
+<li>Can download password protected blogs (of non-hidden blogs).</li>
+</ul>
+
+<h3 id="liked-by-backup-download">Liked/by backup/download:</h3>
+
+<ul>
+<li>A downloader for downloading &ldquo;liked by&rdquo; photos and videos instead of a tumblr blog (e.g. <a href="https://www.tumblr.com/liked/by/wallpaperfx/">https://www.tumblr.com/liked/by/wallpaperfx/</a>) (login required).</li>
+<li>Download of _raw image files (original/higher resolution pictures).</li>
+<li>Allows to download posts in a defined time span.</li>
+</ul>
+
+<h3 id="tumblr-search-backup-download">Tumblr search backup/download:</h3>
+
+<ul>
+<li>A downloader for downloading photos and videos from the tumblr search (e.g. <a href="http://www.tumblr.com/search/my+keywords">http://www.tumblr.com/search/my+keywords</a>).</li>
+<li>Download of _raw image files (original/higher resolution pictures).</li>
+<li>Can download only specific blog pages instead of the whole blog.</li>
+</ul>
+
+<h3 id="tumblr-tag-search-backup-download">Tumblr tag search backup/download:</h3>
+
+<ul>
+<li>A downloader for downloading photos and videos from the tumblr tag search (e.g. <a href="http://www.tumblr.com/tagged/my+keywords">http://www.tumblr.com/tagged/my+keywords</a>) (login required).</li>
+<li>Download of _raw image files (original/higher resolution pictures).</li>
+<li>Allows to download posts in a defined time span.</li>
+</ul>
+
+<p><a name="usage"></a></p>
+
+<h2 id="program-usage">Program Usage:</h2>
+
+<ul>
+<li>Extract the .zip file and run the application by double clicking TumblThree.exe.</li>
+<li>Copy the url of any tumblr.com blog you want to backup from into the textbox at the bottom left. Afterwards, click on &lsquo;Add Blog&rsquo; on the right side of it.</li>
+<li>Alternatively, if you copy (ctrl-c) a <em>tumblr.com</em> blog url from the address bar/text file, the clipboard monitor from TumblThree will detect it and automatically add the blog.</li>
+<li>To start the download process, click on &lsquo;Crawl&rsquo;. The application will regularly check for (new) blogs in the queue and start processing them, until you stop the application by pressing &lsquo;Stop&rsquo;. So, you can either add blogs to the queue via &lsquo;Add to Queue&rsquo; or double click/drag&rsquo;n&rsquo;drop first and then click &lsquo;Crawl&rsquo;, or you start the download process first and add blogs to the queue afterwards.</li>
+<li>A light blue bar left to the blog in the queue indicates a actively downloading blog.</li>
+<li>The blog manager on the left side also indicates the state of each blog. A red background shows an offline blog, a green background an actively crawling blog and a purple background an enqueued blog.</li>
+<li>You change the download location, the number of concurrent connections, the default backup settings for each newly added blog and various other settings in the &lsquo;Settings&rsquo;.</li>
+<li>In the Details window you can view statistics of your blog and set blog specific options. You can here what kind of post type (photo, video, audio, text, conversation, quote, link) to download.</li>
+<li>For downloading only tagged posts, you&rsquo;ll have to do some steps:
+
+<ol>
+<li>Add the blog url.</li>
+<li>Open the blog in the details tab, enter the tags in the Tags textbox in a comma separated list without the leading hash (#) sign. E.g. <em>great big car,bears</em> would search for images that are tagged for either a <em>great big car</em> or <em>bears</em> or both.</li>
+</ol></li>
+<li>For downloading password protected blogs, you&rsquo;ll have to do some steps:
+
+<ol>
+<li>Add the blog url.</li>
+<li>Open the blog in the details tab, enter the password in the Password textbox.</li>
+</ol></li>
+<li>For downloading hidden blogs (login required blogs), you have to do some steps:
+
+<ol>
+<li>Go to Settings, click on the Connection tab and fill in your tumblr email address (login) and password, then click the Authenticate button. If the login was successfully, the label will change and display your email address. The email address and password are not stored locally on disk but cookies are generated and saved in <code>%LOCALAPPDATA%\\TumblThree</code> in json format.</li>
+<li>Add the blog url.</li>
+</ol></li>
+<li>For downloading liked photos and videos, you&rsquo;ll have to do some steps:
+
+<ol>
+<li>Go to Settings, click on the Connection tab and fill in your tumblr email address (login) and password, then click the Authenticate button. If the login was successfully, the label will change and display your email address. The email address and password are not stored locally on disk but cookies are generated and saved in <code>%LOCALAPPDATA%\\TumblThree</code> in json format.</li>
+<li>Add the blog url including the liked/by string in the url (e.g. <a href="https://www.tumblr.com/liked/by/wallpaperfx/">https://www.tumblr.com/liked/by/wallpaperfx/</a>).</li>
+<li>For downloading your own likes, make sure you&rsquo;ve (temporarily) enabled the following options in your blogs settings (i.e. <a href="https://www.tumblr.com/settings/blog/yourblogname">https://www.tumblr.com/settings/blog/<em>yourblogname</em></a>):
+
+<ol>
+<li>Likes -&gt; Share posts you like (to enable the publicly visible liked/by page)</li>
+<li>Visibility -&gt; <em>blog</em> is explicit (to see/download NSFW likes)</li>
+</ol></li>
+</ol></li>
+<li>For downloading photos and videos from the tumblr search, you&rsquo;ll have to do some steps:
+
+<ol>
+<li>Add the search url including your key words separated by plus signs (+) in the url (e.g. <a href="https://www.tumblr.com/search/my+special+tags">https://www.tumblr.com/search/my+special+tags</a>).</li>
+</ol></li>
+<li>For downloading photos and videos from the tumblr tag search, you&rsquo;ll have to do some steps:
+
+<ol>
+<li>Go to Settings, click on the Connection tab and fill in your tumblr email address (login) and password, then click the Authenticate button. If the login was successfully, the label will change and display your email address. The email address and password are not stored locally on disk but cookies are generated and saved in <code>%LOCALAPPDATA%\\TumblThree</code> in json format.</li>
+<li>Add the search url including your tags separated by plus signs (+) in the url (e.g. <a href="https://www.tumblr.com/tagged/my+special+tags">https://www.tumblr.com/tagged/my+special+tags</a>).</li>
+</ol></li>
+</ul>
+
+<p><a name="started"></a></p>
+
+<h2 id="getting-started">Getting Started:</h2>
+
+<p>The default settings should cover most users. You should only have to change the download location and the kind of posts you want to download. For this, in the Settings (click on the Settings button in the lower panel of the main user interface) you might want to change:</p>
+
+<ul>
+<li>General -&gt; Download location: Specifies where to download the files. The default is in a folder Blogs relative to the TumblThree.exe</li>
+<li>Blog -&gt; Settings applied to each blog upon addition:
+
+<ul>
+<li>Here you can set what posts newly added blogs will download per default. To change what each blog downloads, click on a blog in the main interface, select the Details Tab on the right and change the settings. This separation allows to download different kind of post for different blogs. You can change the download settings for multiple existing blogs by selecting them with shift+left click for a range or ctrl-a for all of them.</li>
+<li>Note: You might want to always select:
+
+<ul>
+<li>Download Reblogged posts: Downloads reblogs, not just original content of the blog author.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>Settings you might want to change if the download speed is not satisfactory:</p>
+
+<ul>
+<li>Connection -&gt; Concurrent connections: Specifies the number of connections used for downloading posts. The number is shared between all actively downloading blogs.</li>
+<li>Connection -&gt; Concurrent video connections: Specifies the number of connections used for downloading tumblr video posts. The vt.tumblr.com host regularly closes connections if the number is too high. Thus, the maximum number of vt.tumblr.com connections can be specified here independently.</li>
+<li>Connection -&gt; Concurrent blogs: Number of blogs to download in parallel.</li>
+</ul>
+
+<p>Most likely you don&rsquo;t have to change any of the other connection settings. In particular, settings you should never change, unless you&rsquo;re sure you know what you are doing:</p>
+
+<ul>
+<li>Connection -&gt; Limit Tumblr Api Connections: Leave this checkbox checked and do not change the corresponding values of 90 connections per 60 seconds. If you still change them, you might end up with offline blogs or missing downloads.</li>
+</ul>
+
+<p><a name="insight"></a></p>
+
+<h2 id="further-insights">Further Insights:</h2>
+
+<ul>
+<li><em>Note:</em> All the following files are stored in json format and can be opened in any editor.</li>
+<li>Application settings are stored in <code>C:\\Users\\Username\\AppData\\Local\\TumblThree\\</code>.</li>
+<li>You can use the <em>portable mode</em> (settings-&gt;general) to stores the application settings in the same folder as the executable.</li>
+<li>For each blog there is also a database (serialized class) file in the <em>Index</em> folder of the download location named after the <em>blogname</em>.tumblr. Here blog relative information is stored like what files have been downloaded, the url of the blog and when it was added. This allows you to move your downloaded files (photos, videos, audio files) to a different location without interfering with the download process.</li>
+<li>Some settings aren&rsquo;t hooked up to the graphical user interface. It&rsquo;s possible to view all TumblThree settings by opening the settings.json in any editor located in <code>C:\\Users\\Username\\AppData\\Local\\TumblThree\\</code>. Their names should be self explainatory. Some notable settings to further fine tune the application include:
+
+<ul>
+<li>BufferSize: Allows to set the buffer size for downloading binary files (photos, videos) in multiples of 4KB. The default is 2MB, thus the BufferSize has a value of 512. Increasing this value reduces disk fragmentation as more of the file is kept in the memory before it gets written out to the disk but increases the memory usage.</li>
+<li>MaxNumberOfRetries: Sets the maximum number of retries if a tumblr server forcefully closes the connection. This might regularly happen on the tumblr video host (vt.tumblr.com) if too many connections were opened in parallel. After the limit is exhausted, the file is left truncated, but is also not registered as a successful downloaded. Thus, the file can be resumed in the next crawl.</li>
+</ul></li>
+</ul>
+
+<p><a name="download"></a></p>
+
+<h2 id="download">Download:</h2>
+
+<ul>
+<li><a href="https://github.com/TumblThreeApp/TumblThree/releases"><strong>Application downloads</strong> for Windows at Github.com</a></li>
+<li><a href="https://github.com/TumblThreeApp/TumblThree"><strong>Source code</strong> at Github.com (Written in C# using WPF and the MVVM pattern).</a></li>
+</ul>
+
+		</div>
+
+		<div class="post-tags">
+			
+				
+					<nav class="nav tags">
+							<ul class="flat">
+								
+								<li><a>Software</a></li>
+								<li><a>Tumblr</a></li>
+								<li><a>Blog</a></li>
+								<li><a>Crawler</a></li>
+								<li><a>Backup</a></li>
+								<li><a>Downloader</a></li>
+								
+							</ul>
+					</nav>
+
+		</div></div>
+	<div class="footer wrapper">
+
+	</div>
 </body>
 </html>
