@@ -8,6 +8,7 @@
 
 [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat)](https://www.firsttimersonly.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/TumblThreeApp/TumblThree/issues)
 
 Simplified Chinese translation for [TumblThree](https://github.com/TumblThreeApp/TumblThree) (translated by Emphasia).
 

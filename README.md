@@ -8,6 +8,7 @@
 
 [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat)](https://www.firsttimersonly.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/TumblThreeApp/TumblThree/issues)
 
 TumblThree is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), a free and open source Tumblr blog backup application, using C# with WPF and the MVVM pattern. It uses the [Win Application Framework (WAF)](https://github.com/jbe2277/waf). It downloads photo, video, audio and text posts from a given tumblr blog.
 
@@ -18,7 +19,7 @@ _Read this in other languages: [简体中文](README.zh-cn.md)._
 * Source code at github (Written in C# using WPF and MVVM).
 * Multiple concurrent downloads of a single blog.
 * Multiple concurrent downloads of different blogs.
-* Internationalization support (currently available: zh, ru, de, fr, es).
+* Internationalization support (currently available: de, es, fr, ru, zh).
 * A download queue.
 * Autosave of the queuelist.
 * Save, clear and restore the queuelist.
@@ -107,4 +108,4 @@ If you've ever wanted to contribute to open source, and a great cause, now is yo
 
 ## Contributors ✨
 
-Last but not least see also the list of [contributors](docs/Contributors.md) who participated in this project.
+Last but not least see also the [list of contributors](docs/Contributors.md) who participated in this project.
