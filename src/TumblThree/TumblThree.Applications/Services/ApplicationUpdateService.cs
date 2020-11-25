@@ -33,22 +33,20 @@ namespace TumblThree.Applications.Services
             downloadLink = null;
             try
             {
+                HttpWebRequest request = webRequestFactory.CreateGetRequest("https://api.github.com/repos/tumblthreeapp/tumblthree/releases/latest");
+                string result = await webRequestFactory.ReadRequestToEndAsync(request);
+                XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), new XmlDictionaryReaderQuotas());
+                XElement root = XElement.Load(jsonReader);
+                version = root.Element("tag_name").Value;
+   
                 if (Environment.Is64BitProcess)
                 {
-                    HttpWebRequest request = webRequestFactory.CreateGetRequest("https://api.github.com/repos/tumblthreeapp/tumblthree/releases/latest");
-                    string result = await webRequestFactory.ReadRequestToEndAsync(request);
-                    XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), new XmlDictionaryReaderQuotas());
-                    XElement root = XElement.Load(jsonReader);
-                    version = root.Element("tag_name").Value;
                     downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value.Where(s => s.Contains("x64-App"));
                 }
                 else
-                    HttpWebRequest request = webRequestFactory.CreateGetRequest("https://api.github.com/repos/tumblthreeapp/tumblthree/releases/latest");
-                    string result = await webRequestFactory.ReadRequestToEndAsync(request);
-                    XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), new XmlDictionaryReaderQuotas());
-                    XElement root = XElement.Load(jsonReader);
-                    version = root.Element("tag_name").Value;
+                {
                     downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value.Where(s => s.Contains("x86-App"));
+                }
 
             }
             catch (Exception exception)
