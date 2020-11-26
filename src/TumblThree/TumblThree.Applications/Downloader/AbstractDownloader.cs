@@ -31,6 +31,8 @@ namespace TumblThree.Applications.Downloader
         protected readonly PauseToken pt;
         protected readonly FileDownloader fileDownloader;
         private readonly string[] suffixes = { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".heif", ".heic", ".webp" };
+        private Timer _saveTimer;
+        private const int SAVE_TIMESPAN_SECS = 120;
 
         private SemaphoreSlim concurrentConnectionsSemaphore;
         private SemaphoreSlim concurrentVideoConnectionsSemaphore;
@@ -48,6 +50,7 @@ namespace TumblThree.Applications.Downloader
             this.progress = progress;
             this.postQueue = postQueue;
             this.fileDownloader = fileDownloader;
+            _saveTimer = new Timer(_ => OnSaveTimedEvent(), null, SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
         }
 
         public void UpdateProgressQueueInformation(string format, params object[] args)
@@ -373,10 +376,21 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
+        protected void OnSaveTimedEvent()
+        {
+            _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
+
+            if (files.IsDirty) files.Save();
+
+            _saveTimer.Change(SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
+                _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                _saveTimer.Dispose();
                 concurrentConnectionsSemaphore?.Dispose();
                 concurrentVideoConnectionsSemaphore?.Dispose();
 

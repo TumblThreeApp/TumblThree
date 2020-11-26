@@ -17,6 +17,8 @@ namespace TumblThree.Domain.Models.Files
         [DataMember(Name = "Links")]
         protected List<string> links;
 
+        protected bool isDirty;
+
         private object _lockList = new object();
 
         public Files()
@@ -46,11 +48,14 @@ namespace TumblThree.Domain.Models.Files
 
         public IList<string> Links => links;
 
+        public bool IsDirty { get { return isDirty; } }
+
         public void AddFileToDb(string fileName)
         {
             lock (_lockList)
             {
                 Links.Add(fileName);
+                isDirty = true;
             }
         }
 
@@ -72,6 +77,7 @@ namespace TumblThree.Domain.Models.Files
         {
             try
             {
+                isDirty = false;
                 return LoadCore(fileLocation);
             }
             catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException)
@@ -111,6 +117,8 @@ namespace TumblThree.Domain.Models.Files
                 {
                     SaveBlog(currentIndex);
                 }
+
+                isDirty = false;
 
                 return true;
             }

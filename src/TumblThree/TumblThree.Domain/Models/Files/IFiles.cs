@@ -11,6 +11,8 @@ namespace TumblThree.Domain.Models.Files
 
         IList<string> Links { get; }
 
+        bool IsDirty { get; }
+
         void AddFileToDb(string fileName);
 
         bool CheckIfFileExistsInDB(string url);
