@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Xml;
 using System.Xml.Linq;
+using System.Linq;
+using System.Collections.Generic;
+using System.Xml.XPath;
 
 using TumblThree.Domain;
 
@@ -38,14 +41,21 @@ namespace TumblThree.Applications.Services
                 XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), new XmlDictionaryReaderQuotas());
                 XElement root = XElement.Load(jsonReader);
                 version = root.Element("tag_name").Value;
-   
+               /* var elements = root.Element("assets").Element("item").Element("browser_download_url").Value.ToList();*/
+
                 if (Environment.Is64BitProcess)
                 {
-                    downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value.Where(s => s.Contains("x64-App"));
+                    var query = root.Elements()
+                        .Where(x => !x.HasElements &&
+                            x.Value.IndexOf("x64-App", StringComparison.InvariantCultureIgnoreCase) >= 0);
+                    foreach (var element in query)
+                        downloadLink = element.ToString();
+
                 }
                 else
                 {
-                    downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value.Where(s => s.Contains("x86-App"));
+                    downloadLink = "";
+                   // downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value.Where(s => s.Contains("x86-App"));
                 }
 
             }
@@ -76,13 +86,6 @@ namespace TumblThree.Applications.Services
 
             return false;
         }
-
-        public string Element
-        {
-            get => _element;                                // getter
-            set => _element = value;                        // setter
-        }
-        
         public string GetNewAvailableVersion()
         {
             return version;
