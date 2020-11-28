@@ -45,17 +45,21 @@ namespace TumblThree.Applications.Services
 
                 if (Environment.Is64BitProcess)
                 {
-                    var query = root.Elements()
-                        .Where(x => !x.HasElements &&
-                            x.Value.IndexOf("x64-App", StringComparison.InvariantCultureIgnoreCase) >= 0);
-                    foreach (var element in query)
-                        downloadLink = element.ToString();
-
+                    IEnumerable<XElement> elements =
+                         from el in root.Element("assets").Element("item").Elements("browser_download_url").
+                         Where(s => s.Value.Contains("x64-App"))
+                         select el;
+                    foreach (XElement el in elements)
+                        downloadLink = el.Value;
                 }
                 else
                 {
-                    downloadLink = "";
-                   // downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value.Where(s => s.Contains("x86-App"));
+                    IEnumerable<XElement> elements =
+                          from el in root.Element("assets").Element("item").Elements("browser_download_url").
+                          Where(s => s.Value.Contains("x86-App"))
+                          select el;
+                    foreach (XElement el in elements)
+                        downloadLink = el.Value;
                 }
 
             }
