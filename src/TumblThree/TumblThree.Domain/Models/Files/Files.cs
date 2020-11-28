@@ -100,32 +100,35 @@ namespace TumblThree.Domain.Models.Files
 
         public bool Save()
         {
-            string currentIndex = Path.Combine(Location, Name + "_files." + BlogType);
-            string newIndex = Path.Combine(Location, Name + "_files." + BlogType + ".new");
-            string backupIndex = Path.Combine(Location, Name + "_files." + BlogType + ".bak");
-
-            try
+            lock (_lockList)
             {
-                if (File.Exists(currentIndex))
+                string currentIndex = Path.Combine(Location, Name + "_files." + BlogType);
+                string newIndex = Path.Combine(Location, Name + "_files." + BlogType + ".new");
+                string backupIndex = Path.Combine(Location, Name + "_files." + BlogType + ".bak");
+
+                try
                 {
-                    SaveBlog(newIndex);
+                    if (File.Exists(currentIndex))
+                    {
+                        SaveBlog(newIndex);
 
-                    File.Replace(newIndex, currentIndex, backupIndex, true);
-                    File.Delete(backupIndex);
+                        File.Replace(newIndex, currentIndex, backupIndex, true);
+                        File.Delete(backupIndex);
+                    }
+                    else
+                    {
+                        SaveBlog(currentIndex);
+                    }
+
+                    isDirty = false;
+
+                    return true;
                 }
-                else
+                catch (Exception ex)
                 {
-                    SaveBlog(currentIndex);
+                    Logger.Error("Files:Save: {0}", ex);
+                    throw;
                 }
-
-                isDirty = false;
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("Files:Save: {0}", ex);
-                throw;
             }
         }
 
