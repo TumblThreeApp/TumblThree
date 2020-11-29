@@ -8,8 +8,6 @@ using System.Waf.Applications;
 using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
-using System.Collections.Generic;
-using System.Xml.XPath;
 
 using TumblThree.Domain;
 
@@ -44,22 +42,14 @@ namespace TumblThree.Applications.Services
 
                 if (Environment.Is64BitProcess)
                 {
-                    IEnumerable<XElement> elements =
-                          from el in root.Descendants("browser_download_url").
-                          Where(s => s.Value.Contains("x64-App"))
-                          select el;
-                    foreach (XElement el in elements)
-                        downloadLink = el.Value;
+                    downloadLink = root.Descendants("browser_download_url").Where(s => s.Value.Contains("x64-App")).FirstOrDefault()?.Value;
                 }
                 else
                 {
-                    IEnumerable<XElement> elements =
-                          from el in root.Descendants("browser_download_url").
-                          Where(s => s.Value.Contains("x86-App"))
-                          select el;
-                    foreach (XElement el in elements)
-                        downloadLink = el.Value;
+                    downloadLink = root.Descendants("browser_download_url").Where(s => s.Value.Contains("x86-App")).FirstOrDefault()?.Value;
                 }
+
+                if (string.IsNullOrEmpty(downloadLink)) downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value;
 
             }
             catch (Exception exception)
