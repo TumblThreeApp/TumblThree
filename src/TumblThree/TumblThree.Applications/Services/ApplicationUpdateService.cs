@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Xml;
 using System.Xml.Linq;
+using System.Linq;
 
 using TumblThree.Domain;
 
@@ -38,7 +39,18 @@ namespace TumblThree.Applications.Services
                 XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), new XmlDictionaryReaderQuotas());
                 XElement root = XElement.Load(jsonReader);
                 version = root.Element("tag_name").Value;
-                downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value;
+
+                if (Environment.Is64BitProcess)
+                {
+                    downloadLink = root.Descendants("browser_download_url").Where(s => s.Value.Contains("x64-App")).FirstOrDefault()?.Value;
+                }
+                else
+                {
+                    downloadLink = root.Descendants("browser_download_url").Where(s => s.Value.Contains("x86-App")).FirstOrDefault()?.Value;
+                }
+
+                if (string.IsNullOrEmpty(downloadLink)) downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value;
+
             }
             catch (Exception exception)
             {
@@ -67,7 +79,6 @@ namespace TumblThree.Applications.Services
 
             return false;
         }
-
         public string GetNewAvailableVersion()
         {
             return version;
