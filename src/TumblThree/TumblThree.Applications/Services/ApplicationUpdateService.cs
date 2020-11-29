@@ -41,21 +41,20 @@ namespace TumblThree.Applications.Services
                 XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), new XmlDictionaryReaderQuotas());
                 XElement root = XElement.Load(jsonReader);
                 version = root.Element("tag_name").Value;
-               /* var elements = root.Element("assets").Element("item").Element("browser_download_url").Value.ToList();*/
 
                 if (Environment.Is64BitProcess)
                 {
                     IEnumerable<XElement> elements =
-                         from el in root.Element("assets").Element("item").Elements("browser_download_url").
-                         Where(s => s.Value.Contains("x64-App"))
-                         select el;
+                          from el in root.Descendants("browser_download_url").
+                          Where(s => s.Value.Contains("x64-App"))
+                          select el;
                     foreach (XElement el in elements)
                         downloadLink = el.Value;
                 }
                 else
                 {
                     IEnumerable<XElement> elements =
-                          from el in root.Element("assets").Element("item").Elements("browser_download_url").
+                          from el in root.Descendants("browser_download_url").
                           Where(s => s.Value.Contains("x86-App"))
                           select el;
                     foreach (XElement el in elements)
