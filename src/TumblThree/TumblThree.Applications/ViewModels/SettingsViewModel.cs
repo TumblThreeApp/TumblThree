@@ -1050,7 +1050,7 @@ namespace TumblThree.Applications.ViewModels
                 ProxyPort = string.Empty;
                 TimerInterval = "22:40:00";
                 SettingsTabIndex = 0;
-                UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36";
+                UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36";
                 LogLevel = nameof(System.Diagnostics.TraceLevel.Verbose);
             }
         }

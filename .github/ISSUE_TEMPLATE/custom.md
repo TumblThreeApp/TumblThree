@@ -16,9 +16,9 @@ What actually happened instead?
 Detail the steps below to help us reproduce the problem you encountered.
 
   1. Go to '...'
-  1. Click on '...'
-  1. Scroll down to '...'
-  1. See error
+  2. Click on '...'
+  3. Scroll down to '...'
+  4. See error
 
 **Specifications**
 
