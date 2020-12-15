@@ -89,15 +89,10 @@ More information about TumblThree can be found in our wiki [Insights](https://gi
 ## How to Build the Source Code to Help Further Developing:
 
 * Download [Visual Studio](https://www.visualstudio.com/vs/community/). The minimum required version is Visual Studio 2015 (C# 6.0 feature support).
-* Download the [source code as .zip file](https://github.com/TumblThreeApp/TumblThree/archive/master.zip) or use the [GitHub Desktop](https://desktop.github.com/) and [checkout the code](https://github.com/TumblThreeApp/TumblThree.git).
+* Download the [source code as .zip file](https://github.com/TumblThreeApp/TumblThree/archive/master.zip) or use a [git client](https://git-scm.com/download/gui/windows) (e.g. [GitHub Desktop](https://desktop.github.com/) or [TortoiseGit](https://tortoisegit.org/)) and [checkout the code](https://github.com/TumblThreeApp/TumblThree.git).
 * Open the TumblThree.sln solution file in the src/ directory of the code.
 * Build the Source once before editing anything. Build->Build Solution.
 
-## Translations wanted:
-
-* If you want to help translate TumblThree, there are two resource files (.resx) which contain all the strings used in the application. One for [the user interface](https://github.com/TumblThreeApp/TumblThree/blob/master/src/TumblThree/TumblThree.Presentation/Properties/Resources.resx#L120) and one for the [underlying application](https://github.com/TumblThreeApp/TumblThree/blob/master/src/TumblThree/TumblThree.Applications/Properties/Resources.resx#L120).  
-* Translate all the words or its meanings between the two value tags and create a pull request on github or simply send us the files via email.
- 
 ## Contributing to TumblThree:
 
 We like the [all-contributors](https://allcontributors.org/) specification. Contributions of any kind are welcome!
