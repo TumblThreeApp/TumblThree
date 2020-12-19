@@ -39,6 +39,7 @@ _Read this in other languages: [简体中文](README.zh-cn.md)._
 * Download of photo, video (only tumblr.com hosted), text, audio, quote, conversation, link and question posts.
 * Download meta information for photo, video and audio posts.
 * Downloads inlined photos and videos (e.g. photos embedded in question&answer posts).
+* Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
 * Support for downloading Imgur, Gfycat, Webmshare, Mixtape, Lolisafe, Uguu, Catbox and SafeMoe linked files in tumblr posts.
 * Download of safe mode/NSFW blogs.
 * Allows to download only original content of the blog and skip reblogged posts.
@@ -51,16 +52,19 @@ _Read this in other languages: [简体中文](README.zh-cn.md)._
 ### Liked/by backup/download:
 
 * A downloader for downloading "liked by" photos and videos instead of a tumblr blog (e.g. https://www.tumblr.com/liked/by/wallpaperfx/) (login required).
+* Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
 * Allows to download posts in a defined time span. 
 
 ### Tumblr search backup/download:
 
 * A downloader for downloading photos and videos from the tumblr search (e.g. http://www.tumblr.com/search/my+keywords).
+* Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
 * Can download only specific blog pages instead of the whole blog.
 
 ### Tumblr tag search backup/download:
 
 * A downloader for downloading photos and videos from the tumblr tag search (e.g. http://www.tumblr.com/tagged/my+keywords) (login required).
+* Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
 * Allows to download posts in a defined time span.
 
 ## Download:

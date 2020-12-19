@@ -680,13 +680,15 @@ namespace TumblThree.Applications.Crawler
         private string ParseImageUrl(Post post)
         {
             // TODO: Not use reflection here? We know the types...
-            return (string)post.GetType().GetProperty("PhotoUrl" + ImageSize()).GetValue(post, null) ?? post.PhotoUrl1280;
+            var imageUrl = (string)post.GetType().GetProperty("PhotoUrl" + ImageSizeForSearching()).GetValue(post, null) ?? post.PhotoUrl1280;
+            return RetrieveOriginalImageUrl(imageUrl, (int)post.Width, (int)post.Height);
         }
 
         private string ParseImageUrl(Photo post)
         {
             // TODO: Not use reflection here? We know the types...
-            return (string)post.GetType().GetProperty("PhotoUrl" + ImageSize()).GetValue(post, null) ?? post.PhotoUrl1280;
+            var imageUrl = (string)post.GetType().GetProperty("PhotoUrl" + ImageSizeForSearching()).GetValue(post, null) ?? post.PhotoUrl1280;
+            return RetrieveOriginalImageUrl(imageUrl, (int)post.Width, (int)post.Height);
         }
 
         private static string InlineSearch(Post post)
@@ -722,10 +724,7 @@ namespace TumblThree.Applications.Crawler
         private void AddPhotoUrl(Post post)
         {
             string imageUrl = ParseImageUrl(post);
-            if (CheckIfSkipGif(imageUrl))
-            {
-                return;
-            }
+            if (CheckIfSkipGif(imageUrl)) return;
 
             AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString()));
             AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
@@ -752,16 +751,14 @@ namespace TumblThree.Applications.Crawler
 
         private void AddVideoUrl(Post post)
         {
-            string videoUrl = Regex.Match(post.VideoPlayer, "\"url\":\"([\\S]*/(tumblr_[\\S]*)_filmstrip[\\S]*)\"").Groups[2]
-                                   .ToString();
+            string videoUrl = Regex.Match(post.VideoPlayer, "\"url\":\"([\\S]*/(tumblr_[\\S]*)_filmstrip[\\S]*)\"").Groups[2].ToString();
 
             if (ShellService.Settings.VideoSize == 480)
             {
                 videoUrl += "_480";
             }
 
-            AddToDownloadList(
-                new VideoPost("https://vtt.tumblr.com/" + videoUrl + ".mp4", post.Id, post.UnixTimestamp.ToString()));
+            AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + videoUrl + ".mp4", post.Id, post.UnixTimestamp.ToString()));
             AddToJsonQueue(new TumblrCrawlerData<Post>(videoUrl + ".json", post));
         }
 

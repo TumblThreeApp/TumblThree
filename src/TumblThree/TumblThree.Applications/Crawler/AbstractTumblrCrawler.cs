@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -12,12 +13,15 @@ using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.Parser;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
+using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Applications.Crawler
 {
     public abstract class AbstractTumblrCrawler : AbstractCrawler
     {
+        private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = .*({\"imageResponse\":\\[[^]]*]})");
+
         public ITumblrParser TumblrParser { get; }
 
         public IImgurParser ImgurParser { get; }
@@ -89,6 +93,11 @@ namespace TumblThree.Applications.Crawler
 
         protected string ImageSize()
         {
+            return ShellService.Settings.ImageSize;
+        }
+
+        protected string ImageSizeForSearching()
+        {
             if (ShellService.Settings.ImageSize == "raw" || ShellService.Settings.ImageSize == "best")
                 return "1280";
             return ShellService.Settings.ImageSize;
@@ -98,15 +107,15 @@ namespace TumblThree.Applications.Crawler
         {
             var sb = new StringBuilder(imageUrl);
             return sb
-                   .Replace("_raw", "_" + ImageSize())
-                   .Replace("_best", "_" + ImageSize())
-                   .Replace("_1280", "_" + ImageSize())
-                   .Replace("_540", "_" + ImageSize())
-                   .Replace("_500", "_" + ImageSize())
-                   .Replace("_400", "_" + ImageSize())
-                   .Replace("_250", "_" + ImageSize())
-                   .Replace("_100", "_" + ImageSize())
-                   .Replace("_75sq", "_" + ImageSize())
+                   .Replace("_raw", "_" + ImageSizeForSearching())
+                   .Replace("_best", "_" + ImageSizeForSearching())
+                   .Replace("_1280", "_" + ImageSizeForSearching())
+                   .Replace("_540", "_" + ImageSizeForSearching())
+                   .Replace("_500", "_" + ImageSizeForSearching())
+                   .Replace("_400", "_" + ImageSizeForSearching())
+                   .Replace("_250", "_" + ImageSizeForSearching())
+                   .Replace("_100", "_" + ImageSizeForSearching())
+                   .Replace("_75sq", "_" + ImageSizeForSearching())
                    .ToString();
         }
 
@@ -127,10 +136,7 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string imageUrl in WebmshareParser.SearchForWebmshareUrl(post, Blog.WebmshareType))
             {
-                if (CheckIfSkipGif(imageUrl))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(imageUrl)) { continue; }
 
                 AddToDownloadList(new VideoPost(imageUrl, WebmshareParser.GetWebmshareId(imageUrl),
                     timestamp));
@@ -141,13 +147,9 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string imageUrl in MixtapeParser.SearchForMixtapeUrl(post, Blog.MixtapeType))
             {
-                if (CheckIfSkipGif(imageUrl))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, MixtapeParser.GetMixtapeId(imageUrl),
-                    timestamp));
+                AddToDownloadList(new ExternalVideoPost(imageUrl, MixtapeParser.GetMixtapeId(imageUrl), timestamp));
             }
         }
 
@@ -155,13 +157,9 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string imageUrl in UguuParser.SearchForUguuUrl(post, Blog.UguuType))
             {
-                if (CheckIfSkipGif(imageUrl))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, UguuParser.GetUguuId(imageUrl),
-                    timestamp));
+                AddToDownloadList(new ExternalVideoPost(imageUrl, UguuParser.GetUguuId(imageUrl), timestamp));
             }
         }
 
@@ -169,13 +167,9 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string imageUrl in SafemoeParser.SearchForSafeMoeUrl(post, Blog.SafeMoeType))
             {
-                if (CheckIfSkipGif(imageUrl))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, SafemoeParser.GetSafeMoeId(imageUrl),
-                    timestamp));
+                AddToDownloadList(new ExternalVideoPost(imageUrl, SafemoeParser.GetSafeMoeId(imageUrl), timestamp));
             }
         }
 
@@ -183,13 +177,9 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string imageUrl in LolisafeParser.SearchForLoliSafeUrl(post, Blog.LoliSafeType))
             {
-                if (CheckIfSkipGif(imageUrl))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, LolisafeParser.GetLoliSafeId(imageUrl),
-                    timestamp));
+                AddToDownloadList(new ExternalVideoPost(imageUrl, LolisafeParser.GetLoliSafeId(imageUrl), timestamp));
             }
         }
 
@@ -197,13 +187,9 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string imageUrl in CatboxParser.SearchForCatBoxUrl(post, Blog.CatBoxType))
             {
-                if (CheckIfSkipGif(imageUrl))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new ExternalVideoPost(imageUrl, CatboxParser.GetCatBoxId(imageUrl),
-                    timestamp));
+                AddToDownloadList(new ExternalVideoPost(imageUrl, CatboxParser.GetCatBoxId(imageUrl), timestamp));
             }
         }
 
@@ -211,10 +197,7 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string videoUrl in await GfycatParser.SearchForGfycatUrlAsync(post, Blog.GfycatType))
             {
-                if (CheckIfSkipGif(videoUrl))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(videoUrl)) { continue; }
 
                 AddToDownloadList(new ExternalVideoPost(videoUrl, GfycatParser.GetGfycatId(videoUrl), timestamp));
             }
@@ -224,10 +207,7 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string imageUrl in ImgurParser.SearchForImgurUrl(post))
             {
-                if (CheckIfSkipGif(imageUrl))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(imageUrl)) { continue; }
 
                 AddToDownloadList(new ExternalPhotoPost(imageUrl, ImgurParser.GetImgurId(imageUrl), timestamp));
             }
@@ -237,10 +217,7 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string imageUrl in await ImgurParser.SearchForImgurUrlFromAlbumAsync(post))
             {
-                if (CheckIfSkipGif(imageUrl))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(imageUrl)) { continue; }
 
                 AddToDownloadList(new ExternalPhotoPost(imageUrl, ImgurParser.GetImgurId(imageUrl), timestamp));
             }
@@ -251,12 +228,10 @@ namespace TumblThree.Applications.Crawler
             foreach (string imageUrl in TumblrParser.SearchForTumblrPhotoUrl(post))
             {
                 string url = imageUrl;
-                if (CheckIfSkipGif(url))
-                {
-                    continue;
-                }
+                if (CheckIfSkipGif(url)) { continue; }
 
                 url = ResizeTumblrImageUrl(url);
+                url = RetrieveOriginalImageUrl(url, 2000, 3000);
                 // TODO: postID
                 AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N")));
             }
@@ -295,15 +270,8 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string imageUrl in TumblrParser.SearchForGenericPhotoUrl(post))
             {
-                if (TumblrParser.IsTumblrUrl(imageUrl))
-                {
-                    continue;
-                }
-
-                if (CheckIfSkipGif(imageUrl))
-                {
-                    continue;
-                }
+                if (TumblrParser.IsTumblrUrl(imageUrl)) { continue; }
+                if (CheckIfSkipGif(imageUrl)) { continue; }
 
                 AddToDownloadList(new PhotoPost(imageUrl, Guid.NewGuid().ToString("N")));
             }
@@ -313,13 +281,40 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string videoUrl in TumblrParser.SearchForGenericVideoUrl(post))
             {
-                if (TumblrParser.IsTumblrUrl(videoUrl))
-                {
-                    continue;
-                }
+                if (TumblrParser.IsTumblrUrl(videoUrl)) { continue; }
 
                 AddToDownloadList(new VideoPost(videoUrl, Guid.NewGuid().ToString("N")));
             }
+        }
+
+        protected string RetrieveOriginalImageUrl(string url, int width, int height)
+        {
+            if (width > height) { (width, height) = (height, width); }
+            if (ShellService.Settings.ImageSize != "best"
+                || !url.Contains("/s1280x1920/")
+                || (width <= 1280 && height <= 1920)) { return url; }
+
+            url = url.Replace("/s1280x1920/", (width <= 2048 && height <= 3072) ? "/s2048x3072/" : "/s99999x99999/");
+            string pageContent = "";
+            try
+            {
+                HttpWebRequest request = WebRequestFactory.CreateGetRequest(url, "",
+                    new Dictionary<string, string>() { { "Accept-Language", "en-US" }, { "Accept-Encoding", "gzip, deflate" } }, false);
+                request.Accept = "text/html, application/xhtml+xml, */*";
+                request.UserAgent = ShellService.Settings.UserAgent;
+                request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                pageContent = WebRequestFactory.ReadRequestToEndAsync(request).GetAwaiter().GetResult();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("TumblrBlogCrawler:RetrieveRawImageUrl:Exception {0}", e);
+                return url;
+            }
+            pageContent = extractJsonFromPage.Match(pageContent).Groups[1].Value;
+            ImageResponse imgRsp = ConvertJsonToClass<ImageResponse>(pageContent);
+            Image img = imgRsp.Images.FirstOrDefault(x => x.HasOriginalDimensions = true);
+
+            return string.IsNullOrEmpty(img.MediaKey) ? url + Environment.NewLine : img.Url + Environment.NewLine;
         }
     }
 }

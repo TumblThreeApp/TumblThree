@@ -132,9 +132,8 @@ namespace TumblThree.Applications.Crawler
 
                     CheckIfShouldPause();
 
-
                     document = await GetRequestAsync(nextUrl, bearerToken);
-                    TumblrTageedSearchApi apiresult = ConvertJsonToClass<TumblrTageedSearchApi>(document);
+                    TumblrTaggedSearchApi apiresult = ConvertJsonToClass<TumblrTaggedSearchApi>(document);
                     nextUrl = result.ApiUrl + apiresult.Response.Posts.Links.Next.Href;
 
                     DownloadMedia(apiresult);
@@ -163,7 +162,7 @@ namespace TumblThree.Applications.Crawler
             return await RequestApiDataAsync(url, bearerToken, null, cookieHosts);
         }
 
-        private void DownloadMedia(TumblrTageedSearchApi post)
+        private void DownloadMedia(TumblrTaggedSearchApi post)
         {
             try
             {
@@ -253,7 +252,10 @@ namespace TumblThree.Applications.Crawler
             else
             {
                 if (Blog.DownloadPhoto)
+                {
+                    url = RetrieveOriginalImageUrl(url, 2000, 3000);
                     AddToDownloadList(new PhotoPost(url, id, timestamp.ToString()));
+                }
             }
         }
 

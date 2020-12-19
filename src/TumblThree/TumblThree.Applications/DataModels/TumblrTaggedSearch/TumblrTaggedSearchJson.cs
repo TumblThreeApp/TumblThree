@@ -74,7 +74,7 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
     }
 
     [DataContract]
-    public class TumblrTageedSearchApi
+    public class TumblrTaggedSearchApi
     {
         [DataMember(Name = "meta", EmitDefaultValue = false)]
         public Meta Meta { get; set; }

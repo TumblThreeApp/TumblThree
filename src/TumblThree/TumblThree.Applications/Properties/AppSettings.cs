@@ -20,7 +20,7 @@ namespace TumblThree.Applications.Properties
 
         private static readonly string[] imageSizes =
             {
-                "raw", "best", "1280", "500", "400", "250", "100", "75"
+                "best", "1280", "500", "400", "250", "100", "75"
             };
 
         private static readonly string[] videoSizes =
@@ -352,6 +352,28 @@ namespace TumblThree.Applications.Properties
         {
             get => tumblrHosts;
             set => tumblrHosts = value;
+        }
+
+        public static bool Upgrade(AppSettings settings)
+        {
+            var updated = false;
+            var newStgs = new AppSettings();
+
+            if (settings.UserAgent != new AppSettings().UserAgent &&
+                System.Text.RegularExpressions.Regex.IsMatch(settings.UserAgent,
+                @"Mozilla\/[\d]+\.[\d]+ \(Windows [ \.\w\d]*; Win(64|32); (x64|x86)\) AppleWebKit\/[\d]+\.[\d]+ \(KHTML, like Gecko\) Chrome\/[\d]+\.[\d]+\.[\d]+\.[\d]+ Safari\/[\d]+\.[\d]+"))
+            {
+                settings.UserAgent = newStgs.UserAgent;
+                updated = true;
+            }
+
+            if (settings.ImageSize == "raw")
+            {
+                settings.ImageSize = "best";
+                updated = true;
+            }
+
+            return updated;
         }
 
         ExtensionDataObject IExtensibleDataObject.ExtensionData { get; set; }

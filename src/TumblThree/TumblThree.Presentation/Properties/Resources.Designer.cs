@@ -2026,8 +2026,7 @@ namespace TumblThree.Presentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Photo size to download in pixels.
         ///
-        ///raw - download &quot;_raw&quot; photos if available, or 1280px else (broken!).
-        ///best - download largest size possible (SVC only), or 1280px else..
+        ///best - download largest size possible (SVC, API only newer blogs), or 1280px else..
         /// </summary>
         public static string ToolTipImageSizeDescription {
             get {
@@ -2143,7 +2142,7 @@ namespace TumblThree.Presentation.Properties {
                 return ResourceManager.GetString("ToolTipLogLevel", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Specify the log level (from Error only to Verbose details) or put it Off..
         /// </summary>

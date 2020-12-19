@@ -234,6 +234,16 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
+        public virtual async Task<string> DownloadPageAsync(string url)
+        {
+            using (Stream s = await fileDownloader.ReadFromUrlIntoStreamAsync(url))
+            using (StreamReader sr = new StreamReader(s))
+            {
+                string content = sr.ReadToEnd();
+                return content;
+            }
+        }
+
         protected virtual async Task<bool> DownloadBinaryPostAsync(TumblrPost downloadItem)
         {
             string url = Url(downloadItem);

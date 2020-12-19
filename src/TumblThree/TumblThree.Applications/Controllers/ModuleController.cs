@@ -93,6 +93,7 @@ namespace TumblThree.Applications.Controllers
             }
 
             _appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, AppSettingsFileName));
+            if (AppSettings.Upgrade(_appSettings)) SaveSettings(Path.Combine(GetAppDataPath(), AppSettingsFileName), _appSettings);
 
             Logger.Initialize(logPath, (System.Diagnostics.TraceLevel)Enum.Parse(typeof(System.Diagnostics.TraceLevel), _appSettings.LogLevel));
 
@@ -143,13 +144,19 @@ namespace TumblThree.Applications.Controllers
             SaveSettings();
         }
 
-        private void SaveSettings()
+        private string GetAppDataPath()
         {
             string savePath = _environmentService.AppSettingsPath;
             if (_appSettings.PortableMode)
             {
                 savePath = AppDomain.CurrentDomain.BaseDirectory;
             }
+            return savePath;
+        }
+
+        private void SaveSettings()
+        {
+            string savePath = GetAppDataPath();
 
             SaveSettings(Path.Combine(savePath, AppSettingsFileName), _appSettings);
             SaveSettings(Path.Combine(savePath, QueueSettingsFileName), _queueSettings);

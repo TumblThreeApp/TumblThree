@@ -8,5 +8,7 @@ namespace TumblThree.Applications.Downloader
         Task<bool> DownloadBlogAsync();
 
         void UpdateProgressQueueInformation(string format, params object[] args);
+
+        Task<string> DownloadPageAsync(string url);
     }
 }
