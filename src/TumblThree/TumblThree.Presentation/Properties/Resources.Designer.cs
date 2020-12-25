@@ -19,7 +19,7 @@ namespace TumblThree.Presentation.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -907,11 +907,29 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Latest Post.
+        /// </summary>
+        public static string LatestPost {
+            get {
+                return ResourceManager.GetString("LatestPost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to License.
         /// </summary>
         public static string License {
             get {
                 return ResourceManager.GetString("License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Limit Tumblr API connections.
+        /// </summary>
+        public static string LimitConnections {
+            get {
+                return ResourceManager.GetString("LimitConnections", resourceCulture);
             }
         }
         
@@ -2054,6 +2072,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Limits connections to Tumblr API..
+        /// </summary>
+        public static string ToolTipLimitConnections {
+            get {
+                return ResourceManager.GetString("ToolTipLimitConnections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Limit connections to the tumblr api..
         /// </summary>
         public static string ToolTipLimitConnectionsApi {
@@ -2071,6 +2098,18 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipLimitConnectionsApiDescription {
             get {
                 return ResourceManager.GetString("ToolTipLimitConnectionsApiDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A too big value leads to an error (429 - Limit Exceeded) and prevents further connections to the Tumblr API.
+        ///A too small value reduces the crawl speed.
+        ///Specify a number/time pair.
+        ///Note: The Tumblr API is only used for regular Tumblr-Blog downloads..
+        /// </summary>
+        public static string ToolTipLimitConnectionsDescription {
+            get {
+                return ResourceManager.GetString("ToolTipLimitConnectionsDescription", resourceCulture);
             }
         }
         

@@ -150,6 +150,10 @@
                                     Binding="{Binding LastCompleteCrawl, Converter={StaticResource DateToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="120"
                                     ElementStyle="{StaticResource TextCellElementStyle}" />
+                <DataGridTextColumn x:Name="latestPostColumn" Header="{x:Static p:Resources.LatestPost}"
+                                    Binding="{Binding LatestPost, Converter={StaticResource DateToDisplayValueConverter}}"
+                                    IsReadOnly="True" Width="120"
+                                    ElementStyle="{StaticResource TextCellElementStyle}" />
                 <DataGridTemplateColumn x:Name="ratingColumn" Header="{x:Static p:Resources.Rating}"
                                         SortMemberPath="Rating" Width="110">
                     <DataGridTemplateColumn.CellTemplate>

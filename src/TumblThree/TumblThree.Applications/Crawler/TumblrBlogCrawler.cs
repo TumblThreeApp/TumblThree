@@ -205,7 +205,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetApiPageAsync(int pageId)
         {
-            string url = GetApiUrl(Blog.Url, Blog.PageSize, pageId * Blog.PageSize);
+            string url = GetApiUrl(Blog.Url, (Blog.PageSize == 0 ? 1 : Blog.PageSize), pageId * Blog.PageSize);
 
             if (ShellService.Settings.LimitConnectionsApi)
             {
@@ -289,7 +289,9 @@ namespace TumblThree.Applications.Crawler
             string document = await GetApiPageWithRetryAsync(0);
             var response = ConvertJsonToClass<TumblrApiJson>(document);
 
-            ulong.TryParse(response.Posts?.FirstOrDefault()?.Id, out var highestId);
+            Post post = response.Posts?.FirstOrDefault();
+            if (DateTime.TryParse(post?.DateGmt, out var latestPost)) Blog.LatestPost = latestPost;
+            _ = ulong.TryParse(post?.Id, out var highestId);
             return highestId;
         }
 

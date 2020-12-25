@@ -91,6 +91,7 @@ namespace TumblThree.Domain.Models.Blogs
         private bool downloadRebloggedPosts;
         private DateTime dateAdded;
         private DateTime lastCompleteCrawl;
+        private DateTime latestPost;
         private bool online;
         private int settingsTabIndex;
         private int progress;
@@ -718,6 +719,13 @@ namespace TumblThree.Domain.Models.Blogs
         {
             get => lastCompleteCrawl;
             set => SetProperty(ref lastCompleteCrawl, value);
+        }
+
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        public DateTime LatestPost
+        {
+            get => latestPost;
+            set => SetProperty(ref latestPost, value);
         }
 
         [DataMember]

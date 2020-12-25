@@ -373,6 +373,11 @@ namespace TumblThree.Applications.Properties
                 updated = true;
             }
 
+            if (!settings.ColumnSettings.ContainsKey("Latest Post"))
+            {
+                settings.ColumnSettings.Add("Latest Post", Tuple.Create(9, 120.0, Visibility.Visible));
+            }
+
             return updated;
         }
 

@@ -995,4 +995,19 @@ used for scraping when adding a new Tumblr blog.</value>
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="LatestPost" xml:space="preserve">
+    <value>Latest Post</value>
+  </data>
+  <data name="LimitConnections" xml:space="preserve">
+    <value>Limit Tumblr API connections</value>
+  </data>
+  <data name="ToolTipLimitConnections" xml:space="preserve">
+    <value>Limits connections to Tumblr API.</value>
+  </data>
+  <data name="ToolTipLimitConnectionsDescription" xml:space="preserve">
+    <value>A too big value leads to an error (429 - Limit Exceeded) and prevents further connections to the Tumblr API.
+A too small value reduces the crawl speed.
+Specify a number/time pair.
+Note: The Tumblr API is only used for regular Tumblr-Blog downloads.</value>
+  </data>
 </root>

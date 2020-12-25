@@ -178,6 +178,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         DateTime LastCompleteCrawl { get; set; }
 
+        DateTime LatestPost { get; set; }
+
         int SettingsTabIndex { get; set; }
 
         bool Online { get; set; }
