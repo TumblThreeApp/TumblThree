@@ -35,7 +35,7 @@ namespace TumblThree.Applications.Services
         {
             foreach (Cookie cookie in cookieContainer.GetCookies(new Uri("https://www.tumblr.com/")))
             {
-                if (cookie.Name == "pfg")
+                if (cookie.Name.StartsWith("pf"))
                     cookie.Expired = true;
             }
         }
