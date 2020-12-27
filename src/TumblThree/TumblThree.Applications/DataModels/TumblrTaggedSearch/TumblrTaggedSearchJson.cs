@@ -284,11 +284,8 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
     [DataContract]
     public class Response
     {
-        [DataMember(Name = "posts", EmitDefaultValue = false)]
-        public Posts Posts { get; set; }
-
-        [DataMember(Name = "psa", EmitDefaultValue = false)]
-        public object Psa { get; set; }
+        [DataMember(Name = "timeline", EmitDefaultValue = false)]
+        public Timeline2 Timeline { get; set; }
     }
 
     [DataContract]
@@ -683,11 +680,28 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
     [DataContract]
     public class Tagged
     {
-        [DataMember(Name = "objects")]
-        public IList<TaggedPost> Objects { get; set; }
+        [DataMember(Name = "timeline")]
+        public Timeline Timeline { get; set; }
+    }
 
-        [DataMember(Name = "nextLink")]
-        public NextLink NextLink { get; set; }
+    [DataContract]
+    public class Timeline
+    {
+        [DataMember(Name = "elements")]
+        public IList<TaggedPost> Elements { get; set; }
+
+        [DataMember(Name = "links")]
+        public Links Links { get; set; }
+    }
+
+    [DataContract]
+    public class Timeline2
+    {
+        [DataMember(Name = "elements")]
+        public IList<Datum> Elements { get; set; }
+
+        [DataMember(Name = "_links")]
+        public Links Links { get; set; }
     }
 
     [DataContract]

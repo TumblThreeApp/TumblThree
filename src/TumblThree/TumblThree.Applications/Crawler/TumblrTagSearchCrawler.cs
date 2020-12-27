@@ -119,7 +119,7 @@ namespace TumblThree.Applications.Crawler
                 string document = await GetTaggedSearchPageAsync();
                 string json = extractJsonFromSearch.Match(document).Groups[1].Value;
                 TagSearch result = ConvertJsonToClass<TagSearch>(json);
-                string nextUrl = result.ApiUrl + result.Tagged.NextLink.Href;
+                string nextUrl = result.ApiUrl + result.Tagged.Timeline.Links.Next.Href;
                 string bearerToken = result.ApiFetchStore.APITOKEN;
 
                 DownloadMedia(result);
@@ -134,7 +134,7 @@ namespace TumblThree.Applications.Crawler
 
                     document = await GetRequestAsync(nextUrl, bearerToken);
                     TumblrTaggedSearchApi apiresult = ConvertJsonToClass<TumblrTaggedSearchApi>(document);
-                    nextUrl = result.ApiUrl + apiresult.Response.Posts.Links.Next.Href;
+                    nextUrl = result.ApiUrl + apiresult.Response.Timeline.Links.Next.Href;
 
                     DownloadMedia(apiresult);
                 }
@@ -162,21 +162,21 @@ namespace TumblThree.Applications.Crawler
             return await RequestApiDataAsync(url, bearerToken, null, cookieHosts);
         }
 
-        private void DownloadMedia(TumblrTaggedSearchApi post)
+        private void DownloadMedia(TumblrTaggedSearchApi page)
         {
             try
             {
-                foreach (var data in post.Response.Posts.Data)
+                foreach (var post in page.Response.Timeline.Elements)
                 {
-                    if (!CheckIfWithinTimespan(data.Timestamp))
+                    if (!CheckIfWithinTimespan(post.Timestamp))
                     {
                         continue;
                     }
-                    foreach (var content in data.Content)
+                    foreach (var content in post.Content)
                     {
-                        DownloadMedia(content, data.Id, data.Timestamp, data.Tags);
+                        DownloadMedia(content, post.Id, post.Timestamp, post.Tags);
                     }
-                    AddToJsonQueue(new TumblrCrawlerData<Datum>(Path.ChangeExtension(data.Id, ".json"), data));
+                    AddToJsonQueue(new TumblrCrawlerData<Datum>(Path.ChangeExtension(post.Id, ".json"), post));
                 }
             }
             catch (TimeoutException timeoutException)
@@ -188,12 +188,13 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        private void DownloadMedia(TagSearch post)
+        private void DownloadMedia(TagSearch page)
         {
             try
             {
-                foreach (var data in post.Tagged.Objects)
+                foreach (var data in page.Tagged.Timeline.Elements)
                 {
+                    if (data.ObjectType != "Post") continue;
                     if (!CheckIfWithinTimespan(data.Timestamp))
                     {
                         continue;
