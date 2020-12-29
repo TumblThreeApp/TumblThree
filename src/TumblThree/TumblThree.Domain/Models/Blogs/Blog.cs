@@ -931,7 +931,7 @@ namespace TumblThree.Domain.Models.Blogs
         {
             if (string.IsNullOrWhiteSpace(FileDownloadLocation))
             {
-                return Path.Combine((Directory.GetParent(Location).FullName), Name);
+                return Path.Combine(Directory.GetParent(Location).FullName, Name);
             }
 
             return FileDownloadLocation;
@@ -959,13 +959,15 @@ namespace TumblThree.Domain.Models.Blogs
 
                 if (blog.Version == "3")
                 {
-                    Enum.TryParse(Path.GetExtension(fileLocation).Replace(".",""), out BlogTypes blogType);
+                    _ = Enum.TryParse(Path.GetExtension(fileLocation).Replace(".", ""), out BlogTypes blogType);
                     blog.OriginalBlogType = blogType;
                     blog.Version = "4";
                 }
 
-                blog.Location = Path.Combine(Directory.GetParent(fileLocation).FullName);
-                blog.ChildId = Path.Combine(blog.Location, blog.Name + "_files." + blog.OriginalBlogType);
+                if (string.IsNullOrEmpty(blog.Location))
+                    blog.Location = Path.Combine(Directory.GetParent(fileLocation).FullName, "Index");
+                if (string.IsNullOrEmpty(blog.ChildId))
+                    blog.ChildId = Path.Combine(blog.Location, blog.Name + "_files." + blog.OriginalBlogType);
 
                 return blog;
             }
