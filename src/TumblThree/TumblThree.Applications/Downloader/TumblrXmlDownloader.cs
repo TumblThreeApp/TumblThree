@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -38,19 +39,26 @@ namespace TumblThree.Applications.Downloader
             var trackedTasks = new List<Task>();
             _blog.CreateDataFolder();
 
-            foreach (TumblrCrawlerData<XDocument> downloadItem in _xmlQueue.GetConsumingEnumerable())
+            try
             {
-                if (_ct.IsCancellationRequested)
+                foreach (TumblrCrawlerData<XDocument> downloadItem in _xmlQueue.GetConsumingEnumerable(_ct))
                 {
-                    break;
-                }
+                    if (_ct.IsCancellationRequested)
+                    {
+                        break;
+                    }
 
-                if (_pt.IsPaused)
-                {
-                    _pt.WaitWhilePausedWithResponseAsyc().Wait();
-                }
+                    if (_pt.IsPaused)
+                    {
+                        _pt.WaitWhilePausedWithResponseAsyc().Wait();
+                    }
 
-                trackedTasks.Add(DownloadPostAsync(downloadItem));
+                    trackedTasks.Add(DownloadPostAsync(downloadItem));
+                }
+            }
+            catch (OperationCanceledException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
             }
 
             await Task.WhenAll(trackedTasks);

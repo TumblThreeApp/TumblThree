@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 
 namespace TumblThree.Applications.DataModels
 {
@@ -8,6 +9,6 @@ namespace TumblThree.Applications.DataModels
 
         void CompleteAdding();
 
-        IEnumerable<T> GetConsumingEnumerable();
+        IEnumerable<T> GetConsumingEnumerable(CancellationToken cancellationToken);
     }
 }

@@ -165,23 +165,27 @@ namespace TumblThree.Applications.Downloader
 
             blog.CreateDataFolder();
 
-            foreach (TumblrPost downloadItem in postQueue.GetConsumingEnumerable())
+            try
             {
-                if (downloadItem.GetType() == typeof(VideoPost))
+                foreach (TumblrPost downloadItem in postQueue.GetConsumingEnumerable(ct))
                 {
-                    await concurrentVideoConnectionsSemaphore.WaitAsync();
+                    if (downloadItem.GetType() == typeof(VideoPost))
+                    {
+                        await concurrentVideoConnectionsSemaphore.WaitAsync();
+                    }
+
+                    await concurrentConnectionsSemaphore.WaitAsync();
+
+                    if (CheckIfShouldStop()) break;
+
+                    CheckIfShouldPause();
+
+                    trackedTasks.Add(DownloadPostAsync(downloadItem));
                 }
-
-                await concurrentConnectionsSemaphore.WaitAsync();
-
-                if (CheckIfShouldStop())
-                {
-                    break;
-                }
-
-                CheckIfShouldPause();
-
-                trackedTasks.Add(DownloadPostAsync(downloadItem));
+            }
+            catch (OperationCanceledException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
             }
 
             // TODO: Is this even right?

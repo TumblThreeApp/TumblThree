@@ -41,19 +41,26 @@ namespace TumblThree.Applications.Downloader
             var trackedTasks = new List<Task>();
             blog.CreateDataFolder();
 
-            foreach (TumblrCrawlerData<T> downloadItem in jsonQueue.GetConsumingEnumerable())
+            try
             {
-                if (ct.IsCancellationRequested)
+                foreach (TumblrCrawlerData<T> downloadItem in jsonQueue.GetConsumingEnumerable(ct))
                 {
-                    break;
-                }
+                    if (ct.IsCancellationRequested)
+                    {
+                        break;
+                    }
 
-                if (pt.IsPaused)
-                {
-                    pt.WaitWhilePausedWithResponseAsyc().Wait();
-                }
+                    if (pt.IsPaused)
+                    {
+                        pt.WaitWhilePausedWithResponseAsyc().Wait();
+                    }
 
-                trackedTasks.Add(DownloadPostAsync(downloadItem));
+                    trackedTasks.Add(DownloadPostAsync(downloadItem));
+                }
+            }
+            catch (OperationCanceledException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
             }
 
             await Task.WhenAll(trackedTasks);

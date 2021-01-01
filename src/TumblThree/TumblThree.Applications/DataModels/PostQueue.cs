@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace TumblThree.Applications.DataModels
 {
@@ -22,9 +23,9 @@ namespace TumblThree.Applications.DataModels
             postQueue.CompleteAdding();
         }
 
-        public IEnumerable<T> GetConsumingEnumerable()
+        public IEnumerable<T> GetConsumingEnumerable(CancellationToken cancellationToken)
         {
-            return postQueue.GetConsumingEnumerable();
+            return postQueue.GetConsumingEnumerable(cancellationToken);
         }
     }
 }
