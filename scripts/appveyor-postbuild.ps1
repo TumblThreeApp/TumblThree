@@ -12,7 +12,7 @@ New-Item -ItemType Directory -Force -Path $translationArtifactsPath
 
 # Copy in Application Artifacts
 #Get-ChildItem -Path "$harvestPath\*" -Include *.exe,*.dll,*.config | Copy-Item -Destination $applicationArtifactsPath
-Get-ChildItem -Path "$harvestPath\*" -Include *.exe,*.dll,*.config -Exclude d3dcompiler_47.dll,libEGL.dll,libGLESv2.dll | Copy-Item -Destination $applicationArtifactsPath
+Get-ChildItem -Path "$harvestPath\*" -Include *.exe,*.dll,*.config | Copy-Item -Destination $applicationArtifactsPath
 #New-Item -ItemType Directory -Force -Path "$applicationArtifactsPath\en"
 #Get-ChildItem -Path "$harvestPath\en\*" | Copy-Item -Destination "$applicationArtifactsPath\en"
 # CEF
@@ -25,6 +25,8 @@ Get-ChildItem -Path "$harvestPath\*" -Include v8_context_snapshot.bin | Copy-Ite
 Get-ChildItem -Path "$harvestPath\*" -Include *.pak | Copy-Item -Destination $applicationArtifactsPath
 New-Item -ItemType Directory -Force -Path "$applicationArtifactsPath\locales"
 Get-ChildItem -Path "$harvestPath\locales\*" -Include en-US.pak | Copy-Item -Destination "$applicationArtifactsPath\locales"
+New-Item -ItemType Directory -Force -Path "$applicationArtifactsPath\swiftshader"
+Get-ChildItem -Path "$harvestPath\swiftshader\*" -Include *.dll | Copy-Item -Destination "$applicationArtifactsPath\swiftshader"
 
 # Copy in Translation Artifacts
 $translationFolders = dir -Directory $harvestPath | where-object { $_.Name.Length -eq 2 }
