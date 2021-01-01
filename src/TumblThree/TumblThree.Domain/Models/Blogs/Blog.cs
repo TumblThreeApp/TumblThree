@@ -890,7 +890,7 @@ namespace TumblThree.Domain.Models.Blogs
                 return true;
             }
 
-            return true;
+            return false;
         }
 
         public virtual bool CheckIfFileExistsInDB(string url)

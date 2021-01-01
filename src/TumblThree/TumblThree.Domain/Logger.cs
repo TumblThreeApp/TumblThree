@@ -20,11 +20,11 @@ namespace TumblThree.Domain
             _traceSource = new TraceSource("TumblThreeApp.TumblThree");
             _traceSource.Switch = new SourceSwitch("MySourceSwitch", ConvertTraceLevelToSourceLevels(maximumLogLevel).ToString());
             _traceSource.Listeners.Add(listener);
-#if DEBUG
+//#if DEBUG
             Trace.AutoFlush = true;
-#else
-            Trace.AutoFlush = false;
-#endif
+//#else
+//            Trace.AutoFlush = false;
+//#endif
             Trace.IndentSize = 4;
         }
 
@@ -33,7 +33,7 @@ namespace TumblThree.Domain
             _traceSource.Switch = new SourceSwitch("MySourceSwitch", ConvertTraceLevelToSourceLevels(maximumLogLevel).ToString());
         }
 
-        [Conditional("DEBUG")]
+        //[Conditional("DEBUG")]
         public static void Verbose(string format, params object[] arguments)
         {
             Log(TraceEventType.Verbose, format, arguments);
