@@ -25,6 +25,7 @@ namespace TumblThree.Applications.ViewModels
 
         private readonly ExportFactory<AboutViewModel> _aboutViewModelFactory;
         private readonly ObservableCollection<Tuple<Exception, string>> _errors;
+        private readonly object _errorsLock = new object();
         private readonly AppSettings _settings;
         private readonly ExportFactory<SettingsViewModel> _settingsViewModelFactory;
 
@@ -132,14 +133,17 @@ namespace TumblThree.Applications.ViewModels
 
         public void ShowError(Exception exception, string message)
         {
-            var errorMessage = new Tuple<Exception, string>(exception, message);
-            if (
-                !_errors.Any(
-                    error =>
-                        (error.Item1?.ToString() ?? "null") == (errorMessage.Item1?.ToString() ?? "null") &&
-                        error.Item2 == errorMessage.Item2))
+            lock (_errorsLock)
             {
-                _errors.Add(errorMessage);
+                var errorMessage = new Tuple<Exception, string>(exception, message);
+                if (
+                    !_errors.Any(
+                        error =>
+                            (error.Item1?.ToString() ?? "null") == (errorMessage.Item1?.ToString() ?? "null") &&
+                            error.Item2 == errorMessage.Item2))
+                {
+                    _errors.Add(errorMessage);
+                }
             }
         }
 
@@ -155,9 +159,12 @@ namespace TumblThree.Applications.ViewModels
 
         private void CloseError()
         {
-            if (_errors.Any())
+            lock (_errorsLock)
             {
-                _errors.RemoveAt(_errors.Count - 1);
+                if (_errors.Any())
+                {
+                    _errors.RemoveAt(_errors.Count - 1);
+                }
             }
         }
 
