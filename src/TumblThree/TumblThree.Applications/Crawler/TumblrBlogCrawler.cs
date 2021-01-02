@@ -434,22 +434,13 @@ namespace TumblThree.Applications.Crawler
 
         private async Task AddUrlsToDownloadListAsync(TumblrApiJson document)
         {
+            var lastPostId = GetLastPostId();
             foreach (Post post in document.Posts)
             {
-                if (!PostWithinTimeSpan(post))
-                {
-                    continue;
-                }
-
-                if (!CheckIfContainsTaggedPost(post))
-                {
-                    continue;
-                }
-
-                if (!CheckIfDownloadRebloggedPosts(post))
-                {
-                    continue;
-                }
+                if (lastPostId > 0 && ulong.TryParse(post.Id, out var postId) && postId < lastPostId) { continue; }
+                if (!PostWithinTimeSpan(post)) { continue; }
+                if (!CheckIfContainsTaggedPost(post)) { continue; }
+                if (!CheckIfDownloadRebloggedPosts(post)) { continue; }
 
                 try
                 {

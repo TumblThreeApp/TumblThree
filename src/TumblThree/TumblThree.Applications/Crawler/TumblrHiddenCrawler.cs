@@ -367,8 +367,10 @@ namespace TumblThree.Applications.Crawler
 
                 try
                 {
+                    var lastPostId = GetLastPostId();
                     foreach (Post post in response.Response.Posts)
                     {
+                        if (lastPostId > 0 && ulong.TryParse(post.Id, out var postId) && postId < lastPostId) { continue; }
                         if (!PostWithinTimeSpan(post)) { continue; }
                         if (!CheckIfContainsTaggedPost(post)) { continue; }
                         if (!CheckIfDownloadRebloggedPosts(post)) { continue; }
