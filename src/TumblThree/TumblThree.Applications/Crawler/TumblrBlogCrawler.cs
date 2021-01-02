@@ -62,7 +62,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                await GetApiPageWithRetryAsync(0);
+                await GetApiPageWithRetryAsync(0, 1);
                 Blog.Online = true;
             }
             catch (WebException webException)
@@ -118,12 +118,13 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            string document = await GetApiPageWithRetryAsync(0);
+            string document = await GetApiPageWithRetryAsync(0, 1);
             var response = ConvertJsonToClass<TumblrApiJson>(document);
 
             Blog.Title = response.TumbleLog?.Title;
             Blog.Description = response.TumbleLog?.Description;
             Blog.TotalCount = response.PostsTotal;
+            Blog.Posts = response.PostsTotal;
         }
 
         public async Task CrawlAsync()
@@ -146,10 +147,7 @@ namespace TumblThree.Applications.Crawler
 
             UpdateProgressQueueInformation(Resources.ProgressUniqueDownloads);
 
-            Blog.DuplicatePhotos = DetermineDuplicates<PhotoPost>();
-            Blog.DuplicateVideos = DetermineDuplicates<VideoPost>();
-            Blog.DuplicateAudios = DetermineDuplicates<AudioPost>();
-            Blog.TotalCount = (Blog.TotalCount - Blog.DuplicatePhotos - Blog.DuplicateAudios - Blog.DuplicateVideos);
+            UpdateBlogDuplicates();
 
             CleanCollectedBlogStatistics();
 
@@ -182,54 +180,6 @@ namespace TumblThree.Applications.Crawler
             return base.ConvertJsonToClass<T>(json);
         }
 
-        private static string GetApiUrl(string url, int count, int start = 0)
-        {
-            if (url.Last() != '/')
-            {
-                url += "/";
-            }
-
-            url += "api/read/json?debug=1&";
-
-            var parameters = new Dictionary<string, string>
-            {
-                { "num", count.ToString() }
-            };
-            if (start > 0)
-            {
-                parameters["start"] = start.ToString();
-            }
-
-            return url + UrlEncode(parameters);
-        }
-
-        private async Task<string> GetApiPageAsync(int pageId)
-        {
-            string url = GetApiUrl(Blog.Url, (Blog.PageSize == 0 ? 1 : Blog.PageSize), pageId * Blog.PageSize);
-
-            if (ShellService.Settings.LimitConnectionsApi)
-            {
-                CrawlerService.TimeconstraintApi.Acquire();
-            }
-
-            return await GetRequestAsync(url);
-        }
-
-        private async Task<string> GetApiPageWithRetryAsync(int pageId)
-        {
-            string page = string.Empty;
-            var attemptCount = 0;
-
-            do
-            {
-                page = await GetApiPageAsync(pageId);
-                attemptCount++;
-            }
-            while (string.IsNullOrEmpty(page) && (attemptCount < ShellService.Settings.MaxNumberOfRetries));
-
-            return page;
-        }
-
         private async Task UpdateTotalPostCountAsync()
         {
             try
@@ -255,17 +205,16 @@ namespace TumblThree.Applications.Crawler
 
         private async Task UpdateTotalPostCountCoreAsync()
         {
-            string document = await GetApiPageWithRetryAsync(0);
+            string document = await GetApiPageWithRetryAsync(0, 1);
             var response = ConvertJsonToClass<TumblrApiJson>(document);
-            int totalPosts = response.PostsTotal;
-            Blog.Posts = totalPosts;
+            Blog.Posts = response.PostsTotal;
         }
 
         private async Task<ulong> GetHighestPostIdAsync()
         {
             try
             {
-                return await GetHighestPostIdCoreAsync();
+                return await GetHighestPostIdApiCoreAsync();
             }
             catch (WebException webException)
             {
@@ -282,17 +231,6 @@ namespace TumblThree.Applications.Crawler
                 HandleTimeoutException(timeoutException, Resources.Crawling);
                 return 0;
             }
-        }
-
-        private async Task<ulong> GetHighestPostIdCoreAsync()
-        {
-            string document = await GetApiPageWithRetryAsync(0);
-            var response = ConvertJsonToClass<TumblrApiJson>(document);
-
-            Post post = response.Posts?.FirstOrDefault();
-            if (DateTime.TryParse(post?.DateGmt, out var latestPost)) Blog.LatestPost = latestPost;
-            _ = ulong.TryParse(post?.Id, out var highestId);
-            return highestId;
         }
 
         protected override IEnumerable<int> GetPageNumbers()
@@ -320,7 +258,9 @@ namespace TumblThree.Applications.Crawler
 
             GenerateTags();
 
-            await UpdateTotalPostCountAsync();
+            // page already loaded in GetHighestPostIdCoreAsync(), so retrieve new number of posts already there
+            await Task.Run(() => Task.CompletedTask);
+            //await UpdateTotalPostCountAsync();
 
             foreach (int pageNumber in GetPageNumbers())
             {
@@ -346,7 +286,7 @@ namespace TumblThree.Applications.Crawler
             PostQueue.CompleteAdding();
             jsonQueue.CompleteAdding();
 
-            UpdateBlogStats();
+            UpdateBlogStats(GetLastPostId() != 0);
 
             return incompleteCrawl;
         }
@@ -355,7 +295,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                string document = await GetApiPageWithRetryAsync(pageNumber);
+                string document = await GetApiPageWithRetryAsync(pageNumber, Blog.PageSize);
                 var response = ConvertJsonToClass<TumblrApiJson>(document);
 
                 completeGrab = CheckPostAge(response);
@@ -377,8 +317,9 @@ namespace TumblThree.Applications.Crawler
                 incompleteCrawl = true;
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
-            catch
+            catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
             }
             finally
             {

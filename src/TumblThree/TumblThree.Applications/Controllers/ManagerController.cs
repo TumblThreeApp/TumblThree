@@ -462,8 +462,9 @@ namespace TumblThree.Applications.Controllers
             {
                 await AddBlogAsync(null);
             }
-            catch
+            catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
             }
         }
 
@@ -752,8 +753,9 @@ namespace TumblThree.Applications.Controllers
                 await semaphoreSlim.WaitAsync();
                 await AddBlogAsync(url);
             }
-            catch
+            catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
             }
             finally
             {

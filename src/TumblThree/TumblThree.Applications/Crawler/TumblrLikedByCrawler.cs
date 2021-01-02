@@ -99,7 +99,7 @@ namespace TumblThree.Applications.Crawler
 
             PostQueue.CompleteAdding();
 
-            UpdateBlogStats();
+            UpdateBlogStats(true);
         }
 
         private async Task CrawlPageAsync(long pagination, int crawlerNumber)
@@ -212,6 +212,7 @@ namespace TumblThree.Applications.Crawler
                 }
                 catch (NullReferenceException)
                 {
+                    System.Diagnostics.Debug.WriteLine("TumblrLikedByCrawler.AddUrlsToDownloadListAsync(): NullReferenceException");
                 }
 
                 Interlocked.Increment(ref numberOfPagesCrawled);

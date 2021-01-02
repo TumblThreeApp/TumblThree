@@ -229,8 +229,9 @@ namespace TumblThree.Applications.Controllers
                         await Task.Delay(4000, ct);
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    System.Diagnostics.Debug.WriteLine(e.ToString());
                     if (lockTaken) Monitor.Exit(_lockObject);
                     throw;
                 }
@@ -245,6 +246,7 @@ namespace TumblThree.Applications.Controllers
 
             ICrawler crawler = _crawlerFactory.GetCrawler(blog, progress, pt, ct);
             await crawler.CrawlAsync();
+            blog.UpdateProgress();
             crawler.Dispose();
 
             Monitor.Enter(_lockObject);

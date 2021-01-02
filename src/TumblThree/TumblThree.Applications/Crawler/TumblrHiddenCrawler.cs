@@ -147,10 +147,7 @@ namespace TumblThree.Applications.Crawler
             bool apiLimitHit = await grabber;
 
             UpdateProgressQueueInformation(Resources.ProgressUniqueDownloads);
-            Blog.DuplicatePhotos = DetermineDuplicates<PhotoPost>();
-            Blog.DuplicateVideos = DetermineDuplicates<VideoPost>();
-            Blog.DuplicateAudios = DetermineDuplicates<AudioPost>();
-            Blog.TotalCount = (Blog.TotalCount - Blog.DuplicatePhotos - Blog.DuplicateAudios - Blog.DuplicateVideos);
+            UpdateBlogDuplicates();
 
             CleanCollectedBlogStatistics();
 
@@ -201,7 +198,7 @@ namespace TumblThree.Applications.Crawler
             jsonQueue.CompleteAdding();
             PostQueue.CompleteAdding();
 
-            UpdateBlogStats();
+            UpdateBlogStats(GetLastPostId() != 0);
 
             return incompleteCrawl;
         }
@@ -239,7 +236,8 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                return await GetHighestPostIdCoreAsync();
+                //return await GetHighestPostIdCoreAsync();
+                return await GetHighestPostIdApiCoreAsync();
             }
             catch (WebException webException)
             {

@@ -92,7 +92,7 @@ namespace TumblThree.Applications.Crawler
 
             PostQueue.CompleteAdding();
 
-            UpdateBlogStats();
+            UpdateBlogStats(true);
         }
 
         protected new async Task<string> UpdateTumblrKeyAsync(string url)

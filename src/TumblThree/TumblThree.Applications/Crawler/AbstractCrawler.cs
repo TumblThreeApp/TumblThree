@@ -245,20 +245,38 @@ namespace TumblThree.Applications.Crawler
             return !string.IsNullOrEmpty(Blog.DownloadPages) ? 0 : lastId;
         }
 
-        protected void UpdateBlogStats()
+        protected void UpdateBlogStats(bool add)
         {
-            Blog.TotalCount = StatisticsBag.Count;
-            Blog.Photos = StatisticsBag.Count(url => url.GetType() == typeof(PhotoPost));
-            Blog.Videos = StatisticsBag.Count(url => url.GetType() == typeof(VideoPost));
-            Blog.Audios = StatisticsBag.Count(url => url.GetType() == typeof(AudioPost));
-            Blog.Texts = StatisticsBag.Count(url => url.GetType() == typeof(TextPost));
-            Blog.Answers = StatisticsBag.Count(url => url.GetType() == typeof(AnswerPost));
-            Blog.Conversations = StatisticsBag.Count(url => url.GetType() == typeof(ConversationPost));
-            Blog.Quotes = StatisticsBag.Count(url => url.GetType() == typeof(QuotePost));
-            Blog.NumberOfLinks = StatisticsBag.Count(url => url.GetType() == typeof(LinkPost));
-            Blog.PhotoMetas = StatisticsBag.Count(url => url.GetType() == typeof(PhotoMetaPost));
-            Blog.VideoMetas = StatisticsBag.Count(url => url.GetType() == typeof(VideoMetaPost));
-            Blog.AudioMetas = StatisticsBag.Count(url => url.GetType() == typeof(AudioMetaPost));
+            if (add)
+            {
+                Blog.TotalCount += StatisticsBag.Count;
+                Blog.Photos += StatisticsBag.Count(url => url.GetType() == typeof(PhotoPost));
+                Blog.Videos += StatisticsBag.Count(url => url.GetType() == typeof(VideoPost));
+                Blog.Audios += StatisticsBag.Count(url => url.GetType() == typeof(AudioPost));
+                Blog.Texts += StatisticsBag.Count(url => url.GetType() == typeof(TextPost));
+                Blog.Answers += StatisticsBag.Count(url => url.GetType() == typeof(AnswerPost));
+                Blog.Conversations += StatisticsBag.Count(url => url.GetType() == typeof(ConversationPost));
+                Blog.Quotes += StatisticsBag.Count(url => url.GetType() == typeof(QuotePost));
+                Blog.NumberOfLinks += StatisticsBag.Count(url => url.GetType() == typeof(LinkPost));
+                Blog.PhotoMetas += StatisticsBag.Count(url => url.GetType() == typeof(PhotoMetaPost));
+                Blog.VideoMetas += StatisticsBag.Count(url => url.GetType() == typeof(VideoMetaPost));
+                Blog.AudioMetas += StatisticsBag.Count(url => url.GetType() == typeof(AudioMetaPost));
+            }
+            else
+            {
+                Blog.TotalCount = StatisticsBag.Count;
+                Blog.Photos = StatisticsBag.Count(url => url.GetType() == typeof(PhotoPost));
+                Blog.Videos = StatisticsBag.Count(url => url.GetType() == typeof(VideoPost));
+                Blog.Audios = StatisticsBag.Count(url => url.GetType() == typeof(AudioPost));
+                Blog.Texts = StatisticsBag.Count(url => url.GetType() == typeof(TextPost));
+                Blog.Answers = StatisticsBag.Count(url => url.GetType() == typeof(AnswerPost));
+                Blog.Conversations = StatisticsBag.Count(url => url.GetType() == typeof(ConversationPost));
+                Blog.Quotes = StatisticsBag.Count(url => url.GetType() == typeof(QuotePost));
+                Blog.NumberOfLinks = StatisticsBag.Count(url => url.GetType() == typeof(LinkPost));
+                Blog.PhotoMetas = StatisticsBag.Count(url => url.GetType() == typeof(PhotoMetaPost));
+                Blog.VideoMetas = StatisticsBag.Count(url => url.GetType() == typeof(VideoMetaPost));
+                Blog.AudioMetas = StatisticsBag.Count(url => url.GetType() == typeof(AudioMetaPost));
+            }
         }
 
         protected int DetermineDuplicates<T>() => StatisticsBag.Where(url => url.GetType() == typeof(T))

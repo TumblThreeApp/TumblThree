@@ -109,7 +109,7 @@ namespace TumblThree.Applications.Crawler
             PostQueue.CompleteAdding();
             jsonQueue.CompleteAdding();
 
-            UpdateBlogStats();
+            UpdateBlogStats(true);
         }
 
         private async Task CrawlPageAsync()

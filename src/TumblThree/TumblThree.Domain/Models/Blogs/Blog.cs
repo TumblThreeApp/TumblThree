@@ -343,6 +343,9 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
+        /// <summary>
+        /// Number of already downloaded (media) files.
+        /// </summary>
         [DataMember]
         public int DownloadedImages
         {
@@ -350,6 +353,9 @@ namespace TumblThree.Domain.Models.Blogs
             set => SetProperty(ref downloadedImages, value);
         }
 
+        /// <summary>
+        /// Number of files to download.
+        /// </summary>
         [DataMember]
         public int TotalCount
         {
