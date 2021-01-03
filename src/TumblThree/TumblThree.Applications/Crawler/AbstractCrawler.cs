@@ -332,7 +332,7 @@ namespace TumblThree.Applications.Crawler
         protected bool HandleLimitExceededWebException(WebException webException)
         {
             var resp = (HttpWebResponse)webException.Response;
-            if ((int)resp.StatusCode != 429)
+            if (resp == null || (int)resp.StatusCode != 429)
             {
                 return false;
             }
@@ -345,7 +345,7 @@ namespace TumblThree.Applications.Crawler
         protected bool HandleUnauthorizedWebException(WebException webException)
         {
             var resp = (HttpWebResponse)webException.Response;
-            if (resp.StatusCode != HttpStatusCode.Unauthorized)
+            if (resp == null || resp.StatusCode != HttpStatusCode.Unauthorized)
             {
                 return false;
             }
