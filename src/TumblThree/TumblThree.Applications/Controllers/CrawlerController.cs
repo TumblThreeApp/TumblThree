@@ -10,6 +10,7 @@ using TumblThree.Applications.Crawler;
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
+using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
 
@@ -193,8 +194,7 @@ namespace TumblThree.Applications.Controllers
                 {
                     if (_crawlerService.ActiveItems.Count < QueueManager.Items.Count)
                     {
-                        IEnumerable<QueueListItem> queueList = QueueManager.Items.Except(_crawlerService.ActiveItems);
-                        QueueListItem nextQueueItem = queueList.First();
+                        QueueListItem nextQueueItem = QueueManager.Items.Except(_crawlerService.ActiveItems).First();
                         IBlog blog = nextQueueItem.Blog;
 
                         ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), pt, ct);
@@ -231,9 +231,9 @@ namespace TumblThree.Applications.Controllers
                 }
                 catch (Exception e)
                 {
-                    System.Diagnostics.Debug.WriteLine(e.ToString());
+                    Logger.Error("CrawlerController.RunCrawlerTasksAsync: {0}", e);
+                    _shellService.ShowError(e, "Error starting the next item in the queue.");
                     if (lockTaken) Monitor.Exit(_lockObject);
-                    throw;
                 }
             }
         }
