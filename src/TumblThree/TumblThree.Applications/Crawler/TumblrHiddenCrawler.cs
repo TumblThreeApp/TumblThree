@@ -236,8 +236,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                //return await GetHighestPostIdCoreAsync();
-                return await GetHighestPostIdApiCoreAsync();
+                return await GetHighestPostIdCoreAsync();
             }
             catch (WebException webException)
             {

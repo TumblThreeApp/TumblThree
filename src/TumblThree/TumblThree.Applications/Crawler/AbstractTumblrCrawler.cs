@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using TumblThree.Applications.DataModels;
-using TumblThree.Applications.DataModels.TumblrApiJson;
 using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.Parser;
 using TumblThree.Applications.Properties;
@@ -337,78 +336,6 @@ namespace TumblThree.Applications.Crawler
                 Blog.DuplicateAudios += dupAudio;
                 Blog.TotalCount = Blog.TotalCount - dupPhoto - dupVideo - dupAudio;
             }
-        }
-
-        protected async Task<ulong> GetHighestPostIdApiCoreAsync()
-        {
-            var document = await GetApiPageWithRetryAsync(0, 1);
-            var response = ConvertJsonToClass<TumblrApiJson>(document);
-
-            Post post = response.Posts?.FirstOrDefault();
-            Blog.Posts = response.PostsTotal;
-            if (DateTime.TryParse(post?.DateGmt, out var latestPost)) Blog.LatestPost = latestPost;
-            _ = ulong.TryParse(post?.Id, out var highestPostId);
-            return highestPostId;
-        }
-
-        public override T ConvertJsonToClass<T>(string json)
-        {
-            if (json.Contains("tumblr_api_read"))
-            {
-                int jsonStart = json.IndexOf("{", StringComparison.Ordinal);
-                json = json.Substring(jsonStart);
-                json = json.Remove(json.Length - 2);
-            }
-
-            return base.ConvertJsonToClass<T>(json);
-        }
-
-        protected async Task<string> GetApiPageWithRetryAsync(int pageId, int count)
-        {
-            string page;
-            var attemptCount = 0;
-
-            do
-            {
-                page = await GetApiPageAsync(pageId, count);
-                attemptCount++;
-            }
-            while (string.IsNullOrEmpty(page) && (attemptCount < ShellService.Settings.MaxNumberOfRetries));
-
-            return page;
-        }
-
-        private async Task<string> GetApiPageAsync(int pageId, int count)
-        {
-            string url = GetApiUrl(Blog.Url, (count == 0 ? 1 : count), pageId * count);
-
-            if (ShellService.Settings.LimitConnectionsApi)
-            {
-                CrawlerService.TimeconstraintApi.Acquire();
-            }
-
-            return await GetRequestAsync(url);
-        }
-
-        private static string GetApiUrl(string url, int count, int start = 0)
-        {
-            if (url.Last() != '/')
-            {
-                url += "/";
-            }
-
-            url += "api/read/json?debug=1&";
-
-            var parameters = new Dictionary<string, string>
-            {
-                { "num", count.ToString() }
-            };
-            if (start > 0)
-            {
-                parameters["start"] = start.ToString();
-            }
-
-            return url + UrlEncode(parameters);
         }
     }
 }
