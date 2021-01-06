@@ -97,6 +97,7 @@ namespace TumblThree.Domain.Models.Blogs
         private int progress;
         private int quotes;
         private BlogTypes blogType;
+        private PostType states;
 
         [DataMember(Name = "Links")]
         private readonly List<string> links = new List<string>();
@@ -115,7 +116,10 @@ namespace TumblThree.Domain.Models.Blogs
         }
 
         [DataMember]
-        public PostType States { get; set; }
+        public PostType States {
+            get => states;
+            set => SetProperty(ref states, value);
+        }
 
         [DataMember]
         public string Version { get; set; }

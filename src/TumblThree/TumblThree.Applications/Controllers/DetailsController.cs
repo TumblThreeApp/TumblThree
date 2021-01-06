@@ -53,13 +53,22 @@ namespace TumblThree.Applications.Controllers
 
         private IDetailsViewModel DetailsViewModel => _detailsViewModel.Value;
 
-        public void SelectBlogFiles(IReadOnlyList<IBlog> blogFiles)
+        public void UpdateBlogPreview(IReadOnlyList<IBlog> blogFiles)
+        {
+            if (DetailsViewModel?.BlogFile?.SettingsTabIndex == 2)
+            {
+                DetailsViewModel.BlogFile.PropertyChanged -= ChangeBlogSettings;
+                SelectBlogFiles(blogFiles, true);
+            }
+        }
+
+        public void SelectBlogFiles(IReadOnlyList<IBlog> blogFiles, bool showPreview)
         {
             UpdateViewModelBasedOnSelection(blogFiles);
 
             ClearBlogSelection();
 
-            if (blogFiles.Count <= 1)
+            if (blogFiles.Count <= 1 || showPreview && _shellService.Settings.EnablePreview)
             {
                 DetailsViewModel.Count = 1;
                 DetailsViewModel.BlogFile = blogFiles.FirstOrDefault();
@@ -241,7 +250,7 @@ namespace TumblThree.Applications.Controllers
                 DetailsViewModel.BlogFile.PropertyChanged -= ChangeBlogSettings;
             }
 
-            SelectBlogFiles(_selectionService.SelectedBlogFiles.ToArray());
+            SelectBlogFiles(_selectionService.SelectedBlogFiles.ToArray(), false);
         }
     }
 }

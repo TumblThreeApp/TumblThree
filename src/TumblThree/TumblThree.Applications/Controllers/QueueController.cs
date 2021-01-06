@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -79,6 +80,7 @@ namespace TumblThree.Applications.Controllers
             QueueViewModel.InsertBlogFilesAction = InsertBlogFiles;
 
             _crawlerService.RemoveBlogFromQueueCommand = _removeSelectedCommand;
+            _crawlerService.ActiveItems.CollectionChanged += CrawlerServiceActiveItemsCollectionChanged;
 
             QueueViewModel.PropertyChanged += QueueViewModelPropertyChanged;
 
@@ -113,7 +115,7 @@ namespace TumblThree.Applications.Controllers
 
         private void ShowBlogDetails()
         {
-            _detailsService.SelectBlogFiles(QueueViewModel.SelectedQueueItems.Select(x => x.Blog).ToArray());
+            _detailsService.SelectBlogFiles(QueueViewModel.SelectedQueueItems.Select(x => x.Blog).ToArray(), true);
             _shellService.ShowDetailsView();
         }
 
@@ -209,6 +211,14 @@ namespace TumblThree.Applications.Controllers
             if (e.PropertyName == nameof(QueueViewModel.SelectedQueueItem))
             {
                 UpdateCommands();
+            }
+        }
+
+        private void CrawlerServiceActiveItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (_crawlerService.ActiveItems.Count > 0)
+            {
+                _detailsService.UpdateBlogPreview(_crawlerService.ActiveItems.Take(1).Select(x => x.Blog).ToArray());
             }
         }
 

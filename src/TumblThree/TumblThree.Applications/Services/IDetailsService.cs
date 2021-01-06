@@ -6,6 +6,7 @@ namespace TumblThree.Applications.Services
 {
     public interface IDetailsService
     {
-        void SelectBlogFiles(IReadOnlyList<IBlog> blogFiles);
+        void SelectBlogFiles(IReadOnlyList<IBlog> blogFiles, bool showPreview);
+        void UpdateBlogPreview(IReadOnlyList<IBlog> blogFiles);
     }
 }
