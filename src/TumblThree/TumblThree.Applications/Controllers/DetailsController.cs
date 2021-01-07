@@ -72,6 +72,8 @@ namespace TumblThree.Applications.Controllers
             {
                 DetailsViewModel.Count = 1;
                 DetailsViewModel.BlogFile = blogFiles.FirstOrDefault();
+                if (DetailsViewModel.BlogFile != null)
+                    DetailsViewModel.BlogFile.SettingsTabIndex = (showPreview && _shellService.Settings.EnablePreview) ? 2 : DetailsViewModel.BlogFile.SettingsTabIndex;
             }
             else
             {
