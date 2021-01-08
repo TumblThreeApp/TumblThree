@@ -116,7 +116,8 @@ namespace TumblThree.Domain.Models.Blogs
         }
 
         [DataMember]
-        public PostType States {
+        public PostType States
+        {
             get => states;
             set => SetProperty(ref states, value);
         }

@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Windows.Data;
 
 using TumblThree.Domain.Models;
-using TumblThree.Presentation.Properties;
 
 namespace TumblThree.Presentation.Converters
 {

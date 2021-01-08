@@ -1,13 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using Guava.RateLimiter;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Foundation;
 using System.Windows.Input;
-
-using Guava.RateLimiter;
-
 using TumblThree.Domain.Queue;
 
 namespace TumblThree.Applications.Services

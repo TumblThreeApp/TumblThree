@@ -667,7 +667,8 @@ namespace TumblThree.Applications.Controllers
             return false;
         }
 
-        private bool CheckifBlogsAreTumblrBlogs(IBlog blogs, IBlog toMatch) {
+        private bool CheckifBlogsAreTumblrBlogs(IBlog blogs, IBlog toMatch)
+        {
             if (blogs.BlogType == BlogTypes.tumblr || blogs.BlogType == BlogTypes.tmblrpriv)
                 return toMatch.BlogType == BlogTypes.tumblr || toMatch.BlogType == BlogTypes.tmblrpriv;
             return false;

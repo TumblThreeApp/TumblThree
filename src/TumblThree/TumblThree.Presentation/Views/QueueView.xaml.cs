@@ -7,7 +7,6 @@ using System.Windows;
 
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
-using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
 using TumblThree.Presentation.Controls;

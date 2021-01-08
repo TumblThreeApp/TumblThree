@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CefSharp;
+using CefSharp.Wpf;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Net;
@@ -9,11 +11,8 @@ using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Controls;
-
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
-using CefSharp;
-using CefSharp.Wpf;
 
 namespace TumblThree.Presentation.Views
 {

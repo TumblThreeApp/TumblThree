@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -7,8 +8,6 @@ using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Xml;
 using System.Xml.Linq;
-using System.Linq;
-
 using TumblThree.Domain;
 
 namespace TumblThree.Applications.Services

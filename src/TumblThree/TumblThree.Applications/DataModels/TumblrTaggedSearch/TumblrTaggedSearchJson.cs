@@ -1156,74 +1156,74 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
     [DataContract]
     public class Formatting
     {
-        [DataMember(Name="type")]
+        [DataMember(Name = "type")]
         public string Type { get; set; }
 
-        [DataMember(Name="start")]
+        [DataMember(Name = "start")]
         public int Start { get; set; }
 
-        [DataMember(Name="end")]
+        [DataMember(Name = "end")]
         public int End { get; set; }
 
-        [DataMember(Name="url")]
+        [DataMember(Name = "url")]
         public string Url { get; set; }
     }
 
     [DataContract]
     public class Urls
     {
-        [DataMember(Name="web")]
+        [DataMember(Name = "web")]
         public string Web { get; set; }
 
-        [DataMember(Name="ios")]
+        [DataMember(Name = "ios")]
         public string Ios { get; set; }
 
-        [DataMember(Name="android")]
+        [DataMember(Name = "android")]
         public string Android { get; set; }
     }
 
     [DataContract]
     public class Action
     {
-        [DataMember(Name="type")]
+        [DataMember(Name = "type")]
         public string Type { get; set; }
 
-        [DataMember(Name="backgroundColor")]
+        [DataMember(Name = "backgroundColor")]
         public string BackgroundColor { get; set; }
 
-        [DataMember(Name="price")]
+        [DataMember(Name = "price")]
         public string Price { get; set; }
 
-        [DataMember(Name="state")]
+        [DataMember(Name = "state")]
         public string State { get; set; }
 
-        [DataMember(Name="text")]
+        [DataMember(Name = "text")]
         public string Text { get; set; }
 
-        [DataMember(Name="textColor")]
+        [DataMember(Name = "textColor")]
         public string TextColor { get; set; }
 
-        [DataMember(Name="urls")]
+        [DataMember(Name = "urls")]
         public Urls Urls { get; set; }
     }
 
     [DataContract]
     public class NextRequest
     {
-        [DataMember(Name="href")]
+        [DataMember(Name = "href")]
         public string Href { get; set; }
 
-        [DataMember(Name="method")]
+        [DataMember(Name = "method")]
         public string Method { get; set; }
 
-        [DataMember(Name="queryParams")]
+        [DataMember(Name = "queryParams")]
         public QueryParams QueryParams { get; set; }
     }
 
     [DataContract]
     public class Links
     {
-        [DataMember(Name="next")]
+        [DataMember(Name = "next")]
         public NextRequest Next { get; set; }
     }
 

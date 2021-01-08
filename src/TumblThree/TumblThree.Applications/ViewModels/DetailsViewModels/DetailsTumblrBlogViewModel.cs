@@ -21,7 +21,7 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         private int _count = 0;
 
         [ImportingConstructor]
-        public DetailsTumblrBlogViewModel([Import("TumblrBlogView", typeof(IDetailsView))]IDetailsView view, IClipboardService clipboardService)
+        public DetailsTumblrBlogViewModel([Import("TumblrBlogView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService)
             : base(view)
         {
             _clipboardService = clipboardService;

@@ -8,13 +8,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
-using TumblThree.Presentation.Controls;
-using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
+using TumblThree.Presentation.Controls;
 
 namespace TumblThree.Presentation.Views
 {

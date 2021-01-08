@@ -200,7 +200,7 @@ namespace TumblThree.Applications.Downloader
 
         public long TotalBytesToReceive { get; }
 
-        public float ProgressPercentage => BytesReceived / (float) TotalBytesToReceive * 100;
+        public float ProgressPercentage => BytesReceived / (float)TotalBytesToReceive * 100;
 
         public float CurrentSpeed { get; } // in bytes
 
