@@ -1,19 +1,24 @@
 #version: 1.0.10.{build}
 skip_branch_with_pr: true
 image: Visual Studio 2017
-init:
+install:
   # Set "build version number" to "short-commit-hash" or when tagged to "tag name" (Travis style)
   - ps: >-
       if ($env:APPVEYOR_REPO_TAG -eq "true")
       {
         $x = $env:APPVEYOR_REPO_TAG_NAME
         if($x.startswith("v","CurrentCultureIgnoreCase")) { $x = $x.substring(1) }
+        $x = $x + ".$env:APPVEYOR_BUILD_NUMBER"
         Update-AppveyorBuild -Version "$x"
         $env:MY_BUILD_VERSION="$x"
       }
       else
       {
-        Update-AppveyorBuild -Version "1.0.10.$env:APPVEYOR_BUILD_NUMBER"
+        Set-AppveyorBuildVariable -Name TT_VER -Value (& "$env:APPVEYOR_BUILD_FOLDER\scripts\get-version.ps1" -versionInfoFile "$env:APPVEYOR_BUILD_FOLDER\src\TumblThree\SharedAssemblyInfo.cs")
+        $s = $env:TT_VER
+        [VERSION]$vs = $s -replace '^.+((\d+\.){3}\d+).+', '$1'
+        $s = '{0}.{1}.{2}' -f $vs.Major,$vs.Minor,$vs.Build
+        Update-AppveyorBuild -Version "$s.$env:APPVEYOR_BUILD_NUMBER"
       }
 environment:
   DeployApiCode:
