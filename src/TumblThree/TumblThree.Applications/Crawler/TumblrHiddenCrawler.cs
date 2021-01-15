@@ -412,7 +412,7 @@ namespace TumblThree.Applications.Crawler
 
         private bool CheckIfDownloadRebloggedPosts(Post post)
         {
-            return Blog.DownloadRebloggedPosts || post.RebloggedFromTumblrUrl == null;
+            return Blog.DownloadRebloggedPosts || string.IsNullOrEmpty(post.RebloggedFromName) || post.RebloggedFromName == Blog.Name;
         }
 
         private void AddToJsonQueue(TumblrCrawlerData<Post> addToList)

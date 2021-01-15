@@ -465,7 +465,7 @@ namespace TumblThree.Applications.Crawler
 
         private bool CheckIfDownloadRebloggedPosts(Post post)
         {
-            return Blog.DownloadRebloggedPosts || !post.RebloggedFromUrl.Any();
+            return Blog.DownloadRebloggedPosts || string.IsNullOrEmpty(post.RebloggedFromName) || post.RebloggedFromName == Blog.Name;
         }
 
         private bool CheckIfContainsTaggedPost(Post post)
