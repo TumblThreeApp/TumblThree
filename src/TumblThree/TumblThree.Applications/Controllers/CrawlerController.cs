@@ -231,8 +231,11 @@ namespace TumblThree.Applications.Controllers
                 }
                 catch (Exception e)
                 {
-                    Logger.Error("CrawlerController.RunCrawlerTasksAsync: {0}", e);
-                    _shellService.ShowError(e, "Error starting the next item in the queue.");
+                    if (!ct.IsCancellationRequested)
+                    {
+                        Logger.Error("CrawlerController.RunCrawlerTasksAsync: {0}", e);
+                        _shellService.ShowError(e, "Error starting the next item in the queue.");
+                    }
                     if (lockTaken) Monitor.Exit(_lockObject);
                 }
             }
