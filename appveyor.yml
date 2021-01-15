@@ -1,8 +1,8 @@
 #version: 1.0.10.{build}
 skip_branch_with_pr: true
-image: Visual Studio 2017
+image: Visual Studio 2019
 install:
-  # Set "build version number" to "short-commit-hash" or when tagged to "tag name" (Travis style)
+  # Set "build version number" to current version or when tagged to "tag name"
   - ps: >-
       if ($env:APPVEYOR_REPO_TAG -eq "true")
       {
