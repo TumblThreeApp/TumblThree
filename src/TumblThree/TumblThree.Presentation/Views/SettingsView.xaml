@@ -12,7 +12,7 @@
     xmlns:vr="clr-namespace:TumblThree.Presentation.ValidationRules"
     Title="Settings"
     Width="760"
-    Height="740"
+    Height="780"
     d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
     ContentRendered="Window_ContentRendered"
     ResizeMode="CanResize"
@@ -1205,6 +1205,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Label
                             x:Name="perBlogLabel"
@@ -1584,7 +1585,7 @@
                             IsChecked="{Binding SkipGif, Mode=TwoWay}" />
                         <CheckBox
                             x:Name="checkBoxForceSize"
-                            Grid.Row="14"
+                            Grid.Row="15"
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
                             Margin="10"
@@ -1601,7 +1602,7 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxRegExPhotos"
-                            Grid.Row="15"
+                            Grid.Row="16"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Margin="10"
@@ -1618,7 +1619,7 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxDumpCrawlerData"
-                            Grid.Row="16"
+                            Grid.Row="17"
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
                             Margin="10"
@@ -1635,7 +1636,7 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxRegExVideo"
-                            Grid.Row="16"
+                            Grid.Row="17"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Margin="10"
@@ -1652,7 +1653,7 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxForceRescan"
-                            Grid.Row="15"
+                            Grid.Row="16"
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
                             Margin="10"
@@ -1663,6 +1664,23 @@
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipForceRescan}" />
                                         <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipForceRescanDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
+                        <CheckBox
+                            x:Name="checkBoxGroupPhotoSets"
+                            Grid.Row="15"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="10"
+                            Content="{x:Static p:Resources.GroupPhotoSets}"
+                            IsChecked="{Binding GroupPhotoSets, Mode=TwoWay}">
+                            <CheckBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipGroupPhotoSets}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipGroupPhotoSetsDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </CheckBox.ToolTip>

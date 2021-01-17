@@ -451,6 +451,8 @@ namespace TumblThree.Applications.Crawler
         private void AddPhotoUrl(Post post)
         {
             string postId = post.Id;
+            int i = 1;
+            if (post.Photos.Count != 0 && post.Photos[0].AltSizes.FirstOrDefault().Url.Split('/').Last().StartsWith("tumblr_")) i = -1;
             foreach (Photo photo in post.Photos)
             {
                 string imageUrl = photo.AltSizes.Where(url => url.Width == int.Parse(ImageSizeForSearching())).Select(url => url.Url)
@@ -464,8 +466,9 @@ namespace TumblThree.Applications.Crawler
 
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new PhotoPost(imageUrl, postId, post.Timestamp.ToString()));
+                AddToDownloadList(new PhotoPost(imageUrl, postId, i, post.Timestamp.ToString()));
                 AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
+                if (i != -1) i++;
             }
         }
 

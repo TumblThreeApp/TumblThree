@@ -15,7 +15,7 @@ namespace TumblThree.Domain.Models.Files
 
         void AddFileToDb(string fileName);
 
-        bool CheckIfFileExistsInDB(string url);
+        bool CheckIfFileExistsInDB(string filename, string filenameNew, bool rename);
 
         bool Save();
 

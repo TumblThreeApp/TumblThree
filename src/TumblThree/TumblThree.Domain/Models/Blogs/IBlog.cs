@@ -174,6 +174,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         BlogTypes OriginalBlogType { get; set; }
 
+        bool GroupPhotoSets { get; set; }
+
         DateTime DateAdded { get; set; }
 
         DateTime LastCompleteCrawl { get; set; }
@@ -202,11 +204,11 @@ namespace TumblThree.Domain.Models.Blogs
 
         bool CreateDataFolder();
 
-        bool CheckIfFileExistsInDB(string url);
+        bool CheckIfFileExistsInDB(string filename, string filenameNew);
 
-        bool CheckIfBlogShouldCheckDirectory(string url);
+        bool CheckIfBlogShouldCheckDirectory(string filename, string filenameNew);
 
-        bool CheckIfFileExistsInDirectory(string url);
+        bool CheckIfFileExistsInDirectory(string filename, string filenameNew);
 
         bool Save();
 

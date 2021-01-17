@@ -26,13 +26,13 @@ namespace TumblThree.Applications.Services
 
         public IEnumerable<IFiles> Databases => databases;
 
-        public bool CheckIfFileExistsInDB(string url)
+        public bool CheckIfFileExistsInDB(string filename, string filenameNew, string blogName)
         {
             lock (databasesLock)
             {
                 foreach (IFiles db in databases)
                 {
-                    if (db.CheckIfFileExistsInDB(url)) return true;
+                    if (db.CheckIfFileExistsInDB(filename, filenameNew, db.Name == blogName)) return true;
                 }
                 return false;
             }

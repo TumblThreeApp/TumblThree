@@ -250,21 +250,20 @@ namespace TumblThree.Applications.Downloader
 
         protected virtual async Task<bool> DownloadBinaryPostAsync(TumblrPost downloadItem)
         {
-            string url = Url(downloadItem);
-            if (CheckIfFileExistsInDB(url))
+            if (CheckIfFileExistsInDB(downloadItem))
             {
-                string fileName = FileName(downloadItem);
+                string fileName = FileNameNew(downloadItem) ?? FileName(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
             }
             else
             {
                 string blogDownloadLocation = blog.DownloadLocation();
-                string fileName = FileName(downloadItem);
+                string fileName = FileNameNew(downloadItem) ?? FileName(downloadItem);
                 string fileLocation = FileLocation(blogDownloadLocation, fileName);
                 string fileLocationUrlList = FileLocationLocalized(blogDownloadLocation, downloadItem.TextFileLocation);
                 DateTime postDate = PostDate(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressDownloadImage, fileName);
-                if (!await DownloadBinaryFileAsync(fileLocation, fileLocationUrlList, url))
+                if (!await DownloadBinaryFileAsync(fileLocation, fileLocationUrlList, Url(downloadItem)))
                 {
                     return false;
                 }
@@ -293,20 +292,22 @@ namespace TumblThree.Applications.Downloader
             return true;
         }
 
-        private bool CheckIfFileExistsInDB(string url)
+        private bool CheckIfFileExistsInDB(TumblrPost downloadItem)
         {
+            string filename = FileName(downloadItem);
+            string filenameNew = FileNameNew(downloadItem);
             if (shellService.Settings.LoadAllDatabases)
             {
-                return managerService.CheckIfFileExistsInDB(url);
+                return managerService.CheckIfFileExistsInDB(filename, filenameNew, blog.Name);
             }
 
-            return files.CheckIfFileExistsInDB(url) || blog.CheckIfBlogShouldCheckDirectory(GetCoreImageUrl(url));
+            return files.CheckIfFileExistsInDB(filename, filenameNew, true) || blog.CheckIfBlogShouldCheckDirectory(filename, filenameNew);
         }
 
         private void DownloadTextPost(TumblrPost downloadItem)
         {
             string postId = PostId(downloadItem);
-            if (CheckIfFileExistsInDB(postId))
+            if (files.CheckIfFileExistsInDB(postId, null, false))
             {
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, postId);
             }
@@ -348,6 +349,11 @@ namespace TumblThree.Applications.Downloader
         private static string FileName(TumblrPost downloadItem)
         {
             return downloadItem.Url.Split('/').Last();
+        }
+
+        private string FileNameNew(TumblrPost downloadItem)
+        {
+            return (blog.GroupPhotoSets && downloadItem.Index != -1) ? $"{downloadItem.Id}_{downloadItem.Index}_{FileName(downloadItem)}" : null;
         }
 
         protected static string FileLocation(string blogDownloadLocation, string fileName)

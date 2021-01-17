@@ -98,6 +98,7 @@ namespace TumblThree.Domain.Models.Blogs
         private int quotes;
         private BlogTypes blogType;
         private PostType states;
+        private bool groupPhotoSets;
 
         [DataMember(Name = "Links")]
         private readonly List<string> links = new List<string>();
@@ -865,6 +866,17 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
+        [DataMember]
+        public bool GroupPhotoSets
+        {
+            get => groupPhotoSets;
+            set
+            {
+                SetProperty(ref groupPhotoSets, value);
+                Dirty = true;
+            }
+        }
+
         public void UpdateProgress()
         {
             lock (lockObjectProgress)
@@ -904,13 +916,14 @@ namespace TumblThree.Domain.Models.Blogs
             return false;
         }
 
-        public virtual bool CheckIfFileExistsInDB(string url)
+        public virtual bool CheckIfFileExistsInDB(string filename, string filenameNew)
         {
-            string fileName = url.Split('/').Last();
             Monitor.Enter(lockObjectDb);
             try
             {
-                return Links.Contains(fileName);
+                bool result = Links.Contains(filename);
+                if (result || string.IsNullOrEmpty(filenameNew)) return result;
+                return Links.Contains(filenameNew);
             }
             finally
             {
@@ -918,19 +931,30 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
-        public virtual bool CheckIfBlogShouldCheckDirectory(string url)
+        public virtual bool CheckIfBlogShouldCheckDirectory(string filename, string filenameNew)
         {
-            return CheckDirectoryForFiles && CheckIfFileExistsInDirectory(url);
+            return CheckDirectoryForFiles && CheckIfFileExistsInDirectory(filename, filenameNew);
         }
 
-        public virtual bool CheckIfFileExistsInDirectory(string url)
+        public virtual bool CheckIfFileExistsInDirectory(string filename, string filenameNew)
         {
-            string fileName = url.Split('/').Last();
             Monitor.Enter(lockObjectDirectory);
             string blogPath = DownloadLocation();
             try
             {
-                return File.Exists(Path.Combine(blogPath, fileName));
+                string filepath = Path.Combine(blogPath, filename);
+                string filepathNew = Path.Combine(blogPath, filenameNew);
+                bool result = File.Exists(filepath);
+                if (result && !string.IsNullOrEmpty(filenameNew))
+                {
+                    if (File.Exists(filepathNew))
+                    {
+                        Logger.Warning("{0}: Cannot rename file to '{1}', a file with that name already exists!", Name, filenameNew);
+                    }
+                    File.Move(filepath, filepathNew);
+                }
+                if (result || string.IsNullOrEmpty(filenameNew)) return result;
+                return File.Exists(filepathNew);
             }
             finally
             {

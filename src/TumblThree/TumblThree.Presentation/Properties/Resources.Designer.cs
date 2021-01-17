@@ -835,6 +835,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group photo sets.
+        /// </summary>
+        public static string GroupPhotoSets {
+            get {
+                return ResourceManager.GetString("GroupPhotoSets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Image size (px).
         /// </summary>
         public static string ImageSize {
@@ -2029,6 +2038,26 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipGfycatFiletypeDescription {
             get {
                 return ResourceManager.GetString("ToolTipGfycatFiletypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group photo sets together.
+        /// </summary>
+        public static string ToolTipGroupPhotoSets {
+            get {
+                return ResourceManager.GetString("ToolTipGroupPhotoSets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group photo sets together by using similar filenames (sets with names like tumblr_* are not adjusted). Already downloaded photos are only renamed, if this option is set and a rescan is done.
+        ///
+        ///template: {Post Id}_{Photo Index}_{Original Filename}.
+        /// </summary>
+        public static string ToolTipGroupPhotoSetsDescription {
+            get {
+                return ResourceManager.GetString("ToolTipGroupPhotoSetsDescription", resourceCulture);
             }
         }
         

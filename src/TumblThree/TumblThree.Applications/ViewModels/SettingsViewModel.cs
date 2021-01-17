@@ -123,11 +123,12 @@ namespace TumblThree.Applications.ViewModels
         private string _userAgent;
         private string _tumblrUser = string.Empty;
         private string _tumblrPassword = string.Empty;
-        private bool _tumblrLoggedIn = false;
-        private bool _tumblrTfaDetected = false;
+        private bool _tumblrLoggedIn;
+        private bool _tumblrTfaDetected;
         private string _tumblrTfaAuthCode = string.Empty;
         private string _tumblrEmail = string.Empty;
         private string _logLevel = string.Empty;
+        private bool _groupPhotoSets;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService, ILoginService loginService, IFolderBrowserDialog folderBrowserDialog, IFileDialogService fileDialogService, ExportFactory<AuthenticateViewModel> authenticateViewModelFactory)
@@ -728,6 +729,12 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _logLevel, value);
         }
 
+        public bool GroupPhotoSets
+        {
+            get => _groupPhotoSets;
+            set => SetProperty(ref _groupPhotoSets, value);
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -963,6 +970,7 @@ namespace TumblThree.Applications.ViewModels
                 SettingsTabIndex = _settings.SettingsTabIndex;
                 UserAgent = _settings.UserAgent;
                 LogLevel = _settings.LogLevel;
+                GroupPhotoSets = _settings.GroupPhotoSets;
             }
             else
             {
@@ -1051,6 +1059,7 @@ namespace TumblThree.Applications.ViewModels
                 SettingsTabIndex = 0;
                 UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36";
                 LogLevel = nameof(System.Diagnostics.TraceLevel.Verbose);
+                GroupPhotoSets = false;
             }
         }
 
@@ -1216,6 +1225,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.SettingsTabIndex = SettingsTabIndex;
             _settings.UserAgent = UserAgent;
             _settings.LogLevel = LogLevel;
+            _settings.GroupPhotoSets = GroupPhotoSets;
         }
     }
 }

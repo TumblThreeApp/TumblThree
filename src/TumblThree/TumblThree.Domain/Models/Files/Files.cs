@@ -59,13 +59,20 @@ namespace TumblThree.Domain.Models.Files
             }
         }
 
-        public virtual bool CheckIfFileExistsInDB(string url)
+        public virtual bool CheckIfFileExistsInDB(string filename, string filenameNew, bool rename)
         {
-            string fileName = url.Split('/').Last();
             Monitor.Enter(_lockList);
             try
             {
-                return Links.Contains(fileName);
+                bool result = Links.Contains(filename);
+                if (result && rename && !string.IsNullOrEmpty(filenameNew))
+                {
+                    int index = Links.IndexOf(filename);
+                    Links.RemoveAt(index);
+                    Links.Insert(index, filenameNew);
+                }
+                if (result || string.IsNullOrEmpty(filenameNew)) return result;
+                return Links.Contains(filenameNew);
             }
             finally
             {

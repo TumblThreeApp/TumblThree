@@ -1010,4 +1010,15 @@ A too small value reduces the crawl speed.
 Specify a number/time pair.
 Note: The Tumblr API is only used for regular Tumblr-Blog downloads.</value>
   </data>
+  <data name="ToolTipGroupPhotoSets" xml:space="preserve">
+    <value>Group photo sets together</value>
+  </data>
+  <data name="ToolTipGroupPhotoSetsDescription" xml:space="preserve">
+    <value>Group photo sets together by using similar filenames (sets with names like tumblr_* are not adjusted). Already downloaded photos are only renamed, if this option is set and a rescan is done.
+
+template: {Post Id}_{Photo Index}_{Original Filename}</value>
+  </data>
+  <data name="GroupPhotoSets" xml:space="preserve">
+    <value>Group photo sets</value>
+  </data>
 </root>

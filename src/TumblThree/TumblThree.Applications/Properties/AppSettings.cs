@@ -334,6 +334,9 @@ namespace TumblThree.Applications.Properties
         public string LogLevel { get; set; }
 
         [DataMember]
+        public bool GroupPhotoSets { get; set; }
+
+        [DataMember]
         public int SettingsTabIndex { get; set; }
 
         [DataMember]
@@ -464,6 +467,7 @@ namespace TumblThree.Applications.Properties
 #else
             LogLevel = nameof(System.Diagnostics.TraceLevel.Info);
 #endif
+            GroupPhotoSets = false;
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
         }
 

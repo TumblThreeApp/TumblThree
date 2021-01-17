@@ -137,8 +137,7 @@ namespace TumblThree.Applications.Crawler
             {
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new VideoPost(imageUrl, WebmshareParser.GetWebmshareId(imageUrl),
-                    timestamp));
+                AddToDownloadList(new VideoPost(imageUrl, WebmshareParser.GetWebmshareId(imageUrl), timestamp));
             }
         }
 
@@ -232,7 +231,7 @@ namespace TumblThree.Applications.Crawler
                 url = ResizeTumblrImageUrl(url);
                 url = RetrieveOriginalImageUrl(url, 2000, 3000);
                 // TODO: postID
-                AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N")));
+                AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), -1));
             }
         }
 
@@ -272,7 +271,7 @@ namespace TumblThree.Applications.Crawler
                 if (TumblrParser.IsTumblrUrl(imageUrl)) { continue; }
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new PhotoPost(imageUrl, Guid.NewGuid().ToString("N")));
+                AddToDownloadList(new PhotoPost(imageUrl, Guid.NewGuid().ToString("N"), -1));
             }
         }
 
