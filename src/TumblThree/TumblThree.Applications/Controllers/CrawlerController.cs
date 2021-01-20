@@ -194,7 +194,16 @@ namespace TumblThree.Applications.Controllers
                 {
                     if (_crawlerService.ActiveItems.Count < QueueManager.Items.Count)
                     {
-                        QueueListItem nextQueueItem = QueueManager.Items.Except(_crawlerService.ActiveItems).First();
+                        QueueListItem nextQueueItem;
+                        try
+                        {
+                            nextQueueItem = QueueManager.Items.Except(_crawlerService.ActiveItems).First();
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            Monitor.Exit(_lockObject);
+                            continue;
+                        }
                         IBlog blog = nextQueueItem.Blog;
 
                         ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), pt, ct);
@@ -231,11 +240,7 @@ namespace TumblThree.Applications.Controllers
                 }
                 catch (Exception e)
                 {
-                    if (!ct.IsCancellationRequested)
-                    {
-                        Logger.Error("CrawlerController.RunCrawlerTasksAsync: {0}", e);
-                        _shellService.ShowError(e, "Error starting the next item in the queue.");
-                    }
+                    if (!ct.IsCancellationRequested) Logger.Error("CrawlerController.RunCrawlerTasksAsync: {0}", e);
                     if (lockTaken) Monitor.Exit(_lockObject);
                 }
             }

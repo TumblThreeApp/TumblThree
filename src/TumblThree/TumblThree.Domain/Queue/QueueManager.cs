@@ -89,7 +89,7 @@ namespace TumblThree.Domain.Queue
 
         private void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add | e.Action == NotifyCollectionChangedAction.Remove)
+            if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove)
             {
                 UpdateTotalImageCount();
             }
