@@ -210,9 +210,9 @@ namespace TumblThree.Applications.Crawler
                     AddPhotoUrlToDownloadList(document);
                     AddVideoUrlToDownloadList(document);
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException e)
                 {
-                    System.Diagnostics.Debug.WriteLine("TumblrLikedByCrawler.AddUrlsToDownloadListAsync(): NullReferenceException");
+                    System.Diagnostics.Debug.WriteLine($"TumblrLikedByCrawler.AddUrlsToDownloadListAsync(): {e}");
                 }
 
                 Interlocked.Increment(ref numberOfPagesCrawled);

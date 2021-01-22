@@ -134,6 +134,7 @@ namespace TumblThree.Applications.Crawler
 
                     document = await GetRequestAsync(nextUrl, bearerToken);
                     TumblrTaggedSearchApi apiresult = ConvertJsonToClass<TumblrTaggedSearchApi>(document);
+                    if (apiresult.Response.Timeline.Links == null) return;
                     nextUrl = result.ApiUrl + apiresult.Response.Timeline.Links.Next.Href;
 
                     DownloadMedia(apiresult);
