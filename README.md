@@ -30,6 +30,7 @@ _Read this in other languages: [简体中文](README.zh-cn.md)._
 * An option to download an url list instead of the actual files.
 * Set a start time for a automatic download (e.g. during nights).
 * An option to skip the download of a file if it has already been downloaded before in any currently added blog.
+* Change the blog settings of multiple selected blogs at once
 * Uses SSL connections.
 * Preview of photos & videos.
 * Taskbar buttons and key bindings.
