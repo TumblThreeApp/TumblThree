@@ -346,8 +346,8 @@
                             <CheckBox Content="{x:Static p:Resources.SkipGif}" IsChecked="{Binding BlogFile.SkipGif, Mode=TwoWay}"
                                 Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10" Margin="3,0,0,0" Padding="3,0,0,0" />
 
-                            <CheckBox Content="{x:Static p:Resources.GroupPhotoSets}" IsChecked="{Binding BlogFile.GroupPhotoSets, Mode=TwoWay}"
-                                Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="12" Margin="3,0,0,0" Padding="3,0,0,0" />
+                            <!--<CheckBox Content="{x:Static p:Resources.GroupPhotoSets}" IsChecked="{Binding BlogFile.GroupPhotoSets, Mode=TwoWay}"
+                                Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="12" Margin="3,0,0,0" Padding="3,0,0,0" />-->
 
                             <!--<CheckBox Content="{x:Static p:Resources.CheckDirectoryForFiles}"
                                   IsChecked="{Binding BlogFile.CheckDirectoryForFiles, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
