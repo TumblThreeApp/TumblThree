@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using TumblThree.Applications.DataModels;
+using TumblThree.Applications.DataModels.TumblrApiJson;
 using TumblThree.Applications.DataModels.TumblrCrawlerData;
 using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.DataModels.TumblrTaggedSearchJson;
@@ -256,7 +257,7 @@ namespace TumblThree.Applications.Crawler
                 if (Blog.DownloadPhoto)
                 {
                     url = RetrieveOriginalImageUrl(url, 2000, 3000);
-                    AddToDownloadList(new PhotoPost(url, id, -1, timestamp.ToString()));
+                    AddToDownloadList(new PhotoPost(url, id, timestamp.ToString(), BuildFileName(url, (Post)null, -1)));
                 }
             }
         }

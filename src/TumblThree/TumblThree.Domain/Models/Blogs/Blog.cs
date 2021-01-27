@@ -916,14 +916,12 @@ namespace TumblThree.Domain.Models.Blogs
             return false;
         }
 
-        public virtual bool CheckIfFileExistsInDB(string filename, string filenameNew)
+        public virtual bool CheckIfFileExistsInDB(string filename)
         {
             Monitor.Enter(lockObjectDb);
             try
             {
-                bool result = Links.Contains(filename);
-                if (result || string.IsNullOrEmpty(filenameNew)) return result;
-                return Links.Contains(filenameNew);
+                return Links.Contains(filename);
             }
             finally
             {

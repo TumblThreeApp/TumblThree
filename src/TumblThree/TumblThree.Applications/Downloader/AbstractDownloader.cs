@@ -269,7 +269,7 @@ namespace TumblThree.Applications.Downloader
                 }
 
                 SetFileDate(fileLocation, postDate);
-                UpdateBlogDB(downloadItem.DbType, fileName);
+                UpdateBlogDB(downloadItem.DbType, FileName(downloadItem));
 
                 //TODO: Refactor
                 if (!shellService.Settings.EnablePreview)
@@ -298,16 +298,16 @@ namespace TumblThree.Applications.Downloader
             string filenameNew = FileNameNew(downloadItem);
             if (shellService.Settings.LoadAllDatabases)
             {
-                return managerService.CheckIfFileExistsInDB(filename, filenameNew, blog.Name);
+                return managerService.CheckIfFileExistsInDB(filename);
             }
 
-            return files.CheckIfFileExistsInDB(filename, filenameNew, true) || blog.CheckIfBlogShouldCheckDirectory(filename, filenameNew);
+            return files.CheckIfFileExistsInDB(filename) || blog.CheckIfBlogShouldCheckDirectory(filename, filenameNew);
         }
 
         private void DownloadTextPost(TumblrPost downloadItem)
         {
             string postId = PostId(downloadItem);
-            if (files.CheckIfFileExistsInDB(postId, null, false))
+            if (files.CheckIfFileExistsInDB(postId))
             {
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, postId);
             }
@@ -351,9 +351,9 @@ namespace TumblThree.Applications.Downloader
             return downloadItem.Url.Split('/').Last();
         }
 
-        private string FileNameNew(TumblrPost downloadItem)
+        private static string FileNameNew(TumblrPost downloadItem)
         {
-            return (blog.GroupPhotoSets && downloadItem.Index != -1) ? $"{downloadItem.Id}_{downloadItem.Index}_{FileName(downloadItem)}" : null;
+            return downloadItem.Filename;
         }
 
         protected static string FileLocation(string blogDownloadLocation, string fileName)

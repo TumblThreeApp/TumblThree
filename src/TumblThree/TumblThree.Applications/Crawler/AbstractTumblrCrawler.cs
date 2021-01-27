@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using TumblThree.Applications.DataModels;
+using TumblThree.Applications.DataModels.TumblrApiJson;
+using TumblrSvcJson = TumblThree.Applications.DataModels.TumblrSvcJson;
 using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.Parser;
 using TumblThree.Applications.Properties;
@@ -231,7 +233,7 @@ namespace TumblThree.Applications.Crawler
                 url = ResizeTumblrImageUrl(url);
                 url = RetrieveOriginalImageUrl(url, 2000, 3000);
                 // TODO: postID
-                AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), -1));
+                AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), BuildFileName(url, (Post)null, -1)));
             }
         }
 
@@ -271,7 +273,7 @@ namespace TumblThree.Applications.Crawler
                 if (TumblrParser.IsTumblrUrl(imageUrl)) { continue; }
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new PhotoPost(imageUrl, Guid.NewGuid().ToString("N"), -1));
+                AddToDownloadList(new PhotoPost(imageUrl, Guid.NewGuid().ToString("N"), FileName(imageUrl)));
             }
         }
 
@@ -334,6 +336,25 @@ namespace TumblThree.Applications.Crawler
                 Blog.DuplicateAudios += dupAudio;
                 Blog.TotalCount = Blog.TotalCount - dupPhoto - dupVideo - dupAudio;
             }
+        }
+
+        protected static string FileName(string url)
+        {
+            return url.Split('/').Last();
+        }
+
+        protected string BuildFileName(string url, Post post, int index)
+        {
+            if (post?.Type == "photo" && Blog.GroupPhotoSets && index != -1)
+                return $"{post.Id}_{index}_{FileName(url)}";
+            return FileName(url);
+        }
+
+        protected string BuildFileName(string url, TumblrSvcJson.Post post, int index)
+        {
+            if (post?.Type == "photo" && Blog.GroupPhotoSets && index != -1)
+                return $"{post.Id}_{index}_{FileName(url)}";
+            return FileName(url);
         }
     }
 }

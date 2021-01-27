@@ -70,7 +70,7 @@ namespace TumblThree.Applications.Downloader
             foreach (string host in shellService.Settings.TumblrHosts)
             {
                 url = BuildRawImageUrl(url, host);
-                if (await base.DownloadBinaryPostAsync(new PhotoPost(url, downloadItem.Id, downloadItem.Index, downloadItem.Date)))
+                if (await base.DownloadBinaryPostAsync(new PhotoPost(url, downloadItem.Id, downloadItem.Date, downloadItem.Filename)))
                 {
                     return true;
                 }

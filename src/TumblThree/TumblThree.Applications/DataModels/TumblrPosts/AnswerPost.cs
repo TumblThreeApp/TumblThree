@@ -5,7 +5,7 @@ namespace TumblThree.Applications.DataModels.TumblrPosts
     public class AnswerPost : TumblrPost
     {
         public AnswerPost(string url, string id, string date)
-            : base(url, id, -1, date)
+            : base(url, id, date, null)
         {
             PostType = PostType.Text;
             DbType = "DownloadedAnswers";

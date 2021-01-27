@@ -13,9 +13,11 @@ namespace TumblThree.Domain.Models.Files
 
         bool IsDirty { get; }
 
+        string Version { get; set; }
+
         void AddFileToDb(string fileName);
 
-        bool CheckIfFileExistsInDB(string filename, string filenameNew, bool rename);
+        bool CheckIfFileExistsInDB(string filename);
 
         bool Save();
 

@@ -30,7 +30,7 @@ namespace TumblThree.Domain.Models.Files
         {
             Name = name;
             Location = location;
-            Version = "1";
+            Version = "2";
             links = new List<string>();
         }
 
@@ -59,20 +59,13 @@ namespace TumblThree.Domain.Models.Files
             }
         }
 
-        public virtual bool CheckIfFileExistsInDB(string filename, string filenameNew, bool rename)
+        public virtual bool CheckIfFileExistsInDB(string filename)
         {
+            string fileName = filename.Split('/').Last();
             Monitor.Enter(_lockList);
             try
             {
-                bool result = Links.Contains(filename);
-                if (result && rename && !string.IsNullOrEmpty(filenameNew))
-                {
-                    int index = Links.IndexOf(filename);
-                    Links.RemoveAt(index);
-                    Links.Insert(index, filenameNew);
-                }
-                if (result || string.IsNullOrEmpty(filenameNew)) return result;
-                return Links.Contains(filenameNew);
+                return Links.Contains(fileName);
             }
             finally
             {
@@ -100,6 +93,20 @@ namespace TumblThree.Domain.Models.Files
             {
                 var serializer = new DataContractJsonSerializer(GetType());
                 var file = (Files)serializer.ReadObject(stream);
+
+                if (file.Version == "1")
+                {
+                    for (int i = 0; i < file.Links.Count; i++)
+                    {
+                        if (file.Links[i].Count(c => c == '_') == 2)
+                        {
+                            file.Links[i] = file.Links[i].Substring(file.Links[i].LastIndexOf('_') + 1);
+                        }
+                    }
+                    file.Version = "2";
+                    file.isDirty = true;
+                }
+
                 file.Location = Path.Combine(Directory.GetParent(fileLocation).FullName);
                 return file;
             }

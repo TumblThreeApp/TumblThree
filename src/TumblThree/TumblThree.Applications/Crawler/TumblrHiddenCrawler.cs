@@ -466,7 +466,7 @@ namespace TumblThree.Applications.Crawler
 
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new PhotoPost(imageUrl, postId, i, post.Timestamp.ToString()));
+                AddToDownloadList(new PhotoPost(imageUrl, postId, post.Timestamp.ToString(), BuildFileName(imageUrl, post, i)));
                 AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
                 if (i != -1) i++;
             }

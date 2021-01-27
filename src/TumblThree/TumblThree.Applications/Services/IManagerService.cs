@@ -12,7 +12,7 @@ namespace TumblThree.Applications.Services
 
         IEnumerable<IFiles> Databases { get; }
 
-        bool CheckIfFileExistsInDB(string filename, string filenameNew, string blogName);
+        bool CheckIfFileExistsInDB(string filename);
 
         void RemoveDatabase(IFiles database);
 

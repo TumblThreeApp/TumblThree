@@ -204,7 +204,7 @@ namespace TumblThree.Domain.Models.Blogs
 
         bool CreateDataFolder();
 
-        bool CheckIfFileExistsInDB(string filename, string filenameNew);
+        bool CheckIfFileExistsInDB(string filename);
 
         bool CheckIfBlogShouldCheckDirectory(string filename, string filenameNew);
 

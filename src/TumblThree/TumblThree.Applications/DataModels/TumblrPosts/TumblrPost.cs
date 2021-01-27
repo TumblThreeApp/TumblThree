@@ -14,20 +14,20 @@
 
         public string Id { get; }
 
-        public int Index { get; }
-
         public string Date { get; }
+
+        public string Filename { get; }
 
         public string DbType { get; protected set; }
 
         public string TextFileLocation { get; protected set; }
 
-        protected TumblrPost(string url, string id, int index, string date)
+        protected TumblrPost(string url, string id, string date, string filename)
         {
             Url = url;
             Id = id;
-            Index = index;
             Date = date;
+            Filename = filename;
         }
     }
 }

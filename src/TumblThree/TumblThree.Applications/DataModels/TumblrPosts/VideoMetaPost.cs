@@ -5,7 +5,7 @@ namespace TumblThree.Applications.DataModels.TumblrPosts
     public class VideoMetaPost : TumblrPost
     {
         public VideoMetaPost(string url, string id, string date)
-            : base(url, id, -1, date)
+            : base(url, id, date, null)
         {
             PostType = PostType.Text;
             DbType = "DownloadedVideoMetas";
