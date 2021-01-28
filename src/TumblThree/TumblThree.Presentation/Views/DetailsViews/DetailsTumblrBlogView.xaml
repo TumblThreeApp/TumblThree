@@ -12,7 +12,8 @@
              xmlns:Models="clr-namespace:TumblThree.Domain.Models;assembly=TumblThree.Domain"
              xmlns:Extensions="clr-namespace:TumblThree.Presentation.Extensions"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance dd:SampleDetailsViewModel, IsDesignTimeCreatable=True}"
-             d:DesignHeight="720" d:DesignWidth="400" Background="{StaticResource DefaultBackground}">
+             d:DesignHeight="720" d:DesignWidth="400" Background="{StaticResource DefaultBackground}"
+             LostFocus="View_LostFocus">
 
     <UserControl.Resources>
         <ObjectDataProvider MethodName="GetValues"

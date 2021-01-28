@@ -33,6 +33,11 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
 
         public ICommand BrowseFileDownloadLocationCommand => _browseFileDownloadLocationCommand;
 
+        public void ViewLostFocus()
+        {
+            BlogFile.Save();
+        }
+
         public IBlog BlogFile
         {
             get => _blogFile;

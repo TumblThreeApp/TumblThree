@@ -10,7 +10,8 @@
              xmlns:ei="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance dd:SampleDetailsViewModel, IsDesignTimeCreatable=True}"
-             d:DesignHeight="640" d:DesignWidth="400" Background="{StaticResource DefaultBackground}">
+             d:DesignHeight="640" d:DesignWidth="400" Background="{StaticResource DefaultBackground}"
+             LostFocus="View_LostFocus">
 
     <Grid>
         <Grid.Resources>
