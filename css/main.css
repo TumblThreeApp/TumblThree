@@ -8,7 +8,7 @@ body {
 
 a, a:hover {
     color: #1a3361;
-    text-decoration: none;
+    /* text-decoration: none; */
     word-break: break-word;
 }
 
@@ -77,11 +77,6 @@ blockquote cite {
 
 blockquote em {
     font-weight: 600;
-}
-
-a,a:hover {
-    color: #1a3361;
-    text-decoration: none
 }
 
 a:hover {
