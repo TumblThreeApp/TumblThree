@@ -673,6 +673,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save url list (no audio/image/video downloads).
+        /// </summary>
+        public static string DownloadUrlList2 {
+            get {
+                return ResourceManager.GetString("DownloadUrlList2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download video meta.
         /// </summary>
         public static string DownloadVideoMeta {

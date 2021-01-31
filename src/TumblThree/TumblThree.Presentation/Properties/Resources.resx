@@ -1021,4 +1021,7 @@ template: {Post Id}_{Photo Index}_{Original Filename}</value>
   <data name="GroupPhotoSets" xml:space="preserve">
     <value>Group photo sets</value>
   </data>
+  <data name="DownloadUrlList2" xml:space="preserve">
+    <value>Save url list (no audio/image/video downloads)</value>
+  </data>
 </root>

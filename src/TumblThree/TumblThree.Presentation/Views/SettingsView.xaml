@@ -1531,7 +1531,7 @@
                             Grid.ColumnSpan="2"
                             Margin="10"
                             VerticalAlignment="Center"
-                            Content="{x:Static p:Resources.DownloadUrlList}"
+                            Content="{x:Static p:Resources.DownloadUrlList2}"
                             IsChecked="{Binding DownloadUrlList, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>

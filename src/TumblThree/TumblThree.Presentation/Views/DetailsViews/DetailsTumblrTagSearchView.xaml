@@ -480,10 +480,10 @@
                             <CheckBox
                                 Grid.Row="14"
                                 Grid.Column="0"
-                                Grid.ColumnSpan="2"
+                                Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"
                                 Padding="3,0,0,0"
-                                Content="{x:Static p:Resources.DownloadUrlList}"
+                                Content="{x:Static p:Resources.DownloadUrlList2}"
                                 IsChecked="{Binding BlogFile.DownloadUrlList, Mode=TwoWay}">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
