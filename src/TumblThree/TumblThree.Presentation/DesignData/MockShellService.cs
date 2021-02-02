@@ -34,6 +34,8 @@ namespace TumblThree.Presentation.DesignData
 
         public bool IsApplicationBusy { get; set; }
 
+        public bool IsLongPathSupported { get; set; }
+
         public ClipboardMonitor ClipboardMonitor { get; set; }
 
         public OAuthManager OAuthManager { get; set; }

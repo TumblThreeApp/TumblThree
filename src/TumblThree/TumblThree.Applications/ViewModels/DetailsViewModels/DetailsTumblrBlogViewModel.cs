@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
 using System.Waf.Applications;
 using System.Windows.Forms;
 using System.Windows.Input;
-
+using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models.Blogs;
@@ -17,14 +19,16 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         private readonly DelegateCommand _copyUrlCommand;
 
         private readonly IClipboardService _clipboardService;
+        private readonly IDetailsService _detailsService;
         private IBlog _blogFile;
         private int _count = 0;
 
         [ImportingConstructor]
-        public DetailsTumblrBlogViewModel([Import("TumblrBlogView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService)
+        public DetailsTumblrBlogViewModel([Import("TumblrBlogView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService, IDetailsService detailsService)
             : base(view)
         {
             _clipboardService = clipboardService;
+            _detailsService = detailsService;
             _copyUrlCommand = new DelegateCommand(CopyUrlToClipboard);
             _browseFileDownloadLocationCommand = new DelegateCommand(BrowseFileDownloadLocation);
         }
@@ -36,6 +40,11 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         public void ViewLostFocus()
         {
             BlogFile.Save();
+        }
+
+        public void FilenameTemplateValidate(string enteredFilenameTemplate)
+        {
+            _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);
         }
 
         public IBlog BlogFile

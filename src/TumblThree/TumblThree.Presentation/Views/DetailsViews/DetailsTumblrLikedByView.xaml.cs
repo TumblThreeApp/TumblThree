@@ -40,5 +40,10 @@ namespace TumblThree.Presentation.Views
             if (!((UserControl)sender).IsKeyboardFocusWithin)
                 ViewModel.ViewLostFocus();
         }
+
+        private void FilenameTemplate_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FilenameTemplateValidate(((TextBox)e.Source).Text);
+        }
     }
 }

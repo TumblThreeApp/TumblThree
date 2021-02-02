@@ -129,6 +129,7 @@ namespace TumblThree.Applications.ViewModels
         private string _tumblrEmail = string.Empty;
         private string _logLevel = string.Empty;
         private bool _groupPhotoSets;
+        private string _filenameTemplate;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService, ILoginService loginService, IFolderBrowserDialog folderBrowserDialog, IFileDialogService fileDialogService, ExportFactory<AuthenticateViewModel> authenticateViewModelFactory)
@@ -735,6 +736,12 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _groupPhotoSets, value);
         }
 
+        public string FilenameTemplate
+        {
+            get => _filenameTemplate;
+            set => SetProperty(ref _filenameTemplate, value);
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -971,6 +978,7 @@ namespace TumblThree.Applications.ViewModels
                 UserAgent = _settings.UserAgent;
                 LogLevel = _settings.LogLevel;
                 GroupPhotoSets = _settings.GroupPhotoSets;
+                FilenameTemplate = _settings.FilenameTemplate;
             }
             else
             {
@@ -1060,6 +1068,7 @@ namespace TumblThree.Applications.ViewModels
                 UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36";
                 LogLevel = nameof(System.Diagnostics.TraceLevel.Verbose);
                 GroupPhotoSets = false;
+                FilenameTemplate = "%f";
             }
         }
 
@@ -1226,6 +1235,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.UserAgent = UserAgent;
             _settings.LogLevel = LogLevel;
             _settings.GroupPhotoSets = GroupPhotoSets;
+            _settings.FilenameTemplate = FilenameTemplate;
         }
     }
 }

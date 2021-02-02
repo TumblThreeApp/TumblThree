@@ -685,7 +685,7 @@ namespace TumblThree.Applications.Controllers
 
         private IBlog CheckIfCrawlableBlog(string blogUrl)
         {
-            return _blogFactory.GetBlog(blogUrl, Path.Combine(_shellService.Settings.DownloadLocation, "Index"));
+            return _blogFactory.GetBlog(blogUrl, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate);
         }
 
         private void AddToManager(IBlog blog)
@@ -702,7 +702,7 @@ namespace TumblThree.Applications.Controllers
             if (blog.GetType() == typeof(TumblrBlog) && await _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url))
             {
                 RemoveBlog(new[] { blog });
-                blog = TumblrHiddenBlog.Create("https://www.tumblr.com/dashboard/blog/" + blog.Name, Path.Combine(_shellService.Settings.DownloadLocation, "Index"));
+                blog = TumblrHiddenBlog.Create("https://www.tumblr.com/dashboard/blog/" + blog.Name, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate);
             }
 
             return blog;

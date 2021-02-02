@@ -9,7 +9,7 @@ namespace TumblThree.Domain.Models.Blogs
     [DataContract]
     public class TumblrSearchBlog : Blog
     {
-        public static Blog Create(string url, string location)
+        public static Blog Create(string url, string location, string filenameTemplate)
         {
             var blog = new TumblrSearchBlog()
             {
@@ -22,6 +22,7 @@ namespace TumblThree.Domain.Models.Blogs
                 Version = "4",
                 DateAdded = DateTime.Now,
                 PageSize = 20,
+                FilenameTemplate = filenameTemplate
             };
 
             Directory.CreateDirectory(location);

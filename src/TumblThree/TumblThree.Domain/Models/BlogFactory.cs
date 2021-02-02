@@ -28,37 +28,37 @@ namespace TumblThree.Domain.Models
                    || _urlValidator.IsTumbexUrl(blogUrl);
         }
 
-        public IBlog GetBlog(string blogUrl, string path)
+        public IBlog GetBlog(string blogUrl, string path, string filenameTemplate)
         {
             blogUrl = _urlValidator.AddHttpsProtocol(blogUrl);
             if (_urlValidator.IsValidTumblrUrl(blogUrl))
             {
-                return TumblrBlog.Create(blogUrl, path);
+                return TumblrBlog.Create(blogUrl, path, filenameTemplate);
             }
 
             if (_urlValidator.IsTumbexUrl(blogUrl))
             {
-                return TumblrBlog.Create(CreateTumblrUrlFromTumbex(blogUrl), path);
+                return TumblrBlog.Create(CreateTumblrUrlFromTumbex(blogUrl), path, filenameTemplate);
             }
 
             if (_urlValidator.IsValidTumblrHiddenUrl(blogUrl))
             {
-                return TumblrHiddenBlog.Create(blogUrl, path);
+                return TumblrHiddenBlog.Create(blogUrl, path, filenameTemplate);
             }
 
             if (_urlValidator.IsValidTumblrLikedByUrl(blogUrl))
             {
-                return TumblrLikedByBlog.Create(blogUrl, path);
+                return TumblrLikedByBlog.Create(blogUrl, path, filenameTemplate);
             }
 
             if (_urlValidator.IsValidTumblrSearchUrl(blogUrl))
             {
-                return TumblrSearchBlog.Create(blogUrl, path);
+                return TumblrSearchBlog.Create(blogUrl, path, filenameTemplate);
             }
 
             if (_urlValidator.IsValidTumblrTagSearchUrl(blogUrl))
             {
-                return TumblrTagSearchBlog.Create(blogUrl, path);
+                return TumblrTagSearchBlog.Create(blogUrl, path, filenameTemplate);
             }
 
             throw new ArgumentException("Website is not supported!", nameof(blogUrl));

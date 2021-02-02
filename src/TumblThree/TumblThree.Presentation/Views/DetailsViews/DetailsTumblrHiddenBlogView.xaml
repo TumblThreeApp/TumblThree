@@ -227,6 +227,8 @@
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                             </Grid.RowDefinitions>
 
                             <Label Content="{x:Static p:Resources.Posts}" Grid.Column="0" Grid.ColumnSpan="2"
@@ -778,7 +780,34 @@
                                 </Button.ToolTip>
                             </Button>
 
-                            <Label Content="{x:Static p:Resources.BlogtypeCrawler}" Grid.Column="0" Grid.Row="34"
+                            <Label Content="{x:Static p:Resources.FilenameTemplate}" Grid.Column="0" Grid.Row="34"
+                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                <Label.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipFilenameTemplate}" />
+                                            <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipFilenameTemplateDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Label.ToolTip>
+                            </Label>
+
+                            <TextBox Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="34" Padding="0" 
+                                 Text="{Binding BlogFile.FilenameTemplate, Mode=TwoWay, ValidatesOnDataErrors=True}"
+                                     LostFocus="FilenameTemplate_LostFocus">
+                                <TextBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipFilenameTemplate}" />
+                                            <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipFilenameTemplateDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                            
+                            <Label Content="{x:Static p:Resources.BlogtypeCrawler}" Grid.Column="0" Grid.Row="36"
                                   Margin="3,0,0,0" Padding="3,0,0,0">
                                 <Label.ToolTip>
                                     <ToolTip>
@@ -791,7 +820,7 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <ComboBox Grid.Column="1" Grid.Row="34" Padding="5,0,5,0"
+                            <ComboBox Grid.Column="1" Grid.Row="36" Padding="5,0,5,0"
                                 ItemsSource="{Binding Source={StaticResource TumblrBlogCrawlerTypes}}" SelectedValuePath="."
                                 SelectedValue="{Binding BlogFile.BlogType, Converter={StaticResource TumblrBlogCrawlerTypesConverter}}"
                                 SelectedItem="{Binding BlogFile.BlogType, Converter={StaticResource TumblrBlogCrawlerTypesConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -806,22 +835,22 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
 
-                            <Label Content="{x:Static p:Resources.MetadataFormat}" Grid.Column="0" Grid.Row="36"
+                            <Label Content="{x:Static p:Resources.MetadataFormat}" Grid.Column="0" Grid.Row="38"
                                   Margin="3,0,0,0" Padding="3,0,0,0" />
 
-                            <ComboBox Grid.Column="1" Grid.Row="36" Padding="5,0,5,0"
+                            <ComboBox Grid.Column="1" Grid.Row="38" Padding="5,0,5,0"
                                 ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:MetadataType}}}" SelectedValuePath="."
                                 SelectedValue="{Binding BlogFile.MetadataFormat}"
                                 SelectedItem="{Binding BlogFile.MetadataFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
                             <CheckBox Content="{x:Static p:Resources.SkipGif}" IsChecked="{Binding BlogFile.SkipGif, Mode=TwoWay}"
-                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="38" Margin="3,0,0,0" Padding="3,0,0,0" />
-
-                            <CheckBox Content="{x:Static p:Resources.GroupPhotoSets}" IsChecked="{Binding BlogFile.GroupPhotoSets, Mode=TwoWay}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="40" Margin="3,0,0,0" Padding="3,0,0,0" />
 
+                            <CheckBox Content="{x:Static p:Resources.GroupPhotoSets}" IsChecked="{Binding BlogFile.GroupPhotoSets, Mode=TwoWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="42" Margin="3,0,0,0" Padding="3,0,0,0" />
+
                             <CheckBox Content="{x:Static p:Resources.DownloadRebloggedPosts}"
-                                  IsChecked="{Binding BlogFile.DownloadRebloggedPosts, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="42"
+                                  IsChecked="{Binding BlogFile.DownloadRebloggedPosts, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="44"
                                   Margin="3,0,0,0" Padding="3,0,0,0" />
 
                             <!--<CheckBox Content="{x:Static p:Resources.CheckDirectoryForFiles}"
@@ -840,7 +869,7 @@
                         </CheckBox>-->
 
                             <CheckBox Content="{x:Static p:Resources.DownloadUrlList2}"
-                                  IsChecked="{Binding BlogFile.DownloadUrlList, Mode=TwoWay}" Grid.Column="0" Grid.Row="44" Grid.ColumnSpan="5"
+                                  IsChecked="{Binding BlogFile.DownloadUrlList, Mode=TwoWay}" Grid.Column="0" Grid.Row="46" Grid.ColumnSpan="2"
                                   Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -855,7 +884,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.ForceSize}"
                                   IsChecked="{Binding BlogFile.ForceSize, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                  Grid.Row="46" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Row="48" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -869,7 +898,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.RegExPhotos}"
                                       IsChecked="{Binding BlogFile.RegExPhotos, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                      Grid.Row="48" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Row="50" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -883,7 +912,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.RegExVideos}"
                                       IsChecked="{Binding BlogFile.RegExVideos, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                      Grid.Row="50" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Row="52" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -897,7 +926,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.DumpCrawlerData}"
                                   IsChecked="{Binding BlogFile.DumpCrawlerData, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                  Grid.Row="52" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Row="54" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -911,7 +940,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.ForceRescan}"
                                   IsChecked="{Binding BlogFile.ForceRescan, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                  Grid.Row="54" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Row="56" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>

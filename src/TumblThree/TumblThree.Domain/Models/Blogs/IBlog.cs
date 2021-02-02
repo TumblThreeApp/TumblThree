@@ -182,6 +182,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         DateTime LatestPost { get; set; }
 
+        String FilenameTemplate { get; set; }
+
         int SettingsTabIndex { get; set; }
 
         bool Online { get; set; }

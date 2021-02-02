@@ -250,7 +250,7 @@ namespace TumblThree.Applications.Crawler
             if (type == "video")
             {
                 if (Blog.DownloadVideo)
-                    AddToDownloadList(new VideoPost(url, id, timestamp.ToString()));
+                    AddToDownloadList(new VideoPost(url, id, timestamp.ToString(), BuildFileName(url, (Post)null, -1)));
             }
             else
             {

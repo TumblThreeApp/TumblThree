@@ -432,6 +432,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your filename template does not contain any necessary token!.
+        /// </summary>
+        public static string FilenameTemplateTokenNotFound {
+            get {
+                return ResourceManager.GetString("FilenameTemplateTokenNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to texts.txt.
         /// </summary>
         public static string FileNameTexts {
@@ -806,6 +815,15 @@ namespace TumblThree.Applications.Properties {
         public static string VideoSource {
             get {
                 return ResourceManager.GetString("VideoSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
     }

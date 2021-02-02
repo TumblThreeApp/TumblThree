@@ -334,6 +334,9 @@ namespace TumblThree.Applications.Properties
         public string LogLevel { get; set; }
 
         [DataMember]
+        public string FilenameTemplate { get; set; }
+
+        [DataMember]
         public bool GroupPhotoSets { get; set; }
 
         [DataMember]
@@ -468,6 +471,7 @@ namespace TumblThree.Applications.Properties
             LogLevel = nameof(System.Diagnostics.TraceLevel.Info);
 #endif
             GroupPhotoSets = false;
+            FilenameTemplate = "%f";
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
         }
 

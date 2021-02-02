@@ -799,6 +799,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filename template:.
+        /// </summary>
+        public static string FilenameTemplate {
+            get {
+                return ResourceManager.GetString("FilenameTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Force rescan.
         /// </summary>
         public static string ForceRescan {
@@ -1991,6 +2000,35 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipFileDownloadLocationDescription {
             get {
                 return ResourceManager.GetString("ToolTipFileDownloadLocationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify a filename template for saving the downloaded files..
+        /// </summary>
+        public static string ToolTipFilenameTemplate {
+            get {
+                return ResourceManager.GetString("ToolTipFilenameTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following tokens can be used in the filename template:
+        ///  %f   original filename (default)
+        ///  %d  post date (yyyymmdd)
+        ///  %p  post title
+        ///  %i   post id
+        ///  %n  image index (of photo sets, else skipped)
+        ///  %t   for all tags (cute+cats,big+dogs)
+        ///  %r   for reblog
+        ///  %s   slug (last part of a post&apos;s url)
+        ///Example (saving an image):
+        ///  %i_%f for {post id}_{tumblr filename}.jpg
+        ///If additionally the option &quot;group photo sets&quot; is enabled, then for image sets the token %i is replaced by {post id}_{image index}  [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ToolTipFilenameTemplateDescription {
+            get {
+                return ResourceManager.GetString("ToolTipFilenameTemplateDescription", resourceCulture);
             }
         }
         

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Waf.Applications;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TumblThree.Applications.ViewModels.DetailsViewModels;
 using TumblThree.Applications.Views;
@@ -31,6 +32,11 @@ namespace TumblThree.Presentation.Views
         {
             var fullScreenMediaView = new FullScreenMediaView { DataContext = viewModel.Value.BlogFile };
             fullScreenMediaView.ShowDialog();
+        }
+
+        private void FilenameTemplate_LostFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ViewModel.FilenameTemplateValidate(((TextBox)e.Source).Text);
         }
     }
 }

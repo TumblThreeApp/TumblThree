@@ -92,6 +92,7 @@ namespace TumblThree.Domain.Models.Blogs
         private DateTime dateAdded;
         private DateTime lastCompleteCrawl;
         private DateTime latestPost;
+        private string filenameTemplate;
         private bool online;
         private int settingsTabIndex;
         private int progress;
@@ -741,6 +742,16 @@ namespace TumblThree.Domain.Models.Blogs
         }
 
         [DataMember]
+        public string FilenameTemplate
+        {
+            get => filenameTemplate;
+            set {
+                if (string.IsNullOrEmpty(value)) value = "%f";
+                SetProperty(ref filenameTemplate, value);
+            }
+        }
+
+        [DataMember]
         public bool Online
         {
             get => online;
@@ -997,6 +1008,8 @@ namespace TumblThree.Domain.Models.Blogs
                     blog.Version = "4";
                 }
 
+                if (string.IsNullOrEmpty(blog.FilenameTemplate))
+                    blog.FilenameTemplate = "%f";
                 if (string.IsNullOrEmpty(blog.Location))
                     blog.Location = Path.Combine(Directory.GetParent(fileLocation).FullName, "Index");
                 if (string.IsNullOrEmpty(blog.ChildId))

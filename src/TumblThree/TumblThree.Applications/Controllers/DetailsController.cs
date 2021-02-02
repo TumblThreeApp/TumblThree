@@ -5,7 +5,8 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
-
+using System.Windows;
+using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models;
@@ -81,6 +82,13 @@ namespace TumblThree.Applications.Controllers
                 DetailsViewModel.BlogFile = CreateFromMultiple(blogFiles.ToArray());
                 DetailsViewModel.BlogFile.PropertyChanged += ChangeBlogSettings;
             }
+        }
+
+        public void FilenameTemplateValidate(string enteredFilenameTemplate)
+        {
+            if (string.IsNullOrEmpty(enteredFilenameTemplate)) return;
+            var tokens = new List<string>() { "%f", "%d", "%p", "%i", "%s" };
+            if (!tokens.Any(x => enteredFilenameTemplate.IndexOf(x, StringComparison.InvariantCultureIgnoreCase) >= 0)) MessageBox.Show(Resources.FilenameTemplateTokenNotFound, Resources.Warning);
         }
 
         private void UpdateViewModelBasedOnSelection(IReadOnlyList<IBlog> blogFiles)

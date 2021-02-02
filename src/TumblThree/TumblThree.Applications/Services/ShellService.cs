@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -29,6 +30,7 @@ namespace TumblThree.Applications.Services
         private OAuthManager oauthManager;
         private object queueView;
         private object settingsView;
+        private int isLongPathSupported = -1;
 
         public event EventHandler SettingsUpdatedHandler;
 
@@ -96,6 +98,36 @@ namespace TumblThree.Applications.Services
         {
             get => isApplicationBusy;
             private set => SetProperty(ref isApplicationBusy, value);
+        }
+
+        public bool IsLongPathSupported
+        {
+            get
+            {
+                if (isLongPathSupported == -1)
+                {
+                    try
+                    {
+                        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Control\FileSystem"))
+                        {
+                            if (key != null)
+                            {
+                                Object o = key.GetValue("LongPathsEnabled");
+                                if (o != null && o is int)
+                                {
+                                    isLongPathSupported = (int)o;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Trace.WriteLine($"ShellService.IsLongPathSupported: {ex}");
+                        throw;
+                    }
+                }
+                return isLongPathSupported == 1;
+            }
         }
 
         public event CancelEventHandler Closing

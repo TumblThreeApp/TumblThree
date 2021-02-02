@@ -26,6 +26,8 @@ namespace TumblThree.Applications.Services
 
         bool IsApplicationBusy { get; }
 
+        bool IsLongPathSupported { get; }
+
         ClipboardMonitor ClipboardMonitor { get; set; }
 
         OAuthManager OAuthManager { get; set; }

@@ -97,6 +97,8 @@ namespace TumblThree.Applications.Controllers
 
             Logger.Initialize(logPath, (System.Diagnostics.TraceLevel)Enum.Parse(typeof(System.Diagnostics.TraceLevel), _appSettings.LogLevel));
 
+            Logger.Information("IsLongPathSupported: {0}", ShellService.IsLongPathSupported);
+
             _queueSettings = LoadSettings<QueueSettings>(Path.Combine(savePath, QueueSettingsFileName));
             _managerSettings = LoadSettings<ManagerSettings>(Path.Combine(savePath, ManagerSettingsFileName));
             _cookieList = LoadSettings<List<Cookie>>(Path.Combine(savePath, CookiesFileName));

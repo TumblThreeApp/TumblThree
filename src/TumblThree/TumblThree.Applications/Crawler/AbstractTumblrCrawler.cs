@@ -16,6 +16,7 @@ using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
+using System.IO;
 
 namespace TumblThree.Applications.Crawler
 {
@@ -139,7 +140,7 @@ namespace TumblThree.Applications.Crawler
             {
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new VideoPost(imageUrl, WebmshareParser.GetWebmshareId(imageUrl), timestamp));
+                AddToDownloadList(new ExternalVideoPost(imageUrl, WebmshareParser.GetWebmshareId(imageUrl), timestamp));
             }
         }
 
@@ -247,7 +248,7 @@ namespace TumblThree.Applications.Crawler
                     url += "_480";
                 }
 
-                AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + url + ".mp4", Guid.NewGuid().ToString("N")));
+                AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + url + ".mp4", Guid.NewGuid().ToString("N"), BuildFileName("https://vtt.tumblr.com/" + url + ".mp4", (Post)null, -1)));
             }
         }
 
@@ -262,7 +263,7 @@ namespace TumblThree.Applications.Crawler
                     videoUrl += "_480";
                 }
 
-                AddToDownloadList(new VideoPost(videoUrl + ".mp4", Guid.NewGuid().ToString("N")));
+                AddToDownloadList(new VideoPost(videoUrl + ".mp4", Guid.NewGuid().ToString("N"), FileName(videoUrl + ".mp4")));
             }
         }
 
@@ -283,7 +284,7 @@ namespace TumblThree.Applications.Crawler
             {
                 if (TumblrParser.IsTumblrUrl(videoUrl)) { continue; }
 
-                AddToDownloadList(new VideoPost(videoUrl, Guid.NewGuid().ToString("N")));
+                AddToDownloadList(new VideoPost(videoUrl, Guid.NewGuid().ToString("N"), FileName(videoUrl)));
             }
         }
 
@@ -343,18 +344,131 @@ namespace TumblThree.Applications.Crawler
             return url.Split('/').Last();
         }
 
+        private static string Sanitize(string filename)
+        {
+            var invalids = System.IO.Path.GetInvalidFileNameChars();
+            return String.Join("-", filename.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.');
+        }
+
         protected string BuildFileName(string url, Post post, int index)
         {
-            if (post?.Type == "photo" && Blog.GroupPhotoSets && index != -1)
-                return $"{post.Id}_{index}_{FileName(url)}";
-            return FileName(url);
+            if (post == null)
+            {
+                post = new Post() { Date = DateTime.MinValue.ToString("yyyyMMddHHmmss"), Type = "", Id = "",
+                    Tags = new List<string>(), Slug = "", RegularTitle = "", RebloggedFromName = "", ReblogKey = "" };
+            }
+            return BuildFileNameCore(url, post.Date, post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.ReblogKey);
         }
 
         protected string BuildFileName(string url, TumblrSvcJson.Post post, int index)
         {
-            if (post?.Type == "photo" && Blog.GroupPhotoSets && index != -1)
-                return $"{post.Id}_{index}_{FileName(url)}";
-            return FileName(url);
+            if (post == null)
+            {
+                post = new TumblrSvcJson.Post() { Date = DateTime.MinValue.ToString("yyyyMMddHHmmss"), Type = "", Id = "",
+                    Tags = new List<string>(), Slug = "", Title = "", RebloggedFromName = "", ReblogKey = "" };
+            }
+            return BuildFileNameCore(url, post.Date, post.Timestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.ReblogKey);
+        }
+
+        private static string ReplaceCI(string input, string search, string replacement)
+        {
+            string result = Regex.Replace(
+                input,
+                Regex.Escape(search),
+                replacement.Replace("$", "$$"),
+                RegexOptions.IgnoreCase
+            );
+            return result;
+        }
+
+        private static bool ContainsCI(string input, string search)
+        {
+            return input.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
+        private string BuildFileNameCore(string url, string date, int timestamp, int index, string type, string id, List<string> tags, string slug, string title, string rebloggedFromName, string reblog_key)
+        {
+            /*
+             * Replaced are:
+             *  %f  original filename (default)
+                %d  post date (yyyyMMddHHmmss)
+                %u  post timestamp (number)
+                %p  post title (shorted if needed…)
+                %i  post id
+                %n  image index (of photo sets)
+                %t  for all tags (cute+cats,big+dogs)
+                %r  for reblog ("" / "reblog")
+                %s  slug (last part of a post's url)
+                %k  reblog-key
+             */
+            string filename = Blog.FilenameTemplate;
+
+            filename += Path.GetExtension(FileName(url));
+            if (ContainsCI(filename, "%f")) filename = ReplaceCI(filename, "%f", Path.GetFileNameWithoutExtension(FileName(url)));
+            if (ContainsCI(filename, "%d")) filename = ReplaceCI(filename, "%d", DateTime.Parse(date).ToString("yyyyMMdd"));
+            if (ContainsCI(filename, "%u")) filename = ReplaceCI(filename, "%u", timestamp.ToString());
+            if (ContainsCI(filename, "%i"))
+            {
+                if (type == "photo" && Blog.GroupPhotoSets && index != -1) id = $"{id}_{index}";
+                filename = ReplaceCI(filename, "%i", id);
+            }
+            else if (type == "photo" && Blog.GroupPhotoSets && index != -1)
+            {
+                filename = $"{id}_{index}_{filename}";
+            }
+            if (ContainsCI(filename, "%n"))
+            {
+                if (type != "photo" || index == -1)
+                {
+                    string charBefore = "";
+                    string charAfter = "";
+                    if (filename.IndexOf("%n", StringComparison.OrdinalIgnoreCase) > 0)
+                        charBefore = filename.Substring(filename.IndexOf("%n", StringComparison.OrdinalIgnoreCase) - 1, 1);
+                    if (filename.IndexOf("%n", StringComparison.OrdinalIgnoreCase) < filename.Length - 2)
+                        charAfter = filename.Substring(filename.IndexOf("%n", StringComparison.OrdinalIgnoreCase) + 2, 1);
+                    if (charBefore == charAfter)
+                        filename = filename.Remove(filename.IndexOf("%n", StringComparison.OrdinalIgnoreCase) - 1, 1);
+                    filename = ReplaceCI(filename, "%n", "");
+                }
+                else
+                {
+                    filename = ReplaceCI(filename, "%n", index.ToString());
+                }
+            }
+            if (ContainsCI(filename, "%t")) filename = ReplaceCI(filename, "%t", string.Join(",", tags).Replace(" ", "+"));
+            if (ContainsCI(filename, "%r"))
+            {
+                if (rebloggedFromName.Length == 0 && filename.IndexOf("%r", StringComparison.OrdinalIgnoreCase) > 0 &&
+                    filename.IndexOf("%r", StringComparison.OrdinalIgnoreCase) < filename.Length - 2 &&
+                    filename.Substring(filename.IndexOf("%r", StringComparison.OrdinalIgnoreCase) - 1, 1) == filename.Substring(filename.IndexOf("%r", StringComparison.OrdinalIgnoreCase) + 2, 1))
+                {
+                    filename = filename.Remove(filename.IndexOf("%r", StringComparison.OrdinalIgnoreCase), 3);
+                }
+                filename = ReplaceCI(filename, "%r", (rebloggedFromName.Length == 0 ? "" : "reblog"));
+            }
+            if (ContainsCI(filename, "%s")) filename = ReplaceCI(filename, "%s", slug);
+            if (ContainsCI(filename, "%k")) filename = ReplaceCI(filename, "%k", reblog_key);
+            if (ContainsCI(filename, "%p"))
+            {
+                string _title = title;
+                if (!ShellService.IsLongPathSupported)
+                {
+                    string filepath = Path.Combine(Blog.DownloadLocation(), filename);
+                    int charactersLeft = 260 - filepath.Length + 2;
+                    if (charactersLeft < 0) throw new PathTooLongException($"{Blog.Name}: filename for post id {id} is too long");
+                    if (charactersLeft < _title.Length) _title = _title.Substring(0, charactersLeft - 1) + "…";
+                }
+                filename = ReplaceCI(filename, "%p", _title);
+            }
+            else if (!ShellService.IsLongPathSupported)
+            {
+                string filepath = Path.Combine(Blog.DownloadLocation(), filename);
+                int charactersLeft = 260 - filepath.Length;
+                if (charactersLeft < 0) throw new PathTooLongException($"{Blog.Name}: filename for post id {id} is too long");
+            }
+
+            return Sanitize(filename);
         }
     }
 }

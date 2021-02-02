@@ -368,4 +368,10 @@
   <data name="VideoSource" xml:space="preserve">
     <value>Video source: {0}</value>
   </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>Your filename template does not contain any necessary token!</value>
+  </data>
 </root>

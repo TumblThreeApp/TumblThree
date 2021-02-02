@@ -17,14 +17,16 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         private readonly DelegateCommand _copyUrlCommand;
 
         private readonly IClipboardService _clipboardService;
+        private readonly IDetailsService _detailsService;
         private IBlog _blogFile;
         private int _count = 0;
 
         [ImportingConstructor]
-        public DetailsTumblrSearchViewModel([Import("TumblrSearchView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService)
+        public DetailsTumblrSearchViewModel([Import("TumblrSearchView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService, IDetailsService detailsService)
             : base(view)
         {
             _clipboardService = clipboardService;
+            _detailsService = detailsService;
             _copyUrlCommand = new DelegateCommand(CopyUrlToClipboard);
             _browseFileDownloadLocationCommand = new DelegateCommand(BrowseFileDownloadLocation);
         }
@@ -36,6 +38,11 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         public void ViewLostFocus()
         {
             BlogFile.Save();
+        }
+
+        public void FilenameTemplateValidate(string enteredFilenameTemplate)
+        {
+            _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);
         }
 
         public IBlog BlogFile

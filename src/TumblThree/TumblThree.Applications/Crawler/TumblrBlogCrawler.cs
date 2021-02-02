@@ -710,7 +710,7 @@ namespace TumblThree.Applications.Crawler
         {
             foreach (string videoUrl in videoUrls)
             {
-                AddToDownloadList(new VideoPost(videoUrl, post.Id, post.UnixTimestamp.ToString()));
+                AddToDownloadList(new VideoPost(videoUrl, post.Id, post.UnixTimestamp.ToString(), FileName(videoUrl)));
             }
         }
 
@@ -757,7 +757,7 @@ namespace TumblThree.Applications.Crawler
                 videoUrl += "_480";
             }
 
-            AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + videoUrl + ".mp4", post.Id, post.UnixTimestamp.ToString()));
+            AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + videoUrl + ".mp4", post.Id, post.UnixTimestamp.ToString(), BuildFileName("https://vtt.tumblr.com/" + videoUrl + ".mp4", post, -1)));
             AddToJsonQueue(new TumblrCrawlerData<Post>(videoUrl + ".json", post));
         }
 
