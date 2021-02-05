@@ -467,7 +467,7 @@
 
                             <TextBox Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="10" Padding="0" 
                                  Text="{Binding BlogFile.FilenameTemplate, Mode=TwoWay, ValidatesOnDataErrors=True}"
-                                     LostFocus="FilenameTemplate_LostFocus">
+                                     PreviewLostKeyboardFocus="FilenameTemplate_PreviewLostKeyboardFocus">
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>

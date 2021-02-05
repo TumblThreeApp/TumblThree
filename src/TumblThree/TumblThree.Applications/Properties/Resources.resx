@@ -372,6 +372,9 @@
     <value>Warning</value>
   </data>
   <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
-    <value>Your filename template does not contain any necessary token!</value>
+    <value>Filename template does not contain any necessary token!</value>
+  </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>Filename template must end with either %x or %y!</value>
   </data>
 </root>

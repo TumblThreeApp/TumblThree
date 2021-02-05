@@ -84,11 +84,23 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
-        public void FilenameTemplateValidate(string enteredFilenameTemplate)
+        public bool FilenameTemplateValidate(string enteredFilenameTemplate)
         {
-            if (string.IsNullOrEmpty(enteredFilenameTemplate)) return;
-            var tokens = new List<string>() { "%f", "%d", "%p", "%i", "%s" };
-            if (!tokens.Any(x => enteredFilenameTemplate.IndexOf(x, StringComparison.InvariantCultureIgnoreCase) >= 0)) MessageBox.Show(Resources.FilenameTemplateTokenNotFound, Resources.Warning);
+            if (string.IsNullOrEmpty(enteredFilenameTemplate) || enteredFilenameTemplate == "%f") return true;
+            //var tokens = new List<string>() { "%f", "%d", "%p", "%i", "%s" };
+            //if (!tokens.Any(x => enteredFilenameTemplate.IndexOf(x, StringComparison.InvariantCultureIgnoreCase) >= 0))
+            //{
+            //    MessageBox.Show(Resources.FilenameTemplateTokenNotFound, Resources.Warning);
+            //    return false;
+            //}
+            var needed = new List<string>() { "%x", "%y" };
+            if (enteredFilenameTemplate.IndexOf("%f", StringComparison.InvariantCultureIgnoreCase) == -1 &&
+                !needed.Any(x => enteredFilenameTemplate.IndexOf(x, StringComparison.InvariantCultureIgnoreCase) >= 0))
+            {
+                MessageBox.Show(Resources.FilenameTemplateAppendTokenNotFound, Resources.Warning);
+                return false;
+            }
+            return true;
         }
 
         private void UpdateViewModelBasedOnSelection(IReadOnlyList<IBlog> blogFiles)

@@ -2,7 +2,8 @@
 using System.ComponentModel.Composition;
 using System.Waf.Applications;
 using System.Windows;
-
+using System.Windows.Controls;
+using System.Windows.Input;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 
@@ -44,6 +45,11 @@ namespace TumblThree.Presentation.Views
             MinWidth = ActualWidth;
             MinHeight = ActualHeight;
             MaxHeight = ActualHeight;
+        }
+
+        private void FilenameTemplate_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            e.Handled = !ViewModel.FilenameTemplateValidate(((TextBox)e.Source).Text);
         }
     }
 }

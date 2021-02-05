@@ -292,7 +292,8 @@ namespace TumblThree.Applications.Controllers
             Logger.Verbose("ManagerController.LoadAllDatabasesAsync:End");
         }
 
-        private Task<IReadOnlyList<IFiles>> GetIFilesAsync(string directory) => Task.Run(() => GetIFilesCore(directory));
+        private Task<IReadOnlyList<IFiles>> GetIFilesAsync(string directory) => Task.Factory.StartNew(
+            () => GetIFilesCore(directory), CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
 
         private IReadOnlyList<IFiles> GetIFilesCore(string directory)
         {
@@ -310,7 +311,7 @@ namespace TumblThree.Applications.Controllers
                 //TODO: Refactor
                 try
                 {
-                    IFiles database = new Files().Load(filename);
+                    IFiles database = Files.Load(filename);
                     if (_shellService.Settings.LoadAllDatabases)
                     {
                         databases.Add(database);
@@ -325,7 +326,7 @@ namespace TumblThree.Applications.Controllers
             if (failedToLoadDatabases.Any())
             {
                 IEnumerable<IBlog> blogs = _managerService.BlogFiles;
-                IEnumerable<IBlog> failedToLoadBlogs = blogs.Where(blog => failedToLoadDatabases.Contains(blog.ChildId));
+                IEnumerable<IBlog> failedToLoadBlogs = blogs.Where(blog => failedToLoadDatabases.Contains(blog.ChildId)).ToList();
 
                 string failedBlogNames = failedToLoadDatabases.Aggregate((a, b) => a + ", " + b);
                 Logger.Verbose("ManagerController:GetIFilesCore: {0}", failedBlogNames);
@@ -693,7 +694,7 @@ namespace TumblThree.Applications.Controllers
             QueueOnDispatcher.CheckBeginInvokeOnUI(() => _managerService.BlogFiles.Add(blog));
             if (_shellService.Settings.LoadAllDatabases)
             {
-                _managerService.AddDatabase(new Files().Load(blog.ChildId));
+                _managerService.AddDatabase(Files.Load(blog.ChildId));
             }
         }
 

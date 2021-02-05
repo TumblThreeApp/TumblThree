@@ -772,7 +772,7 @@
     <value>显示确认对话框？</value>
   </data>
   <data name="MetadataFormat" xml:space="preserve">
-    <value>元数据格式</value>
+    <value>元数据格式:</value>
   </data>
   <data name="DownloadCatBox" xml:space="preserve">
     <value>下载 CatBox</value>

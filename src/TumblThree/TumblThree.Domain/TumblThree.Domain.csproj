@@ -114,6 +114,7 @@
     <Compile Include="Models\Blogs\Blog.cs" />
     <Compile Include="Models\BlogFactory.cs" />
     <Compile Include="Models\BlogTypes.cs" />
+    <Compile Include="Models\Files\FileEntry.cs" />
     <Compile Include="Models\Files\TumblrLikedByBlogFiles.cs" />
     <Compile Include="Models\Files\TumblrSearchBlogFiles.cs" />
     <Compile Include="Models\Files\TumblrTagSearchBlogFiles.cs" />

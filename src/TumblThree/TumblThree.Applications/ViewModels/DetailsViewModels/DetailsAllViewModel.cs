@@ -35,9 +35,9 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
 
         public ICommand BrowseFileDownloadLocationCommand => _browseFileDownloadLocationCommand;
 
-        public void FilenameTemplateValidate(string enteredFilenameTemplate)
+        public bool FilenameTemplateValidate(string enteredFilenameTemplate)
         {
-            _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);
+            return _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);
         }
 
         public IBlog BlogFile

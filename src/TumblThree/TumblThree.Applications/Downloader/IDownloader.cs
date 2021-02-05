@@ -5,6 +5,8 @@ namespace TumblThree.Applications.Downloader
 {
     public interface IDownloader : IDisposable
     {
+        string AppendTemplate { get; set; }
+
         Task<bool> DownloadBlogAsync();
 
         void UpdateProgressQueueInformation(string format, params object[] args);

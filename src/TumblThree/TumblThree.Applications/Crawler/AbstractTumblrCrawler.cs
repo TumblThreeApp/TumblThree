@@ -17,6 +17,7 @@ using TumblThree.Applications.Services;
 using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
 using System.IO;
+using TumblThree.Applications.Downloader;
 
 namespace TumblThree.Applications.Crawler
 {
@@ -45,8 +46,8 @@ namespace TumblThree.Applications.Crawler
         protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
             ITumblrParser tumblrParser, IImgurParser imgurParser, IGfycatParser gfycatParser, IWebmshareParser webmshareParser,
             IMixtapeParser mixtapeParser, IUguuParser uguuParser, ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser,
-            ICatBoxParser catboxParser, IPostQueue<TumblrPost> postQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
-            : base(shellService, crawlerService, progress, webRequestFactory, cookieService, postQueue, blog, pt, ct)
+            ICatBoxParser catboxParser, IPostQueue<TumblrPost> postQueue, IBlog blog, IDownloader downloader, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            : base(shellService, crawlerService, progress, webRequestFactory, cookieService, postQueue, blog, downloader, pt, ct)
         {
             this.TumblrParser = tumblrParser;
             this.ImgurParser = imgurParser;
@@ -315,7 +316,7 @@ namespace TumblThree.Applications.Crawler
             ImageResponse imgRsp = ConvertJsonToClass<ImageResponse>(pageContent);
             Image img = imgRsp.Images.FirstOrDefault(x => x.HasOriginalDimensions = true);
 
-            return string.IsNullOrEmpty(img.MediaKey) ? url + Environment.NewLine : img.Url + Environment.NewLine;
+            return string.IsNullOrEmpty(img.MediaKey) ? url : img.Url;
         }
 
         protected void UpdateBlogDuplicates()
@@ -401,6 +402,9 @@ namespace TumblThree.Applications.Crawler
                 %r  for reblog ("" / "reblog")
                 %s  slug (last part of a post's url)
                 %k  reblog-key
+               Tokens to make filenames unique:
+                %x  "_{number}" ({number}: 2..n)
+                %y  " ({number})" ({number}: 2..n)
              */
             string filename = Blog.FilenameTemplate;
 
@@ -449,13 +453,27 @@ namespace TumblThree.Applications.Crawler
             }
             if (ContainsCI(filename, "%s")) filename = ReplaceCI(filename, "%s", slug);
             if (ContainsCI(filename, "%k")) filename = ReplaceCI(filename, "%k", reblog_key);
+            int neededChars = 0;
+            if (ContainsCI(filename, "%x"))
+            {
+                neededChars = 6;
+                Downloader.AppendTemplate = "_<0>";
+                filename = ReplaceCI(filename, "%x", "");
+            }
+            if (ContainsCI(filename, "%y"))
+            {
+                neededChars = 8;
+                Downloader.AppendTemplate = " (<0>)";
+                filename = ReplaceCI(filename, "%y", "");
+            }
             if (ContainsCI(filename, "%p"))
             {
                 string _title = title;
                 if (!ShellService.IsLongPathSupported)
                 {
                     string filepath = Path.Combine(Blog.DownloadLocation(), filename);
-                    int charactersLeft = 260 - filepath.Length + 2;
+                    // 260 (max path minus NULL) - current filename length + 2 chars (%p) - chars for numbering
+                    int charactersLeft = 259 - filepath.Length + 2 - neededChars;
                     if (charactersLeft < 0) throw new PathTooLongException($"{Blog.Name}: filename for post id {id} is too long");
                     if (charactersLeft < _title.Length) _title = _title.Substring(0, charactersLeft - 1) + "…";
                 }
@@ -464,7 +482,8 @@ namespace TumblThree.Applications.Crawler
             else if (!ShellService.IsLongPathSupported)
             {
                 string filepath = Path.Combine(Blog.DownloadLocation(), filename);
-                int charactersLeft = 260 - filepath.Length;
+                // 260 (max path minus NULL) - current filename length - chars for numbering
+                int charactersLeft = 259 - filepath.Length - neededChars;
                 if (charactersLeft < 0) throw new PathTooLongException($"{Blog.Name}: filename for post id {id} is too long");
             }
 

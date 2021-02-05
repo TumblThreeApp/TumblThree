@@ -19,7 +19,7 @@ namespace TumblThree.Applications.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -432,7 +432,16 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your filename template does not contain any necessary token!.
+        ///   Looks up a localized string similar to Filename template must end with either %x or %y!.
+        /// </summary>
+        public static string FilenameTemplateAppendTokenNotFound {
+            get {
+                return ResourceManager.GetString("FilenameTemplateAppendTokenNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filename template does not contain any necessary token!.
         /// </summary>
         public static string FilenameTemplateTokenNotFound {
             get {

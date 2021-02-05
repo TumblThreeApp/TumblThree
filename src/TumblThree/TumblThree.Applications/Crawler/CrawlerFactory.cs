@@ -111,7 +111,7 @@ namespace TumblThree.Applications.Crawler
                     file.Name.Equals(blog.Name) && file.BlogType.Equals(blog.BlogType));
             }
 
-            return new Files().Load(blog.ChildId);
+            return Files.Load(blog.ChildId);
         }
 
         private IWebRequestFactory GetWebRequestFactory()

@@ -1042,7 +1042,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Metadata format.
+        ///   Looks up a localized string similar to Metadata format:.
         /// </summary>
         public static string MetadataFormat {
             get {
@@ -2016,15 +2016,17 @@ namespace TumblThree.Presentation.Properties {
         ///   Looks up a localized string similar to The following tokens can be used in the filename template:
         ///  %f   original filename (default)
         ///  %d  post date (yyyymmdd)
+        ///  %u  post timestamp (number)
         ///  %p  post title
         ///  %i   post id
         ///  %n  image index (of photo sets, else skipped)
         ///  %t   for all tags (cute+cats,big+dogs)
         ///  %r   for reblog
         ///  %s   slug (last part of a post&apos;s url)
-        ///Example (saving an image):
-        ///  %i_%f for {post id}_{tumblr filename}.jpg
-        ///If additionally the option &quot;group photo sets&quot; is enabled, then for image sets the token %i is replaced by {post id}_{image index}  [rest of string was truncated]&quot;;.
+        ///  %k  reblog-key
+        ///Mandatory tokens (if not using token %f) to make filenames unique:
+        ///  %x  &quot;_{number}&quot; ({number}: 2..n) appended to filename
+        ///  %y  &quot; ({number})&quot; ({number} [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ToolTipFilenameTemplateDescription {
             get {

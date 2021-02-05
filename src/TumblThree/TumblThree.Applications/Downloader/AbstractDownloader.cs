@@ -53,6 +53,8 @@ namespace TumblThree.Applications.Downloader
             _saveTimer = new Timer(_ => OnSaveTimedEvent(), null, SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
         }
 
+        public string AppendTemplate { get; set; }
+
         public void UpdateProgressQueueInformation(string format, params object[] args)
         {
             var newProgress = new DownloadProgress
@@ -252,13 +254,13 @@ namespace TumblThree.Applications.Downloader
         {
             if (CheckIfFileExistsInDB(downloadItem))
             {
-                string fileName = FileNameNew(downloadItem) ?? FileName(downloadItem);
+                string fileName = FileName(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
             }
             else
             {
                 string blogDownloadLocation = blog.DownloadLocation();
-                string fileName = FileNameNew(downloadItem) ?? FileName(downloadItem);
+                string fileName = AddFileToDb(downloadItem);
                 string fileLocation = FileLocation(blogDownloadLocation, fileName);
                 string fileLocationUrlList = FileLocationLocalized(blogDownloadLocation, downloadItem.TextFileLocation);
                 DateTime postDate = PostDate(downloadItem);
@@ -269,7 +271,7 @@ namespace TumblThree.Applications.Downloader
                 }
 
                 SetFileDate(fileLocation, postDate);
-                UpdateBlogDB(downloadItem.DbType, FileName(downloadItem));
+                UpdateBlogDB(downloadItem.DbType);
 
                 //TODO: Refactor
                 if (!shellService.Settings.EnablePreview)
@@ -290,6 +292,21 @@ namespace TumblThree.Applications.Downloader
             }
 
             return true;
+        }
+
+        private void AddTextToDb(TumblrPost downloadItem)
+        {
+            files.AddFileToDb(FileName(downloadItem), downloadItem.Filename);
+        }
+
+        private string AddFileToDb(TumblrPost downloadItem)
+        {
+            if (AppendTemplate == null)
+            {
+                files.AddFileToDb(FileName(downloadItem), downloadItem.Filename);
+                return downloadItem.Filename;
+            }
+            return files.AddFileToDb(FileName(downloadItem), downloadItem.Filename, AppendTemplate);
         }
 
         private bool CheckIfFileExistsInDB(TumblrPost downloadItem)
@@ -319,16 +336,16 @@ namespace TumblThree.Applications.Downloader
                 UpdateProgressQueueInformation(Resources.ProgressDownloadImage, postId);
                 if (AppendToTextFile(fileLocation, url))
                 {
-                    UpdateBlogDB(downloadItem.DbType, postId);
+                    UpdateBlogDB(downloadItem.DbType);
+                    AddTextToDb(downloadItem);
                 }
             }
         }
 
-        private void UpdateBlogDB(string postType, string fileName)
+        private void UpdateBlogDB(string postType)
         {
             blog.UpdatePostCount(postType);
             blog.UpdateProgress();
-            files.AddFileToDb(fileName);
         }
 
         protected void SetFileDate(string fileLocation, DateTime postDate)

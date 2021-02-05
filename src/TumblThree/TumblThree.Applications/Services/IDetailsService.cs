@@ -8,6 +8,6 @@ namespace TumblThree.Applications.Services
     {
         void SelectBlogFiles(IReadOnlyList<IBlog> blogFiles, bool showPreview);
         void UpdateBlogPreview(IReadOnlyList<IBlog> blogFiles);
-        void FilenameTemplateValidate(string enteredFilenameTemplate);
+        bool FilenameTemplateValidate(string enteredFilenameTemplate);
     }
 }

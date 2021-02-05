@@ -6,11 +6,11 @@
 
         void UpdateBlogPostCount(string propertyName);
 
-        void UpdateBlogDB(string fileName);
+        //void UpdateBlogDB(string fileName);
 
         bool CreateDataFolder();
 
-        bool CheckIfFileExistsInDB(string url);
+        //bool CheckIfFileExistsInDB(string url);
 
         bool CheckIfBlogShouldCheckDirectory(string url);
 

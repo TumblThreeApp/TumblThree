@@ -12,7 +12,7 @@
     xmlns:vr="clr-namespace:TumblThree.Presentation.ValidationRules"
     Title="Settings"
     Width="760"
-    Height="780"
+    Height="785"
     d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
     ContentRendered="Window_ContentRendered"
     ResizeMode="CanResize"
@@ -1333,7 +1333,7 @@
                             Grid.Row="10"
                             Grid.Column="1"
                             MinWidth="40"
-                            Margin="5"
+                            Margin="0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
                             ItemsSource="{Binding Source={StaticResource MetadataType}}"
@@ -1363,7 +1363,7 @@
                             Grid.Row="10"
                             Grid.Column="3"
                             MinWidth="40"
-                            Margin="5"
+                            Margin="0,0,10,0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
                             ItemsSource="{Binding Source={StaticResource TumblrBlogCrawlerTypes}}"
@@ -1577,12 +1577,37 @@
                         </TextBox>
                         <CheckBox
                             x:Name="checkBoxSkipGif"
-                            Grid.Row="14"
+                            Grid.Row="15"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Margin="10"
                             Content="{x:Static p:Resources.SkipGif}"
                             IsChecked="{Binding SkipGif, Mode=TwoWay}" />
+                        <Label Content="{x:Static p:Resources.FilenameTemplate}" Grid.Column="2" Grid.Row="14"
+                            Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipFilenameTemplate}" />
+                                        <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipFilenameTemplateDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </Label.ToolTip>
+                        </Label>
+                        <TextBox Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="14" Margin="0,0,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                 Text="{Binding FilenameTemplate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 PreviewLostKeyboardFocus="FilenameTemplate_PreviewLostKeyboardFocus">
+                            <TextBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipFilenameTemplate}" />
+                                        <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipFilenameTemplateDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </TextBox.ToolTip>
+                        </TextBox>
                         <CheckBox
                             x:Name="checkBoxForceSize"
                             Grid.Row="15"
@@ -1670,10 +1695,11 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxGroupPhotoSets"
-                            Grid.Row="15"
+                            Grid.Row="14"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Margin="10"
+                            VerticalAlignment="Center"
                             Content="{x:Static p:Resources.GroupPhotoSets}"
                             IsChecked="{Binding GroupPhotoSets, Mode=TwoWay}">
                             <CheckBox.ToolTip>

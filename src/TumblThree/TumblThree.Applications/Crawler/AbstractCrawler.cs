@@ -14,6 +14,7 @@ using System.Web;
 
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.DataModels.TumblrPosts;
+using TumblThree.Applications.Downloader;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
@@ -39,8 +40,10 @@ namespace TumblThree.Applications.Crawler
         protected ConcurrentBag<TumblrPost> StatisticsBag { get; set; } = new ConcurrentBag<TumblrPost>();
         protected List<string> Tags { get; set; } = new List<string>();
 
+        protected IDownloader Downloader;
+
         protected AbstractCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory,
-            ISharedCookieService cookieService, IPostQueue<TumblrPost> postQueue, IBlog blog,
+            ISharedCookieService cookieService, IPostQueue<TumblrPost> postQueue, IBlog blog, IDownloader downloader,
             PauseToken pt, CancellationToken ct)
         {
             ShellService = shellService;
@@ -49,6 +52,7 @@ namespace TumblThree.Applications.Crawler
             CookieService = cookieService;
             PostQueue = postQueue;
             Blog = blog;
+            Downloader = downloader;
             Progress = progress;
             Pt = pt;
             Ct = ct;

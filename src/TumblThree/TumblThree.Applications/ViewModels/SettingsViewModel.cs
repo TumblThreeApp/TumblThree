@@ -36,6 +36,7 @@ namespace TumblThree.Applications.ViewModels
         private readonly ExportFactory<AuthenticateViewModel> _authenticateViewModelFactory;
         private readonly FileType _bloglistExportFileType;
         private readonly AppSettings _settings;
+        private readonly IDetailsService _detailsService;
 
         private string _apiKey;
         private bool _autoDownload;
@@ -132,7 +133,9 @@ namespace TumblThree.Applications.ViewModels
         private string _filenameTemplate;
 
         [ImportingConstructor]
-        public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService, ILoginService loginService, IFolderBrowserDialog folderBrowserDialog, IFileDialogService fileDialogService, ExportFactory<AuthenticateViewModel> authenticateViewModelFactory)
+        public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
+            ILoginService loginService, IFolderBrowserDialog folderBrowserDialog, IFileDialogService fileDialogService,
+            ExportFactory<AuthenticateViewModel> authenticateViewModelFactory, IDetailsService detailsService)
             : base(view)
         {
             _folderBrowserDialog = folderBrowserDialog;
@@ -142,6 +145,7 @@ namespace TumblThree.Applications.ViewModels
             CrawlerService = crawlerService;
             ManagerService = managerService;
             LoginService = loginService;
+            _detailsService = detailsService;
             _authenticateViewModelFactory = authenticateViewModelFactory;
             _browseDownloadLocationCommand = new DelegateCommand(BrowseDownloadLocation);
             _browseExportLocationCommand = new DelegateCommand(BrowseExportLocation);
@@ -739,7 +743,11 @@ namespace TumblThree.Applications.ViewModels
         public string FilenameTemplate
         {
             get => _filenameTemplate;
-            set => SetProperty(ref _filenameTemplate, value);
+            set
+            {
+                if (string.IsNullOrEmpty(value)) value = "%f";
+                SetProperty(ref _filenameTemplate, value);
+            }
         }
 
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
@@ -750,6 +758,11 @@ namespace TumblThree.Applications.ViewModels
             {
                 _enableAutoDownloadCommand.Execute(null);
             }
+        }
+
+        public bool FilenameTemplateValidate(string enteredFilenameTemplate)
+        {
+            return _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);
         }
 
         private void EnableAutoDownload()

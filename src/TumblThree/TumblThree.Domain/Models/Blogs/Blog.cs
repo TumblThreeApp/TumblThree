@@ -960,7 +960,10 @@ namespace TumblThree.Domain.Models.Blogs
                     {
                         Logger.Warning("{0}: Cannot rename file to '{1}', a file with that name already exists!", Name, filenameNew);
                     }
-                    File.Move(filepath, filepathNew);
+                    else
+                    {
+                        File.Move(filepath, filepathNew);
+                    }
                 }
                 if (result || string.IsNullOrEmpty(filenameNew)) return result;
                 return File.Exists(filepathNew);

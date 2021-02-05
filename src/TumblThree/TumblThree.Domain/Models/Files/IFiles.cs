@@ -9,18 +9,18 @@ namespace TumblThree.Domain.Models.Files
 
         BlogTypes BlogType { get; }
 
-        IList<string> Links { get; }
+        //IList<string> Links { get; }
 
         bool IsDirty { get; }
 
         string Version { get; set; }
 
-        void AddFileToDb(string fileName);
+        void AddFileToDb(string fileNameUrl, string fileName);
 
-        bool CheckIfFileExistsInDB(string filename);
+        string AddFileToDb(string fileNameUrl, string fileName, string appendTemplate);
+
+        bool CheckIfFileExistsInDB(string filenameUrl);
 
         bool Save();
-
-        IFiles Load(string fileLocation);
     }
 }

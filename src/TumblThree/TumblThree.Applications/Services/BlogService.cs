@@ -12,7 +12,7 @@ namespace TumblThree.Applications.Services
         private readonly IFiles _files;
         private readonly object _lockObjectProgress = new object();
         private readonly object _lockObjectPostCount = new object();
-        private readonly object _lockObjectDb = new object();
+        //private readonly object _lockObjectDb = new object();
         private readonly object _lockObjectDirectory = new object();
 
         public BlogService(IBlog blog, IFiles files)
@@ -41,13 +41,13 @@ namespace TumblThree.Applications.Services
             }
         }
 
-        public void UpdateBlogDB(string fileName)
-        {
-            lock (_lockObjectDb)
-            {
-                _files.Links.Add(fileName);
-            }
-        }
+        //public void UpdateBlogDB(string fileName)
+        //{
+        //    lock (_lockObjectDb)
+        //    {
+        //        _files.Links.Add(fileName);
+        //    }
+        //}
 
         public bool CreateDataFolder()
         {
@@ -66,19 +66,19 @@ namespace TumblThree.Applications.Services
             return true;
         }
 
-        public bool CheckIfFileExistsInDB(string url)
-        {
-            var fileName = url.Split('/').Last();
-            Monitor.Enter(_lockObjectDb);
-            try
-            {
-                return _files.Links.Contains(fileName);
-            }
-            finally
-            {
-                Monitor.Exit(_lockObjectDb);
-            }
-        }
+        //public bool CheckIfFileExistsInDB(string url)
+        //{
+        //    var fileName = url.Split('/').Last();
+        //    Monitor.Enter(_lockObjectDb);
+        //    try
+        //    {
+        //        return _files.Links.Contains(fileName);
+        //    }
+        //    finally
+        //    {
+        //        Monitor.Exit(_lockObjectDb);
+        //    }
+        //}
 
         public bool CheckIfBlogShouldCheckDirectory(string url)
         {

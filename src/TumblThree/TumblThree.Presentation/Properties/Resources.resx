@@ -777,7 +777,7 @@ Activation will increase the memory usage during operation based on the amount o
     <value>Display confirmation dialogs?</value>
   </data>
   <data name="MetadataFormat" xml:space="preserve">
-    <value>Metadata format</value>
+    <value>Metadata format:</value>
   </data>
   <data name="DownloadCatBox" xml:space="preserve">
     <value>Download catbox</value>
@@ -1034,12 +1034,17 @@ template: {Post Id}_{Photo Index}_{Original Filename}</value>
     <value>The following tokens can be used in the filename template:
   %f   original filename (default)
   %d  post date (yyyymmdd)
+  %u  post timestamp (number)
   %p  post title
   %i   post id
   %n  image index (of photo sets, else skipped)
   %t   for all tags (cute+cats,big+dogs)
   %r   for reblog
   %s   slug (last part of a post's url)
+  %k  reblog-key
+Mandatory tokens (if not using token %f) to make filenames unique:
+  %x  "_{number}" ({number}: 2..n) appended to filename
+  %y  " ({number})" ({number}: 2..n) appended to filename
 Example (saving an image):
   %i_%f for {post id}_{tumblr filename}.jpg
 If additionally the option "group photo sets" is enabled, then for image sets the token %i is replaced by {post id}_{image index} or, if the token isn't used, the images sets are saved as {post id}_{image index}_{filename template}.

@@ -40,9 +40,9 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
             BlogFile.Save();
         }
 
-        public void FilenameTemplateValidate(string enteredFilenameTemplate)
+        public bool FilenameTemplateValidate(string enteredFilenameTemplate)
         {
-            _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);
+            return _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);
         }
 
         public IBlog BlogFile

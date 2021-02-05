@@ -34,9 +34,9 @@ namespace TumblThree.Presentation.Views
             fullScreenMediaView.ShowDialog();
         }
 
-        private void FilenameTemplate_LostFocus(object sender, System.Windows.RoutedEventArgs e)
+        private void FilenameTemplate_PreviewLostKeyboardFocus(object sender, System.Windows.RoutedEventArgs e)
         {
-            ViewModel.FilenameTemplateValidate(((TextBox)e.Source).Text);
+            e.Handled = !ViewModel.FilenameTemplateValidate(((TextBox)e.Source).Text);
         }
     }
 }
