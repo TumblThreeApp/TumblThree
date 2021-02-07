@@ -34,6 +34,7 @@ _Read this in other languages: [简体中文](README.zh-cn.md)._
 * Uses SSL connections.
 * Preview of photos & videos.
 * Taskbar buttons and key bindings.
+* File rename functionality
 
 ### Blog backup/download:
 
