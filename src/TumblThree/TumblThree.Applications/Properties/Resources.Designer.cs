@@ -333,6 +333,28 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to download the new version now?.
+        /// </summary>
+        public static string DownloadNewVersion
+        {
+            get
+            {
+                return ResourceManager.GetString("DownloadNewVersion", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New version available.
+        /// </summary>
+        public static string DownloadNewVersionTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("DownloadNewVersionTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Text files (*.txt)|*.txt.
         /// </summary>
         public static string ExportFileFilter {

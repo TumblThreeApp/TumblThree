@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Waf.Applications;
+using System.Windows;
 using System.Windows.Threading;
 
 using TumblThree.Applications.Properties;
@@ -26,6 +29,7 @@ namespace TumblThree.Applications.Controllers
 
         private readonly ISharedCookieService _cookieService;
         private readonly IEnvironmentService _environmentService;
+        private readonly IApplicationUpdateService _applicationUpdateService;
         private readonly Lazy<ShellService> _shellService;
 
         private readonly Lazy<CrawlerController> _crawlerController;
@@ -55,7 +59,8 @@ namespace TumblThree.Applications.Controllers
             Lazy<QueueController> queueController,
             Lazy<DetailsController> detailsController,
             Lazy<CrawlerController> crawlerController,
-            Lazy<ShellViewModel> shellViewModel)
+            Lazy<ShellViewModel> shellViewModel,
+            IApplicationUpdateService applicationUpdateService)
         {
             _shellService = shellService;
             _environmentService = environmentService;
@@ -68,6 +73,7 @@ namespace TumblThree.Applications.Controllers
             _crawlerController = crawlerController;
             _shellViewModel = shellViewModel;
             _queueManager = new QueueManager();
+            _applicationUpdateService = applicationUpdateService;
         }
 
         private ShellService ShellService => _shellService.Value;
@@ -134,6 +140,12 @@ namespace TumblThree.Applications.Controllers
             // Let the UI to initialize first before loading the queuelist.
             await Dispatcher.CurrentDispatcher.InvokeAsync(ManagerController.RestoreColumn, DispatcherPriority.ApplicationIdle);
             await Dispatcher.CurrentDispatcher.InvokeAsync(QueueController.Run, DispatcherPriority.ApplicationIdle);
+
+            if (_appSettings.LastUpdateCheck != DateTime.Today)
+            {
+                await CheckForUpdatesComplete(_applicationUpdateService.GetLatestReleaseFromServer());
+                _appSettings.LastUpdateCheck = DateTime.Today;
+            }
         }
 
         public void Shutdown()
@@ -174,6 +186,26 @@ namespace TumblThree.Applications.Controllers
         private void OnBlogManagerFinishedLoadingLibrary(object sender, EventArgs e)
         {
             QueueController.LoadQueue();
+        }
+
+        private async Task CheckForUpdatesComplete(Task<string> task)
+        {
+            try
+            {
+                string updateText = await task;
+                if (updateText != null || !_applicationUpdateService.IsNewVersionAvailable()) return;
+                updateText = string.Format(CultureInfo.CurrentCulture, Resources.NewVersionAvailable, _applicationUpdateService.GetNewAvailableVersion());
+                string url = _applicationUpdateService.GetDownloadUri().AbsoluteUri;
+                MessageBoxResult ret = MessageBoxResult.No;
+                if (updateText != null && url != null)
+                    ret = MessageBox.Show($"{updateText}\n{Resources.DownloadNewVersion}", Resources.DownloadNewVersionTitle, MessageBoxButton.YesNo);
+                if (ret == MessageBoxResult.Yes)
+                    Process.Start(new ProcessStartInfo(url));
+            }
+            catch (Exception e)
+            {
+                Logger.Error("ModuleController.CheckForUpdatesComplete: {0}", e.ToString());
+            }
         }
 
         private static bool CheckIfPortableMode(string fileName)

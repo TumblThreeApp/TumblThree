@@ -343,6 +343,9 @@ namespace TumblThree.Applications.Properties
         public int SettingsTabIndex { get; set; }
 
         [DataMember]
+        public DateTime LastUpdateCheck { get; set; }
+
+        [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
         public ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
@@ -472,6 +475,7 @@ namespace TumblThree.Applications.Properties
 #endif
             GroupPhotoSets = false;
             FilenameTemplate = "%f";
+            LastUpdateCheck = DateTime.MinValue;
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
         }
 

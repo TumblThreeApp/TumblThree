@@ -377,4 +377,10 @@
   <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
     <value>Filename template must end with either %x or %y!</value>
   </data>
+  <data name="DownloadNewVersion" xml:space="preserve">
+    <value>Do you want to download the new version now?</value>
+  </data>
+  <data name="DownloadNewVersionTitle" xml:space="preserve">
+    <value>New version available</value>
+  </data>
 </root>
