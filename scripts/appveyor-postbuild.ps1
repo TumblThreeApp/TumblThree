@@ -1,6 +1,8 @@
 # Harvest Data
 $harvestPath = "$env:APPVEYOR_BUILD_FOLDER\src\TumblThree\TumblThree.Presentation\bin\$env:PLATFORM\Release"
 $fileVersion = (Get-Item "$harvestPath\TumblThree.exe").VersionInfo.ProductVersion
+[VERSION]$vs = $fileVersion -replace '^.+((\d+\.){3}\d+).+', '$1'
+$version = '{0}.{1}.{2}' -f $vs.Major,$vs.Minor,$vs.Build
 
 # Artifacts Paths
 $artifactsPath = "$env:APPVEYOR_BUILD_FOLDER\artifacts"
@@ -37,9 +39,9 @@ foreach ($tf in $translationFolders) {
 }
 
 # Zip Application
-$applicationZipPath = "$artifactsPath\TumblThree-v$fileVersion-$env:PLATFORM-Application.zip"
+$applicationZipPath = "$artifactsPath\TumblThree-v$version-$env:PLATFORM-Application.zip"
 Compress-Archive -Path "$artifactsPath\Application\TumblThree\" -DestinationPath "$applicationZipPath"
 
 # Zip Translations
-$translationZipPath = "$artifactsPath\TumblThree-v$fileVersion-$env:PLATFORM-Translations.zip"
+$translationZipPath = "$artifactsPath\TumblThree-v$version-$env:PLATFORM-Translations.zip"
 Compress-Archive -Path "$artifactsPath\Translations\TumblThree\" -DestinationPath "$translationZipPath"

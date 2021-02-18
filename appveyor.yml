@@ -8,9 +8,9 @@ install:
       {
         $x = $env:APPVEYOR_REPO_TAG_NAME
         if($x.startswith("v","CurrentCultureIgnoreCase")) { $x = $x.substring(1) }
+        $env:MY_BUILD_VERSION="$x"
         $x = $x + ".$env:APPVEYOR_BUILD_NUMBER"
         Update-AppveyorBuild -Version "$x"
-        $env:MY_BUILD_VERSION="$x"
       }
       else
       {
