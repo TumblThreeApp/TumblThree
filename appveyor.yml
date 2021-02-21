@@ -49,6 +49,10 @@ for:
     matrix:
       only:
         - job_name: build_x64_m
+    only_commits:
+      files:
+        - lib/
+        - src/
     skip_tags: true
     environment:
       PLATFORM: x64
