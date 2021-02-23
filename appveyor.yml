@@ -24,6 +24,8 @@ environment:
   DeployApiCode:
     secure: jgYawyAbq3Q76D1Ze0oho6jobDKCkcEeTNbg5NoYi6o=
   matrix:
+  - job_name: build_skip
+    job_group: build
   - job_name: build_x64_m
     job_group: build
   - job_name: build_x64
@@ -42,6 +44,19 @@ assembly_info:
   assembly_informational_version: '{version}'
 configuration: Release
 for:
+  -
+    matrix:
+      only:
+        - job_name: build_skip
+    skip_commits:
+      files:
+        - lib/
+        - src/
+    skip_tags: true
+    init:
+      - appveyor exit
+    environment:
+      PLATFORM: x64
   -
     #branches:
     #  only:
