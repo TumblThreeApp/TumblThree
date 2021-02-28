@@ -38,6 +38,7 @@ namespace TumblThree.Applications.Services
                 XmlDictionaryReader jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(result), new XmlDictionaryReaderQuotas());
                 XElement root = XElement.Load(jsonReader);
                 version = root.Element("tag_name").Value;
+                if (version.StartsWith("v", StringComparison.InvariantCultureIgnoreCase)) version = version.Substring(1);
 
                 if (Environment.Is64BitProcess)
                 {
@@ -64,7 +65,7 @@ namespace TumblThree.Applications.Services
         {
             try
             {
-                var newVersion = new Version(version.Substring(1));
+                var newVersion = new Version(version);
 
                 if (newVersion > new Version(ApplicationInfo.Version))
                 {
@@ -78,6 +79,7 @@ namespace TumblThree.Applications.Services
 
             return false;
         }
+
         public string GetNewAvailableVersion()
         {
             return version;
