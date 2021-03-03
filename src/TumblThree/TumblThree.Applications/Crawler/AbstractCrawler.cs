@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-
+using TumblThree.Applications.Converter;
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.Downloader;
@@ -135,6 +135,11 @@ namespace TumblThree.Applications.Crawler
 
                 return responseDetails.Response;
             }
+            catch (Exception e)
+            {
+                Logger.Error("AbstractCrawler.RequestDataAsync: {0}", e);
+                throw;
+            }
             finally
             {
                 requestRegistration.Dispose();
@@ -180,6 +185,29 @@ namespace TumblThree.Applications.Crawler
             catch (SerializationException serializationException)
             {
                 Logger.Error("AbstractCrawler:ConvertJsonToClass<T>: {0}", "Could not parse data");
+                ShellService.ShowError(serializationException, Resources.PostNotParsable, Blog.Name);
+                return new T();
+            }
+        }
+
+        public virtual T ConvertJsonToClassNew<T>(string json) where T : new()
+        {
+            try
+            {
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(json)))
+                {
+                    var deserializer = new Newtonsoft.Json.JsonSerializer();
+                    deserializer.Converters.Add(new SingleOrArrayConverter<T>());
+                    using (StreamReader sr = new StreamReader(ms))
+                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(sr))
+                    {
+                        return deserializer.Deserialize<T>(jsonTextReader);
+                    }
+                }
+            }
+            catch (Newtonsoft.Json.JsonException serializationException)
+            {
+                Logger.Error("AbstractCrawler:ConvertJsonToClassNew<T>: {0}", "Could not parse data");
                 ShellService.ShowError(serializationException, Resources.PostNotParsable, Blog.Name);
                 return new T();
             }

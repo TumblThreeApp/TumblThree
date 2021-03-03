@@ -48,8 +48,10 @@ namespace TumblThree.Domain.Models.Blogs
                 url = url.Insert(4, "s");
             }
 
-            int blogNameLength = url.Split('/')[4].Length;
-            var urlLength = 30;
+            // don't remove "/recent", so that posts can be filtered by date
+            var parts = url.Split('/');
+            int blogNameLength = parts[4].Length;
+            var urlLength = (parts.Length == 6 && string.Compare(parts[5], "recent", StringComparison.InvariantCulture) == 0) ? 37 : 30;
             return url.Substring(0, blogNameLength + urlLength);
         }
     }

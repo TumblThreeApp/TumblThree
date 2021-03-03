@@ -116,6 +116,8 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\QueueController.cs" />
+    <Compile Include="Converter\PropertyCopier.cs" />
+    <Compile Include="Converter\SingleOrArrayConverter.cs" />
     <Compile Include="CookieParser.cs" />
     <Compile Include="Crawler\AbstractTumblrCrawler.cs" />
     <Compile Include="DataModels\ImageResponse.cs" />
@@ -327,6 +329,11 @@
       <Project>{24edebe0-e068-44e3-b730-0e75974a8206}</Project>
       <Name>TumblThree.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
