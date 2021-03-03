@@ -1050,4 +1050,14 @@ Example (saving an image):
 If additionally the option "group photo sets" is enabled, then for image sets the token %i is replaced by {post id}_{image index} or, if the token isn't used, the images sets are saved as {post id}_{image index}_{filename template}.
 Put the option off if you want to use your own template for photo sets.</value>
   </data>
+  <data name="ToolTipPrivacyConsentBrowser" xml:space="preserve">
+    <value>Accept the tumblr.com privacy consent</value>
+  </data>
+  <data name="ToolTipPrivacyConsentBrowserDescription" xml:space="preserve">
+    <value>Opens a browser window to accept the tumblr.com privacy consent.
+The cookies for the privacy consent are saved and the process needs to be done only once in a while.</value>
+  </data>
+  <data name="PrivacyConsent" xml:space="preserve">
+    <value>Privacy consent</value>
+  </data>
 </root>

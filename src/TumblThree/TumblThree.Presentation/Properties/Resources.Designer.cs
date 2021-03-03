@@ -1222,6 +1222,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Privacy consent.
+        /// </summary>
+        public static string PrivacyConsent {
+            get {
+                return ResourceManager.GetString("PrivacyConsent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product.
         /// </summary>
         public static string Product {
@@ -2412,6 +2421,25 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipPortableModeDescription {
             get {
                 return ResourceManager.GetString("ToolTipPortableModeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accept the tumblr.com privacy consent.
+        /// </summary>
+        public static string ToolTipPrivacyConsentBrowser {
+            get {
+                return ResourceManager.GetString("ToolTipPrivacyConsentBrowser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opens a browser window to accept the tumblr.com privacy consent.
+        ///The cookies for the privacy consent are saved and the process needs to be done only once in a while..
+        /// </summary>
+        public static string ToolTipPrivacyConsentBrowserDescription {
+            get {
+                return ResourceManager.GetString("ToolTipPrivacyConsentBrowserDescription", resourceCulture);
             }
         }
         

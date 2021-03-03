@@ -98,7 +98,8 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                string document = await RequestDataAsync(url);
+                string[] cookieHosts = { "https://www.tumblr.com/" };
+                string document = await RequestDataAsync(url, null, cookieHosts);
                 return ExtractTumblrKey(document);
             }
             catch (WebException webException) when (webException.Status == WebExceptionStatus.RequestCanceled)

@@ -1011,6 +1011,25 @@
                                 </Button.ToolTip>
                             </Button>
                             <Button
+                                x:Name="buttonPrivacyConsent"
+                                Grid.Column="1"
+                                MinWidth="90"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Command="{Binding PrivacyConsentCommand}"
+                                Content="{x:Static p:Resources.PrivacyConsent}"
+                                IsEnabled="True">
+                                <Button.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipPrivacyConsentBrowser}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipPrivacyConsentBrowserDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Button.ToolTip>
+                            </Button>
+                            <Button
                                 x:Name="tumblrLogout"
                                 Grid.Column="6"
                                 MinWidth="90"

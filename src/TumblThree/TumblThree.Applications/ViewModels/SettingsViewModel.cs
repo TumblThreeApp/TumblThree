@@ -22,6 +22,7 @@ namespace TumblThree.Applications.ViewModels
     public class SettingsViewModel : ViewModel<ISettingsView>
     {
         private readonly AsyncDelegateCommand _authenticateCommand;
+        private readonly AsyncDelegateCommand _privacyConsentCommand;
         private readonly DelegateCommand _browseDownloadLocationCommand;
         private readonly DelegateCommand _browseExportLocationCommand;
         private readonly DelegateCommand _enableAutoDownloadCommand;
@@ -150,6 +151,7 @@ namespace TumblThree.Applications.ViewModels
             _browseDownloadLocationCommand = new DelegateCommand(BrowseDownloadLocation);
             _browseExportLocationCommand = new DelegateCommand(BrowseExportLocation);
             _authenticateCommand = new AsyncDelegateCommand(Authenticate);
+            _privacyConsentCommand = new AsyncDelegateCommand(PrivacyConsent);
             _tumblrLoginCommand = new AsyncDelegateCommand(TumblrLogin);
             _tumblrLogoutCommand = new AsyncDelegateCommand(TumblrLogout);
             _tumblrSubmitTfaCommand = new AsyncDelegateCommand(TumblrSubmitTfa);
@@ -173,6 +175,8 @@ namespace TumblThree.Applications.ViewModels
         public ICommand BrowseDownloadLocationCommand => _browseDownloadLocationCommand;
 
         public ICommand AuthenticateCommand => _authenticateCommand;
+
+        public ICommand PrivacyConsentCommand => _privacyConsentCommand;
 
         public ICommand TumblrLoginCommand => _tumblrLoginCommand;
 
@@ -847,6 +851,19 @@ namespace TumblThree.Applications.ViewModels
 
             LoginService.AddCookies(cookies);
             await UpdateTumblrLogin();
+        }
+
+        private async Task PrivacyConsent()
+        {
+            const string url = @"https://www.tumblr.com/search/cat";
+
+            AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
+            authenticateViewModel.AddUrl(url);
+            authenticateViewModel.ShowDialog(ShellService.ShellView);
+
+            var cookies = await authenticateViewModel.GetCookies("https://www.tumblr.com/");
+
+            LoginService.AddCookies(cookies);
         }
 
         private async Task TumblrLogin()
