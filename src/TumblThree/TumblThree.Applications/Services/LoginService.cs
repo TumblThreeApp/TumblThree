@@ -54,7 +54,13 @@ namespace TumblThree.Applications.Services
 
         public void PerformTumblrLogout()
         {
-            cookieService.RemoveTumblrAuthenticationCookies();
+            const string url = "https://www.tumblr.com/logout";
+            var request = webRequestFactory.CreateGetRequest(url);
+            cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                cookieService.SetUriCookie(response.Cookies);
+            }
         }
 
         public bool CheckIfTumblrTFANeeded() => tfaNeeded;
