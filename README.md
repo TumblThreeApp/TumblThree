@@ -62,7 +62,7 @@ _Read this in other languages: [简体中文](README.zh-cn.md) (有些部分/句
 
 * A downloader for downloading photos and videos from the tumblr search (e.g. http://www.tumblr.com/search/my+keywords).
 * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
-* Can download only specific blog pages instead of the whole blog.
+* Allows to download posts in a defined time span.
 
 ### Tumblr tag search backup/download:
 
