@@ -6,6 +6,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -463,10 +464,30 @@ namespace TumblThree.Applications.Controllers
             {
                 await AddBlogAsync(null);
             }
+            catch (WebException we)
+            {
+                if (((HttpWebResponse)we.Response).StatusCode == HttpStatusCode.NotFound)
+                {
+                    Logger.Error($"ManagerController:AddBlog: {we.Message}");
+                    _shellService.ShowError(we, Resources.CouldNotAddBlog, $"{_crawlerService.NewBlogUrl} not found");
+                    CleanFailedAddBlog();
+                }
+            }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
+                Logger.Error($"ManagerController:AddBlog: {e}");
             }
+        }
+
+        private void CleanFailedAddBlog()
+        {
+            IBlog blog = CheckIfCrawlableBlog(_crawlerService.NewBlogUrl);
+            if (Directory.Exists(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)) &&
+                !Directory.EnumerateFileSystemEntries(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)).Any())
+            {
+                Directory.Delete(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name));
+            }
+            if (File.Exists(blog.ChildId)) File.Delete(blog.ChildId);
         }
 
         private async Task ImportBlogs()
