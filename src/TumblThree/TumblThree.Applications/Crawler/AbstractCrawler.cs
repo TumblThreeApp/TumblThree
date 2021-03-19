@@ -67,7 +67,8 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                await RequestDataAsync(Blog.Url);
+                string[] cookieHosts = { "https://www.tumblr.com/" };
+                await RequestDataAsync(Blog.Url, null, cookieHosts);
                 Blog.Online = true;
             }
             catch (WebException webException)
