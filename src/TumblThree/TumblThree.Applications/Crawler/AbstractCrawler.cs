@@ -128,7 +128,17 @@ namespace TumblThree.Applications.Crawler
                     requestRegistration = Ct.Register(() => request.Abort());
                     responseDetails = await WebRequestFactory.ReadRequestToEnd2Async(request);
                     if (responseDetails.HttpStatusCode == HttpStatusCode.Found)
-                        url = request.RequestUri.GetLeftPart(UriPartial.Authority) + responseDetails.RedirectUrl;
+                    {
+                        url = responseDetails.RedirectUrl;
+                        if (url.Contains("privacy/consent"))
+                        {
+                            var ex = new Exception("Acceptance of privacy consent needed!");
+                            ShellService.ShowError(ex, Resources.ConfirmationTumblrPrivacyConsentNeeded);
+                            throw ex;
+                        }
+                        if (!url.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+                            url = request.RequestUri.GetLeftPart(UriPartial.Authority) + url;
+                    }
 
                 } while (responseDetails.HttpStatusCode == HttpStatusCode.Found && redirects++ < 5);
 

@@ -383,4 +383,7 @@
   <data name="DownloadNewVersionTitle" xml:space="preserve">
     <value>New version available</value>
   </data>
+  <data name="ConfirmationTumblrPrivacyConsentNeeded" xml:space="preserve">
+    <value>Tumblr Privacy Consent needs to be accepted in the settings!</value>
+  </data>
 </root>

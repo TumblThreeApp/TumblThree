@@ -206,20 +206,24 @@ namespace TumblThree.Applications.Controllers
                         }
                         IBlog blog = nextQueueItem.Blog;
 
+                        var privacyConsentNeeded = false;
                         ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), pt, ct);
-                        crawler.IsBlogOnlineAsync().Wait(4000);
+                        try
+                        {
+                            crawler.IsBlogOnlineAsync().Wait(4000);
+                        }
+                        catch (AggregateException ex)
+                        {
+                            if (ex.InnerExceptions.Any(x => x.Message == "Acceptance of privacy consent needed!"))
+                                privacyConsentNeeded = true;
+                        }
                         crawler.Dispose();
 
-                        if (_crawlerService.ActiveItems.Any(item =>
-                            item.Blog.Name.Equals(nextQueueItem.Blog.Name) &&
-                            item.Blog.BlogType.Equals(nextQueueItem.Blog.BlogType)))
-                        {
-                            QueueOnDispatcher.CheckBeginInvokeOnUI(() => QueueManager.RemoveItem(nextQueueItem));
-                            Monitor.Exit(_lockObject);
-                            continue;
-                        }
-
-                        if (!nextQueueItem.Blog.Online)
+                        if (privacyConsentNeeded
+                            || (_crawlerService.ActiveItems.Any(item =>
+                                item.Blog.Name.Equals(nextQueueItem.Blog.Name) &&
+                                item.Blog.BlogType.Equals(nextQueueItem.Blog.BlogType)))
+                            || (!nextQueueItem.Blog.Online))
                         {
                             QueueOnDispatcher.CheckBeginInvokeOnUI(() => QueueManager.RemoveItem(nextQueueItem));
                             Monitor.Exit(_lockObject);

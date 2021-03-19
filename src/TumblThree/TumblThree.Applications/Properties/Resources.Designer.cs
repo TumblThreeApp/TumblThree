@@ -151,6 +151,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tumblr Privacy Consent needs to be accepted in the settings!.
+        /// </summary>
+        public static string ConfirmationTumblrPrivacyConsentNeeded {
+            get {
+                return ResourceManager.GetString("ConfirmationTumblrPrivacyConsentNeeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to confirming to the Tumblr privacy consent.
         /// </summary>
         public static string ConfirmingTumblrPrivacyConsent {
