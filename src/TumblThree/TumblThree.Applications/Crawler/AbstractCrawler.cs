@@ -127,7 +127,7 @@ namespace TumblThree.Applications.Crawler
 
                     requestRegistration = Ct.Register(() => request.Abort());
                     responseDetails = await WebRequestFactory.ReadRequestToEnd2Async(request);
-                    if (responseDetails.HttpStatusCode == HttpStatusCode.Found)
+                    if (responseDetails.HttpStatusCode == HttpStatusCode.Found || responseDetails.HttpStatusCode == HttpStatusCode.Moved)
                     {
                         url = responseDetails.RedirectUrl;
                         if (url.Contains("privacy/consent"))
@@ -140,7 +140,7 @@ namespace TumblThree.Applications.Crawler
                             url = request.RequestUri.GetLeftPart(UriPartial.Authority) + url;
                     }
 
-                } while (responseDetails.HttpStatusCode == HttpStatusCode.Found && redirects++ < 5);
+                } while ((responseDetails.HttpStatusCode == HttpStatusCode.Found || responseDetails.HttpStatusCode == HttpStatusCode.Moved) && redirects++ < 5);
 
                 if (responseDetails.HttpStatusCode == HttpStatusCode.Found) throw new WebException("Too many automatic redirections were attempted.", WebExceptionStatus.ProtocolError);
 
