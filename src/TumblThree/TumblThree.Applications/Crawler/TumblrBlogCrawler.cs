@@ -49,8 +49,7 @@ namespace TumblThree.Applications.Crawler
             IPostQueue<TumblrPost> postQueue, IPostQueue<TumblrCrawlerData<Post>> jsonQueue, IBlog blog,
             IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, progress, pt,
-                ct)
+                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, progress, pt, ct)
         {
             this.downloader = downloader;
             this.tumblrJsonParser = tumblrJsonParser;
@@ -204,6 +203,8 @@ namespace TumblThree.Applications.Crawler
         private async Task<string> GetApiPageAsync(int pageId)
         {
             string url = GetApiUrl(Blog.Url, (Blog.PageSize == 0 ? 1 : Blog.PageSize), pageId * Blog.PageSize);
+
+            url = RedirectService.GetRedirectedUrl(url);
 
             if (ShellService.Settings.LimitConnectionsApi)
             {

@@ -116,6 +116,7 @@ namespace TumblThree.Applications.Crawler
             {
                 int redirects = 0;
                 ResponseDetails responseDetails;
+                RedirectService.StartNew(url);
                 do
                 {
                     HttpWebRequest request = WebRequestFactory.CreateGetRequest(url, string.Empty, headers, false);
@@ -139,8 +140,11 @@ namespace TumblThree.Applications.Crawler
                         if (!url.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                             url = request.RequestUri.GetLeftPart(UriPartial.Authority) + url;
                     }
+                    if (responseDetails.HttpStatusCode == HttpStatusCode.Moved) RedirectService.UpdateCurrent(url);
 
                 } while ((responseDetails.HttpStatusCode == HttpStatusCode.Found || responseDetails.HttpStatusCode == HttpStatusCode.Moved) && redirects++ < 5);
+
+                RedirectService.CloseCurrent();
 
                 if (responseDetails.HttpStatusCode == HttpStatusCode.Found) throw new WebException("Too many automatic redirections were attempted.", WebExceptionStatus.ProtocolError);
 
