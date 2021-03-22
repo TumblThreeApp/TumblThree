@@ -120,7 +120,6 @@
     <Compile Include="Converter\SingleOrArrayConverter.cs" />
     <Compile Include="CookieParser.cs" />
     <Compile Include="Crawler\AbstractTumblrCrawler.cs" />
-    <Compile Include="Crawler\RedirectService.cs" />
     <Compile Include="DataModels\ImageResponse.cs" />
     <Compile Include="DataModels\TumblrApi\Conversation.cs" />
     <Compile Include="DataModels\TumblrApi\Photo.cs" />

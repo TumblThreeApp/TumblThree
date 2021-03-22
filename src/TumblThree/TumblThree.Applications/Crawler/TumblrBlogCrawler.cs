@@ -204,8 +204,6 @@ namespace TumblThree.Applications.Crawler
         {
             string url = GetApiUrl(Blog.Url, (Blog.PageSize == 0 ? 1 : Blog.PageSize), pageId * Blog.PageSize);
 
-            url = RedirectService.GetRedirectedUrl(url);
-
             if (ShellService.Settings.LimitConnectionsApi)
             {
                 CrawlerService.TimeconstraintApi.Acquire();

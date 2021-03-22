@@ -116,7 +116,7 @@ namespace TumblThree.Applications.Crawler
             {
                 int redirects = 0;
                 ResponseDetails responseDetails;
-                RedirectService.StartNew(url);
+
                 do
                 {
                     HttpWebRequest request = WebRequestFactory.CreateGetRequest(url, string.Empty, headers, false);
@@ -128,9 +128,11 @@ namespace TumblThree.Applications.Crawler
 
                     requestRegistration = Ct.Register(() => request.Abort());
                     responseDetails = await WebRequestFactory.ReadRequestToEnd2Async(request);
-                    if (responseDetails.HttpStatusCode == HttpStatusCode.Found || responseDetails.HttpStatusCode == HttpStatusCode.Moved)
+
+                    url = responseDetails.RedirectUrl ?? url;
+
+                    if (responseDetails.HttpStatusCode == HttpStatusCode.Found)
                     {
-                        url = responseDetails.RedirectUrl;
                         if (url.Contains("privacy/consent"))
                         {
                             var ex = new Exception("Acceptance of privacy consent needed!");
@@ -140,11 +142,14 @@ namespace TumblThree.Applications.Crawler
                         if (!url.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                             url = request.RequestUri.GetLeftPart(UriPartial.Authority) + url;
                     }
-                    if (responseDetails.HttpStatusCode == HttpStatusCode.Moved) RedirectService.UpdateCurrent(url);
+
+                    if (responseDetails.HttpStatusCode == HttpStatusCode.Moved)
+                    {
+                        Uri uri = new Uri(url);
+                        if (!uri.Authority.Contains(".tumblr.")) Blog.Url = uri.GetLeftPart(UriPartial.Authority);
+                    }
 
                 } while ((responseDetails.HttpStatusCode == HttpStatusCode.Found || responseDetails.HttpStatusCode == HttpStatusCode.Moved) && redirects++ < 5);
-
-                RedirectService.CloseCurrent();
 
                 if (responseDetails.HttpStatusCode == HttpStatusCode.Found) throw new WebException("Too many automatic redirections were attempted.", WebExceptionStatus.ProtocolError);
 
