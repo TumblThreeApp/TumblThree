@@ -27,6 +27,7 @@ People are giving themselves and their free time to contribute to our project in
 * [Canna Wen](https://github.com/cannawen) 📖
 * [MaxNau](https://github.com/MaxNau) 💻
 * [khintze1](https://github.com/khintze1) 💻
+* [arrowsmith001](https://github.com/arrowsmith001) 💻
 * Your Name?
 
 Did we forget someone? Please drop us a line.
