@@ -116,6 +116,7 @@ namespace TumblThree.Applications.Crawler
             {
                 int redirects = 0;
                 ResponseDetails responseDetails;
+
                 do
                 {
                     HttpWebRequest request = WebRequestFactory.CreateGetRequest(url, string.Empty, headers, false);
@@ -127,9 +128,11 @@ namespace TumblThree.Applications.Crawler
 
                     requestRegistration = Ct.Register(() => request.Abort());
                     responseDetails = await WebRequestFactory.ReadRequestToEnd2Async(request);
+
+                    url = responseDetails.RedirectUrl ?? url;
+
                     if (responseDetails.HttpStatusCode == HttpStatusCode.Found)
                     {
-                        url = responseDetails.RedirectUrl;
                         if (url.Contains("privacy/consent"))
                         {
                             var ex = new Exception("Acceptance of privacy consent needed!");
@@ -140,7 +143,13 @@ namespace TumblThree.Applications.Crawler
                             url = request.RequestUri.GetLeftPart(UriPartial.Authority) + url;
                     }
 
-                } while (responseDetails.HttpStatusCode == HttpStatusCode.Found && redirects++ < 5);
+                    if (responseDetails.HttpStatusCode == HttpStatusCode.Moved)
+                    {
+                        Uri uri = new Uri(url);
+                        if (!uri.Authority.Contains(".tumblr.")) Blog.Url = uri.GetLeftPart(UriPartial.Authority);
+                    }
+
+                } while ((responseDetails.HttpStatusCode == HttpStatusCode.Found || responseDetails.HttpStatusCode == HttpStatusCode.Moved) && redirects++ < 5);
 
                 if (responseDetails.HttpStatusCode == HttpStatusCode.Found) throw new WebException("Too many automatic redirections were attempted.", WebExceptionStatus.ProtocolError);
 
