@@ -5,9 +5,12 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Net;
+using System.Resources;
 using System.Waf.Applications;
+using System.Windows;
 using System.Windows.Input;
-
+using System.Windows.Media;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.Views;
@@ -115,6 +118,22 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
+        public Brush LastErrorColor
+        {
+            get {
+                ResourceDictionary res = Application.Current.Resources.MergedDictionaries.Where(r => r.Source.ToString() == "Resources/BrushResources.xaml").FirstOrDefault();
+
+                if (LastError != null)
+                {
+                    if (LastError.Item1 is TimeoutException) return (Brush) res["ErrorBackgroundPurple"];
+
+                    if (LastError.Item1 is WebException) return (Brush) res["ErrorBackgroundRed"];
+                }
+
+                return (Brush) res["ErrorBackgroundBlue"];
+            }
+        }
+
         public void Show() => ViewCore.Show();
 
         private void Close() => ViewCore.Close();
@@ -154,6 +173,10 @@ namespace TumblThree.Applications.ViewModels
             {
                 RaisePropertyChanged(nameof(IsDetailsViewVisible));
                 RaisePropertyChanged(nameof(IsQueueViewVisible));
+            }
+            if(e.PropertyName == nameof(LastError))
+            {
+                RaisePropertyChanged(nameof(LastErrorColor));
             }
         }
 
