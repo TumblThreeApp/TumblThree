@@ -10,7 +10,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/TumblThreeApp/TumblThree/issues)
 
-TumblThree is a free and open source Tumblr blog backup application. It downloads photo, video, audio and text posts from a given tumblr blog.<br/>
+TumblThree is a free and open source Tumblr blog backup application. It downloads photo, video, audio and text posts from a given tumblr blog. [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20TumblThree%20-%20A%20Tumblr%20Blog%20Backup%20Application%0AIt%20downloads%20photo,%20video,%20audio%20and%20text%20posts%20from%20a%20given%20tumblr%20blog.&url=https%3A%2F%2Fgithub.com%2FTumblThreeApp%2FTumblThree&hashtags=tumblr,blog,backup,application)<br/>
 It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), using the [Win Application Framework (WAF)](https://github.com/jbe2277/waf) and C# with WPF and the MVVM pattern.
 
 _Read this in other languages: [简体中文](README.zh-cn.md) (有些部分/句子已经过时)._
@@ -74,7 +74,7 @@ _Read this in other languages: [简体中文](README.zh-cn.md) (有些部分/句
 
 Latest releases can be found [here](https://github.com/TumblThreeApp/TumblThree/releases).
 
-*If you experience crashes right before or while logging in, it may be that on your system the "[Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48145)" is missing. You can download it from MS.*
+*If you experience crashes right before or while logging in, it may be that on your system the "[Visual C++ Redistributable 2015-2019](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0)" ([x86](https://aka.ms/vs/16/release/vc_redist.x86.exe) or [x64](https://aka.ms/vs/16/release/vc_redist.x64.exe)) is missing. You can download it from MS.*
 
 ## Screenshot:
 ![TumblThree Main UI](http://www.jzab.de/sites/default/files/images/tumblthree.png?raw=true "TumblThree Main UI")
