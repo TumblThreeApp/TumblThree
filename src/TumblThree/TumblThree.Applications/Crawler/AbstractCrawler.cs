@@ -133,7 +133,7 @@ namespace TumblThree.Applications.Crawler
                         if (url.Contains("privacy/consent"))
                         {
                             var ex = new Exception("Acceptance of privacy consent needed!");
-                            ShellService.ShowError(ex, Resources.ConfirmationTumblrPrivacyConsentNeeded);
+                            ShellService.ShowError(new TumblrPrivacyConsentException(ex), Resources.ConfirmationTumblrPrivacyConsentNeeded);
                             throw ex;
                         }
                         if (!url.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))

@@ -148,7 +148,7 @@ namespace TumblThree.Applications.Controllers
             catch (Exception ex)
             {
                 Logger.Error("QueueController:OpenListCore: {0}", ex);
-                _shellService.ShowError(ex, Resources.CouldNotLoadQueuelist);
+                _shellService.ShowError(new QueuelistLoadException(ex), Resources.CouldNotLoadQueuelist);
                 return;
             }
 
@@ -164,7 +164,7 @@ namespace TumblThree.Applications.Controllers
             catch (Exception ex)
             {
                 Logger.Error("QueueController.InsertFileCore: {0}", ex);
-                _shellService.ShowError(ex, Resources.CouldNotLoadQueuelist);
+                _shellService.ShowError(new QueuelistLoadException(ex), Resources.CouldNotLoadQueuelist);
             }
         }
 
@@ -200,7 +200,7 @@ namespace TumblThree.Applications.Controllers
             catch (Exception ex)
             {
                 Logger.Error("QueueController:SaveList: {0}", ex);
-                _shellService.ShowError(ex, Resources.CouldNotSaveQueueList);
+                _shellService.ShowError(new QueuelistSaveException(ex), Resources.CouldNotSaveQueueList);
             }
         }
 

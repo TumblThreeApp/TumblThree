@@ -749,7 +749,7 @@ namespace TumblThree.Applications.Controllers
             catch (Exception ex)
             {
                 Logger.Error($"ManagerController:OnClipboardContentChanged: {ex}");
-                _shellService.ShowError(ex, "error getting clipboard content");
+                _shellService.ShowError(new ClipboardContentException(ex), "error getting clipboard content");
             }
         }
 

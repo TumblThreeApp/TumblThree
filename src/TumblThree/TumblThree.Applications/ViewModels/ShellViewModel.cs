@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
-using System.Resources;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Input;
@@ -31,6 +30,7 @@ namespace TumblThree.Applications.ViewModels
         private readonly object _errorsLock = new object();
         private readonly AppSettings _settings;
         private readonly ExportFactory<SettingsViewModel> _settingsViewModelFactory;
+        private readonly ResourceDictionary _brushResources;
 
         private object _detailsView;
 
@@ -118,19 +118,19 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
-        public Brush LastErrorColor
+        public string LastErrorColorString
         {
             get {
-                ResourceDictionary res = Application.Current.Resources.MergedDictionaries.Where(r => r.Source.ToString() == "Resources/BrushResources.xaml").FirstOrDefault();
-
                 if (LastError != null)
                 {
-                    if (LastError.Item1 is TimeoutException) return (Brush) res["ErrorBackgroundPurple"];
+                    if (LastError.Item1 is TimeoutException) return "ErrorBackgroundPurple";
 
-                    if (LastError.Item1 is WebException) return (Brush) res["ErrorBackgroundRed"];
+                    if (LastError.Item1 is WebException) return "ErrorBackgroundRed";
+
+                    if (LastError.Item1 is DiskFullException) return "ErrorBackgroundGreen";
                 }
 
-                return (Brush) res["ErrorBackgroundBlue"];
+                return "ErrorBackgroundBlue";
             }
         }
 
@@ -176,7 +176,7 @@ namespace TumblThree.Applications.ViewModels
             }
             if(e.PropertyName == nameof(LastError))
             {
-                RaisePropertyChanged(nameof(LastErrorColor));
+                RaisePropertyChanged(nameof(LastErrorColorString));
             }
         }
 

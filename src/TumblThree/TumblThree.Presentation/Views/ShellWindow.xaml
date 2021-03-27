@@ -6,7 +6,7 @@
         xmlns:dd="clr-namespace:TumblThree.Presentation.DesignData"
         xmlns:ctrl="clr-namespace:TumblThree.Presentation.Controls"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:TumblThree.Applications.ViewModels;assembly=TumblThree.Applications"
+        xmlns:vm="clr-namespace:TumblThree.Applications.ViewModels;assembly=TumblThree.Applications" xmlns:l="http://schemas.microsoft.com/netfx/2009/xaml/presentation" xmlns:l1="clr-namespace:TumblThree.Applications.Converter;assembly=TumblThree.Applications"
         mc:Ignorable="d" Icon="{StaticResource TumblThreeIcon}" Width="800" Height="500"
         d:DataContext="{d:DesignInstance dd:SampleShellViewModel, IsDesignTimeCreatable=True}">
 
@@ -40,6 +40,11 @@
         <KeyBinding Command="{Binding CrawlerService.StopCommand}" Key="Space" Modifiers="Shift" />
     </Window.InputBindings>
 
+    <Window.Resources>
+        <l1:BrushResourceConverter x:Key="brushConverter">
+        </l1:BrushResourceConverter>
+    </Window.Resources>
+
     <Grid x:Name="grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -54,7 +59,7 @@
         </Grid.RowDefinitions>
 
         <Border Grid.ColumnSpan="3" Grid.Row="0" BorderBrush="Transparent" BorderThickness="0,0,0,1"
-                Background="{Binding LastErrorColor}">
+                Background="{Binding LastErrorColorString, Converter={StaticResource brushConverter}}">
             <Border.Style>
                 <Style TargetType="Border">
                     <Style.Triggers>
