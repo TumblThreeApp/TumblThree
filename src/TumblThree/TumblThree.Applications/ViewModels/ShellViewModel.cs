@@ -7,9 +7,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
 using System.Waf.Applications;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.Views;
@@ -30,7 +28,6 @@ namespace TumblThree.Applications.ViewModels
         private readonly object _errorsLock = new object();
         private readonly AppSettings _settings;
         private readonly ExportFactory<SettingsViewModel> _settingsViewModelFactory;
-        private readonly ResourceDictionary _brushResources;
 
         private object _detailsView;
 
