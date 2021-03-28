@@ -107,7 +107,7 @@ namespace TumblThree.Applications.ViewModels
             catch (Exception ex)
             {
                 Logger.Error("ManagerViewModel:ManagerViewModel {0}", ex);
-                ShellService.ShowError(ex, Resources.CouldNotRestoreUISettings);
+                ShellService.ShowError(new UISettingsException(ex), Resources.CouldNotRestoreUISettings);
                 return;
             }
         }

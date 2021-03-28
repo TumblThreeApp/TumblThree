@@ -5,9 +5,9 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Net;
 using System.Waf.Applications;
 using System.Windows.Input;
-
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.Views;
@@ -115,6 +115,22 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
+        public string LastErrorColorString
+        {
+            get {
+                if (LastError != null)
+                {
+                    if (LastError.Item1 is TimeoutException) return "ErrorBackgroundPurple";
+
+                    if (LastError.Item1 is WebException) return "ErrorBackgroundRed";
+
+                    if (LastError.Item1 is DiskFullException) return "ErrorBackgroundGreen";
+                }
+
+                return "ErrorBackgroundBlue";
+            }
+        }
+
         public void Show() => ViewCore.Show();
 
         private void Close() => ViewCore.Close();
@@ -154,6 +170,10 @@ namespace TumblThree.Applications.ViewModels
             {
                 RaisePropertyChanged(nameof(IsDetailsViewVisible));
                 RaisePropertyChanged(nameof(IsQueueViewVisible));
+            }
+            if(e.PropertyName == nameof(LastError))
+            {
+                RaisePropertyChanged(nameof(LastErrorColorString));
             }
         }
 

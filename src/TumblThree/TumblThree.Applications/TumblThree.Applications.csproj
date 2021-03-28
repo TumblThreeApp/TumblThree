@@ -116,6 +116,7 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\QueueController.cs" />
+    <Compile Include="Converter\BrushResourceConverter.cs" />
     <Compile Include="Converter\PropertyCopier.cs" />
     <Compile Include="Converter\SingleOrArrayConverter.cs" />
     <Compile Include="CookieParser.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="DataModels\TumblrSearch\TumblrSearchJson.cs" />
     <Compile Include="DataModels\TumblrTaggedSearch\TumblrTaggedSearchJson.cs" />
     <Compile Include="Downloader\TumblrJsonDownloader.cs" />
+    <Compile Include="ErrorExceptions.cs" />
     <Compile Include="Parser\CatBoxParser.cs" />
     <Compile Include="Parser\GfycatParser.cs" />
     <Compile Include="Parser\ICatBoxParser.cs" />

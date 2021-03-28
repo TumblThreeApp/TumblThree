@@ -42,7 +42,7 @@ namespace TumblThree.Applications.Services
             catch (Exception exception)
             {
                 Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.ConfirmingTumblrPrivacyConsentFailed), exception);
-                shellService.ShowError(exception, Resources.ConfirmingTumblrPrivacyConsentFailed);
+                shellService.ShowError(new TumblrPrivacyConsentException(exception), Resources.ConfirmingTumblrPrivacyConsentFailed);
             }
         }
 

@@ -18,7 +18,13 @@
 
     <SolidColorBrush x:Key="DarkTransparentBackground" Color="#BFA0A0A0" />
 
-    <SolidColorBrush x:Key="ErrorBackground" Color="SkyBlue" />
+    <SolidColorBrush x:Key="ErrorBackgroundBlue" Color="SkyBlue" />
+    
+    <SolidColorBrush x:Key="ErrorBackgroundRed" Color="PaleVioletRed" />
+    
+    <SolidColorBrush x:Key="ErrorBackgroundPurple" Color="MediumPurple" />
+    
+    <SolidColorBrush x:Key="ErrorBackgroundGreen" Color="MediumSeaGreen" />
 
     <SolidColorBrush x:Key="DefaultBorderBrush" Color="White" />
 
