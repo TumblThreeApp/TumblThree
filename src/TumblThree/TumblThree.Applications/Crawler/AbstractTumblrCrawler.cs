@@ -225,7 +225,7 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        protected void AddTumblrPhotoUrl(string post)
+        protected void AddTumblrPhotoUrl(string post, int? postTimestamp)
         {
             foreach (string imageUrl in TumblrParser.SearchForTumblrPhotoUrl(post))
             {
@@ -235,11 +235,11 @@ namespace TumblThree.Applications.Crawler
                 url = ResizeTumblrImageUrl(url);
                 url = RetrieveOriginalImageUrl(url, 2000, 3000);
                 // TODO: postID
-                AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), BuildFileName(url, (Post)null, -1)));
+                AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), BuildFileName(url, (Post)null, -1)));
             }
         }
 
-        protected void AddTumblrVideoUrl(string post)
+        protected void AddTumblrVideoUrl(string post, int? postTimestamp)
         {
             foreach (string videoUrl in TumblrParser.SearchForTumblrVideoUrl(post))
             {
@@ -249,7 +249,7 @@ namespace TumblThree.Applications.Crawler
                     url += "_480";
                 }
 
-                AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + url + ".mp4", Guid.NewGuid().ToString("N"), BuildFileName("https://vtt.tumblr.com/" + url + ".mp4", (Post)null, -1)));
+                AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + url + ".mp4", Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), BuildFileName("https://vtt.tumblr.com/" + url + ".mp4", (Post)null, -1)));
             }
         }
 
@@ -268,24 +268,24 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        protected void AddGenericPhotoUrl(string post)
+        protected void AddGenericPhotoUrl(string post, int? postTimestamp)
         {
             foreach (string imageUrl in TumblrParser.SearchForGenericPhotoUrl(post))
             {
                 if (TumblrParser.IsTumblrUrl(imageUrl)) { continue; }
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new PhotoPost(imageUrl, Guid.NewGuid().ToString("N"), FileName(imageUrl)));
+                AddToDownloadList(new PhotoPost(imageUrl, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), FileName(imageUrl)));
             }
         }
 
-        protected void AddGenericVideoUrl(string post)
+        protected void AddGenericVideoUrl(string post, int? postTimestamp)
         {
             foreach (string videoUrl in TumblrParser.SearchForGenericVideoUrl(post))
             {
                 if (TumblrParser.IsTumblrUrl(videoUrl)) { continue; }
 
-                AddToDownloadList(new VideoPost(videoUrl, Guid.NewGuid().ToString("N"), FileName(videoUrl)));
+                AddToDownloadList(new VideoPost(videoUrl, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), FileName(videoUrl)));
             }
         }
 

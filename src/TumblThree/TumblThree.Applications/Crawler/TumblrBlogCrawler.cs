@@ -440,6 +440,7 @@ namespace TumblThree.Applications.Crawler
                 if (!PostWithinTimeSpan(post)) { continue; }
                 if (!CheckIfContainsTaggedPost(post)) { continue; }
                 if (!CheckIfDownloadRebloggedPosts(post)) { continue; }
+                string postTimestamp = post.Date;
 
                 try
                 {
@@ -692,17 +693,17 @@ namespace TumblThree.Applications.Crawler
 
         private void AddInlinePhotoUrl(Post post)
         {
-            AddTumblrPhotoUrl(InlineSearch(post));
+            AddTumblrPhotoUrl(InlineSearch(post), post.UnixTimestamp);
         }
 
         private void AddInlineVideoUrl(Post post)
         {
-            AddTumblrVideoUrl(InlineSearch(post));
+            AddTumblrVideoUrl(InlineSearch(post), post.UnixTimestamp);
         }
 
         private void AddGenericInlineVideoUrl(Post post)
         {
-            AddGenericVideoUrl(InlineSearch(post));
+            AddGenericVideoUrl(InlineSearch(post), post.UnixTimestamp);
         }
 
         private void AddInlineVideoUrlsToDownloader(HashSet<string> videoUrls, Post post)
@@ -744,7 +745,7 @@ namespace TumblThree.Applications.Crawler
 
         private void AddGenericInlinePhotoUrl(Post post)
         {
-            AddGenericPhotoUrl(InlineSearch(post));
+            AddGenericPhotoUrl(InlineSearch(post), post.UnixTimestamp);
         }
 
         private void AddVideoUrl(Post post)
