@@ -440,7 +440,6 @@ namespace TumblThree.Applications.Crawler
                 if (!PostWithinTimeSpan(post)) { continue; }
                 if (!CheckIfContainsTaggedPost(post)) { continue; }
                 if (!CheckIfDownloadRebloggedPosts(post)) { continue; }
-                string postTimestamp = post.Date;
 
                 try
                 {
