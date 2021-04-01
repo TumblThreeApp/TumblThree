@@ -258,11 +258,11 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            AddTumblrPhotoUrl(document);
+            AddTumblrPhotoUrl(document, null);
 
             if (Blog.RegExPhotos)
             {
-                AddGenericPhotoUrl(document);
+                AddGenericPhotoUrl(document, null);
             }
         }
 
@@ -273,12 +273,12 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            AddTumblrVideoUrl(document);
+            AddTumblrVideoUrl(document, null);
             AddInlineTumblrVideoUrl(document, TumblrParser.GetTumblrVVideoUrlRegex());
 
             if (Blog.RegExVideos)
             {
-                AddGenericVideoUrl(document);
+                AddGenericVideoUrl(document, null);
             }
         }
 
