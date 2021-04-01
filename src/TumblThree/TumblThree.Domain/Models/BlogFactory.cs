@@ -28,6 +28,12 @@ namespace TumblThree.Domain.Models
                    || _urlValidator.IsTumbexUrl(blogUrl);
         }
 
+        public bool IsValidUrl(string url)
+        {
+            url = _urlValidator.AddHttpsProtocol(url);
+            return _urlValidator.IsValidUrl(url);
+        }
+
         public IBlog GetBlog(string blogUrl, string path, string filenameTemplate)
         {
             blogUrl = _urlValidator.AddHttpsProtocol(blogUrl);

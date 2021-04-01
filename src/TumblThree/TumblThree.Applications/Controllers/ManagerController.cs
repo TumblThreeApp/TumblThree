@@ -456,7 +456,7 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
-        private bool CanAddBlog() => _blogFactory.IsValidTumblrBlogUrl(_crawlerService.NewBlogUrl);
+        private bool CanAddBlog() => _blogFactory.IsValidTumblrBlogUrl(_crawlerService.NewBlogUrl) || _blogFactory.IsValidUrl(_crawlerService.NewBlogUrl);
 
         private async Task AddBlog()
         {
@@ -476,12 +476,13 @@ namespace TumblThree.Applications.Controllers
             catch (Exception e)
             {
                 Logger.Error($"ManagerController:AddBlog: {e}");
+                _shellService.ShowError(e, e.Message);
             }
         }
 
         private void CleanFailedAddBlog()
         {
-            IBlog blog = CheckIfCrawlableBlog(_crawlerService.NewBlogUrl);
+            IBlog blog = CheckIfCrawlableBlog(_crawlerService.NewBlogUrl).GetAwaiter().GetResult();
             if (Directory.Exists(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)) &&
                 !Directory.EnumerateFileSystemEntries(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)).Any())
             {
@@ -645,7 +646,7 @@ namespace TumblThree.Applications.Controllers
                 blogUrl = _crawlerService.NewBlogUrl;
             }
 
-            IBlog blog = CheckIfCrawlableBlog(blogUrl);
+            IBlog blog = await CheckIfCrawlableBlog(blogUrl);
 
             blog = await CheckIfBlogIsHiddenTumblrBlogAsync(blog);
 
@@ -705,8 +706,14 @@ namespace TumblThree.Applications.Controllers
             crawler.Dispose();
         }
 
-        private IBlog CheckIfCrawlableBlog(string blogUrl)
+        private async Task<IBlog> CheckIfCrawlableBlog(string blogUrl)
         {
+            if (!_blogFactory.IsValidTumblrBlogUrl(blogUrl) && _blogFactory.IsValidUrl(blogUrl))
+            {
+                if ( await _tumblrBlogDetector.IsTumblrBlogWithCustomDomainAsync(blogUrl))
+                    return TumblrBlog.Create(blogUrl, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate, true);
+                throw new Exception($"The url '{blogUrl}' cannot be recognized as Tumblr blog!");
+            }
             return _blogFactory.GetBlog(blogUrl, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate);
         }
 
