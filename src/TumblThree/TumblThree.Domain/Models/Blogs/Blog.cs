@@ -888,11 +888,11 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
-        public void UpdateProgress()
+        public void UpdateProgress(bool calcOnly)
         {
             lock (lockObjectProgress)
             {
-                DownloadedImages++;
+                if (!calcOnly) DownloadedImages++;
                 Progress = (int)(DownloadedImages / (double)TotalCount * 100);
             }
         }

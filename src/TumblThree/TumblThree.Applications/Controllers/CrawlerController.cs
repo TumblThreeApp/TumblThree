@@ -258,7 +258,7 @@ namespace TumblThree.Applications.Controllers
 
             ICrawler crawler = _crawlerFactory.GetCrawler(blog, progress, pt, ct);
             await crawler.CrawlAsync();
-            blog.UpdateProgress();
+            blog.UpdateProgress(true);
             crawler.Dispose();
 
             Monitor.Enter(_lockObject);
