@@ -296,7 +296,7 @@ namespace TumblThree.Applications.Downloader
 
         private void AddTextToDb(TumblrPost downloadItem)
         {
-            files.AddFileToDb(FileName(downloadItem), downloadItem.Filename);
+            files.AddFileToDb(PostId(downloadItem), downloadItem.Filename);
         }
 
         private string AddFileToDb(TumblrPost downloadItem)
