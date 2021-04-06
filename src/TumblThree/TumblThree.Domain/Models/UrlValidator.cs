@@ -15,7 +15,7 @@ namespace TumblThree.Domain.Models
             return url != null &&
                 url.Length > 18 &&
                 url.Contains(".tumblr.com") &&
-                !url.Contains("//www.tumblr.com") &&
+                (!url.Contains("//www.tumblr.com") || url.EndsWith("www.tumblr.com/likes", true, null)) &&
                 !url.Any(char.IsWhiteSpace) &&
                 !url.Contains(".media.tumblr.com") &&
                 (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null));
@@ -64,6 +64,12 @@ namespace TumblThree.Domain.Models
             }
 
             return url;
+        }
+
+        public bool IsValidTumblrLikesUrl(string url)
+        {
+            return url != null && url.Contains("www.tumblr.com/likes") && !url.Any(char.IsWhiteSpace) &&
+                   (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null));
         }
     }
 }

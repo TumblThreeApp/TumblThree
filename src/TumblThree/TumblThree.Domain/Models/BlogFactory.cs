@@ -31,6 +31,12 @@ namespace TumblThree.Domain.Models
         public IBlog GetBlog(string blogUrl, string path, string filenameTemplate)
         {
             blogUrl = _urlValidator.AddHttpsProtocol(blogUrl);
+
+            if (_urlValidator.IsValidTumblrLikesUrl(blogUrl))
+            {
+                return TumblrLikedByBlog.Create(blogUrl, path, filenameTemplate);
+            }
+
             if (_urlValidator.IsValidTumblrUrl(blogUrl))
             {
                 return TumblrBlog.Create(blogUrl, path, filenameTemplate);

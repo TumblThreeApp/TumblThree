@@ -15,5 +15,7 @@
         string AddHttpsProtocol(string url);
 
         bool IsTumbexUrl(string url);
+
+        bool IsValidTumblrLikesUrl(string url);
     }
 }
