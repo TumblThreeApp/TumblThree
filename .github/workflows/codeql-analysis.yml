@@ -12,13 +12,13 @@
 name: "CodeQL"
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ master ]
+  #push:
+  #  branches: [ master ]
+  #pull_request:
+  #  # The branches below must be a subset of the branches above
+  #  branches: [ master ]
   schedule:
-    - cron: '18 8 * * 1'
+    - cron: '0 0 * * 1'
 
 jobs:
   analyze:
@@ -37,6 +37,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
@@ -46,11 +52,12 @@ jobs:
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
+        #queries: security-and-quality
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v1
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
@@ -59,9 +66,9 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
-    #- run: |
-    #   make bootstrap
-    #   make release
+    - run: |
+       nuget restore src\TumblThree\TumblThree.sln
+       msbuild src\TumblThree\TumblThree.sln /p:UseSharedCompilation=false /t:build /p:Platform="x64" /p:Configuration="Debug" 
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
