@@ -315,11 +315,11 @@ z-index:999;
             <li> Source code at GitHub (Written in C# using WPF and MVVM). </li>
             <li> Multiple concurrent downloads of a single blog. </li>
             <li> Multiple concurrent downloads of different blogs. </li>
-            <li> Internationalization support (currently available: en, de, es, fr, ru, zh). </li>
+            <li> Internationalization support (currently available: en, de, es, fr, ru and zh). </li>
             <li> Downloads the queue. </li>
             <li> Auto saves the queue list. </li>
             <li> Save, clear and restore the queue list. </li>
-            <li> Clipboard monitor - detects blogname.tumblr.com URLs in the clipboard (copy and
+            <li> Clipboard monitor detects blogname.tumblr.com URLs in the clipboard (copy and
                 paste) and automatically adds the blog to the bloglist. </li>
             <li> A settings panel:
                 <ul>
@@ -351,7 +351,7 @@ z-index:999;
                     <li>Download meta information for photo, video and audio posts.</li>
                     <li>Download inlined photos and videos (e.g. photos embedded in question
                         &amp; answer posts).</li>
-                    <li>Download of all image sizes possible (SVC, API only for newer blogs, higher
+                    <li>Download of all image sizes possible (SVC, API only for newer blogs and higher
                         resolution not possible for old blogs *1).</li>
                     <li>Support for downloading Imgur, Gfycat, Webmshare, Mixtape, Lolisafe, Uguu,
                         Catbox and SafeMoe linked files in tumblr posts.</li>
@@ -373,7 +373,7 @@ z-index:999;
                             href="https://www.tumblr.com/liked/by/wallpaperfx/"
                             >https://www.tumblr.com/liked/by/wallpaperfx/</a>) (login
                         required).</li>
-                    <li>Download all image sizes possible (SVC, API only for newer blogs, higher
+                    <li>Download all image sizes possible (SVC, API only for newer blogs and higher
                         resolution not possible for old blogs *1).</li>
                     <li>It allows downloading posts in a defined time span.</li>
                 </ul>
@@ -384,7 +384,7 @@ z-index:999;
                     <li>A downloader for downloading photos and videos from the tumblr search (e.g.
                             <a href="http://www.tumblr.com/search/my+keywords"
                             >http://www.tumblr.com/search/my+keywords</a>).</li>
-                    <li>Download all image sizes possible (SVC, API only for newer blogs, higher
+                    <li>Download all image sizes possible (SVC, API only for newer blogs and higher
                         resolution not possible for old blogs *1).</li>
                     <li>You can download only specific blog pages instead of a whole blog.</li>
                 </ul>
@@ -395,7 +395,7 @@ z-index:999;
                     <li>A downloader for downloading photos and videos from the tumblr tag search
                         (e.g. <a href="http://www.tumblr.com/tagged/my+keywords"
                             >http://www.tumblr.com/tagged/my+keywords</a>) (login required).</li>
-                    <li>Download of all image sizes possible (SVC, API only for newer blogs, higher
+                    <li>Download all image sizes possible (SVC, API only for newer blogs and higher
                         resolution not possible for old blogs *1).</li>
                     <li>It allows downloading posts in a defined time span.</li>
                 </ul>
@@ -408,8 +408,8 @@ z-index:999;
             <li>
                 <h4 id="howtoaddablog">How to add a blog?</h4>
                 <ul>
-                    <li>Copy the URL of any tumblr.com blog you want to backup from,in the textbox
-                        at the bottom left. Afterwards,click on "Add Blog."</li>
+                    <li>Copy the URL of any tumblr.com blog you want to backup from, in the textbox
+                        at the bottom left. Afterwards, click on "Add Blog."</li>
                 </ul> OR <ul>
                     <li>If you copy (ctrl-c) a tumblr.com blog URL from the address bar/text file,
                         the clipboard monitor from TumblThree will detect it and automatically add
@@ -606,15 +606,15 @@ z-index:999;
             <li> For each blog there is also a database (serialized class) file in the "Index" folder
                 of the download location named after the blogname.tumblr. Here blog relative
                 information is stored like what files have been downloaded, the URL of the blog and
-                when it was added. This allows you to move your downloaded files (photos, videos,
+                when it was added. This allows you to move your downloaded files (photos, videos and
                 audio files) to a different location without interfering with the downloading
                 process. </li>
             <li> Some settings aren't hooked up to the graphical user interface. It's possible to
                 view all TumblThree settings by opening the settings.json in any editor located in
-                C:\Users\Username\AppData\Local\TumblThree. Their names should be self explainatory. </li><br>
+                <strong>C:\Users\Username\AppData\Local\TumblThree</strong>. Their names should be self explainatory. </li><br>
             <li> Some notable settings to further fine tune the application include:</li> <ul>
                     Buffer Size: <ul> 
-                        <li> It allows to set the buffer size for downloading binary files (photos,
+                        <li> It allows to set the buffer size for downloading binary files (photos and
                         videos) in multiples of 4KB. The default is 2MB, thus the buffer size has a
                         value of 512. </li>
                         <li> Increasing buffer size value more than 512, reduces disk fragmentation as more of the file is
