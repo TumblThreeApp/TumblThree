@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows;
@@ -146,6 +149,8 @@ namespace TumblThree.Applications.Controllers
                 await CheckForUpdatesComplete(_applicationUpdateService.GetLatestReleaseFromServer());
                 _appSettings.LastUpdateCheck = DateTime.Today;
             }
+
+            CheckForVCRedistributable();
         }
 
         public void Shutdown()
@@ -206,6 +211,60 @@ namespace TumblThree.Applications.Controllers
             {
                 Logger.Error("ModuleController.CheckForUpdatesComplete: {0}", e.ToString());
             }
+        }
+
+        private static void CheckForVCRedistributable()
+        {
+            try
+            {
+                if (!IsVC2015Installed())
+                {
+                    var url = Environment.Is64BitProcess ? "https://aka.ms/vs/16/release/vc_redist.x64.exe" : "https://aka.ms/vs/16/release/vc_redist.x86.exe";
+                    MessageBoxResult ret = MessageBoxResult.No;
+                    ret = MessageBox.Show($"{Resources.DownloadVCRedistributable}", Resources.DownloadVCRedistributableTitle, MessageBoxButton.YesNo);
+                    if (ret == MessageBoxResult.Yes)
+                        Process.Start(new ProcessStartInfo(url));
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("ModuleController.CheckForRedistributableAsync: {0}", e.ToString());
+            }
+        }
+
+        private static bool IsVC2015Installed()
+        {
+            string dependenciesPath = @"SOFTWARE\Classes\Installer\Dependencies";
+
+            using (RegistryKey dependencies = Registry.LocalMachine.OpenSubKey(dependenciesPath))
+            {
+                if (dependencies == null) return false;
+
+                foreach (string subKeyName in dependencies.GetSubKeyNames().Where(n => !n.ToLower().Contains("dotnet") && !n.ToLower().Contains("microsoft")))
+                {
+                    using (RegistryKey subDir = Registry.LocalMachine.OpenSubKey(dependenciesPath + "\\" + subKeyName))
+                    {
+                        var value = subDir.GetValue("DisplayName")?.ToString() ?? null;
+                        if (string.IsNullOrEmpty(value)) continue;
+
+                        if (Environment.Is64BitProcess)
+                        {
+                            if (Regex.IsMatch(value, @"C\+\+ 2015.*\(x64\)"))
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (Regex.IsMatch(value, @"C\+\+ 2015.*\(x86\)"))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         private static bool CheckIfPortableMode(string fileName)
