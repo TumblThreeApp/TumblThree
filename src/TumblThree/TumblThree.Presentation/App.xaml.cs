@@ -66,6 +66,9 @@ namespace TumblThree.Presentation
                 moduleController.Initialize();
             }
 
+            // Initialize exception handling
+            AppDomain.CurrentDomain.UnhandledException += AppDomainUnhandledException;
+
             foreach (IModuleController moduleController in moduleControllers)
             {
                 moduleController.Run();
@@ -109,8 +112,11 @@ namespace TumblThree.Presentation
             }
         }
 
-        private static void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+            Application_DispatcherUnhandledException(sender, e);
+            if (e.Handled) return;
+
             HandleException(e.Exception, false);
         }
 
@@ -121,16 +127,14 @@ namespace TumblThree.Presentation
 
         private static void HandleException(Exception e, bool isTerminating)
         {
-            if (e == null)
-            {
-                return;
-            }
+            if (e == null) return;
 
             Logger.Error(e.ToString());
 
             if (!isTerminating)
             {
-                MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Presentation.Properties.Resources.UnknownError, e.ToString()), ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Presentation.Properties.Resources.UnknownError, e.ToString()),
+                    ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
