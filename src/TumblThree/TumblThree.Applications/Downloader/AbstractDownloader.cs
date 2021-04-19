@@ -32,6 +32,7 @@ namespace TumblThree.Applications.Downloader
         protected readonly FileDownloader fileDownloader;
         private readonly string[] suffixes = { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".heif", ".heic", ".webp" };
         private Timer _saveTimer;
+        private bool _disposed;
         private const int SAVE_TIMESPAN_SECS = 120;
 
         private SemaphoreSlim concurrentConnectionsSemaphore;
@@ -415,17 +416,29 @@ namespace TumblThree.Applications.Downloader
 
         protected void OnSaveTimedEvent()
         {
-            _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            if (_disposed) return;
 
-            if (files.IsDirty) files.Save();
+            try
+            {
+                _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
-            _saveTimer.Change(SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
+                if (files.IsDirty) files.Save();
+            }
+            catch (Exception e)
+            {
+                ThreadPool.QueueUserWorkItem(_ => throw new Exception("Exception in OnSaveTimedEvent.", e));
+            }
+            finally
+            {
+                _saveTimer.Change(SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
+            }
         }
 
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
+                _disposed = true;
                 _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
                 _saveTimer.Dispose();
                 concurrentConnectionsSemaphore?.Dispose();
