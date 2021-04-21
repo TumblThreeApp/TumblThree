@@ -133,7 +133,7 @@ namespace TumblThree.Presentation
 
             if (!isTerminating)
             {
-                MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Presentation.Properties.Resources.UnknownError, e.ToString()),
+                MessageBox.Show(Presentation.Properties.Resources.UnknownError + Environment.NewLine + Environment.NewLine + e.ToString(),
                     ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
