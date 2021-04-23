@@ -19,6 +19,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplicationFramework", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RateLimiter", "..\..\lib\RateLimiter\RateLimiter\RateLimiter.csproj", "{5B56EEEB-9107-4FC5-BD73-10FE96C9BDED}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A8C4D45C-CCC9-4C82-9A67-E5B6CCA59DE5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		analyzers.ruleset = analyzers.ruleset
+		Directory.build.props = Directory.build.props
+		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
