@@ -32,7 +32,6 @@ namespace TumblThree.Domain.Models.Blogs
             {
                 IFiles files = new TumblrTagSearchBlogFiles(blog.Name, blog.Location);
                 files.Save();
-                files = null;
             }
 
             return blog;

@@ -9,11 +9,10 @@ namespace TumblThree.Applications
     {
         public static CookieCollection GetAllCookiesFromHeader(string strHeader, string strHost)
         {
-            ArrayList al = new ArrayList();
             CookieCollection cc = new CookieCollection();
             if (strHeader.Length > 0)
             {
-                al = ConvertCookieHeaderToArrayList(strHeader);
+                ArrayList al = ConvertCookieHeaderToArrayList(strHeader);
                 cc = ConvertCookieArraysToCookieCollection(al, strHost);
             }
             return cc;
@@ -60,9 +59,6 @@ namespace TumblThree.Applications
                 strEachCook = al[i].ToString();
                 strEachCookParts = strEachCook.Split(';');
                 int intEachCookPartsCount = strEachCookParts.Length;
-                string strCNameAndCValue = string.Empty;
-                string strPNameAndPValue = string.Empty;
-                string strDNameAndDValue = string.Empty;
                 string[] NameValuePairTemp;
                 Cookie cookTemp = new Cookie();
 
@@ -70,7 +66,7 @@ namespace TumblThree.Applications
                 {
                     if (j == 0)
                     {
-                        strCNameAndCValue = strEachCookParts[j];
+                        string strCNameAndCValue = strEachCookParts[j];
                         if (strCNameAndCValue.Length > 0)
                         {
                             int firstEqual = strCNameAndCValue.IndexOf("=");
@@ -81,6 +77,7 @@ namespace TumblThree.Applications
                         }
                         continue;
                     }
+                    string strPNameAndPValue;
                     if (strEachCookParts[j].IndexOf("path", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         strPNameAndPValue = strEachCookParts[j];

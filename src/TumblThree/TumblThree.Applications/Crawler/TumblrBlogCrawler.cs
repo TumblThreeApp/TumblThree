@@ -500,7 +500,7 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            Post postCopy = post;
+            Post postCopy;
             if (post.Type == "video")
             {
                 AddVideoUrl(post);
@@ -680,7 +680,7 @@ namespace TumblThree.Applications.Crawler
         {
             // TODO: Not use reflection here? We know the types...
             var imageUrl = (string)post.GetType().GetProperty("PhotoUrl" + ImageSizeForSearching()).GetValue(post, null) ?? post.PhotoUrl1280;
-            return RetrieveOriginalImageUrl(imageUrl, (int)post.Width, (int)post.Height);
+            return RetrieveOriginalImageUrl(imageUrl, post.Width, post.Height);
         }
 
         private static string InlineSearch(Post post)

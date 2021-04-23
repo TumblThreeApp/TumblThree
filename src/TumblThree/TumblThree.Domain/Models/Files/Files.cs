@@ -89,7 +89,7 @@ namespace TumblThree.Domain.Models.Files
 
         public virtual bool CheckIfFileExistsInDB(string filenameUrl)
         {
-            string fileName = filenameUrl.Split('/').Last();
+            //string fileName = filenameUrl.Split('/').Last();
             Monitor.Enter(_lockList);
             try
             {

@@ -177,7 +177,7 @@ namespace TumblThree.Applications.Controllers
 
         private void QueueItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add | e.Action == NotifyCollectionChangedAction.Remove)
+            if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove)
             {
                 ManagerViewModel.QueueItems = QueueManager.Items;
             }
@@ -381,23 +381,25 @@ namespace TumblThree.Applications.Controllers
 
         private async Task ThrottledCheckStatusOfBlogsAsync(IEnumerable<IBlog> blogs)
         {
-            var semaphoreSlim = new SemaphoreSlim(25);
-            IEnumerable<Task> tasks = blogs.Select(async blog => await CheckStatusOfBlogsAsync(semaphoreSlim, blog));
-            await Task.WhenAll(tasks);
+            using (var semaphoreSlim = new SemaphoreSlim(25))
+            {
+                IEnumerable<Task> tasks = blogs.Select(async blog => await CheckStatusOfBlogsAsync(semaphoreSlim, blog));
+                await Task.WhenAll(tasks);
+            }
         }
 
         private async Task CheckStatusOfBlogsAsync(SemaphoreSlim semaphoreSlim, IBlog blog)
         {
             await semaphoreSlim.WaitAsync();
+            ICrawler crawler = null;
             try
             {
-                ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), new PauseToken(),
-                    new CancellationToken());
+                crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), new PauseToken(), new CancellationToken());
                 await crawler.IsBlogOnlineAsync();
-                crawler.Dispose();
             }
             finally
             {
+                crawler?.Dispose();
                 semaphoreSlim.Release();
             }
         }
@@ -419,9 +421,9 @@ namespace TumblThree.Applications.Controllers
 
         private void EnqueueAutoDownload()
         {
-            if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(0))
-            {
-            }
+            //if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(0))
+            //{
+            //}
 
             if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(1))
             {
@@ -495,17 +497,16 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
-                var fileBrowser = new OpenFileDialog()
+                string path = "";
+                using (var fileBrowser = new OpenFileDialog() { Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*" })
                 {
-                    Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
-                };
+                    if (fileBrowser.ShowDialog() != DialogResult.OK)
+                    {
+                        return;
+                    }
 
-                if (fileBrowser.ShowDialog() != DialogResult.OK)
-                {
-                    return;
+                    path = fileBrowser.FileName;
                 }
-
-                var path = fileBrowser.FileName;
 
                 if (!File.Exists(path))
                 {
@@ -667,8 +668,12 @@ namespace TumblThree.Applications.Controllers
         private void SetDefaultTumblrBlogCrawler(IBlog blog)
         {
             if (_shellService.Settings.OverrideTumblrBlogCrawler)
+            {
                 if (blog.BlogType == BlogTypes.tumblr || blog.BlogType == BlogTypes.tmblrpriv)
+                {
                     blog.BlogType = _shellService.Settings.TumblrBlogCrawlerType.MapToBlogType();
+                }
+            }
         }
 
         private void SaveBlog(IBlog blog)
@@ -699,11 +704,17 @@ namespace TumblThree.Applications.Controllers
 
         private async Task UpdateMetaInformationAsync(IBlog blog)
         {
-            ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), new PauseToken(),
-                new CancellationToken());
+            ICrawler crawler = null;
+            try
+            {
+                crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), new PauseToken(), new CancellationToken());
 
-            await crawler.UpdateMetaInformationAsync();
-            crawler.Dispose();
+                await crawler.UpdateMetaInformationAsync();
+            }
+            finally
+            {
+                crawler?.Dispose();
+            }
         }
 
         private async Task<IBlog> CheckIfCrawlableBlog(string blogUrl)
@@ -773,6 +784,7 @@ namespace TumblThree.Applications.Controllers
             finally
             {
                 _addBlogSemaphoreSlim.Release();
+                semaphoreSlim.Dispose();
             }
         }
 

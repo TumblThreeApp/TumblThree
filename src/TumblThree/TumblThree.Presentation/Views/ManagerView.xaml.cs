@@ -86,9 +86,9 @@ namespace TumblThree.Presentation.Views
                 return;
             }
 
-            ListSortDirection newDirection = e.Column.SortDirection == ListSortDirection.Ascending
-                ? ListSortDirection.Descending
-                : ListSortDirection.Ascending;
+            //ListSortDirection newDirection = e.Column.SortDirection == ListSortDirection.Ascending
+            //    ? ListSortDirection.Descending
+            //    : ListSortDirection.Ascending;
         }
 
         private void FocusBlogFilesGrid()
