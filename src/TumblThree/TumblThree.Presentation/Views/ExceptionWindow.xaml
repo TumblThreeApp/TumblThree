@@ -1,0 +1,72 @@
+﻿<Window x:Class="TumblThree.Presentation.Views.ExceptionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TumblThree.Presentation.Views"
+        xmlns:ttc="clr-namespace:TumblThree.Presentation.Controls"
+        Title="Unexpected application error"
+        Width="700"
+        MaxHeight="650"
+        ResizeMode="NoResize"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" Closing="OnClosing" SourceInitialized="OnSourceInitialized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <!--  Info  -->
+            <RowDefinition Height="auto" />
+            <!--  Exception details  -->
+            <RowDefinition Height="*" />
+            <!--  Button  -->
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <!--  Info  -->
+        <TextBlock Margin="16"
+                   FontSize="14"
+                   Text="An unexpected error occured. The application state might be corrupted."
+                   TextWrapping="Wrap" />
+
+        <!--  Exception details  -->
+        <Border Grid.Row="1"
+                MaxHeight="450"
+                Background="#EEEEEE">
+            <Expander Margin="16,8,16,8"
+                      Header="Exception Details">
+
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto"
+                              Margin="0,6,0,0">
+                    <StackPanel>
+                        <ttc:SelectableTextBlock>
+                            <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">Exception message</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding Exception.Message, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                            <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">Exception type</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding ExceptionType, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                            <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">Callstack</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding Exception.StackTrace, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                            <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">Inner exception</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding Exception.InnerException, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                        </ttc:SelectableTextBlock>
+                    </StackPanel>
+                </ScrollViewer>
+            </Expander>
+        </Border>
+        <!--  Close Button  -->
+        <Button Grid.Row="2"
+                Margin="16"
+                Padding="8"
+                HorizontalAlignment="Right"
+                Click="Button_Click"
+                Content="{Binding ButtonText, Mode=OneWay}" />
+    </Grid>
+</Window>

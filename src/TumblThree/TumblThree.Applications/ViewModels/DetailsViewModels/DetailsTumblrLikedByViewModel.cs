@@ -37,7 +37,7 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
 
         public void ViewLostFocus()
         {
-            if (Count == 1) BlogFile.Save();
+            if (Count == 1 && BlogFile != null) BlogFile.Save();
         }
 
         public bool FilenameTemplateValidate(string enteredFilenameTemplate)

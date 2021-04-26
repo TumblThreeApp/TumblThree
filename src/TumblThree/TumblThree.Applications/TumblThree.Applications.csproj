@@ -133,6 +133,7 @@
     <Compile Include="DataModels\TumblrTaggedSearch\TumblrTaggedSearchJson.cs" />
     <Compile Include="Downloader\TumblrJsonDownloader.cs" />
     <Compile Include="ErrorExceptions.cs" />
+    <Compile Include="Extensions\ExceptionExtension.cs" />
     <Compile Include="Parser\CatBoxParser.cs" />
     <Compile Include="Parser\GfycatParser.cs" />
     <Compile Include="Parser\ICatBoxParser.cs" />
@@ -244,6 +245,7 @@
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrLikedByViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrSearchViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrTagSearchViewModel.cs" />
+    <Compile Include="ViewModels\ExceptionWindowViewModel.cs" />
     <Compile Include="ViewModels\FullScreenMediaViewModel.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\CrawlerViewModel.cs" />
