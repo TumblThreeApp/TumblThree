@@ -17,5 +17,7 @@
         bool IsTumbexUrl(string url);
 
         bool IsValidTumblrLikesUrl(string url);
+
+        bool IsValidUrl(string url);
     }
 }

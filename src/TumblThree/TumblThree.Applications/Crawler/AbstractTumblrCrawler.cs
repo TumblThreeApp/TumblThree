@@ -240,6 +240,7 @@ namespace TumblThree.Applications.Crawler
                     string id = matchesNewFormat.Groups[1].Value;
                     if (!idCache.Contains(id))
                     {
+                        url = ResizeNewStyleTumblrImageUrl(url);
                         idCache.Add(id);
                     }
                     else continue;
@@ -251,6 +252,23 @@ namespace TumblThree.Applications.Crawler
                 // TODO: postID
                 AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), BuildFileName(url, (Post)null, -1)));
             }
+        }
+
+        protected string ResizeNewStyleTumblrImageUrl(string imageUrl)
+        {
+            var rgx = Regex.Match(imageUrl, "([A-Za-z0-9_/:.-])*/s([0-9]*)x([0-9]*)([A-Za-z0-9_/:.-])*");
+            int width = int.Parse(rgx.Groups[2].Value);
+            int height = int.Parse(rgx.Groups[3].Value);
+
+            const int maxRes = 1280 * 1920;
+
+            double widthProportion = width / (width * height);
+            double heightProportion = 1 - widthProportion;
+
+            width = (int)(maxRes * widthProportion);
+            height = (int)(maxRes * heightProportion);
+
+            return rgx.Groups[1] + "/s" + width + "x" + height + rgx.Groups[4];
         }
 
         protected void AddTumblrVideoUrl(string post, int? postTimestamp)
