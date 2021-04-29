@@ -114,7 +114,7 @@ namespace TumblThree.Applications.ViewModels
 
         public void QueueItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add | e.Action == NotifyCollectionChangedAction.Remove)
+            if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove)
             {
                 RaisePropertyChanged("QueueItems");
             }

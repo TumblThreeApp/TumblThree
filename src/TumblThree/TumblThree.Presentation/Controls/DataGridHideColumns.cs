@@ -70,15 +70,15 @@ namespace TumblThree.Presentation.Controls
 
             if ((bool)e.NewValue == false)
             {
-                dataGrid.Loaded -= new RoutedEventHandler(dataGrid_Loaded);
+                dataGrid.Loaded -= dataGrid_Loaded;
                 RemoveAllItems(dataGrid);
                 return;
             }
 
             if (!dataGrid.IsLoaded)
             {
-                dataGrid.Loaded -= new RoutedEventHandler(dataGrid_Loaded);
-                dataGrid.Loaded += new RoutedEventHandler(dataGrid_Loaded);
+                dataGrid.Loaded -= dataGrid_Loaded;
+                dataGrid.Loaded += dataGrid_Loaded;
             }
             else
             {
@@ -411,7 +411,7 @@ namespace TumblThree.Presentation.Controls
                     itemsContainer = new MenuItem()
                     {
                         Header = containerHeader,
-                        HeaderTemplate = GetHideColumnsHeaderTemplate(dataGrid) as DataTemplate,
+                        HeaderTemplate = GetHideColumnsHeaderTemplate(dataGrid),
                         Icon = GetHideColumnsIcon(dataGrid),
                         Tag = "ItemsContainer"
                     };

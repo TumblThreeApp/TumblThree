@@ -217,7 +217,10 @@ namespace TumblThree.Applications.Controllers
                             if (ex.InnerExceptions.Any(x => x.Message == "Acceptance of privacy consent needed!"))
                                 privacyConsentNeeded = true;
                         }
-                        crawler.Dispose();
+                        finally
+                        {
+                            crawler.Dispose();
+                        }
 
                         if (privacyConsentNeeded
                             || (_crawlerService.ActiveItems.Any(item =>
@@ -256,10 +259,17 @@ namespace TumblThree.Applications.Controllers
             blog.Dirty = true;
             ProgressThrottler<DownloadProgress> progress = SetupThrottledQueueListProgress(queueListItem);
 
-            ICrawler crawler = _crawlerFactory.GetCrawler(blog, progress, pt, ct);
-            await crawler.CrawlAsync();
-            blog.UpdateProgress();
-            crawler.Dispose();
+            ICrawler crawler = null;
+            try
+            {
+                crawler = _crawlerFactory.GetCrawler(blog, progress, pt, ct);
+                await crawler.CrawlAsync();
+                blog.UpdateProgress(true);
+            }
+            finally
+            {
+                crawler?.Dispose();
+            }
 
             Monitor.Enter(_lockObject);
             QueueOnDispatcher.CheckBeginInvokeOnUI(() => _crawlerService.RemoveActiveItem(queueListItem));
@@ -275,7 +285,7 @@ namespace TumblThree.Applications.Controllers
 
         private ProgressThrottler<DownloadProgress> SetupThrottledQueueListProgress(QueueListItem queueListItem)
         {
-            var progressHandler = new Progress<DownloadProgress>(value => { queueListItem.Progress = value.Progress; });
+            var progressHandler = new Progress<DownloadProgress>(value => queueListItem.Progress = value.Progress);
             return new ProgressThrottler<DownloadProgress>(progressHandler, _shellService.Settings.ProgressUpdateInterval);
         }
 

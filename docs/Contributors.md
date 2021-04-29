@@ -28,6 +28,7 @@ People are giving themselves and their free time to contribute to our project in
 * [MaxNau](https://github.com/MaxNau) 💻
 * [khintze1](https://github.com/khintze1) 💻
 * [arrowsmith001](https://github.com/arrowsmith001) 💻
+* [Manasi-Kelkar](https://github.com/Manasi-Kelkar) 📖
 * Your Name?
 
 Did we forget someone? Please drop us a line.

@@ -6,6 +6,8 @@ namespace TumblThree.Domain.Models
     {
         bool IsValidTumblrBlogUrl(string blogUrl);
 
+        bool IsValidUrl(string blogUrl);
+
         IBlog GetBlog(string blogUrl, string path, string filenameTemplate);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 
@@ -9,12 +10,14 @@ namespace TumblThree.Domain.Models.Blogs
     [DataContract]
     public class TumblrBlog : Blog
     {
-        public static Blog Create(string url, string location, string filenameTemplate)
+        public static Blog Create(string url, string location, string filenameTemplate, bool isCustomDomain = false)
         {
+            url = isCustomDomain ? url : ExtractUrl(url);
+            var name = isCustomDomain ? ExtractCustomName(url) : ExtractName(url);
             var blog = new TumblrBlog()
             {
-                Url = ExtractUrl(url),
-                Name = ExtractName(url),
+                Url = url,
+                Name = name,
                 BlogType = Models.BlogTypes.tumblr,
                 OriginalBlogType = Models.BlogTypes.tumblr,
                 Location = location,
@@ -35,6 +38,13 @@ namespace TumblThree.Domain.Models.Blogs
             }
 
             return blog;
+        }
+
+        private static string ExtractCustomName(string url)
+        {
+            url = url.ToLower(CultureInfo.InvariantCulture).Replace("https://", string.Empty).Replace("http://", string.Empty).TrimEnd('/');
+            var parts = url.Split('.');
+            return parts[parts.Length - 2];
         }
     }
 }

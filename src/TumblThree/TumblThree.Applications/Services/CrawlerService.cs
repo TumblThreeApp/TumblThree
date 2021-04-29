@@ -224,7 +224,7 @@ namespace TumblThree.Applications.Services
 
         private void ActiveItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add | e.Action == NotifyCollectionChangedAction.Remove)
+            if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove)
             {
                 RaisePropertyChanged("ActiveItems");
             }
