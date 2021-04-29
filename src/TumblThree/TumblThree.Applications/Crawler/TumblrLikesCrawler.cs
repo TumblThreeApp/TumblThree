@@ -20,9 +20,9 @@ using TumblThree.Domain.Models.Blogs;
 namespace TumblThree.Applications.Crawler
 {
     [Export(typeof(ICrawler))]
-    [ExportMetadata("BlogType", typeof(TumblrLikedByBlog))]
+    [ExportMetadata("BlogType", typeof(TumblrLikesBlog))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class TumblrLikedByCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
+    public class TumblrLikesCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
         private readonly IDownloader downloader;
 
@@ -31,7 +31,7 @@ namespace TumblThree.Applications.Crawler
 
         private int numberOfPagesCrawled;
 
-        public TumblrLikedByCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
+        public TumblrLikesCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
@@ -45,7 +45,7 @@ namespace TumblThree.Applications.Crawler
 
         public async Task CrawlAsync()
         {
-            Logger.Verbose("TumblrLikedByCrawler.Crawl:Start");
+            Logger.Verbose("TumblrLikesCrawler.Crawl:Start");
 
             Task grabber = GetUrlsAsync();
             Task<bool> download = downloader.DownloadBlogAsync();
@@ -79,7 +79,7 @@ namespace TumblThree.Applications.Crawler
 
             if (!await CheckIfLoggedInAsync())
             {
-                Logger.Error("TumblrLikedByCrawler:GetUrlsAsync: {0}", "User not logged in");
+                Logger.Error("TumblrLikesCrawler:GetUrlsAsync: {0}", "User not logged in");
                 ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
                 PostQueue.CompleteAdding();
                 return;
@@ -114,7 +114,7 @@ namespace TumblThree.Applications.Crawler
             }
             catch (Exception e)
             {
-                Logger.Verbose("TumblrLikedByCrawler:CrawlPageAsync: {0}", e.ToString());
+                Logger.Verbose("TumblrLikesCrawler:CrawlPageAsync: {0}", e.ToString());
             }
             finally
             {
@@ -136,7 +136,7 @@ namespace TumblThree.Applications.Crawler
                     return;
                 }
 
-                Logger.Error("TumblrLikedByCrawler:IsBlogOnlineAsync:WebException {0}", webException);
+                Logger.Error("TumblrLikesCrawler:IsBlogOnlineAsync:WebException {0}", webException);
                 ShellService.ShowError(webException, Resources.BlogIsOffline, Blog.Name);
                 Blog.Online = false;
             }
@@ -186,8 +186,6 @@ namespace TumblThree.Applications.Crawler
 
         private async Task AddUrlsToDownloadListAsync(long pagination, int crawlerNumber)
         {
-            long prevPagination = long.MaxValue;
-            
             while (true)
             {
                 if (CheckIfShouldStop())
@@ -197,22 +195,10 @@ namespace TumblThree.Applications.Crawler
 
                 CheckIfShouldPause();
 
-                string document;
-
-                if (!TumblrLikedByBlog.IsLikesUrl(Blog.Url))
-                {
-                    document = Regex.Unescape(await GetRequestAsync(Blog.Url + "/page/" + crawlerNumber + "/" + pagination));
-                }
-                else
-                {
-                    if (pagination > prevPagination) return;
-
-                    document = Regex.Unescape(await GetRequestAsync(Blog.Url + "?before=" + pagination));
-                }
-
+                string document = await GetRequestAsync(Blog.Url + "/page/" + crawlerNumber + "/" + pagination);
                 if (document.Length == 0)
                 {
-                    throw new Exception("TumblrLikedByCrawler:AddUrlsToDownloadListAsync: empty document");
+                    throw new Exception("TumblrLikesCrawler:AddUrlsToDownloadListAsync: empty document");
                 }
                 if (document.Contains("<div class=\"no_posts_found\""))
                 {
@@ -226,7 +212,7 @@ namespace TumblThree.Applications.Crawler
                 }
                 catch (NullReferenceException e)
                 {
-                    System.Diagnostics.Debug.WriteLine($"TumblrLikedByCrawler.AddUrlsToDownloadListAsync(): {e}");
+                    System.Diagnostics.Debug.WriteLine($"TumblrLikesCrawler.AddUrlsToDownloadListAsync(): {e}");
                 }
 
                 Interlocked.Increment(ref numberOfPagesCrawled);
@@ -237,8 +223,6 @@ namespace TumblThree.Applications.Crawler
                 {
                     return;
                 }
-
-                prevPagination = pagination;
             }
         }
 
@@ -249,17 +233,8 @@ namespace TumblThree.Applications.Crawler
             // <div id="pagination" class="pagination "><a id="previous_page_link" href="/liked/by/wallpaperfx/page/3/-1457140452" class="previous button chrome">Previous</a>
             // <a id="next_page_link" href="/liked/by/wallpaperfx/page/5/1457139681" class="next button chrome blue">Next</a></div></div>
 
-            const string htmlPagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
-            const string jsonPagination = "&before=([0-9]*)";
-
-            long.TryParse(Regex.Match(document, htmlPagination).Groups[3].Value, out var unixTime);
-            
-            if(unixTime == 0)
-            {
-                var r = Regex.Match(document, jsonPagination);
-                long.TryParse(r.Groups[1].Value, out unixTime);
-            }
-
+            const string pagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
+            long.TryParse(Regex.Match(document, pagination).Groups[3].Value, out var unixTime);
             return unixTime;
         }
 

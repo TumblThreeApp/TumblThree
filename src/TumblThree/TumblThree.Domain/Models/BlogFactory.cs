@@ -23,6 +23,7 @@ namespace TumblThree.Domain.Models
             return _urlValidator.IsValidTumblrUrl(blogUrl)
                    || _urlValidator.IsValidTumblrHiddenUrl(blogUrl)
                    || _urlValidator.IsValidTumblrLikedByUrl(blogUrl)
+                   || _urlValidator.IsValidTumblrLikesUrl(blogUrl)
                    || _urlValidator.IsValidTumblrSearchUrl(blogUrl)
                    || _urlValidator.IsValidTumblrTagSearchUrl(blogUrl)
                    || _urlValidator.IsTumbexUrl(blogUrl);

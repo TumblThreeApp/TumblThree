@@ -227,13 +227,27 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddTumblrPhotoUrl(string post, int? postTimestamp)
         {
+            List<String> idCache = new List<string>();
+
             foreach (string imageUrl in TumblrParser.SearchForTumblrPhotoUrl(post))
             {
                 string url = imageUrl;
                 if (CheckIfSkipGif(url)) { continue; }
 
+                var matchesNewFormat = Regex.Match(url, "media.tumblr.com([A-Za-z0-9_/:.-]*)/s[0-9]*x[0-9]*");
+                if (matchesNewFormat.Success)
+                {
+                    string id = matchesNewFormat.Groups[0].Value;
+                    if (!idCache.Contains(id))
+                    {
+                        idCache.Add(id);
+                    }
+                    else continue;
+                }
+
                 url = ResizeTumblrImageUrl(url);
                 url = RetrieveOriginalImageUrl(url, 2000, 3000);
+                
                 // TODO: postID
                 AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), BuildFileName(url, (Post)null, -1)));
             }

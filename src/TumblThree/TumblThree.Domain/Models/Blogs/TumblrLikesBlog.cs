@@ -7,16 +7,16 @@ using TumblThree.Domain.Models.Files;
 namespace TumblThree.Domain.Models.Blogs
 {
     [DataContract]
-    public class TumblrLikedByBlog : Blog
+    public class TumblrLikesBlog : Blog
     {
         public static Blog Create(string url, string location, string filenameTemplate)
         {
-            var blog = new TumblrLikedByBlog()
+            var blog = new TumblrLikesBlog()
             {
                 Url = ExtractUrl(url),
-                Name = ExtractName(url),
-                BlogType = BlogTypes.tlb,
-                OriginalBlogType = BlogTypes.tlb,
+                Name = "Likes",
+                BlogType = BlogTypes.tl,
+                OriginalBlogType = BlogTypes.tl,
                 Location = location,
                 Online = true,
                 Version = "4",
@@ -30,7 +30,7 @@ namespace TumblThree.Domain.Models.Blogs
             blog.ChildId = Path.Combine(location, blog.Name + "_files." + blog.BlogType);
             if (!File.Exists(blog.ChildId))
             {
-                IFiles files = new TumblrLikedByBlogFiles(blog.Name, blog.Location);
+                IFiles files = new TumblrLikesBlogFiles(blog.Name, blog.Location);
                 files.Save();
                 files = null;
             }
@@ -38,22 +38,17 @@ namespace TumblThree.Domain.Models.Blogs
             return blog;
         }
 
-        protected static new string ExtractName(string url) => IsLikesUrl(url) ? "Likes" : url.Split('/')[5];
 
         protected static new string ExtractUrl(string url)
         {
-            if (url.StartsWith("http://"))
+            if (string.IsNullOrEmpty(url)) return "";
+
+            if (url.StartsWith("http://", true, null))
             {
                 url = url.Insert(4, "s");
             }
 
-            if (IsLikesUrl(url)) return url;
-
-            int blogNameLength = url.Split('/')[5].Length;
-            var urlLength = 32;
-            return url.Substring(0, blogNameLength + urlLength);
+            return url;
         }
-
-        public static bool IsLikesUrl(string url) => url.Contains("www.tumblr.com/likes");
     }
 }
