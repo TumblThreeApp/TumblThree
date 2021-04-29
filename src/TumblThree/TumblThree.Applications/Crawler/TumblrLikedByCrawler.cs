@@ -205,7 +205,7 @@ namespace TumblThree.Applications.Crawler
                 }
                 else
                 {
-                    if (pagination > prevPagination) return;
+                    if (pagination >= prevPagination) return;
 
                     document = Regex.Unescape(await GetRequestAsync(Blog.Url + "?before=" + pagination));
                 }

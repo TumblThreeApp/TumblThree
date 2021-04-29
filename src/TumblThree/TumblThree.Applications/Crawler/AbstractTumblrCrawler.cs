@@ -237,7 +237,7 @@ namespace TumblThree.Applications.Crawler
                 var matchesNewFormat = Regex.Match(url, "media.tumblr.com([A-Za-z0-9_/:.-]*)/s[0-9]*x[0-9]*");
                 if (matchesNewFormat.Success)
                 {
-                    string id = matchesNewFormat.Groups[0].Value;
+                    string id = matchesNewFormat.Groups[1].Value;
                     if (!idCache.Contains(id))
                     {
                         idCache.Add(id);
@@ -329,6 +329,7 @@ namespace TumblThree.Applications.Crawler
             pageContent = extractJsonFromPage.Match(pageContent).Groups[1].Value;
             ImageResponse imgRsp = ConvertJsonToClass<ImageResponse>(pageContent);
             Image img = imgRsp.Images.FirstOrDefault(x => x.HasOriginalDimensions = true);
+
 
             return string.IsNullOrEmpty(img.MediaKey) ? url : img.Url;
         }
