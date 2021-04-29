@@ -9,5 +9,7 @@ namespace TumblThree.Applications.Crawler
         Task<bool> IsPasswordProtectedTumblrBlogAsync(string url);
 
         Task<bool> IsTumblrBlogAsync(string url);
+
+        Task<bool> IsTumblrBlogWithCustomDomainAsync(string url);
     }
 }

@@ -42,6 +42,12 @@ namespace TumblThree.Applications.Crawler
             return location.Contains("blog_auth");
         }
 
+        public async Task<bool> IsTumblrBlogWithCustomDomainAsync(string url)
+        {
+            string page = await GetPage(url);
+            return page.Contains("tumblr://x-callback-url/blog?blogName=");
+        }
+
         private async Task<string> GetUrlRedirection(string url)
         {
             HttpWebRequest request = webRequestFactory.CreateGetRequest(url);
@@ -53,6 +59,18 @@ namespace TumblThree.Applications.Crawler
             }
 
             return location;
+        }
+
+        private async Task<string> GetPage(string url)
+        {
+            HttpWebRequest request = webRequestFactory.CreateGetRequest(url);
+            string page;
+            using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
+            {
+                page = await webRequestFactory.ReadRequestToEndAsync(request);
+            }
+
+            return page;
         }
     }
 }

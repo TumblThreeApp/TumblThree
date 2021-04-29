@@ -183,7 +183,8 @@ namespace TumblThree.Applications.Services
                     }
                 }
 
-                cookieService.SetUriCookie(request.CookieContainer.GetCookies(new Uri("https://www.tumblr.com/")));
+                //cookieService.SetUriCookie(request.CookieContainer.GetCookies(new Uri("https://www.tumblr.com/")));
+                cookieService.SetUriCookie(response.Cookies);
                 return string.Empty;
             }
         }
@@ -223,7 +224,8 @@ namespace TumblThree.Applications.Services
             await webRequestFactory.PerformPostRequestAsync(request, parameters).ConfigureAwait(false);
             using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut).ConfigureAwait(false) as HttpWebResponse)
             {
-                cookieService.SetUriCookie(request.CookieContainer.GetCookies(new Uri("https://www.tumblr.com/")));
+                //cookieService.SetUriCookie(request.CookieContainer.GetCookies(new Uri("https://www.tumblr.com/")));
+                cookieService.SetUriCookie(response.Cookies);
             }
         }
 

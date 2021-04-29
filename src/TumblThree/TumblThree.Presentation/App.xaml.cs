@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using System.Waf;
 using System.Waf.Applications;
@@ -18,6 +19,7 @@ using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
+using TumblThree.Presentation.Exceptions;
 using TumblThree.Presentation.Properties;
 
 namespace TumblThree.Presentation
@@ -27,6 +29,14 @@ namespace TumblThree.Presentation
         private AggregateCatalog catalog;
         private CompositionContainer container;
         private IEnumerable<IModuleController> moduleControllers;
+#pragma warning disable IDE0052 // Remove unread private members
+        private readonly WindowExceptionHandler _exceptionHandler;
+#pragma warning restore IDE0052 // Remove unread private members
+
+        public App()
+        {
+            _exceptionHandler = new WindowExceptionHandler();
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -109,30 +119,50 @@ namespace TumblThree.Presentation
             }
         }
 
-        private static void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            HandleException(e.Exception, false);
+            Application_DispatcherUnhandledException(sender, e);
+            if (e.Handled) return;
+
+            _exceptionHandler.OnUnhandledException(e.Exception, false);
+            //HandleException(e.Exception, false);
         }
 
-        private static void AppDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        /*
+        private void AppDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             HandleException(e.ExceptionObject as Exception, e.IsTerminating);
         }
 
-        private static void HandleException(Exception e, bool isTerminating)
+        private void HandleException(Exception e, bool isTerminating)
         {
-            if (e == null)
-            {
-                return;
-            }
+            if (e == null) return;
 
             Logger.Error(e.ToString());
 
-            if (!isTerminating)
-            {
-                MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Presentation.Properties.Resources.UnknownError, e.ToString()), ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //if (!isTerminating)
+            //{
+                var clipboardService = container.GetExportedValue<IClipboardService>();
+                var msg = Presentation.Properties.Resources.UnknownError + Environment.NewLine + Environment.NewLine +
+                    ShortenedStackTrace(e, 3) + Presentation.Properties.Resources.CopiedMsgToClipboard;
+                clipboardService.SetText(msg);
+                MessageBox.Show(msg, ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
+
         }
+
+        private static String ShortenedStackTrace(Exception e, int maxLines)
+        {
+            String[] lines = e.StackTrace.Split('\n');
+            var sb = new StringBuilder();
+            for (int i = 0; i < Math.Min(lines.Length, maxLines); i++)
+            {
+                sb.Append(lines[i]).Append('\n');
+            }
+            if (lines.Length > maxLines) sb.Append("...");
+            return sb.ToString();
+        }
+        */
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {

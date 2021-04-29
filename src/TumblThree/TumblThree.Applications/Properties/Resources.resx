@@ -386,4 +386,11 @@
   <data name="ConfirmationTumblrPrivacyConsentNeeded" xml:space="preserve">
     <value>Tumblr Privacy Consent needs to be accepted in the settings!</value>
   </data>
+  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+    <value>Required component missing</value>
+  </data>
+  <data name="DownloadVCRedistributable" xml:space="preserve">
+    <value>TumblThree requires the "Microsoft Visual C++ 2015-2019 Redistributable". You need to download and install it first.
+Do you want to download it now?</value>
+  </data>
 </root>

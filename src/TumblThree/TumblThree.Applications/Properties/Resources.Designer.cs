@@ -344,25 +344,40 @@ namespace TumblThree.Applications.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Do you want to download the new version now?.
         /// </summary>
-        public static string DownloadNewVersion
-        {
-            get
-            {
+        public static string DownloadNewVersion {
+            get {
                 return ResourceManager.GetString("DownloadNewVersion", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to New version available.
         /// </summary>
-        public static string DownloadNewVersionTitle
-        {
-            get
-            {
+        public static string DownloadNewVersionTitle {
+            get {
                 return ResourceManager.GetString("DownloadNewVersionTitle", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TumblThree requires the &quot;Microsoft Visual C++ 2015-2019 Redistributable&quot;. You need to download and install it first.
+        ///Do you want to download it now?.
+        /// </summary>
+        public static string DownloadVCRedistributable {
+            get {
+                return ResourceManager.GetString("DownloadVCRedistributable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required component missing.
+        /// </summary>
+        public static string DownloadVCRedistributableTitle {
+            get {
+                return ResourceManager.GetString("DownloadVCRedistributableTitle", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Text files (*.txt)|*.txt.
         /// </summary>

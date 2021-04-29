@@ -15,7 +15,6 @@ namespace TumblThree.Applications.Downloader
 {
     public class TumblrDownloader : AbstractDownloader
     {
-        private List<string> tags = new List<string>();
         private int numberOfPagesCrawled = 0;
 
         public TumblrDownloader(IShellService shellService, IManagerService managerService, PauseToken pt,

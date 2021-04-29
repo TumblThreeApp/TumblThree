@@ -67,10 +67,12 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
 
         private void BrowseFileDownloadLocation()
         {
-            var dialog = new FolderBrowserDialog { SelectedPath = BlogFile.FileDownloadLocation };
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (var dialog = new FolderBrowserDialog { SelectedPath = BlogFile.FileDownloadLocation })
             {
-                BlogFile.FileDownloadLocation = dialog.SelectedPath;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    BlogFile.FileDownloadLocation = dialog.SelectedPath;
+                }
             }
         }
     }

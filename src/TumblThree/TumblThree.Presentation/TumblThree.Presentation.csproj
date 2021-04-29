@@ -185,6 +185,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ExceptionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FullScreenMediaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -229,6 +233,7 @@
     <Compile Include="Controls\HorizontalFlyoutAlignment.cs" />
     <Compile Include="Controls\InsertMarkerAdorner.cs" />
     <Compile Include="Controls\ListBoxDragDropHelper.cs" />
+    <Compile Include="Controls\SelectableTextBlock.cs" />
     <Compile Include="Converters\BlogQueueInfoConverter.cs" />
     <Compile Include="Converters\BlogQueueProgressConverter.cs" />
     <Compile Include="Converters\BlogTitleConverter.cs" />
@@ -269,7 +274,11 @@
     <Compile Include="DesignData\SampleQueueViewModel.cs" />
     <Compile Include="DesignData\SampleShellViewModel.cs" />
     <Compile Include="DispatcherHelper.cs" />
+    <Compile Include="Exceptions\GlobalExceptionHandlerBase.cs" />
+    <Compile Include="Exceptions\WindowExceptionHandler.cs" />
     <Compile Include="Extensions\EnumBindingSourceExtension.cs" />
+    <Compile Include="Extensions\NativeMethods.cs" />
+    <Compile Include="Extensions\TextEditorWrapper.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\EnvironmentService.cs" />
     <Compile Include="Services\PresentationService.cs" />
@@ -290,6 +299,9 @@
     </Compile>
     <Compile Include="Views\DetailsViews\DetailsTumblrTagSearchView.xaml.cs">
       <DependentUpon>DetailsTumblrTagSearchView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExceptionWindow.xaml.cs">
+      <DependentUpon>ExceptionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullScreenMediaView.xaml.cs">
       <DependentUpon>FullScreenMediaView.xaml</DependentUpon>

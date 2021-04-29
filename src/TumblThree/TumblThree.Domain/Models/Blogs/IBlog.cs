@@ -198,7 +198,7 @@ namespace TumblThree.Domain.Models.Blogs
 
         List<string> Links { get; }
 
-        void UpdateProgress();
+        void UpdateProgress(bool calcOnly);
 
         void UpdatePostCount(string propertyName);
 
