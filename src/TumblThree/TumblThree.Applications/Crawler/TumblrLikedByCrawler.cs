@@ -206,6 +206,7 @@ namespace TumblThree.Applications.Crawler
                 else
                 {
                     if (pagination >= prevPagination) return;
+                    prevPagination = pagination;
 
                     document = Regex.Unescape(await GetRequestAsync(Blog.Url + "?before=" + pagination));
                 }
@@ -229,6 +230,7 @@ namespace TumblThree.Applications.Crawler
                     System.Diagnostics.Debug.WriteLine($"TumblrLikedByCrawler.AddUrlsToDownloadListAsync(): {e}");
                 }
 
+
                 Interlocked.Increment(ref numberOfPagesCrawled);
                 UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
                 pagination = ExtractNextPageLink(document);
@@ -238,7 +240,6 @@ namespace TumblThree.Applications.Crawler
                     return;
                 }
 
-                prevPagination = pagination;
             }
         }
 
