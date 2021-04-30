@@ -2,10 +2,10 @@
 <html>
     <head>
         <style>
-            html{
-                scroll-padding-top: 65px;
+html {
+  scroll-padding-top: 65px;
 }
-            body {
+body {
   font-family: Arial, Helvetica, sans-serif;
   height:fit-content;
   width: fit-content;
@@ -150,8 +150,12 @@ height:fit-content;
 display:block;
 z-index:999;
 }
-@media screen and (max-width:768px) {
-    .navbar {
+
+@media screen and (max-width:900px) {
+section {
+  margin-top: 40px;
+}
+.navbar {
   background-color: rgb(92, 81, 190);
   position: fixed;
   top:0;
@@ -161,7 +165,7 @@ z-index:999;
 
 .navbar a {
   float: left;
-  font-size:8px;
+  font-size:10px;
   color: white;
   text-align: center;
   padding: 8px 10px;
@@ -173,7 +177,7 @@ z-index:999;
 }
 
 .dropdown .dropbtn {
-  font-size: 8px;  
+  font-size: 10px;  
   border: none;
   outline: none;
   color: white;
@@ -219,7 +223,7 @@ z-index:999;
 }
 
 .dropdown1 .dropbtn1 {
-  font-size: 8px;  
+  font-size: 10px;  
   border: none;
   outline: none;
   color: white;
@@ -246,6 +250,120 @@ z-index:999;
   float: none;
   color: black;
   padding: 8px 10px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content1 a:hover {
+  background-color:  rgb(128, 98, 177);;
+}
+
+.dropdown1:hover .dropdown-content1 {
+  display: block;
+}
+
+}
+
+@media screen and (min-width:900px) and (max-width:1540px) {
+section {
+  margin-top: 50px;
+}
+.navbar {
+  background-color: rgb(92, 81, 190);
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+}
+
+.navbar a {
+  float: left;
+  font-size:12px;
+  color: white;
+  text-align: center;
+  padding: 12px 40px;
+  text-decoration: none;   
+}
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 12px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 12px 40px;
+  background-color:  rgb(92, 81, 190);;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(128, 98, 177);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 80px;
+  box-shadow: 0px 10px 12px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 40px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(128, 98, 177);;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown1 {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown1 .dropbtn1 {
+  font-size: 12px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 12px 40px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown1:hover .dropbtn1 {
+  background-color:  rgb(128, 98, 177);;
+}
+
+.dropdown-content1 {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 10px 12px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content1 a {
+  float: none;
+  color: black;
+  padding: 12px 40px;
   text-decoration: none;
   display: block;
   text-align: left;
@@ -600,7 +718,7 @@ z-index:999;
         </ul>
         </ul><strong>Note: All the following files are stored in json format and can be opened in any
             editor.</strong><ul>
-            <li> Application settings are stored in <strong>C:\Users\Username\AppData\Local\TumblThree</strong>. </li>
+            <li> Application settings are stored in <strong>C:\Users\&lt;Username&gt;\AppData\Local\TumblThree</strong>. </li>
             <li> You can use the portable mode (settings&gt;general) to stores the application
                 settings in the same folder as the executable. </li>
             <li> For each blog there is also a database (serialized class) file in the "Index" folder
@@ -611,25 +729,7 @@ z-index:999;
                 process. </li>
             <li> Some settings aren't hooked up to the graphical user interface. It's possible to
                 view all TumblThree settings by opening the settings.json in any editor located in
-                <strong>C:\Users\Username\AppData\Local\TumblThree</strong>. Their names should be self explainatory. </li><br>
-            <li> Some notable settings to further fine tune the application include:</li> <ul>
-                    Buffer Size: <ul> 
-                        <li> It allows to set the buffer size for downloading binary files (photos and
-                        videos) in multiples of 4KB. The default is 2MB, thus the buffer size has a
-                        value of 512. </li>
-                        <li> Increasing buffer size value more than 512, reduces disk fragmentation as more of the file is
-                        kept in the memory before it gets written out to the disk but increases the
-                        memory usage. </li>
-                    </ul><br>
-                    Max Number of Retries: <ul> 
-                        <li> Sets the maximum number of retries if a tumblr server forcefully closes the
-                        connection. This might regularly happen on the tumblr video host
-                        (vt.tumblr.com) if too many connections were opened in parallel. </li>
-                        <li> After the limit is exhausted, the file is left truncated, but is also not
-                        registered as a successful downloaded. Thus, the file can be resumed in the
-                        next crawl. </li>
-                        </ul>
-                </ul></li>
+                <strong>C:\Users\&lt;Username&gt;\AppData\Local\TumblThree</strong>. Their names should be self explainatory. </li><br>
         </ul><h2 id="dwnld">Download:</h2><ul>
             <li><a href="https://github.com/TumblThreeApp/TumblThree/releases">Application
                     downloads</a> for Windows at Github.com</li>
@@ -643,5 +743,6 @@ z-index:999;
                 Wiki</a>.</li>
         </ul>
     </section>
+    <br><br>
     </body>
 </html>
