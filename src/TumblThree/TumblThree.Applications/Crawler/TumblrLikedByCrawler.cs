@@ -186,6 +186,8 @@ namespace TumblThree.Applications.Crawler
 
         private async Task AddUrlsToDownloadListAsync(long pagination, int crawlerNumber)
         {
+            long prevPagination = long.MaxValue;
+            
             while (true)
             {
                 if (CheckIfShouldStop())
@@ -195,7 +197,20 @@ namespace TumblThree.Applications.Crawler
 
                 CheckIfShouldPause();
 
-                string document = await GetRequestAsync(Blog.Url + "/page/" + crawlerNumber + "/" + pagination);
+                string document;
+
+                if (!TumblrLikedByBlog.IsLikesUrl(Blog.Url))
+                {
+                    document = Regex.Unescape(await GetRequestAsync(Blog.Url + "/page/" + crawlerNumber + "/" + pagination));
+                }
+                else
+                {
+                    if (pagination >= prevPagination) return;
+                    prevPagination = pagination;
+
+                    document = Regex.Unescape(await GetRequestAsync(Blog.Url + "?before=" + pagination));
+                }
+
                 if (document.Length == 0)
                 {
                     throw new Exception("TumblrLikedByCrawler:AddUrlsToDownloadListAsync: empty document");
@@ -233,8 +248,17 @@ namespace TumblThree.Applications.Crawler
             // <div id="pagination" class="pagination "><a id="previous_page_link" href="/liked/by/wallpaperfx/page/3/-1457140452" class="previous button chrome">Previous</a>
             // <a id="next_page_link" href="/liked/by/wallpaperfx/page/5/1457139681" class="next button chrome blue">Next</a></div></div>
 
-            const string pagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
-            long.TryParse(Regex.Match(document, pagination).Groups[3].Value, out var unixTime);
+            const string htmlPagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
+            const string jsonPagination = "&before=([0-9]*)";
+
+            long.TryParse(Regex.Match(document, htmlPagination).Groups[3].Value, out var unixTime);
+            
+            if(unixTime == 0)
+            {
+                var r = Regex.Match(document, jsonPagination);
+                long.TryParse(r.Groups[1].Value, out unixTime);
+            }
+
             return unixTime;
         }
 

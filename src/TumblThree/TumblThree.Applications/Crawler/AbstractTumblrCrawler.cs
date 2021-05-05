@@ -227,16 +227,43 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddTumblrPhotoUrl(string post, int? postTimestamp)
         {
+            TumblrPhotoLookup photosToDownload = new TumblrPhotoLookup();
+
             foreach (string imageUrl in TumblrParser.SearchForTumblrPhotoUrl(post))
             {
                 string url = imageUrl;
                 if (CheckIfSkipGif(url)) { continue; }
 
-                url = ResizeTumblrImageUrl(url);
                 url = RetrieveOriginalImageUrl(url, 2000, 3000);
-                // TODO: postID
-                AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), BuildFileName(url, (Post)null, -1)));
+
+                var matchesNewFormat = Regex.Match(url, "media.tumblr.com/([A-Za-z0-9_/:.-]*)/s([0-9]*)x([0-9]*)");
+                if (matchesNewFormat.Success)
+                {
+                    string id = matchesNewFormat.Groups[1].Value;
+                    int width = int.Parse(matchesNewFormat.Groups[2].Value);
+                    int height = int.Parse(matchesNewFormat.Groups[3].Value);
+                    int resolution = width * height;
+
+                    photosToDownload.AddOrReplace(id, url, resolution);
+                }
+                else
+                {
+                    url = ResizeTumblrImageUrl(url);
+                    AddPhotoToDownloadList(url, postTimestamp);
+                }
+
             }
+
+            foreach(string url in photosToDownload.GetUrls())
+            {
+                AddPhotoToDownloadList(url, postTimestamp);
+            }
+        }
+
+        protected void AddPhotoToDownloadList(string url, int? postTimestamp)
+        {
+            // TODO: postID
+            AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), BuildFileName(url, (Post)null, -1)));
         }
 
         protected void AddTumblrVideoUrl(string post, int? postTimestamp)

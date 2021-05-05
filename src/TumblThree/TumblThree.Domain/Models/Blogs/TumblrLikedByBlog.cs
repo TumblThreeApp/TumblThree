@@ -37,7 +37,7 @@ namespace TumblThree.Domain.Models.Blogs
             return blog;
         }
 
-        protected static new string ExtractName(string url) => url.Split('/')[5];
+        protected static new string ExtractName(string url) => IsLikesUrl(url) ? "Likes" : url.Split('/')[5];
 
         protected static new string ExtractUrl(string url)
         {
@@ -46,9 +46,13 @@ namespace TumblThree.Domain.Models.Blogs
                 url = url.Insert(4, "s");
             }
 
+            if (IsLikesUrl(url)) return url;
+
             int blogNameLength = url.Split('/')[5].Length;
             var urlLength = 32;
             return url.Substring(0, blogNameLength + urlLength);
         }
+
+        public static bool IsLikesUrl(string url) => url.Contains("www.tumblr.com/likes");
     }
 }
