@@ -343,7 +343,6 @@ namespace TumblThree.Applications.Crawler
             ImageResponse imgRsp = ConvertJsonToClass<ImageResponse>(pageContent);
             Image img = imgRsp.Images.FirstOrDefault(x => x.HasOriginalDimensions = true);
 
-
             return string.IsNullOrEmpty(img.MediaKey) ? url : img.Url;
         }
 
