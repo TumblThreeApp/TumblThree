@@ -230,7 +230,6 @@ namespace TumblThree.Applications.Crawler
                     System.Diagnostics.Debug.WriteLine($"TumblrLikedByCrawler.AddUrlsToDownloadListAsync(): {e}");
                 }
 
-
                 Interlocked.Increment(ref numberOfPagesCrawled);
                 UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
                 pagination = ExtractNextPageLink(document);
