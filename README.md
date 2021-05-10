@@ -50,9 +50,9 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * Can download hidden blogs (login required / dash board blogs).
 * Can download password protected blogs (of non-hidden blogs).
 
-### Liked/by backup/download:
+### Liked/by and Likes backup/download:
 
-* A downloader for downloading "liked by" photos and videos instead of a tumblr blog (e.g. https://www.tumblr.com/liked/by/wallpaperfx/) (login required).
+* A downloader for downloading "liked by" (e.g. https://www.tumblr.com/liked/by/wallpaperfx/) and "likes" (e.g. https://www.tumblr.com/likes) photos and videos instead of a tumblr blog (login required).
 * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
 * Allows to download posts in a defined time span. 
 
@@ -75,7 +75,7 @@ Latest versions can be found [here](https://github.com/TumblThreeApp/TumblThree/
 *If you experience crashes right before or while logging in, it may be that on your system the "[Visual C++ Redistributable 2015-2019](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0)" ([x86](https://aka.ms/vs/16/release/vc_redist.x86.exe) or [x64](https://aka.ms/vs/16/release/vc_redist.x64.exe)) is missing. You can download it from MS.*
 
 ## Screenshot:
-![TumblThree Main UI](http://www.jzab.de/sites/default/files/images/tumblthree.png?raw=true "TumblThree Main UI")
+![TumblThree Main UI](https://raw.githubusercontent.com/wiki/TumblThreeApp/TumblThree/images/tumblthree.png "TumblThree Main UI")
 
 ## Application Usage:
 
