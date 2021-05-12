@@ -13,7 +13,7 @@
 TumblThree is a free and open source Tumblr blog backup application. It downloads photo, video, audio and text posts from a given tumblr blog. [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20TumblThree%20-%20A%20Tumblr%20Blog%20Backup%20Application%0AIt%20downloads%20photo,%20video,%20audio%20and%20text%20posts%20from%20a%20given%20tumblr%20blog.&url=https%3A%2F%2Fgithub.com%2FTumblThreeApp%2FTumblThree&hashtags=tumblr,blog,backup,application)<br/>
 It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), using the [Win Application Framework (WAF)](https://github.com/jbe2277/waf) and C# with WPF and the MVVM pattern.
 
-## Features:
+## Features
 
 * Source code at github (Written in C# using WPF and MVVM).
 * Multiple concurrent downloads of a single blog.
@@ -68,37 +68,31 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
 * Allows to download posts in a defined time span.
 
-## Download:
+## Download
 
 Latest versions can be found [here](https://github.com/TumblThreeApp/TumblThree/releases).
 
 *If you experience crashes right before or while logging in, it may be that on your system the "[Visual C++ Redistributable 2015-2019](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0)" ([x86](https://aka.ms/vs/16/release/vc_redist.x86.exe) or [x64](https://aka.ms/vs/16/release/vc_redist.x64.exe)) is missing. You can download it from MS.*
 
-## Screenshot:
+## Screenshot
 ![TumblThree Main UI](https://raw.githubusercontent.com/wiki/TumblThreeApp/TumblThree/images/tumblthree.png "TumblThree Main UI")
 
-## Application Usage:
+## Application Usage
 
 Read our wiki page about [Application Usage](https://github.com/TumblThreeApp/TumblThree/wiki/How-to-use-the-Application)
 
-## Getting Started:
+## Getting Started
 
-The default settings should cover most users. You should only have to change the download location and the kind of posts you want to download. You can find more information in our wiki [Getting Started](https://github.com/TumblThreeApp/TumblThree/wiki/Getting-Started).
+The default settings should cover most users. You should only have to change the download location and the kind of posts you want to download. You can find more information in our wiki [Getting Started](https://github.com/TumblThreeApp/TumblThree/wiki/Getting-Started) and [Insights](https://github.com/TumblThreeApp/TumblThree/wiki/Insights).
 
-## Limitations and Further Insights:
-
-* The old datasets from TumblTwo and TumblOne are __not__ compatible.
-
-More information about TumblThree can be found in our wiki [Insights](https://github.com/TumblThreeApp/TumblThree/wiki/Insights).
- 
-## How to Build the Source Code to Help Further Developing:
+## How to Build the Source Code to Help Further Development
 
 * Download [Visual Studio](https://www.visualstudio.com/vs/community/). The minimum required version is Visual Studio 2015 (C# 6.0 feature support).
 * Download the [source code as .zip file](https://github.com/TumblThreeApp/TumblThree/archive/master.zip) or use a [git client](https://git-scm.com/download/gui/windows) (e.g. [GitHub Desktop](https://desktop.github.com/) or [TortoiseGit](https://tortoisegit.org/)) and [checkout the code](https://github.com/TumblThreeApp/TumblThree.git).
 * Open the TumblThree.sln solution file in the src/ directory of the code.
 * Build the Source once before editing anything. Build->Build Solution.
 
-## Contributing to TumblThree:
+## Contributing to TumblThree
 
 We like the [all-contributors](https://allcontributors.org/) specification. Contributions of any kind are welcome!
 If you've ever wanted to contribute to open source, and a great cause, now is your chance!
