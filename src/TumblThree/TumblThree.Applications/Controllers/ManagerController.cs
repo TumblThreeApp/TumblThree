@@ -162,7 +162,10 @@ namespace TumblThree.Applications.Controllers
                 _shellService.ClipboardMonitor.OnClipboardContentChanged += OnClipboardContentChanged;
             }
 
-            await LoadDataBasesAsync();
+            using (_shellService.SetApplicationBusy())
+            {
+                await LoadDataBasesAsync();
+            }
         }
 
         public void Shutdown()
