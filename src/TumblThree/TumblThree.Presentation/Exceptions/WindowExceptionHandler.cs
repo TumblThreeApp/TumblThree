@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using TumblThree.Domain;
 using TumblThree.Presentation.Views;
 
 namespace TumblThree.Presentation.Exceptions
@@ -14,12 +15,16 @@ namespace TumblThree.Presentation.Exceptions
         /// This method opens a new ExceptionWindow with the
         /// passed exception object as datacontext.
         /// </summary>
-        public override void OnUnhandledException(Exception e, bool terminate)
+        public override void OnUnhandledException(Exception ex, bool terminate)
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+                Logger.Error("WindowExceptionHandler:OnUnhandledException: {0}", ex);
                 var exceptionWindow = new ExceptionWindow();
-                exceptionWindow.DataContext = new ExceptionWindowViewModel(e, terminate);
-                exceptionWindow.ShowDialog();
+                var logService = ((App)App.Current).GetLogService();
+                var vm = new ExceptionWindowViewModel(logService, ex, terminate);
+                vm.OnRequestClose += (s, e) => exceptionWindow.Close();
+                exceptionWindow.DataContext = vm;
+                exceptionWindow.ShowDialog(App.Current.MainWindow);
             }));
         }
     }

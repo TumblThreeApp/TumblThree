@@ -1420,6 +1420,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send error details to TumblThreeApp.
+        /// </summary>
+        public static string SendErrorDetailsMsg {
+            get {
+                return ResourceManager.GetString("SendErrorDetailsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {

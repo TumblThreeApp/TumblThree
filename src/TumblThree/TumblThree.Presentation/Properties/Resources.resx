@@ -1060,4 +1060,7 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="PrivacyConsent" xml:space="preserve">
     <value>Privacy consent</value>
   </data>
+  <data name="SendErrorDetailsMsg" xml:space="preserve">
+    <value>Send error details to TumblThreeApp</value>
+  </data>
 </root>

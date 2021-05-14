@@ -3,14 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TumblThree.Presentation.Views"
+        xmlns:p="clr-namespace:TumblThree.Presentation.Properties"
         xmlns:ttc="clr-namespace:TumblThree.Presentation.Controls"
         Title="Unexpected application error"
         Width="700"
         MaxHeight="650"
         ResizeMode="NoResize"
         SizeToContent="Height"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="Manual"
         mc:Ignorable="d" Closing="OnClosing" SourceInitialized="OnSourceInitialized">
     <Grid>
         <Grid.RowDefinitions>
@@ -56,17 +56,42 @@
                             <Span FontWeight="Bold">Inner exception</Span><LineBreak />
                             <Span FontSize="2px"></Span><LineBreak />
                             <Run Text="{Binding Exception.InnerException, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                            <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">TumblThree version</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding TumblThreeVersionString, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                            <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">Windows version</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding WindowsVersionString, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                            <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">.Net Framework version</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding NetFrameworkVersionString, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                            <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">Default browser</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding DefaultBrowserString, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                            <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">Region settings</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding RegionSettingsString, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
                         </ttc:SelectableTextBlock>
                     </StackPanel>
                 </ScrollViewer>
             </Expander>
         </Border>
         <!--  Close Button  -->
+        <CheckBox IsChecked="{Binding IsSendErrorDetailsEnabled, Mode=TwoWay}"
+                  Grid.Row="2"
+                  Margin="16"
+                  HorizontalAlignment="Left"
+                  Content="{x:Static p:Resources.SendErrorDetailsMsg}" />
         <Button Grid.Row="2"
                 Margin="16"
                 Padding="8"
                 HorizontalAlignment="Right"
-                Click="Button_Click"
+                Command="{Binding ExecuteCommand}"
                 Content="{Binding ButtonText, Mode=OneWay}" />
     </Grid>
 </Window>

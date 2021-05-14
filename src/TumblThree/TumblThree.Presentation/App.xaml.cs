@@ -38,6 +38,11 @@ namespace TumblThree.Presentation
             _exceptionHandler = new WindowExceptionHandler();
         }
 
+        public ILogService GetLogService()
+        {
+            return container.GetExportedValue<ILogService>();
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
