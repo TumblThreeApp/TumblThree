@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Waf.Foundation;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,7 @@ namespace TumblThree.Presentation.Controls
         private ListBoxItem dragSource;
         private DragEventArgs lastPreviewDragOverEventArgs;
         private Point? startPoint;
+        private int initialized;
 
         public ListBoxDragDropHelper(ListBox listBox, Action<int, IEnumerable<TItem>> moveItemsAction,
             Func<DragEventArgs, IEnumerable> tryGetInsertItemsAction, Action<int, IEnumerable> insertItemsAction)
@@ -57,6 +59,8 @@ namespace TumblThree.Presentation.Controls
 
         private void InitializeAdornerLayer()
         {
+            if (Interlocked.Exchange(ref initialized, 1) == 1) return;
+
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(listBox);
             adornerLayer.Add(insertMarkerAdorner);
         }

@@ -350,7 +350,7 @@ namespace TumblThree.Applications.Crawler
 
         protected void HandleTimeoutException(TimeoutException timeoutException, string duringAction)
         {
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.TimeoutReached, Blog.Name),
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.TimeoutReached, duringAction, Blog.Name),
                 timeoutException);
             ShellService.ShowError(timeoutException, Resources.TimeoutReached, duringAction, Blog.Name);
         }
