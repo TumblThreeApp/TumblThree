@@ -1063,4 +1063,13 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="SendErrorDetailsMsg" xml:space="preserve">
     <value>Send error details to TumblThreeApp</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="ToolTipLanguage" xml:space="preserve">
+    <value>UI Language</value>
+  </data>
+  <data name="ToolTipLanguageDescription" xml:space="preserve">
+    <value>Please choose the desired UI language.</value>
+  </data>
 </root>

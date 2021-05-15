@@ -315,4 +315,44 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Video Player: {0}</value>
   </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Avertissement</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>Le modèle de nom de fichier ne contient aucun jeton nécessaire!</value>
+  </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>Le modèle de nom de fichier doit se terminer par %x ou %y!</value>
+  </data>
+  <data name="DownloadNewVersion" xml:space="preserve">
+    <value>Voulez-vous télécharger la nouvelle version maintenant?</value>
+  </data>
+  <data name="DownloadNewVersionTitle" xml:space="preserve">
+    <value>Nouvelle version disponible</value>
+  </data>
+  <data name="ConfirmationTumblrPrivacyConsentNeeded" xml:space="preserve">
+    <value>Le consentement de confidentialité de Tumblr doit être accepté dans les paramètres!</value>
+  </data>
+  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+    <value>Composant requis manquant</value>
+  </data>
+  <data name="DownloadVCRedistributable" xml:space="preserve">
+    <value>TumblThree nécessite le «Microsoft Visual C ++ 2015-2019 Redistributable». Vous devez d'abord le télécharger et l'installer.
+Voulez-vous le télécharger maintenant?</value>
+  </data>
+  <data name="ConfirmingTumblrPrivacyConsent" xml:space="preserve">
+    <value>confirmation du consentement à la confidentialité de Tumblr</value>
+  </data>
+  <data name="ConfirmingTumblrPrivacyConsentFailed" xml:space="preserve">
+    <value>La confirmation du consentement à la confidentialité de Tumblr a échoué. Il peut y avoir un problème de connexion.</value>
+  </data>
+  <data name="Textfile" xml:space="preserve">
+    <value>Fichier texte</value>
+  </data>
+  <data name="TimeoutReached" xml:space="preserve">
+    <value>Un délai d'expiration de connexion s'est produit pendant {0} sur {1}.</value>
+  </data>
+  <data name="TimeoutReachedShort" xml:space="preserve">
+    <value>Un délai d'expiration de connexion s'est produit pendant {0}.</value>
+  </data>
 </root>

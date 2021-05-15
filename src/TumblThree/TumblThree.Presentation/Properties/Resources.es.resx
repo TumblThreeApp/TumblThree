@@ -709,4 +709,111 @@ P.ej. gran coche grande, lleva búsquedas de grandes coches grandes y osos.</val
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="ToolTipPrivacyConsentBrowser" xml:space="preserve">
+    <value>Acepta el consentimiento de privacidad de tumblr.com</value>
+  </data>
+  <data name="PrivacyConsent" xml:space="preserve">
+    <value>Consentimiento de privacidad</value>
+  </data>
+  <data name="SendErrorDetailsMsg" xml:space="preserve">
+    <value>Enviar detalles del error a TumblThreeApp</value>
+  </data>
+  <data name="ToolTipPrivacyConsentBrowserDescription" xml:space="preserve">
+    <value>Abre una ventana del navegador para aceptar el consentimiento de privacidad de tumblr.com.
+Las cookies para el consentimiento de privacidad se guardan y el proceso debe realizarse solo de vez en cuando.</value>
+  </data>
+  <data name="LatestPost" xml:space="preserve">
+    <value>Última publicación</value>
+  </data>
+  <data name="DownloadUrlList2" xml:space="preserve">
+    <value>Guardar lista de URL (sin descargas de audio / imagen / video)</value>
+  </data>
+  <data name="ToolTipFilenameTemplate" xml:space="preserve">
+    <value>Especifique una plantilla de nombre de archivo para guardar los archivos descargados.</value>
+  </data>
+  <data name="GroupPhotoSets" xml:space="preserve">
+    <value>Agrupar conjuntos de fotos</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>Plantilla de nombre de archivo:</value>
+  </data>
+  <data name="ToolTipGroupPhotoSets" xml:space="preserve">
+    <value>Agrupar conjuntos de fotos</value>
+  </data>
+  <data name="ToolTipGroupPhotoSetsDescription" xml:space="preserve">
+    <value>Agrupe conjuntos de fotos utilizando nombres de archivo similares (los conjuntos con nombres como tumblr_ * no se ajustan). Las fotos ya descargadas solo se renombran si se establece esta opción y se realiza una nueva exploración.
+
+plantilla: {ID de publicación} _ {Índice de fotos} _ {Nombre de archivo original}</value>
+  </data>
+  <data name="ToolTipFilenameTemplateDescription" xml:space="preserve">
+    <value>Los siguientes tokens se pueden utilizar en la plantilla de nombre de archivo:
+   %f nombre de archivo original (predeterminado)
+   %d fecha de publicación (aaaammdd)
+   %u marca de tiempo de publicación (número)
+   %p título de la publicación
+   %i publico id
+   %n índice de imágenes (de conjuntos de fotos, de lo contrario se omitieron)
+   %t para todas las etiquetas (gatos + lindos, perros + grandes)
+   %r para reblog
+   %s slug (última parte de la URL de una publicación)
+   %k clave-de-rebote
+Tokens obligatorios (si no se usa el token %f) para hacer que los nombres de archivo sean únicos:
+   %x "_{número}" ({número}: 2..n) añadido al nombre del archivo
+   %y "({número})" ({número}: 2..n) añadido al nombre del archivo
+Ejemplo (guardar una imagen):
+   %i_%f para {post id}_{tumblr filename}.jpg
+Si, además, la opción "conjuntos de fotos de grupo" está habilitada, para los conjuntos de imágenes, el token %i se reemplaza por {post id}_{image index} o, si no se usa el token, los conjuntos de imágenes se guardan como {post id}_{índice de imagen}_{plantilla de nombre de archivo}.
+Desactive la opción si desea utilizar su propia plantilla para conjuntos de fotos.</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Cerrar sesión</value>
+  </data>
+  <data name="LoggedOut" xml:space="preserve">
+    <value>Desconectado</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="LoggedIn" xml:space="preserve">
+    <value>Conectado como</value>
+  </data>
+  <data name="ToolTipAuthenticateBrowser" xml:space="preserve">
+    <value>Autenticarse en la red tumblr.com</value>
+  </data>
+  <data name="ToolTipAuthenticateBrowserDescription" xml:space="preserve">
+    <value>Abre una ventana del navegador para autenticarse en el sitio tumblr.com.
+La cookie con sus credenciales de su cuenta se guarda y el proceso de autenticación debe realizarse solo una vez.</value>
+  </data>
+  <data name="UserAgent" xml:space="preserve">
+    <value>Agente de usuario</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>Ubicación de descarga</value>
+  </data>
+  <data name="ToolTipFileDownloadLocation" xml:space="preserve">
+    <value>Anula la ubicación de descarga predeterminada</value>
+  </data>
+  <data name="ToolTipFileDownloadLocationDescription" xml:space="preserve">
+    <value>Si no está vacío, todos los archivos se descargan en la carpeta especificada</value>
+  </data>
+  <data name="LoadAllDatabases" xml:space="preserve">
+    <value>Verifique la existencia de archivos a nivel mundial en todos los blogs cargados</value>
+  </data>
+  <data name="ToolTipLoadAllDatabases" xml:space="preserve">
+    <value>Durante un rastreo activo, cada archivo se comprueba globalmente si ya existe en lugar de en el blog.</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesDescription" xml:space="preserve">
+    <value>Al rastrear un blog, todas las publicaciones se comparan entre sí antes de descargarlas para evitar la descarga de archivos binarios duplicados.
+Esto se hace en un blog. Habilitar estas opciones comparará cada archivo globalmente.
+La activación aumentará el uso de la memoria durante la operación según la cantidad de contenido ya descargado.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Idioma:</value>
+  </data>
+  <data name="ToolTipLanguage" xml:space="preserve">
+    <value>Idioma de la interfaz de usuario</value>
+  </data>
+  <data name="ToolTipLanguageDescription" xml:space="preserve">
+    <value>Elija el idioma de la interfaz de usuario que desee.</value>
+  </data>
 </root>

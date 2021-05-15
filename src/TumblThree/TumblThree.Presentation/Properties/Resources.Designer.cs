@@ -925,6 +925,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language:.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Complete Crawl.
         /// </summary>
         public static string LastCompleteCrawl {
@@ -2145,6 +2154,24 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipImageSizeDescription {
             get {
                 return ResourceManager.GetString("ToolTipImageSizeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UI Language.
+        /// </summary>
+        public static string ToolTipLanguage {
+            get {
+                return ResourceManager.GetString("ToolTipLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please choose the desired UI language..
+        /// </summary>
+        public static string ToolTipLanguageDescription {
+            get {
+                return ResourceManager.GetString("ToolTipLanguageDescription", resourceCulture);
             }
         }
         

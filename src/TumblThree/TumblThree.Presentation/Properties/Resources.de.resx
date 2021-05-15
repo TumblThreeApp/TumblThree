@@ -709,4 +709,114 @@ Z.B. großes großes Auto, Bären sucht nach großen großen Autos und Bären.</
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Legt die Protokollstufe (von nur Fehler (Error) bis Detailiert (Verbose)) fest oder schaltet die Protokollierung ab.</value>
   </data>
+  <data name="ToolTipPrivacyConsentBrowser" xml:space="preserve">
+    <value>Akzeptieren Sie die Zustimmung zum Datenschutz von tumblr.com</value>
+  </data>
+  <data name="PrivacyConsent" xml:space="preserve">
+    <value>Einwilligung zum Datenschutz</value>
+  </data>
+  <data name="SendErrorDetailsMsg" xml:space="preserve">
+    <value>Sende Fehlerdetails an TumblThreeApp</value>
+  </data>
+  <data name="ToolTipPrivacyConsentBrowserDescription" xml:space="preserve">
+    <value>Öffnet ein Browserfenster, in dem die Zustimmung zum Datenschutz von tumblr.com akzeptiert wird.
+Die Cookies für die Einwilligung zum Datenschutz werden gespeichert und der Vorgang muss nur gelegentlich durchgeführt werden.</value>
+  </data>
+  <data name="LatestPost" xml:space="preserve">
+    <value>Neuester Beitrag</value>
+  </data>
+  <data name="DownloadUrlList2" xml:space="preserve">
+    <value>URL-Liste speichern (keine Audio- / Bild- / Video-Downloads)</value>
+  </data>
+  <data name="ToolTipFilenameTemplate" xml:space="preserve">
+    <value>Geben Sie eine Dateinamenvorlage zum Speichern der heruntergeladenen Dateien an.</value>
+  </data>
+  <data name="GroupPhotoSets" xml:space="preserve">
+    <value>Fotosets gruppieren</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>Dateinamenvorlage:</value>
+  </data>
+  <data name="ToolTipGroupPhotoSets" xml:space="preserve">
+    <value>Fotosets zusammen gruppieren</value>
+  </data>
+  <data name="ToolTipGroupPhotoSetsDescription" xml:space="preserve">
+    <value>Gruppieren Sie Fotosets unter Verwendung ähnlicher Dateinamen (Sets mit Namen wie tumblr_ * werden nicht angepasst). Bereits heruntergeladene Fotos werden nur umbenannt, wenn diese Option aktiviert ist und ein erneuter Scan durchgeführt wird.
+
+Vorlage: {Post-ID} _ {Fotoindex} _ {Ursprünglicher Dateiname}</value>
+  </data>
+  <data name="ToolTipFilenameTemplateDescription" xml:space="preserve">
+    <value>Die folgenden Token können in der Dateinamenvorlage verwendet werden:
+   %f ursprünglicher Dateiname (Standard)
+   %d Postdatum (JJJJMTT)
+   %u post timestamp (number)
+   %p Post-Titel
+   %Ich poste ID
+   %n Bildindex (von Fotosets, sonst übersprungen)
+   %t für alle Tags (süß + Katzen, groß + Hunde)
+   %r für Runden
+   %s slug (letzter Teil der URL eines Posts)
+   %k Rundenschlüssel
+Obligatorische Token (wenn kein Token %f verwendet wird), um Dateinamen eindeutig zu machen:
+   %x "_{number}" ({number}: 2..n) an Dateiname angehängt
+   %y "({number})" ({number}: 2..n) an Dateiname angehängt
+Beispiel (Speichern eines Bildes):
+   %i_%f für {post id}_{tumblr filename}.jpg
+Wenn zusätzlich die Option "Gruppenfotosätze" aktiviert ist, wird für Bildsätze das Token %i durch {post id}_{Bildindex} ersetzt, oder wenn das Token nicht verwendet wird, werden die Bildsätze als {Post id}_{Bildindex}_{Dateinamenvorlage} gespeichert.
+Deaktivieren Sie die Option, wenn Sie Ihre eigene Vorlage für Fotosets verwenden möchten.</value>
+  </data>
+  <data name="ForceRescan" xml:space="preserve">
+    <value>Rescan erzwingen</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Ausloggen</value>
+  </data>
+  <data name="LoggedOut" xml:space="preserve">
+    <value>Abgemeldet</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Senden</value>
+  </data>
+  <data name="LoggedIn" xml:space="preserve">
+    <value>Eingeloggt als</value>
+  </data>
+  <data name="ToolTipAuthenticateBrowser" xml:space="preserve">
+    <value>Authentifizieren Sie sich beim tumblr.com-Netzwerk</value>
+  </data>
+  <data name="ToolTipAuthenticateBrowserDescription" xml:space="preserve">
+    <value>Öffnet ein Browserfenster, in dem Sie sich bei der Website tumblr.com authentifizieren können.
+Das Cookie mit Ihren Anmeldeinformationen Ihres Kontos wird gespeichert und der Authentifizierungsvorgang muss nur einmal durchgeführt werden.</value>
+  </data>
+  <data name="UserAgent" xml:space="preserve">
+    <value>User-Agent</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>Speicherort</value>
+  </data>
+  <data name="ToolTipFileDownloadLocation" xml:space="preserve">
+    <value>Überschreibt den Standard-Speicherort</value>
+  </data>
+  <data name="ToolTipFileDownloadLocationDescription" xml:space="preserve">
+    <value>Wenn nicht leer, werden alle Dateien im angegebenen Ordner heruntergeladen</value>
+  </data>
+  <data name="LoadAllDatabases" xml:space="preserve">
+    <value>Überprüfen Sie global, ob in allen geladenen Blogs Dateien vorhanden sind</value>
+  </data>
+  <data name="ToolTipLoadAllDatabases" xml:space="preserve">
+    <value>Während eines aktiven Crawls wird jede Datei global überprüft, ob sie bereits vorhanden ist, anstatt blogweise.</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesDescription" xml:space="preserve">
+    <value>Beim Crawlen eines Blogs werden alle Beiträge vor dem Herunterladen miteinander verglichen, um das Herunterladen doppelter Binärdateien zu verhindern.
+Dies geschieht blogweise. Durch Aktivieren dieser Optionen wird jede Datei global verglichen.
+Durch die Aktivierung wird die Speichernutzung während des Betriebs basierend auf der Menge des bereits heruntergeladenen Inhalts erhöht.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Sprache:</value>
+  </data>
+  <data name="ToolTipLanguage" xml:space="preserve">
+    <value>Anzeigesprache</value>
+  </data>
+  <data name="ToolTipLanguageDescription" xml:space="preserve">
+    <value>Wählen Sie die gewünschte Anzeigesprache aus der Liste aus.</value>
+  </data>
 </root>

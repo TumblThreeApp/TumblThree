@@ -712,4 +712,111 @@ Par exemple. grande voiture, les ours recherchent de grandes grosses voitures et
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="ToolTipPrivacyConsentBrowser" xml:space="preserve">
+    <value>Acceptez le consentement à la confidentialité de tumblr.com</value>
+  </data>
+  <data name="PrivacyConsent" xml:space="preserve">
+    <value>Consentement à la confidentialité</value>
+  </data>
+  <data name="SendErrorDetailsMsg" xml:space="preserve">
+    <value>Envoyer les détails de l'erreur à TumblThreeApp</value>
+  </data>
+  <data name="ToolTipPrivacyConsentBrowserDescription" xml:space="preserve">
+    <value>Ouvre une fenêtre de navigateur pour accepter le consentement à la confidentialité de tumblr.com.
+Les cookies pour le consentement à la confidentialité sont enregistrés et le processus ne doit être effectué qu'une fois de temps en temps.</value>
+  </data>
+  <data name="LatestPost" xml:space="preserve">
+    <value>Dernier message</value>
+  </data>
+  <data name="DownloadUrlList2" xml:space="preserve">
+    <value>Enregistrer la liste des URL (pas de téléchargement audio / image / vidéo)</value>
+  </data>
+  <data name="ToolTipFilenameTemplate" xml:space="preserve">
+    <value>Spécifiez un modèle de nom de fichier pour enregistrer les fichiers téléchargés.</value>
+  </data>
+  <data name="GroupPhotoSets" xml:space="preserve">
+    <value>Groupe ensembles de photos</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>Modèle de nom de fichier:</value>
+  </data>
+  <data name="ToolTipGroupPhotoSets" xml:space="preserve">
+    <value>Regroupez les ensembles de photos ensemble</value>
+  </data>
+  <data name="ToolTipGroupPhotoSetsDescription" xml:space="preserve">
+    <value>Regroupez des ensembles de photos en utilisant des noms de fichiers similaires (les ensembles avec des noms comme tumblr_ * ne sont pas ajustés). Les photos déjà téléchargées ne sont renommées que si cette option est définie et qu'une nouvelle numérisation est effectuée.
+
+modèle: {Post Id} _ {Index des photos} _ {Nom de fichier d'origine}</value>
+  </data>
+  <data name="ToolTipFilenameTemplateDescription" xml:space="preserve">
+    <value>Les jetons suivants peuvent être utilisés dans le modèle de nom de fichier:
+   %f nom de fichier d'origine (par défaut)
+   %d date de publication (aaaammjj)
+   %u Horodatage de la publication (nombre)
+   %p titre du message
+   %i identifiant de publication
+   %n index d'image (des ensembles de photos, sinon ignoré)
+   %t pour tous les tags (mignon + chats, gros + chiens)
+   %r pour le magazine
+   %s slug (dernière partie de l'URL d'un message)
+   %k clé de publication
+Jetons obligatoires (si vous n'utilisez pas le jeton %f) pour rendre les noms de fichiers uniques:
+   %x "_ {nombre}" ({nombre}: 2..n) ajouté au nom de fichier
+   %y "({nombre})" ({nombre}: 2..n) ajouté au nom du fichier
+Exemple (sauvegarde d'une image):
+   %i_%f pour {post id}_{nom de fichier tumblr}.jpg
+Si en plus l'option "groupes de photos" est activée, alors pour les jeux d'images, le jeton %i est remplacé par {post id}_{image index} ou, si le jeton n'est pas utilisé, les jeux d'images sont enregistrés sous {post id}_{index d'image}_{modèle de nom de fichier}.
+Désactivez l'option si vous souhaitez utiliser votre propre modèle pour les ensembles de photos.</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Se déconnecter</value>
+  </data>
+  <data name="LoggedOut" xml:space="preserve">
+    <value>Déconnecté</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Soumettre</value>
+  </data>
+  <data name="LoggedIn" xml:space="preserve">
+    <value>connecté en tant que</value>
+  </data>
+  <data name="ToolTipAuthenticateBrowser" xml:space="preserve">
+    <value>Authentifiez-vous sur le réseau tumblr.com</value>
+  </data>
+  <data name="ToolTipAuthenticateBrowserDescription" xml:space="preserve">
+    <value>Ouvre une fenêtre de navigateur pour vous authentifier sur le site tumblr.com.
+Le cookie avec vos informations d'identification de votre compte est enregistré et le processus d'authentification ne doit être effectué qu'une seule fois.</value>
+  </data>
+  <data name="UserAgent" xml:space="preserve">
+    <value>Agent utilisateur</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>Télécharger l'emplacement</value>
+  </data>
+  <data name="ToolTipFileDownloadLocation" xml:space="preserve">
+    <value>Remplace l'emplacement de téléchargement par défaut</value>
+  </data>
+  <data name="ToolTipFileDownloadLocationDescription" xml:space="preserve">
+    <value>S'il n'est pas vide, tous les fichiers sont téléchargés dans le dossier spécifié</value>
+  </data>
+  <data name="LoadAllDatabases" xml:space="preserve">
+    <value>Vérifier l'existence de fichiers dans le monde entier sur tous les blogs chargés</value>
+  </data>
+  <data name="ToolTipLoadAllDatabases" xml:space="preserve">
+    <value>Lors d'une analyse active, chaque fichier est vérifié globalement s'il existe déjà au lieu de bloguer.</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesDescription" xml:space="preserve">
+    <value>Lors de l'exploration d'un blog, tous les articles sont comparés les uns aux autres avant le téléchargement pour éviter le téléchargement de fichiers binaires en double.
+Cela se fait au niveau du blog. L'activation de ces options comparera chaque fichier globalement.
+L'activation augmentera l'utilisation de la mémoire pendant le fonctionnement en fonction de la quantité de contenu déjà téléchargé.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Langue:</value>
+  </data>
+  <data name="ToolTipLanguage" xml:space="preserve">
+    <value>Langue de l'interface utilisateur</value>
+  </data>
+  <data name="ToolTipLanguageDescription" xml:space="preserve">
+    <value>Veuillez choisir la langue de l'interface utilisateur souhaitée.</value>
+  </data>
 </root>

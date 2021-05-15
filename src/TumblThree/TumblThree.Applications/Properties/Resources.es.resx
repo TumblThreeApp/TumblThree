@@ -315,4 +315,44 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Reproductor de vídeo: {0}</value>
   </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>¡La plantilla de nombre de archivo no contiene ningún token necesario!</value>
+  </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>¡La plantilla de nombre de archivo debe terminar con %x o %y!</value>
+  </data>
+  <data name="DownloadNewVersion" xml:space="preserve">
+    <value>¿Quieres descargar la nueva versión ahora?</value>
+  </data>
+  <data name="DownloadNewVersionTitle" xml:space="preserve">
+    <value>Nueva versión disponible</value>
+  </data>
+  <data name="ConfirmationTumblrPrivacyConsentNeeded" xml:space="preserve">
+    <value>¡El consentimiento de privacidad de Tumblr debe aceptarse en la configuración!</value>
+  </data>
+  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+    <value>Falta el componente necesario</value>
+  </data>
+  <data name="DownloadVCRedistributable" xml:space="preserve">
+    <value>TumblThree requiere "Microsoft Visual C ++ 2015-2019 Redistributable". Primero debe descargarlo e instalarlo.
+¿Quieres descargarlo ahora?</value>
+  </data>
+  <data name="ConfirmingTumblrPrivacyConsent" xml:space="preserve">
+    <value>confirmando el consentimiento de privacidad de Tumblr</value>
+  </data>
+  <data name="ConfirmingTumblrPrivacyConsentFailed" xml:space="preserve">
+    <value>No se pudo confirmar el consentimiento de privacidad de Tumblr. Puede que haya un problema de conexión.</value>
+  </data>
+  <data name="Textfile" xml:space="preserve">
+    <value>Archivo de texto</value>
+  </data>
+  <data name="TimeoutReached" xml:space="preserve">
+    <value>Se agotó el tiempo de espera de la conexión durante {0} de {1}.</value>
+  </data>
+  <data name="TimeoutReachedShort" xml:space="preserve">
+    <value>Se agotó el tiempo de espera de la conexión durante {0}.</value>
+  </data>
 </root>

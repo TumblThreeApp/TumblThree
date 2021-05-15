@@ -144,9 +144,6 @@
   <data name="CouldNotLoadLibrary" xml:space="preserve">
     <value>Eine Datei in der Bibliothek konnte nicht geladen werden: {0}</value>
   </data>
-  <data name="CouldNotLoadQueuelist" xml:space="preserve">
-    <value>Die Downloadliste konnte nicht geladen werden. Vielleicht exsistiert ein verweisender Blog nicht mehr in der Bibliothek</value>
-  </data>
   <data name="CouldNotOpenFiles" xml:space="preserve">
     <value>Eine Datei konnte nicht geöffnet werden.</value>
   </data>
@@ -265,7 +262,7 @@
     <value>Limit exceeded: {0}. Die Verbindungen zur Tumblr api sollten verringert werden. Settings-&gt;Connection</value>
   </data>
   <data name="ApplicationUpToDate" xml:space="preserve">
-    <value>Die Anwendung ist aktuell</value>
+    <value>Die Anwendung ist aktuell.</value>
   </data>
   <data name="DiskFull" xml:space="preserve">
     <value>Nicht genügend freier Speicherplatz.</value>
@@ -314,5 +311,48 @@
   </data>
   <data name="Summary" xml:space="preserve">
     <value>Zusammenfassung: {0}</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>Die Dateinamenvorlage enthält kein notwendiges Token!</value>
+  </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>Die Dateinamenvorlage muss entweder mit %x oder %y enden!</value>
+  </data>
+  <data name="DownloadNewVersion" xml:space="preserve">
+    <value>Möchten Sie die neue Version jetzt herunterladen?</value>
+  </data>
+  <data name="DownloadNewVersionTitle" xml:space="preserve">
+    <value>Neue Version verfügbar</value>
+  </data>
+  <data name="ConfirmationTumblrPrivacyConsentNeeded" xml:space="preserve">
+    <value>Die Zustimmung zum Datenschutz von Tumblr muss in den Einstellungen akzeptiert werden!</value>
+  </data>
+  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+    <value>Erforderliche Komponente fehlt</value>
+  </data>
+  <data name="DownloadVCRedistributable" xml:space="preserve">
+    <value>TumblThree erfordert die "Microsoft Visual C ++ 2015-2019 Redistributable". Sie müssen es zuerst herunterladen und installieren.
+Möchten Sie es jetzt herunterladen?</value>
+  </data>
+  <data name="ConfirmingTumblrPrivacyConsent" xml:space="preserve">
+    <value>Bestätigung der Tumblr-Einwilligung zum Datenschutz</value>
+  </data>
+  <data name="ConfirmingTumblrPrivacyConsentFailed" xml:space="preserve">
+    <value>Die Bestätigung der Tumblr-Datenschutzvereinbarung ist fehlgeschlagen. Möglicherweise liegt ein Verbindungsproblem vor.</value>
+  </data>
+  <data name="CouldNotLoadQueuelist" xml:space="preserve">
+    <value>Die Downloadliste konnte nicht geladen werden. Vielleicht existieren manche referenzierte Blogs nicht mehr.</value>
+  </data>
+  <data name="Textfile" xml:space="preserve">
+    <value>Textdatei</value>
+  </data>
+  <data name="TimeoutReached" xml:space="preserve">
+    <value>Während {0} von {1} ist ein Verbindungszeitlimit aufgetreten.</value>
+  </data>
+  <data name="TimeoutReachedShort" xml:space="preserve">
+    <value>Während {0} ist ein Verbindungszeitlimit aufgetreten.</value>
   </data>
 </root>
