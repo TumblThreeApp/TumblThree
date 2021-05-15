@@ -819,4 +819,7 @@ Durch die Aktivierung wird die Speichernutzung während des Betriebs basierend a
   <data name="ToolTipLanguageDescription" xml:space="preserve">
     <value>Wählen Sie die gewünschte Anzeigesprache aus der Liste aus.</value>
   </data>
+  <data name="LanguageHint" xml:space="preserve">
+    <value>* Neustart des Programm notwendig</value>
+  </data>
 </root>

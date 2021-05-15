@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Globalization;
@@ -7,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 using System.Waf;
 using System.Waf.Applications;
@@ -17,10 +15,8 @@ using System.Windows.Threading;
 using TumblThree.Applications;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
-using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Presentation.Exceptions;
-using TumblThree.Presentation.Properties;
 
 namespace TumblThree.Presentation
 {
@@ -47,7 +43,7 @@ namespace TumblThree.Presentation
         {
             base.OnStartup(e);
 
-            InitializeCultures();
+            //InitializeCultures();
             ServicePointManager.DefaultConnectionLimit = 400;
             // Trust all SSL hosts since tumblr.com messed up their ssl cert on amazon s3.
             ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateCertificate);
@@ -81,6 +77,9 @@ namespace TumblThree.Presentation
                 moduleController.Initialize();
             }
 
+            var shellService = container.GetExportedValue<IShellService>();
+            InitializeCultures(shellService);
+
             foreach (IModuleController moduleController in moduleControllers)
             {
                 moduleController.Run();
@@ -111,16 +110,15 @@ namespace TumblThree.Presentation
             base.OnExit(e);
         }
 
-        private static void InitializeCultures()
+        private static void InitializeCultures(IShellService shellService)
         {
-            if (!string.IsNullOrEmpty(Settings.Default.Culture))
+            if (!string.IsNullOrEmpty(shellService.Settings.Language))
             {
-                CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(Settings.Default.Culture);
-            }
-
-            if (!string.IsNullOrEmpty(Settings.Default.UICulture))
-            {
-                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(Settings.Default.UICulture);
+                var ci = new CultureInfo(shellService.Settings.Language);
+                CultureInfo.DefaultThreadCurrentCulture = ci;
+                CultureInfo.DefaultThreadCurrentUICulture = ci;
+                CultureInfo.CurrentCulture = ci;
+                CultureInfo.CurrentUICulture = ci;
             }
         }
 

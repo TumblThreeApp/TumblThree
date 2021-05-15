@@ -934,6 +934,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to * app restart required.
+        /// </summary>
+        public static string LanguageHint {
+            get {
+                return ResourceManager.GetString("LanguageHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Complete Crawl.
         /// </summary>
         public static string LastCompleteCrawl {

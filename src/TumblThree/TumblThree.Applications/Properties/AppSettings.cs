@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Globalization;
+using System.Resources;
 using System.Runtime.Serialization;
 using System.Windows;
 
@@ -346,6 +348,9 @@ namespace TumblThree.Applications.Properties
         public DateTime LastUpdateCheck { get; set; }
 
         [DataMember]
+        public string Language { get; set; }
+
+        [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
         public ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
@@ -355,6 +360,22 @@ namespace TumblThree.Applications.Properties
         public ObservableCollection<string> BlogTypes => new ObservableCollection<string>(blogTypes);
 
         public ObservableCollection<string> LogLevels => new ObservableCollection<string>(logLevels);
+
+        [IgnoreDataMember]
+        public static ObservableCollection<KeyValuePair<string, string>> Languages
+        {
+            get
+            {
+                var languages = new ObservableCollection<KeyValuePair<string, string>>();
+                var cultures = GetAvailableCultures();
+                foreach (CultureInfo culture in cultures)
+                {
+                    languages.Add(new KeyValuePair<string, string>(culture.Name, culture.NativeName + " (" +
+                        (culture.NativeName == culture.EnglishName ? "" : culture.EnglishName + " ") + "[" + culture.Name + "])"));
+                }
+                return languages;
+            }
+        }
 
         public string[] TumblrHosts
         {
@@ -476,12 +497,38 @@ namespace TumblThree.Applications.Properties
             GroupPhotoSets = false;
             FilenameTemplate = "%f";
             LastUpdateCheck = DateTime.MinValue;
+            Language = "en-US";
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
         }
 
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)
         {
+        }
+
+        private static IEnumerable<CultureInfo> GetAvailableCultures()
+        {
+            List<CultureInfo> result = new List<CultureInfo>();
+
+            ResourceManager rm = new ResourceManager(typeof(Resources));
+
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+            foreach (CultureInfo culture in cultures)
+            {
+                try
+                {
+                    if (culture.Equals(CultureInfo.InvariantCulture)) continue; //do not use "==", won't work
+
+                    ResourceSet rs = rm.GetResourceSet(culture, true, false);
+                    if (rs != null)
+                        result.Add(culture);
+                }
+                catch (CultureNotFoundException)
+                {
+                    //NOP
+                }
+            }
+            return result;
         }
     }
 }

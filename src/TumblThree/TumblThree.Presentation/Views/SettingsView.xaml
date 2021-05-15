@@ -127,6 +127,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Height="Auto">
                             <Grid.ColumnDefinitions>
@@ -370,7 +371,58 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                         </Grid>
-                        <Grid Grid.Row="11" Grid.ColumnSpan="2">
+                        <Grid Grid.Row="11" Grid.ColumnSpan="3"
+                            Height="Auto"
+                            HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                x:Name="LanguageLabel"
+                                Grid.Column="0"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.Language}">
+                                <Label.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLanguage}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipLanguageDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Label.ToolTip>
+                            </Label>
+                            <ComboBox
+                                x:Name="LanguageComboBox"
+                                Grid.Column="1"
+                                MinWidth="60"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                ItemsSource="{Binding ShellService.Settings.Languages}"
+                                DisplayMemberPath="Value"
+                                SelectedValue="{Binding Language, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                SelectedValuePath="Key">
+                                <ComboBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLanguage}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipLanguageDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </ComboBox.ToolTip>
+                            </ComboBox>
+                            <Label
+                                Grid.Column="2"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.LanguageHint}">
+                            </Label>
+                        </Grid>
+                        <Grid Grid.Row="12" Grid.ColumnSpan="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />

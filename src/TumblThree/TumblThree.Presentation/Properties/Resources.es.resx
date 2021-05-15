@@ -816,4 +816,7 @@ La activación aumentará el uso de la memoria durante la operación según la c
   <data name="ToolTipLanguageDescription" xml:space="preserve">
     <value>Elija el idioma de la interfaz de usuario que desee.</value>
   </data>
+  <data name="LanguageHint" xml:space="preserve">
+    <value>* es necesario reiniciar la aplicación</value>
+  </data>
 </root>

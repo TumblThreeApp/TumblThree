@@ -1072,4 +1072,7 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="ToolTipLanguageDescription" xml:space="preserve">
     <value>Please choose the desired UI language.</value>
   </data>
+  <data name="LanguageHint" xml:space="preserve">
+    <value>* app restart required</value>
+  </data>
 </root>

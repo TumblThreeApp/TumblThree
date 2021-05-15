@@ -819,4 +819,7 @@ L'activation augmentera l'utilisation de la mémoire pendant le fonctionnement e
   <data name="ToolTipLanguageDescription" xml:space="preserve">
     <value>Veuillez choisir la langue de l'interface utilisateur souhaitée.</value>
   </data>
+  <data name="LanguageHint" xml:space="preserve">
+    <value>* redémarrage de l'application requis</value>
+  </data>
 </root>

@@ -132,6 +132,7 @@ namespace TumblThree.Applications.ViewModels
         private string _logLevel = string.Empty;
         private bool _groupPhotoSets;
         private string _filenameTemplate;
+        private string _language;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -754,6 +755,16 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
+        public string Language
+        {
+            get => _language;
+            set
+            {
+                if (string.IsNullOrEmpty(value)) value = "en-US";
+                SetProperty(ref _language, value);
+            }
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -1009,6 +1020,7 @@ namespace TumblThree.Applications.ViewModels
                 LogLevel = _settings.LogLevel;
                 GroupPhotoSets = _settings.GroupPhotoSets;
                 FilenameTemplate = _settings.FilenameTemplate;
+                Language = _settings.Language;
             }
             else
             {
@@ -1099,6 +1111,7 @@ namespace TumblThree.Applications.ViewModels
                 LogLevel = nameof(System.Diagnostics.TraceLevel.Verbose);
                 GroupPhotoSets = false;
                 FilenameTemplate = "%f";
+                Language = "en-US";
             }
         }
 
@@ -1266,6 +1279,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.LogLevel = LogLevel;
             _settings.GroupPhotoSets = GroupPhotoSets;
             _settings.FilenameTemplate = FilenameTemplate;
+            _settings.Language = Language;
         }
     }
 }
