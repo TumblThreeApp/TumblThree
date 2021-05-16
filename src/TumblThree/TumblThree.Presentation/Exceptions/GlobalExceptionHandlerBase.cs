@@ -82,7 +82,7 @@ namespace TumblThree.Presentation
         private void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             Log($"Unobserved task exception: {e.Exception}");
-            OnUnhandledException(e.Exception, false);
+            //OnUnhandledException(e.Exception, false);
             e.SetObserved();
         }
 

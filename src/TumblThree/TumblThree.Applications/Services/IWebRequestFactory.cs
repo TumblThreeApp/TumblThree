@@ -17,7 +17,7 @@ namespace TumblThree.Applications.Services
 
         Task PerformPostRequestAsync(HttpWebRequest request, Dictionary<string, string> parameters);
 
-        Task PerformPostXHRRequestAsync(HttpWebRequest request, string requestBody);
+        Task PerformPostXHRRequestAsync(HttpWebRequest request, string requestBody, bool useUTF8);
 
         Task<bool> RemotePageIsValidAsync(string url);
 

@@ -60,7 +60,7 @@ namespace TumblThree.Applications.Services
                 webRequestFactory.CreatePostXhrRequest("https://www.tumblr.com/svc/privacy/consent", referer, headers);
             const string requestBody = "{\"eu_resident\":true,\"gdpr_is_acceptable_age\":true,\"gdpr_consent_core\":true,\"gdpr_consent_first_party_ads\":true,\"gdpr_consent_third_party_ads\":true,\"gdpr_consent_search_history\":true,\"redirect_to\":\"\"}";
             request.ContentType = "application/json";
-            await webRequestFactory.PerformPostXHRRequestAsync(request, requestBody);
+            await webRequestFactory.PerformPostXHRRequestAsync(request, requestBody, false);
             using (var response = await request.GetResponseAsync() as HttpWebResponse)
             {
                 cookieService.SetUriCookie(response.Cookies);

@@ -5,7 +5,7 @@ namespace TumblThree.Applications.DataModels
     [Serializable]
     public class LogException
     {
-        public LogException(Exception ex, bool isLongPathSupported,
+        public LogException(Exception ex, bool isLongPathSupported, bool terminating,
             string winVersion, string winEdition, string winBitness, string winReleaseId, string winVersionNumber,
             string tumblThreeVersion, string tumblThreeBitness,
             string defaultBrowser, string defaultBrowserVersion,
@@ -17,6 +17,7 @@ namespace TumblThree.Applications.DataModels
             ExceptionType = ex.GetType().FullName;
             Callstack = ex.StackTrace;
             InnerException = ex.InnerException?.ToString();
+            Terminating = terminating;
             IsLongPathSupported = isLongPathSupported;
             WinVersion = winVersion;
             WinEdition = winEdition;
@@ -41,6 +42,8 @@ namespace TumblThree.Applications.DataModels
         public string Callstack { get; set; }
 
         public string InnerException { get; set; }
+
+        public bool Terminating { get; set; }
 
         public bool IsLongPathSupported { get; set; }
 

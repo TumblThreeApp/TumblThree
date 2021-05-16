@@ -11,12 +11,9 @@ using TumblThree.Applications.DataModels;
 using Newtonsoft.Json;
 using TumblThree.Applications.Extensions;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using TumblThree.Domain;
-using System.IO;
-using System.Threading;
 
 namespace TumblThree.Applications.Services
 {
@@ -53,9 +50,9 @@ namespace TumblThree.Applications.Services
 
         public string NetFrameworkVersionString => $"{NetFrameworkVersion} {NetFrameworkBitness} Bit";
 
-        public async Task SendErrorDetails(Exception ex)
+        public async Task SendErrorDetails(Exception ex, bool terminating)
         {
-            var log = new LogException(ex, _shellService.IsLongPathSupported,
+            var log = new LogException(ex, _shellService.IsLongPathSupported, terminating,
                 WindowsVersion, WindowsEdition, WindowsBitness, WindowsReleaseId, WindowsVersionNumber,
                 TumblThreeVersion, TumblThreeBitness,
                 DefaultBrowser, DefaultBrowserVersion,
@@ -75,8 +72,8 @@ namespace TumblThree.Applications.Services
                 const string u = "aHR0cHM6Ly83ZjgzODg3ZWIyNjk2YzBhMTA3MTA1YjA3MDRiNTE2MS5tLnBpcGVkcmVhbS5uZXQ=";
                 var d = Encoding.UTF8.GetString(Convert.FromBase64String(u));
                 var request = _webRequestFactory.CreatePostRequest(d);
-                request.ContentType = "application/json";
-                await _webRequestFactory.PerformPostXHRRequestAsync(request, s);
+                request.ContentType = "application/json; charset=UTF-8";
+                await _webRequestFactory.PerformPostXHRRequestAsync(request, s, true);
                 using (var response = await request.GetResponseAsync() as HttpWebResponse)
                 {
                     if (response.StatusCode != HttpStatusCode.OK)

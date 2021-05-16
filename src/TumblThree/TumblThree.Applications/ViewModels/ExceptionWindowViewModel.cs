@@ -79,7 +79,7 @@ namespace TumblThree.Presentation.Exceptions
 
         public async Task SendErrorDetails()
         {
-            await _logService.SendErrorDetails(Exception);
+            await _logService.SendErrorDetails(Exception, IsTerminating);
         }
     }
 }

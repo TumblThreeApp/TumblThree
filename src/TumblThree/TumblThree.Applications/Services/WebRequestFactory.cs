@@ -104,11 +104,11 @@ namespace TumblThree.Applications.Services
             }
         }
 
-        public async Task PerformPostXHRRequestAsync(HttpWebRequest request, string requestBody)
+        public async Task PerformPostXHRRequestAsync(HttpWebRequest request, string requestBody, bool useUTF8)
         {
             using (Stream postStream = await request.GetRequestStreamAsync())
             {
-                byte[] postBytes = Encoding.ASCII.GetBytes(requestBody);
+                byte[] postBytes = useUTF8 ? Encoding.UTF8.GetBytes(requestBody) : Encoding.ASCII.GetBytes(requestBody);
                 await postStream.WriteAsync(postBytes, 0, postBytes.Length);
                 await postStream.FlushAsync();
             }
