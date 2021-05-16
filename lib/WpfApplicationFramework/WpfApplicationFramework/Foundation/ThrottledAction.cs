@@ -98,14 +98,14 @@ namespace System.Waf.Foundation
             }
         }
 
-        private void TimerCallback(object state)
+        private async void TimerCallback(object state)
         {
             lock (timerLock)
             {
                 isRunning = false;
             }
 
-            Task.Factory.StartNew(action, CancellationToken.None, TaskCreationOptions.DenyChildAttach, taskScheduler);
+            await Task.Factory.StartNew(action, CancellationToken.None, TaskCreationOptions.DenyChildAttach, taskScheduler);
         }
     }
 }

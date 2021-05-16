@@ -50,6 +50,8 @@ namespace TumblThree.Presentation
         /// </summary>
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+            if (Debugger.IsAttached) return;
+
             Log($"Unhandled exception on application dispatcher: {e.Exception}");
             OnUnhandledException(e.Exception, false);
             e.Handled = true;

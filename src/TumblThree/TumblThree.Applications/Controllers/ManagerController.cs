@@ -371,7 +371,7 @@ namespace TumblThree.Applications.Controllers
         {
             if (_shellService.Settings.CheckOnlineStatusOnStartup)
             {
-                IEnumerable<IBlog> blogs = _managerService.BlogFiles;
+                IEnumerable<IBlog> blogs = _managerService.BlogFiles.ToArray<IBlog>();
                 await Task.Run(() => ThrottledCheckStatusOfBlogsAsync(blogs));
             }
         }
@@ -403,7 +403,12 @@ namespace TumblThree.Applications.Controllers
             finally
             {
                 crawler?.Dispose();
-                semaphoreSlim.Release();
+                try
+                {
+                    semaphoreSlim.Release();
+                }
+                catch (ObjectDisposedException)
+                { }
             }
         }
 

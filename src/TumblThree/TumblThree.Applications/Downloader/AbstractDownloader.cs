@@ -430,7 +430,8 @@ namespace TumblThree.Applications.Downloader
             }
             finally
             {
-                _saveTimer.Change(SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
+                if (!_disposed)
+                    _saveTimer.Change(SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
             }
         }
 
