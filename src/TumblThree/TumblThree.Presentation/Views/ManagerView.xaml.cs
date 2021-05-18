@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Reflection;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,7 +53,7 @@ namespace TumblThree.Presentation.Views
                 var columnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
                 foreach (DataGridColumn column in blogFilesGrid.Columns)
                 {
-                    columnSettings.Add(column.Header, Tuple.Create(column.DisplayIndex, column.Width.Value, column.Visibility));
+                    columnSettings.Add(GetName(column), Tuple.Create(column.DisplayIndex, column.Width.Value, column.Visibility));
                 }
 
                 return columnSettings;
@@ -62,7 +63,7 @@ namespace TumblThree.Presentation.Views
             {
                 foreach (var column in blogFilesGrid.Columns)
                 {
-                    value.TryGetValue(column.Header, out var entry);
+                    value.TryGetValue(GetName(column), out var entry);
 
                     column.DisplayIndex = entry.Item1;
                     column.Width = new DataGridLength(entry.Item2, DataGridLengthUnitType.Pixel);
@@ -71,6 +72,15 @@ namespace TumblThree.Presentation.Views
 
                 DataGridHideColumns.LoadColumnChecks(blogFilesGrid);
             }
+        }
+
+        private string GetName(DataGridColumn column)
+        {
+            var findMatch = from field in this.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                            let fieldValue = field.GetValue(this)
+                            where fieldValue == column
+                            select field.Name;
+            return findMatch.FirstOrDefault();
         }
 
         private void LoadedHandler(object sender, RoutedEventArgs e)

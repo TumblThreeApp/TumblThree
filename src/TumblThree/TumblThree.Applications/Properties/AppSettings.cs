@@ -402,9 +402,35 @@ namespace TumblThree.Applications.Properties
                 updated = true;
             }
 
-            if (settings.ColumnSettings.Count > 0 && !settings.ColumnSettings.ContainsKey("Latest Post"))
+            if (settings.ColumnSettings.Count > 0 && settings.ColumnSettings.ContainsKey("Date Added"))
             {
-                settings.ColumnSettings.Add("Latest Post", Tuple.Create(9, 120.0, Visibility.Visible));
+                var newCols = new Dictionary<object, Tuple<int, double, Visibility>>();
+                foreach (var item in settings.ColumnSettings)
+                {
+                    var key = (string)item.Key;
+                    if (key == "Downloaded Files")
+                        key = "DownloadedItems";
+                    else if (key == "Number of Downloads")
+                        key = "TotalCount";
+                    else if (key == "Date Added")
+                        key = "DateAdded";
+                    else if (key == "Last Complete Crawl")
+                        key = "LastCompleteCrawl";
+                    else if (key == "Latest Post")
+                        key = "LatestPost";
+                    else if (key == "Personal Notes")
+                        key = "Notes";
+                    else if (key == "Type")
+                        key = "BlogType";
+                    newCols.Add(key, new Tuple<int, double, Visibility>(item.Value.Item1, item.Value.Item2, item.Value.Item3));
+                }
+                settings.ColumnSettings = newCols;
+                updated = true;
+            }
+            if (settings.ColumnSettings.Count > 0 && !settings.ColumnSettings.ContainsKey("LatestPost"))
+            {
+                settings.ColumnSettings.Add("LatestPost", Tuple.Create(9, 120.0, Visibility.Visible));
+                updated = true;
             }
 
             return updated;

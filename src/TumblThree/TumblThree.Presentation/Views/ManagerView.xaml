@@ -103,10 +103,10 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static p:Resources.Name}" Binding="{Binding Name}" IsReadOnly="True"
+                <DataGridTextColumn x:Name="Name" Header="{x:Static p:Resources.Name}" Binding="{Binding Name}" IsReadOnly="True"
                                     Width="200"
                                     ElementStyle="{StaticResource TextCellElementStyle}" />
-                <DataGridTextColumn x:Name="downloadedImagesColumn" Header="{x:Static p:Resources.DownloadedFiles}"
+                <DataGridTextColumn x:Name="DownloadedItems" Header="{x:Static p:Resources.DownloadedFiles}"
                                     Binding="{Binding DownloadedImages, Converter={StaticResource IntToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="SizeToHeader">
                     <DataGridTextColumn.ElementStyle>
@@ -115,7 +115,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn x:Name="totalCountColumn" Header="{x:Static p:Resources.NumberOfDownloads}"
+                <DataGridTextColumn x:Name="TotalCount" Header="{x:Static p:Resources.NumberOfDownloads}"
                                     Binding="{Binding TotalCount, Converter={StaticResource IntToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="SizeToHeader">
                     <DataGridTextColumn.ElementStyle>
@@ -124,10 +124,10 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn x:Name="urlColumn" Header="{x:Static p:Resources.Url}" Binding="{Binding Url}"
+                <DataGridTextColumn x:Name="Url" Header="{x:Static p:Resources.Url}" Binding="{Binding Url}"
                                     IsReadOnly="True" Width="250"
                                     ElementStyle="{StaticResource TextCellElementStyle}" />
-                <DataGridTemplateColumn x:Name="progressColumn" Header="{x:Static p:Resources.Progress}" Width="200">
+                <DataGridTemplateColumn x:Name="Progress" Header="{x:Static p:Resources.Progress}" Width="200">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ProgressBar Value="{Binding Progress, Mode=OneWay}" Height="15" Minimum="0" Maximum="100"
@@ -135,26 +135,26 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn x:Name="onlineColumn" Header="{x:Static p:Resources.Online}"
+                <DataGridTextColumn x:Name="Online" Header="{x:Static p:Resources.Online}"
                                     Binding="{Binding Online, Converter={StaticResource StatusToBoolConverter}}"
                                     IsReadOnly="True" Width="80"
                                     ElementStyle="{StaticResource TextCellElementStyle}" />
-                <DataGridTextColumn x:Name="tagsColumn" Header="{x:Static p:Resources.Blogtype}"
+                <DataGridTextColumn x:Name="BlogType" Header="{x:Static p:Resources.Blogtype}"
                                     Binding="{Binding BlogType, Converter={StaticResource BlogtypeToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="120" ElementStyle="{StaticResource TextCellElementStyle}" />
-                <DataGridTextColumn x:Name="dateAddedColumn" Header="{x:Static p:Resources.DateAdded}"
+                <DataGridTextColumn x:Name="DateAdded" Header="{x:Static p:Resources.DateAdded}"
                                     Binding="{Binding DateAdded, Converter={StaticResource DateToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="120"
                                     ElementStyle="{StaticResource TextCellElementStyle}" />
-                <DataGridTextColumn x:Name="lastCompleteCrawlColumn" Header="{x:Static p:Resources.LastCompleteCrawl}"
+                <DataGridTextColumn x:Name="LastCompleteCrawl" Header="{x:Static p:Resources.LastCompleteCrawl}"
                                     Binding="{Binding LastCompleteCrawl, Converter={StaticResource DateToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="120"
                                     ElementStyle="{StaticResource TextCellElementStyle}" />
-                <DataGridTextColumn x:Name="latestPostColumn" Header="{x:Static p:Resources.LatestPost}"
+                <DataGridTextColumn x:Name="LatestPost" Header="{x:Static p:Resources.LatestPost}"
                                     Binding="{Binding LatestPost, Converter={StaticResource DateToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="120"
                                     ElementStyle="{StaticResource TextCellElementStyle}" />
-                <DataGridTemplateColumn x:Name="ratingColumn" Header="{x:Static p:Resources.Rating}"
+                <DataGridTemplateColumn x:Name="Rating" Header="{x:Static p:Resources.Rating}"
                                         SortMemberPath="Rating" Width="110">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -178,7 +178,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn x:Name="notesColumn" Header="{x:Static p:Resources.Notes}"
+                <DataGridTextColumn x:Name="Notes" Header="{x:Static p:Resources.Notes}"
                                     Binding="{Binding Notes, Mode=TwoWay}"
                                     IsReadOnly="False" Width="120" ElementStyle="{StaticResource TextCellElementStyle}" />
             </DataGrid.Columns>
