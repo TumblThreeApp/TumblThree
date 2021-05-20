@@ -116,7 +116,7 @@ deploy:
   description: 'Release description'
   provider: GitHub
   auth_token:
-    secure: f9Te5YVSvTyx7Mpv3fzxeg/qdCX5jhP1Sy86qXKdy702FlcaQ8OHrohzn4M/TZCM
+    secure: Fq+JvcCNMJohda1wv07DI90aCYW6+peIWJQ+mDXxsOQI7i+XjdexIlzMK1bV80N7
   artifact: /.*\.zip/              # upload all zips to release assets
   draft: true
   prerelease: false
