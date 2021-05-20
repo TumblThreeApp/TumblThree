@@ -402,6 +402,12 @@ namespace TumblThree.Applications.Properties
                 updated = true;
             }
 
+            if (settings.LastUpdateCheck == new DateTime(1, 1, 1))
+            {
+                settings.LastUpdateCheck = new DateTime(1970, 1, 1);
+                updated = true;
+            }
+
             if (settings.ColumnSettings.Count > 0 && settings.ColumnSettings.ContainsKey("Date Added"))
             {
                 var newCols = new Dictionary<object, Tuple<int, double, Visibility>>();
@@ -522,7 +528,7 @@ namespace TumblThree.Applications.Properties
 #endif
             GroupPhotoSets = false;
             FilenameTemplate = "%f";
-            LastUpdateCheck = DateTime.MinValue;
+            LastUpdateCheck = new DateTime(1970, 1, 1);
             Language = "en-US";
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
         }
