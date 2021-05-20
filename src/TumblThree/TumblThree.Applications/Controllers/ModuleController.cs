@@ -101,10 +101,12 @@ namespace TumblThree.Applications.Controllers
                 logPath = savePath;
             }
 
+            Logger.Initialize(logPath, TraceLevel.Verbose);
+
             _appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, AppSettingsFileName));
             if (AppSettings.Upgrade(_appSettings)) SaveSettings(Path.Combine(GetAppDataPath(), AppSettingsFileName), _appSettings);
 
-            Logger.Initialize(logPath, (System.Diagnostics.TraceLevel)Enum.Parse(typeof(System.Diagnostics.TraceLevel), _appSettings.LogLevel));
+            Logger.ChangeLogLevel((TraceLevel)Enum.Parse(typeof(TraceLevel), _appSettings.LogLevel));
 
             Logger.Information("IsLongPathSupported: {0}", ShellService.IsLongPathSupported);
 
