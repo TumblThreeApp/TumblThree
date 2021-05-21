@@ -52,4 +52,6 @@
 
     <c:TumblrBlogCrawlerTypesConverter x:Key="TumblrBlogCrawlerTypesConverter" />
 
+    <c:BrushResourceConverter x:Key="BrushResourceConverter" />
+
 </ResourceDictionary>

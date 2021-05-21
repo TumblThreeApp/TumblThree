@@ -119,7 +119,6 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\QueueController.cs" />
-    <Compile Include="Converter\BrushResourceConverter.cs" />
     <Compile Include="Converter\PropertyCopier.cs" />
     <Compile Include="Converter\SingleOrArrayConverter.cs" />
     <Compile Include="CookieParser.cs" />
