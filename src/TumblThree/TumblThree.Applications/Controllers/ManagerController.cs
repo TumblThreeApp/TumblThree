@@ -492,13 +492,21 @@ namespace TumblThree.Applications.Controllers
 
         private void CleanFailedAddBlog()
         {
-            IBlog blog = CheckIfCrawlableBlog(_crawlerService.NewBlogUrl).GetAwaiter().GetResult();
-            if (Directory.Exists(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)) &&
-                !Directory.EnumerateFileSystemEntries(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)).Any())
+            try
             {
-                Directory.Delete(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name));
+                IBlog blog = CheckIfCrawlableBlog(_crawlerService.NewBlogUrl).GetAwaiter().GetResult();
+                if (Directory.Exists(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)) &&
+                    !Directory.EnumerateFileSystemEntries(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)).Any())
+                {
+                    Directory.Delete(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name));
+                }
+                if (File.Exists(blog.ChildId)) File.Delete(blog.ChildId);
             }
-            if (File.Exists(blog.ChildId)) File.Delete(blog.ChildId);
+            catch (Exception e)
+            {
+                Logger.Error("ManagerController:CleanFailedAddBlog: {0}", e);
+                _shellService.ShowError(e, Resources.CouldNotAddBlog, $"error while cleanup for '{_crawlerService.NewBlogUrl}'");
+            }
         }
 
         private async Task ImportBlogs()
