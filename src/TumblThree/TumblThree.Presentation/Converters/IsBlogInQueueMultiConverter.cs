@@ -13,6 +13,8 @@ namespace TumblThree.Presentation.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values == null || values.Length == 0 || !(values[0] is ReadOnlyObservableList<QueueListItem>))
+                return false;
             var crawlingQueuelistItem = (ReadOnlyObservableList<QueueListItem>)values[0];
             var currentQueuelistItem = (IBlog)values[1];
 
