@@ -321,7 +321,7 @@ namespace TumblThree.Applications.Controllers
                         databases.Add(database);
                     }
                 }
-                catch (SerializationException ex)
+                catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException || ex is IOException)
                 {
                     failedToLoadDatabases.Add(ex.Data["Filename"].ToString());
                 }

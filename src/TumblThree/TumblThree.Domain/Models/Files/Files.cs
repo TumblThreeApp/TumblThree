@@ -108,7 +108,7 @@ namespace TumblThree.Domain.Models.Files
                 //isDirty = false;
                 return LoadCore(fileLocation);
             }
-            catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException)
+            catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException || ex is IOException)
             {
                 ex.Data.Add("Filename", fileLocation);
                 throw;
