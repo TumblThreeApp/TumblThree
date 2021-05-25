@@ -422,7 +422,7 @@ namespace TumblThree.Applications.Downloader
             {
                 _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
-                if (files.IsDirty) files.Save();
+                if (files != null && files.IsDirty) files.Save();
             }
             catch (Exception e)
             {
