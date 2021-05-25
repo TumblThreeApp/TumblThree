@@ -14,6 +14,7 @@ using TumblThree.Applications.Downloader;
 using TumblThree.Applications.Parser;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
+using TumblThree.Domain;
 using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Models.Files;
@@ -108,8 +109,15 @@ namespace TumblThree.Applications.Crawler
         {
             if (settings.LoadAllDatabases)
             {
-                return managerService.Databases.FirstOrDefault(file =>
-                    file.Name.Equals(blog.Name) && file.BlogType.Equals(blog.BlogType));
+                var files = managerService.Databases.FirstOrDefault(file => file.Name.Equals(blog.Name) && file.BlogType.Equals(blog.BlogType));
+                if (files == null)
+                {
+                    var s = string.Format("{0} ({1})", blog.Name, blog.BlogType);
+                    Logger.Error(Resources.CouldNotLoadLibrary, s);
+                    shellService.ShowError(new KeyNotFoundException(), Resources.CouldNotLoadLibrary, s);
+                    throw new KeyNotFoundException(s);
+                }
+                return files;
             }
 
             return Files.Load(blog.ChildId);
