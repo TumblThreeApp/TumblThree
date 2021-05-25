@@ -768,10 +768,7 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
-                if (!Clipboard.ContainsText())
-                {
-                    return;
-                }
+                if (!Clipboard.ContainsText()) return;
 
                 // Count each whitespace as new url
                 string content = Clipboard.GetText();
