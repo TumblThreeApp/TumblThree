@@ -12,6 +12,7 @@ namespace TumblThree.Presentation.Services
     {
         private IShellService _shellService;
 
+        [ImportingConstructor]
         public ClipboardService(IShellService shellService)
         {
             _shellService = shellService;
