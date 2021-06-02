@@ -225,11 +225,11 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        protected void AddTumblrPhotoUrl(string post, int? postTimestamp)
+        protected void AddTumblrPhotoUrl(string text, Post post)
         {
             TumblrPhotoLookup photosToDownload = new TumblrPhotoLookup();
 
-            foreach (string imageUrl in TumblrParser.SearchForTumblrPhotoUrl(post))
+            foreach (string imageUrl in TumblrParser.SearchForTumblrPhotoUrl(text))
             {
                 string url = imageUrl;
                 if (CheckIfSkipGif(url)) { continue; }
@@ -249,26 +249,25 @@ namespace TumblThree.Applications.Crawler
                 else
                 {
                     url = ResizeTumblrImageUrl(url);
-                    AddPhotoToDownloadList(url, postTimestamp);
+                    AddPhotoToDownloadList(url, post);
                 }
 
             }
 
             foreach(string url in photosToDownload.GetUrls())
             {
-                AddPhotoToDownloadList(url, postTimestamp);
+                AddPhotoToDownloadList(url, post);
             }
         }
 
-        protected void AddPhotoToDownloadList(string url, int? postTimestamp)
+        protected void AddPhotoToDownloadList(string url, Post post)
         {
-            // TODO: postID
-            AddToDownloadList(new PhotoPost(url, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), BuildFileName(url, (Post)null, -1)));
+            AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, -1)));
         }
 
-        protected void AddTumblrVideoUrl(string post, int? postTimestamp)
+        protected void AddTumblrVideoUrl(string text, Post post)
         {
-            foreach (string videoUrl in TumblrParser.SearchForTumblrVideoUrl(post))
+            foreach (string videoUrl in TumblrParser.SearchForTumblrVideoUrl(text))
             {
                 string url = videoUrl;
                 if (ShellService.Settings.VideoSize == 480)
@@ -276,7 +275,7 @@ namespace TumblThree.Applications.Crawler
                     url += "_480";
                 }
 
-                AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + url + ".mp4", Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), BuildFileName("https://vtt.tumblr.com/" + url + ".mp4", (Post)null, -1)));
+                AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + url + ".mp4", post.Id, post.UnixTimestamp.ToString(), BuildFileName("https://vtt.tumblr.com/" + url + ".mp4", post, -1)));
             }
         }
 
@@ -295,25 +294,42 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        protected void AddGenericPhotoUrl(string post, int? postTimestamp)
+        protected void AddGenericPhotoUrl(string text, Post post)
         {
-            foreach (string imageUrl in TumblrParser.SearchForGenericPhotoUrl(post))
+            foreach (string imageUrl in TumblrParser.SearchForGenericPhotoUrl(text))
             {
                 if (TumblrParser.IsTumblrUrl(imageUrl)) { continue; }
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new PhotoPost(imageUrl, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), FileName(imageUrl)));
+                AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), FileName(imageUrl)));
             }
         }
 
-        protected void AddGenericVideoUrl(string post, int? postTimestamp)
+        protected void AddGenericVideoUrl(string text, Post post)
         {
-            foreach (string videoUrl in TumblrParser.SearchForGenericVideoUrl(post))
+            foreach (string videoUrl in TumblrParser.SearchForGenericVideoUrl(text))
             {
                 if (TumblrParser.IsTumblrUrl(videoUrl)) { continue; }
 
-                AddToDownloadList(new VideoPost(videoUrl, Guid.NewGuid().ToString("N"), postTimestamp?.ToString(), FileName(videoUrl)));
+                AddToDownloadList(new VideoPost(videoUrl, post.Id, post.UnixTimestamp.ToString(), FileName(videoUrl)));
             }
+        }
+
+        protected static Post ConvertTumblrApiJson(DataModels.TumblrSvcJson.Post p)
+        {
+            return new Post()
+            {
+                Date = p.Date,
+                UnixTimestamp = p.Timestamp,
+                Type = p.Type,
+                Id = p.Id,
+                Tags = new List<string>(p.Tags),
+                Slug = p.Slug,
+                RegularTitle = p.Title,
+                RebloggedFromName = p.RebloggedFromName,
+                ReblogKey = p.ReblogKey,
+                Submitter = p.Publisher
+            };
         }
 
         protected string RetrieveOriginalImageUrl(string url, int width, int height)

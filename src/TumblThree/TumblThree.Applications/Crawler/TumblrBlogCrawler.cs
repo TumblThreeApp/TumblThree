@@ -692,17 +692,17 @@ namespace TumblThree.Applications.Crawler
 
         private void AddInlinePhotoUrl(Post post)
         {
-            AddTumblrPhotoUrl(InlineSearch(post), post.UnixTimestamp);
+            AddTumblrPhotoUrl(InlineSearch(post), post);
         }
 
         private void AddInlineVideoUrl(Post post)
         {
-            AddTumblrVideoUrl(InlineSearch(post), post.UnixTimestamp);
+            AddTumblrVideoUrl(InlineSearch(post), post);
         }
 
         private void AddGenericInlineVideoUrl(Post post)
         {
-            AddGenericVideoUrl(InlineSearch(post), post.UnixTimestamp);
+            AddGenericVideoUrl(InlineSearch(post), post);
         }
 
         private void AddInlineVideoUrlsToDownloader(HashSet<string> videoUrls, Post post)
@@ -744,7 +744,7 @@ namespace TumblThree.Applications.Crawler
 
         private void AddGenericInlinePhotoUrl(Post post)
         {
-            AddGenericPhotoUrl(InlineSearch(post), post.UnixTimestamp);
+            AddGenericPhotoUrl(InlineSearch(post), post);
         }
 
         private void AddVideoUrl(Post post)
