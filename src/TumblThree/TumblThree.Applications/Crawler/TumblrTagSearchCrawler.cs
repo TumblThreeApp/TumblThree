@@ -174,9 +174,24 @@ namespace TumblThree.Applications.Crawler
                     {
                         continue;
                     }
+                    int index = -1;
                     foreach (var content in post.Content)
                     {
-                        DownloadMedia(content, post.Id, post.Timestamp, post.Tags);
+                        Post data = new Post()
+                        {
+                            Date = DateTimeOffset.FromUnixTimeSeconds(post.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
+                            Type = ConvertContentTypeToPostType(content.Type),
+                            Id = post.Id,
+                            Tags = new List<string>(post.Tags),
+                            Slug = post.Slug,
+                            RegularTitle = post.Summary,
+                            RebloggedFromName = "",
+                            ReblogKey = post.ReblogKey,
+                            UnixTimestamp = post.Timestamp,
+                            Submitter = post.BlogName
+                        };
+                        index += (post.Content.Count > 1) ? 1 : 0;
+                        DownloadMedia(content, data, index);
                     }
                     AddToJsonQueue(new TumblrCrawlerData<Datum>(Path.ChangeExtension(post.Id, ".json"), post));
                 }
@@ -201,9 +216,24 @@ namespace TumblThree.Applications.Crawler
                     {
                         continue;
                     }
+                    int index = -1;
                     foreach (var content in data.Content)
                     {
-                        DownloadMedia(content, data.Id, data.Timestamp, data.Tags);
+                        Post post = new Post()
+                        {
+                            Date = DateTimeOffset.FromUnixTimeSeconds(data.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
+                            Type = ConvertContentTypeToPostType(content.Type),
+                            Id = data.Id,
+                            Tags = new List<string>(data.Tags),
+                            Slug = data.Slug,
+                            RegularTitle = data.Summary,
+                            RebloggedFromName = "",
+                            ReblogKey = data.ReblogKey,
+                            UnixTimestamp = data.Timestamp,
+                            Submitter = data.BlogName
+                        };
+                        index += (data.Content.Count > 1) ? 1 : 0;
+                        DownloadMedia(content, post, index);
                     }
                 }
             }
@@ -229,35 +259,28 @@ namespace TumblThree.Applications.Crawler
             return pagination >= dateTimeOffset.ToUnixTimeSeconds();
         }
 
-        private void DownloadMedia(Content content, String id, long timestamp, IList<string> tags)
+        private void DownloadMedia(Content content, Post post, int index)  //String id, long timestamp, IList<string> tags
         {
             string type = content.Type;
             string url = string.Empty;
-            if (type == "video")
-                url = content.Url;
-            else
-                url = content.Media?[0].Url;
+            url = type == "video" ? content.Url : content.Media?[0].Url;
             if (url == null)
                 return;
-            if (!CheckIfContainsTaggedPost(tags))
-            {
+            if (!CheckIfContainsTaggedPost(post.Tags))
                 return;
-            }
             if (CheckIfSkipGif(url))
-            {
                 return;
-            }
             if (type == "video")
             {
                 if (Blog.DownloadVideo)
-                    AddToDownloadList(new VideoPost(url, id, timestamp.ToString(), BuildFileName(url, (Post)null, -1)));
+                    AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
             }
             else
             {
                 if (Blog.DownloadPhoto)
                 {
                     url = RetrieveOriginalImageUrl(url, 2000, 3000);
-                    AddToDownloadList(new PhotoPost(url, id, timestamp.ToString(), BuildFileName(url, (Post)null, -1)));
+                    AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
                 }
             }
         }

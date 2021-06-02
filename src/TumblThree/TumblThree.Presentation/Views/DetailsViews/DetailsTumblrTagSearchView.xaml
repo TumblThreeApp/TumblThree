@@ -244,6 +244,8 @@
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                             </Grid.RowDefinitions>
                             <Label
                                 Grid.Row="0"
@@ -488,8 +490,8 @@
                                 Content="{x:Static p:Resources.SkipGif}"
                                 IsChecked="{Binding BlogFile.SkipGif, Mode=TwoWay}" />
 
-                            <!--<CheckBox Content="{x:Static p:Resources.GroupPhotoSets}" IsChecked="{Binding BlogFile.GroupPhotoSets, Mode=TwoWay}"
-                                Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="12" Margin="3,0,0,0" Padding="3,0,0,0" />-->
+                            <CheckBox Content="{x:Static p:Resources.GroupPhotoSets}" IsChecked="{Binding BlogFile.GroupPhotoSets, Mode=TwoWay}"
+                                Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="16" Margin="3,0,0,0" Padding="3,0,0,0" />
 
                             <!--<CheckBox Content="{x:Static p:Resources.CheckDirectoryForFiles}"
                                   IsChecked="{Binding BlogFile.CheckDirectoryForFiles, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
@@ -507,7 +509,7 @@
                         </CheckBox>-->
 
                             <CheckBox
-                                Grid.Row="16"
+                                Grid.Row="18"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"
@@ -525,7 +527,7 @@
                             </CheckBox>
 
                             <CheckBox
-                                Grid.Row="18"
+                                Grid.Row="20"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"
@@ -543,7 +545,7 @@
                             </CheckBox>
 
                             <CheckBox
-                                Grid.Row="20"
+                                Grid.Row="22"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"
@@ -561,7 +563,7 @@
                             </CheckBox>
 
                             <CheckBox
-                                Grid.Row="22"
+                                Grid.Row="24"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"
@@ -579,7 +581,7 @@
                             </CheckBox>
 
                             <CheckBox
-                                Grid.Row="24"
+                                Grid.Row="26"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"

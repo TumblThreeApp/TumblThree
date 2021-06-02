@@ -367,6 +367,14 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
+        protected static string ConvertContentTypeToPostType(string contentType)
+        {
+            if (string.Equals(contentType, "image", StringComparison.CurrentCultureIgnoreCase)) return "photo";
+            if (string.Equals(contentType, "video", StringComparison.CurrentCultureIgnoreCase)) return "video";
+            Logger.Warning("AbstractTumblrCrawler:ConvertContentTypeToPostType: unkown content type '{0}'", contentType);
+            return "";
+        }
+
         protected static string FileName(string url)
         {
             return url.Split('/').Last();
@@ -385,7 +393,7 @@ namespace TumblThree.Applications.Crawler
                 post = new Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "",
                     Tags = new List<string>(), Slug = "", RegularTitle = "", RebloggedFromName = "", ReblogKey = "" };
             }
-            return BuildFileNameCore(url, post.Date, post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.ReblogKey);
+            return BuildFileNameCore(url, post.Submitter, post.Date, post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.ReblogKey);
         }
 
         protected string BuildFileName(string url, TumblrSvcJson.Post post, int index)
@@ -395,7 +403,7 @@ namespace TumblThree.Applications.Crawler
                 post = new TumblrSvcJson.Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "",
                     Tags = new List<string>(), Slug = "", Title = "", RebloggedFromName = "", ReblogKey = "" };
             }
-            return BuildFileNameCore(url, post.Date, post.Timestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.ReblogKey);
+            return BuildFileNameCore(url, post.Publisher, post.Date, post.Timestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.ReblogKey);
         }
 
         private static string ReplaceCI(string input, string search, string replacement)
@@ -415,11 +423,12 @@ namespace TumblThree.Applications.Crawler
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
-        private string BuildFileNameCore(string url, string date, int timestamp, int index, string type, string id, List<string> tags, string slug, string title, string rebloggedFromName, string reblog_key)
+        private string BuildFileNameCore(string url, string blogName, string date, int timestamp, int index, string type, string id, List<string> tags, string slug, string title, string rebloggedFromName, string reblog_key)
         {
             /*
              * Replaced are:
              *  %f  original filename (default)
+                %b  blog name
                 %d  post date (yyyyMMddHHmmss)
                 %u  post timestamp (number)
                 %p  post title (shorted if needed…)
@@ -439,6 +448,7 @@ namespace TumblThree.Applications.Crawler
             if (ContainsCI(filename, "%f")) filename = ReplaceCI(filename, "%f", Path.GetFileNameWithoutExtension(FileName(url)));
             if (ContainsCI(filename, "%d")) filename = ReplaceCI(filename, "%d", DateTime.Parse(date).ToString("yyyyMMdd"));
             if (ContainsCI(filename, "%u")) filename = ReplaceCI(filename, "%u", timestamp.ToString());
+            if (ContainsCI(filename, "%b")) filename = ReplaceCI(filename, "%b", blogName);
             if (ContainsCI(filename, "%i"))
             {
                 if (type == "photo" && Blog.GroupPhotoSets && index != -1) id = $"{id}_{index}";
