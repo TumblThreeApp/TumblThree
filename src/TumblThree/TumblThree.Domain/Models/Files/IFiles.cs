@@ -11,6 +11,8 @@ namespace TumblThree.Domain.Models.Files
 
         //IList<string> Links { get; }
 
+        IList<FileEntry> Entries { get; }
+
         bool IsDirty { get; }
 
         string Version { get; set; }

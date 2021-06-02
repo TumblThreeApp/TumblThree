@@ -128,6 +128,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Height="Auto">
                             <Grid.ColumnDefinitions>
@@ -183,15 +185,32 @@
                             Content="{x:Static p:Resources.DeleteIndex}"
                             IsChecked="{Binding DeleteOnlyIndex, Mode=TwoWay}" />
                         <CheckBox
-                            x:Name="checkBoxRemoveIndex"
+                            x:Name="checkBoxArchiveIndex"
                             Grid.Row="4"
+                            Grid.Column="0"
+                            Margin="30,10,10,10"
+                            Content="{x:Static p:Resources.ArchiveIndex}"
+                            IsChecked="{Binding ArchiveIndex, Mode=TwoWay}"
+                            IsEnabled="{Binding ArchiveIndexEnabled, Mode=OneWay}">
+                            <CheckBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipArchiveIndex}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipArchiveIndexDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
+                        <CheckBox
+                            x:Name="checkBoxRemoveIndex"
+                            Grid.Row="5"
                             Grid.Column="0"
                             Margin="10"
                             Content="{x:Static p:Resources.RemoveIndex}"
                             IsChecked="{Binding RemoveIndexAfterCrawl, Mode=TwoWay}" />
                         <CheckBox
                             x:Name="checkBoxPortableMode"
-                            Grid.Row="5"
+                            Grid.Row="6"
                             Grid.Column="0"
                             Margin="10"
                             Content="{x:Static p:Resources.PortableMode}"
@@ -207,14 +226,14 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxDisplayConfirmationDialog"
-                            Grid.Row="6"
+                            Grid.Row="7"
                             Grid.Column="0"
                             Margin="10"
                             Content="{x:Static p:Resources.DisplayConfirmationDialog}"
                             IsChecked="{Binding DisplayConfirmationDialog, Mode=TwoWay}" />
                         <CheckBox
                             x:Name="checkBoxLoadAllDatabases"
-                            Grid.Row="7"
+                            Grid.Row="8"
                             Grid.Column="0"
                             Margin="10"
                             Content="{x:Static p:Resources.LoadAllDatabases}"
@@ -228,8 +247,25 @@
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
+                        <CheckBox
+                            x:Name="checkBoxLoadArchive"
+                            Grid.Row="9"
+                            Grid.Column="0"
+                            Margin="30,10,10,10"
+                            Content="{x:Static p:Resources.LoadArchive}"
+                            IsChecked="{Binding LoadArchive, Mode=TwoWay}"
+                            IsEnabled="{Binding LoadArchiveEnabled, Mode=OneWay}">
+                            <CheckBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLoadArchive}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipLoadArchiveDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
                         <Grid
-                            Grid.Row="8"
+                            Grid.Row="10"
                             Height="Auto"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -286,7 +322,7 @@
                                 Content="{x:Static p:Resources.AutoDownloadBlogs}" />
                         </Grid>
                         <Grid
-                            Grid.Row="9"
+                            Grid.Row="11"
                             Height="Auto"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -328,7 +364,7 @@
                                 </TextBox.ToolTip>
                             </TextBox>
                         </Grid>
-                        <Grid Grid.Row="10" Grid.ColumnSpan="1"
+                        <Grid Grid.Row="12" Grid.ColumnSpan="1"
                             Height="Auto"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -371,7 +407,7 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                         </Grid>
-                        <Grid Grid.Row="11" Grid.ColumnSpan="3"
+                        <Grid Grid.Row="13" Grid.ColumnSpan="3"
                             Height="Auto"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -422,7 +458,7 @@
                                 Content="{x:Static p:Resources.LanguageHint}">
                             </Label>
                         </Grid>
-                        <Grid Grid.Row="12" Grid.ColumnSpan="2">
+                        <Grid Grid.Row="14" Grid.ColumnSpan="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />

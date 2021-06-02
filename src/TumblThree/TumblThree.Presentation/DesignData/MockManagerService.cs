@@ -30,12 +30,16 @@ namespace TumblThree.Presentation.DesignData
             blogFilesToAdd.ToList().ForEach(x => innerBlogFiles.Add(x));
         }
 
-        public bool CheckIfFileExistsInDB(string filename) => false;
+        public bool CheckIfFileExistsInDB(string filename, bool checkArchive) => false;
 
         public void AddDatabase(IFiles database) => throw new NotImplementedException();
 
         public void RemoveDatabase(IFiles database) => throw new NotImplementedException();
 
         public void ClearDatabases() => throw new NotImplementedException();
+
+        public void AddArchive(IFiles archiveDB) => throw new NotImplementedException();
+
+        public void ClearArchive() => throw new NotImplementedException();
     }
 }

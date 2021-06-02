@@ -1075,4 +1075,25 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="LanguageHint" xml:space="preserve">
     <value>* app restart required</value>
   </data>
+  <data name="LoadArchive" xml:space="preserve">
+    <value>including archived blogs</value>
+  </data>
+  <data name="ToolTipLoadArchive" xml:space="preserve">
+    <value>Include archived blog databases in the global check for file duplicates.</value>
+  </data>
+  <data name="ToolTipLoadArchiveDescription" xml:space="preserve">
+    <value>This option can only be activated if the global check has been activated.
+If activated, not only all active blogs, but also all blog databases inside the Archive folder are used for duplicate check of a file.
+Activation will increase the memory usage during operation based on the amount of already archived blogs.</value>
+  </data>
+  <data name="ArchiveIndex" xml:space="preserve">
+    <value>Archive the index files instead of deleting</value>
+  </data>
+  <data name="ToolTipArchiveIndex" xml:space="preserve">
+    <value>Archive the index files instead of deleting</value>
+  </data>
+  <data name="ToolTipArchiveIndexDescription" xml:space="preserve">
+    <value>If this option is activated, the index files are not deleted, but moved to a subfolder Archive inside the Index folder.
+All index files inside this subfolder can be used for the global check for file duplicates, if activated.</value>
+  </data>
 </root>

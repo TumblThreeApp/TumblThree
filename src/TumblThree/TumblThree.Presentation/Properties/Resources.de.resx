@@ -822,4 +822,25 @@ Durch die Aktivierung wird die Speichernutzung während des Betriebs basierend a
   <data name="LanguageHint" xml:space="preserve">
     <value>* Neustart des Programm notwendig</value>
   </data>
+  <data name="LoadArchive" xml:space="preserve">
+    <value>einschließlich archivierter Blogs</value>
+  </data>
+  <data name="ToolTipLoadArchiveDescription" xml:space="preserve">
+    <value>Diese Option kann nur aktiviert werden, wenn die globale Prüfung aktiviert wurde.
+Falls aktiviert, werden für die Duplikatsprüfung nicht nur alle aktiven Blogs, sondern auch alle Blogdatenbanken im Archiv-Ordner verwendet.
+Durch die Aktivierung wird die Speichernutzung während des Betriebs basierend auf der Anzahl der bereits archivierten Blogs erhöht.</value>
+  </data>
+  <data name="ToolTipLoadArchive" xml:space="preserve">
+    <value>Berücksichtige archivierte Blog Datenbanken bei der Duplikatsprüfung.</value>
+  </data>
+  <data name="ArchiveIndex" xml:space="preserve">
+    <value>Archiviere die Indexdateien anstatt sie zu löschen</value>
+  </data>
+  <data name="ToolTipArchiveIndex" xml:space="preserve">
+    <value>Archiviere die Indexdateien, anstatt sie zu löschen</value>
+  </data>
+  <data name="ToolTipArchiveIndexDescription" xml:space="preserve">
+    <value>Wenn diese Option aktiviert ist, werden die Indexdateien nicht gelöscht, sondern in einen Unterordner Archive im Indexordner verschoben.
+Alle Indexdateien in diesem Unterordner können bei Aktivierung für die globale Überprüfung auf Dateiduplikate verwendet werden.</value>
+  </data>
 </root>

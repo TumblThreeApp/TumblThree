@@ -62,6 +62,7 @@ namespace TumblThree.Applications.ViewModels
         private string _tags;
         private bool _downloadRebloggedPosts;
         private bool _deleteOnlyIndex;
+        private bool _archiveIndex;
         private bool _downloadAudios;
         private bool _downloadConversations;
         private bool _downloadImages;
@@ -91,6 +92,7 @@ namespace TumblThree.Applications.ViewModels
         private int _concurrentScans;
         private bool _portableMode;
         private bool _loadAllDatabases;
+        private bool _loadArchive;
         private string _proxyHost;
         private string _proxyPort;
         private string _proxyUsername;
@@ -358,7 +360,25 @@ namespace TumblThree.Applications.ViewModels
         public bool DeleteOnlyIndex
         {
             get => _deleteOnlyIndex;
-            set => SetProperty(ref _deleteOnlyIndex, value);
+            set
+            {
+                if (SetProperty(ref _deleteOnlyIndex, value))
+                {
+                    if (!_deleteOnlyIndex) ArchiveIndex = false;
+                    RaisePropertyChanged(nameof(ArchiveIndexEnabled));
+                }
+            }
+        }
+
+        public bool ArchiveIndex
+        {
+            get => _archiveIndex;
+            set => SetProperty(ref _archiveIndex, value);
+        }
+
+        public bool ArchiveIndexEnabled
+        {
+            get => _deleteOnlyIndex;
         }
 
         public bool CheckOnlineStatusOnStartup
@@ -424,7 +444,25 @@ namespace TumblThree.Applications.ViewModels
         public bool LoadAllDatabases
         {
             get => _loadAllDatabases;
-            set => SetProperty(ref _loadAllDatabases, value);
+            set
+            {
+                if (SetProperty(ref _loadAllDatabases, value))
+                {
+                    if (!_loadAllDatabases) LoadArchive = false;
+                    RaisePropertyChanged(nameof(LoadArchiveEnabled));
+                }
+            }
+        }
+
+        public bool LoadArchive
+        {
+            get => _loadArchive;
+            set => SetProperty(ref _loadArchive, value);
+        }
+
+        public bool LoadArchiveEnabled
+        {
+            get => _loadAllDatabases;
         }
 
         public string ProxyHost
@@ -961,6 +999,7 @@ namespace TumblThree.Applications.ViewModels
                 ShowPicturePreview = _settings.ShowPicturePreview;
                 DisplayConfirmationDialog = _settings.DisplayConfirmationDialog;
                 DeleteOnlyIndex = _settings.DeleteOnlyIndex;
+                ArchiveIndex = _settings.ArchiveIndex;
                 CheckOnlineStatusOnStartup = _settings.CheckOnlineStatusOnStartup;
                 SkipGif = _settings.SkipGif;
                 EnablePreview = _settings.EnablePreview;
@@ -1010,6 +1049,7 @@ namespace TumblThree.Applications.ViewModels
                 DownloadUrlList = _settings.DownloadUrlList;
                 PortableMode = _settings.PortableMode;
                 LoadAllDatabases = _settings.LoadAllDatabases;
+                LoadArchive = _settings.LoadArchive;
                 ProxyHost = _settings.ProxyHost;
                 ProxyPort = _settings.ProxyPort;
                 ProxyUsername = _settings.ProxyUsername;
@@ -1052,6 +1092,7 @@ namespace TumblThree.Applications.ViewModels
                 ShowPicturePreview = true;
                 DisplayConfirmationDialog = false;
                 DeleteOnlyIndex = true;
+                ArchiveIndex = false;
                 CheckOnlineStatusOnStartup = false;
                 SkipGif = false;
                 EnablePreview = true;
@@ -1101,6 +1142,7 @@ namespace TumblThree.Applications.ViewModels
                 DownloadUrlList = false;
                 PortableMode = false;
                 LoadAllDatabases = false;
+                LoadArchive = false;
                 ProxyHost = string.Empty;
                 ProxyPort = string.Empty;
                 ProxyHost = string.Empty;
@@ -1139,6 +1181,7 @@ namespace TumblThree.Applications.ViewModels
             {
                 CrawlerService.LibraryLoaded = new TaskCompletionSource<bool>();
                 CrawlerService.DatabasesLoaded = new TaskCompletionSource<bool>();
+                CrawlerService.ArchiveLoaded = new TaskCompletionSource<bool>();
                 if (CrawlerService.StopCommand.CanExecute(null))
                 {
                     CrawlerService.StopCommand.Execute(null);
@@ -1146,13 +1189,16 @@ namespace TumblThree.Applications.ViewModels
 
                 CrawlerService.LoadLibraryCommand.Execute(null);
                 CrawlerService.LoadAllDatabasesCommand.Execute(null);
+                CrawlerService.LoadArchiveCommand.Execute(null);
                 await Task.WhenAll(CrawlerService.LibraryLoaded.Task, CrawlerService.DatabasesLoaded.Task);
                 CrawlerService.CheckIfDatabasesCompleteCommand.Execute(null);
+                await Task.WhenAll(CrawlerService.ArchiveLoaded.Task);
             }
             else if (downloadLocationChanged)
             {
                 CrawlerService.LibraryLoaded = new TaskCompletionSource<bool>();
                 CrawlerService.DatabasesLoaded = new TaskCompletionSource<bool>();
+                CrawlerService.ArchiveLoaded = new TaskCompletionSource<bool>();
                 if (CrawlerService.StopCommand.CanExecute(null))
                 {
                     CrawlerService.StopCommand.Execute(null);
@@ -1160,18 +1206,23 @@ namespace TumblThree.Applications.ViewModels
 
                 CrawlerService.LoadLibraryCommand.Execute(null);
                 CrawlerService.LoadAllDatabasesCommand.Execute(null);
+                CrawlerService.LoadArchiveCommand.Execute(null);
                 await Task.WhenAll(CrawlerService.LibraryLoaded.Task, CrawlerService.DatabasesLoaded.Task);
                 CrawlerService.CheckIfDatabasesCompleteCommand.Execute(null);
+                await Task.WhenAll(CrawlerService.ArchiveLoaded.Task);
             }
             else if (loadAllDatabasesChanged)
             {
                 CrawlerService.DatabasesLoaded = new TaskCompletionSource<bool>();
+                CrawlerService.ArchiveLoaded = new TaskCompletionSource<bool>();
                 if (CrawlerService.StopCommand.CanExecute(null))
                 {
                     CrawlerService.StopCommand.Execute(null);
                 }
 
                 CrawlerService.LoadAllDatabasesCommand.Execute(null);
+                CrawlerService.LoadArchiveCommand.Execute(null);
+                await Task.WhenAll(CrawlerService.ArchiveLoaded.Task);
             }
         }
 
@@ -1215,6 +1266,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.ShowPicturePreview = ShowPicturePreview;
             _settings.DisplayConfirmationDialog = DisplayConfirmationDialog;
             _settings.DeleteOnlyIndex = DeleteOnlyIndex;
+            _settings.ArchiveIndex = ArchiveIndex;
             _settings.CheckOnlineStatusOnStartup = CheckOnlineStatusOnStartup;
             _settings.SkipGif = SkipGif;
             _settings.EnablePreview = EnablePreview;
@@ -1269,6 +1321,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.DownloadUrlList = DownloadUrlList;
             _settings.PortableMode = PortableMode;
             _settings.LoadAllDatabases = LoadAllDatabases;
+            _settings.LoadArchive = LoadArchive;
             _settings.ProxyHost = ProxyHost;
             _settings.ProxyPort = ProxyPort;
             _settings.ProxyUsername = ProxyUsername;

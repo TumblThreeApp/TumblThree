@@ -88,6 +88,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Archive the index files instead of deleting.
+        /// </summary>
+        public static string ArchiveIndex {
+            get {
+                return ResourceManager.GetString("ArchiveIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authenticate.
         /// </summary>
         public static string Authenticate {
@@ -1015,6 +1024,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to including archived blogs.
+        /// </summary>
+        public static string LoadArchive {
+            get {
+                return ResourceManager.GetString("LoadArchive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logged in as.
         /// </summary>
         public static string LoggedIn {
@@ -1578,6 +1596,25 @@ namespace TumblThree.Presentation.Properties {
         public static string TimeSpanTypeError {
             get {
                 return ResourceManager.GetString("TimeSpanTypeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Archive the index files instead of deleting.
+        /// </summary>
+        public static string ToolTipArchiveIndex {
+            get {
+                return ResourceManager.GetString("ToolTipArchiveIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If this option is activated, the index files are not deleted, but moved to a subfolder Archive inside the Index folder.
+        ///All index files inside this subfolder can be used for the global check for file duplicates, if activated..
+        /// </summary>
+        public static string ToolTipArchiveIndexDescription {
+            get {
+                return ResourceManager.GetString("ToolTipArchiveIndexDescription", resourceCulture);
             }
         }
         
@@ -2302,6 +2339,26 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipLoadAllDatabasesDescription {
             get {
                 return ResourceManager.GetString("ToolTipLoadAllDatabasesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include archived blog databases in the global check for file duplicates..
+        /// </summary>
+        public static string ToolTipLoadArchive {
+            get {
+                return ResourceManager.GetString("ToolTipLoadArchive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This option can only be activated if the global check has been activated.
+        ///If activated, not only all active blogs, but also all blog databases inside the Archive folder are used for duplicate check of a file.
+        ///Activation will increase the memory usage during operation based on the amount of already archived blogs..
+        /// </summary>
+        public static string ToolTipLoadArchiveDescription {
+            get {
+                return ResourceManager.GetString("ToolTipLoadArchiveDescription", resourceCulture);
             }
         }
         

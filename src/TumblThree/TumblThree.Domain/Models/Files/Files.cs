@@ -55,6 +55,8 @@ namespace TumblThree.Domain.Models.Files
 
         //public IList<string> Links => links;
 
+        public IList<FileEntry> Entries => entries;
+
         public bool IsDirty { get { return isDirty; } }
 
         private static bool IsMatch(FileEntry x, string filename, string appendTemplate)

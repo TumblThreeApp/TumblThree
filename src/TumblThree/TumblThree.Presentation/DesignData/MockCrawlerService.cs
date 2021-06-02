@@ -51,6 +51,8 @@ namespace TumblThree.Presentation.DesignData
 
         public ICommand LoadAllDatabasesCommand { get; set; }
 
+        public ICommand LoadArchiveCommand { get; set; }
+
         public ICommand CheckIfDatabasesCompleteCommand { get; set; }
 
         public ICommand ListenClipboardCommand { get; set; }
@@ -85,6 +87,8 @@ namespace TumblThree.Presentation.DesignData
         public TaskCompletionSource<bool> LibraryLoaded { get; set; }
 
         public TaskCompletionSource<bool> DatabasesLoaded { get; set; }
+
+        public TaskCompletionSource<bool> ArchiveLoaded { get; set; }
 
         public void SetActiveBlogFiles(IEnumerable<IBlog> blogFilesToAdd)
         {

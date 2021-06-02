@@ -819,4 +819,25 @@ La activación aumentará el uso de la memoria durante la operación según la c
   <data name="LanguageHint" xml:space="preserve">
     <value>* es necesario reiniciar la aplicación</value>
   </data>
+  <data name="LoadArchive" xml:space="preserve">
+    <value>incluidos los blogs archivados</value>
+  </data>
+  <data name="ToolTipLoadArchive" xml:space="preserve">
+    <value>Incluya bases de datos de blogs archivadas en la comprobación global de archivos duplicados.</value>
+  </data>
+  <data name="ToolTipLoadArchiveDescription" xml:space="preserve">
+    <value>Esta opción solo se puede activar si se ha activado la verificación global.
+Si está activado, no solo todos los blogs activos, sino también todas las bases de datos de blogs dentro de la carpeta Archivo se utilizan para la verificación de duplicados de un archivo.
+La activación aumentará el uso de memoria durante la operación en función de la cantidad de blogs ya archivados.</value>
+  </data>
+  <data name="ArchiveIndex" xml:space="preserve">
+    <value>Archivar los archivos de índice en lugar de eliminarlos</value>
+  </data>
+  <data name="ToolTipArchiveIndex" xml:space="preserve">
+    <value>Archivar los archivos de índice en lugar de eliminarlos</value>
+  </data>
+  <data name="ToolTipArchiveIndexDescription" xml:space="preserve">
+    <value>Si esta opción está activada, los archivos de índice no se eliminan, sino que se mueven a un archivo de subcarpeta dentro de la carpeta de índice.
+Todos los archivos de índice dentro de esta subcarpeta se pueden usar para la verificación global de archivos duplicados, si están activados.</value>
+  </data>
 </root>

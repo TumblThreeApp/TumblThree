@@ -53,6 +53,7 @@ namespace TumblThree.Applications.Controllers
         private readonly DelegateCommand _listenClipboardCommand;
         private readonly AsyncDelegateCommand _loadLibraryCommand;
         private readonly AsyncDelegateCommand _loadAllDatabasesCommand;
+        private readonly AsyncDelegateCommand _loadArchiveCommand;
         private readonly DelegateCommand _removeBlogCommand;
         private readonly DelegateCommand _showDetailsCommand;
         private readonly DelegateCommand _showFilesCommand;
@@ -65,6 +66,8 @@ namespace TumblThree.Applications.Controllers
         public delegate void BlogManagerFinishedLoadingLibraryHandler(object sender, EventArgs e);
 
         public delegate void BlogManagerFinishedLoadingDatabasesHandler(object sender, EventArgs e);
+
+        public delegate void BlogManagerFinishedLoadingArchiveHandler(object sender, EventArgs e);
 
         [ImportingConstructor]
         public ManagerController(IShellService shellService, ISelectionService selectionService, ICrawlerService crawlerService,
@@ -92,6 +95,7 @@ namespace TumblThree.Applications.Controllers
             _enqueueSelectedCommand = new DelegateCommand(EnqueueSelected, CanEnqueueSelected);
             _loadLibraryCommand = new AsyncDelegateCommand(LoadLibraryAsync, CanLoadLibrary);
             _loadAllDatabasesCommand = new AsyncDelegateCommand(LoadAllDatabasesAsync, CanLoadAllDatbases);
+            _loadArchiveCommand = new AsyncDelegateCommand(LoadArchiveAsync, CanLoadArchive);
             _checkIfDatabasesCompleteCommand = new DelegateCommand(CheckIfDatabasesComplete, CanCheckIfDatabasesComplete);
             _listenClipboardCommand = new DelegateCommand(ListenClipboard);
             _autoDownloadCommand = new DelegateCommand(EnqueueAutoDownload, CanEnqueueAutoDownload);
@@ -110,6 +114,8 @@ namespace TumblThree.Applications.Controllers
 
         public event BlogManagerFinishedLoadingDatabasesHandler BlogManagerFinishedLoadingDatabases;
 
+        public event BlogManagerFinishedLoadingArchiveHandler BlogManagerFinishedLoadingArchive;
+
         public async Task InitializeAsync()
         {
             _crawlerService.ImportBlogsCommand = _importBlogsCommand;
@@ -119,6 +125,7 @@ namespace TumblThree.Applications.Controllers
             _crawlerService.EnqueueSelectedCommand = _enqueueSelectedCommand;
             _crawlerService.LoadLibraryCommand = _loadLibraryCommand;
             _crawlerService.LoadAllDatabasesCommand = _loadAllDatabasesCommand;
+            _crawlerService.LoadArchiveCommand = _loadArchiveCommand;
             _crawlerService.CheckIfDatabasesCompleteCommand = _checkIfDatabasesCompleteCommand;
             _crawlerService.AutoDownloadCommand = _autoDownloadCommand;
             _crawlerService.ListenClipboardCommand = _listenClipboardCommand;
@@ -138,6 +145,7 @@ namespace TumblThree.Applications.Controllers
             ManagerViewModel.QueueItems.CollectionChanged += ManagerViewModel.QueueItemsCollectionChanged;
             BlogManagerFinishedLoadingLibrary += OnBlogManagerFinishedLoadingLibrary;
             BlogManagerFinishedLoadingDatabases += OnBlogManagerFinishedLoadingDatabases;
+            BlogManagerFinishedLoadingArchive += OnBlogManagerFinishedLoadingArchive;
 
             _shellService.ContentView = ManagerViewModel.View;
 
@@ -178,6 +186,9 @@ namespace TumblThree.Applications.Controllers
         private void OnBlogManagerFinishedLoadingDatabases(object sender, EventArgs e) =>
             _crawlerService.DatabasesLoaded.SetResult(true);
 
+        private void OnBlogManagerFinishedLoadingArchive(object sender, EventArgs e) =>
+            _crawlerService.ArchiveLoaded.SetResult(true);
+
         private void QueueItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove)
@@ -192,6 +203,7 @@ namespace TumblThree.Applications.Controllers
             // They remove blogs from the blog manager.
             await LoadLibraryAsync();
             await LoadAllDatabasesAsync();
+            await LoadArchiveAsync();
             CheckIfDatabasesComplete();
             await CheckBlogsOnlineStatusAsync();
         }
@@ -294,6 +306,27 @@ namespace TumblThree.Applications.Controllers
 
             BlogManagerFinishedLoadingDatabases?.Invoke(this, EventArgs.Empty);
             Logger.Verbose("ManagerController.LoadAllDatabasesAsync:End");
+        }
+
+        private async Task LoadArchiveAsync()
+        {
+            Logger.Verbose("ManagerController.LoadArchiveAsync:Start");
+            _managerService.ClearArchive();
+
+            if (_shellService.Settings.LoadArchive)
+            {
+                string path = Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive");
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+                IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(path);
+                foreach (IFiles archiveDB in archiveDatabases)
+                {
+                    _managerService.AddArchive(archiveDB);
+                }
+            }
+
+            BlogManagerFinishedLoadingArchive?.Invoke(this, EventArgs.Empty);
+            Logger.Verbose("ManagerController.LoadArchiveAsync:End");
         }
 
         private Task<IReadOnlyList<IFiles>> GetIFilesAsync(string directory) => Task.Factory.StartNew(
@@ -415,6 +448,8 @@ namespace TumblThree.Applications.Controllers
         private bool CanLoadLibrary() => !_crawlerService.IsCrawl;
 
         private bool CanLoadAllDatbases() => !_crawlerService.IsCrawl;
+
+        private bool CanLoadArchive() => !_crawlerService.IsCrawl;
 
         private bool CanCheckIfDatabasesComplete() => _crawlerService.DatabasesLoaded.Task.GetAwaiter().IsCompleted &&
                                                       _crawlerService.LibraryLoaded.Task.GetAwaiter().IsCompleted;
@@ -571,6 +606,9 @@ namespace TumblThree.Applications.Controllers
 
         private void RemoveBlog(IEnumerable<IBlog> blogs)
         {
+            if (_shellService.Settings.ArchiveIndex && !Directory.Exists(Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive")))
+                Directory.CreateDirectory(Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive"));
+
             foreach (IBlog blog in blogs)
             {
                 if (!_shellService.Settings.DeleteOnlyIndex)
@@ -591,8 +629,18 @@ namespace TumblThree.Applications.Controllers
                 string indexFile = Path.Combine(blog.Location, blog.Name) + "." + blog.OriginalBlogType;
                 try
                 {
-                    File.Delete(indexFile);
-                    File.Delete(blog.ChildId);
+                    if (_shellService.Settings.ArchiveIndex)
+                    {
+                        var indexMovedFile = indexFile.Replace(@"\Index\", @"\Index\Archive\");
+                        var childMovedFile = blog.ChildId.Replace(@"\Index\", @"\Index\Archive\");
+                        File.Move(indexFile, indexMovedFile);
+                        File.Move(blog.ChildId, childMovedFile);
+                    }
+                    else
+                    {
+                        File.Delete(indexFile);
+                        File.Delete(blog.ChildId);
+                    }
                 }
                 catch (Exception ex)
                 {

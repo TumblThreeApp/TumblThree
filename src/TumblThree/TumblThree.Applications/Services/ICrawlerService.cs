@@ -24,6 +24,8 @@ namespace TumblThree.Applications.Services
 
         ICommand LoadAllDatabasesCommand { get; set; }
 
+        ICommand LoadArchiveCommand { get; set; }
+
         ICommand CheckIfDatabasesCompleteCommand { get; set; }
 
         ICommand RemoveBlogFromQueueCommand { get; set; }
@@ -61,6 +63,8 @@ namespace TumblThree.Applications.Services
         TaskCompletionSource<bool> LibraryLoaded { get; set; }
 
         TaskCompletionSource<bool> DatabasesLoaded { get; set; }
+
+        TaskCompletionSource<bool> ArchiveLoaded { get; set; }
 
         void AddActiveItems(QueueListItem itemToAdd);
 

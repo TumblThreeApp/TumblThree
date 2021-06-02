@@ -822,4 +822,25 @@ L'activation augmentera l'utilisation de la mémoire pendant le fonctionnement e
   <data name="LanguageHint" xml:space="preserve">
     <value>* redémarrage de l'application requis</value>
   </data>
+  <data name="LoadArchive" xml:space="preserve">
+    <value>y compris les blogs archivés</value>
+  </data>
+  <data name="ToolTipLoadArchive" xml:space="preserve">
+    <value>Inclure les bases de données de blog archivées dans la vérification globale des doublons de fichiers.</value>
+  </data>
+  <data name="ToolTipLoadArchiveDescription" xml:space="preserve">
+    <value>Cette option ne peut être activée que si le contrôle global a été activé.
+S'il est activé, non seulement tous les blogs actifs, mais également toutes les bases de données de blog dans le dossier Archive sont utilisés pour la vérification des doublons d'un fichier.
+L'activation augmentera l'utilisation de la mémoire pendant le fonctionnement en fonction du nombre de blogs déjà archivés.</value>
+  </data>
+  <data name="ArchiveIndex" xml:space="preserve">
+    <value>Archiver les fichiers d'index au lieu de les supprimer</value>
+  </data>
+  <data name="ToolTipArchiveIndex" xml:space="preserve">
+    <value>Archiver les fichiers d'index au lieu de les supprimer</value>
+  </data>
+  <data name="ToolTipArchiveIndexDescription" xml:space="preserve">
+    <value>Si cette option est activée, les fichiers d'index ne sont pas supprimés, mais déplacés vers un sous-dossier Archive dans le dossier Index.
+Tous les fichiers d'index de ce sous-dossier peuvent être utilisés pour la vérification globale des doublons de fichiers, s'ils sont activés.</value>
+  </data>
 </root>

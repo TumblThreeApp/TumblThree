@@ -23,12 +23,14 @@ namespace TumblThree.Applications.Services
         private ICommand _enqueueSelectedCommand;
         private ICommand _loadLibraryCommand;
         private ICommand _loadAllDatabasesCommand;
+        private ICommand _loadArchiveCommand;
         private ICommand _checkIfDatabasesCompleteCommand;
         private bool _isCrawl;
         private bool _isPaused;
         private bool _isTimerSet;
         private TaskCompletionSource<bool> _libraryLoaded;
         private TaskCompletionSource<bool> _databasesLoaded;
+        private TaskCompletionSource<bool> _archiveLoaded;
         private ICommand _listenClipboardCommand;
         private string _newBlogUrl;
         private ICommand _pauseCommand;
@@ -61,6 +63,7 @@ namespace TumblThree.Applications.Services
             _readonlyActiveItems = new ReadOnlyObservableList<QueueListItem>(_activeItems);
             _libraryLoaded = new TaskCompletionSource<bool>();
             _databasesLoaded = new TaskCompletionSource<bool>();
+            _archiveLoaded = new TaskCompletionSource<bool>();
             _activeItems.CollectionChanged += ActiveItemsCollectionChanged;
         }
 
@@ -80,6 +83,12 @@ namespace TumblThree.Applications.Services
         {
             get => _databasesLoaded;
             set => SetProperty(ref _databasesLoaded, value);
+        }
+
+        public TaskCompletionSource<bool> ArchiveLoaded
+        {
+            get => _archiveLoaded;
+            set => SetProperty(ref _archiveLoaded, value);
         }
 
         public Timer Timer
@@ -130,6 +139,12 @@ namespace TumblThree.Applications.Services
         {
             get => _loadAllDatabasesCommand;
             set => SetProperty(ref _loadAllDatabasesCommand, value);
+        }
+
+        public ICommand LoadArchiveCommand
+        {
+            get => _loadArchiveCommand;
+            set => SetProperty(ref _loadArchiveCommand, value);
         }
 
         public ICommand CheckIfDatabasesCompleteCommand

@@ -171,6 +171,9 @@ namespace TumblThree.Applications.Properties
         public bool DeleteOnlyIndex { get; set; }
 
         [DataMember]
+        public bool ArchiveIndex { get; set; }
+
+        [DataMember]
         public bool CheckOnlineStatusOnStartup { get; set; }
 
         [DataMember]
@@ -319,6 +322,9 @@ namespace TumblThree.Applications.Properties
 
         [DataMember]
         public bool LoadAllDatabases { get; set; }
+
+        [DataMember]
+        public bool LoadArchive { get; set; }
 
         [DataMember]
         public string ProxyHost { get; set; }
@@ -489,6 +495,7 @@ namespace TumblThree.Applications.Properties
             ShowPicturePreview = true;
             DisplayConfirmationDialog = false;
             DeleteOnlyIndex = true;
+            ArchiveIndex = false;
             CheckOnlineStatusOnStartup = false;
             SkipGif = false;
             EnablePreview = true;
@@ -517,6 +524,7 @@ namespace TumblThree.Applications.Properties
             DownloadUrlList = false;
             PortableMode = false;
             LoadAllDatabases = false;
+            LoadArchive = false;
             ProxyHost = string.Empty;
             ProxyPort = string.Empty;
             ProxyUsername = string.Empty;

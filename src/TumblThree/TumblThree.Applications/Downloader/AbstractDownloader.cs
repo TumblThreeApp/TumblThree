@@ -316,7 +316,7 @@ namespace TumblThree.Applications.Downloader
             string filenameNew = FileNameNew(downloadItem);
             if (shellService.Settings.LoadAllDatabases)
             {
-                return managerService.CheckIfFileExistsInDB(filename);
+                return managerService.CheckIfFileExistsInDB(filename, shellService.Settings.LoadArchive);
             }
 
             return files.CheckIfFileExistsInDB(filename) || blog.CheckIfBlogShouldCheckDirectory(filename, filenameNew);

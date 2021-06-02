@@ -14,19 +14,22 @@ namespace TumblThree.Applications.Services
     {
         private readonly IList<IFiles> databases;
         private readonly object databasesLock = new object();
+        private readonly ISet<string> archivedLinks;
+        private readonly object archiveLock = new object();
 
         [ImportingConstructor]
         public ManagerService()
         {
             BlogFiles = new ObservableCollection<IBlog>();
             databases = new List<IFiles>();
+            archivedLinks = new HashSet<string>();
         }
 
         public ObservableCollection<IBlog> BlogFiles { get; }
 
         public IEnumerable<IFiles> Databases => databases;
 
-        public bool CheckIfFileExistsInDB(string filename)
+        public bool CheckIfFileExistsInDB(string filename, bool checkArchive)
         {
             lock (databasesLock)
             {
@@ -34,8 +37,15 @@ namespace TumblThree.Applications.Services
                 {
                     if (db.CheckIfFileExistsInDB(filename)) return true;
                 }
-                return false;
             }
+            if (checkArchive)
+            {
+                lock (archiveLock)
+                {
+                    if (archivedLinks.Contains(filename)) return true;
+                }
+            }
+            return false;
         }
 
         public void RemoveDatabase(IFiles database)
@@ -59,6 +69,25 @@ namespace TumblThree.Applications.Services
             lock (databasesLock)
             {
                 databases.Clear();
+            }
+        }
+
+        public void AddArchive(IFiles archiveDB)
+        {
+            lock (archiveLock)
+            {
+                foreach (var entry in archiveDB.Entries)
+                {
+                    archivedLinks.Add(entry.Link);
+                }
+            }
+        }
+
+        public void ClearArchive()
+        {
+            lock (archiveLock)
+            {
+                archivedLinks.Clear();
             }
         }
     }
