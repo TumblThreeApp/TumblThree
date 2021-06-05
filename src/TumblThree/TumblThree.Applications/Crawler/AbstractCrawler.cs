@@ -361,8 +361,8 @@ namespace TumblThree.Applications.Crawler
 
         protected bool HandleServiceUnavailableWebException(WebException webException)
         {
-            var resp = (HttpWebResponse)webException.Response;
-            if (!(resp.StatusCode == HttpStatusCode.ServiceUnavailable || resp.StatusCode == HttpStatusCode.Unauthorized))
+            var resp = (HttpWebResponse)webException?.Response;
+            if (resp == null || !(resp.StatusCode == HttpStatusCode.ServiceUnavailable || resp.StatusCode == HttpStatusCode.Unauthorized))
             {
                 return false;
             }
@@ -374,8 +374,8 @@ namespace TumblThree.Applications.Crawler
 
         protected bool HandleNotFoundWebException(WebException webException)
         {
-            var resp = (HttpWebResponse)webException.Response;
-            if (resp.StatusCode != HttpStatusCode.NotFound)
+            var resp = (HttpWebResponse)webException?.Response;
+            if (resp == null || resp.StatusCode != HttpStatusCode.NotFound)
             {
                 return false;
             }
@@ -387,7 +387,7 @@ namespace TumblThree.Applications.Crawler
 
         protected bool HandleLimitExceededWebException(WebException webException)
         {
-            var resp = (HttpWebResponse)webException.Response;
+            var resp = (HttpWebResponse)webException?.Response;
             if (resp == null || (int)resp.StatusCode != 429)
             {
                 return false;
@@ -400,7 +400,7 @@ namespace TumblThree.Applications.Crawler
 
         protected bool HandleUnauthorizedWebException(WebException webException)
         {
-            var resp = (HttpWebResponse)webException.Response;
+            var resp = (HttpWebResponse)webException?.Response;
             if (resp == null || resp.StatusCode != HttpStatusCode.Unauthorized)
             {
                 return false;
