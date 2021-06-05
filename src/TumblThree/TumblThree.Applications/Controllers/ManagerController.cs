@@ -511,11 +511,16 @@ namespace TumblThree.Applications.Controllers
             }
             catch (WebException we)
             {
-                if (((HttpWebResponse)we.Response).StatusCode == HttpStatusCode.NotFound)
+                if (we.Response != null && ((HttpWebResponse)we.Response).StatusCode == HttpStatusCode.NotFound)
                 {
                     Logger.Error($"ManagerController:AddBlog: {we.Message}");
                     _shellService.ShowError(we, Resources.CouldNotAddBlog, $"{_crawlerService.NewBlogUrl} not found");
                     CleanFailedAddBlog();
+                }
+                else
+                {
+                    Logger.Error($"ManagerController:AddBlog: {we}");
+                    _shellService.ShowError(we, we.Message);
                 }
             }
             catch (Exception e)
