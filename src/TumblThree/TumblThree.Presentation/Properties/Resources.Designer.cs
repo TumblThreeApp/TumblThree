@@ -2088,6 +2088,7 @@ namespace TumblThree.Presentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The following tokens can be used in the filename template:
         ///  %f   original filename (default)
+        ///  %b  blog name
         ///  %d  post date (yyyymmdd)
         ///  %u  post timestamp (number)
         ///  %p  post title

@@ -18,12 +18,14 @@ using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
 using System.IO;
 using TumblThree.Applications.Downloader;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace TumblThree.Applications.Crawler
 {
     public abstract class AbstractTumblrCrawler : AbstractCrawler
     {
-        private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = .*({\"imageResponse\":\\[[^]]*]})");
+        private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
 
         public ITumblrParser TumblrParser { get; }
 
@@ -332,6 +334,18 @@ namespace TumblThree.Applications.Crawler
             };
         }
 
+        private static ImageResponse DeserializeImageResponse(string s)
+        {
+            var list = new List<Image>();
+            JObject o = JObject.Parse(s);
+            for (int i = 0; i < 10; i++)
+            {
+                if (o["ImageUrlPage"]["photo"]["imageResponse"][i.ToString()] != null) 
+                    list.Add(JsonConvert.DeserializeObject<Image>(o["ImageUrlPage"]["photo"]["imageResponse"][i.ToString()].ToString()));
+            }
+            return new ImageResponse() { Images = list };
+        }
+
         protected string RetrieveOriginalImageUrl(string url, int width, int height)
         {
             if (width > height) { (width, height) = (height, width); }
@@ -352,14 +366,24 @@ namespace TumblThree.Applications.Crawler
             }
             catch (Exception e)
             {
-                Logger.Error("TumblrBlogCrawler:RetrieveRawImageUrl:Exception {0}", e);
+                Logger.Error("AbstractTumblrCrawler:RetrieveOriginalImageUrl: {0}", e);
                 return url;
             }
-            pageContent = extractJsonFromPage.Match(pageContent).Groups[1].Value;
-            ImageResponse imgRsp = ConvertJsonToClass<ImageResponse>(pageContent);
-            Image img = imgRsp.Images.FirstOrDefault(x => x.HasOriginalDimensions = true);
-
-            return string.IsNullOrEmpty(img.MediaKey) ? url : img.Url;
+            try
+            {
+                var extracted = extractJsonFromPage.Match(pageContent).Groups[1].Value;
+                extracted = new Regex("/.*/").Replace(extracted, "\"\"");
+                ImageResponse imgRsp = DeserializeImageResponse(extracted);
+                int maxWidth = imgRsp.Images.Max(x => x.Width);
+                Image img = imgRsp.Images.FirstOrDefault(x => x.Width == maxWidth);
+                return string.IsNullOrEmpty(img?.MediaKey) ? url : img.Url;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("AbstractTumblrCrawler:RetrieveOriginalImageUrl: {0}", ex);
+                ShellService.ShowError(ex, Resources.PostNotParsable, Blog.Name);
+                return url;
+            }
         }
 
         protected void UpdateBlogDuplicates()

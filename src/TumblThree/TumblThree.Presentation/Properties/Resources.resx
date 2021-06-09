@@ -1033,6 +1033,7 @@ template: {Post Id}_{Photo Index}_{Original Filename}</value>
   <data name="ToolTipFilenameTemplateDescription" xml:space="preserve">
     <value>The following tokens can be used in the filename template:
   %f   original filename (default)
+  %b  blog name
   %d  post date (yyyymmdd)
   %u  post timestamp (number)
   %p  post title
