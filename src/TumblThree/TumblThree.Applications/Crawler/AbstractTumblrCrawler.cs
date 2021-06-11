@@ -338,10 +338,21 @@ namespace TumblThree.Applications.Crawler
         {
             var list = new List<Image>();
             JObject o = JObject.Parse(s);
-            for (int i = 0; i < 10; i++)
+            if (o["ImageUrlPage"]["photo"]["imageResponse"].Type is JTokenType.Array)
             {
-                if (o["ImageUrlPage"]["photo"]["imageResponse"][i.ToString()] != null) 
-                    list.Add(JsonConvert.DeserializeObject<Image>(o["ImageUrlPage"]["photo"]["imageResponse"][i.ToString()].ToString()));
+                for (int i = 0; i < o["ImageUrlPage"]["photo"]["imageResponse"].Count(); i++)
+                {
+                    if (o["ImageUrlPage"]["photo"]["imageResponse"][i] != null)
+                        list.Add(JsonConvert.DeserializeObject<Image>(o["ImageUrlPage"]["photo"]["imageResponse"][i].ToString()));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    if (o["ImageUrlPage"]["photo"]["imageResponse"][i.ToString()] != null)
+                        list.Add(JsonConvert.DeserializeObject<Image>(o["ImageUrlPage"]["photo"]["imageResponse"][i.ToString()].ToString()));
+                }
             }
             return new ImageResponse() { Images = list };
         }
@@ -355,19 +366,32 @@ namespace TumblThree.Applications.Crawler
 
             url = url.Replace("/s1280x1920/", (width <= 2048 && height <= 3072) ? "/s2048x3072/" : "/s99999x99999/");
             string pageContent = "";
-            try
+            int errCnt = 0;
+            Exception lastError = null;
+            do
             {
-                HttpWebRequest request = WebRequestFactory.CreateGetRequest(url, "",
-                    new Dictionary<string, string>() { { "Accept-Language", "en-US" }, { "Accept-Encoding", "gzip, deflate" } }, false);
-                request.Accept = "text/html, application/xhtml+xml, */*";
-                request.UserAgent = ShellService.Settings.UserAgent;
-                request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-                pageContent = WebRequestFactory.ReadRequestToEndAsync(request).GetAwaiter().GetResult();
-            }
-            catch (Exception e)
+                try
+                {
+                    HttpWebRequest request = WebRequestFactory.CreateGetRequest(url, "",
+                        new Dictionary<string, string>() { { "Accept-Language", "en-US" }, { "Accept-Encoding", "gzip, deflate" } }, false);
+                    request.Accept = "text/html, application/xhtml+xml, */*";
+                    request.UserAgent = ShellService.Settings.UserAgent;
+                    request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                    pageContent = WebRequestFactory.ReadRequestToEndAsync(request).GetAwaiter().GetResult();
+                    errCnt = 9;
+                }
+                catch (Exception e)
+                {
+                    errCnt++;
+                    Logger.Error("AbstractTumblrCrawler:RetrieveOriginalImageUrl: {0}", e);
+                    lastError = e;
+                    if (errCnt == 1) Thread.Sleep(10000);
+                }
+            } while (errCnt < 2);
+            if (errCnt == 2)
             {
-                Logger.Error("AbstractTumblrCrawler:RetrieveOriginalImageUrl: {0}", e);
-                return url;
+                ShellService.ShowError(lastError, Resources.PostNotParsable, Blog.Name);
+                throw new NullReferenceException("RetrieveOriginalImageUrl download", lastError);
             }
             try
             {
@@ -382,7 +406,7 @@ namespace TumblThree.Applications.Crawler
             {
                 Logger.Error("AbstractTumblrCrawler:RetrieveOriginalImageUrl: {0}", ex);
                 ShellService.ShowError(ex, Resources.PostNotParsable, Blog.Name);
-                return url;
+                throw new NullReferenceException("RetrieveOriginalImageUrl parsing", ex);
             }
         }
 

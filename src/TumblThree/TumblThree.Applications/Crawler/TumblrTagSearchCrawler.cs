@@ -145,8 +145,9 @@ namespace TumblThree.Applications.Crawler
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Error("CrawlPageAsync: {0}", e);
             }
             finally
             {
@@ -175,33 +176,40 @@ namespace TumblThree.Applications.Crawler
                         continue;
                     }
                     int index = -1;
-                    foreach (var content in post.Content)
+                    try
                     {
-                        Post data = new Post()
+                        foreach (var content in post.Content)
                         {
-                            Date = DateTimeOffset.FromUnixTimeSeconds(post.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
-                            Type = ConvertContentTypeToPostType(content.Type),
-                            Id = post.Id,
-                            Tags = new List<string>(post.Tags),
-                            Slug = post.Slug,
-                            RegularTitle = post.Summary,
-                            RebloggedFromName = "",
-                            ReblogKey = post.ReblogKey,
-                            UnixTimestamp = post.Timestamp,
-                            Submitter = post.BlogName
-                        };
-                        index += (post.Content.Count > 1) ? 1 : 0;
-                        DownloadMedia(content, data, index);
+                            Post data = new Post()
+                            {
+                                Date = DateTimeOffset.FromUnixTimeSeconds(post.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
+                                Type = ConvertContentTypeToPostType(content.Type),
+                                Id = post.Id,
+                                Tags = new List<string>(post.Tags),
+                                Slug = post.Slug,
+                                RegularTitle = post.Summary,
+                                RebloggedFromName = "",
+                                ReblogKey = post.ReblogKey,
+                                UnixTimestamp = post.Timestamp,
+                                Submitter = post.BlogName
+                            };
+                            index += (post.Content.Count > 1) ? 1 : 0;
+                            DownloadMedia(content, data, index);
+                        }
+                        AddToJsonQueue(new TumblrCrawlerData<Datum>(Path.ChangeExtension(post.Id, ".json"), post));
                     }
-                    AddToJsonQueue(new TumblrCrawlerData<Datum>(Path.ChangeExtension(post.Id, ".json"), post));
+                    catch (TimeoutException timeoutException)
+                    {
+                        HandleTimeoutException(timeoutException, Resources.Crawling);
+                    }
+                    catch (NullReferenceException e)
+                    {
+                    }
                 }
             }
-            catch (TimeoutException timeoutException)
+            catch (Exception e)
             {
-                HandleTimeoutException(timeoutException, Resources.Crawling);
-            }
-            catch
-            {
+                Logger.Error("DownloadMedia: {0}", e);
             }
         }
 
@@ -217,32 +225,39 @@ namespace TumblThree.Applications.Crawler
                         continue;
                     }
                     int index = -1;
-                    foreach (var content in data.Content)
+                    try
                     {
-                        Post post = new Post()
+                        foreach (var content in data.Content)
                         {
-                            Date = DateTimeOffset.FromUnixTimeSeconds(data.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
-                            Type = ConvertContentTypeToPostType(content.Type),
-                            Id = data.Id,
-                            Tags = new List<string>(data.Tags),
-                            Slug = data.Slug,
-                            RegularTitle = data.Summary,
-                            RebloggedFromName = "",
-                            ReblogKey = data.ReblogKey,
-                            UnixTimestamp = data.Timestamp,
-                            Submitter = data.BlogName
-                        };
-                        index += (data.Content.Count > 1) ? 1 : 0;
-                        DownloadMedia(content, post, index);
+                            Post post = new Post()
+                            {
+                                Date = DateTimeOffset.FromUnixTimeSeconds(data.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
+                                Type = ConvertContentTypeToPostType(content.Type),
+                                Id = data.Id,
+                                Tags = new List<string>(data.Tags),
+                                Slug = data.Slug,
+                                RegularTitle = data.Summary,
+                                RebloggedFromName = "",
+                                ReblogKey = data.ReblogKey,
+                                UnixTimestamp = data.Timestamp,
+                                Submitter = data.BlogName
+                            };
+                            index += (data.Content.Count > 1) ? 1 : 0;
+                            DownloadMedia(content, post, index);
+                        }
+                    }
+                    catch (TimeoutException timeoutException)
+                    {
+                        HandleTimeoutException(timeoutException, Resources.Crawling);
+                    }
+                    catch (NullReferenceException e)
+                    {
                     }
                 }
             }
-            catch (TimeoutException timeoutException)
+            catch (Exception e)
             {
-                HandleTimeoutException(timeoutException, Resources.Crawling);
-            }
-            catch
-            {
+                Logger.Error("DownloadMedia: {0}", e);
             }
         }
 
