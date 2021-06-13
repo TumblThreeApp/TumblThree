@@ -21,7 +21,7 @@ namespace TumblThree.Domain.Models.Files
         protected List<string> links;
 
         [DataMember(Name = "Entries")]
-        protected List<FileEntry> entries;
+        protected HashSet<FileEntry> entries;
 
         protected bool isDirty;
 
@@ -38,7 +38,7 @@ namespace TumblThree.Domain.Models.Files
             Location = location;
             Version = "3";
             //links = new List<string>();
-            entries = new List<FileEntry>();
+            entries = new HashSet<FileEntry>(new FileEntryComparer());
         }
 
         [DataMember]
@@ -55,7 +55,7 @@ namespace TumblThree.Domain.Models.Files
 
         //public IList<string> Links => links;
 
-        public IList<FileEntry> Entries => entries;
+        public IEnumerable<FileEntry> Entries => entries;
 
         public bool IsDirty { get { return isDirty; } }
 
@@ -91,11 +91,10 @@ namespace TumblThree.Domain.Models.Files
 
         public virtual bool CheckIfFileExistsInDB(string filenameUrl)
         {
-            //string fileName = filenameUrl.Split('/').Last();
             Monitor.Enter(_lockList);
             try
             {
-                return entries.Any(x => x.Link.Equals(filenameUrl));
+                return entries.Contains(new FileEntry() { Link = filenameUrl });
             }
             finally
             {
@@ -123,6 +122,7 @@ namespace TumblThree.Domain.Models.Files
             {
                 var serializer = new DataContractJsonSerializer(typeof(Files));
                 var file = (Files)serializer.ReadObject(stream);
+                if (file.entries != null) file.entries = new HashSet<FileEntry>(file.entries, new FileEntryComparer());
 
                 if (file.Version == "1")
                 {
@@ -138,7 +138,7 @@ namespace TumblThree.Domain.Models.Files
                 }
                 if (file.Version == "2")
                 {
-                    file.entries = new List<FileEntry>();
+                    file.entries = new HashSet<FileEntry>(new FileEntryComparer());
                     for (int i = 0; i < file.links.Count; i++)
                     {
                         var fn = file.links[i];
@@ -155,10 +155,9 @@ namespace TumblThree.Domain.Models.Files
                 {
                     // the cleanup 1 -> 2 destroyed valid links too, so clean up these orphaned links
                     var invalidChars = Path.GetInvalidFileNameChars();
-                    var newList = new List<FileEntry>();
-                    for (int i = 0; i < file.Entries.Count; i++)
+                    var newList = new HashSet<FileEntry>(new FileEntryComparer());
+                    foreach (var entry in file.entries)
                     {
-                        var entry = file.Entries[i];
                         var re = new Regex(@"^(1280|540|500|400|250|100|75sq|720|640)(\.[^.]*$|$)");
                         if (!re.IsMatch(entry.Link))
                             newList.Add(entry);
@@ -190,14 +189,14 @@ namespace TumblThree.Domain.Models.Files
                 {
                     if (File.Exists(currentIndex))
                     {
-                        SaveBlog(newIndex);
+                        Save(newIndex);
 
                         File.Replace(newIndex, currentIndex, backupIndex, true);
                         File.Delete(backupIndex);
                     }
                     else
                     {
-                        SaveBlog(currentIndex);
+                        Save(currentIndex);
                     }
 
                     isDirty = false;
@@ -212,7 +211,7 @@ namespace TumblThree.Domain.Models.Files
             }
         }
 
-        private void SaveBlog(string path)
+        private void Save(string path)
         {
             using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
