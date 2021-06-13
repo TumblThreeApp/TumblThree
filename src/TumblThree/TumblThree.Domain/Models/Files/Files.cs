@@ -15,7 +15,7 @@ namespace TumblThree.Domain.Models.Files
     [DataContract]
     public class Files : Model, IFiles
     {
-        private const int MAX_SUPPORTED_DB_VERSION = 3;
+        private const int MAX_SUPPORTED_DB_VERSION = 4;
 
         [DataMember(Name = "Links", IsRequired = false, EmitDefaultValue = false)]
         protected List<string> links;
@@ -128,7 +128,7 @@ namespace TumblThree.Domain.Models.Files
                 {
                     for (int i = 0; i < file.links.Count; i++)
                     {
-                        if (file.links[i].Count(c => c == '_') == 2)
+                        if (!file.links[i].StartsWith("tumblr") && file.links[i].Count(c => c == '_') == 2)
                         {
                             file.links[i] = file.links[i].Substring(file.links[i].LastIndexOf('_') + 1);
                         }
@@ -150,6 +150,22 @@ namespace TumblThree.Domain.Models.Files
                     var backupFilename = Path.Combine(backupPath, Path.GetFileName(fileLocation));
                     Directory.CreateDirectory(backupPath);
                     if (!File.Exists(backupFilename)) File.Copy(fileLocation, backupFilename);
+                }
+                if (file.Version == "3")
+                {
+                    // the cleanup 1 -> 2 destroyed valid links too, so clean up these orphaned links
+                    var invalidChars = Path.GetInvalidFileNameChars();
+                    var newList = new List<FileEntry>();
+                    for (int i = 0; i < file.Entries.Count; i++)
+                    {
+                        var entry = file.Entries[i];
+                        var re = new Regex(@"^(1280|540|500|400|250|100|75sq|720|640)(\.[^.]*$|$)");
+                        if (!re.IsMatch(entry.Link))
+                            newList.Add(entry);
+                    }
+                    file.Version = "4";
+                    file.isDirty = true;
+                    file.entries = newList;
                 }
                 if (int.Parse(file.Version) > MAX_SUPPORTED_DB_VERSION)
                 {
