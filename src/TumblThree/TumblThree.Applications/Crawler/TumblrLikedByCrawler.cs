@@ -282,7 +282,7 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            AddTumblrPhotoUrl(document, null);
+            AddTumblrPhotoUrl(document, new DataModels.TumblrApiJson.Post());
 
             if (Blog.RegExPhotos)
             {
