@@ -38,6 +38,7 @@ namespace TumblThree.Applications.Downloader
         private SemaphoreSlim concurrentConnectionsSemaphore;
         private SemaphoreSlim concurrentVideoConnectionsSemaphore;
         private readonly Dictionary<string, StreamWriter> streamWriters = new Dictionary<string, StreamWriter>();
+        private HashSet<string> diskFiles = null;
 
         protected AbstractDownloader(IShellService shellService, IManagerService managerService, CancellationToken ct, PauseToken pt, IProgress<DownloadProgress> progress, IPostQueue<TumblrPost> postQueue, FileDownloader fileDownloader, ICrawlerService crawlerService = null, IBlog blog = null, IFiles files = null)
         {
@@ -251,11 +252,32 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
+        private bool CheckIfLinkRestored(TumblrPost downloadItem)
+        {
+            if (!blog.ForceRescan || blog.FilenameTemplate != "%f") return false;
+            if (diskFiles == null)
+            {
+                diskFiles = new HashSet<string>();
+                foreach (var item in Directory.GetFiles(blog.DownloadLocation(), "*", SearchOption.TopDirectoryOnly))
+                {
+                    if (!string.Equals(Path.GetExtension(item), ".json", StringComparison.OrdinalIgnoreCase))
+                        diskFiles.Add(Path.GetFileName(item).ToLower());
+                }
+            }
+            var filename = downloadItem.Url.Split('/').Last().ToLower();
+            return diskFiles.Contains(filename);
+        }
+
         protected virtual async Task<bool> DownloadBinaryPostAsync(TumblrPost downloadItem)
         {
             if (CheckIfFileExistsInDB(downloadItem))
             {
                 string fileName = FileName(downloadItem);
+                UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
+            }
+            else if (CheckIfLinkRestored(downloadItem))
+            {
+                string fileName = AddFileToDb(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
             }
             else
@@ -308,6 +330,11 @@ namespace TumblThree.Applications.Downloader
                 return downloadItem.Filename;
             }
             return files.AddFileToDb(FileName(downloadItem), downloadItem.Filename, AppendTemplate);
+        }
+
+        public bool CheckIfFileExistsInDB(string filenameUrl)
+        {
+            return files.CheckIfFileExistsInDB(filenameUrl);
         }
 
         private bool CheckIfFileExistsInDB(TumblrPost downloadItem)

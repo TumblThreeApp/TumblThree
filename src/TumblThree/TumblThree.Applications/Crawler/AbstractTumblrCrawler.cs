@@ -385,10 +385,10 @@ namespace TumblThree.Applications.Crawler
                     errCnt++;
                     Logger.Error("AbstractTumblrCrawler:RetrieveOriginalImageUrl: {0}", e);
                     lastError = e;
-                    if (errCnt == 1) Thread.Sleep(10000);
+                    if (errCnt < 3) Thread.Sleep(errCnt * 10000);
                 }
-            } while (errCnt < 2);
-            if (errCnt == 2)
+            } while (errCnt < 3);
+            if (errCnt == 3)
             {
                 ShellService.ShowError(lastError, Resources.PostNotParsable, Blog.Name);
                 throw new NullReferenceException("RetrieveOriginalImageUrl download", lastError);

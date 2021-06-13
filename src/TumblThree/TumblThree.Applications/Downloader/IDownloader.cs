@@ -12,5 +12,7 @@ namespace TumblThree.Applications.Downloader
         void UpdateProgressQueueInformation(string format, params object[] args);
 
         Task<string> DownloadPageAsync(string url);
+
+        bool CheckIfFileExistsInDB(string filenameUrl);
     }
 }
