@@ -47,7 +47,8 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
         public AdPlacementConfiguration AdPlacementConfiguration { get; set; }
 
         [JsonProperty("privacy")]
-        public Privacy Privacy { get; set; }
+        [JsonConverter(typeof(SingleOrArrayConverter<Privacy>))]
+        public IList<Privacy> Privacy { get; set; }
 
         [JsonProperty("endlessScrollingDisabled")]
         public bool EndlessScrollingDisabled { get; set; }
