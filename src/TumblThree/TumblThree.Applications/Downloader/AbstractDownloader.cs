@@ -38,7 +38,8 @@ namespace TumblThree.Applications.Downloader
         private SemaphoreSlim concurrentConnectionsSemaphore;
         private SemaphoreSlim concurrentVideoConnectionsSemaphore;
         private readonly Dictionary<string, StreamWriter> streamWriters = new Dictionary<string, StreamWriter>();
-        private HashSet<string> diskFiles = null;
+        private readonly object diskFilesLock = new object();
+        private HashSet<string> diskFiles;
 
         protected AbstractDownloader(IShellService shellService, IManagerService managerService, CancellationToken ct, PauseToken pt, IProgress<DownloadProgress> progress, IPostQueue<TumblrPost> postQueue, FileDownloader fileDownloader, ICrawlerService crawlerService = null, IBlog blog = null, IFiles files = null)
         {
@@ -255,17 +256,20 @@ namespace TumblThree.Applications.Downloader
         private bool CheckIfLinkRestored(TumblrPost downloadItem)
         {
             if (!blog.ForceRescan || blog.FilenameTemplate != "%f") return false;
-            if (diskFiles == null)
+            lock (diskFilesLock)
             {
-                diskFiles = new HashSet<string>();
-                foreach (var item in Directory.GetFiles(blog.DownloadLocation(), "*", SearchOption.TopDirectoryOnly))
+                if (diskFiles == null)
                 {
-                    if (!string.Equals(Path.GetExtension(item), ".json", StringComparison.OrdinalIgnoreCase))
-                        diskFiles.Add(Path.GetFileName(item).ToLower());
+                    diskFiles = new HashSet<string>();
+                    foreach (var item in Directory.EnumerateFiles(blog.DownloadLocation(), "*", SearchOption.TopDirectoryOnly))
+                    {
+                        if (!string.Equals(Path.GetExtension(item), ".json", StringComparison.OrdinalIgnoreCase))
+                            diskFiles.Add(Path.GetFileName(item).ToLower());
+                    }
                 }
+                var filename = downloadItem.Url.Split('/').Last().ToLower();
+                return diskFiles.Contains(filename);
             }
-            var filename = downloadItem.Url.Split('/').Last().ToLower();
-            return diskFiles.Contains(filename);
         }
 
         protected virtual async Task<bool> DownloadBinaryPostAsync(TumblrPost downloadItem)
@@ -275,7 +279,12 @@ namespace TumblThree.Applications.Downloader
                 string fileName = FileName(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
             }
-            else if (CheckIfLinkRestored(downloadItem))
+            else if (!shellService.Settings.LoadAllDatabases && blog.CheckDirectoryForFiles && blog.CheckIfBlogShouldCheckDirectory(FileName(downloadItem), FileNameNew(downloadItem)))
+            {
+                string fileName = AddFileToDb(downloadItem);
+                UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
+            }
+            else if ((shellService.Settings.LoadAllDatabases || !blog.CheckDirectoryForFiles) && CheckIfLinkRestored(downloadItem))
             {
                 string fileName = AddFileToDb(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
@@ -340,13 +349,12 @@ namespace TumblThree.Applications.Downloader
         private bool CheckIfFileExistsInDB(TumblrPost downloadItem)
         {
             string filename = FileName(downloadItem);
-            string filenameNew = FileNameNew(downloadItem);
             if (shellService.Settings.LoadAllDatabases)
             {
                 return managerService.CheckIfFileExistsInDB(filename, shellService.Settings.LoadArchive);
             }
 
-            return files.CheckIfFileExistsInDB(filename) || blog.CheckIfBlogShouldCheckDirectory(filename, filenameNew);
+            return files.CheckIfFileExistsInDB(filename);
         }
 
         private void DownloadTextPost(TumblrPost downloadItem)
