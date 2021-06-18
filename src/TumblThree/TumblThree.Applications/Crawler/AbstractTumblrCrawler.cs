@@ -380,6 +380,11 @@ namespace TumblThree.Applications.Crawler
                     pageContent = WebRequestFactory.ReadRequestToEndAsync(request).GetAwaiter().GetResult();
                     errCnt = 9;
                 }
+                catch (WebException we)
+                {
+                    if (we.Response != null && ((HttpWebResponse)we.Response).StatusCode == HttpStatusCode.NotFound)
+                        return url;
+                }
                 catch (Exception e)
                 {
                     errCnt++;
