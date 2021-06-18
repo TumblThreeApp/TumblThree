@@ -199,13 +199,21 @@ namespace TumblThree.Applications.Controllers
 
         private async Task LoadDataBasesAsync()
         {
-            // TODO: Methods have side effects!
-            // They remove blogs from the blog manager.
-            await LoadLibraryAsync();
-            await LoadAllDatabasesAsync();
-            await LoadArchiveAsync();
-            CheckIfDatabasesComplete();
-            await CheckBlogsOnlineStatusAsync();
+            try
+            {
+                // TODO: Methods have side effects!
+                // They remove blogs from the blog manager.
+                await LoadLibraryAsync();
+                await LoadAllDatabasesAsync();
+                await LoadArchiveAsync();
+                CheckIfDatabasesComplete();
+                await CheckBlogsOnlineStatusAsync();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("ManagerController.LoadDataBasesAsync: {0}", e);
+                _shellService.ShowError(e, Resources.CouldNotLoadLibrary, e.Message);
+            }
         }
 
         private async Task LoadLibraryAsync()

@@ -36,7 +36,7 @@ namespace TumblThree.Domain.Models.Files
         {
             Name = name;
             Location = location;
-            Version = "3";
+            Version = MAX_SUPPORTED_DB_VERSION.ToString();
             //links = new List<string>();
             entries = new HashSet<FileEntry>(new FileEntryComparer());
         }
@@ -156,11 +156,14 @@ namespace TumblThree.Domain.Models.Files
                     // the cleanup 1 -> 2 destroyed valid links too, so clean up these orphaned links
                     var invalidChars = Path.GetInvalidFileNameChars();
                     var newList = new HashSet<FileEntry>(new FileEntryComparer());
-                    foreach (var entry in file.entries)
+                    if (file.entries != null)
                     {
-                        var re = new Regex(@"^(1280|540|500|400|250|100|75sq|720|640)(\.[^.]*$|$)");
-                        if (!re.IsMatch(entry.Link))
-                            newList.Add(entry);
+                        foreach (var entry in file.entries)
+                        {
+                            var re = new Regex(@"^(1280|540|500|400|250|100|75sq|720|640)(\.[^.]*$|$)");
+                            if (!re.IsMatch(entry.Link))
+                                newList.Add(entry);
+                        }
                     }
                     file.Version = "4";
                     file.isDirty = true;
