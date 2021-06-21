@@ -53,7 +53,8 @@ namespace TumblThree.Applications.Downloader
             this.progress = progress;
             this.postQueue = postQueue;
             this.fileDownloader = fileDownloader;
-            _saveTimer = new Timer(_ => OnSaveTimedEvent(), null, SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
+            Progress<Exception> prog = new Progress<Exception>((e) => shellService.ShowError(e, Resources.CouldNotSaveBlog, blog.Name));
+            _saveTimer = new Timer(_ => OnSaveTimedEvent(prog), null, SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
         }
 
         public string AppendTemplate { get; set; }
@@ -449,7 +450,7 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
-        protected void OnSaveTimedEvent()
+        protected void OnSaveTimedEvent(IProgress<Exception> progress)
         {
             if (_disposed) return;
 
@@ -461,7 +462,7 @@ namespace TumblThree.Applications.Downloader
             }
             catch (Exception e)
             {
-                ThreadPool.QueueUserWorkItem(_ => throw new Exception("Exception in OnSaveTimedEvent.", e));
+                progress.Report(e);
             }
             finally
             {
