@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
@@ -88,17 +89,29 @@ namespace TumblThree.Applications.Downloader
         {
             try
             {
-                using (var stream = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
+                if (typeof(T) == typeof(DataModels.TumblrSearchJson.Datum))
                 {
-                    using (XmlDictionaryWriter writer = JsonReaderWriterFactory.CreateJsonWriter(
-                        stream, Encoding.UTF8, true, true, "  "))
+                    var serializer = new JsonSerializer();
+                    using (StreamWriter sw = new StreamWriter(fileLocation, false))
+                    using (JsonWriter writer = new JsonTextWriter(sw) { Formatting = Newtonsoft.Json.Formatting.Indented })
                     {
-                        var serializer = new DataContractJsonSerializer(data.GetType());
-                        serializer.WriteObject(writer, data);
-                        writer.Flush();
-                        await Task.CompletedTask;
+                        serializer.Serialize(writer, data);
                     }
                 }
+                else
+                {
+                    using (var stream = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
+                    {
+                        using (XmlDictionaryWriter writer = JsonReaderWriterFactory.CreateJsonWriter(
+                            stream, Encoding.UTF8, true, true, "  "))
+                        {
+                            var serializer = new DataContractJsonSerializer(data.GetType());
+                            serializer.WriteObject(writer, data);
+                            writer.Flush();
+                        }
+                    }
+                }
+                await Task.CompletedTask;
             }
             catch (IOException ex) when ((ex.HResult & 0xFFFF) == 0x27 || (ex.HResult & 0xFFFF) == 0x70)
             {

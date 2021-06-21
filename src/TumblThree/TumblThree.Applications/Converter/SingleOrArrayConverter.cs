@@ -24,12 +24,17 @@ namespace TumblThree.Applications.Converter
 
         public override bool CanWrite
         {
-            get { return false; }
+            get { return true; }
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            List<T> list = (List<T>)value;
+            if (list.Count == 1)
+            {
+                value = list[0];
+            }
+            serializer.Serialize(writer, value);
         }
     }
 }

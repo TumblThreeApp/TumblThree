@@ -438,11 +438,9 @@ namespace TumblThree.Applications.Crawler
 
         protected static string ConvertContentTypeToPostType(string contentType)
         {
-            if (string.Equals(contentType, "image", StringComparison.CurrentCultureIgnoreCase)) return "photo";
-            if (string.Equals(contentType, "video", StringComparison.CurrentCultureIgnoreCase)) return "video";
-            if (string.Equals(contentType, "text", StringComparison.CurrentCultureIgnoreCase)) return "text";
-            Logger.Warning("AbstractTumblrCrawler:ConvertContentTypeToPostType: unkown content type '{0}'", contentType);
-            return "";
+            if (string.Equals(contentType, "image", StringComparison.CurrentCultureIgnoreCase))
+                return "photo";
+            return contentType?.ToLower() ?? "";
         }
 
         protected static string FileName(string url)
