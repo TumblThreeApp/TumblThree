@@ -921,8 +921,9 @@ namespace TumblThree.Applications.ViewModels
             {
                 await LoginService.PerformTumblrLoginAsync(TumblrUser, TumblrPassword);
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Error("SettingsViewModel.TumblrLogin: {0}", e);
             }
 
             TumblrTfaDetected = LoginService.CheckIfTumblrTFANeeded();
@@ -934,8 +935,15 @@ namespace TumblThree.Applications.ViewModels
 
         private async Task TumblrLogout()
         {
-            LoginService.PerformTumblrLogout();
-            await UpdateTumblrLogin();
+            try
+            {
+                LoginService.PerformTumblrLogout();
+                await UpdateTumblrLogin();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("SettingsViewModel.TumblrLogout: {0}", e);
+            }
         }
 
         private async Task TumblrSubmitTfa()
@@ -945,8 +953,9 @@ namespace TumblThree.Applications.ViewModels
                 await LoginService.PerformTumblrTFALoginAsync(TumblrUser, TumblrTfaAuthCode);
                 await UpdateTumblrLogin();
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Error("SettingsViewModel.TumblrSubmitTfa: {0}", e);
             }
         }
 
