@@ -28,6 +28,8 @@ namespace TumblThree.Presentation.Views
             get { return viewModel.Value; }
         }
 
+        public int TabsCount => this.Tabs.Items.Count;
+
         // FIXME: Implement in proper MVVM.
         private void Preview_OnMouseDown(object sender, MouseButtonEventArgs e)
         {

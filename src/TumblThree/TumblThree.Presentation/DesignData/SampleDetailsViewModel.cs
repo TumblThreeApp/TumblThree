@@ -52,6 +52,7 @@ namespace TumblThree.Presentation.DesignData
 
         private class MockDetailsView : MockView, IDetailsView
         {
+            public int TabsCount => 3;
         }
     }
 }

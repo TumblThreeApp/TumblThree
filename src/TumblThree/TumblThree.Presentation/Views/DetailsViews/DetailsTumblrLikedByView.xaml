@@ -146,7 +146,7 @@
                              Padding="2,0" Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="6" TickPlacement="TopLeft" />
 
                 <Separator Grid.ColumnSpan="7" Grid.Row="8" Margin="0" />
-                <TabControl Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="10" SelectedIndex="{Binding BlogFile.SettingsTabIndex}" Background="{StaticResource DefaultBackground}">
+                <TabControl x:Name="Tabs" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="10" SelectedIndex="{Binding BlogFile.SettingsTabIndex}" Background="{StaticResource DefaultBackground}">
                     <TabItem Header="{x:Static p:Resources.BlogSettings}">
                         <Grid Margin="0">
                             <Grid.Resources>

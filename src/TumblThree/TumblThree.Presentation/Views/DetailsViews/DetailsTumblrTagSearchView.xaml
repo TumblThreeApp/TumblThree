@@ -195,6 +195,7 @@
                     Grid.ColumnSpan="7"
                     Margin="0" />
                 <TabControl
+                    x:Name="Tabs" 
                     Grid.Row="10"
                     Grid.Column="0"
                     Grid.ColumnSpan="6"

@@ -74,7 +74,10 @@ namespace TumblThree.Applications.Controllers
                 DetailsViewModel.Count = 1;
                 DetailsViewModel.BlogFile = blogFiles.FirstOrDefault();
                 if (DetailsViewModel.BlogFile != null)
-                    DetailsViewModel.BlogFile.SettingsTabIndex = (showPreview && _shellService.Settings.EnablePreview) ? 2 : DetailsViewModel.BlogFile.SettingsTabIndex;
+                {
+                    var tabIndex = ((IDetailsView)DetailsViewModel.View).TabsCount - 1;
+                    DetailsViewModel.BlogFile.SettingsTabIndex = (showPreview && _shellService.Settings.EnablePreview) ? tabIndex : DetailsViewModel.BlogFile.SettingsTabIndex;
+                }
             }
             else
             {
