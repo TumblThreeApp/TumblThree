@@ -56,7 +56,7 @@ namespace TumblThree.Applications.Controllers
 
         public void UpdateBlogPreview(IReadOnlyList<IBlog> blogFiles)
         {
-            if (DetailsViewModel?.BlogFile?.SettingsTabIndex == 2)
+            if (DetailsViewModel?.BlogFile?.SettingsTabIndex == ((IDetailsView)DetailsViewModel?.View)?.TabsCount - 1)
             {
                 DetailsViewModel.BlogFile.PropertyChanged -= ChangeBlogSettings;
                 SelectBlogFiles(blogFiles, true);
