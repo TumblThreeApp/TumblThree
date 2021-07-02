@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models.Blogs;
@@ -24,6 +25,8 @@ namespace TumblThree.Presentation.Views
     public partial class ManagerView : IManagerView
     {
         private readonly Lazy<ManagerViewModel> viewModel;
+        private List<IBlog> _selected = new List<IBlog>();
+        private bool handledLeftMouseButton;
 
         public ManagerView()
         {
@@ -33,6 +36,8 @@ namespace TumblThree.Presentation.Views
             Loaded += LoadedHandler;
             blogFilesGrid.Sorting += BlogFilesGridSorting;
             blogFilesGrid.SelectionChanged += SelectionChanged;
+            blogFilesGrid.PreviewMouseLeftButtonDown += DataGridPreviewMouseLeftButtonDown;
+            blogFilesGrid.MouseLeftButtonUp += DataGridMouseLeftButtonUp;
         }
 
         private void SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -120,6 +125,85 @@ namespace TumblThree.Presentation.Views
             }
         }
 
+        private static DataGridRow GetClickedRow(object originalSource)
+        {
+            DependencyObject dep = (DependencyObject)originalSource;
+
+            while ((dep != null) && !(dep is DataGridCell) && !(dep is DataGridColumnHeader))
+            {
+                dep = VisualTreeHelper.GetParent(dep);
+            }
+
+            if (dep == null) return null;
+
+            if (dep is DataGridCell)
+            {
+                DataGridCell cell = dep as DataGridCell;
+                while ((dep != null) && !(dep is DataGridRow))
+                {
+                    dep = VisualTreeHelper.GetParent(dep);
+                }
+                DataGridRow row = dep as DataGridRow;
+                return row;
+            }
+            return null;
+        }
+
+        private static DataGridCell GetClickedCell(object originalSource)
+        {
+            DependencyObject dep = (DependencyObject)originalSource;
+
+            while ((dep != null) && !(dep is DataGridCell) && !(dep is DataGridColumnHeader))
+            {
+                dep = VisualTreeHelper.GetParent(dep);
+            }
+
+            if (dep == null) return null;
+
+            if (dep is DataGridCell)
+            {
+                return dep as DataGridCell;
+            }
+            return null;
+        }
+
+        private void DataGridPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.None) return;
+            var blogFilesGrid = sender as DataGrid;
+            if (blogFilesGrid == null) return;
+            _selected.Clear();
+
+            var row = GetClickedRow(e.OriginalSource);
+            if (row != null && row.IsSelected)
+                _selected.AddRange(blogFilesGrid.SelectedItems.Cast<IBlog>());
+            if (_selected.Count > 1 && !handledLeftMouseButton)
+            {
+                handledLeftMouseButton = true;
+                e.Handled = true;
+            }
+        }
+
+        private void DataGridMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _selected.Clear();
+            if (handledLeftMouseButton)
+            {
+                var blogFilesGrid = sender as DataGrid;
+                if (blogFilesGrid == null) return;
+
+                var row = GetClickedRow(e.OriginalSource);
+                if (row == null) return;
+                blogFilesGrid.SelectedItems.Clear();
+                blogFilesGrid.SelectedItems.Add(row.DataContext);
+
+                var cell = GetClickedCell(e.OriginalSource);
+                cell.Focus();
+
+                handledLeftMouseButton = false;
+            }
+        }
+
         private void DataGridRowMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -131,10 +215,20 @@ namespace TumblThree.Presentation.Views
                     return;
                 }
 
-                List<QueueListItem> items = blogFilesGrid.ItemsSource.Cast<IBlog>().Select(x => new QueueListItem(x)).ToList();
+                if (_selected.Count > 0) blogFilesGrid.SelectedItems.Clear();
+                foreach (var blog in _selected)
+                {
+                    if (!blogFilesGrid.SelectedItems.Contains(blog))
+                    {
+                        blogFilesGrid.SelectedItems.Add(blog);
+                    }
+                }
+
+                var collectionView = CollectionViewSource.GetDefaultView(blogFilesGrid.ItemsSource) as ListCollectionView;
+                List<QueueListItem> items = collectionView.Cast<IBlog>().Select(x => new QueueListItem(x)).ToList();
                 IEnumerable<QueueListItem> selectedItems = blogFilesGrid.SelectedItems
                     .Cast<IBlog>()
-                    .OrderBy(x => items.IndexOf(new QueueListItem(x)))
+                    .OrderBy(x => items.FindIndex(f => f.Blog.ChildId == x.ChildId))
                     .Select(x => new QueueListItem(x));
                 DragDrop.DoDragDrop(draggedItem, selectedItems.Select(x => x.Blog).ToArray(), DragDropEffects.Copy);
             }
