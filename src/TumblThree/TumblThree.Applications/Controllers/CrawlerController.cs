@@ -266,6 +266,13 @@ namespace TumblThree.Applications.Controllers
                 await crawler.CrawlAsync();
                 blog.UpdateProgress(true);
             }
+            catch (Exception e)
+            {
+                if (!ct.IsCancellationRequested)
+                {
+                    Logger.Error("CrawlerController.StartSiteSpecificDownloaderAsync: {0}", e);
+                }
+            }
             finally
             {
                 crawler?.Dispose();
