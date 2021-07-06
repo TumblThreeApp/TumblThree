@@ -91,6 +91,10 @@ namespace TumblThree.Applications.Crawler
                 HandleTimeoutException(timeoutException, Resources.OnlineChecking);
                 Blog.Online = false;
             }
+            catch (Exception ex) when (ex.Message == "Acceptance of privacy consent needed!")
+            {
+                Blog.Online = false;
+            }
         }
 
         public override async Task UpdateMetaInformationAsync()
