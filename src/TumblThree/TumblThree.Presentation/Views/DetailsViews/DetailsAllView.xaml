@@ -41,7 +41,7 @@
                 <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
                     <Setter Property="Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding BlogFile}" Value="{x:Null}">
+                        <DataTrigger Binding="{Binding BlogAll}" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -56,8 +56,8 @@
                 <sys:Int32 x:Key="multiSelection">1</sys:Int32>
             </Label.Resources>
             <Label.ToolTip>
-                <ctrl:SuperToolTip Title="{Binding BlogFile.Name}"
-                                   Description="{Binding BlogFile.Url}" />
+                <ctrl:SuperToolTip Title="{Binding BlogAll.Name}"
+                                   Description="{Binding BlogAll.Url}" />
             </Label.ToolTip>
             <Label.Style>
                 <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
@@ -80,11 +80,11 @@
             </Label.Style>
         </Label>
 
-        <Label Content="{Binding BlogFile.Name}" BorderThickness="0,0,0,1"
+        <Label Content="{Binding BlogAll.Name}" BorderThickness="0,0,0,1"
                BorderBrush="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Padding="15,7" Grid.Row="0">
             <Label.ToolTip>
-                <ctrl:SuperToolTip Title="{Binding BlogFile.Name}"
-                                   Description="{Binding BlogFile.Url}" />
+                <ctrl:SuperToolTip Title="{Binding BlogAll.Name}"
+                                   Description="{Binding BlogAll.Url}" />
             </Label.ToolTip>
             <Label.ContextMenu>
                 <ContextMenu>
@@ -132,24 +132,24 @@
 
                 <Label Content="{x:Static p:Resources.Name}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" />
                 <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="0">
-                    <TextBlock Text="{Binding BlogFile.Name}" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{Binding BlogAll.Name}" TextTrimming="CharacterEllipsis" />
                 </Label>
 
                 <Label Content="{x:Static p:Resources.Url}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" />
                 <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="2">
-                    <TextBlock Text="{Binding BlogFile.Url}" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{Binding BlogAll.Url}" TextTrimming="CharacterEllipsis" />
                 </Label>
                 <Label Content="{x:Static p:Resources.Progress}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" />
-                <ProgressBar Value="{Binding BlogFile.Progress, Mode=OneWay}" Height="15" Minimum="0" Maximum="100"
+                <ProgressBar Value="{Binding BlogAll.Progress, Mode=OneWay}" Height="15" Minimum="0" Maximum="100"
                              Foreground="{StaticResource ActiveForeground}" Grid.Column="3" Grid.ColumnSpan="5"
                              Grid.Row="4" />
 
                 <Label Content="{x:Static p:Resources.Rating}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" />
-                <ctrl:Rating Value="{Binding BlogFile.Rating, Converter={StaticResource RatingToStarsConverter}}"
+                <ctrl:Rating Value="{Binding BlogAll.Rating, Converter={StaticResource RatingToStarsConverter}}"
                              Padding="2,0" Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="6" TickPlacement="TopLeft" />
 
                 <Separator Grid.ColumnSpan="7" Grid.Column="0" Grid.Row="8" Margin="0" />
-                <TabControl x:Name="Tabs" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="10" SelectedIndex="{Binding BlogFile.SettingsTabIndex}" Background="{StaticResource DefaultBackground}">
+                <TabControl x:Name="Tabs" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="10" SelectedIndex="{Binding BlogAll.SettingsTabIndex}" Background="{StaticResource DefaultBackground}">
                     <TabItem Header="{x:Static p:Resources.BlogSettings}">
                         <Grid Margin="0">
                             <Grid.Resources>
@@ -230,12 +230,12 @@
 
                             <Label Content="{x:Static p:Resources.Posts}" Grid.Column="0" Grid.ColumnSpan="2"
                            Grid.Row="0" />
-                            <Label Content="{Binding BlogFile.Posts, Converter={StaticResource IntToDisplayValueConverter}}"
+                            <Label Content="{Binding BlogAll.Posts, Converter={StaticResource IntToDisplayValueConverter}}"
                                Margin="3,0,0,0" Grid.Column="1" Grid.Row="0" />
 
                             <CheckBox Content="{x:Static p:Resources.DownloadImages}"
-                                  IsChecked="{Binding BlogFile.DownloadPhoto, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadPhoto, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadPhotoDiff, Mode=OneWay, IsAsync=True}" 
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -250,9 +250,9 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="2" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedPhotos" />
-                                        <Binding Path="BlogFile.Photos" />
-                                        <Binding Path="BlogFile.DuplicatePhotos" />
+                                        <Binding Path="BlogAll.DownloadedPhotos" />
+                                        <Binding Path="BlogAll.Photos" />
+                                        <Binding Path="BlogAll.DuplicatePhotos" />
                                     </MultiBinding>
                                 </Label.Content>
                                 <Label.ToolTip>
@@ -267,8 +267,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadAudios}"
-                                  IsChecked="{Binding BlogFile.DownloadAudio, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadAudio, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadAudioDiff, Mode=OneWay, IsAsync=True}" 
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -283,9 +283,9 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="4" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedAudios" />
-                                        <Binding Path="BlogFile.Audios" />
-                                        <Binding Path="BlogFile.DuplicateAudios" />
+                                        <Binding Path="BlogAll.DownloadedAudios" />
+                                        <Binding Path="BlogAll.Audios" />
+                                        <Binding Path="BlogAll.DuplicateAudios" />
                                     </MultiBinding>
                                 </Label.Content>
                                 <Label.ToolTip>
@@ -300,8 +300,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadVideosShort}"
-                                  IsChecked="{Binding BlogFile.DownloadVideo, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadVideo, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadVideoDiff, Mode=OneWay, IsAsync=True}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -316,9 +316,9 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="6" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedVideos" />
-                                        <Binding Path="BlogFile.Videos" />
-                                        <Binding Path="BlogFile.DuplicateVideos" />
+                                        <Binding Path="BlogAll.DownloadedVideos" />
+                                        <Binding Path="BlogAll.Videos" />
+                                        <Binding Path="BlogAll.DuplicateVideos" />
                                     </MultiBinding>
                                 </Label.Content>
                                 <Label.ToolTip>
@@ -333,8 +333,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadTexts}"
-                                  IsChecked="{Binding BlogFile.DownloadText, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Margin="3,0,0,0"
-                                  Padding="3,0,0,0" Grid.Row="8">
+                                  IsChecked="{Binding BlogAll.DownloadText, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadTextDiff, Mode=OneWay, IsAsync=True}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Margin="3,0,0,0" Padding="3,0,0,0" Grid.Row="8">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -349,8 +349,8 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="8" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedTexts" />
-                                        <Binding Path="BlogFile.Texts" />
+                                        <Binding Path="BlogAll.DownloadedTexts" />
+                                        <Binding Path="BlogAll.Texts" />
                                         <Binding Source="{StaticResource duplicatesZero}" />
                                     </MultiBinding>
                                 </Label.Content>
@@ -366,8 +366,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadConversations}"
-                                  IsChecked="{Binding BlogFile.DownloadConversation, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
-                                  Grid.Row="10" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadConversation, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadConversationDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -382,8 +382,8 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="10" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedConversations" />
-                                        <Binding Path="BlogFile.Conversations" />
+                                        <Binding Path="BlogAll.DownloadedConversations" />
+                                        <Binding Path="BlogAll.Conversations" />
                                         <Binding Source="{StaticResource duplicatesZero}" />
                                     </MultiBinding>
                                 </Label.Content>
@@ -399,8 +399,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadQuotes}"
-                                  IsChecked="{Binding BlogFile.DownloadQuote, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="12"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadQuote, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadQuoteDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="12" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -415,8 +415,8 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="12" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedQuotes" />
-                                        <Binding Path="BlogFile.Quotes" />
+                                        <Binding Path="BlogAll.DownloadedQuotes" />
+                                        <Binding Path="BlogAll.Quotes" />
                                         <Binding Source="{StaticResource duplicatesZero}" />
                                     </MultiBinding>
                                 </Label.Content>
@@ -432,8 +432,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadLinks}"
-                                  IsChecked="{Binding BlogFile.DownloadLink, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="14"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadLink, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadLinkDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="14" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -448,8 +448,8 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="14" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedLinks" />
-                                        <Binding Path="BlogFile.NumberOfLinks" />
+                                        <Binding Path="BlogAll.DownloadedLinks" />
+                                        <Binding Path="BlogAll.NumberOfLinks" />
                                         <Binding Source="{StaticResource duplicatesZero}" />
                                     </MultiBinding>
                                 </Label.Content>
@@ -465,8 +465,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadAnswers}"
-                                  IsChecked="{Binding BlogFile.DownloadAnswer, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="16"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadAnswer, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadAnswerDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="16" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -481,8 +481,8 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="16" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedAnswers" />
-                                        <Binding Path="BlogFile.Answers" />
+                                        <Binding Path="BlogAll.DownloadedAnswers" />
+                                        <Binding Path="BlogAll.Answers" />
                                         <Binding Source="{StaticResource duplicatesZero}" />
                                     </MultiBinding>
                                 </Label.Content>
@@ -498,8 +498,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadImageMeta}"
-                                  IsChecked="{Binding BlogFile.CreatePhotoMeta, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="18"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.CreatePhotoMeta, Mode=TwoWay}" IsThreeState="{Binding BlogAll.CreatePhotoMetaDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="18" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -514,8 +514,8 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="18" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedPhotoMetas" />
-                                        <Binding Path="BlogFile.PhotoMetas" />
+                                        <Binding Path="BlogAll.DownloadedPhotoMetas" />
+                                        <Binding Path="BlogAll.PhotoMetas" />
                                         <Binding Source="{StaticResource duplicatesZero}" />
                                     </MultiBinding>
                                 </Label.Content>
@@ -531,8 +531,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadVideoMeta}"
-                                  IsChecked="{Binding BlogFile.CreateVideoMeta, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="20"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.CreateVideoMeta, Mode=TwoWay}" IsThreeState="{Binding BlogAll.CreateVideoMetaDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="20" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -547,8 +547,8 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="20" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedVideoMetas" />
-                                        <Binding Path="BlogFile.VideoMetas" />
+                                        <Binding Path="BlogAll.DownloadedVideoMetas" />
+                                        <Binding Path="BlogAll.VideoMetas" />
                                         <Binding Source="{StaticResource duplicatesZero}" />
                                     </MultiBinding>
                                 </Label.Content>
@@ -564,8 +564,8 @@
                             </Label>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadAudioMeta}"
-                                  IsChecked="{Binding BlogFile.CreateAudioMeta, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="22"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.CreateAudioMeta, Mode=TwoWay}" IsThreeState="{Binding BlogAll.CreateAudioMetaDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="22" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -580,8 +580,8 @@
                             <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="22" Padding="0" Margin="3,0,0,0" >
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
-                                        <Binding Path="BlogFile.DownloadedAudioMetas" />
-                                        <Binding Path="BlogFile.AudioMetas" />
+                                        <Binding Path="BlogAll.DownloadedAudioMetas" />
+                                        <Binding Path="BlogAll.AudioMetas" />
                                         <Binding Source="{StaticResource duplicatesZero}" />
                                     </MultiBinding>
                                 </Label.Content>
@@ -607,8 +607,8 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <TextBox Grid.Column="1" Grid.Row="24" Padding="0" 
-                                 Text="{Binding BlogFile.DownloadPages, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                            <TextBox Grid.Column="1" Grid.Row="24" Padding="0" IsEnabled="{Binding BlogAll.DownloadPagesEnabled, Mode=OneWay}"
+                                 Text="{Binding BlogAll.DownloadPages, Mode=TwoWay, ValidatesOnDataErrors=True}">
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -631,8 +631,8 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <TextBox Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="24" Padding="0" 
-                                 Text="{Binding BlogFile.PageSize, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                            <TextBox Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="24" Padding="0" IsEnabled="{Binding BlogAll.PageSizeEnabled, Mode=OneWay}"
+                                 Text="{Binding BlogAll.PageSize, Mode=TwoWay, ValidatesOnDataErrors=True}">
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -655,8 +655,8 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <TextBox Grid.Column="1" Grid.Row="26" Padding="0" 
-                                 Text="{Binding BlogFile.DownloadFrom, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                            <TextBox Grid.Column="1" Grid.Row="26" Padding="0" IsEnabled="{Binding BlogAll.DownloadFromEnabled, Mode=OneWay}"
+                                 Text="{Binding BlogAll.DownloadFrom, Mode=TwoWay, ValidatesOnDataErrors=True}">
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -679,8 +679,8 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <TextBox Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="26" Padding="0" 
-                                 Text="{Binding BlogFile.DownloadTo, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                            <TextBox Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="26" Padding="0" IsEnabled="{Binding BlogAll.DownloadToEnabled, Mode=OneWay}"
+                                 Text="{Binding BlogAll.DownloadTo, Mode=TwoWay, ValidatesOnDataErrors=True}">
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -703,8 +703,8 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <TextBox Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="28" Padding="0" 
-                                 Text="{Binding BlogFile.Password, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                            <TextBox Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="28" Padding="0" IsEnabled="{Binding BlogAll.PasswordEnabled, Mode=OneWay}"
+                                 Text="{Binding BlogAll.Password, Mode=TwoWay, ValidatesOnDataErrors=True}">
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -727,8 +727,8 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <TextBox Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="30" Padding="0" 
-                                 Text="{Binding BlogFile.Tags, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                            <TextBox Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="30" Padding="0" IsEnabled="{Binding BlogAll.TagsEnabled, Mode=OneWay}"
+                                 Text="{Binding BlogAll.Tags, Mode=TwoWay, ValidatesOnDataErrors=True}">
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -751,8 +751,8 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <TextBox Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="32" Padding="0" 
-                                 Text="{Binding BlogFile.FileDownloadLocation, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                            <TextBox Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="32" Padding="0" IsEnabled="{Binding BlogAll.FileDownloadLocationEnabled, Mode=OneWay}"
+                                 Text="{Binding BlogAll.FileDownloadLocation, Mode=TwoWay, ValidatesOnDataErrors=True}">
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -764,7 +764,7 @@
                                 </TextBox.ToolTip>
                             </TextBox>
 
-                            <Button x:Name="browseFileDownloadLocationButton" Content="{x:Static p:Resources.Browse}"
+                            <Button x:Name="browseFileDownloadLocationButton" Content="{x:Static p:Resources.Browse}" IsEnabled="{Binding BlogAll.FileDownloadLocationEnabled, Mode=OneWay}"
                         Command="{Binding BrowseFileDownloadLocationCommand}" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="32" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <Button.ToolTip>
                                     <ToolTip>
@@ -790,8 +790,8 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <TextBox Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="34" Padding="0" 
-                                 Text="{Binding BlogFile.FilenameTemplate, Mode=TwoWay, ValidatesOnDataErrors=True}"
+                            <TextBox Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="34" Padding="0" IsEnabled="{Binding BlogAll.FilenameTemplateEnabled, Mode=OneWay}"
+                                 Text="{Binding BlogAll.FilenameTemplate, Mode=TwoWay, ValidatesOnDataErrors=True}"
                                      PreviewLostKeyboardFocus="FilenameTemplate_PreviewLostKeyboardFocus">
                                 <TextBox.ToolTip>
                                     <ToolTip>
@@ -818,10 +818,10 @@
                             </Label>
 
 
-                            <ComboBox Grid.Column="1" Grid.Row="36" Padding="5,0,5,0"
+                            <ComboBox Grid.Column="1" Grid.Row="36" Padding="5,0,5,0" IsEnabled="{Binding BlogAll.BlogTypeEnabled, Mode=OneWay}"
                                 ItemsSource="{Binding Source={StaticResource TumblrBlogCrawlerTypes}}" SelectedValuePath="."
-                                SelectedValue="{Binding BlogFile.BlogType, Converter={StaticResource TumblrBlogCrawlerTypesConverter}}"
-                                SelectedItem="{Binding BlogFile.BlogType, Converter={StaticResource TumblrBlogCrawlerTypesConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                SelectedValue="{Binding BlogAll.BlogType, Converter={StaticResource TumblrBlogCrawlerTypesConverter}}"
+                                SelectedItem="{Binding BlogAll.BlogType, Converter={StaticResource TumblrBlogCrawlerTypesConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -836,23 +836,25 @@
                             <Label Content="{x:Static p:Resources.MetadataFormat}" Grid.Column="0" Grid.Row="38"
                                   Margin="3,0,0,0" Padding="3,0,0,0" />
 
-                            <ComboBox Grid.Column="1" Grid.Row="38" Padding="5,0,5,0"
+                            <ComboBox Grid.Column="1" Grid.Row="38" Padding="5,0,5,0" IsEnabled="{Binding BlogAll.MetadataFormatEnabled, Mode=OneWay}"
                                 ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:MetadataType}}}" SelectedValuePath="."
-                                SelectedValue="{Binding BlogFile.MetadataFormat}"
-                                SelectedItem="{Binding BlogFile.MetadataFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                SelectedValue="{Binding BlogAll.MetadataFormat}"
+                                SelectedItem="{Binding BlogAll.MetadataFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-                            <CheckBox Content="{x:Static p:Resources.SkipGif}" IsChecked="{Binding BlogFile.SkipGif, Mode=TwoWay}"
+                            <CheckBox Content="{x:Static p:Resources.SkipGif}" IsChecked="{Binding BlogAll.SkipGif, Mode=TwoWay}"
+                                  IsThreeState="{Binding BlogAll.SkipGifDiff, Mode=OneWay}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="40" Margin="3,0,0,0" Padding="3,0,0,0" />
 
-                            <CheckBox Content="{x:Static p:Resources.GroupPhotoSets}" IsChecked="{Binding BlogFile.GroupPhotoSets, Mode=TwoWay}"
+                            <CheckBox Content="{x:Static p:Resources.GroupPhotoSets}" IsChecked="{Binding BlogAll.GroupPhotoSets, Mode=TwoWay}"
+                                  IsThreeState="{Binding BlogAll.GroupPhotoSetsDiff, Mode=OneWay}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="42" Margin="3,0,0,0" Padding="3,0,0,0" />
 
                             <CheckBox Content="{x:Static p:Resources.DownloadRebloggedPosts}"
-                                  IsChecked="{Binding BlogFile.DownloadRebloggedPosts, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="44"
-                                  Margin="3,0,0,0" Padding="3,0,0,0" />
+                                  IsChecked="{Binding BlogAll.DownloadRebloggedPosts, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadRebloggedPostsDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="44" Margin="3,0,0,0" Padding="3,0,0,0" />
 
                             <!--<CheckBox Content="{x:Static p:Resources.CheckDirectoryForFiles}"
-                                  IsChecked="{Binding BlogFile.CheckDirectoryForFiles, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
+                                  IsChecked="{Binding BlogAll.CheckDirectoryForFiles, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
                                   Grid.Row="38" Margin="3,0,0,0" Padding="3,0,0,0">
                             <CheckBox.ToolTip>
                                 <ToolTip>
@@ -867,8 +869,8 @@
                         </CheckBox>-->
 
                             <CheckBox Content="{x:Static p:Resources.DownloadUrlList2}"
-                                  IsChecked="{Binding BlogFile.DownloadUrlList, Mode=TwoWay}" Grid.Column="0" Grid.Row="46" Grid.ColumnSpan="5"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadUrlList, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadUrlListDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.Row="46" Grid.ColumnSpan="5" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -881,8 +883,8 @@
                             </CheckBox>
 
                             <CheckBox Content="{x:Static p:Resources.ForceSize}"
-                                  IsChecked="{Binding BlogFile.ForceSize, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                  Grid.Row="48" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.ForceSize, Mode=TwoWay}" IsThreeState="{Binding BlogAll.ForceSizeDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="48" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -895,8 +897,8 @@
                             </CheckBox>
 
                             <CheckBox Content="{x:Static p:Resources.RegExPhotos}"
-                                      IsChecked="{Binding BlogFile.RegExPhotos, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                      Grid.Row="50" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      IsChecked="{Binding BlogAll.RegExPhotos, Mode=TwoWay}" IsThreeState="{Binding BlogAll.RegExPhotosDiff, Mode=OneWay}"
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="50" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -909,8 +911,8 @@
                             </CheckBox>
 
                             <CheckBox Content="{x:Static p:Resources.RegExVideos}"
-                                      IsChecked="{Binding BlogFile.RegExVideos, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                      Grid.Row="52" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      IsChecked="{Binding BlogAll.RegExVideos, Mode=TwoWay}" IsThreeState="{Binding BlogAll.RegExVideosDiff, Mode=OneWay}"
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="52" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -923,8 +925,8 @@
                             </CheckBox>
 
                             <CheckBox Content="{x:Static p:Resources.DumpCrawlerData}"
-                                  IsChecked="{Binding BlogFile.DumpCrawlerData, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                  Grid.Row="54" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      IsChecked="{Binding BlogAll.DumpCrawlerData, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DumpCrawlerDataDiff, Mode=OneWay}"
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="54" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -937,8 +939,8 @@
                             </CheckBox>
 
                             <CheckBox Content="{x:Static p:Resources.ForceRescan}"
-                                  IsChecked="{Binding BlogFile.ForceRescan, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                  Grid.Row="56" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      IsChecked="{Binding BlogAll.ForceRescan, Mode=TwoWay}" IsThreeState="{Binding BlogAll.ForceRescanDiff, Mode=OneWay}"
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="56" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -986,8 +988,8 @@
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                             </Grid.RowDefinitions>
                             <CheckBox Content="{x:Static p:Resources.DownloadImgur}"
-                                  IsChecked="{Binding BlogFile.DownloadImgur, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
-                                  Margin="3,3,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadImgur, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadImgurDiff, Mode=OneWay}" 
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Margin="3,3,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1000,8 +1002,8 @@
                             </CheckBox>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadGfycat}"
-                                  IsChecked="{Binding BlogFile.DownloadGfycat, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadGfycat, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadGfycatDiff, Mode=OneWay}" 
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1014,9 +1016,10 @@
                             </CheckBox>
 
                             <ComboBox Grid.Column="3" Grid.Row="2" Padding="5,0,5,0"
+                                IsEnabled="{Binding BlogAll.DownloadGfycatDiff, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"
                                 ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:GfycatTypes}}}" SelectedValuePath="."
-                                SelectedValue="{Binding BlogFile.GfycatType}"
-                                SelectedItem="{Binding BlogFile.GfycatType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                SelectedValue="{Binding BlogAll.GfycatType}"
+                                SelectedItem="{Binding BlogAll.GfycatType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1029,8 +1032,8 @@
                             </ComboBox>
 
                             <CheckBox Content="{x:Static p:Resources.DownloadWebmshare}"
-                                  IsChecked="{Binding BlogFile.DownloadWebmshare, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                                  IsChecked="{Binding BlogAll.DownloadWebmshare, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadWebmshareDiff, Mode=OneWay}" 
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1041,10 +1044,11 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <ComboBox Grid.Column="3" Grid.Row="4" Padding="5,0,5,0" 
+                            <ComboBox Grid.Column="3" Grid.Row="4" Padding="5,0,5,0"
+                              IsEnabled="{Binding BlogAll.DownloadWebmshareDiff, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"
                               ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:WebmshareTypes}}}" SelectedValuePath="."
-                              SelectedValue="{Binding BlogFile.WebmshareType}"
-                              SelectedItem="{Binding BlogFile.WebmshareType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                              SelectedValue="{Binding BlogAll.WebmshareType}"
+                              SelectedItem="{Binding BlogAll.WebmshareType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1056,8 +1060,8 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                             <CheckBox Content="{x:Static p:Resources.DownloadMixtape}"
-                                      IsChecked="{Binding BlogFile.DownloadMixtape, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"
-                                      Margin="3,0,0,0" Padding="3,0,0,0">
+                                      IsChecked="{Binding BlogAll.DownloadMixtape, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadMixtapeDiff, Mode=OneWay}" 
+                                      Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1068,10 +1072,11 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <ComboBox Grid.Column="3" Grid.Row="6" Padding="5,0,5,0" 
+                            <ComboBox Grid.Column="3" Grid.Row="6" Padding="5,0,5,0"
+                                      IsEnabled="{Binding BlogAll.DownloadMixtapeDiff, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"
                                       ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:MixtapeTypes}}}" SelectedValuePath="."
-                                      SelectedValue="{Binding BlogFile.MixtapeType}"
-                                      SelectedItem="{Binding BlogFile.MixtapeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                      SelectedValue="{Binding BlogAll.MixtapeType}"
+                                      SelectedItem="{Binding BlogAll.MixtapeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1083,8 +1088,8 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                             <CheckBox Content="{x:Static p:Resources.DownloadUguu}"
-                                      IsChecked="{Binding BlogFile.DownloadUguu, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8"
-                                      Margin="3,0,0,0" Padding="3,0,0,0">
+                                      IsChecked="{Binding BlogAll.DownloadUguu, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadUguuDiff, Mode=OneWay}" 
+                                      Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1095,10 +1100,11 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <ComboBox Grid.Column="3" Grid.Row="8" Padding="5,0,5,0" 
+                            <ComboBox Grid.Column="3" Grid.Row="8" Padding="5,0,5,0"
+                                      IsEnabled="{Binding BlogAll.DownloadUguuDiff, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"
                                       ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:UguuTypes}}}" SelectedValuePath="."
-                                      SelectedValue="{Binding BlogFile.UguuType}"
-                                      SelectedItem="{Binding BlogFile.UguuType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                      SelectedValue="{Binding BlogAll.UguuType}"
+                                      SelectedItem="{Binding BlogAll.UguuType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1110,7 +1116,8 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                             <CheckBox Content="{x:Static p:Resources.DownloadSafeMoe}"
-                                      IsChecked="{Binding BlogFile.DownloadSafeMoe, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10"
+                                      IsChecked="{Binding BlogAll.DownloadSafeMoe, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadSafeMoeDiff, Mode=OneWay}" 
+                                      Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10"
                                       Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -1122,10 +1129,11 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <ComboBox Grid.Column="3" Grid.Row="10" Padding="5,0,5,0" 
+                            <ComboBox Grid.Column="3" Grid.Row="10" Padding="5,0,5,0"
+                                      IsEnabled="{Binding BlogAll.DownloadUguuDiff, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"
                                       ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:SafeMoeTypes}}}" SelectedValuePath="."
-                                      SelectedValue="{Binding BlogFile.SafeMoeType}"
-                                      SelectedItem="{Binding BlogFile.SafeMoeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                      SelectedValue="{Binding BlogAll.SafeMoeType}"
+                                      SelectedItem="{Binding BlogAll.SafeMoeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1137,7 +1145,8 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                             <CheckBox Content="{x:Static p:Resources.DownloadLoliSafe}"
-                                      IsChecked="{Binding BlogFile.DownloadLoliSafe, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="12"
+                                      IsChecked="{Binding BlogAll.DownloadLoliSafe, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadLoliSafeDiff, Mode=OneWay}" 
+                                      Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="12"
                                       Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -1149,10 +1158,11 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <ComboBox Grid.Column="3" Grid.Row="12" Padding="5,0,5,0" 
+                            <ComboBox Grid.Column="3" Grid.Row="12" Padding="5,0,5,0"
+                                      IsEnabled="{Binding BlogAll.DownloadLoliSafeDiff, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"
                                       ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:LoliSafeTypes}}}" SelectedValuePath="."
-                                      SelectedValue="{Binding BlogFile.LoliSafeType}"
-                                      SelectedItem="{Binding BlogFile.LoliSafeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                      SelectedValue="{Binding BlogAll.LoliSafeType}"
+                                      SelectedItem="{Binding BlogAll.LoliSafeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1164,8 +1174,8 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                             <CheckBox Content="{x:Static p:Resources.DownloadCatBox}"
-                                      IsChecked="{Binding BlogFile.DownloadCatBox, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="14"
-                                      Margin="3,0,0,0" Padding="3,0,0,0">
+                                      IsChecked="{Binding BlogAll.DownloadCatBox, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadCatBoxDiff, Mode=OneWay}" 
+                                      Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="14" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1176,10 +1186,11 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <ComboBox Grid.Column="3" Grid.Row="14" Padding="5,0,5,0" 
+                            <ComboBox Grid.Column="3" Grid.Row="14" Padding="5,0,5,0"
+                                      IsEnabled="{Binding BlogAll.DownloadCatBoxDiff, Converter={StaticResource InverseBooleanConverter}, Mode=OneWay}"
                                       ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:CatBoxTypes}}}" SelectedValuePath="."
-                                      SelectedValue="{Binding BlogFile.CatBoxType}"
-                                      SelectedItem="{Binding BlogFile.CatBoxType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                      SelectedValue="{Binding BlogAll.CatBoxType}"
+                                      SelectedItem="{Binding BlogAll.CatBoxType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1230,14 +1241,14 @@
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
                                     <MediaElement Visibility="Collapsed" x:Name="SwitchableMediaElement"
-                                      Source="{Binding BlogFile.LastDownloadedVideo, Converter={StaticResource NullImageConverter}, IsAsync=True}"
+                                      Source="{Binding BlogAll.LastDownloadedVideo, Converter={StaticResource NullImageConverter}, IsAsync=True}"
                                       Stretch="Fill" IsMuted="True" LoadedBehavior="Play" UnloadedBehavior="Close" />
                                     <Image Visibility="Visible" x:Name="SwitchableImage"
-                               Source="{Binding BlogFile.LastDownloadedPhoto, Converter={StaticResource NullImageConverter}, IsAsync=True}"
+                               Source="{Binding BlogAll.LastDownloadedPhoto, Converter={StaticResource NullImageConverter}, IsAsync=True}"
                                Stretch="Fill" />
                                     <i:Interaction.Triggers>
-                                        <ei:DataTrigger Binding="{Binding BlogFile.States}" Value="{Binding BlogFile.States}">
-                                            <ei:GoToStateAction StateName="{Binding BlogFile.States}" />
+                                        <ei:DataTrigger Binding="{Binding BlogAll.States}" Value="{Binding BlogAll.States}">
+                                            <ei:GoToStateAction StateName="{Binding BlogAll.States}" />
                                         </ei:DataTrigger>
                                     </i:Interaction.Triggers>
                                 </Grid>
@@ -1253,7 +1264,7 @@
                 <TextBlock.Style>
                     <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding BlogFile.LoadError}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding BlogAll.LoadError}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -1267,7 +1278,7 @@
             <Border.Style>
                 <Style TargetType="Border">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding BlogFile.LoadError}" Value="{x:Null}">
+                        <DataTrigger Binding="{Binding BlogAll.LoadError}" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
                     </Style.Triggers>

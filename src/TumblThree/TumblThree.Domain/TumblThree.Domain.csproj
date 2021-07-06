@@ -110,6 +110,8 @@
     <Compile Include="Converter\EnumDescriptionTypeConverter.cs" />
     <Compile Include="JsonFormatter.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Models\Blogs\BlogAll.cs" />
+    <Compile Include="Models\Blogs\IBlogAll.cs" />
     <Compile Include="Models\CatboxTypes.cs" />
     <Compile Include="Models\DetailsBlog.cs" />
     <Compile Include="Models\Blogs\Blog.cs" />

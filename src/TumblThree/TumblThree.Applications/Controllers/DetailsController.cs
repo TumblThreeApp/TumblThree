@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Windows;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
+using TumblThree.Applications.ViewModels.DetailsViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
@@ -25,6 +26,9 @@ namespace TumblThree.Applications.Controllers
         private Lazy<IDetailsViewModel> _detailsViewModel;
 
         private readonly HashSet<IBlog> _blogsToSave;
+
+        private delegate void PropertySetter(bool value);
+        private delegate void PropertySetter<T>(T value);
 
         [ImportingConstructor]
         public DetailsController(IShellService shellService, ISelectionService selectionService, IManagerService managerService)
@@ -79,11 +83,11 @@ namespace TumblThree.Applications.Controllers
                     DetailsViewModel.BlogFile.SettingsTabIndex = (showPreview && _shellService.Settings.EnablePreview) ? tabIndex : DetailsViewModel.BlogFile.SettingsTabIndex;
                 }
             }
-            else
+            else if (DetailsViewModel.GetType() == typeof(ViewModels.DetailsViewModels.DetailsAllViewModel))
             {
                 DetailsViewModel.Count = blogFiles.Count;
-                DetailsViewModel.BlogFile = CreateFromMultiple(blogFiles.ToArray());
-                DetailsViewModel.BlogFile.PropertyChanged += ChangeBlogSettings;
+                ((DetailsAllViewModel)DetailsViewModel).BlogAll = CreateFromMultiple(blogFiles.ToArray());
+                ((DetailsAllViewModel)DetailsViewModel).BlogAll.PropertyChanged += ChangeBlogSettings;
             }
         }
 
@@ -113,7 +117,7 @@ namespace TumblThree.Applications.Controllers
                 return;
             }
 
-            _detailsViewModel = GetViewModel(blogFiles.Select(blog => blog.GetType()).Distinct().Count() < 2
+            _detailsViewModel = GetViewModel(blogFiles.Count < 2
                 ? blogFiles.FirstOrDefault()
                 : new Blog());
             _shellService.DetailsView = DetailsViewModel.View;
@@ -124,10 +128,18 @@ namespace TumblThree.Applications.Controllers
         {
             foreach (IBlog blog in _blogsToSave)
             {
-                PropertyInfo property = typeof(IBlog).GetProperty(e.PropertyName);
+                PropertyInfo property = typeof(IBlogAll).GetProperty(e.PropertyName);
+                if (property == null)
+                    property = typeof(IBlog).GetProperty(e.PropertyName);
                 if (CheckIfCanUpdateTumblrBlogCrawler(blog, property))
                     continue;
-                property.SetValue(blog, property.GetValue(DetailsViewModel.BlogFile));
+                var value = property.GetValue(((DetailsAllViewModel)DetailsViewModel).BlogAll);
+                if (value == null)
+                    continue;
+                PropertyInfo propertySet = typeof(IBlog).GetProperty(e.PropertyName);
+                if (propertySet == null)
+                    continue;
+                propertySet.SetValue(blog, value);
             }
         }
 
@@ -142,7 +154,7 @@ namespace TumblThree.Applications.Controllers
         {
         }
 
-        public IBlog CreateFromMultiple(IEnumerable<IBlog> blogFiles)
+        public IBlogAll CreateFromMultiple(IEnumerable<IBlog> blogFiles)
         {
             List<IBlog> sharedBlogFiles = blogFiles.ToList();
             if (!sharedBlogFiles.Any())
@@ -155,7 +167,7 @@ namespace TumblThree.Applications.Controllers
                 _blogsToSave.Add(blog);
             }
 
-            return new Blog()
+            IBlogAll ba = new BlogAll
             {
                 Name = string.Join(", ", sharedBlogFiles.Select(blog => blog.Name).ToArray()),
                 Url = string.Join(", ", sharedBlogFiles.Select(blog => blog.Url).ToArray()),
@@ -183,30 +195,25 @@ namespace TumblThree.Applications.Controllers
                 DownloadedPhotoMetas = sharedBlogFiles.Sum(blogs => blogs.DownloadedPhotoMetas),
                 DownloadedVideoMetas = sharedBlogFiles.Sum(blogs => blogs.DownloadedVideoMetas),
                 DownloadedAudioMetas = sharedBlogFiles.Sum(blogs => blogs.DownloadedAudioMetas),
-                DownloadPages = SetProperty<string>(sharedBlogFiles, "DownloadPages"),
-                PageSize = SetProperty<int>(sharedBlogFiles, "PageSize"),
-                DownloadFrom = SetProperty<string>(sharedBlogFiles, "DownloadFrom"),
-                DownloadTo = SetProperty<string>(sharedBlogFiles, "DownloadTo"),
-                Tags = SetProperty<string>(sharedBlogFiles, "Tags"),
-                Password = SetProperty<string>(sharedBlogFiles, "Password"),
+
+                DownloadAnswer = SetCheckBox(sharedBlogFiles, "DownloadAnswer"),
                 DownloadAudio = SetCheckBox(sharedBlogFiles, "DownloadAudio"),
                 DownloadConversation = SetCheckBox(sharedBlogFiles, "DownloadConversation"),
                 DownloadLink = SetCheckBox(sharedBlogFiles, "DownloadLink"),
                 DownloadPhoto = SetCheckBox(sharedBlogFiles, "DownloadPhoto"),
                 DownloadQuote = SetCheckBox(sharedBlogFiles, "DownloadQuote"),
                 DownloadText = SetCheckBox(sharedBlogFiles, "DownloadText"),
-                DownloadAnswer = SetCheckBox(sharedBlogFiles, "DownloadAnswer"),
                 DownloadVideo = SetCheckBox(sharedBlogFiles, "DownloadVideo"),
                 CreatePhotoMeta = SetCheckBox(sharedBlogFiles, "CreatePhotoMeta"),
                 CreateVideoMeta = SetCheckBox(sharedBlogFiles, "CreateVideoMeta"),
                 CreateAudioMeta = SetCheckBox(sharedBlogFiles, "CreateAudioMeta"),
                 DownloadRebloggedPosts = SetCheckBox(sharedBlogFiles, "DownloadRebloggedPosts"),
                 SkipGif = SetCheckBox(sharedBlogFiles, "SkipGif"),
+                GroupPhotoSets = SetCheckBox(sharedBlogFiles, "GroupPhotoSets"),
                 ForceSize = SetCheckBox(sharedBlogFiles, "ForceSize"),
                 ForceRescan = SetCheckBox(sharedBlogFiles, "ForceRescan"),
                 CheckDirectoryForFiles = SetCheckBox(sharedBlogFiles, "CheckDirectoryForFiles"),
                 DownloadUrlList = SetCheckBox(sharedBlogFiles, "DownloadUrlList"),
-                SettingsTabIndex = SetProperty<int>(sharedBlogFiles, "SettingsTabIndex"),
                 DownloadImgur = SetCheckBox(sharedBlogFiles, "DownloadImgur"),
                 DownloadGfycat = SetCheckBox(sharedBlogFiles, "DownloadGfycat"),
                 DownloadWebmshare = SetCheckBox(sharedBlogFiles, "DownloadWebmshare"),
@@ -215,44 +222,67 @@ namespace TumblThree.Applications.Controllers
                 DownloadSafeMoe = SetCheckBox(sharedBlogFiles, "DownloadSafeMoe"),
                 DownloadLoliSafe = SetCheckBox(sharedBlogFiles, "DownloadLoliSafe"),
                 DownloadCatBox = SetCheckBox(sharedBlogFiles, "DownloadCatBox"),
-                GfycatType = SetProperty<GfycatTypes>(sharedBlogFiles, "GfycatType"),
-                WebmshareType = SetProperty<WebmshareTypes>(sharedBlogFiles, "WebmshareType"),
-                MixtapeType = SetProperty<MixtapeTypes>(sharedBlogFiles, "MixtapeType"),
-                UguuType = SetProperty<UguuTypes>(sharedBlogFiles, "UguuType"),
-                SafeMoeType = SetProperty<SafeMoeTypes>(sharedBlogFiles, "SafeMoeType"),
-                LoliSafeType = SetProperty<LoliSafeTypes>(sharedBlogFiles, "LoliSafeType"),
-                CatBoxType = SetProperty<CatBoxTypes>(sharedBlogFiles, "CatBoxType"),
-                MetadataFormat = SetProperty<MetadataType>(sharedBlogFiles, "MetadataFormat"),
-                BlogType = SetProperty<BlogTypes>(sharedBlogFiles, "BlogType"),
                 DumpCrawlerData = SetCheckBox(sharedBlogFiles, "DumpCrawlerData"),
                 RegExPhotos = SetCheckBox(sharedBlogFiles, "RegExPhotos"),
-                RegExVideos = SetCheckBox(sharedBlogFiles, "RegExVideos"),
-                FileDownloadLocation = SetProperty<string>(sharedBlogFiles, "FileDownloadLocation"),
-                Dirty = false
+                RegExVideos = SetCheckBox(sharedBlogFiles, "RegExVideos")
             };
+
+            ba.DownloadPages = SetProperty<string>(sharedBlogFiles, "DownloadPages", (outval) => ba.DownloadPagesEnabled = outval);
+            ba.PageSize = SetProperty<int>(sharedBlogFiles, "PageSize", (outval) => ba.PageSizeEnabled = outval);
+            ba.DownloadFrom = SetProperty<string>(sharedBlogFiles, "DownloadFrom", (outval) => ba.DownloadFromEnabled = outval);
+            ba.DownloadTo = SetProperty<string>(sharedBlogFiles, "DownloadTo", (outval) => ba.DownloadToEnabled = outval);
+            ba.Tags = SetProperty<string>(sharedBlogFiles, "Tags", (outval) => ba.TagsEnabled = outval);
+            ba.Password = SetProperty<string>(sharedBlogFiles, "Password", (outval) => ba.PasswordEnabled = outval);
+            bool dummy = false;
+            ba.GfycatType = SetProperty<GfycatTypes>(sharedBlogFiles, "GfycatType", (outval) => dummy = outval);
+            ba.WebmshareType = SetProperty<WebmshareTypes>(sharedBlogFiles, "WebmshareType", (outval) => dummy = outval);
+            ba.MixtapeType = SetProperty<MixtapeTypes>(sharedBlogFiles, "MixtapeType", (outval) => dummy = outval);
+            ba.UguuType = SetProperty<UguuTypes>(sharedBlogFiles, "UguuType", (outval) => dummy = outval);
+            ba.SafeMoeType = SetProperty<SafeMoeTypes>(sharedBlogFiles, "SafeMoeType", (outval) => dummy = outval);
+            ba.LoliSafeType = SetProperty<LoliSafeTypes>(sharedBlogFiles, "LoliSafeType", (outval) => dummy = outval);
+            ba.CatBoxType = SetProperty<CatBoxTypes>(sharedBlogFiles, "CatBoxType", (outval) => dummy = outval);
+            ba.MetadataFormat = SetProperty<MetadataType>(sharedBlogFiles, "MetadataFormat", (outval) => ba.MetadataFormatEnabled = outval);
+            ba.BlogType = SetProperty<BlogTypes>(sharedBlogFiles, "BlogType", (outval) => dummy = outval);
+            ba.BlogTypeEnabled = false;
+            ba.FileDownloadLocation = SetProperty<string>(sharedBlogFiles, "FileDownloadLocation", (outval) => dummy = outval);
+            ba.FileDownloadLocationEnabled = false;
+            ba.FilenameTemplate = SetProperty<string>(sharedBlogFiles, "FilenameTemplate", (outval) => ba.FilenameTemplateEnabled = outval);
+            ba.SettingsTabIndex = SetProperty<int>(sharedBlogFiles, "SettingsTabIndex", (outval) => dummy = outval);
+
+            ba.Dirty = false;
+
+            return ba;
         }
 
-        private static T SetProperty<T>(IReadOnlyCollection<IBlog> blogs, string propertyName) where T : IConvertible
+        private static T SetProperty<T>(IReadOnlyCollection<IBlog> blogs, string propertyName, PropertySetter allEqual) where T : IConvertible
         {
             PropertyInfo property = typeof(IBlog).GetProperty(propertyName);
             var value = (T)property.GetValue(blogs.FirstOrDefault());
             if (value == null)
             {
-                return default(T);
+                if (typeof(T) == typeof(string))
+                    value = (T)(object)string.Empty;
+                else
+                    value = default(T);
             }
 
-            bool equal = blogs.All(blog => property.GetValue(blog)?.Equals(value) ?? false);
-            return equal ? value : default(T);
+            int numberOfBlogs = blogs.Count;
+            int sameValues = blogs.Select(blog => (T)property.GetValue(blog)).Count(v => (v == null ? typeof(T) == typeof(string) ? (T)(object)string.Empty : default(T) : v).Equals(value));
+            allEqual(sameValues == numberOfBlogs);
+
+            return (sameValues == numberOfBlogs) ? value : default(T);
         }
 
-        private static bool SetCheckBox(IReadOnlyCollection<IBlog> blogs, string propertyName)
+        private static bool? SetCheckBox(IReadOnlyCollection<IBlog> blogs, string propertyName)
         {
             PropertyInfo property = typeof(IBlog).GetProperty(propertyName);
 
             int numberOfBlogs = blogs.Count;
             int checkedBlogs = blogs.Select(blog => (bool)property.GetValue(blog)).Count(state => state);
 
-            return checkedBlogs == numberOfBlogs;
+            if (checkedBlogs == numberOfBlogs) return true;
+            if (checkedBlogs == 0) return false;
+            return null;
         }
 
         private static bool CheckIfCanUpdateTumblrBlogCrawler(IBlog blog, PropertyInfo property)

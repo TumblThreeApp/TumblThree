@@ -2,7 +2,6 @@
 using System.Waf.Applications;
 using System.Windows.Forms;
 using System.Windows.Input;
-
 using TumblThree.Applications.Services;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models.Blogs;
@@ -19,7 +18,8 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         private readonly IClipboardService _clipboardService;
         private readonly IDetailsService _detailsService;
         private IBlog _blogFile;
-        private int _count = 0;
+        private IBlogAll _blogAll;
+        private int _count;
 
         [ImportingConstructor]
         public DetailsAllViewModel([Import("AllView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService, IDetailsService detailsService)
@@ -44,6 +44,12 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         {
             get => _blogFile;
             set => SetProperty(ref _blogFile, value);
+        }
+
+        public IBlogAll BlogAll
+        {
+            get => _blogAll;
+            set => SetProperty(ref _blogAll, value);
         }
 
         public int Count
