@@ -13,6 +13,8 @@
 TumblThree is a free and open source Tumblr blog backup application. It downloads photo, video, audio and text posts from a given tumblr blog. [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20TumblThree%20-%20A%20Tumblr%20Blog%20Backup%20Application%0AIt%20downloads%20photo,%20video,%20audio%20and%20text%20posts%20from%20a%20given%20tumblr%20blog.&url=https%3A%2F%2Fgithub.com%2FTumblThreeApp%2FTumblThree&hashtags=tumblr,blog,backup,application)<br/>
 It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), using the [Win Application Framework (WAF)](https://github.com/jbe2277/waf) and C# with WPF and the MVVM pattern.
 
+<img valign="middle" src="https://user-images.githubusercontent.com/71355143/125166194-c4543c00-e19a-11eb-83fc-9853263ea760.png" alt="coming-soon" height="30"/>&nbsp;&nbsp; A new "T" is coming soon… stay tuned!
+
 ## Features
 
 * Source code at github (Written in C# using WPF and MVVM).
