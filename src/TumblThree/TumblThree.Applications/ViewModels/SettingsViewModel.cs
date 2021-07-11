@@ -961,8 +961,15 @@ namespace TumblThree.Applications.ViewModels
 
         private async Task UpdateTumblrLogin()
         {
-            TumblrEmail = await LoginService.GetTumblrUsernameAsync();
-            TumblrLoggedIn = !string.IsNullOrEmpty(TumblrEmail);
+            try
+            {
+                TumblrEmail = await LoginService.GetTumblrUsernameAsync();
+                TumblrLoggedIn = !string.IsNullOrEmpty(TumblrEmail);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("SettingsViewModel.UpdateTumblrLogin: {0}", e);
+            }
         }
 
         private void CheckIfTumblrLoggedIn()
