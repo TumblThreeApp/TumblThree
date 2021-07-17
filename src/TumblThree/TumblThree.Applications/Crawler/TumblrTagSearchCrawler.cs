@@ -278,7 +278,7 @@ namespace TumblThree.Applications.Crawler
         {
             string type = content.Type;
             string url = string.Empty;
-            url = type == "video" ? content.Url : content.Media?[0].Url;
+            url = type == "video" || type == "audio" ? content.Url : content.Media?[0].Url;
             if (url == null)
                 return;
             if (!CheckIfContainsTaggedPost(post.Tags))
@@ -289,6 +289,11 @@ namespace TumblThree.Applications.Crawler
             {
                 if (Blog.DownloadVideo)
                     AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
+            }
+            else if (type == "audio")
+            {
+                if (Blog.DownloadAudio)
+                    AddToDownloadList(new AudioPost(url, post.Id, post.UnixTimestamp.ToString()));
             }
             else
             {
