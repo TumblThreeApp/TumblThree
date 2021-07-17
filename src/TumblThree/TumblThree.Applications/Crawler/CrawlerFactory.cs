@@ -109,7 +109,7 @@ namespace TumblThree.Applications.Crawler
         {
             if (settings.LoadAllDatabases)
             {
-                var files = managerService.Databases.FirstOrDefault(file => file.Name.Equals(blog.Name) && file.BlogType.Equals(blog.BlogType));
+                var files = managerService.Databases.FirstOrDefault(file => file.Name.Equals(blog.Name) && file.BlogType.Equals(blog.OriginalBlogType));
                 if (files == null)
                 {
                     var s = string.Format("{0} ({1})", blog.Name, blog.BlogType);
