@@ -157,30 +157,37 @@ namespace TumblThree.Applications.Crawler
             {
                 foreach (var post in page.Response.Posts.Data)
                 {
-                    if (!CheckIfWithinTimespan(post.Timestamp))
+                    try
                     {
-                        continue;
-                    }
-                    int index = -1;
-                    foreach (var content in post.Content)
-                    {
-                        Post data = new Post()
+                        if (!CheckIfWithinTimespan(post.Timestamp))
                         {
-                            Date = DateTimeOffset.FromUnixTimeSeconds(post.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
-                            Type = ConvertContentTypeToPostType(content.Type),
-                            Id = post.Id,
-                            Tags = new List<string>(post.Tags),
-                            Slug = post.Slug,
-                            RegularTitle = post.Summary,
-                            RebloggedFromName = "",
-                            ReblogKey = post.ReblogKey,
-                            UnixTimestamp = post.Timestamp,
-                            Submitter = post.BlogName
-                        };
-                        index += (post.Content.Count > 1) ? 1 : 0;
-                        DownloadMedia(content, data, index);
+                            continue;
+                        }
+                        int index = -1;
+                        foreach (var content in post.Content)
+                        {
+                            Post data = new Post()
+                            {
+                                Date = DateTimeOffset.FromUnixTimeSeconds(post.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
+                                Type = ConvertContentTypeToPostType(content.Type),
+                                Id = post.Id,
+                                Tags = new List<string>(post.Tags),
+                                Slug = post.Slug,
+                                RegularTitle = post.Summary,
+                                RebloggedFromName = "",
+                                ReblogKey = post.ReblogKey,
+                                UnixTimestamp = post.Timestamp,
+                                Submitter = post.BlogName
+                            };
+                            index += (post.Content.Count > 1) ? 1 : 0;
+                            DownloadMedia(content, data, index);
+                        }
+                        AddToJsonQueue(new TumblrCrawlerData<Datum>(Path.ChangeExtension(post.Id, ".json"), post));
                     }
-                    AddToJsonQueue(new TumblrCrawlerData<Datum>(Path.ChangeExtension(post.Id, ".json"), post));
+                    catch (Exception ex)
+                    {
+                        Logger.Error("TumblrSearchCrawler.DownloadMedia: {0}", ex);
+                    }
                 }
             }
             catch (TimeoutException timeoutException)

@@ -202,8 +202,9 @@ namespace TumblThree.Applications.Crawler
                     {
                         HandleTimeoutException(timeoutException, Resources.Crawling);
                     }
-                    catch (NullReferenceException e)
+                    catch (Exception ex) //NullReferenceException
                     {
+                        Logger.Error("TumblrTagSearchCrawler.DownloadMedia: {0}", ex);
                     }
                 }
             }
