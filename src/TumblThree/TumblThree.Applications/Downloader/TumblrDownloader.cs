@@ -18,7 +18,7 @@ namespace TumblThree.Applications.Downloader
         private int numberOfPagesCrawled = 0;
 
         public TumblrDownloader(IShellService shellService, IManagerService managerService, PauseToken pt,
-            IProgress<DownloadProgress> progress, IPostQueue<TumblrPost> postQueue, FileDownloader fileDownloader,
+            IProgress<DownloadProgress> progress, IPostQueue<AbstractPost> postQueue, FileDownloader fileDownloader,
             ICrawlerService crawlerService, IBlog blog, IFiles files, CancellationToken ct)
             : base(shellService, managerService, ct, pt, progress, postQueue, fileDownloader, crawlerService, blog, files)
         {

@@ -12,7 +12,7 @@
     xmlns:vr="clr-namespace:TumblThree.Presentation.ValidationRules"
     Title="Settings"
     Width="760"
-    Height="785"
+    Height="790"
     d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
     ContentRendered="Window_ContentRendered"
     ResizeMode="CanResize"
@@ -667,41 +667,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Label
-                                x:Name="imageSizeLabel"
-                                Grid.Column="0"
-                                Margin="10"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Content="{x:Static p:Resources.ImageSize}">
-                                <Label.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipImageSize}" />
-                                            <TextBlock Text="{x:Static p:Resources.ToolTipImageSizeDescription}" />
-                                        </StackPanel>
-                                    </ToolTip>
-                                </Label.ToolTip>
-                            </Label>
-                            <ComboBox
-                                x:Name="imageSizeComboBox"
-                                Grid.Column="1"
-                                MinWidth="40"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                ItemsSource="{Binding ShellService.Settings.ImageSizes}"
-                                SelectedItem="{Binding ImageSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                SelectedValue="{Binding ImageSize}"
-                                SelectedValuePath=".">
-                                <ComboBox.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipImageSize}" />
-                                            <TextBlock Text="{x:Static p:Resources.ToolTipImageSizeDescription}" />
-                                        </StackPanel>
-                                    </ToolTip>
-                                </ComboBox.ToolTip>
-                            </ComboBox>
+                           
                             <Label
                                 x:Name="timeOutLabel"
                                 Grid.Column="2"
@@ -750,23 +716,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label
-                                x:Name="videoSizeLabel"
-                                Grid.Column="0"
-                                Margin="10"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Content="{x:Static p:Resources.VideoSize}" />
-                            <ComboBox
-                                x:Name="videoSizeComboBox"
-                                Grid.Column="1"
-                                MinWidth="40"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                ItemsSource="{Binding ShellService.Settings.VideoSizes}"
-                                SelectedItem="{Binding VideoSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                SelectedValue="{Binding VideoSize}"
-                                SelectedValuePath="." />
+                          
                             <Label
                                 x:Name="scanConnectionsLabel"
                                 Grid.Column="2"
@@ -1396,6 +1346,44 @@
                             Margin="10"
                             Content="{x:Static p:Resources.DownloadQuotes}"
                             IsChecked="{Binding DownloadQuotes, Mode=TwoWay}" />
+                        <Label
+                            x:Name="imageSizeLabel"
+                            Grid.Row="5"
+                            Grid.Column="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.ImageSize}" Padding="4,0">
+                            <Label.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipImageSize}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipImageSizeDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </Label.ToolTip>
+                        </Label>
+                        <ComboBox
+                            x:Name="imageSizeComboBox"
+                            Grid.Row="5"
+                            Grid.Column="3"
+                            MinWidth="40"
+                            Margin="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding ShellService.Settings.ImageSizes}"
+                            SelectedItem="{Binding ImageSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding ImageSize}"
+                            SelectedValuePath=".">
+                            <ComboBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipImageSize}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipImageSizeDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </ComboBox.ToolTip>
+                        </ComboBox>
                         <CheckBox
                             x:Name="checkBoxDownloadConversations"
                             Grid.Row="6"
@@ -1403,7 +1391,27 @@
                             Grid.ColumnSpan="2"
                             Margin="10"
                             Content="{x:Static p:Resources.DownloadConversations}"
-                            IsChecked="{Binding DownloadConversations, Mode=TwoWay}" />
+                            IsChecked="{Binding DownloadConversations, Mode=TwoWay}" Padding="4,-1,0,0" />
+                        <Label
+                            x:Name="videoSizeLabel"
+                            Grid.Row="6"
+                            Grid.Column="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.VideoSize}" Padding="4,0" />
+                        <ComboBox
+                            x:Name="videoSizeComboBox"
+                            Grid.Row="6"
+                            Grid.Column="3"
+                            MinWidth="40"
+                            Margin="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding ShellService.Settings.VideoSizes}"
+                            SelectedItem="{Binding VideoSize, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding VideoSize}"
+                            SelectedValuePath="." Padding="6,3,5,3" />
                         <CheckBox
                             x:Name="checkBoxDownloadLinks"
                             Grid.Row="7"
@@ -1412,6 +1420,44 @@
                             Margin="10"
                             Content="{x:Static p:Resources.DownloadLinks}"
                             IsChecked="{Binding DownloadLinks, Mode=TwoWay}" />
+                        <Label
+                            x:Name="imageSizeCategoryLabel"
+                            Grid.Row="7"
+                            Grid.Column="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.ImageSizeCategory}" Padding="4,0">
+                            <Label.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipImageSizeCategory}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipImageSizeCategoryDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </Label.ToolTip>
+                        </Label>
+                        <ComboBox
+                            x:Name="imageSizeCategoryComboBox"
+                            Grid.Row="7"
+                            Grid.Column="3"
+                            MinWidth="40"
+                            Margin="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding ShellService.Settings.ImageSizeCategories}"
+                            SelectedItem="{Binding ImageSizeCategory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding ImageSizeCategory}"
+                            SelectedValuePath="." Padding="6,3,5,3">
+                            <ComboBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipImageSizeCategory}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipImageSizeCategoryDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </ComboBox.ToolTip>
+                        </ComboBox>
                         <CheckBox
                             x:Name="checkBoxDownloadAnswers"
                             Grid.Row="8"
@@ -1419,6 +1465,44 @@
                             Margin="10"
                             Content="{x:Static p:Resources.DownloadAnswers}"
                             IsChecked="{Binding DownloadAnswers, Mode=TwoWay}" />
+                        <Label
+                            x:Name="videoSizeCategoryLabel"
+                            Grid.Row="8"
+                            Grid.Column="2"
+                            Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.VideoSizeCategory}" Padding="4,0">
+                            <Label.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipVideoSizeCategory}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipVideoSizeCategoryDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </Label.ToolTip>
+                        </Label>
+                        <ComboBox
+                            x:Name="videoSizeCategoryComboBox"
+                            Grid.Row="8"
+                            Grid.Column="3"
+                            MinWidth="40"
+                            Margin="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding ShellService.Settings.VideoSizeCategories}"
+                            SelectedItem="{Binding VideoSizeCategory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding VideoSizeCategory}"
+                            SelectedValuePath="." Padding="6,3,5,3">
+                            <ComboBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipVideoSizeCategory}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipVideoSizeCategoryDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </ComboBox.ToolTip>
+                        </ComboBox>
                         <CheckBox
                             x:Name="checkBoxDownloadRebloggedPosts"
                             Grid.Row="9"

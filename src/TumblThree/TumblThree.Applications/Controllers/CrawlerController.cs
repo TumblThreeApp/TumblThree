@@ -210,7 +210,7 @@ namespace TumblThree.Applications.Controllers
                         ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), pt, ct);
                         try
                         {
-                            crawler.IsBlogOnlineAsync().Wait(4000);
+                            crawler.IsBlogOnlineAsync().Wait(4000, ct);
                         }
                         catch (AggregateException ex)
                         {

@@ -840,4 +840,7 @@ La activación aumentará el uso de memoria durante la operación en función de
     <value>Si esta opción está activada, los archivos de índice no se eliminan, sino que se mueven a un archivo de subcarpeta dentro de la carpeta de índice.
 Todos los archivos de índice dentro de esta subcarpeta se pueden usar para la verificación global de archivos duplicados, si están activados.</value>
   </data>
+  <data name="ImageSizeCategory" xml:space="preserve">
+    <value>Tamaño de la imagen (categoría)</value>
+  </data>
 </root>

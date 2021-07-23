@@ -12,7 +12,7 @@ using System.Web;
 
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.DataModels.TumblrApiJson;
-using TumblThree.Applications.DataModels.TumblrCrawlerData;
+using TumblThree.Applications.DataModels.CrawlerData;
 using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.Downloader;
 using TumblThree.Applications.Parser;
@@ -30,7 +30,7 @@ namespace TumblThree.Applications.Crawler
     {
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
-        private readonly IPostQueue<TumblrCrawlerData<Post>> jsonQueue;
+        private readonly IPostQueue<CrawlerData<Post>> jsonQueue;
         private readonly ICrawlerDataDownloader crawlerDataDownloader;
 
         private bool completeGrab = true;
@@ -46,7 +46,7 @@ namespace TumblThree.Applications.Crawler
             ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser,
             IUguuParser uguuParser, ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
-            IPostQueue<TumblrPost> postQueue, IPostQueue<TumblrCrawlerData<Post>> jsonQueue, IBlog blog,
+            IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Post>> jsonQueue, IBlog blog,
             IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
                 webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, progress, pt, ct)
@@ -427,7 +427,7 @@ namespace TumblThree.Applications.Crawler
             return highestPostId >= GetLastPostId();
         }
 
-        private void AddToJsonQueue(TumblrCrawlerData<Post> addToList)
+        private void AddToJsonQueue(CrawlerData<Post> addToList)
         {
             if (Blog.DumpCrawlerData)
             {
@@ -551,7 +551,7 @@ namespace TumblThree.Applications.Crawler
 
             string textBody = tumblrJsonParser.ParseText(post);
             AddToDownloadList(new TextPost(textBody, post.Id));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
         private void AddQuoteUrlToDownloadList(Post post)
@@ -568,7 +568,7 @@ namespace TumblThree.Applications.Crawler
 
             string textBody = tumblrJsonParser.ParseQuote(post);
             AddToDownloadList(new QuotePost(textBody, post.Id));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
         private void AddLinkUrlToDownloadList(Post post)
@@ -585,7 +585,7 @@ namespace TumblThree.Applications.Crawler
 
             string textBody = tumblrJsonParser.ParseLink(post);
             AddToDownloadList(new LinkPost(textBody, post.Id));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
         private void AddConversationUrlToDownloadList(Post post)
@@ -602,7 +602,7 @@ namespace TumblThree.Applications.Crawler
 
             string textBody = tumblrJsonParser.ParseConversation(post);
             AddToDownloadList(new ConversationPost(textBody, post.Id));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
         private void AddAnswerUrlToDownloadList(Post post)
@@ -619,7 +619,7 @@ namespace TumblThree.Applications.Crawler
 
             string textBody = tumblrJsonParser.ParseAnswer(post);
             AddToDownloadList(new AnswerPost(textBody, post.Id));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
         private void AddPhotoMetaUrlToDownloadList(Post post)
@@ -636,7 +636,7 @@ namespace TumblThree.Applications.Crawler
 
             string textBody = tumblrJsonParser.ParsePhotoMeta(post);
             AddToDownloadList(new PhotoMetaPost(textBody, post.Id));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
         private void AddVideoMetaUrlToDownloadList(Post post)
@@ -653,7 +653,7 @@ namespace TumblThree.Applications.Crawler
 
             string textBody = tumblrJsonParser.ParseVideoMeta(post);
             AddToDownloadList(new VideoMetaPost(textBody, post.Id));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
         private void AddAudioMetaUrlToDownloadList(Post post)
@@ -670,7 +670,7 @@ namespace TumblThree.Applications.Crawler
 
             string textBody = tumblrJsonParser.ParseAudioMeta(post);
             AddToDownloadList(new AudioMetaPost(textBody, post.Id));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
         private string ParseImageUrl(Post post)
@@ -726,7 +726,7 @@ namespace TumblThree.Applications.Crawler
             if (post.Photos?.Count > 0 && post.PhotoUrl1280 == post.Photos[0].PhotoUrl1280 && !post.Photos[0].PhotoUrl1280.Split('/').Last().StartsWith("tumblr_")) index = 1;
 
             AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(imageUrl, post, index)));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
         }
 
         private void AddPhotoSetUrl(Post post)
@@ -741,7 +741,7 @@ namespace TumblThree.Applications.Crawler
             foreach (string imageUrl in post.Photos.Select(ParseImageUrl).Where(imgUrl => !CheckIfSkipGif(imgUrl)))
             {
                 AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(imageUrl, post, i)));
-                AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
+                AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
                 if (i != -1) i++;
             }
         }
@@ -761,7 +761,7 @@ namespace TumblThree.Applications.Crawler
             }
 
             AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + videoUrl + ".mp4", post.Id, post.UnixTimestamp.ToString(), BuildFileName("https://vtt.tumblr.com/" + videoUrl + ".mp4", post, -1)));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(videoUrl + ".json", post));
+            AddToJsonQueue(new CrawlerData<Post>(videoUrl + ".json", post));
         }
 
         private void AddAudioUrl(Post post)
@@ -774,7 +774,7 @@ namespace TumblThree.Applications.Crawler
             }
 
             AddToDownloadList(new AudioPost(WebUtility.UrlDecode(audioUrl), post.Id, post.UnixTimestamp.ToString()));
-            AddToJsonQueue(new TumblrCrawlerData<Post>(Path.ChangeExtension(audioUrl.Split('/').Last(), ".json"), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(audioUrl.Split('/').Last(), ".json"), post));
         }
 
         private async Task AddExternalPhotoUrlToDownloadListAsync(Post post)

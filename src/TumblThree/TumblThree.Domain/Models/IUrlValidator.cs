@@ -19,5 +19,7 @@
         bool IsValidTumblrLikesUrl(string url);
 
         bool IsValidUrl(string url);
+
+        bool IsValidTwitterUrl(string url);
     }
 }

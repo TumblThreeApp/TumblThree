@@ -880,6 +880,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image size (category).
+        /// </summary>
+        public static string ImageSizeCategory {
+            get {
+                return ResourceManager.GetString("ImageSizeCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import Blog List.
         /// </summary>
         public static string ImportFromBlogListFile {
@@ -2100,7 +2109,7 @@ namespace TumblThree.Presentation.Properties {
         ///  %k  reblog-key
         ///Mandatory tokens (if not using token %f) to make filenames unique:
         ///  %x  &quot;_{number}&quot; ({number}: 2..n) appended to filename
-        ///  %y  &quot; ({number})&quot; ({number} [rest of string was truncated]&quot;;.
+        ///  %y  &quot; ({nu [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ToolTipFilenameTemplateDescription {
             get {
@@ -2190,6 +2199,26 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipImageSize {
             get {
                 return ResourceManager.GetString("ToolTipImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photo size to download (Twitter).
+        /// </summary>
+        public static string ToolTipImageSizeCategory {
+            get {
+                return ResourceManager.GetString("ToolTipImageSizeCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photo size category to download.
+        ///
+        ///Possible categories: large, medium, small, thumb.
+        /// </summary>
+        public static string ToolTipImageSizeCategoryDescription {
+            get {
+                return ResourceManager.GetString("ToolTipImageSizeCategoryDescription", resourceCulture);
             }
         }
         
@@ -2771,6 +2800,26 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Video size to download (Twitter).
+        /// </summary>
+        public static string ToolTipVideoSizeCategory {
+            get {
+                return ResourceManager.GetString("ToolTipVideoSizeCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Video size category to download.
+        ///
+        ///Possible categories: large, medium, small.
+        /// </summary>
+        public static string ToolTipVideoSizeCategoryDescription {
+            get {
+                return ResourceManager.GetString("ToolTipVideoSizeCategoryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File type to download.
         /// </summary>
         public static string ToolTipWebmshareFiletype {
@@ -2848,6 +2897,15 @@ namespace TumblThree.Presentation.Properties {
         public static string VideoSize {
             get {
                 return ResourceManager.GetString("VideoSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Video size (category).
+        /// </summary>
+        public static string VideoSizeCategory {
+            get {
+                return ResourceManager.GetString("VideoSizeCategory", resourceCulture);
             }
         }
         

@@ -17,7 +17,7 @@ namespace TumblThree.Domain.Models
             _urlValidator = urlValidator;
         }
 
-        public bool IsValidTumblrBlogUrl(string blogUrl)
+        public bool IsValidBlogUrl(string blogUrl)
         {
             blogUrl = _urlValidator.AddHttpsProtocol(blogUrl);
             return _urlValidator.IsValidTumblrUrl(blogUrl)
@@ -26,7 +26,8 @@ namespace TumblThree.Domain.Models
                    || _urlValidator.IsValidTumblrLikesUrl(blogUrl)
                    || _urlValidator.IsValidTumblrSearchUrl(blogUrl)
                    || _urlValidator.IsValidTumblrTagSearchUrl(blogUrl)
-                   || _urlValidator.IsTumbexUrl(blogUrl);
+                   || _urlValidator.IsTumbexUrl(blogUrl)
+                   || _urlValidator.IsValidTwitterUrl(blogUrl);
         }
 
         public bool IsValidUrl(string url)
@@ -72,6 +73,11 @@ namespace TumblThree.Domain.Models
             if (_urlValidator.IsValidTumblrTagSearchUrl(blogUrl))
             {
                 return TumblrTagSearchBlog.Create(blogUrl, path, filenameTemplate);
+            }
+
+            if (_urlValidator.IsValidTwitterUrl(blogUrl))
+            {
+                return TwitterBlog.Create(blogUrl, path, filenameTemplate);
             }
 
             throw new ArgumentException("Website is not supported!", nameof(blogUrl));

@@ -730,6 +730,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Protected or offline blog detected: {0}..
+        /// </summary>
+        public static string ProtectedBlog {
+            get {
+                return ResourceManager.GetString("ProtectedBlog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Queuelist.
         /// </summary>
         public static string Queuelist {

@@ -278,6 +278,11 @@ namespace TumblThree.Applications.Controllers
                     {
                         blogs.Add(new TumblrTagSearchBlog().Load(filename));
                     }
+
+                    if (filename.EndsWith(BlogTypes.twitter.ToString()))
+                    {
+                        blogs.Add(new TwitterBlog().Load(filename));
+                    }
                 }
                 catch (SerializationException ex)
                 {
@@ -509,7 +514,7 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
-        private bool CanAddBlog() => _blogFactory.IsValidTumblrBlogUrl(_crawlerService.NewBlogUrl) || _blogFactory.IsValidUrl(_crawlerService.NewBlogUrl);
+        private bool CanAddBlog() => _blogFactory.IsValidBlogUrl(_crawlerService.NewBlogUrl) || _blogFactory.IsValidUrl(_crawlerService.NewBlogUrl);
 
         private async Task AddBlog()
         {
@@ -796,11 +801,11 @@ namespace TumblThree.Applications.Controllers
 
         private async Task<IBlog> CheckIfCrawlableBlog(string blogUrl)
         {
-            if (!_blogFactory.IsValidTumblrBlogUrl(blogUrl) && _blogFactory.IsValidUrl(blogUrl))
+            if (!_blogFactory.IsValidBlogUrl(blogUrl) && _blogFactory.IsValidUrl(blogUrl))
             {
                 if ( await _tumblrBlogDetector.IsTumblrBlogWithCustomDomainAsync(blogUrl))
                     return TumblrBlog.Create(blogUrl, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate, true);
-                throw new Exception($"The url '{blogUrl}' cannot be recognized as Tumblr blog!");
+                throw new Exception($"The url '{blogUrl}' cannot be recognized as valid blog!");
             }
             return _blogFactory.GetBlog(blogUrl, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate);
         }

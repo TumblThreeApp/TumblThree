@@ -843,4 +843,7 @@ Durch die Aktivierung wird die Speichernutzung während des Betriebs basierend a
     <value>Wenn diese Option aktiviert ist, werden die Indexdateien nicht gelöscht, sondern in einen Unterordner Archive im Indexordner verschoben.
 Alle Indexdateien in diesem Unterordner können bei Aktivierung für die globale Überprüfung auf Dateiduplikate verwendet werden.</value>
   </data>
+  <data name="ImageSizeCategory" xml:space="preserve">
+    <value>Bildergröße (Kategorie)</value>
+  </data>
 </root>

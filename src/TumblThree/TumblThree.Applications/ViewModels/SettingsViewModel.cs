@@ -78,6 +78,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _forceSize;
         private bool _forceRescan;
         private string _imageSize;
+        private string _imageSizeCategory;
         private bool _limitConnectionsApi;
         private bool _limitConnectionsSvc;
         private bool _limitScanBandwidth;
@@ -123,6 +124,7 @@ namespace TumblThree.Applications.ViewModels
         private int _timeOut;
         private string _timerInterval;
         private int _videoSize;
+        private string _videoSizeCategory;
         private int _settingsTabIndex;
         private string _userAgent;
         private string _tumblrUser = string.Empty;
@@ -331,6 +333,18 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _videoSize;
             set => SetProperty(ref _videoSize, value);
+        }
+
+        public string ImageSizeCategory
+        {
+            get => _imageSizeCategory;
+            set => SetProperty(ref _imageSizeCategory, value);
+        }
+
+        public string VideoSizeCategory
+        {
+            get => _videoSizeCategory;
+            set => SetProperty(ref _videoSizeCategory, value);
         }
 
         public string BlogType
@@ -1001,6 +1015,8 @@ namespace TumblThree.Applications.ViewModels
                 LimitScanBandwidth = _settings.LimitScanBandwidth;
                 ImageSize = _settings.ImageSize;
                 VideoSize = _settings.VideoSize;
+                ImageSizeCategory = _settings.ImageSizeCategory;
+                VideoSizeCategory = _settings.VideoSizeCategory;
                 BlogType = _settings.BlogType;
                 TimeOut = _settings.TimeOut;
                 LimitConnectionsApi = _settings.LimitConnectionsApi;
@@ -1165,7 +1181,7 @@ namespace TumblThree.Applications.ViewModels
                 ProxyPort = string.Empty;
                 TimerInterval = "22:40:00";
                 SettingsTabIndex = 0;
-                UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36";
+                UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
                 LogLevel = nameof(System.Diagnostics.TraceLevel.Verbose);
                 GroupPhotoSets = false;
                 FilenameTemplate = "%f";
@@ -1277,6 +1293,8 @@ namespace TumblThree.Applications.ViewModels
             _settings.Bandwidth = Bandwidth;
             _settings.ImageSize = ImageSize;
             _settings.VideoSize = VideoSize;
+            _settings.ImageSizeCategory = ImageSizeCategory;
+            _settings.VideoSizeCategory = VideoSizeCategory;
             _settings.BlogType = BlogType;
             _settings.CheckClipboard = CheckClipboard;
             _settings.ShowPicturePreview = ShowPicturePreview;

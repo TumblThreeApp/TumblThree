@@ -1,12 +1,12 @@
-﻿namespace TumblThree.Applications.DataModels.TumblrCrawlerData
+﻿namespace TumblThree.Applications.DataModels.CrawlerData
 {
-    public class TumblrCrawlerData<T>
+    public class CrawlerData<T>
     {
         public T Data { get; protected set; }
 
         public string Filename { get; protected set; }
 
-        public TumblrCrawlerData(string filename, T data)
+        public CrawlerData(string filename, T data)
         {
             Filename = filename;
             Data = data;

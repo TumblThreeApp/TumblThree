@@ -24,9 +24,19 @@ namespace TumblThree.Applications.Properties
                 "best", "1280", "500", "400", "250", "100", "75"
             };
 
+        private static readonly string[] imageSizeCategories =
+            {
+                "large", "medium", "small", "thumb"
+            };
+
         private static readonly string[] videoSizes =
             {
                 "1080", "480"
+            };
+
+        private static readonly string[] videoSizeCategories =
+            {
+                "large", "medium", "small"
             };
 
         private static string[] tumblrHosts =
@@ -153,7 +163,13 @@ namespace TumblThree.Applications.Properties
         public string ImageSize { get; set; }
 
         [DataMember]
+        public string ImageSizeCategory { get; set; }
+
+        [DataMember]
         public int VideoSize { get; set; }
+
+        [DataMember]
+        public string VideoSizeCategory { get; set; }
 
         [DataMember]
         public string BlogType { get; set; }
@@ -361,7 +377,11 @@ namespace TumblThree.Applications.Properties
 
         public ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
 
+        public ObservableCollection<string> ImageSizeCategories => new ObservableCollection<string>(imageSizeCategories);
+
         public ObservableCollection<string> VideoSizes => new ObservableCollection<string>(videoSizes);
+
+        public ObservableCollection<string> VideoSizeCategories => new ObservableCollection<string>(videoSizeCategories);
 
         public ObservableCollection<string> BlogTypes => new ObservableCollection<string>(blogTypes);
 
@@ -458,7 +478,7 @@ namespace TumblThree.Applications.Properties
             OAuthCallbackUrl = @"https://github.com/TumblThreeApp/TumblThree";
             ApiKey = "x8pd1InspmnuLSFKT4jNxe8kQUkbRXPNkAffntAFSk01UjRsLV";
             SecretKey = "Mul4BviRQgPLuhN1xzEqmXzwvoWicEoc4w6ftWBGWtioEvexmM";
-            UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36";
+            UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
             OAuthToken = string.Empty;
             OAuthTokenSecret = string.Empty;
             Left = 50;
@@ -490,6 +510,8 @@ namespace TumblThree.Applications.Properties
             BufferSize = 512;
             ImageSize = "best";
             VideoSize = 1080;
+            ImageSizeCategory = "";
+            VideoSizeCategory = "";
             BlogType = "None";
             CheckClipboard = true;
             ShowPicturePreview = true;

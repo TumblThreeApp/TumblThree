@@ -29,7 +29,7 @@ namespace TumblThree.Applications.Services
 
         private HttpWebRequest CreateStubRequest(string url, string referer = "", Dictionary<string, string> headers = null, bool allowAutoRedirect = true)
         {
-            var request = (HttpWebRequest)WebRequest.Create(HttpUtility.UrlDecode(url));
+            var request = (HttpWebRequest)WebRequest.Create(url);   //HttpUtility.UrlDecode(url) what was the use case!?
             request.ProtocolVersion = HttpVersion.Version11;
             request.UserAgent = settings.UserAgent;
             request.AllowAutoRedirect = allowAutoRedirect;
@@ -124,10 +124,14 @@ namespace TumblThree.Applications.Services
             return (response.StatusCode == HttpStatusCode.OK);
         }
 
-        public async Task<string> ReadRequestToEndAsync(HttpWebRequest request)
+        public async Task<string> ReadRequestToEndAsync(HttpWebRequest request, bool storeCookies = false)
         {
             using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
             {
+                if (storeCookies)
+                {
+                    cookieService.SetUriCookie(response.Cookies);
+                }
                 using (Stream stream = GetStreamForApiRequest(response.GetResponseStream()))
                 {
                     using (var buffer = new BufferedStream(stream))

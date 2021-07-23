@@ -4,7 +4,7 @@ namespace TumblThree.Domain.Models
 {
     public interface IBlogFactory
     {
-        bool IsValidTumblrBlogUrl(string blogUrl);
+        bool IsValidBlogUrl(string blogUrl);
 
         bool IsValidUrl(string blogUrl);
 

@@ -25,7 +25,7 @@ namespace TumblThree.Applications.Downloader
         private readonly IManagerService managerService;
         protected readonly IProgress<DownloadProgress> progress;
         protected readonly object lockObjectDownload = new object();
-        protected readonly IPostQueue<TumblrPost> postQueue;
+        protected readonly IPostQueue<AbstractPost> postQueue;
         protected readonly IShellService shellService;
         protected readonly CancellationToken ct;
         protected readonly PauseToken pt;
@@ -41,7 +41,7 @@ namespace TumblThree.Applications.Downloader
         private readonly object diskFilesLock = new object();
         private HashSet<string> diskFiles;
 
-        protected AbstractDownloader(IShellService shellService, IManagerService managerService, CancellationToken ct, PauseToken pt, IProgress<DownloadProgress> progress, IPostQueue<TumblrPost> postQueue, FileDownloader fileDownloader, ICrawlerService crawlerService = null, IBlog blog = null, IFiles files = null)
+        protected AbstractDownloader(IShellService shellService, IManagerService managerService, CancellationToken ct, PauseToken pt, IProgress<DownloadProgress> progress, IPostQueue<AbstractPost> postQueue, FileDownloader fileDownloader, ICrawlerService crawlerService = null, IBlog blog = null, IFiles files = null)
         {
             this.shellService = shellService;
             this.crawlerService = crawlerService;
@@ -171,6 +171,8 @@ namespace TumblThree.Applications.Downloader
 
             blog.CreateDataFolder();
 
+            await Task.Run(() => Task.CompletedTask);
+
             try
             {
                 foreach (TumblrPost downloadItem in postQueue.GetConsumingEnumerable(ct))
@@ -254,7 +256,7 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
-        private bool CheckIfLinkRestored(TumblrPost downloadItem)
+        protected bool CheckIfLinkRestored(TumblrPost downloadItem)
         {
             if (!blog.ForceRescan || blog.FilenameTemplate != "%f") return false;
             lock (diskFilesLock)
@@ -332,7 +334,7 @@ namespace TumblThree.Applications.Downloader
             files.AddFileToDb(PostId(downloadItem), downloadItem.Filename);
         }
 
-        private string AddFileToDb(TumblrPost downloadItem)
+        protected string AddFileToDb(TumblrPost downloadItem)
         {
             if (AppendTemplate == null)
             {
@@ -347,7 +349,7 @@ namespace TumblThree.Applications.Downloader
             return files.CheckIfFileExistsInDB(filenameUrl);
         }
 
-        private bool CheckIfFileExistsInDB(TumblrPost downloadItem)
+        protected bool CheckIfFileExistsInDB(TumblrPost downloadItem)
         {
             string filename = FileName(downloadItem);
             if (shellService.Settings.LoadAllDatabases)
@@ -379,7 +381,7 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
-        private void UpdateBlogDB(string postType)
+        protected void UpdateBlogDB(string postType)
         {
             blog.UpdatePostCount(postType);
             blog.UpdateProgress(false);
@@ -400,12 +402,12 @@ namespace TumblThree.Applications.Downloader
             return downloadItem.Url;
         }
 
-        private static string FileName(TumblrPost downloadItem)
+        protected virtual string FileName(TumblrPost downloadItem)
         {
             return downloadItem.Url.Split('/').Last();
         }
 
-        private static string FileNameNew(TumblrPost downloadItem)
+        protected static string FileNameNew(TumblrPost downloadItem)
         {
             return downloadItem.Filename;
         }

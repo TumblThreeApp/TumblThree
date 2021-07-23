@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.DataModels.TumblrApiJson;
-using TumblThree.Applications.DataModels.TumblrCrawlerData;
+using TumblThree.Applications.DataModels.CrawlerData;
 using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.DataModels.TumblrTaggedSearchJson;
 using TumblThree.Applications.Downloader;
@@ -31,7 +31,7 @@ namespace TumblThree.Applications.Crawler
         private static readonly Regex extractJsonFromSearch = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);");
 
         private readonly IDownloader downloader;
-        private readonly IPostQueue<TumblrCrawlerData<Datum>> jsonQueue;
+        private readonly IPostQueue<CrawlerData<Datum>> jsonQueue;
         private readonly ICrawlerDataDownloader crawlerDataDownloader;
 
         private SemaphoreSlim semaphoreSlim;
@@ -43,7 +43,7 @@ namespace TumblThree.Applications.Crawler
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
-            IPostQueue<TumblrPost> postQueue, IPostQueue<TumblrCrawlerData<Datum>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Datum>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
                 webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, progress, pt, ct)
         {
@@ -196,7 +196,7 @@ namespace TumblThree.Applications.Crawler
                             index += (post.Content.Count > 1) ? 1 : 0;
                             DownloadMedia(content, data, index);
                         }
-                        AddToJsonQueue(new TumblrCrawlerData<Datum>(Path.ChangeExtension(post.Id, ".json"), post));
+                        AddToJsonQueue(new CrawlerData<Datum>(Path.ChangeExtension(post.Id, ".json"), post));
                     }
                     catch (TimeoutException timeoutException)
                     {
@@ -311,7 +311,7 @@ namespace TumblThree.Applications.Crawler
             return !Tags.Any() || tags.Any(x => Tags.Contains(x, StringComparer.OrdinalIgnoreCase));
         }
 
-        private void AddToJsonQueue(TumblrCrawlerData<Datum> addToList)
+        private void AddToJsonQueue(CrawlerData<Datum> addToList)
         {
             if (Blog.DumpCrawlerData)
                 jsonQueue.Add(addToList);

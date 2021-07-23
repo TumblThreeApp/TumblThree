@@ -21,7 +21,7 @@ namespace TumblThree.Applications.Services
 
         Task<bool> RemotePageIsValidAsync(string url);
 
-        Task<string> ReadRequestToEndAsync(HttpWebRequest request);
+        Task<string> ReadRequestToEndAsync(HttpWebRequest request, bool storeCookies = false);
 
         Task<ResponseDetails> ReadRequestToEnd2Async(HttpWebRequest request);
 

@@ -393,4 +393,7 @@
     <value>TumblThree requires the "Microsoft Visual C++ 2015-2019 Redistributable". You need to download and install it first.
 Do you want to download it now?</value>
   </data>
+  <data name="ProtectedBlog" xml:space="preserve">
+    <value>Protected or offline blog detected: {0}.</value>
+  </data>
 </root>

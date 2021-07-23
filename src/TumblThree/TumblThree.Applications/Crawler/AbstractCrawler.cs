@@ -36,14 +36,14 @@ namespace TumblThree.Applications.Crawler
         protected IShellService ShellService { get; }
         protected PauseToken Pt { get; }
         protected CancellationToken Ct { get; }
-        protected IPostQueue<TumblrPost> PostQueue { get; }
+        protected IPostQueue<AbstractPost> PostQueue { get; }
         protected ConcurrentBag<TumblrPost> StatisticsBag { get; set; } = new ConcurrentBag<TumblrPost>();
         protected List<string> Tags { get; set; } = new List<string>();
 
         protected IDownloader Downloader;
 
         protected AbstractCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory,
-            ISharedCookieService cookieService, IPostQueue<TumblrPost> postQueue, IBlog blog, IDownloader downloader,
+            ISharedCookieService cookieService, IPostQueue<AbstractPost> postQueue, IBlog blog, IDownloader downloader,
             PauseToken pt, CancellationToken ct)
         {
             ShellService = shellService;
@@ -292,13 +292,19 @@ namespace TumblThree.Applications.Crawler
 
         protected ulong GetLastPostId()
         {
-            ulong lastId = Blog.LastId;
             if (Blog.ForceRescan)
             {
                 return 0;
             }
+            return !string.IsNullOrEmpty(Blog.DownloadPages) ? 0 : Blog.LastId;
+        }
 
-            return !string.IsNullOrEmpty(Blog.DownloadPages) ? 0 : lastId;
+        protected void GenerateTags()
+        {
+            if (!string.IsNullOrWhiteSpace(Blog.Tags))
+            {
+                Tags = Blog.Tags.Split(',').Select(x => x.Trim()).ToList();
+            }
         }
 
         protected void UpdateBlogStats(bool add)
@@ -393,7 +399,7 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.LimitExceeded, Blog.Name), webException);
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.LimitExceeded, Blog.Name), webException);  //TODO: 2nd resource
             ShellService.ShowError(webException, Resources.LimitExceeded, Blog.Name);
             return true;
         }

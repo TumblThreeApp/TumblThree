@@ -843,4 +843,7 @@ L'activation augmentera l'utilisation de la mémoire pendant le fonctionnement e
     <value>Si cette option est activée, les fichiers d'index ne sont pas supprimés, mais déplacés vers un sous-dossier Archive dans le dossier Index.
 Tous les fichiers d'index de ce sous-dossier peuvent être utilisés pour la vérification globale des doublons de fichiers, s'ils sont activés.</value>
   </data>
+  <data name="ImageSizeCategory" xml:space="preserve">
+    <value>Taille de l'image (catégorie)</value>
+  </data>
 </root>

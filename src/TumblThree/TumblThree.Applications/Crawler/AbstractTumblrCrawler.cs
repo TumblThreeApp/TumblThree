@@ -48,7 +48,7 @@ namespace TumblThree.Applications.Crawler
         protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
             ITumblrParser tumblrParser, IImgurParser imgurParser, IGfycatParser gfycatParser, IWebmshareParser webmshareParser,
             IMixtapeParser mixtapeParser, IUguuParser uguuParser, ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser,
-            ICatBoxParser catboxParser, IPostQueue<TumblrPost> postQueue, IBlog blog, IDownloader downloader, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            ICatBoxParser catboxParser, IPostQueue<AbstractPost> postQueue, IBlog blog, IDownloader downloader, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, progress, webRequestFactory, cookieService, postQueue, blog, downloader, pt, ct)
         {
             this.TumblrParser = tumblrParser;
@@ -122,14 +122,6 @@ namespace TumblThree.Applications.Crawler
                    .Replace("_100", "_" + ImageSizeForSearching())
                    .Replace("_75sq", "_" + ImageSizeForSearching())
                    .ToString();
-        }
-
-        protected void GenerateTags()
-        {
-            if (!string.IsNullOrWhiteSpace(Blog.Tags))
-            {
-                Tags = Blog.Tags.Split(',').Select(x => x.Trim()).ToList();
-            }
         }
 
         protected bool CheckIfSkipGif(string imageUrl)

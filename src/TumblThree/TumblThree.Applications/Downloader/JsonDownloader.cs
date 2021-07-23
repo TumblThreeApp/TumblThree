@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 
 using TumblThree.Applications.DataModels;
-using TumblThree.Applications.DataModels.TumblrCrawlerData;
+using TumblThree.Applications.DataModels.CrawlerData;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
@@ -17,16 +17,16 @@ using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Applications.Downloader
 {
-    public class TumblrJsonDownloader<T> : ICrawlerDataDownloader
+    public class JsonDownloader<T> : ICrawlerDataDownloader
     {
         private readonly IBlog blog;
         private readonly ICrawlerService crawlerService;
-        private readonly IPostQueue<TumblrCrawlerData<T>> jsonQueue;
+        private readonly IPostQueue<CrawlerData<T>> jsonQueue;
         private readonly IShellService shellService;
         private readonly CancellationToken ct;
         private readonly PauseToken pt;
 
-        public TumblrJsonDownloader(IShellService shellService, PauseToken pt, IPostQueue<TumblrCrawlerData<T>> jsonQueue,
+        public JsonDownloader(IShellService shellService, PauseToken pt, IPostQueue<CrawlerData<T>> jsonQueue,
             ICrawlerService crawlerService, IBlog blog, CancellationToken ct)
         {
             this.shellService = shellService;
@@ -44,7 +44,7 @@ namespace TumblThree.Applications.Downloader
 
             try
             {
-                foreach (TumblrCrawlerData<T> downloadItem in jsonQueue.GetConsumingEnumerable(ct))
+                foreach (CrawlerData<T> downloadItem in jsonQueue.GetConsumingEnumerable(ct))
                 {
                     if (ct.IsCancellationRequested)
                     {
@@ -67,7 +67,7 @@ namespace TumblThree.Applications.Downloader
             await Task.WhenAll(trackedTasks);
         }
 
-        private async Task DownloadPostAsync(TumblrCrawlerData<T> downloadItem)
+        private async Task DownloadPostAsync(CrawlerData<T> downloadItem)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
-        private async Task DownloadTextPostAsync(TumblrCrawlerData<T> crawlerData)
+        private async Task DownloadTextPostAsync(CrawlerData<T> crawlerData)
         {
             string blogDownloadLocation = blog.DownloadLocation();
             string fileLocation = FileLocation(blogDownloadLocation, crawlerData.Filename);
@@ -89,7 +89,7 @@ namespace TumblThree.Applications.Downloader
         {
             try
             {
-                if (typeof(T) == typeof(DataModels.TumblrSearchJson.Datum))
+                if (typeof(T) == typeof(DataModels.TumblrSearchJson.Datum) || typeof(T) == typeof(DataModels.Twitter.TimelineTweets.Tweet))
                 {
                     var serializer = new JsonSerializer();
                     using (StreamWriter sw = new StreamWriter(fileLocation, false))

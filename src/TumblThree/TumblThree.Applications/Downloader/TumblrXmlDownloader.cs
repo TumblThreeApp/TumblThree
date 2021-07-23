@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using TumblThree.Applications.DataModels;
-using TumblThree.Applications.DataModels.TumblrCrawlerData;
+using TumblThree.Applications.DataModels.CrawlerData;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
@@ -19,12 +19,12 @@ namespace TumblThree.Applications.Downloader
     {
         private readonly IBlog _blog;
         private readonly ICrawlerService _crawlerService;
-        private readonly IPostQueue<TumblrCrawlerData<XDocument>> _xmlQueue;
+        private readonly IPostQueue<CrawlerData<XDocument>> _xmlQueue;
         private readonly IShellService _shellService;
         private readonly CancellationToken _ct;
         private readonly PauseToken _pt;
 
-        public TumblrXmlDownloader(IShellService shellService, PauseToken pt, IPostQueue<TumblrCrawlerData<XDocument>> xmlQueue, ICrawlerService crawlerService, IBlog blog, CancellationToken ct)
+        public TumblrXmlDownloader(IShellService shellService, PauseToken pt, IPostQueue<CrawlerData<XDocument>> xmlQueue, ICrawlerService crawlerService, IBlog blog, CancellationToken ct)
         {
             _shellService = shellService;
             _crawlerService = crawlerService;
@@ -41,7 +41,7 @@ namespace TumblThree.Applications.Downloader
 
             try
             {
-                foreach (TumblrCrawlerData<XDocument> downloadItem in _xmlQueue.GetConsumingEnumerable(_ct))
+                foreach (CrawlerData<XDocument> downloadItem in _xmlQueue.GetConsumingEnumerable(_ct))
                 {
                     if (_ct.IsCancellationRequested)
                     {
@@ -64,7 +64,7 @@ namespace TumblThree.Applications.Downloader
             await Task.WhenAll(trackedTasks);
         }
 
-        private async Task DownloadPostAsync(TumblrCrawlerData<XDocument> downloadItem)
+        private async Task DownloadPostAsync(CrawlerData<XDocument> downloadItem)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
-        private async Task DownloadTextPostAsync(TumblrCrawlerData<XDocument> crawlerData)
+        private async Task DownloadTextPostAsync(CrawlerData<XDocument> crawlerData)
         {
             string blogDownloadLocation = _blog.DownloadLocation();
             string fileLocation = FileLocation(blogDownloadLocation, crawlerData.Filename);

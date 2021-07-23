@@ -1097,4 +1097,26 @@ Activation will increase the memory usage during operation based on the amount o
     <value>If this option is activated, the index files are not deleted, but moved to a subfolder Archive inside the Index folder.
 All index files inside this subfolder can be used for the global check for file duplicates, if activated.</value>
   </data>
+  <data name="ImageSizeCategory" xml:space="preserve">
+    <value>Image size (category)</value>
+  </data>
+  <data name="ToolTipImageSizeCategoryDescription" xml:space="preserve">
+    <value>Photo size category to download.
+
+Possible categories: large, medium, small, thumb</value>
+  </data>
+  <data name="ToolTipImageSizeCategory" xml:space="preserve">
+    <value>Photo size to download (Twitter)</value>
+  </data>
+  <data name="VideoSizeCategory" xml:space="preserve">
+    <value>Video size (category)</value>
+  </data>
+  <data name="ToolTipVideoSizeCategory" xml:space="preserve">
+    <value>Video size to download (Twitter)</value>
+  </data>
+  <data name="ToolTipVideoSizeCategoryDescription" xml:space="preserve">
+    <value>Video size category to download.
+
+Possible categories: large, medium, small</value>
+  </data>
 </root>
