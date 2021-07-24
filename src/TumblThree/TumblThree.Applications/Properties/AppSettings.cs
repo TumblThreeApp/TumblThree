@@ -464,6 +464,12 @@ namespace TumblThree.Applications.Properties
                 settings.ColumnSettings.Add("LatestPost", Tuple.Create(9, 120.0, Visibility.Visible));
                 updated = true;
             }
+            if (string.IsNullOrEmpty(settings.ImageSizeCategory))
+            {
+                settings.ImageSizeCategory = "medium";
+                settings.VideoSizeCategory = "medium";
+                updated = true;
+            }
 
             return updated;
         }
