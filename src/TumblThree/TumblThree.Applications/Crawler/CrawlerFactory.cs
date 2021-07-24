@@ -216,7 +216,7 @@ namespace TumblThree.Applications.Crawler
 
         private IPostQueue<AbstractPost> GetProducerConsumerCollection()
         {
-            return new PostQueue<AbstractPost>(new ConcurrentQueue<AbstractPost>());
+            return new PostQueue<AbstractPost>();
         }
 
         private ITumblrApiXmlToTextParser GetTumblrApiXmlToTextParser()
@@ -252,12 +252,12 @@ namespace TumblThree.Applications.Crawler
 
         private IPostQueue<CrawlerData<XDocument>> GetApiXmlQueue()
         {
-            return new PostQueue<CrawlerData<XDocument>>(new ConcurrentQueue<CrawlerData<XDocument>>());
+            return new PostQueue<CrawlerData<XDocument>>();
         }
 
         private IPostQueue<CrawlerData<T>> GetJsonQueue<T>()
         {
-            return new PostQueue<CrawlerData<T>>(new ConcurrentQueue<CrawlerData<T>>());
+            return new PostQueue<CrawlerData<T>>();
         }
     }
 }

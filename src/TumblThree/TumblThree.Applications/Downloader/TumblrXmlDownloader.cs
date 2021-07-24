@@ -41,8 +41,10 @@ namespace TumblThree.Applications.Downloader
 
             try
             {
-                foreach (CrawlerData<XDocument> downloadItem in _xmlQueue.GetConsumingEnumerable(_ct))
+                while (await _xmlQueue.OutputAvailableAsync(_ct))
                 {
+                    CrawlerData<XDocument> downloadItem = (CrawlerData<XDocument>)await _xmlQueue.ReceiveAsync();
+
                     if (_ct.IsCancellationRequested)
                     {
                         break;

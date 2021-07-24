@@ -175,8 +175,10 @@ namespace TumblThree.Applications.Downloader
 
             try
             {
-                foreach (TumblrPost downloadItem in postQueue.GetConsumingEnumerable(ct))
+                while (await postQueue.OutputAvailableAsync(ct))
                 {
+                    TumblrPost downloadItem = (TumblrPost)await postQueue.ReceiveAsync();
+
                     if (downloadItem.GetType() == typeof(VideoPost))
                     {
                         await concurrentVideoConnectionsSemaphore.WaitAsync();

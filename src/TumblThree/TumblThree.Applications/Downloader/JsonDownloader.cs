@@ -44,8 +44,10 @@ namespace TumblThree.Applications.Downloader
 
             try
             {
-                foreach (CrawlerData<T> downloadItem in jsonQueue.GetConsumingEnumerable(ct))
+                while (await jsonQueue.OutputAvailableAsync(ct))
                 {
+                    CrawlerData<T> downloadItem = (CrawlerData<T>)await jsonQueue.ReceiveAsync();
+
                     if (ct.IsCancellationRequested)
                     {
                         break;

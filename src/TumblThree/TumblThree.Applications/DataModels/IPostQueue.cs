@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace TumblThree.Applications.DataModels
 {
@@ -7,8 +7,10 @@ namespace TumblThree.Applications.DataModels
     {
         void Add(T post);
 
-        void CompleteAdding();
+        Task<T> ReceiveAsync();
 
-        IEnumerable<T> GetConsumingEnumerable(CancellationToken cancellationToken);
+        Task CompleteAdding();
+
+        Task<bool> OutputAvailableAsync(CancellationToken cancellationToken);
     }
 }

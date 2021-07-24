@@ -1,31 +1,37 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace TumblThree.Applications.DataModels
 {
     public class PostQueue<T> : IPostQueue<T>
     {
-        private readonly BlockingCollection<T> postQueue;
+        private readonly BufferBlock<T> postQueue;
 
-        public PostQueue(IProducerConsumerCollection<T> postTaskCollection)
+        public PostQueue()
         {
-            postQueue = new BlockingCollection<T>(postTaskCollection);
+            postQueue = new BufferBlock<T>();
         }
 
         public void Add(T post)
         {
-            postQueue.Add(post);
+            postQueue.Post(post);
         }
 
-        public void CompleteAdding()
+        public async Task<T> ReceiveAsync()
         {
-            postQueue.CompleteAdding();
+            return await postQueue.ReceiveAsync();
         }
 
-        public IEnumerable<T> GetConsumingEnumerable(CancellationToken cancellationToken)
+        public Task CompleteAdding()
         {
-            return postQueue.GetConsumingEnumerable(cancellationToken);
+            postQueue.Complete();
+            return postQueue.Completion;
+        }
+
+        public async Task<bool> OutputAvailableAsync(CancellationToken cancellationToken)
+        {
+            return await postQueue.OutputAvailableAsync(cancellationToken);
         }
     }
 }
