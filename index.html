@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>TumblThree - A Tumblr Blog Backup Application</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="google-site-verification" content="M64ZOoybZAnz8pHZlU7U13UlWu0j-a2VuoFIpy87cyM" />
+        <meta property="og:title" content="TumblThree - A Tumblr Blog Backup Application" />
+        <meta property="og:description" content="TumblThree is a free and open source Tumblr blog backup application. It downloads photo, video, audio and text posts from a given tumblr blog." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://tumblthreeapp.github.io/TumblThree/" />
+        <link rel="canonical" href="https://tumblthreeapp.github.io/TumblThree/" />
         <style>
 html {
   scroll-padding-top: 65px;
@@ -379,14 +387,6 @@ section {
 
 }
         </style>
-        <title>TumblThree - A Tumblr Blog Backup Application</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="google-site-verification" content="M64ZOoybZAnz8pHZlU7U13UlWu0j-a2VuoFIpy87cyM" />
-        <meta property="og:title" content="TumblThree - A Tumblr Blog Backup Application" />
-        <meta property="og:description" content="TumblThree is a free and open source Tumblr blog backup application. It downloads photo, video, audio and text posts from a given tumblr blog." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://tumblthreeapp.github.io/TumblThree/" />
-        <link rel="canonical" href="https://tumblthreeapp.github.io/TumblThree/" />
     </head>
     <body>
     <header>
@@ -400,6 +400,7 @@ section {
                     <a href ="#likedbybackupdownload">"Liked by" backup/download</a>
                     <a href ="#tumblrsearchbackupdownload">"Tumblr search" backup/download</a>
                     <a href ="#tumblrtagsearchbackupdownload">"Tumblr tag search" backup/download</a>
+                    <a href ="#twitterbackupdownload">Twitter Blog backup/download</a>
                     </div>
                 </div>
                 <div class="dropdown1">
@@ -425,12 +426,15 @@ section {
     </header>
     <section>
         <h2 id="gettingstarted">Getting Started</h2>
-        <p>TumblThree is a free and open source Tumblr
+        <p><a href="https://github.com/TumblThreeApp/TumblThree">TumblThree</a> is a free and open source Tumblr
             blog backup application. It downloads photo, video, audio and text posts from a given
-            tumblr blog. It is the code rewrite of <a href="https://github.com/johanneszab/TumblTwo"
+            tumblr blog. <a href="https://twitter.com/intent/tweet?text=Check%20out%20TumblThree%20-%20A%20Tumblr%20Blog%20Backup%20Application%0AIt%20downloads%20photo,%20video,%20audio%20and%20text%20posts%20from%20a%20given%20tumblr%20blog.&url=https%3A%2F%2Fgithub.com%2FTumblThreeApp%2FTumblThree&hashtags=tumblr,blog,backup,application"><img src="https://img.shields.io/twitter/url/http/shields.io.svg?style=social" alt="Tweet" /></a></p>
+        <p>It is the code rewrite of <a href="https://github.com/johanneszab/TumblTwo"
                 >TumblTwo</a>, using the <a href="https://github.com/jbe2277/waf">Win Application
                 Framework (WAF)</a> and C# with WPF and the MVVM pattern.</p>
+        <p>More information can also be found on our <a href="https://github.com/TumblThreeApp/TumblThree">project site</a> on GitHub!</p>
                 <a href="images/getting-started.PNG" target="_blank"><img src="images/getting-started.PNG" alt="Getting Started" class="center"></a>
+        <div style="margin-top: 20px; height: 30px; display:flex; align-items:center;"><img valign="middle" src="icon/label_new_yellow.png" alt="new" height="30"/>&nbsp;&nbsp; TumblThree 2.0 - Now with Twitter blog downloader!</div>
         <h2 id="features">Features</h2><ul>
             <li> Source code at GitHub (Written in C# using WPF and MVVM). </li>
             <li> Multiple concurrent downloads of a single blog. </li>
@@ -462,7 +466,8 @@ section {
             <li> Uses SSL connections. </li>
             <li> Preview of photos &amp; videos. </li>
             <li> Taskbar buttons and key bindings. </li>
-            <li> File rename functionality. </li><br>
+            <li> File rename functionality. </li>
+            <li> <g-emoji class="g-emoji" alias="star" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2b50.png">⭐</g-emoji> Download of Twitter blogs 🆕 </li><br>
             <li>
                 <h4 id="blogbackupdownload">Blog backup/download:</h4>
                 <ul>
@@ -520,8 +525,18 @@ section {
                     <li>It allows downloading posts in a defined time span.</li>
                 </ul>
             </li><br>
+            <li>
+                <h4 id="twitterbackupdownload">🆕 Twitter Blog backup/download:</h4>
+                <ul>
+                    <li>Download of photo, video and text posts of (public) blogs.</li>
+                    <li>Download meta information for photo and video posts.</li>
+                    <li>Allows to download only original content of the blog and skip reblogged posts.</li>
+                    <li>Can download only tagged posts.</li>
+                    <li>Allows to download blog posts in a defined time span.</li>
+                </ul>
+            </li><br>
         </ul>
-        <a href="https://github.com/johanneszab/TumblThree/issues/261">1 Tumblr raw image files are
+        <a href="https://github.com/johanneszab/TumblThree/issues/261">*1 Tumblr raw image files are
             inaccessible as of August 10, 2018.</a>
         <h2 id="programusage">Program Usage:</h2><ul>
             <li> Extract the .zip file and run the application by double clicking TumblThree.exe. </li><br>
