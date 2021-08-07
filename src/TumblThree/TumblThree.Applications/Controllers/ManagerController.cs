@@ -619,10 +619,10 @@ namespace TumblThree.Applications.Controllers
                 }
             }
 
-            RemoveBlog(blogs);
+            RemoveBlog(blogs, true);
         }
 
-        private void RemoveBlog(IEnumerable<IBlog> blogs)
+        private void RemoveBlog(IEnumerable<IBlog> blogs, bool doArchive)
         {
             if (_shellService.Settings.ArchiveIndex && !Directory.Exists(Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive")))
                 Directory.CreateDirectory(Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive"));
@@ -647,7 +647,7 @@ namespace TumblThree.Applications.Controllers
                 string indexFile = Path.Combine(blog.Location, blog.Name) + "." + blog.OriginalBlogType;
                 try
                 {
-                    if (_shellService.Settings.ArchiveIndex)
+                    if (doArchive && _shellService.Settings.ArchiveIndex)
                     {
                         var indexMovedFile = indexFile.Replace(@"\Index\", @"\Index\Archive\");
                         var childMovedFile = blog.ChildId.Replace(@"\Index\", @"\Index\Archive\");
@@ -823,7 +823,7 @@ namespace TumblThree.Applications.Controllers
         {
             if (blog.GetType() == typeof(TumblrBlog) && await _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url))
             {
-                RemoveBlog(new[] { blog });
+                RemoveBlog(new[] { blog }, false);
                 blog = TumblrHiddenBlog.Create("https://www.tumblr.com/dashboard/blog/" + blog.Name, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate);
             }
 
