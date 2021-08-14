@@ -331,10 +331,16 @@ namespace TumblThree.Applications.Controllers
                 string path = Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive");
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
-                IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(path);
-                foreach (IFiles archiveDB in archiveDatabases)
+                List<string> dirs = new List<string>(Directory.GetDirectories(path, "*", SearchOption.AllDirectories));
+                dirs.Insert(0, path);
+
+                foreach (var item in dirs)
                 {
-                    _managerService.AddArchive(archiveDB);
+                    IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(item);
+                    foreach (IFiles archiveDB in archiveDatabases)
+                    {
+                        _managerService.AddArchive(archiveDB);
+                    }
                 }
             }
 
