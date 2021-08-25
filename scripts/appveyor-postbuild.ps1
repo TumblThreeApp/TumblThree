@@ -30,6 +30,10 @@ Get-ChildItem -Path "$harvestPath\locales\*" -Include en-US.pak | Copy-Item -Des
 New-Item -ItemType Directory -Force -Path "$applicationArtifactsPath\swiftshader"
 Get-ChildItem -Path "$harvestPath\swiftshader\*" -Include *.dll | Copy-Item -Destination "$applicationArtifactsPath\swiftshader"
 
+# Licenses
+Copy-Item "$env:APPVEYOR_BUILD_FOLDER\LICENSE" -Destination "$applicationArtifactsPath\LICENSE.txt"
+Copy-Item "$env:APPVEYOR_BUILD_FOLDER\LICENSE-3RD-PARTY" -Destination "$applicationArtifactsPath\LICENSE-3RD-PARTY.txt"
+
 # Copy in Translation Artifacts
 $translationFolders = dir -Directory $harvestPath | where-object { $_.Name.Length -eq 2 }
 foreach ($tf in $translationFolders) {
