@@ -146,10 +146,13 @@ namespace TumblThree.Domain.Models.Files
                     }
                     file.Version = "3";
                     file.isDirty = true;
-                    var backupPath = Path.Combine(Path.GetDirectoryName(fileLocation), "backup");
-                    var backupFilename = Path.Combine(backupPath, Path.GetFileName(fileLocation));
-                    Directory.CreateDirectory(backupPath);
-                    if (!File.Exists(backupFilename)) File.Copy(fileLocation, backupFilename);
+                    if (!Path.GetDirectoryName(fileLocation).Contains("\\Index\\Archive\\"))
+                    {
+                        var backupPath = Path.Combine(Path.GetDirectoryName(fileLocation), "backup");
+                        var backupFilename = Path.Combine(backupPath, Path.GetFileName(fileLocation));
+                        Directory.CreateDirectory(backupPath);
+                        if (!File.Exists(backupFilename)) File.Copy(fileLocation, backupFilename);
+                    }
                 }
                 if (file.Version == "3")
                 {
