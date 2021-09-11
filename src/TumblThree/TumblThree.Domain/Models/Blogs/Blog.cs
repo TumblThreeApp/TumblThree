@@ -888,6 +888,9 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
+        [IgnoreDataMember]
+        public long LastPreviewShown { get; set; }
+
         public void UpdateProgress(bool calcOnly)
         {
             lock (lockObjectProgress)

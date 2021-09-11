@@ -198,6 +198,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         List<string> Links { get; }
 
+        long LastPreviewShown { get; set; }
+
         void UpdateProgress(bool calcOnly);
 
         void UpdatePostCount(string propertyName);

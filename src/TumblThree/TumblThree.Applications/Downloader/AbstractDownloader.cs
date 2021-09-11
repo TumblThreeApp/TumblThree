@@ -324,6 +324,7 @@ namespace TumblThree.Applications.Downloader
                 {
                     blog.LastDownloadedVideo = Path.GetFullPath(fileLocation);
                 }
+                blog.LastPreviewShown = DateTime.Now.Ticks;
 
                 return true;
             }
