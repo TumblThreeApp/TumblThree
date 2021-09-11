@@ -1119,4 +1119,7 @@ Possible categories: large, medium, small, thumb</value>
 
 Possible categories: large, medium, small</value>
   </data>
+  <data name="ViewImages" xml:space="preserve">
+    <value>View images</value>
+  </data>
 </root>

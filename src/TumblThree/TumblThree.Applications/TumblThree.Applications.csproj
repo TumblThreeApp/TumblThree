@@ -264,6 +264,7 @@
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\CrawlerViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsAllViewModel.cs" />
+    <Compile Include="ViewModels\ImageViewerViewModel.cs" />
     <Compile Include="Views\ICloseable.cs" />
     <Compile Include="Views\IDetailsViewModel.cs" />
     <Compile Include="ViewModels\ManagerViewModel.cs" />
@@ -276,6 +277,7 @@
     <Compile Include="Views\IAboutView.cs" />
     <Compile Include="Views\ICrawlerView.cs" />
     <Compile Include="Views\IDetailsView.cs" />
+    <Compile Include="Views\IImageViewerView.cs" />
     <Compile Include="Views\IManagerView.cs" />
     <Compile Include="Views\IQueueView.cs" />
     <Compile Include="Views\IAuthenticateView.cs" />

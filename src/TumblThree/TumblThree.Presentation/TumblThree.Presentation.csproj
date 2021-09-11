@@ -213,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ImageViewerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -327,6 +331,9 @@
     <Compile Include="Views\CrawlerView.xaml.cs">
       <DependentUpon>CrawlerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ImageViewerView.xaml.cs">
+      <DependentUpon>ImageViewerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ManagerView.xaml.cs">
       <DependentUpon>ManagerView.xaml</DependentUpon>
     </Compile>
@@ -400,6 +407,10 @@
     <ProjectReference Include="..\..\..\lib\WpfApplicationFramework\WpfApplicationFramework\WpfApplicationFramework.csproj">
       <Project>{27b67dfe-0bf1-4435-b036-e4c083eaea03}</Project>
       <Name>WpfApplicationFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\lib\WpfImageViewer\WpfImageViewer.csproj">
+      <Project>{0b2e0ee3-efa1-4d22-be4d-4c27f7fae598}</Project>
+      <Name>WpfImageViewer</Name>
     </ProjectReference>
     <ProjectReference Include="..\TumblThree.Applications\TumblThree.Applications.csproj">
       <Project>{bd6b0abd-6114-476b-b0df-734e891d6634}</Project>

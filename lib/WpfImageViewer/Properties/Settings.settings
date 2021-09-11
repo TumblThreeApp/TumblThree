@@ -1,0 +1,42 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WpfImageViewer.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ApplicationTitle" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TumblThree Image Viewer</Value>
+    </Setting>
+    <Setting Name="BackgroundColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="CloseOnLostFocus" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MsgColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Green</Value>
+    </Setting>
+    <Setting Name="MsgFadeoutSeconds" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="ImageDurationSeconds" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="IncludedFileExtensions" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.bmp,.gif,.jpeg,.jpg,.png,.tif,.tiff</Value>
+    </Setting>
+    <Setting Name="RunAnimatedGifs" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowHelpOnLoad" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ZoomMax" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="ZoomMin" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.1</Value>
+    </Setting>
+    <Setting Name="ZoomStep" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1.25</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

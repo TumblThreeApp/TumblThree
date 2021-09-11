@@ -1,0 +1,62 @@
+﻿<Window x:Name="Window1"
+        x:Class="WpfImageViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:ei="http://schemas.microsoft.com/xaml/behaviors"
+        Title="MainWindow" WindowStyle="None" WindowState="Maximized" Loaded="Window1_Loaded">
+    <Grid x:Name="Grid1" MouseDown="Grid1_MouseDown" MouseWheel="Grid1_HandleMouseWheel">
+        <Border x:Name="Border1" ClipToBounds="True">
+            <UserControl x:Name="Media1" Grid.Column="0" Grid.Row="0" Width="{Binding ActualWidth, ElementName=Border1}" Height="{Binding ActualHeight, ElementName=Border1}" 
+                         MouseLeftButtonDown="Image1_MouseLeftButtonDown" MouseMove="Image1_MouseMove" MouseLeftButtonUp="Image1_MouseLeftButtonUp">
+                <Grid>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="SwitchableStates">
+                            <VisualState x:Name="ShowImage"/>
+                            <VisualState x:Name="ShowMedia">
+                                <Storyboard>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SwitchableImage" Storyboard.TargetProperty="Visibility" Duration="0">
+                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Collapsed</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SwitchableMediaElement" Storyboard.TargetProperty="Visibility" Duration="0">
+                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <MediaElement Visibility="Collapsed" x:Name="SwitchableMediaElement"
+                                  Source="{Binding FilenameMedia, Converter={StaticResource NullImageConverter}, IsAsync=True}"
+                                  Stretch="None" IsMuted="True" LoadedBehavior="Play" UnloadedBehavior="Close" MediaEnded="SwitchableMediaElement_MediaEnded" 
+                                  MediaOpened="SwitchableMediaElement_MediaOpened" />
+                    <Image Visibility="Visible" x:Name="SwitchableImage" 
+                           Source="{Binding FilenameImage, Converter={StaticResource NullImageConverter}, IsAsync=True}"
+                           Stretch="Uniform" StretchDirection="DownOnly" />
+                    <i:Interaction.Triggers>
+                        <ei:DataTrigger Binding="{Binding CurrentVisualState}" Value="{Binding CurrentVisualState}">
+                            <ei:GoToStateAction StateName="{Binding CurrentVisualState}" />
+                        </ei:DataTrigger>
+                    </i:Interaction.Triggers>
+                </Grid>
+            </UserControl>
+        </Border>
+        <Label x:Name="Label1" Content="" Margin="10,0,10,10" VerticalAlignment="Bottom" Visibility="Hidden">
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="0.5" Direction="0" BlurRadius="3" Opacity="0.5" RenderingBias="Quality"/>
+            </Label.Effect>
+        </Label>
+        <Label x:Name="Label2" Content="" FontSize="14" FontWeight="Bold" TextOptions.TextFormattingMode="Display" Padding="20, 20, 20, 20" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Green" Visibility="Hidden">
+            <Label.Background>
+                <SolidColorBrush Color="Azure" Opacity="0.6" />
+            </Label.Background>
+        </Label>
+    </Grid>
+</Window>

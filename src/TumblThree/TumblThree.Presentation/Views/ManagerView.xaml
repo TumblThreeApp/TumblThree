@@ -67,6 +67,8 @@
                                           Header="{x:Static p:Resources.ShowDetails}" />
                                 <MenuItem Command="{Binding ShowFilesCommand}"
                                           Header="{x:Static p:Resources.ShowFiles}" />
+                                <MenuItem Command="{Binding ViewImagesCommand}"
+                                          Header="{x:Static p:Resources.ViewImages}" />
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

@@ -846,4 +846,7 @@ Tous les fichiers d'index de ce sous-dossier peuvent être utilisés pour la vé
   <data name="ImageSizeCategory" xml:space="preserve">
     <value>Taille de l'image (catégorie)</value>
   </data>
+  <data name="ViewImages" xml:space="preserve">
+    <value>Voir les images</value>
+  </data>
 </root>

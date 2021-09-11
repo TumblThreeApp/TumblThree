@@ -37,6 +37,7 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * Taskbar buttons and key bindings.
 * File rename functionality
 * :star: Download of Twitter blogs 🆕
+* Image viewer with slideshow mode 🆕
 
 ### Blog backup/download:
 

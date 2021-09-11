@@ -843,4 +843,7 @@ Todos los archivos de índice dentro de esta subcarpeta se pueden usar para la v
   <data name="ImageSizeCategory" xml:space="preserve">
     <value>Tamaño de la imagen (categoría)</value>
   </data>
+  <data name="ViewImages" xml:space="preserve">
+    <value>Ver imagenes</value>
+  </data>
 </root>

@@ -2910,6 +2910,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View images.
+        /// </summary>
+        public static string ViewImages {
+            get {
+                return ResourceManager.GetString("ViewImages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open the site in the web browser.
         /// </summary>
         public static string VisitBlog {

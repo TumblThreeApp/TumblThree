@@ -15,7 +15,7 @@ namespace TumblThree.Presentation.DesignData
         public SampleManagerViewModel()
             : base(new MockManagerView(), new MockShellService(),
             new Lazy<ISelectionService>(() => new MockSelectionService()), null,
-            new Lazy<IManagerService>(() => new MockManagerService()))
+            new Lazy<IManagerService>(() => new MockManagerService()), null)
         {
             var blogFiles = new[]
             {

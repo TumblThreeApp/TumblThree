@@ -24,19 +24,26 @@ namespace TumblThree.Applications.ViewModels
         private ICommand _visitBlogCommand;
         private ICommand _visitBlogOnTumbexCommand;
 
+        private readonly DelegateCommand _viewImagesCommand;
+        private readonly ExportFactory<ImageViewerViewModel> _imageViewerViewModelFactory;
+
         private readonly Lazy<ICrawlerService> _crawlerService;
         private readonly Lazy<IManagerService> _managerService;
         private readonly Lazy<ISelectionService> _selectionService;
         private Blog _selectedBlogFile;
 
         [ImportingConstructor]
-        public ManagerViewModel(IManagerView view, IShellService shellService, Lazy<ISelectionService> selectionService, Lazy<ICrawlerService> crawlerService, Lazy<IManagerService> managerService)
+        public ManagerViewModel(IManagerView view, IShellService shellService, Lazy<ISelectionService> selectionService, Lazy<ICrawlerService> crawlerService, Lazy<IManagerService> managerService,
+            ExportFactory<ImageViewerViewModel> imageViewerViewModelFactory)
             : base(view)
         {
             ShellService = shellService;
             _selectionService = selectionService;
             _crawlerService = crawlerService;
             _managerService = managerService;
+
+            _viewImagesCommand = new DelegateCommand(ViewImages);
+            _imageViewerViewModelFactory = imageViewerViewModelFactory;
 
             ShellService.Closing += ViewClosed;
         }
@@ -54,6 +61,8 @@ namespace TumblThree.Applications.ViewModels
             get => _showFilesCommand;
             set => SetProperty(ref _showFilesCommand, value);
         }
+
+        public ICommand ViewImagesCommand => _viewImagesCommand;
 
         public ICommand VisitBlogCommand
         {
@@ -118,6 +127,13 @@ namespace TumblThree.Applications.ViewModels
             {
                 RaisePropertyChanged("QueueItems");
             }
+        }
+
+        private void ViewImages()
+        {
+            ImageViewerViewModel imageViewerViewModel = _imageViewerViewModelFactory.CreateExport().Value;
+            imageViewerViewModel.ImageFolder = SelectedBlogFile.DownloadLocation();
+            imageViewerViewModel.ShowDialog(ShellService.ShellView);
         }
     }
 }
