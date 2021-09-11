@@ -177,8 +177,7 @@ namespace WpfImageViewer
         {
             var processFilename = Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName).ToLower();
             string codeBase = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string codeFilename = Path.GetFileName(Uri.UnescapeDataString(uri.Path)).ToLower();
+            string codeFilename = Path.GetFileName(codeBase).ToLower();
             _isApplication = processFilename == codeFilename;
 
             if (_isApplication)
