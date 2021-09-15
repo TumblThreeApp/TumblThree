@@ -5,5 +5,7 @@ namespace TumblThree.Applications.Views
     public interface IFullScreenMediaView : IView
     {
         void ShowDialog(object owner);
+
+        void Close();
     }
 }

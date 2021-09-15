@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
+﻿using System.ComponentModel.Composition;
 using System.Waf.Applications;
 using System.Windows.Forms;
 using System.Windows.Input;
-using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models.Blogs;
@@ -18,24 +15,34 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         private readonly DelegateCommand _browseFileDownloadLocationCommand;
         private readonly DelegateCommand _copyUrlCommand;
 
+        private readonly ExportFactory<FullScreenMediaViewModel> _fullScreenMediaViewModelFactory;
+        private readonly IShellService _shellService;
         private readonly IClipboardService _clipboardService;
         private readonly IDetailsService _detailsService;
         private IBlog _blogFile;
-        private int _count = 0;
+        private int _count;
 
         [ImportingConstructor]
-        public DetailsTumblrBlogViewModel([Import("TumblrBlogView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService, IDetailsService detailsService)
+        public DetailsTumblrBlogViewModel([Import("TumblrBlogView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService, IDetailsService detailsService,
+            IShellService shellService, ExportFactory<FullScreenMediaViewModel> fullScreenMediaViewModelFactory)
             : base(view)
         {
             _clipboardService = clipboardService;
             _detailsService = detailsService;
             _copyUrlCommand = new DelegateCommand(CopyUrlToClipboard);
             _browseFileDownloadLocationCommand = new DelegateCommand(BrowseFileDownloadLocation);
+            _shellService = shellService;
+            _fullScreenMediaViewModelFactory = fullScreenMediaViewModelFactory;
         }
 
         public ICommand CopyUrlCommand => _copyUrlCommand;
 
         public ICommand BrowseFileDownloadLocationCommand => _browseFileDownloadLocationCommand;
+
+        public void ViewFullScreenMedia()
+        {
+            _detailsService.ViewFullScreenMedia();
+        }
 
         public void ViewLostFocus()
         {

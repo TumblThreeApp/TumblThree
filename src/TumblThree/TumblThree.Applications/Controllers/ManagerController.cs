@@ -69,6 +69,8 @@ namespace TumblThree.Applications.Controllers
 
         public delegate void BlogManagerFinishedLoadingArchiveHandler(object sender, EventArgs e);
 
+        public delegate void FinishedCrawlingLastBlogEventHandler(object sender, EventArgs e);
+
         [ImportingConstructor]
         public ManagerController(IShellService shellService, ISelectionService selectionService, ICrawlerService crawlerService,
             ISettingsService settingsService, IClipboardService clipboardService, IManagerService managerService,
@@ -115,6 +117,8 @@ namespace TumblThree.Applications.Controllers
         public event BlogManagerFinishedLoadingDatabasesHandler BlogManagerFinishedLoadingDatabases;
 
         public event BlogManagerFinishedLoadingArchiveHandler BlogManagerFinishedLoadingArchive;
+
+        public event FinishedCrawlingLastBlogEventHandler FinishedCrawlingLastBlog;
 
         public async Task InitializeAsync()
         {
@@ -194,6 +198,11 @@ namespace TumblThree.Applications.Controllers
             if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove)
             {
                 ManagerViewModel.QueueItems = QueueManager.Items;
+            }
+            if (e.Action == NotifyCollectionChangedAction.Remove && QueueManager.Items.Count == 0)
+            {
+                FinishedCrawlingLastBlogEventHandler handler = FinishedCrawlingLastBlog;
+                handler?.Invoke(this, EventArgs.Empty);
             }
         }
 

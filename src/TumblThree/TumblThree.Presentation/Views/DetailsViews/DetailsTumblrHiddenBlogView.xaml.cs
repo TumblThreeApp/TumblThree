@@ -33,8 +33,7 @@ namespace TumblThree.Presentation.Views
         // FIXME: Implement in proper MVVM.
         private void Preview_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var fullScreenMediaView = new FullScreenMediaView { DataContext = viewModel.Value.BlogFile };
-            fullScreenMediaView.ShowDialog();
+            ViewModel.ViewFullScreenMedia();
         }
 
         private void View_LostFocus(object sender, RoutedEventArgs e)

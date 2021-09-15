@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using static TumblThree.Domain.Models.Blogs.Blog;
 
 namespace TumblThree.Domain.Models.Blogs
 {
@@ -171,6 +172,8 @@ namespace TumblThree.Domain.Models.Blogs
         CatBoxTypes CatBoxType { get; set; }
 
         BlogTypes BlogType { get; set; }
+
+        PostType States { get; set; }
 
         BlogTypes OriginalBlogType { get; set; }
 

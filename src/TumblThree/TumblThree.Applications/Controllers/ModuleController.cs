@@ -125,6 +125,7 @@ namespace TumblThree.Applications.Controllers
             ManagerController.QueueManager = _queueManager;
             ManagerController.ManagerSettings = _managerSettings;
             ManagerController.BlogManagerFinishedLoadingLibrary += OnBlogManagerFinishedLoadingLibrary;
+            ManagerController.FinishedCrawlingLastBlog += OnFinishedCrawlingLastBlog;
             QueueController.QueueSettings = _queueSettings;
             QueueController.QueueManager = _queueManager;
             DetailsController.QueueManager = _queueManager;
@@ -193,6 +194,11 @@ namespace TumblThree.Applications.Controllers
         private void OnBlogManagerFinishedLoadingLibrary(object sender, EventArgs e)
         {
             QueueController.LoadQueue();
+        }
+
+        private void OnFinishedCrawlingLastBlog(object sender, EventArgs e)
+        {
+            DetailsController.OnFinishedCrawlingLastBlog(EventArgs.Empty);
         }
 
         private async Task CheckForUpdatesComplete(Task<string> task)

@@ -46,8 +46,8 @@
                                Source="{Binding LastDownloadedPhoto, Converter={StaticResource NullImageConverter}, IsAsync=True}"
                                Stretch="Uniform" StretchDirection="DownOnly" />
                 <i:Interaction.Triggers>
-                    <ei:DataTrigger Binding="{Binding States}" Value="{Binding States}">
-                        <ei:GoToStateAction StateName="{Binding States}" />
+                    <ei:DataTrigger Binding="{Binding States}" Value="{Binding BlogFile.States}">
+                        <ei:GoToStateAction StateName="{Binding BlogFile.States}" />
                     </ei:DataTrigger>
                 </i:Interaction.Triggers>
             </Grid>

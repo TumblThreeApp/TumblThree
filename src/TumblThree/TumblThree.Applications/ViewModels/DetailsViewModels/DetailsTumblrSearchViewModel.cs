@@ -35,6 +35,11 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
 
         public ICommand BrowseFileDownloadLocationCommand => _browseFileDownloadLocationCommand;
 
+        public void ViewFullScreenMedia()
+        {
+            _detailsService.ViewFullScreenMedia();
+        }
+
         public void ViewLostFocus()
         {
             if (Count == 1) BlogFile?.Save();

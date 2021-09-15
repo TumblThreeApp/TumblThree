@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Windows;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
+using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.ViewModels.DetailsViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models;
@@ -22,6 +23,7 @@ namespace TumblThree.Applications.Controllers
     {
         private readonly ISelectionService _selectionService;
         private readonly IShellService _shellService;
+        private readonly ExportFactory<FullScreenMediaViewModel> _fullScreenMediaViewModelFactory;
 
         private Lazy<IDetailsViewModel> _detailsViewModel;
 
@@ -30,11 +32,16 @@ namespace TumblThree.Applications.Controllers
         private delegate void PropertySetter(bool value);
         private delegate void PropertySetter<T>(T value);
 
+        public event EventHandler DetailsViewModelChanged;
+        public event EventHandler FinishedCrawlingLastBlog;
+
         [ImportingConstructor]
-        public DetailsController(IShellService shellService, ISelectionService selectionService, IManagerService managerService)
+        public DetailsController(IShellService shellService, ISelectionService selectionService, IManagerService managerService, 
+            ExportFactory<FullScreenMediaViewModel> fullScreenMediaViewModelFactory)
         {
             _shellService = shellService;
             _selectionService = selectionService;
+            _fullScreenMediaViewModelFactory = fullScreenMediaViewModelFactory;
             _blogsToSave = new HashSet<IBlog>();
         }
 
@@ -56,7 +63,7 @@ namespace TumblThree.Applications.Controllers
             return viewModel;
         }
 
-        private IDetailsViewModel DetailsViewModel => _detailsViewModel.Value;
+        public IDetailsViewModel DetailsViewModel => _detailsViewModel.Value;
 
         public void UpdateBlogPreview(IReadOnlyList<IBlog> blogFiles)
         {
@@ -110,6 +117,19 @@ namespace TumblThree.Applications.Controllers
             return true;
         }
 
+        public void OnFinishedCrawlingLastBlog(EventArgs e)
+        {
+            EventHandler handler = FinishedCrawlingLastBlog;
+            handler?.Invoke(this, e);
+        }
+
+        public void ViewFullScreenMedia()
+        {
+            FullScreenMediaViewModel fullScreenMediaViewModel = _fullScreenMediaViewModelFactory.CreateExport().Value;
+            //fullScreenMediaViewModel.BlogFile = BlogFile;
+            fullScreenMediaViewModel.ShowDialog(_shellService.ShellView);
+        }
+
         private void UpdateViewModelBasedOnSelection(IReadOnlyList<IBlog> blogFiles)
         {
             if (blogFiles.Count == 0)
@@ -120,6 +140,7 @@ namespace TumblThree.Applications.Controllers
             _detailsViewModel = GetViewModel(blogFiles.Count < 2
                 ? blogFiles.FirstOrDefault()
                 : new Blog());
+            DetailsViewModelChanged?.Invoke(this, EventArgs.Empty);
             _shellService.DetailsView = DetailsViewModel.View;
             _shellService.UpdateDetailsView();
         }
