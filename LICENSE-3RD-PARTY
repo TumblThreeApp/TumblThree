@@ -238,7 +238,7 @@ THE SOFTWARE.
         - CefSharp.Wpf
 ------------------------------------------------------------------------------
 
-  Copyright © The CefSharp Authors. All rights reserved.
+  Copyright Â© The CefSharp Authors. All rights reserved.
  
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are
@@ -307,9 +307,9 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
                         MIT License
         applies to: 
-        - Microsoft.Xaml.Behaviors.Wpf, Copyright © Microsoft
-        - Newtonsoft.Json, Copyright © James Newton-King
-        - System.Threading.Tasks.Dataflow, Copyright © Microsoft
+        - Microsoft.Xaml.Behaviors.Wpf, Copyright Â© Microsoft
+        - Newtonsoft.Json, Copyright Â© James Newton-King
+        - System.Threading.Tasks.Dataflow, Copyright Â© Microsoft
 -----------------------------------------------------------------------------
 
 Permission is hereby granted, free of charge, to any person obtaining a copy 
