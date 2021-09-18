@@ -147,7 +147,121 @@ display:block;
 z-index:999;
 }
 
-@media screen and (max-width:900px) {
+@media screen and (max-width:460px) {
+section {
+  margin-top: 67px;
+}
+.navbar {
+  background-color: rgb(92, 81, 190);
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+}
+
+.navbar a {
+  float: left;
+  font-size:10px;
+  color: white;
+  text-align: center;
+  padding: 8px 10px;
+  text-decoration: none;   
+}
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 10px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 8px 10px;
+  background-color:  rgb(92, 81, 190);;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(128, 98, 177);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 80px;
+  box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 8px 10px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(128, 98, 177);;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown1 {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown1 .dropbtn1 {
+  font-size: 10px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 8px 10px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown1:hover .dropbtn1 {
+  background-color:  rgb(128, 98, 177);;
+}
+
+.dropdown-content1 {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 80px;
+  box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content1 a {
+  float: none;
+  color: black;
+  padding: 8px 10px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content1 a:hover {
+  background-color:  rgb(128, 98, 177);;
+}
+
+.dropdown1:hover .dropdown-content1 {
+  display: block;
+}
+
+}
+	
+@media screen and (min-width:460px) and (max-width:900px) {
 section {
   margin-top: 40px;
 }
