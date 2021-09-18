@@ -40,14 +40,15 @@
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
                 <MediaElement Visibility="Collapsed" x:Name="SwitchableMediaElement"
-                                      Source="{Binding LastDownloadedVideo, Converter={StaticResource NullImageConverter}, IsAsync=True}"
-                                      Stretch="None" IsMuted="True" LoadedBehavior="Play" UnloadedBehavior="Close" />
+                                      Source="{Binding LastDownloadedVideo, Converter={StaticResource NullImageConverter}}"
+                                      Stretch="None" IsMuted="True" LoadedBehavior="Play" UnloadedBehavior="Manual" 
+                                      Unloaded="SwitchableMediaElement_Unloaded" MediaEnded="SwitchableMediaElement_MediaEnded" IsVisibleChanged="SwitchableMediaElement_IsVisibleChanged" />
                 <Image Visibility="Visible" x:Name="SwitchableImage" 
-                               Source="{Binding LastDownloadedPhoto, Converter={StaticResource NullImageConverter}, IsAsync=True}"
+                               Source="{Binding LastDownloadedPhoto, Converter={StaticResource NullImageConverter}}"
                                Stretch="Uniform" StretchDirection="DownOnly" />
                 <i:Interaction.Triggers>
-                    <ei:DataTrigger Binding="{Binding States}" Value="{Binding BlogFile.States}">
-                        <ei:GoToStateAction StateName="{Binding BlogFile.States}" />
+                    <ei:DataTrigger Binding="{Binding States}" Value="{Binding States}">
+                        <ei:GoToStateAction StateName="{Binding States}" />
                     </ei:DataTrigger>
                 </i:Interaction.Triggers>
             </Grid>

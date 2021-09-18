@@ -48,5 +48,31 @@ namespace TumblThree.Presentation.Views
         {
             Close();
         }
+
+        private void SwitchableMediaElement_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (SwitchableMediaElement.Source != null)
+            {
+                SwitchableMediaElement.Stop();
+                SwitchableMediaElement.Source = null;
+                SwitchableMediaElement.Close();
+            }
+        }
+
+        private void SwitchableMediaElement_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            SwitchableMediaElement.Position = TimeSpan.FromMilliseconds(1);
+            SwitchableMediaElement.Play();
+        }
+
+        private void SwitchableMediaElement_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(bool)e.NewValue && SwitchableMediaElement.Source != null)
+            {
+                SwitchableMediaElement.Stop();
+                SwitchableMediaElement.Source = null;
+                SwitchableMediaElement.Close();
+            }
+        }
     }
 }

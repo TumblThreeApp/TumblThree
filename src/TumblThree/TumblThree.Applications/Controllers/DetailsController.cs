@@ -126,7 +126,6 @@ namespace TumblThree.Applications.Controllers
         public void ViewFullScreenMedia()
         {
             FullScreenMediaViewModel fullScreenMediaViewModel = _fullScreenMediaViewModelFactory.CreateExport().Value;
-            //fullScreenMediaViewModel.BlogFile = BlogFile;
             fullScreenMediaViewModel.ShowDialog(_shellService.ShellView);
         }
 

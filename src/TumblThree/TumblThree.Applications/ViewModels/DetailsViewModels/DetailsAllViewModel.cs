@@ -35,6 +35,11 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
 
         public ICommand BrowseFileDownloadLocationCommand => _browseFileDownloadLocationCommand;
 
+        public void ViewFullScreenMedia()
+        {
+            _detailsService.ViewFullScreenMedia();
+        }
+
         public bool FilenameTemplateValidate(string enteredFilenameTemplate)
         {
             return _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);

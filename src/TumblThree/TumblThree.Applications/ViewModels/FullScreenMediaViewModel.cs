@@ -26,6 +26,7 @@ namespace TumblThree.Applications.ViewModels
             _detailsService = detailsService;
             _detailsService.DetailsViewModelChanged += DetailsService_DetailsViewModelChanged;
             _detailsService.FinishedCrawlingLastBlog += DetailsService_FinishedCrawlingLastBlog;
+            DetailsService_DetailsViewModelChanged(this, EventArgs.Empty);
         }
 
         public string LastDownloadedPhoto => _lastDownloadedPhoto;
@@ -41,8 +42,8 @@ namespace TumblThree.Applications.ViewModels
 
         private void DetailsService_DetailsViewModelChanged(object sender, System.EventArgs e)
         {
-            _blogFile = _detailsService.DetailsViewModel.BlogFile;
-            _blogFile.PropertyChanged += Blog_PropertyChanged;
+            _blogFile = _detailsService.DetailsViewModel?.BlogFile;
+            if (_blogFile != null) _blogFile.PropertyChanged += Blog_PropertyChanged;
         }
 
         private void DetailsService_FinishedCrawlingLastBlog(object sender, EventArgs e)
@@ -56,16 +57,21 @@ namespace TumblThree.Applications.ViewModels
             {
                 _lastDownloadedPhoto = _blogFile.LastDownloadedPhoto;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(LastDownloadedPhoto)));
+                if (_states != PostType.Photo)
+                {
+                    _states = PostType.Photo;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(States)));
+                }
             }
             else if (e.PropertyName == "LastDownloadedVideo" && !string.IsNullOrEmpty(_blogFile?.LastDownloadedVideo))
             {
                 _lastDownloadedVideo = _blogFile.LastDownloadedVideo;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(LastDownloadedVideo)));
-            }
-            else if (e.PropertyName == "States")
-            {
-                _states = _blogFile.States;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(States)));
+                if (_states != PostType.Video)
+                {
+                    _states = PostType.Video;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(States)));
+                }
             }
         }
     }

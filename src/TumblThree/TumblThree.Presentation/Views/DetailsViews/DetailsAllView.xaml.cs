@@ -29,11 +29,9 @@ namespace TumblThree.Presentation.Views
 
         public int TabsCount => this.Tabs.Items.Count;
 
-        // FIXME: Implement in proper MVVM.
         private void Preview_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var fullScreenMediaView = new FullScreenMediaView { DataContext = viewModel.Value.BlogFile };
-            fullScreenMediaView.ShowDialog();
+            ViewModel.ViewFullScreenMedia();
         }
 
         private void FilenameTemplate_PreviewLostKeyboardFocus(object sender, System.Windows.RoutedEventArgs e)
