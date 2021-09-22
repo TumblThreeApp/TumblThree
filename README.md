@@ -38,6 +38,7 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * File rename functionality
 * :star: Download of Twitter blogs 🆕
 * Image viewer with slideshow mode 🆕
+* Automated update process 🆕
 
 ### Blog backup/download:
 

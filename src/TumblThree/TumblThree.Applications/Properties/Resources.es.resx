@@ -355,4 +355,7 @@
   <data name="TimeoutReachedShort" xml:space="preserve">
     <value>Se agotó el tiempo de espera de la conexión durante {0}.</value>
   </data>
+  <data name="DownloadAndInstallNewVersion" xml:space="preserve">
+    <value>¿Quieres descargar e instalar la nueva versión ahora?</value>
+  </data>
 </root>

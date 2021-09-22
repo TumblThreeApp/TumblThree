@@ -333,6 +333,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to download and install the new version now?.
+        /// </summary>
+        public static string DownloadAndInstallNewVersion {
+            get {
+                return ResourceManager.GetString("DownloadAndInstallNewVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to downloading.
         /// </summary>
         public static string Downloading {

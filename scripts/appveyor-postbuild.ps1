@@ -44,8 +44,8 @@ foreach ($tf in $translationFolders) {
 
 # Zip Application
 $applicationZipPath = "$artifactsPath\TumblThree-v$version-$env:PLATFORM-Application.zip"
-Compress-Archive -Path "$artifactsPath\Application\TumblThree\" -DestinationPath "$applicationZipPath"
+Compress-Archive -Path "$artifactsPath\Application\TumblThree\*" -DestinationPath "$applicationZipPath"
 
 # Zip Translations
 $translationZipPath = "$artifactsPath\TumblThree-v$version-$env:PLATFORM-Translations.zip"
-Compress-Archive -Path "$artifactsPath\Translations\TumblThree\" -DestinationPath "$translationZipPath"
+Compress-Archive -Path "$artifactsPath\Translations\TumblThree\*" -DestinationPath "$translationZipPath"

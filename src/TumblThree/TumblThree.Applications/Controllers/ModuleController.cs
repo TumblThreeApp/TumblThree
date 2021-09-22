@@ -13,9 +13,11 @@ using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Threading;
 
+using AutoUpdaterDotNET;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
+using TumblThree.Applications.Views;
 using TumblThree.Domain;
 using TumblThree.Domain.Queue;
 
@@ -211,13 +213,32 @@ namespace TumblThree.Applications.Controllers
                 string url = _applicationUpdateService.GetDownloadUri().AbsoluteUri;
                 MessageBoxResult ret = MessageBoxResult.No;
                 if (updateText != null && url != null)
-                    ret = MessageBox.Show($"{updateText}\n{Resources.DownloadNewVersion}", Resources.DownloadNewVersionTitle, MessageBoxButton.YesNo);
+                    ret = MessageBox.Show($"{updateText}\n{Resources.DownloadAndInstallNewVersion}", Resources.DownloadNewVersionTitle, MessageBoxButton.YesNo);
                 if (ret == MessageBoxResult.Yes)
-                    Process.Start(new ProcessStartInfo(url));
+                    DownloadAndUnzipUpdatePackage(url);
             }
             catch (Exception e)
             {
                 Logger.Error("ModuleController.CheckForUpdatesComplete: {0}", e.ToString());
+            }
+        }
+
+        private void DownloadAndUnzipUpdatePackage(string url)
+        {
+            AutoUpdater.RunUpdateAsAdmin = false;
+            AutoUpdater.UpdateMode = Mode.ForcedDownload;
+            try
+            {
+                UpdateInfoEventArgs args = new UpdateInfoEventArgs { DownloadURL = url };
+                if (AutoUpdater.DownloadUpdate(args))
+                {
+                    ((IShellView)_shellViewModel.Value.View).Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("ModuleController.DownloadAndUnzipUpdatePackage: {0}", e.ToString());
+                MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

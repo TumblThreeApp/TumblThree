@@ -355,4 +355,7 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="TimeoutReachedShort" xml:space="preserve">
     <value>Während {0} ist ein Verbindungszeitlimit aufgetreten.</value>
   </data>
+  <data name="DownloadAndInstallNewVersion" xml:space="preserve">
+    <value>Möchten Sie die neue Version jetzt herunterladen und installieren?</value>
+  </data>
 </root>

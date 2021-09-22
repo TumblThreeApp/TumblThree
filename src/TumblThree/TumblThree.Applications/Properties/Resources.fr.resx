@@ -355,4 +355,7 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="TimeoutReachedShort" xml:space="preserve">
     <value>Un délai d'expiration de connexion s'est produit pendant {0}.</value>
   </data>
+  <data name="DownloadAndInstallNewVersion" xml:space="preserve">
+    <value>Voulez-vous télécharger et installer la nouvelle version maintenant?</value>
+  </data>
 </root>

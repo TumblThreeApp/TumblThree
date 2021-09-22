@@ -396,4 +396,7 @@ Do you want to download it now?</value>
   <data name="ProtectedBlog" xml:space="preserve">
     <value>Protected or offline blog detected: {0}.</value>
   </data>
+  <data name="DownloadAndInstallNewVersion" xml:space="preserve">
+    <value>Do you want to download and install the new version now?</value>
+  </data>
 </root>
