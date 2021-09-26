@@ -98,38 +98,37 @@
             If you create an account on GitHub and provide your feedback directly on our <a href="https://github.com/TumblThreeApp/TumblThree/issues">project's issues page</a>, you have the ability to provide screenshots with your report and you can also get notifications when there are any updates on your reported issue.
             </div>
             <form id="feedback-form" method="POST">
-              <input type="hidden" id="_gotcha">
               <div class="field">
                 <label class="label" for="name">Name</label>
                 <div class="control">
-                  <input class="input is-normal" type="text" id="name" autocomplete="name">
+                  <input class="input is-normal" type="text" id="name" name="name" autocomplete="name">
                 </div>
               </div>
               <div class="field">
                 <div style="display:inline;overflow:hidden;"><label class="label width-contents" for="email">Email*</label><span> (your email address will not be published)</span></div>
                 <div class="control">
-                  <input class="input is-normal" type="email" id="email" autocomplete="email" required>
+                  <input class="input is-normal" type="email" id="email" name="email" autocomplete="email" required>
                 </div>
               </div>
               <div class="field">
                 <label class="label" for="title">Title*</label>
                 <div class="control">
-                  <input class="input is-normal" type="text" id="title" placeholder="Please provide a short meaningful title." required>
+                  <input class="input is-normal" type="text" id="title" name="title" placeholder="Please provide a short meaningful title." required>
                 </div>
               </div>
               <div class="field">
                 <label class="label" for="message">Message*</label>
                 <div class="control">
-                  <textarea class="textarea is-normal" placeholder="We are humans. Please be nice." id="message" minlength="20" rows="7" required></textarea>
+                  <textarea class="textarea is-normal" placeholder="We are humans. Please be nice." id="message" name="message" minlength="20" rows="7" required></textarea>
                 </div>
               </div>
               <div class="ansp field">
                 <label class="label" for="attachments">Attachments</label>
                 <div class="control">
-                  <input type="file" id="attachments" multiple>
+                  <input type="file" id="attachments" name="attachments" multiple>
                 </div>
               </div>
-              <p class="ansp">Leave this empty: <input type="text" id="url" /></p>
+              <p class="ansp">Leave this empty: <input type="text" id="url" name="url" /></p>
               <div class="field">
                 <label class="label" for="answer">Please answer*</label>
                 <div style="float: left">
