@@ -1,0 +1,159 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="css/feedback.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script>
+    $(document).ready(function() {
+       var extra_data = "extra stuff";
+
+       $('#submit').click(function() {
+          if (!checkRequiredFields() || $("#text").text().length > 0) return false;
+          
+          $.ajax({
+             type: "POST",
+             url: "https://9332a1f6dcab0d2f3fdafd51eaed07ca.m.pipedream.net",
+             data: {'form': $("#feedback-form").serialize(), 'other': extra_data},
+             success: function(msg) {
+                $("#text").css("color", "green");
+                $("#text").html("Message has been submitted.");
+             },
+             error: function(msg) {
+                $("#text").css("color", "red");
+                $("#text").html("Error: " + msg);
+             }
+          });
+          $('#submit').prop('disabled', true);
+       });
+    });
+
+    function checkRequiredFields() {
+      var form = document.getElementById("feedback-form");
+      for(var i=form.elements.length-1; i >= 0; i--){
+        if (form.elements[i].value === '' && form.elements[i].hasAttribute('required')) {
+          form.elements[i].focus();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    var total;
+
+    function checkAnswer(){
+        var answer = $("#answer").val(), 
+            hasInput = !!answer, 
+            valid = hasInput && answer == total;
+        $('#msg').toggle(!hasInput);
+        $('#success').toggle(valid);
+        $('#fail').toggle(hasInput && !valid);
+        $('#submit').prop('disabled', !valid);
+    }
+
+    function getRandom(){
+        return Math.ceil(Math.random() * 20);
+    }
+
+    function createTotal(){
+        var rnd1 = getRandom(),
+            rnd2 = getRandom();
+        total = rnd1 + rnd2;
+        $("#question").text(rnd1 + " + " + rnd2 + " = ");
+        $("#answer").val('');
+        checkAnswer();
+    }
+
+    function delay(callback, ms) {
+        var timer = 0;
+        return function() {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                callback.apply(context, args);
+            }, ms || 0);
+        };
+    }
+
+    $(document).ready(function(){
+        createTotal();
+        $("#answer").keyup(delay(function (e){ checkAnswer(); }, 500));
+    });
+  </script>
+</head>
+<body>
+  <section class="hero is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-vcentered">
+          <div id="main" class="column is-full-mobile is-two-thirds-tablet is-two-thirds-desktop is-half-widescreen is-half-fullhd is-centered has-nice-link">
+            <div class="columns is-mobile is-centered is-multiline">
+              <div class="column is-narrow width100">
+                <img src="icon/tumblthree_icon.png" width="60" height="60" />
+                <span class="title is-2 title-custom" style="vertical-align: bottom; margin-left: 10px;">Bug Report or Feedback</span>
+              </div>
+            </div>
+            <h2 class="subtitle is-5 mt-5">We appreciate your feedback.</h2>
+            <div id="additional-info">
+            Please enter your bug report or feedback. If you are reporting a bug, try to include as many details as possible about what you were doing when the bug occurred&nbsp;- a detailed report makes a bug much easier to track down.<br/>
+            If you create an account on GitHub and provide your feedback directly on our <a href="https://github.com/TumblThreeApp/TumblThree/issues">project's issues page</a>, you have the ability to provide screenshots with your report and you can also get notifications when there are any updates on your reported issue.
+            </div>
+            <form id="feedback-form" method="POST">
+              <input type="hidden" id="_gotcha">
+              <div class="field">
+                <label class="label" for="name">Name</label>
+                <div class="control">
+                  <input class="input is-normal" type="text" id="name" autocomplete="name">
+                </div>
+              </div>
+              <div class="field">
+                <div style="display:inline;overflow:hidden;"><label class="label width-contents" for="email">Email*</label><span> (your email address will not be published)</span></div>
+                <div class="control">
+                  <input class="input is-normal" type="email" id="email" autocomplete="email" required>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label" for="title">Title*</label>
+                <div class="control">
+                  <input class="input is-normal" type="text" id="title" placeholder="Please provide a short meaningful title." required>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label" for="message">Message*</label>
+                <div class="control">
+                  <textarea class="textarea is-normal" placeholder="We are humans. Please be nice." id="message" minlength="20" rows="7" required></textarea>
+                </div>
+              </div>
+              <div class="ansp field">
+                <label class="label" for="attachments">Attachments</label>
+                <div class="control">
+                  <input type="file" id="attachments" multiple>
+                </div>
+              </div>
+              <p class="ansp">Leave this empty: <input type="text" id="url" /></p>
+              <div class="field">
+                <label class="label" for="answer">Please answer*</label>
+                <div style="float: left">
+                  <p id="question" class="label inline pt9"></p>
+                  <div class="controlMod inline">
+                    <input id="answer" class="input is-normal inline width45" type="text"><p id="msg"></p>
+                  </div>
+                  <div id="success" class="inline pt9">Validation complete</div>
+                  <div id="fail" class="inline pt9">Validation failed</div>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control pt-4">
+                  <input id="submit" class="button is-normal is-primary is-info" type="button" value="Send Feedback">
+                  <a href="index.html" style="float: right;">Back to Home</a>
+                </div>
+              </div>
+            </form>
+            <br>
+            <div id="text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
