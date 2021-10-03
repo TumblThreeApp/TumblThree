@@ -66,34 +66,35 @@ namespace TumblThree.Applications.Downloader
                         request.AddRange(totalBytesReceived);
 
                         long totalBytesToReceive = 0;
+                        bool isChunked = false;
                         using (var response = await request.GetResponseAsync().TimeoutAfter(settings.TimeOut))
                         {
+                            isChunked = response.Headers.ToString().Contains("chunked");
                             totalBytesToReceive = totalBytesReceived + response.ContentLength;
 
                             using (var responseStream = response.GetResponseStream())
+                            using (var throttledStream = GetStreamForDownload(responseStream))
                             {
-                                using (var throttledStream = GetStreamForDownload(responseStream))
+                                var buffer = new byte[4096];
+                                var bytesRead = 0;
+                                //Stopwatch sw = Stopwatch.StartNew();
+
+                                while ((bytesRead = await throttledStream
+                                           .ReadAsync(buffer, 0, buffer.Length, ct)
+                                           .TimeoutAfter(settings.TimeOut)) > 0)
                                 {
-                                    var buffer = new byte[4096];
-                                    var bytesRead = 0;
-                                    //Stopwatch sw = Stopwatch.StartNew();
+                                    await fileStream.WriteAsync(buffer, 0, bytesRead);
+                                    totalBytesReceived += bytesRead;
 
-                                    while ((bytesRead = await throttledStream
-                                               .ReadAsync(buffer, 0, buffer.Length, ct)
-                                               .TimeoutAfter(settings.TimeOut)) > 0)
-                                    {
-                                        await fileStream.WriteAsync(buffer, 0, bytesRead);
-                                        totalBytesReceived += bytesRead;
-
-                                        //float currentSpeed = totalBytesReceived / (float)sw.Elapsed.TotalSeconds;
-                                        //OnProgressChanged(new DownloadProgressChangedEventArgs(totalBytesReceived,
-                                        //    totalBytesToReceive, (long)currentSpeed));
-                                    }
+                                    //float currentSpeed = totalBytesReceived / (float)sw.Elapsed.TotalSeconds;
+                                    //OnProgressChanged(new DownloadProgressChangedEventArgs(totalBytesReceived,
+                                    //    totalBytesToReceive, (long)currentSpeed));
                                 }
                             }
                         }
 
-                        if (totalBytesReceived >= totalBytesToReceive) break;
+                        if (!isChunked && totalBytesReceived >= totalBytesToReceive) break;
+                        if (isChunked) attemptCount = 0;
                     }
                     catch (IOException ioException)
                     {
