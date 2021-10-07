@@ -229,14 +229,18 @@ namespace TumblThree.Applications.Controllers
         {
             Logger.Verbose("ManagerController.LoadLibrary:Start");
             _managerService.BlogFiles.Clear();
-            string path = Path.Combine(_shellService.Settings.DownloadLocation, "Index");
 
-            if (Directory.Exists(path))
+            foreach (var collection in _shellService.Settings.Collections)
             {
-                IReadOnlyList<IBlog> files = await GetIBlogsAsync(path);
-                foreach (IBlog file in files)
+                string path = Path.Combine(collection.DownloadLocation, "Index");
+
+                if (Directory.Exists(path))
                 {
-                    _managerService.BlogFiles.Add(file);
+                    IReadOnlyList<IBlog> files = await GetIBlogsAsync(path);
+                    foreach (IBlog file in files)
+                    {
+                        _managerService.BlogFiles.Add(file);
+                    }
                 }
             }
 
@@ -256,6 +260,8 @@ namespace TumblThree.Applications.Controllers
 
             string[] supportedFileTypes = Enum.GetNames(typeof(BlogTypes)).ToArray();
 
+            int[] validCollectionIds = _shellService.Settings.Collections.Select(s => s.Id).ToArray();
+
             foreach (string filename in Directory.GetFiles(directory, "*").Where(
                 fileName => supportedFileTypes.Any(fileName.Contains) &&
                             !fileName.Contains("_files")))
@@ -263,34 +269,44 @@ namespace TumblThree.Applications.Controllers
                 //TODO: Refactor
                 try
                 {
+                    IBlog blog = null;
+
                     if (filename.EndsWith(BlogTypes.tumblr.ToString()))
                     {
-                        blogs.Add(new TumblrBlog().Load(filename));
+                        blog = new TumblrBlog().Load(filename);
                     }
 
                     if (filename.EndsWith(BlogTypes.tmblrpriv.ToString()))
                     {
-                        blogs.Add(new TumblrHiddenBlog().Load(filename));
+                        blog = new TumblrHiddenBlog().Load(filename);
                     }
 
                     if (filename.EndsWith(BlogTypes.tlb.ToString()))
                     {
-                        blogs.Add(new TumblrLikedByBlog().Load(filename));
+                        blog = new TumblrLikedByBlog().Load(filename);
                     }
 
                     if (filename.EndsWith(BlogTypes.tumblrsearch.ToString()))
                     {
-                        blogs.Add(new TumblrSearchBlog().Load(filename));
+                        blog = new TumblrSearchBlog().Load(filename);
                     }
 
                     if (filename.EndsWith(BlogTypes.tumblrtagsearch.ToString()))
                     {
-                        blogs.Add(new TumblrTagSearchBlog().Load(filename));
+                        blog = new TumblrTagSearchBlog().Load(filename);
                     }
 
                     if (filename.EndsWith(BlogTypes.twitter.ToString()))
                     {
-                        blogs.Add(new TwitterBlog().Load(filename));
+                        blog = new TwitterBlog().Load(filename);
+                    }
+
+                    if (blog != null)
+                    {
+                        if (!validCollectionIds.Contains(blog.CollectionId))
+                            blog.CollectionId = 0;
+
+                        blogs.Add(blog);
                     }
                 }
                 catch (SerializationException ex)
@@ -315,14 +331,17 @@ namespace TumblThree.Applications.Controllers
         {
             Logger.Verbose("ManagerController.LoadAllDatabasesAsync:Start");
             _managerService.ClearDatabases();
-            string path = Path.Combine(_shellService.Settings.DownloadLocation, "Index");
-
-            if (Directory.Exists(path))
+            foreach (var collection in _shellService.Settings.Collections)
             {
-                IReadOnlyList<IFiles> databases = await GetIFilesAsync(path);
-                foreach (IFiles database in databases)
+                string path = Path.Combine(collection.DownloadLocation, "Index");
+
+                if (Directory.Exists(path))
                 {
-                    _managerService.AddDatabase(database);
+                    IReadOnlyList<IFiles> databases = await GetIFilesAsync(path);
+                    foreach (IFiles database in databases)
+                    {
+                        _managerService.AddDatabase(database);
+                    }
                 }
             }
 
@@ -337,18 +356,21 @@ namespace TumblThree.Applications.Controllers
 
             if (_shellService.Settings.LoadArchive)
             {
-                string path = Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive");
-                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-
-                List<string> dirs = new List<string>(Directory.GetDirectories(path, "*", SearchOption.AllDirectories));
-                dirs.Insert(0, path);
-
-                foreach (var item in dirs)
+                foreach (var collection in _shellService.Settings.Collections)
                 {
-                    IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(item);
-                    foreach (IFiles archiveDB in archiveDatabases)
+                    string path = Path.Combine(collection.DownloadLocation, "Archive");
+                    if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+                    List<string> dirs = new List<string>(Directory.GetDirectories(path, "*", SearchOption.AllDirectories));
+                    dirs.Insert(0, path);
+
+                    foreach (var item in dirs)
                     {
-                        _managerService.AddArchive(archiveDB);
+                        IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(item);
+                        foreach (IFiles archiveDB in archiveDatabases)
+                        {
+                            _managerService.AddArchive(archiveDB);
+                        }
                     }
                 }
             }
@@ -639,11 +661,11 @@ namespace TumblThree.Applications.Controllers
 
         private void RemoveBlog(IEnumerable<IBlog> blogs, bool doArchive)
         {
-            if (_shellService.Settings.ArchiveIndex && !Directory.Exists(Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive")))
-                Directory.CreateDirectory(Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive"));
-
             foreach (IBlog blog in blogs)
             {
+                if (_shellService.Settings.ArchiveIndex && !Directory.Exists(Path.Combine(blog.DownloadLocation(), "Index", "Archive")))
+                    Directory.CreateDirectory(Path.Combine(GetIndexFolderPath(blog.CollectionId), "Archive"));
+
                 if (!_shellService.Settings.DeleteOnlyIndex)
                 {
                     try
@@ -755,10 +777,10 @@ namespace TumblThree.Applications.Controllers
                     return;
                 }
                 SetDefaultTumblrBlogCrawler(blog);
+                blog = _settingsService.TransferGlobalSettingsToBlog(blog);
                 SaveBlog(blog);
             }
 
-            blog = _settingsService.TransferGlobalSettingsToBlog(blog);
             await UpdateMetaInformationAsync(blog);
         }
 
@@ -778,6 +800,7 @@ namespace TumblThree.Applications.Controllers
             if (blog.Save())
             {
                 AddToManager(blog);
+                _managerService.BlogFilesView.Refresh();
             }
         }
 
@@ -814,15 +837,21 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
+        private string GetIndexFolderPath(int CollectionId = 0)
+        {
+            var downloadLocation = (CollectionId == 0) ? _shellService.Settings.DownloadLocation : _shellService.Settings.GetCollection(CollectionId).DownloadLocation;
+            return Path.Combine(downloadLocation, "Index");
+        }
+
         private async Task<IBlog> CheckIfCrawlableBlog(string blogUrl)
         {
             if (!_blogFactory.IsValidBlogUrl(blogUrl) && _blogFactory.IsValidUrl(blogUrl))
             {
                 if ( await _tumblrBlogDetector.IsTumblrBlogWithCustomDomainAsync(blogUrl))
-                    return TumblrBlog.Create(blogUrl, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate, true);
+                    return TumblrBlog.Create(blogUrl, GetIndexFolderPath(_shellService.Settings.ActiveCollectionId), _shellService.Settings.FilenameTemplate, true);
                 throw new Exception($"The url '{blogUrl}' cannot be recognized as valid blog!");
             }
-            return _blogFactory.GetBlog(blogUrl, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate);
+            return _blogFactory.GetBlog(blogUrl, GetIndexFolderPath(_shellService.Settings.ActiveCollectionId), _shellService.Settings.FilenameTemplate);
         }
 
         private void AddToManager(IBlog blog)
@@ -839,7 +868,8 @@ namespace TumblThree.Applications.Controllers
             if (blog.GetType() == typeof(TumblrBlog) && await _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url))
             {
                 RemoveBlog(new[] { blog }, false);
-                blog = TumblrHiddenBlog.Create("https://www.tumblr.com/dashboard/blog/" + blog.Name, Path.Combine(_shellService.Settings.DownloadLocation, "Index"), _shellService.Settings.FilenameTemplate);
+                blog = TumblrHiddenBlog.Create("https://www.tumblr.com/dashboard/blog/" + blog.Name,
+                    GetIndexFolderPath(_shellService.Settings.ActiveCollectionId), _shellService.Settings.FilenameTemplate);
             }
 
             return blog;

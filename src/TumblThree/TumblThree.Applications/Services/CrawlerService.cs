@@ -1,11 +1,16 @@
 ﻿using Guava.RateLimiter;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Foundation;
+using System.Windows.Data;
 using System.Windows.Input;
+using TumblThree.Domain.Models;
 using TumblThree.Domain.Queue;
 
 namespace TumblThree.Applications.Services
@@ -14,8 +19,10 @@ namespace TumblThree.Applications.Services
     [Export]
     public class CrawlerService : Model, ICrawlerService
     {
+        private readonly ObservableCollection<Collection> _collections;
         private readonly ObservableCollection<QueueListItem> _activeItems;
         private readonly ReadOnlyObservableList<QueueListItem> _readonlyActiveItems;
+        private readonly IShellService _shellService;
         private ICommand _addBlogCommand;
         private ICommand _importBlogsCommand;
         private ICommand _autoDownloadCommand;
@@ -47,17 +54,18 @@ namespace TumblThree.Applications.Services
         [ImportingConstructor]
         public CrawlerService(IShellService shellService)
         {
+            _shellService = shellService;
             _timeconstraintApi =
-                RateLimiter.Create(shellService.Settings.MaxConnectionsApi /
-                                   (double)shellService.Settings.ConnectionTimeIntervalApi);
+                RateLimiter.Create(_shellService.Settings.MaxConnectionsApi /
+                                   (double)_shellService.Settings.ConnectionTimeIntervalApi);
 
             _timeconstraintSearchApi =
-                RateLimiter.Create(shellService.Settings.MaxConnectionsSearchApi /
-                                   (double)shellService.Settings.ConnectionTimeIntervalSearchApi);
+                RateLimiter.Create(_shellService.Settings.MaxConnectionsSearchApi /
+                                   (double)_shellService.Settings.ConnectionTimeIntervalSearchApi);
 
             _timeconstraintSvc =
-                RateLimiter.Create(shellService.Settings.MaxConnectionsSvc /
-                       (double)shellService.Settings.ConnectionTimeIntervalSvc);
+                RateLimiter.Create(_shellService.Settings.MaxConnectionsSvc /
+                       (double)_shellService.Settings.ConnectionTimeIntervalSvc);
 
             _activeItems = new ObservableCollection<QueueListItem>();
             _readonlyActiveItems = new ReadOnlyObservableList<QueueListItem>(_activeItems);
@@ -65,7 +73,21 @@ namespace TumblThree.Applications.Services
             _databasesLoaded = new TaskCompletionSource<bool>();
             _archiveLoaded = new TaskCompletionSource<bool>();
             _activeItems.CollectionChanged += ActiveItemsCollectionChanged;
+
+            _collections = new ObservableCollection<Collection>();
+            Collections = CollectionViewSource.GetDefaultView(_collections);
+            Collections.CurrentChanged += Collections_CurrentChanged;
         }
+
+        private void Collections_CurrentChanged(object sender, EventArgs e)
+        {
+            if (Collections.CurrentItem == null) return;
+
+            _shellService.Settings.ActiveCollectionId = (Collections.CurrentItem as Collection)?.Id ?? 0;
+            ActiveCollectionIdChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler ActiveCollectionIdChanged;
 
         public bool IsTimerSet
         {
@@ -213,6 +235,19 @@ namespace TumblThree.Applications.Services
             set => SetProperty(ref _newBlogUrl, value);
         }
 
+        public int ActiveCollectionId
+        {
+            get
+            {
+                return _shellService.Settings.ActiveCollectionId;
+            }
+            set
+            {
+                _shellService.Settings.ActiveCollectionId = value;
+                ActiveCollectionIdChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
         public RateLimiter TimeconstraintApi
         {
             get => _timeconstraintApi;
@@ -236,6 +271,22 @@ namespace TumblThree.Applications.Services
         public void RemoveActiveItem(QueueListItem itemToRemove) => _activeItems.Remove(itemToRemove);
 
         public void ClearItems() => _activeItems.Clear();
+
+        public ICollectionView Collections { get; }
+
+        public void UpdateCollectionsList(bool isInit)
+        {
+            _collections.Clear();
+
+            foreach (var item in _shellService.Settings.Collections.OrderBy(x => x.Name))
+            {
+                _collections.Add(item);
+            }
+
+            Collections.Refresh();
+            Collection current = _collections.FirstOrDefault(x => x.Id == _shellService.Settings.ActiveCollectionId) ?? _collections.FirstOrDefault(x => x.Id == 0);
+            Collections.MoveCurrentTo(current);
+        }
 
         private void ActiveItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

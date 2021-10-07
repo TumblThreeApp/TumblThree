@@ -57,6 +57,7 @@ namespace TumblThree.Applications.Services
             blog.RegExVideos = shellService.Settings.RegExVideos;
             blog.GroupPhotoSets = shellService.Settings.GroupPhotoSets;
             blog.FilenameTemplate = shellService.Settings.FilenameTemplate;
+            blog.CollectionId = shellService.Settings.ActiveCollectionId;
             return blog;
         }
     }

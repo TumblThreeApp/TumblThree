@@ -145,6 +145,7 @@
     <Compile Include="ErrorExceptions.cs" />
     <Compile Include="Extensions\ExceptionExtension.cs" />
     <Compile Include="Extensions\NativeMethods.cs" />
+    <Compile Include="Extensions\PathExtension.cs" />
     <Compile Include="Parser\CatBoxParser.cs" />
     <Compile Include="Parser\GfycatParser.cs" />
     <Compile Include="Parser\ICatBoxParser.cs" />

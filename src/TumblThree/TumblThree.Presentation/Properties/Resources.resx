@@ -1122,4 +1122,25 @@ Possible categories: large, medium, small</value>
   <data name="ViewImages" xml:space="preserve">
     <value>View images</value>
   </data>
+  <data name="ActiveCollection" xml:space="preserve">
+    <value>Active collection:</value>
+  </data>
+  <data name="AdvancedSettings" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="CollectionName" xml:space="preserve">
+    <value>Collection name:</value>
+  </data>
+  <data name="AvailableCollections" xml:space="preserve">
+    <value>Available collections:</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Collection</value>
+  </data>
+  <data name="Collections" xml:space="preserve">
+    <value>Collections</value>
+  </data>
+  <data name="CollectionsHint" xml:space="preserve">
+    <value>The download location is only used for newly created blogs under that collection. If a collection is deleted the assigned blogs will be shown under the default collection.</value>
+  </data>
 </root>

@@ -78,6 +78,7 @@
         private bool filenameTemplateEnabled;
         private bool metadataFormatEnabled;
         private bool blogTypeEnabled;
+        private bool collectionIdEnabled;
 
         public new bool? DownloadPhoto
         {
@@ -717,6 +718,15 @@
             set
             {
                 SetProperty(ref blogTypeEnabled, value);
+            }
+        }
+
+        public bool CollectionIdEnabled
+        {
+            get { return collectionIdEnabled; }
+            set
+            {
+                SetProperty(ref collectionIdEnabled, value);
             }
         }
     }

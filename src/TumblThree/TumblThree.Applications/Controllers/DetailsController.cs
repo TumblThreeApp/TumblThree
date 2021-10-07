@@ -253,6 +253,7 @@ namespace TumblThree.Applications.Controllers
             ba.DownloadTo = SetProperty<string>(sharedBlogFiles, "DownloadTo", (outval) => ba.DownloadToEnabled = outval);
             ba.Tags = SetProperty<string>(sharedBlogFiles, "Tags", (outval) => ba.TagsEnabled = outval);
             ba.Password = SetProperty<string>(sharedBlogFiles, "Password", (outval) => ba.PasswordEnabled = outval);
+            ba.CollectionId = SetProperty<int>(sharedBlogFiles, "CollectionId", (outval) => ba.CollectionIdEnabled = outval);
             bool dummy = false;
             ba.GfycatType = SetProperty<GfycatTypes>(sharedBlogFiles, "GfycatType", (outval) => dummy = outval);
             ba.WebmshareType = SetProperty<WebmshareTypes>(sharedBlogFiles, "WebmshareType", (outval) => dummy = outval);

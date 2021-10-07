@@ -151,6 +151,42 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This collection has already been used and cannot be deleted!.
+        /// </summary>
+        public static string CannotDeleteUsedCollection {
+            get {
+                return ResourceManager.GetString("CannotDeleteUsedCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collection.
+        /// </summary>
+        public static string Collection {
+            get {
+                return ResourceManager.GetString("Collection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified name contains invalid path name characters!.
+        /// </summary>
+        public static string CollectionNameInvalidChars {
+            get {
+                return ResourceManager.GetString("CollectionNameInvalidChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a collection name or delete it!.
+        /// </summary>
+        public static string CollectionNameIsEmpty {
+            get {
+                return ResourceManager.GetString("CollectionNameIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tumblr Privacy Consent needs to be accepted in the settings!.
         /// </summary>
         public static string ConfirmationTumblrPrivacyConsentNeeded {
@@ -300,6 +336,15 @@ namespace TumblThree.Applications.Properties {
         public static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Default/All&gt;.
+        /// </summary>
+        public static string DefaultCollectionName {
+            get {
+                return ResourceManager.GetString("DefaultCollectionName", resourceCulture);
             }
         }
         

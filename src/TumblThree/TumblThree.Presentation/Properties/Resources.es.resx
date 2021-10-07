@@ -846,4 +846,22 @@ Todos los archivos de índice dentro de esta subcarpeta se pueden usar para la v
   <data name="ViewImages" xml:space="preserve">
     <value>Ver imagenes</value>
   </data>
+  <data name="ActiveCollection" xml:space="preserve">
+    <value>Colección activa:</value>
+  </data>
+  <data name="AdvancedSettings" xml:space="preserve">
+    <value>Avanzados</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Colección</value>
+  </data>
+  <data name="Collections" xml:space="preserve">
+    <value>Colecciones</value>
+  </data>
+  <data name="CollectionName" xml:space="preserve">
+    <value>Nombre de la colección:</value>
+  </data>
+  <data name="CollectionsHint" xml:space="preserve">
+    <value>La ubicación de descarga solo se usa para blogs recién creados en esa colección. Si se elimina una colección, los blogs asignados se mostrarán en la colección predeterminada.</value>
+  </data>
 </root>

@@ -358,4 +358,19 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="DownloadAndInstallNewVersion" xml:space="preserve">
     <value>Voulez-vous télécharger et installer la nouvelle version maintenant?</value>
   </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;Par défaut/Tous&gt;</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="CollectionNameIsEmpty" xml:space="preserve">
+    <value>Veuillez entrer un nom de catégorie ou le supprimer!</value>
+  </data>
+  <data name="CannotDeleteUsedCollection" xml:space="preserve">
+    <value>Cette collection a déjà été utilisée et ne peut pas être supprimée!</value>
+  </data>
+  <data name="CollectionNameInvalidChars" xml:space="preserve">
+    <value>Le nom spécifié contient des caractères de nom de chemin non valides!</value>
+  </data>
 </root>

@@ -10,6 +10,8 @@
 
     <Style TargetType="ComboBoxItem">
         <Setter Property="Padding" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
 </ResourceDictionary>

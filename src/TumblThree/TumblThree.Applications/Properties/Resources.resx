@@ -399,4 +399,19 @@ Do you want to download it now?</value>
   <data name="DownloadAndInstallNewVersion" xml:space="preserve">
     <value>Do you want to download and install the new version now?</value>
   </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;Default/All&gt;</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Collection</value>
+  </data>
+  <data name="CollectionNameIsEmpty" xml:space="preserve">
+    <value>Please enter a collection name or delete it!</value>
+  </data>
+  <data name="CannotDeleteUsedCollection" xml:space="preserve">
+    <value>This collection has already been used and cannot be deleted!</value>
+  </data>
+  <data name="CollectionNameInvalidChars" xml:space="preserve">
+    <value>The specified name contains invalid path name characters!</value>
+  </data>
 </root>

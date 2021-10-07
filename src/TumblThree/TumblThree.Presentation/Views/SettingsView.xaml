@@ -15,7 +15,7 @@
     Height="790"
     d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
     ContentRendered="Window_ContentRendered"
-    ResizeMode="CanResize"
+    ResizeMode="NoResize"
     SizeToContent="Width"
     mc:Ignorable="d">
 
@@ -146,7 +146,7 @@
                                 VerticalAlignment="Center"
                                 Content="{x:Static p:Resources.DownloadLocation}" />
                             <TextBox
-                                x:Name="downloadLocationtextBox"
+                                x:Name="downloadLocationTextBox"
                                 Grid.Column="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center"
@@ -155,7 +155,6 @@
                             <Button
                                 x:Name="browseDownloadLocationButton"
                                 Grid.Column="2"
-                                Height="26"
                                 MinWidth="75"
                                 Margin="10"
                                 HorizontalAlignment="Right"
@@ -496,7 +495,6 @@
                                 x:Name="browseExportLocationButton"
                                 Grid.Row="0"
                                 Grid.Column="2"
-                                Height="26"
                                 MinWidth="75"
                                 Margin="10"
                                 HorizontalAlignment="Right"
@@ -667,7 +665,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                           
+
                             <Label
                                 x:Name="timeOutLabel"
                                 Grid.Column="2"
@@ -716,7 +714,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                          
+
                             <Label
                                 x:Name="scanConnectionsLabel"
                                 Grid.Column="2"
@@ -2187,6 +2185,148 @@
                                 </ToolTip>
                             </ComboBox.ToolTip>
                         </ComboBox>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="{x:Static p:Resources.AdvancedSettings}">
+                    <Grid Height="Auto" MinHeight="46">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <GroupBox Header="{x:Static p:Resources.Collections}" Grid.Row="0" Grid.ColumnSpan="4" Margin="5">
+                            <Grid x:Name="MyGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Height="Auto" HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" 
+                                           MinWidth="140"
+                                           Margin="0,5"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Content="{x:Static p:Resources.AvailableCollections}" />
+                                    <ComboBox x:Name="Collections" Grid.Column="1"
+                                              MinWidth="200"
+                                              MaxWidth="200"
+                                              Margin="0,5,5,5"
+                                              Height="22" 
+                                              ItemsSource="{Binding Collections, Mode=OneWay}"
+                                              SelectedValue="{Binding SelectedCollectionId, Mode=TwoWay}"
+                                              DisplayMemberPath="Name" 
+                                              SelectedValuePath="Id" />
+                                    <Button x:Name="NewCollection" 
+                                            Grid.Column="2" 
+                                            Margin="5"
+                                            MinWidth="75"
+                                            Height="22"
+                                            Command="{Binding NewCollectionCommand}"
+                                            Content="New">
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}">
+                                                <EventSetter Event="Click" Handler="FocusCollectionNameOnButtonClick" />
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                    <Button x:Name="DeleteCollection" 
+                                            Grid.Column="3" 
+                                            Margin="5"
+                                            MinWidth="75"
+                                            Height="22"
+                                            IsEnabled="{Binding DeleteCollectionEnabled}"
+                                            Command="{Binding DeleteCollectionCommand}"
+                                            CommandParameter="{Binding ElementName=Collections, Path=SelectedValue}"
+                                            Content="Delete" />
+                                </Grid>
+                                <Grid Grid.Row="1" Height="Auto" HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" 
+                                           MinWidth="140"
+                                           Margin="0,5"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Content="{x:Static p:Resources.CollectionName}" />
+                                    <TextBox x:Name="CollectionName"
+                                             Grid.Column="1" 
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center"
+                                             Height="20"
+                                             MinWidth="150" 
+                                             IsEnabled="{Binding CollectionNameEnabled}"
+                                             PreviewLostKeyboardFocus="CollectionName_PreviewLostKeyboardFocus"
+                                             Text="{Binding ElementName=Collections, Path=SelectedItem.Name}" />
+                                </Grid>
+                                <Grid Grid.Row="2" Height="Auto">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        x:Name="downloadLocationLabel2"
+                                        Grid.Column="0"
+                                        MinWidth="140"
+                                        Margin="0,5"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Content="{x:Static p:Resources.DownloadLocation}" />
+                                    <TextBox
+                                        x:Name="downloadLocationTextBox2"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Height="20"
+                                        IsEnabled="{Binding DownloadLocationTextBox2Enabled}"
+                                        Text="{Binding ElementName=Collections, Path=SelectedItem.DownloadLocation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        TextWrapping="Wrap" Margin="0,0,5,0" />
+                                    <Button
+                                        x:Name="browseDownloadLocationButton2"
+                                        Grid.Column="2"
+                                        Height="22"
+                                        MinWidth="75"
+                                        Margin="5"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        IsEnabled="{Binding BrowseDownloadLocationButton2Enabled}"
+                                        Command="{Binding BrowseCollectionDownloadLocationCommand}"
+                                        CommandParameter="{Binding ElementName=Collections, Path=SelectedValue}"
+                                        Content="{x:Static p:Resources.Browse}" />
+                                </Grid>
+                                <StackPanel Grid.Row="3" MaxWidth="{Binding ElementName=MyGrid, Path=ActualWidth}">
+                                    <TextBlock 
+                                        Margin="5" 
+                                        Text="{x:Static p:Resources.CollectionsHint}" 
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
                     </Grid>
                 </TabItem>
             </TabControl>

@@ -849,4 +849,22 @@ Tous les fichiers d'index de ce sous-dossier peuvent être utilisés pour la vé
   <data name="ViewImages" xml:space="preserve">
     <value>Voir les images</value>
   </data>
+  <data name="ActiveCollection" xml:space="preserve">
+    <value>Collection active:</value>
+  </data>
+  <data name="AdvancedSettings" xml:space="preserve">
+    <value>Avancés</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Collection</value>
+  </data>
+  <data name="Collections" xml:space="preserve">
+    <value>Collections</value>
+  </data>
+  <data name="CollectionName" xml:space="preserve">
+    <value>Nom de la collection:</value>
+  </data>
+  <data name="CollectionsHint" xml:space="preserve">
+    <value>L'emplacement de téléchargement n'est utilisé que pour les blogs nouvellement créés dans cette collection. Si une collection est supprimée, les blogs attribués seront affichés sous la collection par défaut.</value>
+  </data>
 </root>

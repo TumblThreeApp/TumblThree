@@ -54,4 +54,6 @@
 
     <c:BrushResourceConverter x:Key="BrushResourceConverter" />
 
+    <c:CollectionMultiConverter x:Key="CollectionMultiConverter" />
+
 </ResourceDictionary>

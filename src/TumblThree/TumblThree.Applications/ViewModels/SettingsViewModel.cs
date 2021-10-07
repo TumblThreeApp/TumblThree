@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -7,9 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Waf.Applications.Services;
+using System.Windows;
 using System.Windows.Input;
 
 using TumblThree.Applications.Data;
+using TumblThree.Applications.Extensions;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.Views;
@@ -24,6 +27,9 @@ namespace TumblThree.Applications.ViewModels
         private readonly AsyncDelegateCommand _authenticateCommand;
         private readonly AsyncDelegateCommand _privacyConsentCommand;
         private readonly DelegateCommand _browseDownloadLocationCommand;
+        private readonly DelegateCommand _browseCollectionDownloadLocationCommand;
+        private readonly DelegateCommand _newCollectionCommand;
+        private readonly DelegateCommand _deleteCollectionCommand;
         private readonly DelegateCommand _browseExportLocationCommand;
         private readonly DelegateCommand _enableAutoDownloadCommand;
         private readonly DelegateCommand _exportCommand;
@@ -137,6 +143,9 @@ namespace TumblThree.Applications.ViewModels
         private bool _groupPhotoSets;
         private string _filenameTemplate;
         private string _language;
+        private ObservableCollection<Collection> _collections;
+        private int _activeCollectionId;
+        private int _selectedCollectionId;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -154,6 +163,9 @@ namespace TumblThree.Applications.ViewModels
             _detailsService = detailsService;
             _authenticateViewModelFactory = authenticateViewModelFactory;
             _browseDownloadLocationCommand = new DelegateCommand(BrowseDownloadLocation);
+            _browseCollectionDownloadLocationCommand = new DelegateCommand(BrowseCategoryDownloadLocation);
+            _newCollectionCommand = new DelegateCommand(NewCollection);
+            _deleteCollectionCommand = new DelegateCommand(DeleteCollection);
             _browseExportLocationCommand = new DelegateCommand(BrowseExportLocation);
             _authenticateCommand = new AsyncDelegateCommand(Authenticate);
             _privacyConsentCommand = new AsyncDelegateCommand(PrivacyConsent);
@@ -178,6 +190,12 @@ namespace TumblThree.Applications.ViewModels
         public ILoginService LoginService { get; }
 
         public ICommand BrowseDownloadLocationCommand => _browseDownloadLocationCommand;
+
+        public ICommand BrowseCollectionDownloadLocationCommand => _browseCollectionDownloadLocationCommand;
+
+        public ICommand NewCollectionCommand => _newCollectionCommand;
+
+        public ICommand DeleteCollectionCommand => _deleteCollectionCommand;
 
         public ICommand AuthenticateCommand => _authenticateCommand;
 
@@ -230,7 +248,11 @@ namespace TumblThree.Applications.ViewModels
         public string DownloadLocation
         {
             get => _downloadLocation;
-            set => SetProperty(ref _downloadLocation, value);
+            set
+            {
+                SetProperty(ref _downloadLocation, value);
+                AdaptDefaultCollection();
+            }
         }
 
         public string ExportLocation
@@ -453,6 +475,52 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _portableMode;
             set => SetProperty(ref _portableMode, value);
+        }
+
+        public ObservableCollection<Collection> Collections
+        {
+            get => _collections;
+            set => SetProperty(ref _collections, value);
+        }
+
+        public int ActiveCollectionId
+        {
+            get => _activeCollectionId;
+            set => SetProperty(ref _activeCollectionId, value);
+        }
+
+        public int SelectedCollectionId
+        {
+            get => _selectedCollectionId;
+            set
+            {
+                SetProperty(ref _selectedCollectionId, value);
+                RaisePropertyChanged(nameof(BrowseDownloadLocationButton2Enabled));
+                RaisePropertyChanged(nameof(DeleteCollectionEnabled));
+                RaisePropertyChanged(nameof(CollectionNameEnabled));
+                RaisePropertyChanged(nameof(DownloadLocationTextBox2Enabled));
+            }
+        }
+
+        private static string Sanitize(string filename)
+        {
+            var invalids = System.IO.Path.GetInvalidFileNameChars();
+            return String.Join("-", filename.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.');
+        }
+
+        public static bool CollectionNameValidate(string enteredCollectionName)
+        {
+            bool valid = !string.IsNullOrWhiteSpace(enteredCollectionName);
+            if (!valid)
+            {
+                MessageBox.Show(Resources.CollectionNameIsEmpty, Resources.Warning);
+            }
+            if (valid && enteredCollectionName != Sanitize(enteredCollectionName))
+            {
+                valid = false;
+                MessageBox.Show(Resources.CollectionNameInvalidChars, Resources.Warning);
+            }
+            return valid;
         }
 
         public bool LoadAllDatabases
@@ -817,6 +885,38 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
+        public bool BrowseDownloadLocationButton2Enabled
+        {
+            get
+            {
+                return SelectedCollectionId > 0;
+            }
+        }
+
+        public bool DeleteCollectionEnabled
+        {
+            get
+            {
+                return SelectedCollectionId > 0;
+            }
+        }
+
+        public bool CollectionNameEnabled
+        {
+            get
+            {
+                return SelectedCollectionId > 0;
+            }
+        }
+
+        public bool DownloadLocationTextBox2Enabled
+        {
+            get
+            {
+                return SelectedCollectionId > 0;
+            }
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -889,6 +989,17 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
+        private void BrowseCategoryDownloadLocation(object id)
+        {
+            var collection = Collections.Where(x => x.Id == (int)id).First();
+            _folderBrowserDialog.SelectedPath = collection.DownloadLocation;
+            _folderBrowserDialog.ShowNewFolderButton = true;
+            if (_folderBrowserDialog.ShowDialog() == true)
+            {
+                collection.DownloadLocation = _folderBrowserDialog.SelectedPath;
+            }
+        }
+
         private void BrowseExportLocation()
         {
             FileDialogResult result =
@@ -899,6 +1010,34 @@ namespace TumblThree.Applications.ViewModels
             }
 
             ExportLocation = result.FileName;
+        }
+
+        private void AdaptDefaultCollection()
+        {
+            var item = Collections.Where(x => x.Id == 0).FirstOrDefault();
+            item.DownloadLocation = DownloadLocation;
+        }
+
+        private void NewCollection()
+        {
+            int id = Collections.Max(x => x.Id) + 1;
+            var name = $"{Resources.Collection} {id}";
+            Collections.Add(new Collection() { Id = id, Name = name });
+            SelectedCollectionId = id;
+        }
+
+        private void DeleteCollection(object id)
+        {
+            if (ManagerService.IsCollectionIdUsed((int)id))
+            {
+                MessageBox.Show(Resources.CannotDeleteUsedCollection, Resources.Warning);
+            }
+            else
+            {
+                var index = Collections.IndexOf(Collections.Where(x => x.Id == (int)id).FirstOrDefault());
+                Collections.RemoveAt(index);
+                SelectedCollectionId = Collections[--index].Id;
+            }
         }
 
         private async Task Authenticate()
@@ -1006,6 +1145,8 @@ namespace TumblThree.Applications.ViewModels
                 OAuthToken = _settings.OAuthToken;
                 OAuthTokenSecret = _settings.OAuthTokenSecret;
                 OAuthCallbackUrl = _settings.OAuthCallbackUrl;
+                Collections = new ObservableCollection<Collection>(_settings.Collections.ConvertAll(x => x.Clone()));
+                ActiveCollectionId = _settings.ActiveCollectionId;
                 DownloadLocation = _settings.DownloadLocation;
                 ExportLocation = _settings.ExportLocation;
                 ConcurrentConnections = _settings.ConcurrentConnections;
@@ -1101,6 +1242,10 @@ namespace TumblThree.Applications.ViewModels
                 OAuthCallbackUrl = @"https://github.com/TumblThreeApp/TumblThree";
                 OAuthToken = string.Empty;
                 OAuthTokenSecret = string.Empty;
+                var collectionList = new List<Collection>();
+                collectionList.Add(new Collection() { Id = 0, Name = Resources.DefaultCollectionName });
+                Collections = new ObservableCollection<Collection>(collectionList);
+                ActiveCollectionId = 0;
                 DownloadLocation = "Blogs";
                 ExportLocation = "blogs.txt";
                 ConcurrentConnections = 8;
@@ -1208,6 +1353,7 @@ namespace TumblThree.Applications.ViewModels
             }
             CrawlerService.TimeconstraintApi.SetRate(MaxConnectionsApi / (double)ConnectionTimeIntervalApi);
             CrawlerService.TimeconstraintSvc.SetRate(MaxConnectionsSvc / (double)ConnectionTimeIntervalSvc);
+            CrawlerService.UpdateCollectionsList(false);
 
             if (loadAllDatabasesChanged && downloadLocationChanged)
             {
@@ -1367,6 +1513,21 @@ namespace TumblThree.Applications.ViewModels
             _settings.GroupPhotoSets = GroupPhotoSets;
             _settings.FilenameTemplate = FilenameTemplate;
             _settings.Language = Language;
+            var list = new List<Collection>();
+            foreach (var item in Collections)
+            {
+                if (item.Name == Resources.DefaultCollectionName)
+                {
+                    item.DownloadLocation = DownloadLocation;
+                }
+                else if (!Path.IsPathRooted(item.DownloadLocation) || !Paths.IsPathFullyQualified(item.DownloadLocation))
+                {
+                    item.DownloadLocation = Path.Combine(DownloadLocation, item.Name);
+                }
+                list.Add(item);
+            }
+            _settings.Collections = list;
+            _settings.ActiveCollectionId = ActiveCollectionId;
         }
     }
 }

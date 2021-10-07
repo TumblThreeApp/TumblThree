@@ -70,6 +70,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active collection:.
+        /// </summary>
+        public static string ActiveCollection {
+            get {
+                return ResourceManager.GetString("ActiveCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Blog.
         /// </summary>
         public static string AddBlog {
@@ -84,6 +93,15 @@ namespace TumblThree.Presentation.Properties {
         public static string AddToQueue {
             get {
                 return ResourceManager.GetString("AddToQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        public static string AdvancedSettings {
+            get {
+                return ResourceManager.GetString("AdvancedSettings", resourceCulture);
             }
         }
         
@@ -111,6 +129,15 @@ namespace TumblThree.Presentation.Properties {
         public static string AutoDownloadBlogs {
             get {
                 return ResourceManager.GetString("AutoDownloadBlogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available collections:.
+        /// </summary>
+        public static string AvailableCollections {
+            get {
+                return ResourceManager.GetString("AvailableCollections", resourceCulture);
             }
         }
         
@@ -318,6 +345,42 @@ namespace TumblThree.Presentation.Properties {
         public static string ClipboardMonitor {
             get {
                 return ResourceManager.GetString("ClipboardMonitor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collection.
+        /// </summary>
+        public static string Collection {
+            get {
+                return ResourceManager.GetString("Collection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collection name:.
+        /// </summary>
+        public static string CollectionName {
+            get {
+                return ResourceManager.GetString("CollectionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collections.
+        /// </summary>
+        public static string Collections {
+            get {
+                return ResourceManager.GetString("Collections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The download location is only used for newly created blogs under that collection. If a collection is deleted the assigned blogs will be shown under the default collection..
+        /// </summary>
+        public static string CollectionsHint {
+            get {
+                return ResourceManager.GetString("CollectionsHint", resourceCulture);
             }
         }
         

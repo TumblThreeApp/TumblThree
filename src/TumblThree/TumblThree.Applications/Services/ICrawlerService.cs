@@ -1,4 +1,5 @@
 ﻿using Guava.RateLimiter;
+using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -50,6 +51,8 @@ namespace TumblThree.Applications.Services
 
         string NewBlogUrl { get; set; }
 
+        int ActiveCollectionId { get; set; }
+
         IReadOnlyObservableList<QueueListItem> ActiveItems { get; }
 
         RateLimiter TimeconstraintApi { get; set; }
@@ -66,8 +69,14 @@ namespace TumblThree.Applications.Services
 
         TaskCompletionSource<bool> ArchiveLoaded { get; set; }
 
+        event EventHandler ActiveCollectionIdChanged;
+
         void AddActiveItems(QueueListItem itemToAdd);
 
         void RemoveActiveItem(QueueListItem itemToRemove);
+
+        ICollectionView Collections { get; }
+
+        void UpdateCollectionsList(bool isInit);
     }
 }

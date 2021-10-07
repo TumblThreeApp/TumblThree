@@ -72,5 +72,6 @@
         bool FilenameTemplateEnabled { get; set; }
         bool MetadataFormatEnabled { get; set; }
         bool BlogTypeEnabled { get; set; }
+        bool CollectionIdEnabled { get; set; }
     }
 }

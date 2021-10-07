@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Globalization;
+using System.Linq;
 using System.Resources;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -373,6 +374,12 @@ namespace TumblThree.Applications.Properties
         public string Language { get; set; }
 
         [DataMember]
+        public List<Collection> Collections { get; set; }
+
+        [DataMember]
+        public int ActiveCollectionId { get; set; }
+
+        [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
         public ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
@@ -464,14 +471,30 @@ namespace TumblThree.Applications.Properties
                 settings.ColumnSettings.Add("LatestPost", Tuple.Create(9, 120.0, Visibility.Visible));
                 updated = true;
             }
+            if (settings.ColumnSettings.Count > 0 && !settings.ColumnSettings.ContainsKey("Collection"))
+            {
+                settings.ColumnSettings.Add("Collection", Tuple.Create(12, 120.0, Visibility.Visible));
+                updated = true;
+            }
             if (string.IsNullOrEmpty(settings.ImageSizeCategory))
             {
                 settings.ImageSizeCategory = "medium";
                 settings.VideoSizeCategory = "medium";
                 updated = true;
             }
+            if (settings.Collections == null)
+            {
+                var collections = new List<Collection>();
+                collections.Add(new Collection() { Id = 0, Name = Resources.DefaultCollectionName, DownloadLocation = settings.DownloadLocation });
+                settings.Collections = collections;
+            }
 
             return updated;
+        }
+
+        public Collection GetCollection(int id)
+        {
+            return Collections.Where(x => x.Id == id).First();
         }
 
         ExtensionDataObject IExtensibleDataObject.ExtensionData { get; set; }

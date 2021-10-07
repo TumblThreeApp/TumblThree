@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
@@ -100,6 +99,7 @@ namespace TumblThree.Domain.Models.Blogs
         private BlogTypes blogType;
         private PostType states;
         private bool groupPhotoSets;
+        private int collectionId;
 
         [DataMember(Name = "Links")]
         private readonly List<string> links = new List<string>();
@@ -884,6 +884,17 @@ namespace TumblThree.Domain.Models.Blogs
             set
             {
                 SetProperty(ref groupPhotoSets, value);
+                Dirty = true;
+            }
+        }
+
+        [DataMember]
+        public int CollectionId
+        {
+            get => collectionId;
+            set
+            {
+                SetProperty(ref collectionId, value);
                 Dirty = true;
             }
         }

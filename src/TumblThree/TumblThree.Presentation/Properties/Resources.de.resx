@@ -849,4 +849,22 @@ Alle Indexdateien in diesem Unterordner können bei Aktivierung für die globale
   <data name="ViewImages" xml:space="preserve">
     <value>Bilder anschauen</value>
   </data>
+  <data name="ActiveCollection" xml:space="preserve">
+    <value>Aktive Sammlung:</value>
+  </data>
+  <data name="AdvancedSettings" xml:space="preserve">
+    <value>Erweitert</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Sammlung</value>
+  </data>
+  <data name="Collections" xml:space="preserve">
+    <value>Sammlungen</value>
+  </data>
+  <data name="CollectionName" xml:space="preserve">
+    <value>Sammlungsname:</value>
+  </data>
+  <data name="CollectionsHint" xml:space="preserve">
+    <value>Der Speicherort wird nur für neu erstellte Blogs unter dieser Sammlung verwendet. Wenn eine Sammlung gelöscht wird, werden die zugewiesenen Blogs unter der Standardsammlung angezeigt.</value>
+  </data>
 </root>

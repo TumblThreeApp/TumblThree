@@ -114,6 +114,7 @@
     <Compile Include="Models\Blogs\IBlogAll.cs" />
     <Compile Include="Models\Blogs\TwitterBlog.cs" />
     <Compile Include="Models\CatboxTypes.cs" />
+    <Compile Include="Models\Collection.cs" />
     <Compile Include="Models\DetailsBlog.cs" />
     <Compile Include="Models\Blogs\Blog.cs" />
     <Compile Include="Models\BlogFactory.cs" />

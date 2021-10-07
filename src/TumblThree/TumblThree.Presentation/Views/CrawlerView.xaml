@@ -97,6 +97,12 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <StackPanel VerticalAlignment="Center" Margin="5">
+                    <Label x:Name="collectionsLabel" Content="{x:Static p:Resources.ActiveCollection}" />
+                    <ComboBox x:Name="collectionsComboBox" MinWidth="100px" MaxWidth="100px" 
+                              ItemsSource="{Binding CrawlerService.Collections}" IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name" SelectedValuePath="Id" />
+                    <!-- SelectedValue="{Binding CrawlerService.ActiveCollectionId, Mode=OneWay}" -->
+                </StackPanel>
 
                 <Button Command="{Binding CrawlerService.AddBlogCommand}">
                     <StackPanel>

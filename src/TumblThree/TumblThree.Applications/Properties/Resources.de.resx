@@ -358,4 +358,19 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="DownloadAndInstallNewVersion" xml:space="preserve">
     <value>Möchten Sie die neue Version jetzt herunterladen und installieren?</value>
   </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;Standard/Alle&gt;</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Sammlung</value>
+  </data>
+  <data name="CollectionNameIsEmpty" xml:space="preserve">
+    <value>Bitte geben Sie einen Sammlungsnamen ein oder löschen Sie die Kategorie!</value>
+  </data>
+  <data name="CannotDeleteUsedCollection" xml:space="preserve">
+    <value>Diese Sammlung wurde bereits verwendet und kann nicht gelöscht werden!</value>
+  </data>
+  <data name="CollectionNameInvalidChars" xml:space="preserve">
+    <value>Der angegebene Name enthält ungültige Pfadnamenzeichen!</value>
+  </data>
 </root>

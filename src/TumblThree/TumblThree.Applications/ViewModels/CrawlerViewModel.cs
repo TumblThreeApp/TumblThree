@@ -15,6 +15,8 @@ namespace TumblThree.Applications.ViewModels
         {
             CrawlerService = crawlerService;
             ShellService = shellService;
+
+            CrawlerService.UpdateCollectionsList(true);
         }
 
         public IShellService ShellService { get; }

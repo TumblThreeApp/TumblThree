@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 using TumblThree.Applications.Services;
@@ -22,6 +23,8 @@ namespace TumblThree.Presentation.DesignData
 
         public ObservableCollection<IBlog> BlogFiles => blogFiles;
 
+        public ICollectionView BlogFilesView { get; }
+
         public IEnumerable<IFiles> Databases { get; }
 
         public void SetBlogFiles(IEnumerable<IBlog> blogFilesToAdd)
@@ -41,5 +44,7 @@ namespace TumblThree.Presentation.DesignData
         public void AddArchive(IFiles archiveDB) => throw new NotImplementedException();
 
         public void ClearArchive() => throw new NotImplementedException();
+
+        public bool IsCollectionIdUsed(int id) => throw new NotImplementedException();
     }
 }

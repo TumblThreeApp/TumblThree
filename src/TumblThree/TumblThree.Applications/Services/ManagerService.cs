@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Waf.Foundation;
-
+using System.Windows.Data;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Models.Files;
 
@@ -16,16 +17,41 @@ namespace TumblThree.Applications.Services
         private readonly object databasesLock = new object();
         private readonly ISet<string> archivedLinks;
         private readonly object archiveLock = new object();
+        private readonly ICollectionView blogFilesView;
+        private readonly IShellService shellService;
 
         [ImportingConstructor]
-        public ManagerService()
+        public ManagerService(IShellService shellService, ICrawlerService crawlerService)
         {
             BlogFiles = new ObservableCollection<IBlog>();
+            blogFilesView = CollectionViewSource.GetDefaultView(BlogFiles);
+
+
+
+
+            blogFilesView.Filter = BlogFilesViewSource_Filter;
             databases = new List<IFiles>();
             archivedLinks = new HashSet<string>();
+            this.shellService = shellService;
+            crawlerService.ActiveCollectionIdChanged += CrawlerService_ActiveCollectionIdChanged;
+        }
+
+        private void CrawlerService_ActiveCollectionIdChanged(object sender, System.EventArgs e)
+        {
+            blogFilesView.Refresh();
+        }
+
+        private bool BlogFilesViewSource_Filter(object obj)
+        {
+            if (shellService.Settings.ActiveCollectionId == 0) return true;
+
+            IBlog item = obj as IBlog;
+            return item.CollectionId == shellService.Settings.ActiveCollectionId;
         }
 
         public ObservableCollection<IBlog> BlogFiles { get; }
+
+        public ICollectionView BlogFilesView => blogFilesView;
 
         public IEnumerable<IFiles> Databases => databases;
 
@@ -89,6 +115,15 @@ namespace TumblThree.Applications.Services
             {
                 archivedLinks.Clear();
             }
+        }
+
+        public bool IsCollectionIdUsed(int id)
+        {
+            foreach (var blog in BlogFiles)
+            {
+                if (blog.CollectionId == id) return true;
+            }
+            return false;
         }
     }
 }

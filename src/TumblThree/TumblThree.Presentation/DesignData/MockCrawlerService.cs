@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +25,8 @@ namespace TumblThree.Presentation.DesignData
             readonlyActiveItems = new ReadOnlyObservableList<QueueListItem>(activeItems);
         }
 
+        public event EventHandler ActiveCollectionIdChanged;
+
         public ICommand AddBlogToQueueCommand { get; set; }
 
         public IReadOnlyObservableList<QueueListItem> ActiveItems => readonlyActiveItems;
@@ -32,6 +36,12 @@ namespace TumblThree.Presentation.DesignData
         }
 
         public void RemoveActiveItem(QueueListItem itemToRemove)
+        {
+        }
+
+        public ICollectionView Collections { get; }
+
+        public void UpdateCollectionsList(bool isInit)
         {
         }
 
@@ -75,6 +85,8 @@ namespace TumblThree.Presentation.DesignData
 
 
         public string NewBlogUrl { get; set; }
+
+        public int ActiveCollectionId { get; set; }
 
         public Guava.RateLimiter.RateLimiter TimeconstraintApi { get; set; }
 

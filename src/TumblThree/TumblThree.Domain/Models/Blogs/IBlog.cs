@@ -203,6 +203,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         long LastPreviewShown { get; set; }
 
+        int CollectionId { get; set; }
+
         void UpdateProgress(bool calcOnly);
 
         void UpdatePostCount(string propertyName);
