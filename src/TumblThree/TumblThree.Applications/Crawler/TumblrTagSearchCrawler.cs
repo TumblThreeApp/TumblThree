@@ -220,7 +220,7 @@ namespace TumblThree.Applications.Crawler
             {
                 foreach (var data in page.Tagged.Timeline.Elements)
                 {
-                    if (data.ObjectType != "Post") continue;
+                    if (!string.Equals(data.ObjectType, "Post", StringComparison.InvariantCultureIgnoreCase)) continue;
                     if (!CheckIfWithinTimespan(data.Timestamp))
                     {
                         continue;

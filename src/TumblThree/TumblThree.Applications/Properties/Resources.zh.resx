@@ -300,7 +300,7 @@
     <value>Post id: {0}</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
-    <value>{0} 的一帖无法解析，在"详细"标签页将"每页帖数"设为1可能会增加可下载的内容。</value>
+    <value>'{0}' 的一帖无法解析，在"详细"标签页将"每页帖数"设为1可能会增加可下载的内容。</value>
   </data>
   <data name="PostUrl" xml:space="preserve">
     <value>Post url: {0}</value>

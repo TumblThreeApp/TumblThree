@@ -200,6 +200,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
+                json = json.Replace(":undefined", ":null");
                 using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(json)))
                 {
                     var serializer = new DataContractJsonSerializer(typeof(T));

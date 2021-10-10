@@ -300,7 +300,7 @@
     <value>Post id: {0}</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
-    <value>A post from {0} was not parsable. Setting 'posts per page' to 1 in the Details might increase the downloadable content.</value>
+    <value>A post from '{0}' was not parsable. Setting 'posts per page' to 1 in the Details might increase the downloadable content.</value>
   </data>
   <data name="PostUrl" xml:space="preserve">
     <value>Post url: {0}</value>
