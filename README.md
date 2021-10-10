@@ -39,6 +39,7 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * :star: Download of Twitter blogs 🆕
 * Image viewer with slideshow mode 🆕
 * Automated update process 🆕
+* Group blogs into collections 🆕
 
 ### Blog backup/download:
 

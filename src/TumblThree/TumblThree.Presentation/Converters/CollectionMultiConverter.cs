@@ -11,6 +11,8 @@ namespace TumblThree.Presentation.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values == null || values[0] == null || values[1] == null) return null;
+
             var CollectionId = (int)values[0];
             var collections = (List<Collection>)values[1];
 
