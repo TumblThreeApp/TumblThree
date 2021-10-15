@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Waf.Foundation;
+using System.Windows;
 using System.Windows.Data;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Models.Files;
@@ -18,17 +20,15 @@ namespace TumblThree.Applications.Services
         private readonly ISet<string> archivedLinks;
         private readonly object archiveLock = new object();
         private readonly ICollectionView blogFilesView;
+        private static object blogFilesLock = new object();
         private readonly IShellService shellService;
 
         [ImportingConstructor]
         public ManagerService(IShellService shellService, ICrawlerService crawlerService)
         {
             BlogFiles = new ObservableCollection<IBlog>();
+            Application.Current.Dispatcher.Invoke(new Action(() => BindingOperations.EnableCollectionSynchronization(BlogFiles, blogFilesLock)));
             blogFilesView = CollectionViewSource.GetDefaultView(BlogFiles);
-
-
-
-
             blogFilesView.Filter = BlogFilesViewSource_Filter;
             databases = new List<IFiles>();
             archivedLinks = new HashSet<string>();
