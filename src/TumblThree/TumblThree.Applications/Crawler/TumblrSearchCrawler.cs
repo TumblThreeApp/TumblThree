@@ -280,7 +280,7 @@ namespace TumblThree.Applications.Crawler
             {
                 if (Blog.DownloadPhoto)
                 {
-                    url = RetrieveOriginalImageUrl(url, 2000, 3000);
+                    url = RetrieveOriginalImageUrl(url, 2000, 3000, false);
                     AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
                 }
             }

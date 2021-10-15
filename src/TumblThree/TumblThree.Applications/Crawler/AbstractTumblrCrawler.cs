@@ -228,7 +228,7 @@ namespace TumblThree.Applications.Crawler
                 string url = imageUrl;
                 if (CheckIfSkipGif(url)) { continue; }
 
-                url = RetrieveOriginalImageUrl(url, 2000, 3000);
+                url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
 
                 var matchesNewFormat = Regex.Match(url, "media.tumblr.com/([A-Za-z0-9_/:.-]*)/s([0-9]*)x([0-9]*)");
                 if (matchesNewFormat.Success)
@@ -349,14 +349,22 @@ namespace TumblThree.Applications.Crawler
             return new ImageResponse() { Images = list };
         }
 
-        protected string RetrieveOriginalImageUrl(string url, int width, int height)
+        protected string RetrieveOriginalImageUrl(string url, int width, int height, bool isInline)
         {
             if (width > height) { (width, height) = (height, width); }
             if (ShellService.Settings.ImageSize != "best"
-                || !url.Contains("/s1280x1920/")
+                || !isInline && !url.Contains("/s1280x1920/")
                 || (width <= 1280 && height <= 1920)) { return url; }
 
-            url = url.Replace("/s1280x1920/", (width <= 2048 && height <= 3072) ? "/s2048x3072/" : "/s99999x99999/");
+            if (isInline)
+            {
+                var re = new Regex(@"\/s[\d]{2,4}x[\d]{2,4}\/");
+                url = re.Replace(url, "/s2048x3072/");
+            }
+            else
+            {
+                url = url.Replace("/s1280x1920/", (width <= 2048 && height <= 3072) ? "/s2048x3072/" : "/s99999x99999/");
+            }
             string pageContent = "";
             int errCnt = 0;
             Exception lastError = null;
