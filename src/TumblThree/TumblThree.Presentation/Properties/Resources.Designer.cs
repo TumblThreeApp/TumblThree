@@ -799,6 +799,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email (won&apos;t be published; for a possible answer).
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start download at.
         /// </summary>
         public static string EnableAutoDownload {
@@ -858,6 +867,27 @@ namespace TumblThree.Presentation.Properties {
         public static string ExternalSettings {
             get {
                 return ResourceManager.GetString("ExternalSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feedback.
+        /// </summary>
+        public static string Feedback {
+            get {
+                return ResourceManager.GetString("Feedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We highly appreciate your feedback!
+        ///Tell us what you like or don&apos;t like about TumblThree.
+        ///Please write your message in english.
+        ///Alternatively you can use the {Issues section} on our project site to get in touch with us..
+        /// </summary>
+        public static string FeedbackIntroduction {
+            get {
+                return ResourceManager.GetString("FeedbackIntroduction", resourceCulture);
             }
         }
         
@@ -1146,6 +1176,15 @@ namespace TumblThree.Presentation.Properties {
         public static string MaxConnections {
             get {
                 return ResourceManager.GetString("MaxConnections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string Message {
+            get {
+                return ResourceManager.GetString("Message", resourceCulture);
             }
         }
         
@@ -1524,6 +1563,15 @@ namespace TumblThree.Presentation.Properties {
         public static string SelectABlog {
             get {
                 return ResourceManager.GetString("SelectABlog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string Send {
+            get {
+                return ResourceManager.GetString("Send", resourceCulture);
             }
         }
         

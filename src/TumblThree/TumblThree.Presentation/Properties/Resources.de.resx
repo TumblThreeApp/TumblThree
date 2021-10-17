@@ -867,4 +867,19 @@ Alle Indexdateien in diesem Unterordner können bei Aktivierung für die globale
   <data name="CollectionsHint" xml:space="preserve">
     <value>Der Speicherort wird nur für neu erstellte Blogs unter dieser Sammlung verwendet. Wenn eine Sammlung gelöscht wird, werden die zugewiesenen Blogs unter der Standardsammlung angezeigt.</value>
   </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>Wir freuen uns sehr über Ihr Feedback!
+Sagen Sie uns, was Ihnen an TumblThree gefällt oder nicht gefällt.
+Bitte schreiben Sie Ihre Nachricht auf Englisch.
+Alternativ können Sie uns auch über den Bereich {Issues} auf unserer Projektseite kontaktieren.</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Senden</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-Mail (wird nicht veröffentlicht; für eine mögliche Antwort)</value>
+  </data>
 </root>

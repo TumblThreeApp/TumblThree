@@ -7,13 +7,13 @@
         xmlns:dd="clr-namespace:TumblThree.Presentation.DesignData"
         mc:Ignorable="d" Title="{x:Static p:Resources.About}" Icon="{StaticResource TumblThreeIcon}" MinWidth="200"
         MinHeight="120"
-        SizeToContent="WidthAndHeight" ShowInTaskbar="False" ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight" ShowInTaskbar="False" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         d:DataContext="{d:DesignInstance dd:SampleAboutViewModel, IsDesignTimeCreatable=True}">
 
     <DockPanel>
         <Border DockPanel.Dock="Bottom" Background="{StaticResource DefaultBackground}" Margin="0,11,0,0">
             <Button Content="{x:Static p:Resources.Ok}" IsDefault="True" IsCancel="True" HorizontalAlignment="Center"
-                    MinWidth="75" Margin="11" />
+                    MinWidth="75" Margin="11,10" Height="22" />
         </Border>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -22,7 +22,7 @@
             <Grid Margin="0,11,22,11" VerticalAlignment="Center">
                 <Grid.Resources>
                     <Style TargetType="Label">
-                        <Setter Property="Margin" Value="6" />
+                        <Setter Property="Margin" Value="3" />
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
@@ -38,6 +38,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Label Content="{x:Static p:Resources.Product}" Grid.Row="0" />
@@ -94,11 +95,13 @@
                     </TextBlock>
                 </Label>
                 <Button Content="{x:Static p:Resources.CheckForUpdates}" Command="{Binding CheckForUpdatesCommand}"
-                        Grid.Row="7" MinHeight="26" Margin="6" />
+                        Grid.Row="7" Height="22" Margin="6" />
                 <Label Content="{Binding UpdateText}" Grid.Column="1" Grid.Row="7" MinHeight="26" Margin="6" />
                 <Button Content="{x:Static p:Resources.DownloadNow}" Command="{Binding DownloadCommand}"
                         Visibility="{Binding IsLatestVersionAvailable,Converter={StaticResource BoolToVisibilityConverter}}"
-                        Grid.Column="1" Grid.Row="7" MinHeight="26" Margin="6" />
+                        Grid.Column="1" Grid.Row="7" Height="22" Margin="6" HorizontalAlignment="Left" Padding="10,0" />
+                <Button Content="{x:Static p:Resources.Feedback}" Command="{Binding FeedbackCommand}"
+                        Grid.Row="8" Grid.ColumnSpan="2" Height="22" Margin="6" HorizontalAlignment="Left" Padding="10,0" />
             </Grid>
         </StackPanel>
     </DockPanel>

@@ -373,4 +373,7 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="CollectionNameInvalidChars" xml:space="preserve">
     <value>Le nom spécifié contient des caractères de nom de chemin non valides!</value>
   </data>
+  <data name="SendFeedbackError" xml:space="preserve">
+    <value>Une erreur s'est produite lors de l'envoi du commentaire. Veuillez réessayer plus tard.</value>
+  </data>
 </root>

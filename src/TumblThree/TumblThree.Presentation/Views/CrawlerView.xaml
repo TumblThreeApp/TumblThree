@@ -225,7 +225,8 @@
                 <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ShowAboutCommand}">
                     <StackPanel>
                         <Grid>
-                            <fa:ImageAwesome Icon="Info" />
+                            <fa:ImageAwesome Icon="Info" HorizontalAlignment="Left" />
+                            <fa:ImageAwesome Icon="ThumbsOutlineUp" HorizontalAlignment="Right" />
                         </Grid>
                         <TextBlock Text="{x:Static p:Resources.About}" />
                     </StackPanel>

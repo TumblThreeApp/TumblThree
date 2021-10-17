@@ -1143,4 +1143,22 @@ Possible categories: large, medium, small</value>
   <data name="CollectionsHint" xml:space="preserve">
     <value>The download location is only used for newly created blogs under that collection. If a collection is deleted the assigned blogs will be shown under the default collection.</value>
   </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>We highly appreciate your feedback!
+Tell us what you like or don't like about TumblThree.
+Please write your message in english.
+Alternatively you can use the {Issues section} on our project site to get in touch with us.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email (won't be published; for a possible answer)</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
 </root>

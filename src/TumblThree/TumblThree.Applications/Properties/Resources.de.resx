@@ -373,4 +373,7 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="CollectionNameInvalidChars" xml:space="preserve">
     <value>Der angegebene Name enthält ungültige Pfadnamenzeichen!</value>
   </data>
+  <data name="SendFeedbackError" xml:space="preserve">
+    <value>Beim Senden des Feedbacks ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.</value>
+  </data>
 </root>

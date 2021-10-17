@@ -373,4 +373,7 @@
   <data name="CollectionNameInvalidChars" xml:space="preserve">
     <value>¡El nombre especificado contiene caracteres de nombre de ruta no válidos!</value>
   </data>
+  <data name="SendFeedbackError" xml:space="preserve">
+    <value>Se produjo un error al enviar los comentarios. Inténtelo de nuevo más tarde.</value>
+  </data>
 </root>

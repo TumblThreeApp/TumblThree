@@ -261,6 +261,7 @@
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrTagSearchViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsTwitterBlogViewModel.cs" />
     <Compile Include="ViewModels\ExceptionWindowViewModel.cs" />
+    <Compile Include="ViewModels\FeedbackViewModel.cs" />
     <Compile Include="ViewModels\FullScreenMediaViewModel.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\CrawlerViewModel.cs" />
@@ -274,6 +275,7 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\IExceptionWindowView.cs" />
+    <Compile Include="Views\IFeedbackView.cs" />
     <Compile Include="Views\IFullScreenMediaView.cs" />
     <Compile Include="Views\IAboutView.cs" />
     <Compile Include="Views\ICrawlerView.cs" />

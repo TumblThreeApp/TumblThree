@@ -19,20 +19,24 @@ namespace TumblThree.Applications.ViewModels
         private readonly AsyncDelegateCommand _checkForUpdatesCommand;
         private readonly DelegateCommand _downloadCommand;
         private readonly DelegateCommand _showWebsiteCommand;
+        private readonly DelegateCommand _feedbackCommand;
 
+        private readonly ExportFactory<FeedbackViewModel> _feedbackViewModelFactory;
         private readonly IApplicationUpdateService _applicationUpdateService;
         private bool _isCheckInProgress;
         private bool _isLatestVersionAvailable;
         private string _updateText;
 
         [ImportingConstructor]
-        public AboutViewModel(IAboutView view, IApplicationUpdateService applicationUpdateService)
+        public AboutViewModel(IAboutView view, IApplicationUpdateService applicationUpdateService, ExportFactory<FeedbackViewModel> feedbackViewModelFactory)
             : base(view)
         {
             _showWebsiteCommand = new DelegateCommand(ShowWebsite);
             _checkForUpdatesCommand = new AsyncDelegateCommand(CheckForUpdates);
             _downloadCommand = new DelegateCommand(DownloadNewVersion);
+            _feedbackCommand = new DelegateCommand(Feedback);
             _applicationUpdateService = applicationUpdateService;
+            _feedbackViewModelFactory = feedbackViewModelFactory;
         }
 
         public ICommand ShowWebsiteCommand => _showWebsiteCommand;
@@ -40,6 +44,8 @@ namespace TumblThree.Applications.ViewModels
         public ICommand CheckForUpdatesCommand => _checkForUpdatesCommand;
 
         public ICommand DownloadCommand => _downloadCommand;
+
+        public ICommand FeedbackCommand => _feedbackCommand;
 
 #pragma warning disable CA1822
         public string ProductName => ApplicationInfo.ProductName;
@@ -99,6 +105,12 @@ namespace TumblThree.Applications.ViewModels
             IsLatestVersionAvailable = false;
             UpdateText = string.Empty;
             await CheckForUpdatesComplete(_applicationUpdateService.GetLatestReleaseFromServer());
+        }
+
+        private void Feedback()
+        {
+            FeedbackViewModel feedbackViewModel = _feedbackViewModelFactory.CreateExport().Value;
+            feedbackViewModel.ShowDialog(this);
         }
 
         private async Task CheckForUpdatesComplete(Task<string> task)

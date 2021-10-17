@@ -838,6 +838,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while sending the feedback. Please try it again later..
+        /// </summary>
+        public static string SendFeedbackError {
+            get {
+                return ResourceManager.GetString("SendFeedbackError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Slug: {0}.
         /// </summary>
         public static string Slug {

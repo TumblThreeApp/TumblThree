@@ -414,4 +414,7 @@ Do you want to download it now?</value>
   <data name="CollectionNameInvalidChars" xml:space="preserve">
     <value>The specified name contains invalid path name characters!</value>
   </data>
+  <data name="SendFeedbackError" xml:space="preserve">
+    <value>An error occurred while sending the feedback. Please try it again later.</value>
+  </data>
 </root>

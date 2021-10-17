@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
@@ -6,6 +7,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Waf.Applications;
+using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 using TumblThree.Domain;
@@ -93,6 +95,35 @@ namespace TumblThree.Applications.Services
             }
 
             return new Uri(downloadLink);
+        }
+
+        public async Task<bool> SendFeedback(string name, string email, string message)
+        {
+            try
+            {
+                HttpWebRequest request = webRequestFactory.CreatePostRequest("https://9332a1f6dcab0d2f3fdafd51eaed07ca.m.pipedream.net");
+                request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+                var p = new Dictionary<string, string>();
+                p.Add("name", name);
+                p.Add("email", email);
+                p.Add("title", "App Feedback");
+                p.Add("message", message);
+                p.Add("url", "");
+                var fields = string.Join("&", p.Select(kvp => string.Format("{0}={1}", kvp.Key, HttpUtility.UrlEncode(kvp.Value))));
+                p = new Dictionary<string, string>() { { "form", fields }, { "other", "" } };
+                await webRequestFactory.PerformPostRequestAsync(request, p);
+                using (var response = await request.GetResponseAsync() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        throw new ApplicationException(string.Format("endpoint returned: {0} {1}", response.StatusCode, response.StatusDescription));
+                }
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.ToString());
+                throw;
+            }
         }
     }
 }

@@ -1,0 +1,34 @@
+﻿<Window x:Class="TumblThree.Presentation.Views.FeedbackView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p="clr-namespace:TumblThree.Presentation.Properties"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TumblThree.Presentation.Views"
+        xmlns:vm="clr-namespace:TumblThree.Applications.ViewModels;assembly=TumblThree.Applications"
+        d:DataContext="{d:DesignInstance vm:FeedbackViewModel}"
+        mc:Ignorable="d" Title="{x:Static p:Resources.Feedback}" Icon="{StaticResource TumblThreeIcon}" Width="450"
+        MinHeight="310" WindowStartupLocation="CenterOwner"
+        SizeToContent="Height" ShowInTaskbar="False" ResizeMode="NoResize">
+    <Grid x:Name="MyGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <StackPanel MaxWidth="{Binding ElementName=MyGrid, Path=ActualWidth}" Margin="10">
+                <TextBlock x:Name="IntroductionTextBlock" Text="{x:Static p:Resources.FeedbackIntroduction}" TextWrapping="Wrap"  />
+            </StackPanel>
+            <Label Content="{x:Static p:Resources.Name}" Margin="10 0" Padding="0,4,4,4" />
+            <TextBox Text="{Binding Name}" Margin="10 0" MaxLength="50" Width="190" HorizontalAlignment="Left" />
+            <Label Content="{x:Static p:Resources.Email}" Margin="10 0" Padding="0,4,4,4" />
+            <TextBox Text="{Binding Email}" Margin="10 0" MaxLength="100" Width="190" HorizontalAlignment="Left" />
+            <Label Content="{x:Static p:Resources.Message}" Margin="10 0" Padding="0,4,4,4" />
+            <TextBox x:Name="MessageTextBox" Text="{Binding Message}" Height="120" MaxLength="1000" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="10 0" TextChanged="TextBox_TextChanged" />
+        </StackPanel>
+        <Border Grid.Row="1" Background="{StaticResource DefaultBackground}" Margin="0,11,0,0">
+            <Button x:Name="SendButton" Content="{x:Static p:Resources.Send}" HorizontalAlignment="Center"
+                    MinWidth="75" Margin="11" IsEnabled="False" Command="{Binding SendCommand}" />
+        </Border>
+    </Grid>
+</Window>

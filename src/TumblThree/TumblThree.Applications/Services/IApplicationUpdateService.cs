@@ -12,5 +12,7 @@ namespace TumblThree.Applications.Services
         string GetNewAvailableVersion();
 
         Uri GetDownloadUri();
+
+        Task<bool> SendFeedback(string name, string email, string message);
     }
 }

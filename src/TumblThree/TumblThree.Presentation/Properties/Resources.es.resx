@@ -864,4 +864,19 @@ Todos los archivos de índice dentro de esta subcarpeta se pueden usar para la v
   <data name="CollectionsHint" xml:space="preserve">
     <value>La ubicación de descarga solo se usa para blogs recién creados en esa colección. Si se elimina una colección, los blogs asignados se mostrarán en la colección predeterminada.</value>
   </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>¡Apreciamos mucho sus comentarios!
+Díganos lo que le gusta y lo que no le gusta de TumblThree.
+Por favor escriba su mensaje en inglés.
+Alternativamente, puede utilizar la {sección Problemas} en el sitio de nuestro proyecto para ponerse en contacto con nosotros.</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Correo electrónico (no se publicará; para una posible respuesta)</value>
+  </data>
 </root>
