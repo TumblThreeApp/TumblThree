@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -206,12 +205,12 @@ namespace WpfImageViewer
                 _imageDurationSeconds = int.Parse(section.Settings.Get("ImageDurationSeconds").Value.ValueXml.InnerText);
                 _includedFileExtensions = section.Settings.Get("IncludedFileExtensions").Value.ValueXml.InnerText;
                 _msgColor = section.Settings.Get("MsgColor").Value.ValueXml.InnerText;
-                _msgFadeoutSeconds = double.Parse(section.Settings.Get("MsgFadeoutSeconds").Value.ValueXml.InnerText);
+                _msgFadeoutSeconds = double.Parse(section.Settings.Get("MsgFadeoutSeconds").Value.ValueXml.InnerText, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
                 _runAnimatedGifs = bool.Parse(section.Settings.Get("RunAnimatedGifs").Value.ValueXml.InnerText);
                 _showHelpOnLoad = bool.Parse(section.Settings.Get("ShowHelpOnLoad").Value.ValueXml.InnerText);
-                _zoomMax = double.Parse(section.Settings.Get("ZoomMax").Value.ValueXml.InnerText);
-                _zoomMin = double.Parse(section.Settings.Get("ZoomMin").Value.ValueXml.InnerText);
-                _zoomStep = double.Parse(section.Settings.Get("ZoomStep").Value.ValueXml.InnerText);
+                _zoomMax = double.Parse(section.Settings.Get("ZoomMax").Value.ValueXml.InnerText, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+                _zoomMin = double.Parse(section.Settings.Get("ZoomMin").Value.ValueXml.InnerText, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+                _zoomStep = double.Parse(section.Settings.Get("ZoomStep").Value.ValueXml.InnerText, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
             }
         }
 
