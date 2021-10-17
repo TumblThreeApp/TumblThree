@@ -37,7 +37,7 @@ namespace TumblThree.Presentation.Views
 
         private void closeWindow(object sender, RoutedEventArgs e)
         {
-            if (!SettingsViewModel.CollectionNameValidate(CollectionName.Text))
+            if (Collections.SelectedIndex != 0 && !SettingsViewModel.CollectionNameValidate(CollectionName.Text))
             {
                 e.Handled = true;
             }
