@@ -110,7 +110,8 @@ namespace TumblThree.Applications.Services
                 p.Add("message", message);
                 p.Add("url", "");
                 var fields = string.Join("&", p.Select(kvp => string.Format("{0}={1}", kvp.Key, HttpUtility.UrlEncode(kvp.Value))));
-                p = new Dictionary<string, string>() { { "form", fields }, { "other", "" } };
+                var version = ApplicationInfo.Version;
+                p = new Dictionary<string, string>() { { "form", fields }, { "other", version } };
                 await webRequestFactory.PerformPostRequestAsync(request, p);
                 using (var response = await request.GetResponseAsync() as HttpWebResponse)
                 {
