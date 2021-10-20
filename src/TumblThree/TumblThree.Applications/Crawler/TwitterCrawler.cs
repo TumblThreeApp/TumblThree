@@ -133,6 +133,8 @@ namespace TumblThree.Applications.Crawler
 
             twUser = await GetTwUser();
 
+            if (twUser.Errors != null && twUser.Errors.Count > 0) throw new Exception($"{Blog.Name}: {twUser.Errors[0].Message}");
+
             Blog.Title = twUser.Data.User.Legacy.ScreenName;
             Blog.Description = twUser.Data.User.Legacy.Description;
             Blog.TotalCount = twUser.Data.User.Legacy.StatusesCount;
