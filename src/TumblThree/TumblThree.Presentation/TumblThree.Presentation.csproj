@@ -440,13 +440,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CefSharp.Wpf">
-      <Version>92.0.260</Version>
+      <Version>94.4.110</Version>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF">
       <Version>4.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
-      <Version>1.1.31</Version>
+      <Version>1.1.37</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
