@@ -288,7 +288,13 @@ namespace TumblThree.Applications.Crawler
                 return;
             if (type == "video")
             {
-                if (Blog.DownloadVideo)
+                if (Blog.DownloadPhoto)
+                {
+                    var thumbnailUrl = content.Poster?[0].Url;
+                    AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, index)));
+                }
+                // can only download preview image for non-tumblr (embedded) video posts
+                if (Blog.DownloadVideo && content.Provider == "tumblr")
                     AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
             }
             else if (type == "audio")
