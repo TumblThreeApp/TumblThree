@@ -283,6 +283,7 @@ namespace TumblThree.Applications.Services
                 _collections.Add(item);
             }
 
+            ((IEditableCollectionView)Collections).CancelEdit();
             Collections.Refresh();
             Collection current = _collections.FirstOrDefault(x => x.Id == _shellService.Settings.ActiveCollectionId) ?? _collections.FirstOrDefault(x => x.Id == 0);
             Collections.MoveCurrentTo(current);
