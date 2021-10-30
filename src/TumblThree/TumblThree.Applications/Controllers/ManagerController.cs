@@ -778,6 +778,7 @@ namespace TumblThree.Applications.Controllers
                 }
                 SetDefaultTumblrBlogCrawler(blog);
                 blog = _settingsService.TransferGlobalSettingsToBlog(blog);
+                _managerService.EnsureUniqueFolder(blog);
                 SaveBlog(blog);
             }
 

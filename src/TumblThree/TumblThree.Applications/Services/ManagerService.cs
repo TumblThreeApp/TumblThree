@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.IO;
+using System.Linq;
 using System.Waf.Foundation;
 using System.Windows;
 using System.Windows.Data;
@@ -54,6 +56,21 @@ namespace TumblThree.Applications.Services
         public ICollectionView BlogFilesView => blogFilesView;
 
         public IEnumerable<IFiles> Databases => databases;
+
+        public void EnsureUniqueFolder(IBlog blog)
+        {
+            int number = 1;
+            string appendix = "";
+            while (BlogFiles.Any(b => b.DownloadLocation() == blog.DownloadLocation() + appendix) || Directory.Exists(blog.DownloadLocation() + appendix))
+            {
+                number++;
+                appendix = $"_{number}";
+            }
+            if (number != 1)
+            {
+                blog.FileDownloadLocation = blog.DownloadLocation() + appendix;
+            }
+        }
 
         public bool CheckIfFileExistsInDB(string filename, bool checkArchive)
         {
