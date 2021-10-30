@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TumblThree.Applications.Views;
+using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Applications.Services
@@ -14,6 +15,8 @@ namespace TumblThree.Applications.Services
         IDetailsViewModel DetailsViewModel { get; }
 
         void ViewFullScreenMedia();
+
+        bool ChangeCollection(IBlog blog, IList<Collection> oldItem, IList<Collection> newItem);
 
         event EventHandler DetailsViewModelChanged;
 

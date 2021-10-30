@@ -33,6 +33,8 @@ namespace TumblThree.Presentation.DesignData
             blogFilesToAdd.ToList().ForEach(x => innerBlogFiles.Add(x));
         }
 
+        public void EnsureUniqueFolder(IBlog blog) => throw new NotImplementedException();
+
         public bool CheckIfFileExistsInDB(string filename, bool checkArchive) => false;
 
         public void AddDatabase(IFiles database) => throw new NotImplementedException();

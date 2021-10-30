@@ -762,7 +762,9 @@ Tokens obligatorios (si no se usa el token %f) para hacer que los nombres de arc
    %y "({número})" ({número}: 2..n) añadido al nombre del archivo
 Ejemplo (guardar una imagen):
    %i_%f para {post id}_{tumblr filename}.jpg
-Si, además, la opción "conjuntos de fotos de grupo" está habilitada, para los conjuntos de imágenes, el token %i se reemplaza por {post id}_{image index} o, si no se usa el token, los conjuntos de imágenes se guardan como {post id}_{índice de imagen}_{plantilla de nombre de archivo}.
+Si, además, la opción "conjuntos de fotos de grupo" está habilitada, para los conjuntos de imágenes, 
+el token %i se reemplaza por {post id}_{image index} o, si no se usa el token, los conjuntos de 
+imágenes se guardan como {post id}_{índice de imagen}_{plantilla de nombre de archivo}.
 Desactive la opción si desea utilizar su propia plantilla para conjuntos de fotos.</value>
   </data>
   <data name="Logout" xml:space="preserve">
@@ -878,5 +880,14 @@ Alternativamente, puede utilizar la {sección Problemas} en el sitio de nuestro 
   </data>
   <data name="Email" xml:space="preserve">
     <value>Correo electrónico (no se publicará; para una posible respuesta)</value>
+  </data>
+  <data name="ToolTipCollection" xml:space="preserve">
+    <value>Asigne el blog a esta colección.</value>
+  </data>
+  <data name="ToolTipCollectionDescription" xml:space="preserve">
+    <value>Si cambia la colección, los archivos de la base de datos del blog se copiarán en la nueva ubicación, 
+pero la carpeta de descarga del blog con los medios permanecerá en la ubicación anterior. Se creará 
+una nueva carpeta en la carpeta raíz de la colección y se usará para los archivos recién descargados. 
+Puede mover los archivos multimedia antiguos manualmente, si es necesario.</value>
   </data>
 </root>

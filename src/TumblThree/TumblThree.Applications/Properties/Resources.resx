@@ -417,4 +417,10 @@ Do you want to download it now?</value>
   <data name="SendFeedbackError" xml:space="preserve">
     <value>An error occurred while sending the feedback. Please try it again later.</value>
   </data>
+  <data name="CannotChangeCollectionOfQueuedBlog" xml:space="preserve">
+    <value>Cannot change assigned collection while blog is in queue!</value>
+  </data>
+  <data name="CannotChangeCollectionDestFileExists" xml:space="preserve">
+    <value>Cannot change assigned collection because a file with that name already exists at destination!</value>
+  </data>
 </root>

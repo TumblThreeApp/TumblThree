@@ -1853,6 +1853,27 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign the blog to this collection..
+        /// </summary>
+        public static string ToolTipCollection {
+            get {
+                return ResourceManager.GetString("ToolTipCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you change the collection the blog&apos;s database files with be copied to the new location, but 
+        ///the blog&apos;s download folder with the media remains at the old location. A new folder under the 
+        ///collection&apos;s root folder will be created and used for newly downloaded files. You can move the 
+        ///old media files manually, if necessary..
+        /// </summary>
+        public static string ToolTipCollectionDescription {
+            get {
+                return ResourceManager.GetString("ToolTipCollectionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of total concurrent connections.
         /// </summary>
         public static string ToolTipConnections {

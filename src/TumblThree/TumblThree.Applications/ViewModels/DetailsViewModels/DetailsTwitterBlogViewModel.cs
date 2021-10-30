@@ -1,9 +1,14 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Waf.Applications;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.Views;
+using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Applications.ViewModels.DetailsViewModels
@@ -21,18 +26,22 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         private int _count = 0;
 
         [ImportingConstructor]
-        public DetailsTwitterBlogViewModel([Import("TwitterBlogView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService, IDetailsService detailsService)
+        public DetailsTwitterBlogViewModel([Import("TwitterBlogView", typeof(IDetailsView))] IDetailsView view, IClipboardService clipboardService, IDetailsService detailsService,
+            ICrawlerService crawlerService)
             : base(view)
         {
             _clipboardService = clipboardService;
             _detailsService = detailsService;
             _copyUrlCommand = new DelegateCommand(CopyUrlToClipboard);
             _browseFileDownloadLocationCommand = new DelegateCommand(BrowseFileDownloadLocation);
+            Collections = CollectionViewSource.GetDefaultView(crawlerService.Collections);
         }
 
         public ICommand CopyUrlCommand => _copyUrlCommand;
 
         public ICommand BrowseFileDownloadLocationCommand => _browseFileDownloadLocationCommand;
+
+        public ICollectionView Collections { get; }
 
         public void ViewFullScreenMedia()
         {
@@ -47,6 +56,11 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
         public bool FilenameTemplateValidate(string enteredFilenameTemplate)
         {
             return _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);
+        }
+
+        public bool CollectionChanged(IList<Collection> oldItem, IList<Collection> newItem)
+        {
+            return _detailsService.ChangeCollection(_blogFile, oldItem, newItem);
         }
 
         public IBlog BlogFile

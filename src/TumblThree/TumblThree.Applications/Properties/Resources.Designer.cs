@@ -151,6 +151,24 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot change assigned collection because a file with that name already exists at destination!.
+        /// </summary>
+        public static string CannotChangeCollectionDestFileExists {
+            get {
+                return ResourceManager.GetString("CannotChangeCollectionDestFileExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot change assigned collection while blog is in queue!.
+        /// </summary>
+        public static string CannotChangeCollectionOfQueuedBlog {
+            get {
+                return ResourceManager.GetString("CannotChangeCollectionOfQueuedBlog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This collection has already been used and cannot be deleted!.
         /// </summary>
         public static string CannotDeleteUsedCollection {

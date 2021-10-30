@@ -376,4 +376,10 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="SendFeedbackError" xml:space="preserve">
     <value>Beim Senden des Feedbacks ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.</value>
   </data>
+  <data name="CannotChangeCollectionOfQueuedBlog" xml:space="preserve">
+    <value>Die zugewiesene Sammlung kann nicht geändert werden, während sich der Blog in der Warteschlange befindet!</value>
+  </data>
+  <data name="CannotChangeCollectionDestFileExists" xml:space="preserve">
+    <value>Die zugewiesene Sammlung kann nicht geändert werden, da am Ziel bereits eine Datei mit diesem Namen vorhanden ist!</value>
+  </data>
 </root>

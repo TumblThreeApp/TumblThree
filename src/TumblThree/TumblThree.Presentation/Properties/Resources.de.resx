@@ -762,7 +762,9 @@ Obligatorische Token (wenn kein Token %f verwendet wird), um Dateinamen eindeuti
    %y "({number})" ({number}: 2..n) an Dateiname angehängt
 Beispiel (Speichern eines Bildes):
    %i_%f für {post id}_{tumblr filename}.jpg
-Wenn zusätzlich die Option "Gruppenfotosätze" aktiviert ist, wird für Bildsätze das Token %i durch {post id}_{Bildindex} ersetzt, oder wenn das Token nicht verwendet wird, werden die Bildsätze als {Post id}_{Bildindex}_{Dateinamenvorlage} gespeichert.
+Wenn zusätzlich die Option "Gruppenfotosätze" aktiviert ist, wird für Bildsätze das Token %i 
+durch {post id}_{Bildindex} ersetzt, oder wenn das Token nicht verwendet wird, werden die 
+Bildsätze als {Post id}_{Bildindex}_{Dateinamenvorlage} gespeichert.
 Deaktivieren Sie die Option, wenn Sie Ihre eigene Vorlage für Fotosets verwenden möchten.</value>
   </data>
   <data name="ForceRescan" xml:space="preserve">
@@ -881,5 +883,14 @@ Alternativ können Sie uns auch über den Bereich {Issues} auf unserer Projektse
   </data>
   <data name="Email" xml:space="preserve">
     <value>E-Mail (wird nicht veröffentlicht; für eine mögliche Antwort)</value>
+  </data>
+  <data name="ToolTipCollection" xml:space="preserve">
+    <value>Ordne das Blog dieser Sammlung zu.</value>
+  </data>
+  <data name="ToolTipCollectionDescription" xml:space="preserve">
+    <value>Wenn Sie die Sammlung ändern, werden die Datenbankdateien des Blogs an den neuen Speicherort kopiert, 
+der Download-Ordner des Blogs mit den Medien bleibt jedoch am alten Speicherort. Ein neuer Ordner 
+unter dem Stammordner der Sammlung wird erstellt und für neu heruntergeladene Dateien verwendet. 
+Sie können die alten Mediendateien bei Bedarf manuell verschieben.</value>
   </data>
 </root>

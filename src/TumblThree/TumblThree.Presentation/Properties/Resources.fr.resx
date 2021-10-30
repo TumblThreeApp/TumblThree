@@ -765,7 +765,9 @@ Jetons obligatoires (si vous n'utilisez pas le jeton %f) pour rendre les noms de
    %y "({nombre})" ({nombre}: 2..n) ajouté au nom du fichier
 Exemple (sauvegarde d'une image):
    %i_%f pour {post id}_{nom de fichier tumblr}.jpg
-Si en plus l'option "groupes de photos" est activée, alors pour les jeux d'images, le jeton %i est remplacé par {post id}_{image index} ou, si le jeton n'est pas utilisé, les jeux d'images sont enregistrés sous {post id}_{index d'image}_{modèle de nom de fichier}.
+Si en plus l'option "groupes de photos" est activée, alors pour les jeux d'images, le jeton %i est 
+remplacé par {post id}_{image index} ou, si le jeton n'est pas utilisé, les jeux d'images sont 
+enregistrés sous {post id}_{index d'image}_{modèle de nom de fichier}.
 Désactivez l'option si vous souhaitez utiliser votre propre modèle pour les ensembles de photos.</value>
   </data>
   <data name="Logout" xml:space="preserve">
@@ -881,5 +883,15 @@ Vous pouvez également utiliser la {section Problèmes} sur notre site de projet
   </data>
   <data name="Email" xml:space="preserve">
     <value>Adresse e-mail (ne sera pas publié; pour une éventuelle réponse)</value>
+  </data>
+  <data name="ToolTipCollection" xml:space="preserve">
+    <value>Assignez le blog à cette collection.</value>
+  </data>
+  <data name="ToolTipCollectionDescription" xml:space="preserve">
+    <value>Si vous modifiez la collection, les fichiers de base de données du blog seront copiés vers le 
+nouvel emplacement, mais le dossier de téléchargement du blog avec les médias reste à l'ancien 
+emplacement. Un nouveau dossier sous le dossier racine de la collection sera créé et utilisé 
+pour les fichiers nouvellement téléchargés. Vous pouvez déplacer les anciens fichiers 
+multimédias manuellement, si nécessaire.</value>
   </data>
 </root>

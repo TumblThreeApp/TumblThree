@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -13,6 +15,7 @@ using TumblThree.Applications.ViewModels.DetailsViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
+using TumblThree.Domain.Models.Files;
 using TumblThree.Domain.Queue;
 
 namespace TumblThree.Applications.Controllers
@@ -23,6 +26,7 @@ namespace TumblThree.Applications.Controllers
     {
         private readonly ISelectionService _selectionService;
         private readonly IShellService _shellService;
+        private readonly IManagerService _managerService;
         private readonly ExportFactory<FullScreenMediaViewModel> _fullScreenMediaViewModelFactory;
 
         private Lazy<IDetailsViewModel> _detailsViewModel;
@@ -36,11 +40,12 @@ namespace TumblThree.Applications.Controllers
         public event EventHandler FinishedCrawlingLastBlog;
 
         [ImportingConstructor]
-        public DetailsController(IShellService shellService, ISelectionService selectionService, IManagerService managerService, 
+        public DetailsController(IShellService shellService, ISelectionService selectionService, IManagerService managerService,
             ExportFactory<FullScreenMediaViewModel> fullScreenMediaViewModelFactory)
         {
             _shellService = shellService;
             _selectionService = selectionService;
+            _managerService = managerService;
             _fullScreenMediaViewModelFactory = fullScreenMediaViewModelFactory;
             _blogsToSave = new HashSet<IBlog>();
         }
@@ -127,6 +132,61 @@ namespace TumblThree.Applications.Controllers
         {
             FullScreenMediaViewModel fullScreenMediaViewModel = _fullScreenMediaViewModelFactory.CreateExport().Value;
             fullScreenMediaViewModel.ShowDialog(_shellService.ShellView);
+        }
+
+        public bool ChangeCollection(IBlog blog, IList<Collection> oldItem, IList<Collection> newItem)
+        {
+            if (oldItem == null || oldItem.Count == 0 || newItem == null || newItem.Count == 0) return false;
+
+            if (QueueManager.Items.Any(x => x.Blog.Name == blog.Name && x.Blog.OriginalBlogType == blog.OriginalBlogType))
+            {
+                MessageBox.Show(Resources.CannotChangeCollectionOfQueuedBlog, Resources.Warning);
+                return false;
+            }
+
+            var oldFilenameIndex = Path.Combine(blog.Location, blog.Name) + "." + blog.OriginalBlogType;
+            var oldFilenameChild = blog.ChildId;
+
+            var newRootFolder = Path.Combine(newItem?[0].DownloadLocation, "Index");
+            var newFilenameIndex = Path.Combine(newRootFolder, blog.Name) + "." + blog.OriginalBlogType;
+            var newFilenameChild = Path.Combine(newRootFolder, Path.GetFileName(oldFilenameChild));
+
+            if (File.Exists(newFilenameIndex) || File.Exists(newFilenameChild))
+            {
+                MessageBox.Show(Resources.CannotChangeCollectionDestFileExists, Resources.Warning);
+                return false;
+            }
+
+            blog.CollectionId = newItem[0].Id;
+            blog.Location = newRootFolder;
+            blog.FileDownloadLocation = null;
+            blog.ChildId = newFilenameChild;
+
+            
+            blog.Save();
+
+            File.Delete(oldFilenameIndex);
+            File.Move(oldFilenameChild, newFilenameChild);
+
+            _managerService.BlogFiles.Remove(blog);
+            _managerService.EnsureUniqueFolder(blog);
+            if (blog.Dirty)
+            {
+                blog.Save();
+            }
+            if (_shellService.Settings.LoadAllDatabases)
+            {
+                _managerService.RemoveDatabase(_managerService.Databases.FirstOrDefault(db => db.Name.Equals(blog.Name)
+                    && db.BlogType.Equals(blog.OriginalBlogType)));
+            }
+
+            QueueOnDispatcher.CheckBeginInvokeOnUI(() => _managerService.BlogFiles.Add(blog));
+            if (_shellService.Settings.LoadAllDatabases)
+            {
+                _managerService.AddDatabase(Files.Load(blog.ChildId));
+            }
+
+            return true;
         }
 
         private void UpdateViewModelBasedOnSelection(IReadOnlyList<IBlog> blogFiles)

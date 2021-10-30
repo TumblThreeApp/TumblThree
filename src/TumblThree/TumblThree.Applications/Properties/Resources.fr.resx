@@ -376,4 +376,10 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="SendFeedbackError" xml:space="preserve">
     <value>Une erreur s'est produite lors de l'envoi du commentaire. Veuillez réessayer plus tard.</value>
   </data>
+  <data name="CannotChangeCollectionOfQueuedBlog" xml:space="preserve">
+    <value>Impossible de modifier la collection attribuée pendant que le blog est en file d'attente!</value>
+  </data>
+  <data name="CannotChangeCollectionDestFileExists" xml:space="preserve">
+    <value>Impossible de modifier la collection attribuée car un fichier portant ce nom existe déjà à destination!</value>
+  </data>
 </root>

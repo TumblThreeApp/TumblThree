@@ -376,4 +376,10 @@
   <data name="SendFeedbackError" xml:space="preserve">
     <value>Se produjo un error al enviar los comentarios. Inténtelo de nuevo más tarde.</value>
   </data>
+  <data name="CannotChangeCollectionOfQueuedBlog" xml:space="preserve">
+    <value>¡No se puede cambiar la colección asignada mientras el blog está en cola!</value>
+  </data>
+  <data name="CannotChangeCollectionDestFileExists" xml:space="preserve">
+    <value>No se puede cambiar la colección asignada porque ya existe un archivo con ese nombre en el destino.</value>
+  </data>
 </root>
