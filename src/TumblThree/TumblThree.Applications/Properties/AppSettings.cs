@@ -421,12 +421,16 @@ namespace TumblThree.Applications.Properties
             var updated = false;
             var newStgs = new AppSettings();
 
-            if (settings.UserAgent != new AppSettings().UserAgent &&
-                System.Text.RegularExpressions.Regex.IsMatch(settings.UserAgent,
-                @"Mozilla\/[\d]+\.[\d]+ \(Windows [ \.\w\d]*; Win(64|32); (x64|x86)\) AppleWebKit\/[\d]+\.[\d]+ \(KHTML, like Gecko\) Chrome\/[\d]+\.[\d]+\.[\d]+\.[\d]+ Safari\/[\d]+\.[\d]+"))
+            if (settings.UserAgent != newStgs.UserAgent)
             {
-                settings.UserAgent = newStgs.UserAgent;
-                updated = true;
+                var regex = new System.Text.RegularExpressions.Regex(@"Mozilla\/[\d]+\.[\d]+ \(Windows [ \.\w\d]*; Win(64|32); (x64|x86)\) AppleWebKit\/[\d]+\.[\d]+ \(KHTML, like Gecko\) Chrome\/([\d]+\.[\d]+\.[\d]+\.[\d]+) Safari\/[\d]+\.[\d]+");
+                var matchOld = regex.Match(settings.UserAgent);
+                var matchNew = regex.Match(newStgs.UserAgent);
+                if (matchOld.Success && matchNew.Success && Version.Parse(matchNew.Groups[3].Value) > Version.Parse(matchOld.Groups[3].Value))
+                {
+                    settings.UserAgent = newStgs.UserAgent;
+                    updated = true;
+                }
             }
 
             if (settings.ImageSize == "raw")
@@ -507,7 +511,7 @@ namespace TumblThree.Applications.Properties
             OAuthCallbackUrl = @"https://github.com/TumblThreeApp/TumblThree";
             ApiKey = "x8pd1InspmnuLSFKT4jNxe8kQUkbRXPNkAffntAFSk01UjRsLV";
             SecretKey = "Mul4BviRQgPLuhN1xzEqmXzwvoWicEoc4w6ftWBGWtioEvexmM";
-            UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
+            UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36";
             OAuthToken = string.Empty;
             OAuthTokenSecret = string.Empty;
             Left = 50;
