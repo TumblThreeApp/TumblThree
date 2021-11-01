@@ -67,16 +67,16 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
         public Privacy Privacy { get; set; }
 
         [DataMember(Name = "endlessScrollingDisabled")]
-        public bool EndlessScrollingDisabled { get; set; }
+        public bool? EndlessScrollingDisabled { get; set; }
 
         [DataMember(Name = "bestStuffFirstDisabled")]
-        public bool BestStuffFirstDisabled { get; set; }
+        public bool? BestStuffFirstDisabled { get; set; }
 
         [DataMember(Name = "colorizedTags")]
-        public bool ColorizedTags { get; set; }
+        public bool? ColorizedTags { get; set; }
 
         [DataMember(Name = "timestamps")]
-        public bool Timestamps { get; set; }
+        public bool? Timestamps { get; set; }
 
         [DataMember(Name = "wwwBaseUrl")]
         public string WwwBaseUrl { get; set; }

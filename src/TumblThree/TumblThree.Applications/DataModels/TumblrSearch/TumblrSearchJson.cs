@@ -51,10 +51,10 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
         public IList<Privacy> Privacy { get; set; }
 
         [JsonProperty("endlessScrollingDisabled")]
-        public bool EndlessScrollingDisabled { get; set; }
+        public bool? EndlessScrollingDisabled { get; set; }
 
         [JsonProperty("bestStuffFirstDisabled")]
-        public bool BestStuffFirstDisabled { get; set; }
+        public bool? BestStuffFirstDisabled { get; set; }
 
         [JsonProperty("isLoggedIn")]
         public IsLoggedIn IsLoggedIn { get; set; }

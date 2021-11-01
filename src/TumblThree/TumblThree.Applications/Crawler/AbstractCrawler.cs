@@ -219,6 +219,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
+                json = json.Replace(":undefined", ":null");
                 using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(json)))
                 {
                     var deserializer = new Newtonsoft.Json.JsonSerializer();
