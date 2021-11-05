@@ -70,6 +70,7 @@ namespace TumblThree.Applications.Services
             {
                 blog.FileDownloadLocation = blog.DownloadLocation() + appendix;
             }
+            Directory.CreateDirectory(blog.DownloadLocation());
         }
 
         public bool CheckIfFileExistsInDB(string filename, bool checkArchive)

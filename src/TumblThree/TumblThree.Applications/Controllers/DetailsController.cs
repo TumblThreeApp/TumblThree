@@ -162,7 +162,6 @@ namespace TumblThree.Applications.Controllers
             blog.FileDownloadLocation = null;
             blog.ChildId = newFilenameChild;
 
-            
             blog.Save();
 
             File.Delete(oldFilenameIndex);

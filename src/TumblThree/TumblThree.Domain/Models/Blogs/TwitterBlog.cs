@@ -24,7 +24,6 @@ namespace TumblThree.Domain.Models.Blogs
             };
 
             Directory.CreateDirectory(location);
-            Directory.CreateDirectory(Path.Combine(Directory.GetParent(location).FullName, blog.Name));
 
             blog.ChildId = Path.Combine(location, blog.Name + "_files." + blog.BlogType);
             if (!File.Exists(blog.ChildId))
