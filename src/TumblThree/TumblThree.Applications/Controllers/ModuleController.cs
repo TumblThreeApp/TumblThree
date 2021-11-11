@@ -110,6 +110,11 @@ namespace TumblThree.Applications.Controllers
 
             Logger.ChangeLogLevel((TraceLevel)Enum.Parse(typeof(TraceLevel), _appSettings.LogLevel));
 
+            Logger.Information(ApplicationInfo.ProductName + " start");
+            Logger.Information("AppPath: {0}", ApplicationInfo.ApplicationPath);
+            Logger.Information("AppSettingsPath: {0}", _environmentService.AppSettingsPath);
+            Logger.Information("LogFilename: {0}", Path.Combine(logPath, "TumblThree.log"));
+            Logger.Information("Version: {0}", ApplicationInfo.Version);
             Logger.Information("IsLongPathSupported: {0}", ShellService.IsLongPathSupported);
 
             _queueSettings = LoadSettings<QueueSettings>(Path.Combine(savePath, QueueSettingsFileName));

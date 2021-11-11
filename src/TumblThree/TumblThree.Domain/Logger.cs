@@ -26,6 +26,12 @@ namespace TumblThree.Domain
             //            Trace.AutoFlush = false;
             //#endif
             Trace.IndentSize = 4;
+
+            foreach (TraceListener tl in _traceSource.Listeners)
+            {
+                tl.WriteLine("");
+                if (Trace.AutoFlush) tl.Flush();
+            }
         }
 
         public static void ChangeLogLevel(TraceLevel maximumLogLevel)
