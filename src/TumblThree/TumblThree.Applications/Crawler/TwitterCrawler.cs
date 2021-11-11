@@ -70,7 +70,7 @@ namespace TumblThree.Applications.Crawler
                 if (!string.IsNullOrEmpty(twUser.Errors?[0]?.Message))
                 {
                     Logger.Warning("TwitterCrawler.IsBlogOnlineAsync: {0}: {1}", Blog.Name, twUser.Errors?[0]?.Message);
-                    ShellService.ShowError(null, twUser.Errors?[0]?.Message);
+                    ShellService.ShowError(null, (twUser.Errors?[0]?.Code == 63 ? Blog.Name + ": " : "") + twUser.Errors?[0]?.Message);
                     Blog.Online = false;
                 }
                 else
