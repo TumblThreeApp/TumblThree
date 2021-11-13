@@ -191,7 +191,7 @@ namespace TumblThree.Applications.Crawler
         private async Task AddUrlsToDownloadListAsync(long pagination, int crawlerNumber)
         {
             long prevPagination = long.MaxValue;
-            
+
             while (true)
             {
                 if (CheckIfShouldStop())
@@ -205,14 +205,30 @@ namespace TumblThree.Applications.Crawler
 
                 if (!TumblrLikedByBlog.IsLikesUrl(Blog.Url))
                 {
-                    document = Regex.Unescape(await GetRequestAsync(Blog.Url + "/page/" + crawlerNumber + "/" + pagination));
+                    document = await GetRequestAsync(Blog.Url + "/page/" + crawlerNumber + "/" + pagination);
+                    try
+                    {
+                        document = Regex.Unescape(document);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                    }
                 }
                 else
                 {
                     if (pagination >= prevPagination) return;
                     prevPagination = pagination;
 
-                    document = Regex.Unescape(await GetRequestAsync(Blog.Url + "?before=" + pagination));
+                    document = await GetRequestAsync(Blog.Url + "?before=" + pagination);
+                    try
+                    {
+                        document = Regex.Unescape(document);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                    }
                 }
 
                 if (document.Length == 0)
