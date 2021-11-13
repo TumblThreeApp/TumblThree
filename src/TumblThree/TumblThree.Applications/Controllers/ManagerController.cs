@@ -688,6 +688,21 @@ namespace TumblThree.Applications.Controllers
                     {
                         var indexMovedFile = indexFile.Replace(@"\Index\", @"\Index\Archive\");
                         var childMovedFile = blog.ChildId.Replace(@"\Index\", @"\Index\Archive\");
+
+                        int number = 1;
+                        string appendix = "";
+                        while (File.Exists(Path.Combine(Path.GetDirectoryName(indexMovedFile), Path.GetFileNameWithoutExtension(indexMovedFile) + appendix + Path.GetExtension(indexMovedFile))) ||
+                            File.Exists(Path.Combine(Path.GetDirectoryName(childMovedFile), Path.GetFileNameWithoutExtension(childMovedFile) + appendix + Path.GetExtension(childMovedFile))))
+                        {
+                            number++;
+                            appendix = $"_{number}";
+                        }
+                        if (number != 1)
+                        {
+                            indexMovedFile = Path.Combine(Path.GetDirectoryName(indexMovedFile), Path.GetFileNameWithoutExtension(indexMovedFile) + appendix + Path.GetExtension(indexMovedFile));
+                            childMovedFile = Path.Combine(Path.GetDirectoryName(childMovedFile), Path.GetFileNameWithoutExtension(childMovedFile) + appendix + Path.GetExtension(childMovedFile));
+                        }
+
                         File.Move(indexFile, indexMovedFile);
                         File.Move(blog.ChildId, childMovedFile);
                     }
@@ -801,7 +816,7 @@ namespace TumblThree.Applications.Controllers
             if (blog.Save())
             {
                 AddToManager(blog);
-                _managerService.BlogFilesView.Refresh();
+                QueueOnDispatcher.CheckBeginInvokeOnUI(() => _managerService.BlogFilesView.Refresh());
             }
         }
 
