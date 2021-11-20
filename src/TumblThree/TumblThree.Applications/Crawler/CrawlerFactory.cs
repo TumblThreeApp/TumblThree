@@ -87,11 +87,12 @@ namespace TumblThree.Applications.Crawler
                         imgurParser, gfycatParser, GetWebmshareParser(), GetMixtapeParser(), GetUguuParser(),
                         GetSafeMoeParser(), GetLoliSafeParser(), GetCatBoxParser(), postQueue, blog, progress, pt, ct);
                 case BlogTypes.tumblrsearch:
-                    IPostQueue<CrawlerData<DataModels.TumblrSearchJson.Datum>> jsonQueue = GetJsonQueue<DataModels.TumblrSearchJson.Datum>();
+                    IPostQueue<CrawlerData<string>> jsonQueue = GetJsonQueue<string>();
                     return new TumblrSearchCrawler(shellService, crawlerService, webRequestFactory,
                         cookieService, GetTumblrDownloader(progress, blog, files, postQueue, pt, ct), GetJsonDownloader(jsonQueue, blog, pt, ct),
-                        GetTumblrParser(), imgurParser, gfycatParser, GetWebmshareParser(), GetMixtapeParser(), GetUguuParser(),
-                        GetSafeMoeParser(), GetLoliSafeParser(), GetCatBoxParser(), postQueue, jsonQueue, blog, progress, pt, ct);
+                        GetTumblrApiJsonToTextParser(blog), GetTumblrParser(), imgurParser, gfycatParser, GetWebmshareParser(),
+                        GetMixtapeParser(), GetUguuParser(), GetSafeMoeParser(), GetLoliSafeParser(), GetCatBoxParser(), postQueue,
+                        jsonQueue, blog, progress, pt, ct);
                 case BlogTypes.tumblrtagsearch:
                     IPostQueue<CrawlerData<DataModels.TumblrTaggedSearchJson.Datum>> jsonTagSearchQueue =
                         GetJsonQueue<DataModels.TumblrTaggedSearchJson.Datum>();

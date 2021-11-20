@@ -299,7 +299,7 @@ namespace TumblThree.Applications.Crawler
             }
             else if (type == "audio")
             {
-                if (Blog.DownloadAudio)
+                if (Blog.DownloadAudio && content.Provider == "tumblr")
                     AddToDownloadList(new AudioPost(url, post.Id, post.UnixTimestamp.ToString()));
             }
             else

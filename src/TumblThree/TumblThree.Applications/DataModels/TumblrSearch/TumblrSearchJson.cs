@@ -75,13 +75,52 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
         public string CssMapUrl { get; set; }
     }
 
+    public class Tag
+    {
+        [JsonProperty("meta")]
+        public Meta Meta { get; set; }
+
+        [JsonProperty("response")]
+        public Response Response { get; set; }
+    }
+
+    public class Timelines
+    {
+        [JsonProperty("blog")]
+        public Blog Blog { get; set; }
+
+        [JsonProperty("post")]
+        public Post2 Post { get; set; }
+
+        [JsonProperty("tag")]
+        public Tag Tag { get; set; }
+    }
+
+    public class SearchParams
+    {
+        [JsonProperty("searchTerm")]
+        public string SearchTerm { get; set; }
+
+        [JsonProperty("selectedTime")]
+        public int SelectedTime { get; set; }
+
+        [JsonProperty("activeTimeline")]
+        public string ActiveTimeline { get; set; }
+
+        [JsonProperty("searchMode")]
+        public string SearchMode { get; set; }
+
+        [JsonProperty("selectedPostType")]
+        public object SelectedPostType { get; set; }
+    }
+
     public class SearchRoute
     {
-        [JsonProperty("searchApiResponse")]
-        public SearchApiResponse SearchApiResponse { get; set; }
+        [JsonProperty("timelines")]
+        public Timelines Timelines { get; set; }
 
-        [JsonProperty("relatedTags")]
-        public IList<string> RelatedTags { get; set; }
+        [JsonProperty("searchParams")]
+        public SearchParams SearchParams { get; set; }
     }
 
     public class TumblrSearchApi
@@ -90,7 +129,7 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
         public Meta Meta { get; set; }
 
         [JsonProperty("response")]
-        public Response2 Response { get; set; }
+        public Response3 Response { get; set; }
     }
 
     public class SearchApiResponse
@@ -515,6 +554,18 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
         public Links Links { get; set; }
     }
 
+    public class Post2
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("meta")]
+        public Meta Meta { get; set; }
+
+        [JsonProperty("response")]
+        public Response3 Response { get; set; }
+    }
+
     public class Response
     {
         [JsonProperty("posts")]
@@ -534,6 +585,75 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
 
         [JsonProperty("psa")]
         public string Psa { get; set; }
+    }
+
+    public class Timeline
+    {
+        [JsonProperty("elements")]
+        public List<Data> Elements { get; set; }
+
+        [JsonProperty("links")]
+        public Links Links { get; set; }
+    }
+
+    public class Headers2
+    {
+        [JsonProperty("_headers")]
+        public Headers3 Headers { get; set; }
+    }
+
+    public class Headers3
+    {
+        [JsonProperty("server")]
+        public List<string> Server { get; set; }
+
+        [JsonProperty("date")]
+        public List<string> Date { get; set; }
+
+        [JsonProperty("content-type")]
+        public List<string> ContentType { get; set; }
+
+        [JsonProperty("transfer-encoding")]
+        public List<string> TransferEncoding { get; set; }
+
+        [JsonProperty("connection")]
+        public List<string> Connection { get; set; }
+
+        [JsonProperty("vary")]
+        public List<string> Vary { get; set; }
+
+        [JsonProperty("x-rid")]
+        public List<string> XRid { get; set; }
+
+        [JsonProperty("p3p")]
+        public List<string> P3p { get; set; }
+
+        [JsonProperty("x-csrf")]
+        public List<string> XCsrf { get; set; }
+
+        [JsonProperty("strict-transport-security")]
+        public List<string> StrictTransportSecurity { get; set; }
+
+        [JsonProperty("x-ua-compatible")]
+        public List<string> XUaCompatible { get; set; }
+
+        [JsonProperty("content-encoding")]
+        public List<string> ContentEncoding { get; set; }
+    }
+
+    public class Response3
+    {
+        [JsonProperty("timeline")]
+        public Timeline Timeline { get; set; }
+
+        [JsonProperty("supplyLoggingPositions")]
+        public List<object> SupplyLoggingPositions { get; set; }
+
+        [JsonProperty("psa")]
+        public object Psa { get; set; }
+
+        [JsonProperty("__headers__")]
+        public Headers2 Headers { get; set; }
     }
 
     public class ViewportMonitor

@@ -512,6 +512,8 @@ namespace TumblThree.Applications.Crawler
              */
             string filename = Blog.FilenameTemplate;
 
+            url = url.IndexOf('?') > 0 ? url.Substring(0, url.IndexOf('?')) : url;
+
             filename += Path.GetExtension(FileName(url));
             if (ContainsCI(filename, "%f")) filename = ReplaceCI(filename, "%f", Path.GetFileNameWithoutExtension(FileName(url)));
             if (ContainsCI(filename, "%d")) filename = ReplaceCI(filename, "%d", DateTime.Parse(date).ToString("yyyyMMdd"));

@@ -560,7 +560,7 @@ namespace TumblThree.Applications.Crawler
                 audioUrl = audioUrl + ".mp3";
             }
 
-            AddToDownloadList(new AudioPost(audioUrl, postId, post.Timestamp.ToString()));
+            AddToDownloadList(new AudioPost(audioUrl, postId, post.Timestamp.ToString(), BuildFileName(audioUrl, post, -1)));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(audioUrl.Split('/').Last(), ".json"), post));
         }
 

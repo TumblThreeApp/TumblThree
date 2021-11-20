@@ -4,16 +4,16 @@ namespace TumblThree.Applications.DataModels.TumblrPosts
 {
     public class AudioPost : TumblrPost
     {
-        public AudioPost(string url, string id, string date)
-            : base(url, id, date, null)
+        public AudioPost(string url, string id, string date, string filename)
+            : base(url, id, date, filename)
         {
             PostType = PostType.Binary;
             DbType = "DownloadedAudios";
             TextFileLocation = Resources.FileNameAudios;
         }
 
-        public AudioPost(string url, string id)
-            : this(url, id, string.Empty)
+        public AudioPost(string url, string id, string filename)
+            : this(url, id, string.Empty, filename)
         {
         }
     }
