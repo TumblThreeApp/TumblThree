@@ -820,8 +820,22 @@ namespace TumblThree.Applications.Crawler
                 reblogName = Users[userId].ScreenName;
                 reblogId = Users[userId].IdStr;
             }
+            var tags = GetTags(post);
             return BuildFileNameCore(url, GetUserOfPost(post.UserIdStr), GetDate(post), UnixTimestamp(post), index, type, post.IdStr,
-                GetTags(post), "", post.FullText, reblogName, reblogId);
+                tags, "", GetTitle(post.FullText, tags), reblogName, reblogId);
+        }
+
+        private static string GetTitle(string text, List<string> tags)
+        {
+            string title = text ?? "";
+            if (title.StartsWith("via: ")) title = title.Substring(5);
+            var regexUrls = new Regex(@"https://t.co/[\d\w]+");
+            title = regexUrls.Replace(title, "");
+            var regexRT = new Regex(@"RT @[^:]+:");
+            title = regexRT.Replace(title, "");
+            tags.ForEach(t => title = title.Replace("#" + t, ""));
+            title = WebUtility.HtmlDecode(title).Replace("\\n", "").Trim();
+            return title;
         }
 
         protected static string FileName(string url)
