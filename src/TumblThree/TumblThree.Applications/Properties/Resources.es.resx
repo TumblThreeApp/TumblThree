@@ -382,4 +382,10 @@
   <data name="CannotChangeCollectionDestFileExists" xml:space="preserve">
     <value>No se puede cambiar la colección asignada porque ya existe un archivo con ese nombre en el destino.</value>
   </data>
+  <data name="SearchTermNotFound" xml:space="preserve">
+    <value>¡No se encontró el término de búsqueda '{0}'!</value>
+  </data>
+  <data name="ErrorDownloadingBlog" xml:space="preserve">
+    <value>Se produjo un error al descargar {0}: {1} ({2})</value>
+  </data>
 </root>

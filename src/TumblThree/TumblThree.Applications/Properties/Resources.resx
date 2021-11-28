@@ -423,4 +423,10 @@ Do you want to download it now?</value>
   <data name="CannotChangeCollectionDestFileExists" xml:space="preserve">
     <value>Cannot change assigned collection because a file with that name already exists at destination!</value>
   </data>
+  <data name="SearchTermNotFound" xml:space="preserve">
+    <value>Search term '{0}' not found!</value>
+  </data>
+  <data name="ErrorDownloadingBlog" xml:space="preserve">
+    <value>An error occurred while downloading '{0}': {1} ({2})</value>
+  </data>
 </root>

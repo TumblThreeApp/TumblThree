@@ -382,4 +382,10 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="CannotChangeCollectionDestFileExists" xml:space="preserve">
     <value>Impossible de modifier la collection attribuée car un fichier portant ce nom existe déjà à destination!</value>
   </data>
+  <data name="SearchTermNotFound" xml:space="preserve">
+    <value>Le terme de recherche '{0}' n'a pas été trouvé!</value>
+  </data>
+  <data name="ErrorDownloadingBlog" xml:space="preserve">
+    <value>Une erreur s'est produite lors du téléchargement de {0}: {1} ({2})</value>
+  </data>
 </root>

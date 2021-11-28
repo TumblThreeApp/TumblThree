@@ -32,6 +32,7 @@ namespace TumblThree.Applications.Crawler
     {
         private static readonly Regex extractJsonFromSearch = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);");
 
+        private readonly IShellService shellService;
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
         private readonly IPostQueue<CrawlerData<string>> jsonQueue;
@@ -50,6 +51,7 @@ namespace TumblThree.Applications.Crawler
                 webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, progress, pt,
                 ct)
         {
+            this.shellService = shellService;
             this.downloader = downloader;
             this.tumblrJsonParser = tumblrJsonParser;
             this.jsonQueue = jsonQueue;
@@ -116,10 +118,48 @@ namespace TumblThree.Applications.Crawler
                 string document = await GetSearchPageAsync();
                 string json = extractJsonFromSearch.Match(document).Groups[1].Value;
                 dynamic result = JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
-                string nextUrl = result.apiUrl + result.SearchRoute.timelines.post.response.timeline.links.next.href;
-                string bearerToken = result.apiFetchStore.API_TOKEN;
+                string nextUrl = "";
+                string bearerToken = "";
+                if (!HasProperty(result.SearchRoute, "timelines"))
+                {
+                    if (result.SearchRoute.searchApiResponse.meta.status != 200)
+                    {
+                        Logger.Error(Resources.ErrorDownloadingBlog, Blog.Name, (string)result.SearchRoute.searchApiResponse.meta.msg, (long)result.SearchRoute.searchApiResponse.meta.status);
+                        shellService.ShowError(new Exception(), string.Format(Resources.ErrorDownloadingBlog, Blog.Name, (string)result.SearchRoute.searchApiResponse.meta.msg, (long)result.SearchRoute.searchApiResponse.meta.status));
+                        return;
+                    }
+                    if (!HasProperty(result.SearchRoute.searchApiResponse.response.posts, "links"))
+                    {
+                        Logger.Error(Resources.SearchTermNotFound, Blog.Url.Replace("/recent", "").Split('/').Last());
+                        shellService.ShowError(new Exception(), Resources.SearchTermNotFound, Blog.Url.Replace("/recent", "").Split('/').Last());
+                        return;
+                    }
 
-                DownloadMedia(result.SearchRoute.timelines.post);
+                    nextUrl = result.apiUrl + result.SearchRoute.searchApiResponse.response.posts.links.next.href;
+                    bearerToken = result.apiFetchStore.API_TOKEN;
+
+                    DownloadMedia(result.SearchRoute.searchApiResponse);
+                }
+                else
+                {
+                    if (result.SearchRoute.timelines.post.meta.status != 200)
+                    {
+                        Logger.Error(Resources.ErrorDownloadingBlog, Blog.Name, (string)result.SearchRoute.timelines.post.meta.msg, (long)result.SearchRoute.timelines.post.meta.status);
+                        shellService.ShowError(new Exception(), string.Format(Resources.ErrorDownloadingBlog, Blog.Name, (string)result.SearchRoute.timelines.post.meta.msg, (long)result.SearchRoute.timelines.post.meta.status));
+                        return;
+                    }
+                    if (!HasProperty(result.SearchRoute.timelines.post.response.timeline, "links"))
+                    {
+                        Logger.Error(Resources.SearchTermNotFound, (string)result.SearchRoute.searchParams.searchTerm);
+                        shellService.ShowError(new Exception(), Resources.SearchTermNotFound, (string)result.SearchRoute.searchParams.searchTerm);
+                        return;
+                    }
+
+                    nextUrl = result.apiUrl + result.SearchRoute.timelines.post.response.timeline.links.next.href;
+                    bearerToken = result.apiFetchStore.API_TOKEN;
+
+                    DownloadMedia(result.SearchRoute.timelines.post);
+                }
                 while (true)
                 {
                     if (CheckIfShouldStop()) return;
@@ -129,8 +169,16 @@ namespace TumblThree.Applications.Crawler
                     dynamic apiresult = JsonConvert.DeserializeObject<ExpandoObject>(document, new ExpandoObjectConverter());
                     DownloadMedia(apiresult);
 
-                    if (!HasProperty(apiresult.response.timeline, "_links") || apiresult.response.timeline._links == null) return;
-                    nextUrl = result.apiUrl + apiresult.response.timeline._links.next.href;
+                    if (!HasProperty(apiresult.response, "timelines"))
+                    {
+                        if (!HasProperty(apiresult.response.posts, "_links") || apiresult.response.posts._links == null) return;
+                        nextUrl = result.apiUrl + apiresult.response.posts._links.next.href;
+                    }
+                    else
+                    {
+                        if (!HasProperty(apiresult.response.timeline, "_links") || apiresult.response.timeline._links == null) return;
+                        nextUrl = result.apiUrl + apiresult.response.timeline._links.next.href;
+                    }
                 }
             }
             catch (TimeoutException timeoutException)
@@ -173,7 +221,12 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                foreach (var post in (IEnumerable<dynamic>)page.response.timeline.elements)
+                dynamic list;
+                if (!HasProperty(page.response, "timeline"))
+                    list = page.response.posts.data;
+                else
+                    list = page.response.timeline.elements;
+                foreach (var post in (IEnumerable<dynamic>)list)
                 {
                     try
                     {

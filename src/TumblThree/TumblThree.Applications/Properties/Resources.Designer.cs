@@ -451,6 +451,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while downloading &apos;{0}&apos;: {1} ({2}).
+        /// </summary>
+        public static string ErrorDownloadingBlog {
+            get {
+                return ResourceManager.GetString("ErrorDownloadingBlog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text files (*.txt)|*.txt.
         /// </summary>
         public static string ExportFileFilter {
@@ -852,6 +861,15 @@ namespace TumblThree.Applications.Properties {
         public static string ReblogUrl {
             get {
                 return ResourceManager.GetString("ReblogUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search term &apos;{0}&apos; not found!.
+        /// </summary>
+        public static string SearchTermNotFound {
+            get {
+                return ResourceManager.GetString("SearchTermNotFound", resourceCulture);
             }
         }
         
