@@ -44,11 +44,11 @@ namespace TumblThree.Applications.Services
 
                 if (Environment.Is64BitProcess)
                 {
-                    downloadLink = root.Descendants("browser_download_url").Where(s => s.Value.Contains("x64-App")).FirstOrDefault()?.Value;
+                    downloadLink = root.Descendants("browser_download_url").Where(s => s.Value.Contains("x64") && !s.Value.Contains("x64-Tra")).FirstOrDefault()?.Value;
                 }
                 else
                 {
-                    downloadLink = root.Descendants("browser_download_url").Where(s => s.Value.Contains("x86-App")).FirstOrDefault()?.Value;
+                    downloadLink = root.Descendants("browser_download_url").Where(s => s.Value.Contains("x86") && !s.Value.Contains("x86-Tra")).FirstOrDefault()?.Value;
                 }
 
                 if (string.IsNullOrEmpty(downloadLink)) downloadLink = root.Element("assets").Element("item").Element("browser_download_url").Value;
