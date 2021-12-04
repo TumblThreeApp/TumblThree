@@ -137,6 +137,7 @@ namespace TumblThree.Applications.Controllers
         public bool ChangeCollection(IBlog blog, IList<Collection> oldItem, IList<Collection> newItem)
         {
             if (oldItem == null || oldItem.Count == 0 || newItem == null || newItem.Count == 0) return false;
+            if (blog.CollectionId == newItem[0].Id) return false;
 
             if (QueueManager.Items.Any(x => x.Blog.Name == blog.Name && x.Blog.OriginalBlogType == blog.OriginalBlogType))
             {
