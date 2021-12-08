@@ -250,7 +250,7 @@ namespace TumblThree.Applications.Crawler
                                 RebloggedFromName = "",
                                 ReblogKey = HasProperty(post, "reblog_key") ? post.reblog_key : post.reblogKey,
                                 UnixTimestamp = (int)post.timestamp,
-                                Submitter = HasProperty(post, "blog_name") ? post.blog_name : post.blogName,
+                                Tumblelog = new TumbleLog2() { Name = HasProperty(post, "blog_name") ? post.blog_name : post.blogName },
                                 UrlWithSlug = HasProperty(post, "post_url") ? post.post_url : post.postUrl
                             };
                             index += (post.content.Count > 1) ? 1 : 0;

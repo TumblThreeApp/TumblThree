@@ -244,9 +244,6 @@ namespace TumblThree.Applications.DataModels.TumblrApiJson
         [DataMember(Name = "conversation", EmitDefaultValue = false)]
         public List<Conversation> Conversation { get; set; }
 
-        [DataMember(Name = "submitter", EmitDefaultValue = false)]
-        public string Submitter { get; set; }
-
         [DataMember(Name = "question", EmitDefaultValue = false)]
         public string Question { get; set; }
 
@@ -345,7 +342,6 @@ namespace TumblThree.Applications.DataModels.TumblrApiJson
             VideoPlayer500 = string.Empty;
             VideoPlayer250 = string.Empty;
             Conversation = new List<Conversation>();
-            Submitter = string.Empty;
             Question = string.Empty;
             Answer = string.Empty;
         }
