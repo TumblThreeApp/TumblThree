@@ -5,7 +5,7 @@ People are giving themselves and their free time to contribute to our project in
 ## Special thanks for all the people who have helped this project so far ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 * [Johannes Meyer zum Alten Borgloh](https://github.com/johanneszab) Originator 💻 🚧 📖 🌍 💬
-* [Thomas](https://github.com/thomas694) 💻 🚧 📖
+* [Thomas](https://github.com/thomas694) 💻 🚧 📖 💬
 * [Eliette Priaulx](https://github.com/elipriaulx) 💻 🚧
 * [Apostol Apostolov](https://github.com/apoapostolov) 🐛 💬
 * [Kvothe1970](https://github.com/Kvothe1970) 🐛 💬
@@ -29,6 +29,7 @@ People are giving themselves and their free time to contribute to our project in
 * [khintze1](https://github.com/khintze1) 💻
 * [arrowsmith001](https://github.com/arrowsmith001) 💻
 * [Manasi-Kelkar](https://github.com/Manasi-Kelkar) 📖
+* [SpL1Ne](https://github.com/SpL1Ne) 💻
 * Your Name?
 
 Did we forget someone? Please drop us a line.
