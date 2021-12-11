@@ -801,9 +801,6 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         [DataMember(Name = "excerpt", EmitDefaultValue = false)]
         public string Excerpt { get; set; }
 
-        [DataMember(Name = "publisher", EmitDefaultValue = false)]
-        public string Publisher { get; set; }
-
         [DataMember(Name = "description", EmitDefaultValue = false)]
         public string Description { get; set; }
 

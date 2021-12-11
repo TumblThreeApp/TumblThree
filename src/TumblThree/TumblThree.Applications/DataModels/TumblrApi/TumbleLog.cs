@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace TumblThree.Applications.DataModels.TumblrApiJson
 {
+    [DataContract]
     public class TumbleLog
     {
         [DataMember(Name = "title", EmitDefaultValue = false)]

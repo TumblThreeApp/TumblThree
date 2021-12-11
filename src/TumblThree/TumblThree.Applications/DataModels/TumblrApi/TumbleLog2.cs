@@ -2,6 +2,7 @@
 
 namespace TumblThree.Applications.DataModels.TumblrApiJson
 {
+    [DataContract]
     public class TumbleLog2
     {
         [DataMember(Name = "title", EmitDefaultValue = false)]

@@ -191,7 +191,7 @@ namespace TumblThree.Applications.Crawler
                                 RebloggedFromName = "",
                                 ReblogKey = post.ReblogKey,
                                 UnixTimestamp = post.Timestamp,
-                                Submitter = post.BlogName
+                                Tumblelog = new TumbleLog2(){ Name = post.BlogName }
                             };
                             index += (post.Content.Count > 1) ? 1 : 0;
                             DownloadMedia(content, data, index);
@@ -241,7 +241,7 @@ namespace TumblThree.Applications.Crawler
                                 RebloggedFromName = "",
                                 ReblogKey = data.ReblogKey,
                                 UnixTimestamp = data.Timestamp,
-                                Submitter = data.BlogName
+                                Tumblelog = new TumbleLog2() { Name = data.BlogName }
                             };
                             index += (data.Content.Count > 1) ? 1 : 0;
                             DownloadMedia(content, post, index);
