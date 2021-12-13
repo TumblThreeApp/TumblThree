@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
 using TumblThree.Applications.Extensions;
+using TumblThree.Domain;
 
 namespace TumblThree.Applications.Services
 {
@@ -245,6 +246,20 @@ namespace TumblThree.Applications.Services
             return ExtractTumblrUsername(document);
         }
 
-        private static string ExtractTumblrUsername(string document) => Regex.Match(document, "<p class=\"accordion_label accordion_trigger\">([\\S]*)</p>").Groups[1].Value;
+        private static string ExtractTumblrUsername(string document)
+        {
+            try
+            {
+                var regex = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
+                var json = regex.Match(document).Groups[1].Value;
+                var obj = JObject.Parse(json.Replace(":undefined", ":null"));
+                return obj["Settings"]["email"].ToString();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("LoginService.ExtractTumblrUsername: {0}", ex);
+            }
+            return "n/a";
+        }
     }
 }
