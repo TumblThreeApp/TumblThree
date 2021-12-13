@@ -63,6 +63,8 @@ namespace TumblThree.Presentation
             batch.AddExportedValue(container);
             container.Compose(batch);
 
+            QueueOnDispatcher.Initialize();
+
             // Initialize all presentation services
             IEnumerable<IPresentationService> presentationServices = container.GetExportedValues<IPresentationService>();
             foreach (IPresentationService presentationService in presentationServices)
@@ -84,8 +86,6 @@ namespace TumblThree.Presentation
             {
                 moduleController.Run();
             }
-
-            QueueOnDispatcher.Initialize();
         }
 
         protected override void OnExit(ExitEventArgs e)
