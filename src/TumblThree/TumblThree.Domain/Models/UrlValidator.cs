@@ -9,7 +9,7 @@ namespace TumblThree.Domain.Models
     public class UrlValidator : IUrlValidator
     {
         private readonly Regex tumbexRegex = new Regex("(http[A-Za-z0-9_/:.]*www.tumbex.com[A-Za-z0-9_/:.-]*tumblr/)");
-        private readonly Regex urlRegex = new Regex("(^https?://[A-Za-z0-9_.]*[/]?$)");
+        private readonly Regex urlRegex = new Regex("(^https?://[A-Za-z0-9.-]*[/]?$)");
         private readonly Regex twitterRegex = new Regex("(^https?://twitter.com/[A-Za-z0-9_]+$)");
 
         public bool IsValidTumblrUrl(string url)

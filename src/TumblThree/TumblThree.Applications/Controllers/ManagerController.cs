@@ -861,9 +861,9 @@ namespace TumblThree.Applications.Controllers
 
         private async Task<IBlog> CheckIfCrawlableBlog(string blogUrl)
         {
-            if (!_blogFactory.IsValidBlogUrl(blogUrl) && _blogFactory.IsValidUrl(blogUrl))
+            if (!_blogFactory.IsValidBlogUrl(blogUrl))
             {
-                if ( await _tumblrBlogDetector.IsTumblrBlogWithCustomDomainAsync(blogUrl))
+                if (_blogFactory.IsValidUrl(blogUrl) && await _tumblrBlogDetector.IsTumblrBlogWithCustomDomainAsync(blogUrl))
                     return TumblrBlog.Create(blogUrl, GetIndexFolderPath(_shellService.Settings.ActiveCollectionId), _shellService.Settings.FilenameTemplate, true);
                 throw new Exception($"The url '{blogUrl}' cannot be recognized as valid blog!");
             }
@@ -937,7 +937,8 @@ namespace TumblThree.Applications.Controllers
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
+                Logger.Error("ManagerController.AddBlogsAsync: {0}", e);
+                _shellService.ShowError(e, Resources.CouldNotAddBlog, e.Message);
             }
             finally
             {
