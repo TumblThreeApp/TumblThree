@@ -126,7 +126,7 @@ namespace TumblThree.Applications.Crawler
 
         protected bool CheckIfSkipGif(string imageUrl)
         {
-            return Blog.SkipGif && imageUrl.EndsWith(".gif") || imageUrl.EndsWith(".gifv");
+            return Blog.SkipGif && (imageUrl.EndsWith(".gif") || imageUrl.EndsWith(".gifv"));
         }
 
         protected void AddWebmshareUrl(string post, string timestamp)
