@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
@@ -28,6 +29,7 @@ namespace TumblThree.Applications.Crawler
 
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
+        private readonly BlockingCollection<string> nextPage = new BlockingCollection<string>();
 
         private int numberOfPagesCrawled;
 
@@ -87,12 +89,13 @@ namespace TumblThree.Applications.Crawler
 
             long pagination = CreateStartPagination();
 
-            // TODO: find way to parallelize without losing content.
-            foreach (int crawlerNumber in Enumerable.Range(0, 1))
+            nextPage.Add(Blog.Url + (TumblrLikedByBlog.IsLikesUrl(Blog.Url) ? "?before=" : "/page/1/") + pagination);
+
+            foreach (int crawlerNumber in Enumerable.Range(0, ShellService.Settings.ConcurrentScans))
             {
                 await semaphoreSlim.WaitAsync();
 
-                trackedTasks.Add(CrawlPageAsync(pagination, crawlerNumber));
+                trackedTasks.Add(CrawlPageAsync(crawlerNumber));
             }
 
             await Task.WhenAll(trackedTasks);
@@ -102,11 +105,77 @@ namespace TumblThree.Applications.Crawler
             UpdateBlogStats(true);
         }
 
-        private async Task CrawlPageAsync(long pagination, int crawlerNumber)
+        private long prevPagination = long.MaxValue;
+        private long pagination;
+        private int pageNumber = 1;
+
+        private async Task CrawlPageAsync(int crawlerNumber)
         {
             try
             {
-                await AddUrlsToDownloadListAsync(pagination, crawlerNumber);
+                while (true)
+                {
+                    if (CheckIfShouldStop())
+                    {
+                        return;
+                    }
+
+                    CheckIfShouldPause();
+
+                    string url;
+                    try
+                    {
+                        url = nextPage.Take(Ct);
+                    }
+                    catch (Exception e) when (e is OperationCanceledException || e is InvalidOperationException)
+                    {
+                        return;
+                    }
+
+                    string document = "";
+                    try
+                    {
+                        document = await GetRequestAsync(url);
+                        document = Regex.Unescape(document);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                    }
+
+                    if (document.Length == 0)
+                    {
+                        throw new Exception("TumblrLikedByCrawler:AddUrlsToDownloadListAsync: empty document");
+                    }
+                    if (document.Contains("<div class=\"no_posts_found\""))
+                    {
+                        nextPage.CompleteAdding();
+                        return;
+                    }
+
+                    pagination = ExtractNextPageLink(document);
+                    pageNumber++;
+                    var notWithinTimespan = !CheckIfWithinTimespan(pagination);
+                    if (TumblrLikedByBlog.IsLikesUrl(Blog.Url))
+                    {
+                        if (pagination >= prevPagination)
+                        {
+                            nextPage.CompleteAdding();
+                            return;
+                        }
+                        prevPagination = pagination;
+                    }
+                    nextPage.Add(Blog.Url + (TumblrLikedByBlog.IsLikesUrl(Blog.Url) ? "?before=" : "/page/" + pageNumber + "/") + pagination);
+
+                    await AddUrlsToDownloadListAsync(document);
+
+                    Interlocked.Increment(ref numberOfPagesCrawled);
+                    UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
+                    if (notWithinTimespan)
+                    {
+                        return;
+                    }
+                }
             }
             catch (TimeoutException timeoutException)
             {
@@ -188,76 +257,17 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        private async Task AddUrlsToDownloadListAsync(long pagination, int crawlerNumber)
+        private async Task AddUrlsToDownloadListAsync(string document)
         {
-            long prevPagination = long.MaxValue;
-
-            while (true)
+            try
             {
-                if (CheckIfShouldStop())
-                {
-                    return;
-                }
-
-                CheckIfShouldPause();
-
-                string document;
-
-                if (!TumblrLikedByBlog.IsLikesUrl(Blog.Url))
-                {
-                    document = await GetRequestAsync(Blog.Url + "/page/" + crawlerNumber + "/" + pagination);
-                    try
-                    {
-                        document = Regex.Unescape(document);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine(ex);
-                    }
-                }
-                else
-                {
-                    if (pagination >= prevPagination) return;
-                    prevPagination = pagination;
-
-                    document = await GetRequestAsync(Blog.Url + "?before=" + pagination);
-                    try
-                    {
-                        document = Regex.Unescape(document);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine(ex);
-                    }
-                }
-
-                if (document.Length == 0)
-                {
-                    throw new Exception("TumblrLikedByCrawler:AddUrlsToDownloadListAsync: empty document");
-                }
-                if (document.Contains("<div class=\"no_posts_found\""))
-                {
-                    return;
-                }
-
-                try
-                {
-                    AddPhotoUrlToDownloadList(document);
-                    AddVideoUrlToDownloadList(document);
-                }
-                catch (NullReferenceException e)
-                {
-                    System.Diagnostics.Debug.WriteLine($"TumblrLikedByCrawler.AddUrlsToDownloadListAsync(): {e}");
-                }
-
-                Interlocked.Increment(ref numberOfPagesCrawled);
-                UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
-                pagination = ExtractNextPageLink(document);
-                crawlerNumber++;
-                if (!CheckIfWithinTimespan(pagination))
-                {
-                    return;
-                }
+                AddPhotoUrlToDownloadList(document);
+                AddVideoUrlToDownloadList(document);
+                await Task.CompletedTask;
+            }
+            catch (NullReferenceException e)
+            {
+                System.Diagnostics.Debug.WriteLine($"TumblrLikedByCrawler.AddUrlsToDownloadListAsync(): {e}");
             }
         }
 
@@ -302,8 +312,8 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            var post = new DataModels.TumblrApiJson.Post() { Id = "", Tumblelog = new DataModels.TumblrApiJson.TumbleLog2() { Name = "" },
-                UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() };
+            var post = new DataModels.TumblrApiJson.Post() { Date = DateTime.Now.ToString("R"), UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds(), Type = "",
+                Id = "", Tags = new List<string>(), Slug = "", RegularTitle = "", RebloggedFromName = "", ReblogKey = "", Tumblelog = new DataModels.TumblrApiJson.TumbleLog2() { Name = "" } };
             AddTumblrPhotoUrl(document, post);
 
             if (Blog.RegExPhotos)
@@ -336,6 +346,7 @@ namespace TumblThree.Applications.Crawler
             {
                 semaphoreSlim?.Dispose();
                 downloader.Dispose();
+                nextPage.Dispose();
             }
         }
 
