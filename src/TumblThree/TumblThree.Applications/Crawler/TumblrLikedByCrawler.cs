@@ -302,11 +302,13 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            AddTumblrPhotoUrl(document, new DataModels.TumblrApiJson.Post());
+            var post = new DataModels.TumblrApiJson.Post() { Id = "", Tumblelog = new DataModels.TumblrApiJson.TumbleLog2() { Name = "" },
+                UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() };
+            AddTumblrPhotoUrl(document, post);
 
             if (Blog.RegExPhotos)
             {
-                AddGenericPhotoUrl(document, null);
+                AddGenericPhotoUrl(document, post);
             }
         }
 
@@ -317,12 +319,14 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            AddTumblrVideoUrl(document, null);
+            var post = new DataModels.TumblrApiJson.Post() { Id = "", Tumblelog = new DataModels.TumblrApiJson.TumbleLog2() { Name = "" },
+                UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() };
+            AddTumblrVideoUrl(document, post);
             AddInlineTumblrVideoUrl(document, TumblrParser.GetTumblrVVideoUrlRegex());
 
             if (Blog.RegExVideos)
             {
-                AddGenericVideoUrl(document, null);
+                AddGenericVideoUrl(document, post);
             }
         }
 

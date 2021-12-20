@@ -458,8 +458,8 @@ namespace TumblThree.Applications.Crawler
         {
             if (post == null)
             {
-                post = new Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "",
-                    Tags = new List<string>(), Slug = "", RegularTitle = "", RebloggedFromName = "", ReblogKey = "" };
+                post = new Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
+                    Slug = "", RegularTitle = "", RebloggedFromName = "", ReblogKey = "", Tumblelog = new TumbleLog2() { Name = "" } };
             }
             return BuildFileNameCore(url, post.Tumblelog.Name, post.Date, post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.ReblogKey);
         }
@@ -468,8 +468,8 @@ namespace TumblThree.Applications.Crawler
         {
             if (post == null)
             {
-                post = new TumblrSvcJson.Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "",
-                    Tags = new List<string>(), Slug = "", Title = "", RebloggedFromName = "", ReblogKey = "" };
+                post = new TumblrSvcJson.Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
+                    Slug = "", Title = "", RebloggedFromName = "", ReblogKey = "", Tumblelog = "" };
             }
             return BuildFileNameCore(url, post.Tumblelog, post.Date, post.Timestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.ReblogKey);
         }
