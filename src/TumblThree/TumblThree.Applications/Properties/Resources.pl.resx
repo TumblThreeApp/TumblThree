@@ -315,4 +315,24 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Odtwarzacz wideo: {0}</value>
   </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>Szablon nazwy pliku musi kończyć się albo %x albo %y!</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>Szablon pliku nie zawiera żadnego wymaganego tokena!</value>
+  </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;Domyślnie/Wszystko&gt;</value>
+  </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć następujące indeksy bloga wraz ze wszystkimi pobranymi plikami?
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>Quer mesmo apagar os seguintes índices do blogue?
+{0}.</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Post z '{0}' nie został przetworzony. Ustawienie 'postów na stronę' na 1 w Szczegółach może zwiększyć zawartość do pobrania.</value>
+  </data>
 </root>

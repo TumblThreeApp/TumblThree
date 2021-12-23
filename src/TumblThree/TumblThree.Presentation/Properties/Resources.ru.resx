@@ -717,4 +717,19 @@
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>Проверка состояния блога в сети при запуске</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>Мы высоко ценим ваши отзывы!
+Расскажите нам, что вам нравится или не нравится в TumblThree.
+Пожалуйста, напишите ваше сообщение на английском языке.
+Также вы можете воспользоваться разделом {Issues section} на сайте нашего проекта, чтобы связаться с нами.</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>Место загрузки</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>Шаблон имени файла:</value>
+  </data>
 </root>

@@ -388,4 +388,21 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="ErrorDownloadingBlog" xml:space="preserve">
     <value>Beim Herunterladen von {0} ist ein Fehler aufgetreten: {1} ({2})</value>
   </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>Möchten Sie wirklich die folgenden Blog-Indizes einschließlich aller heruntergeladenen Dateien löschen?
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>Wollen Sie die folgenden Blog-Indizes wirklich löschen?
+{0}.</value>
+  </data>
+  <data name="ProtectedBlog" xml:space="preserve">
+    <value>Geschütztes oder Offline-Blog entdeckt: {0}.</value>
+  </data>
+  <data name="ProgressSkipFile" xml:space="preserve">
+    <value>{0} bereits heruntergeladen, übersprungen ..</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Ein Beitrag von '{0}' war nicht parsbar. Die Einstellung 'Beiträge pro Seite' auf 1 in den Details könnte den herunterladbaren Inhalt erhöhen.</value>
+  </data>
 </root>

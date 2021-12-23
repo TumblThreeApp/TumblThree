@@ -711,4 +711,19 @@ Na przykład. wielki samochód, poszukuje wielkich samochodów i niedźwiedzi.</
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>Sprawdź status bloga w trybie online podczas uruchamiania</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>Bardzo doceniamy Twoją opinię!
+Powiedz nam, co Ci się podoba lub nie podoba w TumblThree.
+Proszę napisz swoją wiadomość w języku angielskim.
+Alternatywnie możesz użyć sekcji {Sekcja Problemy} na naszej stronie projektu, aby się z nami skontaktować.</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>Lokalizacja do pobrania</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>Szablon nazwy pliku:</value>
+  </data>
 </root>

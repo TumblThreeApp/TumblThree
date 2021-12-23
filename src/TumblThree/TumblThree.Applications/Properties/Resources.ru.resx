@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -308,5 +308,25 @@
   </data>
   <data name="VideoPlayer" xml:space="preserve">
     <value>Код видеоплеера: {0}</value>
+  </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>Шаблон имени файла должен заканчиваться либо %x, либо %y!</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>Шаблон имени файла не содержит ни одного необходимого маркера!</value>
+  </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;По умолчанию/Все&gt;</value>
+  </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>Вы действительно хотите удалить следующие индексы блога, включая все загруженные файлы?
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>Вы действительно хотите удалить следующие индексы блога?
+{0}.</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Сообщение от '{0}' не было обработано. Установка значения 'posts per page' равным 1 в Подробности может увеличить загружаемое содержимое.</value>
   </data>
 </root>

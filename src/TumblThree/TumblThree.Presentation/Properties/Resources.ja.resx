@@ -708,4 +708,19 @@ Emptyはブログ全体を意味します。</value>
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>起動時にブログのオンライン状態を確認</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>皆様のご意見をお聞かせください。
+TumblThreeについて好きなこと、嫌いなことを教えてください。
+メッセージは英語で書いてください。
+または、私たちのプロジェクトサイトの{Issuesセクション}を使用して、私たちと連絡を取ることができます。</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>ダウンロード場所</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>ファイル名テンプレート。</value>
+  </data>
 </root>

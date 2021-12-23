@@ -894,4 +894,7 @@ emplacement. Un nouveau dossier sous le dossier racine de la collection sera cr�
 pour les fichiers nouvellement téléchargés. Vous pouvez déplacer les anciens fichiers 
 multimédias manuellement, si nécessaire.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>Vérifier le statut en ligne du blog au démarrage</value>
+  </data>
 </root>

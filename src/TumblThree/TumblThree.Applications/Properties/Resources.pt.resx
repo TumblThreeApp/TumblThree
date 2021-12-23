@@ -315,4 +315,24 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Video Player: {0}</value>
   </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>O modelo de nome de ficheiro deve terminar com %x ou %y!</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>O modelo de nome de ficheiro não contém nenhum símbolo necessário!</value>
+  </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;Padrão/Todos&gt;</value>
+  </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>Quer realmente apagar os seguintes índices de blogues, incluindo todos os ficheiros descarregados?
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>Quer mesmo apagar os seguintes índices do blogue?
+{0}.</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Um post de '{0}' não era parsable. Definir 'posts por página' para 1 nos Detalhes pode aumentar o conteúdo descarregável.</value>
+  </data>
 </root>

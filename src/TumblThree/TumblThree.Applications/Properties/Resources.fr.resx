@@ -388,4 +388,33 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="ErrorDownloadingBlog" xml:space="preserve">
     <value>Une erreur s'est produite lors du téléchargement de {0}: {1} ({2})</value>
   </data>
+  <data name="Downloading" xml:space="preserve">
+    <value>télécharger</value>
+  </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>Voulez-vous vraiment supprimer les indices du blog suivant, y compris tous les fichiers téléchargés ?
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>Do you really want to delete the following blog indices?
+{0}.</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Un message de '{0}' n'a pas pu être analysé. La définition de "posts per page" à 1 dans les détails pourrait augmenter le contenu téléchargeable.</value>
+  </data>
+  <data name="PostUrl" xml:space="preserve">
+    <value>Post url : {0}</value>
+  </data>
+  <data name="ProgressSkipFile" xml:space="preserve">
+    <value>{0} déjà téléchargé, sautant ...</value>
+  </data>
+  <data name="ProtectedBlog" xml:space="preserve">
+    <value>Blog protégé ou hors ligne détecté : {0}.</value>
+  </data>
+  <data name="VideoCaption" xml:space="preserve">
+    <value>Légende de la vidéo : {0}</value>
+  </data>
+  <data name="VideoSource" xml:space="preserve">
+    <value>Source vidéo : {0}</value>
+  </data>
 </root>

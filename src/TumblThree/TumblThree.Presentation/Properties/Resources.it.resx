@@ -715,4 +715,19 @@ L'host di vt.tumblr.com chiude regolarmente le connessioni se il numero è tropp
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>Controlla lo stato online del blog all'avvio</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>Apprezziamo molto il tuo feedback!
+Dicci cosa ti piace o non ti piace di TumblThree.
+Per favore scrivi il tuo messaggio in inglese.
+In alternativa puoi usare la sezione {Issues} sul sito del nostro progetto per metterti in contatto con noi.</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>Scarica la posizione</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>Πρότυπο ονόματος αρχείου:</value>
+  </data>
 </root>

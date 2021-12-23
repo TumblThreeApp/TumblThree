@@ -315,7 +315,7 @@
     <value>已评估 {0} 个博客。</value>
   </data>
   <data name="ProgressSkipFile" xml:space="preserve">
-    <value>{0} 个已下载，正在跳过...</value>
+    <value>{0} 个已下载，正在跳过..</value>
   </data>
   <data name="ProgressUniqueDownloads" xml:space="preserve">
     <value>统计唯一的下载，删除重复文件...</value>
@@ -367,5 +367,39 @@
   </data>
   <data name="VideoSource" xml:space="preserve">
     <value>Video source: {0}</value>
+  </data>
+  <data name="DownloadAndInstallNewVersion" xml:space="preserve">
+    <value>你想现在下载并安装新版本吗？</value>
+  </data>
+  <data name="DownloadNewVersion" xml:space="preserve">
+    <value>你想现在下载新版本吗？</value>
+  </data>
+  <data name="DownloadNewVersionTitle" xml:space="preserve">
+    <value>新版本上市</value>
+  </data>
+  <data name="DownloadVCRedistributable" xml:space="preserve">
+    <value>TumblThree需要 "Microsoft Visual C++ 2015-2019 Redistributable"。你需要先下载并安装它。
+你想现在下载它吗？</value>
+  </data>
+  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+    <value>缺少所需组件</value>
+  </data>
+  <data name="ErrorDownloadingBlog" xml:space="preserve">
+    <value>在下载'{0}'时发生了一个错误。{1} ({2})</value>
+  </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>文件名模板必须以%x或%y结尾!</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>文件名模板不包含任何必要的标记!</value>
+  </data>
+  <data name="ProtectedBlog" xml:space="preserve">
+    <value>检测到受保护或脱机的博客。{0}.</value>
+  </data>
+  <data name="SearchTermNotFound" xml:space="preserve">
+    <value>没有找到搜索词'{0}'!</value>
+  </data>
+  <data name="SendFeedbackError" xml:space="preserve">
+    <value>发送反馈时发生错误。请稍后再试。</value>
   </data>
 </root>

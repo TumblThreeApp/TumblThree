@@ -315,4 +315,24 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>動画プレーヤー：{0}</value>
   </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>ファイル名テンプレートは、%x または %y のどちらかで終わる必要があります。</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>ファイル名テンプレートに必要なトークンが含まれていません。</value>
+  </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;デフォルト/すべて</value>
+  </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>以下のブログインデックスを、ダウンロードしたファイルをすべて含めて本当に削除しますか？
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>以下のブログインデックスを本当に削除しますか？
+{0}.</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>0}」の投稿は解析できませんでした。詳細で「1ページあたりの投稿数」を1にすると、ダウンロード可能なコンテンツが増える可能性があります。</value>
+  </data>
 </root>

@@ -315,4 +315,24 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Video Player: {0}</value>
   </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>Il template del nome del file deve finire con %x o %y!</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>Il modello del nome del file non contiene alcun token necessario!</value>
+  </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;Predefinito/Tutti&gt;</value>
+  </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>Vuoi davvero cancellare i seguenti indici del blog compresi tutti i file scaricati?
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>以下のブログインデックスを本当に削除しますか？
+{0}.</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Un post da '{0}' non era analizzabile. L'impostazione di 'post per pagina' a 1 nei Dettagli potrebbe aumentare il contenuto scaricabile.</value>
+  </data>
 </root>

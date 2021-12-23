@@ -938,4 +938,13 @@
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>文件名模板。</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>我们非常感谢您的反馈!
+告诉我们你喜欢或不喜欢TumblThree的什么。
+请用英文写下您的信息。
+或者您可以使用我们项目网站上的{问题部分}与我们取得联系。</value>
+  </data>
 </root>

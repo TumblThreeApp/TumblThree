@@ -893,4 +893,7 @@ der Download-Ordner des Blogs mit den Medien bleibt jedoch am alten Speicherort.
 unter dem Stammordner der Sammlung wird erstellt und für neu heruntergeladene Dateien verwendet. 
 Sie können die alten Mediendateien bei Bedarf manuell verschieben.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>Blog-Onlinestatus beim Start prüfen</value>
+  </data>
 </root>

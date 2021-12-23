@@ -315,4 +315,67 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Αναπαραγωγή βίντεο: {0}</value>
   </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>Θέλετε πραγματικά να διαγράψετε τους ακόλουθους δείκτες του ιστολογίου;
+{0}.</value>
+  </data>
+  <data name="DownloadVCRedistributable" xml:space="preserve">
+    <value>Το TumblThree απαιτεί το "Microsoft Visual C++ 2015-2019 Redistributable". Πρέπει πρώτα να το κατεβάσετε και να το εγκαταστήσετε.
+Θέλετε να το κατεβάσετε τώρα;</value>
+  </data>
+  <data name="ErrorDownloadingBlog" xml:space="preserve">
+    <value>An error occurred while downloading '{0}': {1} ({2})</value>
+  </data>
+  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+    <value>Απαιτούμενο συστατικό που λείπει</value>
+  </data>
+  <data name="DownloadNewVersion" xml:space="preserve">
+    <value>Θέλετε να κατεβάσετε τη νέα έκδοση τώρα;</value>
+  </data>
+  <data name="DownloadNewVersionTitle" xml:space="preserve">
+    <value>Νέα έκδοση διαθέσιμη</value>
+  </data>
+  <data name="Downloading" xml:space="preserve">
+    <value>Λήψη</value>
+  </data>
+  <data name="DownloadAndInstallNewVersion" xml:space="preserve">
+    <value>Do you want to download and install the new version now?</value>
+  </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>Το πρότυπο ονόματος αρχείου πρέπει να τελειώνει είτε με %x είτε με %y!</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>Το πρότυπο ονόματος αρχείου δεν περιέχει κανένα απαραίτητο διακριτικό!</value>
+  </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;Προεπιλογή/Όλα&gt;</value>
+  </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>Θέλετε πραγματικά να διαγράψετε τους ακόλουθους δείκτες του ιστολογίου, συμπεριλαμβανομένων όλων των αρχείων που κατεβάσατε;
+{0}.</value>
+  </data>
+  <data name="SendFeedbackError" xml:space="preserve">
+    <value>Προέκυψε σφάλμα κατά την αποστολή της ανατροφοδότησης. Προσπαθήστε ξανά αργότερα.</value>
+  </data>
+  <data name="Textfile" xml:space="preserve">
+    <value>Αρχείο κειμένου</value>
+  </data>
+  <data name="TimeoutReached" xml:space="preserve">
+    <value>Κατά τη διάρκεια του {0} του {1} σημειώθηκε διακοπή σύνδεσης.</value>
+  </data>
+  <data name="TimeoutReachedShort" xml:space="preserve">
+    <value>Κατά τη διάρκεια του {0} σημειώθηκε χρονικό όριο σύνδεσης.</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Προειδοποίηση</value>
+  </data>
+  <data name="SearchTermNotFound" xml:space="preserve">
+    <value>Ο όρος αναζήτησης '{0}' δεν βρέθηκε!</value>
+  </data>
+  <data name="ProtectedBlog" xml:space="preserve">
+    <value>Εντοπίστηκε προστατευμένο ή εκτός σύνδεσης ιστολόγιο: {0}.</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Μια δημοσίευση από το '{0}' δεν μπορούσε να αναλυθεί. Η ρύθμιση των 'δημοσιεύσεων ανά σελίδα' σε 1 στις Λεπτομέρειες μπορεί να αυξήσει το περιεχόμενο που μπορεί να μεταφορτωθεί.</value>
+  </data>
 </root>

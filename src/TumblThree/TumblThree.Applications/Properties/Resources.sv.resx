@@ -315,4 +315,21 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Videospelare: {0}</value>
   </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>Filnamnsmallen måste sluta med antingen %x eller %y!</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>Filnamnsmallen innehåller ingen nödvändig token!</value>
+  </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>Vill du verkligen radera följande bloggindex inklusive alla nedladdade filer?
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>Vill du verkligen radera följande blogginlägg?
+{0}.</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Ett inlägg från "{0}" kunde inte analyseras. Om du ställer in "inlägg per sida" till 1 i detaljerna kan det öka det nedladdningsbara innehållet.</value>
+  </data>
 </root>

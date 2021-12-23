@@ -719,4 +719,19 @@
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>Ελέγξτε την online κατάσταση του ιστολογίου κατά την εκκίνηση</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>Εκτιμούμε ιδιαίτερα τα σχόλιά σας!
+Πείτε μας τι σας αρέσει ή δεν σας αρέσει στο TumblThree.
+Παρακαλώ γράψτε το μήνυμά σας στα αγγλικά.
+Εναλλακτικά, μπορείτε να χρησιμοποιήσετε την ενότητα {Issues section} στον ιστότοπο του έργου μας για να έρθετε σε επαφή μαζί μας.</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>Τοποθεσία λήψης</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>Πρότυπο ονόματος αρχείου:</value>
+  </data>
 </root>

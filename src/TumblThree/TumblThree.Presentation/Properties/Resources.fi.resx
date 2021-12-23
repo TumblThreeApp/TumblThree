@@ -711,4 +711,19 @@ jos määrä on liian korkea.</value>
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>Tarkista blogin online-tila käynnistyksen yhteydessä</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>Arvostamme suuresti palautettasi!
+Kerro meille, mistä pidät tai et pidä TumblThreen.
+Kirjoita viestisi englanniksi.
+Vaihtoehtoisesti voit ottaa meihin yhteyttä projektisivustomme {Issues-osion} kautta.</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>Lataa sijainti</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>Tiedostonimen malli:</value>
+  </data>
 </root>

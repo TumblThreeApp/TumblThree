@@ -388,4 +388,15 @@
   <data name="ErrorDownloadingBlog" xml:space="preserve">
     <value>Se produjo un error al descargar {0}: {1} ({2})</value>
   </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>¿Realmente quieres borrar los siguientes índices del blog incluyendo todos los archivos descargados?
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>¿Realmente quieres borrar los siguientes índices del blog?
+{0}.</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Un mensaje de '{0}' no era analizable. Establecer 'posts por página' a 1 en los Detalles podría aumentar el contenido descargable.</value>
+  </data>
 </root>

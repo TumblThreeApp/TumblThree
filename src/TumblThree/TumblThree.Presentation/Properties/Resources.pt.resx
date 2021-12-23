@@ -712,4 +712,19 @@ Por exemplo. Grande carro grande, pesquisas de ursos para grandes carros grandes
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>Verificar o estado online do blog sobre o arranque</value>
+  </data>
+  <data name="FeedbackIntroduction" xml:space="preserve">
+    <value>Agradecemos muito o seu feedback!
+Diga-nos do que gosta ou não gosta no TumblThree.
+Por favor, escreva a sua mensagem em inglês.
+Em alternativa, pode utilizar a secção {Issues} no nosso sítio do projecto para entrar em contacto connosco.</value>
+  </data>
+  <data name="FileDownloadLocation" xml:space="preserve">
+    <value>Local de descarga</value>
+  </data>
+  <data name="FilenameTemplate" xml:space="preserve">
+    <value>Modelo de nome de ficheiro:</value>
+  </data>
 </root>

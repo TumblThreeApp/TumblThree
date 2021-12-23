@@ -315,4 +315,91 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Video-soitin: {0}</value>
   </data>
+  <data name="DeleteBlogsDialog" xml:space="preserve">
+    <value>Haluatko todella poistaa seuraavat blogi-indeksit?
+{0}.</value>
+  </data>
+  <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
+    <value>Haluatko todella poistaa seuraavat blogi-indeksit kaikkine ladattuine tiedostoineen?
+{0}.</value>
+  </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;Default/Kaikki&gt;</value>
+  </data>
+  <data name="DownloadAndInstallNewVersion" xml:space="preserve">
+    <value>Haluatko ladata ja asentaa uuden version nyt?</value>
+  </data>
+  <data name="Downloading" xml:space="preserve">
+    <value>lataamalla</value>
+  </data>
+  <data name="DownloadNewVersion" xml:space="preserve">
+    <value>Haluatko ladata uuden version nyt?</value>
+  </data>
+  <data name="DownloadNewVersionTitle" xml:space="preserve">
+    <value>Uusi versio saatavilla</value>
+  </data>
+  <data name="DownloadVCRedistributable" xml:space="preserve">
+    <value>TumblThree vaatii "Microsoft Visual C++ 2015-2019 Redistributable". Sinun on ladattava ja asennettava se ensin.
+Haluatko ladata sen nyt?</value>
+  </data>
+  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+    <value>Tarvittava komponentti puuttuu</value>
+  </data>
+  <data name="ErrorDownloadingBlog" xml:space="preserve">
+    <value>'{0}' lataamisessa tapahtui virhe: {1} ({2})</value>
+  </data>
+  <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
+    <value>Tiedostonimen malli ei sisällä mitään tarvittavaa merkkiä!</value>
+  </data>
+  <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
+    <value>Tiedostonimen mallin on päätyttävä joko %x tai %y!</value>
+  </data>
+  <data name="OnlineChecking" xml:space="preserve">
+    <value>online-tarkastus</value>
+  </data>
+  <data name="PhotoSetUrl" xml:space="preserve">
+    <value>Kuvasarjan urlit: {0}</value>
+  </data>
+  <data name="ProtectedBlog" xml:space="preserve">
+    <value>Suojattu tai offline-blogi havaittu: {0}.</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Varoitus</value>
+  </data>
+  <data name="VideoSource" xml:space="preserve">
+    <value>Videon lähde: {0}</value>
+  </data>
+  <data name="VideoCaption" xml:space="preserve">
+    <value>Videon kuvateksti: {0}</value>
+  </data>
+  <data name="TimeoutReachedShort" xml:space="preserve">
+    <value>Yhteyden aikakatkaisu tapahtui {0} aikana.</value>
+  </data>
+  <data name="TimeoutReached" xml:space="preserve">
+    <value>Yhteyden aikakatkaisu tapahtui {0}:n {1} aikana.</value>
+  </data>
+  <data name="Textfile" xml:space="preserve">
+    <value>Tekstitiedosto</value>
+  </data>
+  <data name="Slug" xml:space="preserve">
+    <value>Slug: {0}</value>
+  </data>
+  <data name="SendFeedbackError" xml:space="preserve">
+    <value>Palautteen lähettämisessä tapahtui virhe. Yritä uudelleen myöhemmin.</value>
+  </data>
+  <data name="SearchTermNotFound" xml:space="preserve">
+    <value>Hakusanaa '{0}' ei löytynyt!</value>
+  </data>
+  <data name="ProgressSkipFile" xml:space="preserve">
+    <value>{0} jo ladattu, ohittaa ..</value>
+  </data>
+  <data name="Crawling" xml:space="preserve">
+    <value>indeksointi</value>
+  </data>
+  <data name="PostUrl" xml:space="preserve">
+    <value>Lähetä viesti url: {0}</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>Viestiä osoitteesta '{0}' ei voitu analysoida. Asettamalla 'viestit per sivu' arvoksi 1 Yksityiskohdissa saatetaan lisätä ladattavan sisällön määrää.</value>
+  </data>
 </root>

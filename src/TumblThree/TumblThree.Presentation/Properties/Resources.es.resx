@@ -890,4 +890,7 @@ pero la carpeta de descarga del blog con los medios permanecerá en la ubicació
 una nueva carpeta en la carpeta raíz de la colección y se usará para los archivos recién descargados. 
 Puede mover los archivos multimedia antiguos manualmente, si es necesario.</value>
   </data>
+  <data name="CheckStatusOnStartup" xml:space="preserve">
+    <value>Comprobar el estado del blog en línea al iniciarse</value>
+  </data>
 </root>
