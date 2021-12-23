@@ -19,6 +19,8 @@ namespace TumblThree.Applications.Parser
 
         IEnumerable<string> SearchForTumblrVideoUrl(string searchableText);
 
+        IEnumerable<string> SearchForTumblrInlineVideoUrl(string searchableText);
+
         IEnumerable<string> SearchForGenericPhotoUrl(string searchableText);
 
         IEnumerable<string> SearchForGenericVideoUrl(string searchableText);

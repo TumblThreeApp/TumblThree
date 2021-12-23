@@ -513,17 +513,12 @@ namespace TumblThree.Applications.Crawler
                 postCopy.VideoPlayer = string.Empty;
             }
 
-            //var videoUrls = new HashSet<string>();
-
-            //var postCopy = (Post)post.Clone();
-            AddInlineVideoUrl(post);
-            AddInlineTumblrVideoUrl(InlineSearch(post), TumblrParser.GetTumblrVVideoUrlRegex());
+            AddTumblrVideoUrl(InlineSearch(post), post);
+            AddInlineTumblrVideoUrl(InlineSearch(post), post);
             if (Blog.RegExVideos)
             {
                 AddGenericInlineVideoUrl(post);
             }
-
-            //AddInlineVideoUrlsToDownloader(videoUrls, post);
         }
 
         private void AddAudioUrlToDownloadList(Post post)
@@ -699,22 +694,9 @@ namespace TumblThree.Applications.Crawler
             AddTumblrPhotoUrl(InlineSearch(post), post);
         }
 
-        private void AddInlineVideoUrl(Post post)
-        {
-            AddTumblrVideoUrl(InlineSearch(post), post);
-        }
-
         private void AddGenericInlineVideoUrl(Post post)
         {
             AddGenericVideoUrl(InlineSearch(post), post);
-        }
-
-        private void AddInlineVideoUrlsToDownloader(HashSet<string> videoUrls, Post post)
-        {
-            foreach (string videoUrl in videoUrls)
-            {
-                AddToDownloadList(new VideoPost(videoUrl, post.Id, post.UnixTimestamp.ToString(), FileName(videoUrl)));
-            }
         }
 
         private void AddPhotoUrl(Post post)

@@ -288,6 +288,20 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
+        protected void AddInlineTumblrVideoUrl(string text, Post post)
+        {
+            foreach (string videoUrl in TumblrParser.SearchForTumblrInlineVideoUrl(text))
+            {
+                string url = videoUrl;
+                if (ShellService.Settings.VideoSize == 480)
+                {
+                    url += "_480";
+                }
+
+                AddToDownloadList(new VideoPost(url + ".mp4", post.Id, post.UnixTimestamp.ToString(), BuildFileName(url + ".mp4", post, -1)));
+            }
+        }
+
         protected void AddGenericPhotoUrl(string text, Post post)
         {
             foreach (string imageUrl in TumblrParser.SearchForGenericPhotoUrl(text))
@@ -313,7 +327,7 @@ namespace TumblThree.Applications.Crawler
         {
             return new Post()
             {
-                Date = p.Date,
+                DateGmt = p.Date,
                 UnixTimestamp = p.Timestamp,
                 Type = p.Type,
                 Id = p.Id,
@@ -461,7 +475,7 @@ namespace TumblThree.Applications.Crawler
                 post = new Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
                     Slug = "", RegularTitle = "", RebloggedFromName = "", ReblogKey = "", Tumblelog = new TumbleLog2() { Name = "" } };
             }
-            return BuildFileNameCore(url, post.Tumblelog.Name, post.Date, post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.ReblogKey);
+            return BuildFileNameCore(url, post.Tumblelog.Name, post.DateGmt, post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.ReblogKey);
         }
 
         protected string BuildFileName(string url, TumblrSvcJson.Post post, int index)

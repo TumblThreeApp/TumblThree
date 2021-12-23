@@ -13,7 +13,7 @@ namespace TumblThree.Applications.Parser
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.PostId, post.Id) +
                    Environment.NewLine +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.Date) +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.DateGmt) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.PostUrl, post.UrlWithSlug) +
                    Environment.NewLine +
@@ -37,7 +37,7 @@ namespace TumblThree.Applications.Parser
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.PostId, post.Id) +
                    Environment.NewLine +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.Date) +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.DateGmt) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.PostUrl, post.UrlWithSlug) +
                    Environment.NewLine +
@@ -62,7 +62,7 @@ namespace TumblThree.Applications.Parser
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.PostId, post.Id) +
                    Environment.NewLine +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.Date) +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.DateGmt) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.PostUrl, post.UrlWithSlug) +
                    Environment.NewLine +
@@ -88,7 +88,7 @@ namespace TumblThree.Applications.Parser
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.PostId, post.Id) +
                    Environment.NewLine +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.Date) +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.DateGmt) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.PostUrl, post.UrlWithSlug) +
                    Environment.NewLine +
@@ -113,7 +113,7 @@ namespace TumblThree.Applications.Parser
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.PostId, post.Id) +
                    Environment.NewLine +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.Date) +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.DateGmt) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.PostUrl, post.UrlWithSlug) +
                    Environment.NewLine +
@@ -138,7 +138,7 @@ namespace TumblThree.Applications.Parser
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.PostId, post.Id) +
                    Environment.NewLine +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.Date) +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.DateGmt) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.PostUrl, post.UrlWithSlug) +
                    Environment.NewLine +
@@ -166,7 +166,7 @@ namespace TumblThree.Applications.Parser
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.PostId, post.Id) +
                    Environment.NewLine +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.Date) +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.DateGmt) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.PostUrl, post.UrlWithSlug) +
                    Environment.NewLine +
@@ -193,7 +193,7 @@ namespace TumblThree.Applications.Parser
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.PostId, post.Id) +
                    Environment.NewLine +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.Date) +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Date, post.DateGmt) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.PostUrl, post.UrlWithSlug) +
                    Environment.NewLine +

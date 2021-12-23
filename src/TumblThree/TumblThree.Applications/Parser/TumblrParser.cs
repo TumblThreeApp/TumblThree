@@ -41,6 +41,17 @@ namespace TumblThree.Applications.Parser
             }
         }
 
+        public IEnumerable<string> SearchForTumblrInlineVideoUrl(string searchableText)
+        {
+            Regex regex = GetTumblrVVideoUrlRegex();
+            foreach (Match match in regex.Matches(searchableText))
+            {
+                string videoUrl = match.Groups[1].Value;
+
+                yield return videoUrl;
+            }
+        }
+
         public IEnumerable<string> SearchForGenericPhotoUrl(string searchableText)
         {
             Regex regex = GetGenericPhotoUrlRegex();
