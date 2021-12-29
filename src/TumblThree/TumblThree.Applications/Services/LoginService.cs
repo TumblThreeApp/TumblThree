@@ -253,7 +253,9 @@ namespace TumblThree.Applications.Services
                 var regex = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
                 var json = regex.Match(document).Groups[1].Value;
                 var obj = JObject.Parse(json.Replace(":undefined", ":null"));
-                return obj["Settings"]["email"].ToString();
+                var value = obj["Settings"]["email"];
+                if (value == null) value = obj["Settings"]["settings"]["email"];
+                return value.ToString();
             }
             catch (Exception ex)
             {
