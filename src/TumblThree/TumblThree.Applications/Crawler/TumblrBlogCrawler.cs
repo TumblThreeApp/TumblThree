@@ -289,6 +289,7 @@ namespace TumblThree.Applications.Crawler
             string document = await GetApiPageWithRetryAsync(0);
             var response = ConvertJsonToClass<TumblrApiJson>(document);
 
+            Blog.Posts = response.PostsTotal;
             Post post = response.Posts?.FirstOrDefault();
             if (DateTime.TryParse(post?.DateGmt, out var latestPost)) Blog.LatestPost = latestPost;
             _ = ulong.TryParse(post?.Id, out var highestId);
