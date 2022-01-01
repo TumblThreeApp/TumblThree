@@ -134,10 +134,9 @@ namespace TumblThree.Applications.Controllers
             fullScreenMediaViewModel.ShowDialog(_shellService.ShellView);
         }
 
-        public bool ChangeCollection(IBlog blog, IList<Collection> oldItem, IList<Collection> newItem)
+        public bool ChangeCollection(IBlog blog, Collection oldItem, Collection newItem)
         {
-            if (oldItem == null || oldItem.Count == 0 || newItem == null || newItem.Count == 0) return false;
-            if (blog.CollectionId == newItem[0].Id) return false;
+            if (oldItem == null || newItem == null) return false;
 
             if (QueueManager.Items.Any(x => x.Blog.Name == blog.Name && x.Blog.OriginalBlogType == blog.OriginalBlogType))
             {
@@ -148,7 +147,7 @@ namespace TumblThree.Applications.Controllers
             var oldFilenameIndex = Path.Combine(blog.Location, blog.Name) + "." + blog.OriginalBlogType;
             var oldFilenameChild = blog.ChildId;
 
-            var newRootFolder = Path.Combine(newItem?[0].DownloadLocation, "Index");
+            var newRootFolder = Path.Combine(newItem.DownloadLocation, "Index");
             var newFilenameIndex = Path.Combine(newRootFolder, blog.Name) + "." + blog.OriginalBlogType;
             var newFilenameChild = Path.Combine(newRootFolder, Path.GetFileName(oldFilenameChild));
 
@@ -158,7 +157,7 @@ namespace TumblThree.Applications.Controllers
                 return false;
             }
 
-            blog.CollectionId = newItem[0].Id;
+            blog.CollectionId = newItem.Id;
             blog.Location = newRootFolder;
             blog.FileDownloadLocation = null;
             blog.ChildId = newFilenameChild;

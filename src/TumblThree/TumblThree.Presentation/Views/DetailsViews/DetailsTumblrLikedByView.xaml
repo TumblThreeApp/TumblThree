@@ -390,9 +390,8 @@
 
                             <ComboBox Grid.Column="1" Grid.Row="13" Padding="5,0,5,0"
                                       ItemsSource="{Binding Collections, Mode=OneWay}"
-                                      SelectedValue="{Binding BlogFile.CollectionId, Mode=TwoWay}"
-                                      DisplayMemberPath="Name" SelectedValuePath="Id" Height="18"
-                                      SelectionChanged="Collection_SelectionChanged">
+                                      SelectedValue="{Binding CollectionId, Mode=TwoWay, IsAsync=True}"
+                                      DisplayMemberPath="Name" SelectedValuePath="Id" Height="18">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>

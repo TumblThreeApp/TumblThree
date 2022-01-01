@@ -16,7 +16,7 @@ namespace TumblThree.Applications.Services
 
         void ViewFullScreenMedia();
 
-        bool ChangeCollection(IBlog blog, IList<Collection> oldItem, IList<Collection> newItem);
+        bool ChangeCollection(IBlog blog, Collection oldItem, Collection newItem);
 
         event EventHandler DetailsViewModelChanged;
 

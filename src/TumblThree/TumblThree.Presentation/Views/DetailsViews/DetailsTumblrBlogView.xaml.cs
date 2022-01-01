@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TumblThree.Applications.ViewModels.DetailsViewModels;
 using TumblThree.Applications.Views;
-using TumblThree.Domain.Models;
 
 namespace TumblThree.Presentation.Views
 {
@@ -47,11 +44,6 @@ namespace TumblThree.Presentation.Views
         private void FilenameTemplate_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             e.Handled = !ViewModel.FilenameTemplateValidate(((TextBox)e.Source).Text);
-        }
-
-        private void Collection_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            e.Handled = !ViewModel.CollectionChanged(new List<Collection>(e.RemovedItems.Cast<Collection>()), new List<Collection>(e.AddedItems.Cast<Collection>()));
         }
     }
 }

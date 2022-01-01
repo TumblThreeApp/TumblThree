@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Waf.Applications;
 using System.Windows.Data;
 using System.Windows.Forms;
@@ -58,15 +58,30 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
             return _detailsService.FilenameTemplateValidate(enteredFilenameTemplate);
         }
 
-        public bool CollectionChanged(IList<Collection> oldItem, IList<Collection> newItem)
+        public int CollectionId
         {
-            return _detailsService.ChangeCollection(_blogFile, oldItem, newItem);
+            get
+            {
+                if (_blogFile == null) return -1;
+                return _blogFile.CollectionId;
+            }
+            set
+            {
+                if (_blogFile == null) return;
+                Collection oldItem = ((IEnumerable<Collection>)Collections.SourceCollection).FirstOrDefault(x => x.Id == _blogFile.CollectionId);
+                Collection newItem = ((IEnumerable<Collection>)Collections.SourceCollection).FirstOrDefault(x => x.Id == value);
+                var changed = _detailsService.ChangeCollection(_blogFile, oldItem, newItem);
+            }
         }
 
         public IBlog BlogFile
         {
             get => _blogFile;
-            set => SetProperty(ref _blogFile, value);
+            set
+            {
+                SetProperty(ref _blogFile, value);
+                if (value != null) RaisePropertyChanged(nameof(CollectionId));
+            }
         }
 
         public int Count
