@@ -458,11 +458,11 @@ namespace TumblThree.Applications.Crawler
 
                     if (highestId == 0)
                     {
-                        highestId = ulong.Parse(response.Timeline.Instructions[0].AddEntries.Entries.First().Content.Item.Content.Tweet.Id);
-                        if (response.GlobalObjects.Tweets.ContainsKey(highestId.ToString()))
+                        highestId = ulong.Parse(response.Timeline.Instructions[0].AddEntries.Entries
+                            .Where(w => response.GlobalObjects.Tweets.ContainsKey(w.Content?.Item?.Content.Tweet.Id ?? ""))
+                            .Max(x => x.Content?.Item.Content.Tweet.Id) ?? "0");
+                        if (highestId > 0)
                             Blog.LatestPost = DateTime.ParseExact(response.GlobalObjects.Tweets[highestId.ToString()].CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
-                        else
-                            highestId = 0;
                     }
 
                     bool noNewCursor = false;
