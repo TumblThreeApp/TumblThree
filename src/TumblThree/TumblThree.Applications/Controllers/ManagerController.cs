@@ -816,7 +816,16 @@ namespace TumblThree.Applications.Controllers
             if (blog.Save())
             {
                 AddToManager(blog);
-                QueueOnDispatcher.CheckBeginInvokeOnUI(() => _managerService.BlogFilesView.Refresh());
+                QueueOnDispatcher.CheckBeginInvokeOnUI(() => {
+                    try
+                    {
+                        _managerService.BlogFilesView.Refresh();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Exception 1", e);
+                    }
+                });
             }
         }
 

@@ -40,7 +40,16 @@ namespace TumblThree.Applications.Services
 
         private void CrawlerService_ActiveCollectionIdChanged(object sender, System.EventArgs e)
         {
-            QueueOnDispatcher.CheckBeginInvokeOnUI(() => blogFilesView.Refresh());
+            QueueOnDispatcher.CheckBeginInvokeOnUI(() => {
+                try
+                {
+                    blogFilesView.Refresh();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Exception 2", ex);
+                }
+            });
         }
 
         private bool BlogFilesViewSource_Filter(object obj)
