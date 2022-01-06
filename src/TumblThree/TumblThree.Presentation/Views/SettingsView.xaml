@@ -150,6 +150,7 @@
                                 Grid.Column="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center"
+                                PreviewLostKeyboardFocus="DownloadLocation_PreviewLostKeyboardFocus"
                                 Text="{Binding DownloadLocation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 TextWrapping="Wrap" />
                             <Button
@@ -2304,6 +2305,7 @@
                                         VerticalAlignment="Center"
                                         Height="20"
                                         IsEnabled="{Binding DownloadLocationTextBox2Enabled}"
+                                        PreviewLostKeyboardFocus="DownloadLocation_PreviewLostKeyboardFocus"
                                         Text="{Binding ElementName=Collections, Path=SelectedItem.DownloadLocation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         TextWrapping="Wrap" Margin="0,0,5,0" />
                                     <Button

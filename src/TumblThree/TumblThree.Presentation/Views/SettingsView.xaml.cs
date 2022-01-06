@@ -68,5 +68,10 @@ namespace TumblThree.Presentation.Views
         {
             e.Handled = !SettingsViewModel.CollectionNameValidate(((TextBox)e.Source).Text);
         }
+
+        private void DownloadLocation_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            e.Handled = !SettingsViewModel.DownloadLocationValidate(((TextBox)e.Source).Text);
+        }
     }
 }

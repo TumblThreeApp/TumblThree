@@ -504,8 +504,8 @@ namespace TumblThree.Applications.ViewModels
 
         private static string Sanitize(string filename)
         {
-            var invalids = System.IO.Path.GetInvalidFileNameChars();
-            return String.Join("-", filename.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.');
+            char[] invalids = Path.GetInvalidFileNameChars();
+            return string.Join("-", filename.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.');
         }
 
         public static bool CollectionNameValidate(string enteredCollectionName)
@@ -519,6 +519,29 @@ namespace TumblThree.Applications.ViewModels
             {
                 valid = false;
                 MessageBox.Show(Resources.CollectionNameInvalidChars, Resources.Warning);
+            }
+            return valid;
+        }
+
+        public static bool DownloadLocationValidate(string enteredDownloadLocation)
+        {
+            bool valid = !string.IsNullOrWhiteSpace(enteredDownloadLocation);
+            if (valid)
+            {
+                string msg = null;
+                try
+                {
+                    Path.Combine(enteredDownloadLocation, "");
+                }
+                catch (ArgumentException e)
+                {
+                    valid = false;
+                    msg = e.Message;
+                }
+                if (!valid)
+                {
+                    MessageBox.Show(msg, Resources.Warning);
+                }
             }
             return valid;
         }
