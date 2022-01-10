@@ -239,11 +239,27 @@ namespace TumblThree.Applications.Services
 
         public async Task<string> GetTumblrUsernameAsync()
         {
-            const string tumblrAccountSettingsUrl = "https://www.tumblr.com/settings/account";
-            var request = webRequestFactory.CreateGetRequest(tumblrAccountSettingsUrl);
-            cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
-            var document = await webRequestFactory.ReadRequestToEndAsync(request).ConfigureAwait(false);
-            return ExtractTumblrUsername(document);
+            try
+            {
+                const string tumblrAccountSettingsUrl = "https://www.tumblr.com/settings/account";
+                var request = webRequestFactory.CreateGetRequest(tumblrAccountSettingsUrl);
+                cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
+                var document = await webRequestFactory.ReadRequestToEndAsync(request).ConfigureAwait(false);
+                return ExtractTumblrUsername(document);
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetType() == typeof(WebException))
+                {
+                    var we = (WebException)ex;
+                    if (we.Response != null && ((HttpWebResponse)we.Response).StatusCode == HttpStatusCode.NotFound)
+                    {
+                        return null;
+                    }
+                }
+                Logger.Error("LoginService.GetTumblrUsernameAsync: {0}", ex);
+                throw;
+            }
         }
 
         private static string ExtractTumblrUsername(string document)
@@ -253,7 +269,9 @@ namespace TumblThree.Applications.Services
                 var regex = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
                 var json = regex.Match(document).Groups[1].Value;
                 var obj = JObject.Parse(json.Replace(":undefined", ":null"));
-                var value = obj["Settings"]["email"];
+                var value = obj["Settings"];
+                if (value == null) return null;
+                value = obj["Settings"]["email"];
                 if (value == null) value = obj["Settings"]["settings"]["email"];
                 return value.ToString();
             }
