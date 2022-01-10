@@ -79,9 +79,6 @@ namespace TumblThree.Presentation
                 moduleController.Initialize();
             }
 
-            var shellService = container.GetExportedValue<IShellService>();
-            InitializeCultures(shellService);
-
             foreach (IModuleController moduleController in moduleControllers)
             {
                 moduleController.Run();
@@ -108,18 +105,6 @@ namespace TumblThree.Presentation
             container.Dispose();
             catalog.Dispose();
             base.OnExit(e);
-        }
-
-        private static void InitializeCultures(IShellService shellService)
-        {
-            if (!string.IsNullOrEmpty(shellService.Settings.Language))
-            {
-                var ci = new CultureInfo(shellService.Settings.Language);
-                CultureInfo.DefaultThreadCurrentCulture = ci;
-                CultureInfo.DefaultThreadCurrentUICulture = ci;
-                CultureInfo.CurrentCulture = ci;
-                CultureInfo.CurrentUICulture = ci;
-            }
         }
 
         private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

@@ -106,6 +106,7 @@ namespace TumblThree.Applications.Controllers
             Logger.Initialize(logPath, TraceLevel.Verbose);
 
             _appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, AppSettingsFileName));
+            InitializeCultures(_appSettings);
             if (AppSettings.Upgrade(_appSettings)) SaveSettings(Path.Combine(GetAppDataPath(), AppSettingsFileName), _appSettings);
 
             Logger.ChangeLogLevel((TraceLevel)Enum.Parse(typeof(TraceLevel), _appSettings.LogLevel));
@@ -346,6 +347,18 @@ namespace TumblThree.Applications.Controllers
             if (!ShellViewModel.IsQueueViewVisible)
             {
                 ShellViewModel.IsDetailsViewVisible = true;
+            }
+        }
+
+        private static void InitializeCultures(AppSettings settings)
+        {
+            if (!string.IsNullOrEmpty(settings.Language))
+            {
+                var ci = new CultureInfo(settings.Language);
+                CultureInfo.DefaultThreadCurrentCulture = ci;
+                CultureInfo.DefaultThreadCurrentUICulture = ci;
+                CultureInfo.CurrentCulture = ci;
+                CultureInfo.CurrentUICulture = ci;
             }
         }
     }
