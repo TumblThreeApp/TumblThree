@@ -1539,7 +1539,7 @@ namespace TumblThree.Applications.ViewModels
             var list = new List<Collection>();
             foreach (var item in Collections)
             {
-                if (item.Name == Resources.DefaultCollectionName)
+                if (item.Id == 0)
                 {
                     item.DownloadLocation = DownloadLocation;
                 }

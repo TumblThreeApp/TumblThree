@@ -492,6 +492,15 @@ namespace TumblThree.Applications.Properties
                 collections.Add(new Collection() { Id = 0, Name = Resources.DefaultCollectionName, DownloadLocation = settings.DownloadLocation });
                 settings.Collections = collections;
             }
+            else
+            {
+                var collection = settings.Collections.First(x => x.Id == 0);
+                if (collection.Name != Resources.DefaultCollectionName)
+                {
+                    collection.Name = Resources.DefaultCollectionName;
+                    updated = true;
+                }
+            }
 
             return updated;
         }
