@@ -358,7 +358,7 @@ namespace TumblThree.Applications.Controllers
             {
                 foreach (var collection in _shellService.Settings.Collections)
                 {
-                    string path = Path.Combine(collection.DownloadLocation, "Archive");
+                    string path = Path.Combine(GetIndexFolderPath(collection.Id), "Archive");
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
                     List<string> dirs = new List<string>(Directory.GetDirectories(path, "*", SearchOption.AllDirectories));
@@ -663,7 +663,7 @@ namespace TumblThree.Applications.Controllers
         {
             foreach (IBlog blog in blogs)
             {
-                if (_shellService.Settings.ArchiveIndex && !Directory.Exists(Path.Combine(blog.DownloadLocation(), "Index", "Archive")))
+                if (_shellService.Settings.ArchiveIndex && !Directory.Exists(Path.Combine(GetIndexFolderPath(blog.CollectionId), "Archive")))
                     Directory.CreateDirectory(Path.Combine(GetIndexFolderPath(blog.CollectionId), "Archive"));
 
                 if (!_shellService.Settings.DeleteOnlyIndex)
