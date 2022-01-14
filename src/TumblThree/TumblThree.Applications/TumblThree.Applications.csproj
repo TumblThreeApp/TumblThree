@@ -142,6 +142,7 @@
     <Compile Include="DataModels\Twitter\TwitterUser.cs" />
     <Compile Include="DataModels\Twitter\TimelineTweets.cs" />
     <Compile Include="Downloader\JsonDownloader.cs" />
+    <Compile Include="Downloader\StreamWriterWithInfo.cs" />
     <Compile Include="Downloader\TwitterDownloader.cs" />
     <Compile Include="ErrorExceptions.cs" />
     <Compile Include="Extensions\ExceptionExtension.cs" />

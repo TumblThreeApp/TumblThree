@@ -37,7 +37,7 @@ namespace TumblThree.Applications.Downloader
 
         private SemaphoreSlim concurrentConnectionsSemaphore;
         private SemaphoreSlim concurrentVideoConnectionsSemaphore;
-        private readonly Dictionary<string, StreamWriter> streamWriters = new Dictionary<string, StreamWriter>();
+        private readonly Dictionary<string, StreamWriterWithInfo> streamWriters = new Dictionary<string, StreamWriterWithInfo>();
         private readonly object diskFilesLock = new object();
         private HashSet<string> diskFiles;
 
@@ -123,16 +123,16 @@ namespace TumblThree.Applications.Downloader
                 return await DownloadBinaryFileAsync(fileLocation, url);
             }
 
-            return AppendToTextFile(fileLocationUrlList, url);
+            return AppendToTextFile(fileLocationUrlList, url, false);
         }
 
-        protected virtual bool AppendToTextFile(string fileLocation, string text)
+        protected virtual bool AppendToTextFile(string fileLocation, string text, bool isJson)
         {
             try
             {
                 lock (lockObjectDownload)
                 {
-                    StreamWriter sw = GetTextAppenderStreamWriter(fileLocation);
+                    StreamWriterWithInfo sw = GetTextAppenderStreamWriter(fileLocation, isJson);
                     sw.WriteLine(text);
                 }
                 return true;
@@ -150,13 +150,13 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
-        private StreamWriter GetTextAppenderStreamWriter(string key)
+        private StreamWriterWithInfo GetTextAppenderStreamWriter(string key, bool isJson)
         {
             if (streamWriters.ContainsKey(key))
             {
                 return streamWriters[key];
             }
-            StreamWriter sw = new StreamWriter(key, true);
+            StreamWriterWithInfo sw = new StreamWriterWithInfo(key, true, isJson);
             streamWriters.Add(key, sw);
 
             return sw;
@@ -376,7 +376,7 @@ namespace TumblThree.Applications.Downloader
                 string url = Url(downloadItem);
                 string fileLocation = FileLocationLocalized(blogDownloadLocation, downloadItem.TextFileLocation);
                 UpdateProgressQueueInformation(Resources.ProgressDownloadImage, postId);
-                if (AppendToTextFile(fileLocation, url))
+                if (AppendToTextFile(fileLocation, url, blog.MetadataFormat == Domain.Models.MetadataType.Json))
                 {
                     UpdateBlogDB(downloadItem.DbType);
                     AddTextToDb(downloadItem);
