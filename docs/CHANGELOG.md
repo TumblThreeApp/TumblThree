@@ -11,6 +11,107 @@ changing over time.
 
 <br>
 
+## 2.4.8 (2022-01-14)
+
+#### Fixed
+- Show correct state and login name after login/logout ([#192](https://github.com/TumblThreeApp/TumblThree/issues/192))
+- Error when saving settings after app language has been changed
+- Main window shown in wrong language after app language change ([#202](https://github.com/TumblThreeApp/TumblThree/issues/202))
+- JSON files use brackets now ([#200](https://github.com/TumblThreeApp/TumblThree/issues/200))
+- Not all archived blogs are loaded for duplicate check
+- Creation of additional (unused) archive folder in collection's download location
+<br>
+
+## 2.4.7 (2022-01-06)
+
+#### Fixed
+- Status message not showing login name ([#192](https://github.com/TumblThreeApp/TumblThree/issues/192))
+- In some cases only 100 posts are downloaded ([#174](https://github.com/TumblThreeApp/TumblThree/issues/174))
+- Problem with collections handling
+- Problem downloading some older, smaller Twitter blogs
+- Exceptions when entering path names with illegal characters
+	
+#### Removed
+- Separate zip files for the translations(*)
+	
+**Notes:** From this version on there will be no longer a separate zip file for the translations, they are included in the application zip file now.
+If you are still using the 32-bit version (x86), please verify whether you can also use the 64-bit version on your system, if not, please give us a feedback.
+<br>
+
+## 2.4.6 (2021-12-23)
+	
+#### Changed
+- Use concurrent scans in Liked/By crawler
+	
+#### Fixed
+- Couldn't download blogs with custom domain containing hyphen ([#195](https://github.com/TumblThreeApp/TumblThree/issues/195))
+- Gifv not downloading ([#197](https://github.com/TumblThreeApp/TumblThree/issues/197))
+- Liked/By crawler not working ([#196](https://github.com/TumblThreeApp/TumblThree/issues/196))
+- Inconsistent date/time values used for API/SVC crawler ([#197](https://github.com/TumblThreeApp/TumblThree/issues/197))
+- Inlined tumblr video has wrong filename/date ([#197](https://github.com/TumblThreeApp/TumblThree/issues/197))
+- API crawler saves image meta information with wrong time ([#197](https://github.com/TumblThreeApp/TumblThree/issues/197))
+<br>
+
+## 2.4.5 (2021-12-13)
+
+#### Fixed
+- Chosen collection folder not shown immediately
+- The argument %b in filename template ([PR #194](https://github.com/TumblThreeApp/TumblThree/pull/194))
+- 'Refresh' is not allowed during an AddNew or EditItem transaction
+- Status message not updating after login ([#192](https://github.com/TumblThreeApp/TumblThree/issues/192))
+<br>
+
+## 2.4.4 (2021-12-04)
+
+#### Changed
+- Change the way the update package is determined
+- User agent string
+
+#### Fixed
+- Adjust Twitter post title for file rename template
+- Tumblr Search not working while logged out ([#190](https://github.com/TumblThreeApp/TumblThree/issues/190))
+- Error when selecting blog with non-default collection assigned
+<br>
+
+## 2.4.3 (2021-11-20)
+
+#### Changed
+- Options to download audio and text in Tumblr Search
+
+#### Fixed
+- Error "'Refresh' is not allowed during an AddNew or EditItem transaction"
+- Tumblr Search doesn't work any more
+<br>
+
+## 2.4.2 (2021-11-13)
+
+#### Changed
+- Write additional information into the log file on startup
+
+#### Fixed
+- Error "Specified cast is not valid"
+- Two folders are created when adding a new blog ([#178](https://github.com/TumblThreeApp/TumblThree/issues/178))
+- For some error types the blog name isn't shown in message
+- Possible error when adding blogs through clipboard monitor
+- Error when archiving removed blog if blog was already removed before
+- Liked-by crawler not downloading all posts ([#187](https://github.com/TumblThreeApp/TumblThree/issues/187))
+<br>
+
+## 2.4.1 (2021-11-01)
+
+#### Changed
+- Ability to assign collections to existing blogs ([#170](https://github.com/TumblThreeApp/TumblThree/issues/170))
+- Send version number with feedback
+
+#### Fixed
+- Error if Twitter blog doesn't exist
+- Video posts with non-tumblr embedded videos lead to files with html content
+- Error "'Refresh' is not allowed during an AddNew or EditItem transaction"
+- Ensure a new blog uses a new folder
+- Setting for User-Agent does not persist ([#177](https://github.com/TumblThreeApp/TumblThree/issues/177))
+- Tumblr (Tag) Search not working
+<br>
+
 ## 2.4.0 (2021-10-17)
 
 #### Added
@@ -204,7 +305,7 @@ changing over time.
 
 #### Added
 - Reminder to download new update version
-- Download posts from Tumblr Search results with sort order \recent\" ([#125](https://github.com/TumblThreeApp/TumblThree/issues/125))
+- Download posts from Tumblr Search results with sort order "recent" ([#125](https://github.com/TumblThreeApp/TumblThree/issues/125))
 
 #### Fixed
 - Changing multiple blogs causes crash ([#123](https://github.com/TumblThreeApp/TumblThree/issues/123))
@@ -215,9 +316,9 @@ changing over time.
 ## 1.2.0 (2021-02-07)
 
 #### Added
-- Rework of Save photo sets with similar filenames (issue 56/104)
+- Rework of Save photo sets with similar filenames ([#56](https://github.com/TumblThreeApp/TumblThree/issues/56)/[#104](https://github.com/TumblThreeApp/TumblThree/issues/104))
 - Automatically save the blog settings after leaving the details pane
-- Option \Download url list\" renamed to \"Save url list\" ([#121](https://github.com/TumblThreeApp/TumblThree/issues/121))
+- Option "Download url list" renamed to "Save url list" ([#121](https://github.com/TumblThreeApp/TumblThree/issues/121))
 - File rename functionality ([#18](https://github.com/TumblThreeApp/TumblThree/issues/18))
 
 #### Fixed
@@ -334,8 +435,8 @@ Fixes Tumblr Searches
 
 Re-implements Tumblr Searches:
 
-* E.g. https://www.tumblr.com/tagged/cars to search for \car\" tagged posts, and
-* E.g. https://www.tumblr.com/search/cars to search for \"car\" posts.
+* E.g. https://www.tumblr.com/tagged/cars to search for "car" tagged posts, and
+* E.g. https://www.tumblr.com/search/cars to search for "car" posts.
 
 See [#75](https://github.com/TumblThreeApp/TumblThree/issues/75) for more.
 
@@ -368,18 +469,18 @@ Cumulative Improvements
 
 * Allows to add [tumbex urls](https://www.tumbex.com/) via GUI, text, or clipboard ([#50](https://github.com/TumblThreeApp/TumblThree/issues/50)).
 * Can open blogs on tumbex.com via the context menu (right mouse click, [#50](https://github.com/TumblThreeApp/TumblThree/issues/50)).
-* Can download tumblr photos with non-\tumblr_\"-prefix. Thanks to @ShadowBlade72 for fixing this ([#47](https://github.com/TumblThreeApp/TumblThree/issues/47), [#58](https://github.com/TumblThreeApp/TumblThree/issues/58)).
+* Can download tumblr photos with non-"tumblr_"-prefix. Thanks to @ShadowBlade72 for fixing this ([#47](https://github.com/TumblThreeApp/TumblThree/issues/47), [#58](https://github.com/TumblThreeApp/TumblThree/issues/58)).
 * You can now choose which tumblr blog scraper you want to use:
   * Tumblr API: The previous default crawler for non-hidden blogs which utilized the Tumblr v1 API, or
   * Tumblr SVC: This service is (was?) used by Tumblr internally for displaying hidden blogs. Using this scraper requires a to be logged in.
 
   You can change the crawler in the details view of each blogs. Using the SVC crawler implementation might be faster if it's not as much rate limited as accessing the site via the official v1 API. For more information, see [#46](https://github.com/TumblThreeApp/TumblThree/issues/46).
 
-* Can download higher resolution images if available using the SVC crawler. For this, change all your tumblr blogs to use the SVC crawler via the Details Panel -> Crawler -> \"Tumblr SVC\". Set the downloadable image size in the Settings (Settings->Connections) to \"best\". This will download the highest resolution image found ([#51](https://github.com/TumblThreeApp/TumblThree/issues/51)).
+* Can download higher resolution images if available using the SVC crawler. For this, change all your tumblr blogs to use the SVC crawler via the Details Panel -> Crawler -> "Tumblr SVC". Set the downloadable image size in the Settings (Settings->Connections) to "best". This will download the highest resolution image found ([#51](https://github.com/TumblThreeApp/TumblThree/issues/51)).
 
 * It's now possible to set a separate rate limit for the SVC crawler in settings->connections.
 
-* It's now possible to set the default crawler for Tumblr Blogs in the settings in settings->blog. You can choose between \"Tumblr API\" und \"Tumblr SVC\". If you do not tick this checkbox, the default automatic detection will add the blog depending on if it's accessible via the Tumblr API. If it's not, then the SVC crawler will be used as it requires to be logged in (see the notes above for more information on which to pick).
+* It's now possible to set the default crawler for Tumblr Blogs in the settings in settings->blog. You can choose between "Tumblr API" und "Tumblr SVC". If you do not tick this checkbox, the default automatic detection will add the blog depending on if it's accessible via the Tumblr API. If it's not, then the SVC crawler will be used as it requires to be logged in (see the notes above for more information on which to pick).
 
 * Fixes clipboard monitor toggle button which was defunct (i.e. always active) after the awesome font icon migration.
 
@@ -462,8 +563,8 @@ Fixes Tumblr Searches
 
 Re-implements Tumblr Searches:
 
-* E.g. https://www.tumblr.com/tagged/cars to search for \car\" tagged posts, and
-* E.g. https://www.tumblr.com/search/cars to search for \"car\" posts."
+* E.g. https://www.tumblr.com/tagged/cars to search for "car" tagged posts, and
+* E.g. https://www.tumblr.com/search/cars to search for "car" posts."
 <br>
 
 ## 1.0.8.75 (2020-07-19)
@@ -490,16 +591,16 @@ This prevents massive seek I/O in large blog downloads, and hence poor (disk) pe
 Cumulative Improvements
 * Allows to add [tumbex urls](https://www.tumbex.com/) via GUI, text, or clipboard.
 * Can open blogs on tumbex.com via the context menu (right mouse click).
-* Can download tumblr photos with non-\tumblr_\"-prefix.
+* Can download tumblr photos with non-"tumblr_"-prefix.
 * You can now choose which tumblr blog scraper you want to use:
   * Tumblr API: The previous default crawler for non-hidden blogs which utilized the Tumblr v1 API, or
   * Tumblr SVC: This service is (was?) used by Tumblr internally for displaying hidden blogs. Using this scraper requires a to be logged in.
 
   You can change the crawler in the details view of each blogs. Using the SVC crawler implementation might be faster if it's not as much rate limited as accessing the site via the official v1 API.
 
-* Can download higher resolution images if available using the SVC crawler. For this, change all your tumblr blogs to use the SVC crawler via the Details Panel -> Crawler -> \"Tumblr SVC\". Set the downloadable image size in the Settings (Settings->Connections) to \"best\". This will download the highest resolution image found.
+* Can download higher resolution images if available using the SVC crawler. For this, change all your tumblr blogs to use the SVC crawler via the Details Panel -> Crawler -> "Tumblr SVC". Set the downloadable image size in the Settings (Settings->Connections) to "best". This will download the highest resolution image found.
 * It's now possible to set a separate rate limit for the SVC crawler in settings->connections.
-* It's now possible to set the default crawler for Tumblr Blogs in the settings in settings->blog. You can choose between \"Tumblr API\" und \"Tumblr SVC\". If you do not tick this checkbox, the default automatic detection will add the blog depending on if it's accessible via the Tumblr API. If it's not, then the SVC crawler will be used as it requires to be logged in (see the notes above for more information on which to pick).
+* It's now possible to set the default crawler for Tumblr Blogs in the settings in settings->blog. You can choose between "Tumblr API" und "Tumblr SVC". If you do not tick this checkbox, the default automatic detection will add the blog depending on if it's accessible via the Tumblr API. If it's not, then the SVC crawler will be used as it requires to be logged in (see the notes above for more information on which to pick).
 * Saves the settings directly after performing changes instead of only on application exit.
 * Import blogs from file."
 <br>
@@ -512,7 +613,7 @@ Scan for non-tumblr photo and video urls
 <br/>
 New in this release:
 * Fixes an application crash if TumblThree cannot agree to the new Tumblr ToS ([#295](https://github.com/johanneszab/TumblThree/issues/295)([#311](https://github.com/johanneszab/TumblThree/issues/311)([#323](https://github.com/johanneszab/TumblThree/issues/323)).
-* TumblThree can now crawl in parallel two different kind of blogs with the same name. For example the \likes\" and the regular blog of the same user ([#296](https://github.com/johanneszab/TumblThree/issues/296)).
+* TumblThree can now crawl in parallel two different kind of blogs with the same name. For example the "likes" and the regular blog of the same user ([#296](https://github.com/johanneszab/TumblThree/issues/296)).
 * Updates German translation (thanks to @fdellwing([#300](https://github.com/johanneszab/TumblThree/issues/300)).
 <br/>
 
@@ -539,7 +640,7 @@ Fixes random parsing error for regular Tumblr blog downloads
 
 * Retries the Tumblr blog api v1 request if the server returns an empty HTTP-200 (OK) answer which resulted in seemingly random parsing errors for regular Tumblr blog downloads ([#280](https://github.com/johanneszab/TumblThree/issues/280)). The maximum retry count is currently set to 3 and can be adjusted by modifying the Settings.json. The corresponding setting is _MaxNumberOfRetries_.
 * Adds an option to set the queue information refresh rate (i.e. how many times it updates at most in micro seconds).
-* Reverts the default Tumblr photo size from _\\_raw_ to 1280px. The code for handling _\\_raws_ is still there, but the default photo size in the TumblThree settings for new Users is set to 1280px again. This currently saves one failed web request per photo download as TumblThree tries to \guess\" the _raw photo url for each photo by just accessing it.
+* Reverts the default Tumblr photo size from _\\_raw_ to 1280px. The code for handling _\\_raws_ is still there, but the default photo size in the TumblThree settings for new Users is set to 1280px again. This currently saves one failed web request per photo download as TumblThree tries to "guess" the _raw photo url for each photo by just accessing it.
 * Checks if there is _\\_files.tumblr_ database for each corresponding _.tumblr_ database at startup.
 * Checks if the _.tumblr_ databases and the corresponding _\\_files.tumblr_ databases are valid at startup.
 
@@ -727,7 +828,7 @@ Download of password protected blogs
     * Downloads inlined photos in photo posts and inlined videos in video posts. I think every inlined photo/video should be covered now. I've excluded scanning for inlined photos in, and only in, photo posts previously to not scan the same photo twice. I also wasn't aware that you can add a photo to a photo post. Same applies to video posts (thanks to anon for pointing this out).
     * Add a separate maximum video connection value in the settings window. Someone has to test if this helps downloading mixed video & photo blogs with mostly video content. If the connection value for videos is set too high, TumblThree might not completely download them, but also not count them as downloaded, since the tumblr video host (vt.tumblr.com) closes all connections if there are too many open for a too long time. But still, one has to re-queue/download them to eventually finish all downloads. Please see [#141](https://github.com/johanneszab/TumblThree/issues/141) for more.
 * New in  v1.0.8.24:
-    * Somewhat \fixes\" the timeout. Thus, if you have a wonky connection that frequently gets interrupted, TumblThree shouldn't stall anymore. The timeout value now counts for the whole connection time regardless of it's state. E.g. if you won't finish downloading a large file (video) within 120 seconds (default) increase the value or the file is truncated. If the release has any side effects since I've had to modify the core webrequest/downloader/crawler code for this, please try the v1.0.8.22 ([#116](https://github.com/johanneszab/TumblThree/issues/116)).
+    * Somewhat "fixes" the timeout. Thus, if you have a wonky connection that frequently gets interrupted, TumblThree shouldn't stall anymore. The timeout value now counts for the whole connection time regardless of it's state. E.g. if you won't finish downloading a large file (video) within 120 seconds (default) increase the value or the file is truncated. If the release has any side effects since I've had to modify the core webrequest/downloader/crawler code for this, please try the v1.0.8.22 ([#116](https://github.com/johanneszab/TumblThree/issues/116)).
 
 _Note:_ Before upgrading, remove the _ColumnSettings_ from the _settings.json_ in _C:\\Users\\YOURUSERNAME\\AppData\\Local\\TumblThree\\Settings\\\\_ or delete the file entirely, otherwise you'll get a _Could not restore ui settings_-error. If you remove the _settings.json_ file, you'll have to reset all your settings afterwards."
 
@@ -761,7 +862,7 @@ Bugfixes & Code Refactoring
 * New in  v1.0.8.9:
     * Updates Chinese translation.
     * Fixes parsing of meta data in hidden blogs.
-    * Fixes bug introduced in v1.0.8.8 which prevented downloading \liked/by\" posts.
+    * Fixes bug introduced in v1.0.8.8 which prevented downloading "liked/by" posts.
 * New in  v1.0.8.10:
     * Improved the selection handling in the details panel. If multiple blogs are selected, old values are now kept if they are the same for all blogs and changes are immediately reflected.
 * New in  v1.0.8.11:
@@ -893,5 +994,5 @@ The initial download process where all the image, video and audio urls are being
 Therefore, this pre-release addresses this new issue by:
 * Adding a rate limiter in the settings. The _Number of connections_ is per _time_ in seconds and might be increased. I've not tested these two values thoroughly, but they work without hitting the limit. [Different solutions](https://github.com/johanneszab/TumblThree/issues/26#issuecomment-282575498) as mention in [#26](https://github.com/johanneszab/TumblThree/issues/26) are faster (e.g. crawl in small batches and start the download immediately) but require more work to properly implement them. Only the initial evaluation period for grabbing the urls and meta information is slowed down. The picture, video and audio download is not impacted.
 * It now shows an error if the api limit was reached. You should lower the limit for the api connections in the settings and re-crawl the specific blog, otherwise not all posts will be downloaded.
-* Brings back some speed by simultaneously accessing the api and immediately downloading the first grabbed image, video and audio urls. So it does not wait for the _\evaluating xxx of xxx post\"_ to finish before starting to download.
+* Brings back some speed by simultaneously accessing the api and immediately downloading the first grabbed image, video and audio urls. So it does not wait for the _"evaluating xxx of xxx post"_ to finish before starting to download.
 * If a blog was successfully downloaded, the newest post id is saved. Upon the next download, only newer posts will be evaluated using the tumblr api, thus finishing the blog more quickly. A full rescan can be forced in the details view."
