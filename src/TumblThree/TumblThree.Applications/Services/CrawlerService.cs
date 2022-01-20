@@ -284,8 +284,6 @@ namespace TumblThree.Applications.Services
             }
 
             ((IEditableCollectionView)Collections).CancelEdit();
-            // "If a cell is currently in edit mode, the CancelEdit method cancels the cell edit, but not any pending row edits." (MSDN)
-            ((IEditableCollectionView)Collections).CancelEdit();
             Collections.Refresh();
             Collection current = _collections.FirstOrDefault(x => x.Id == _shellService.Settings.ActiveCollectionId) ?? _collections.FirstOrDefault(x => x.Id == 0);
             Collections.MoveCurrentTo(current);

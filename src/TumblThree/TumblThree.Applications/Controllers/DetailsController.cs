@@ -179,7 +179,7 @@ namespace TumblThree.Applications.Controllers
                     && db.BlogType.Equals(blog.OriginalBlogType)));
             }
 
-            QueueOnDispatcher.CheckBeginInvokeOnUI(() => _managerService.BlogFiles.Add(blog));
+            _managerService.BlogFiles.Add(blog);
             if (_shellService.Settings.LoadAllDatabases)
             {
                 _managerService.AddDatabase(Files.Load(blog.ChildId));
