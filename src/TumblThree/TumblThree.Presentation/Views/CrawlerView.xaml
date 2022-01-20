@@ -93,7 +93,7 @@
 
             <StackPanel Grid.Column="0" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Margin="5">
                 <Label x:Name="urlLabel" Content="{x:Static p:Resources.BlogUrl}" />
-                <TextBox x:Name="url" Text="{Binding CrawlerService.NewBlogUrl, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="url" MinWidth="150px" Height="20px" Text="{Binding CrawlerService.NewBlogUrl, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Column="1">
