@@ -70,7 +70,7 @@ namespace TumblThree.Applications.Downloader
                         using (var response = await request.GetResponseAsync().TimeoutAfter(settings.TimeOut))
                         {
                             isChunked = response.Headers.ToString().Contains("chunked");
-                            totalBytesToReceive = totalBytesReceived + response.ContentLength;
+                            totalBytesToReceive = totalBytesReceived + (response.ContentLength == -1 ? 0 : response.ContentLength);
 
                             using (var responseStream = response.GetResponseStream())
                             using (var throttledStream = GetStreamForDownload(responseStream))
@@ -91,6 +91,7 @@ namespace TumblThree.Applications.Downloader
                                     //    totalBytesToReceive, (long)currentSpeed));
                                 }
                             }
+                            isChunked = isChunked && response.ContentLength != -1;
                         }
 
                         if (!isChunked && totalBytesReceived >= totalBytesToReceive) break;
