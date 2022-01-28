@@ -403,6 +403,6 @@ Möchten Sie es jetzt herunterladen?</value>
     <value>{0} bereits heruntergeladen, übersprungen ..</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
-    <value>Ein Beitrag von '{0}' war nicht parsbar. Die Einstellung 'Beiträge pro Seite' auf 1 in den Details könnte den herunterladbaren Inhalt erhöhen.</value>
+    <value>Ein Beitrag von '{0}' war nicht parsbar. Ein kleinerer Wert bei 'Beiträge pro Seite' in den Details könnte den herunterladbaren Inhalt erhöhen.</value>
   </data>
 </root>

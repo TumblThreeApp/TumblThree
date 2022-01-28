@@ -397,6 +397,6 @@
 {0}.</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
-    <value>Un mensaje de '{0}' no era analizable. Establecer 'posts por página' a 1 en los Detalles podría aumentar el contenido descargable.</value>
+    <value>No se pudo analizar una publicación de '{0}'. Establecer 'publicaciones por página' en los Detalles a un valor más bajo podría aumentar el contenido descargable.</value>
   </data>
 </root>

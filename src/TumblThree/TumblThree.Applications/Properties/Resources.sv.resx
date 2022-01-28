@@ -330,6 +330,6 @@
 {0}.</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
-    <value>Ett inlägg från "{0}" kunde inte analyseras. Om du ställer in "inlägg per sida" till 1 i detaljerna kan det öka det nedladdningsbara innehållet.</value>
+    <value>Ett inlägg från '{0}' gick inte att analysera. Om du ställer in 'inlägg per sida' i Detaljerna till ett lägre värde kan det hämtningsbara innehållet öka.</value>
   </data>
 </root>

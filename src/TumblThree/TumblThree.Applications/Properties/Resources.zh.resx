@@ -299,9 +299,6 @@
   <data name="PostId" xml:space="preserve">
     <value>Post id: {0}</value>
   </data>
-  <data name="PostNotParsable" xml:space="preserve">
-    <value>'{0}' 的一帖无法解析，在"详细"标签页将"每页帖数"设为1可能会增加可下载的内容。</value>
-  </data>
   <data name="PostUrl" xml:space="preserve">
     <value>Post url: {0}</value>
   </data>
@@ -401,5 +398,8 @@
   </data>
   <data name="SendFeedbackError" xml:space="preserve">
     <value>发送反馈时发生错误。请稍后再试。</value>
+  </data>
+  <data name="PostNotParsable" xml:space="preserve">
+    <value>来自'{0}'的帖子无法解析。 将详细信息中的“每页帖子”设置为较低的值可能会增加可下载内容。</value>
   </data>
 </root>

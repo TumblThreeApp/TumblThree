@@ -333,6 +333,6 @@
 {0}.</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
-    <value>Um post de '{0}' não era parsable. Definir 'posts por página' para 1 nos Detalhes pode aumentar o conteúdo descarregável.</value>
+    <value>Uma postagem de '{0}' não foi analisável. Definir 'postagens por página' nos Detalhes para um valor mais baixo pode aumentar o conteúdo para download.</value>
   </data>
 </root>

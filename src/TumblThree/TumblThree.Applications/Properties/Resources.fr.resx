@@ -400,7 +400,7 @@ Voulez-vous le télécharger maintenant?</value>
 {0}.</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
-    <value>Un message de '{0}' n'a pas pu être analysé. La définition de "posts per page" à 1 dans les détails pourrait augmenter le contenu téléchargeable.</value>
+    <value>Un message de '{0}' n'était pas analysable. La définition de 'messages par page' dans les détails sur une valeur inférieure peut augmenter le contenu téléchargeable.</value>
   </data>
   <data name="PostUrl" xml:space="preserve">
     <value>Post url : {0}</value>

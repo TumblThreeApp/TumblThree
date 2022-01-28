@@ -333,6 +333,6 @@
 {0}.</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
-    <value>Post z '{0}' nie został przetworzony. Ustawienie 'postów na stronę' na 1 w Szczegółach może zwiększyć zawartość do pobrania.</value>
+    <value>Nie można przeanalizować posta z '{0}'. Ustawienie niższej wartości „postów na stronę” w szczegółach może zwiększyć ilość pobieranych treści.</value>
   </data>
 </root>

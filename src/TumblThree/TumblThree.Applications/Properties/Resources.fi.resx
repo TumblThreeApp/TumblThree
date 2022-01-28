@@ -400,6 +400,6 @@ Haluatko ladata sen nyt?</value>
     <value>Lähetä viesti url: {0}</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
-    <value>Viestiä osoitteesta '{0}' ei voitu analysoida. Asettamalla 'viestit per sivu' arvoksi 1 Yksityiskohdissa saatetaan lisätä ladattavan sisällön määrää.</value>
+    <value>Viestiä lähettäjältä '{0}' ei voitu jäsentää. Tietojen julkaisun sivukohtaisen arvon asettaminen pienemmäksi arvoksi saattaa lisätä ladattavaa sisältöä.</value>
   </data>
 </root>
