@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TumblThree.Applications.Downloader
@@ -14,5 +15,7 @@ namespace TumblThree.Applications.Downloader
         Task<string> DownloadPageAsync(string url);
 
         bool CheckIfFileExistsInDB(string filenameUrl);
+
+        void ChangeCancellationToken(CancellationToken ct);
     }
 }

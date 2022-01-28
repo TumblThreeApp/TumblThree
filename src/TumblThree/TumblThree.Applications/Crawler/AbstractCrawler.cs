@@ -36,6 +36,10 @@ namespace TumblThree.Applications.Crawler
         protected IShellService ShellService { get; }
         protected PauseToken Pt { get; }
         protected CancellationToken Ct { get; }
+
+        private readonly CancellationTokenSource InterruptionTokenSource;
+
+        private readonly CancellationTokenSource LinkedTokenSource;
         protected IPostQueue<AbstractPost> PostQueue { get; }
         protected ConcurrentBag<TumblrPost> StatisticsBag { get; set; } = new ConcurrentBag<TumblrPost>();
         protected List<string> Tags { get; set; } = new List<string>();
@@ -55,7 +59,10 @@ namespace TumblThree.Applications.Crawler
             Downloader = downloader;
             Progress = progress;
             Pt = pt;
-            Ct = ct;
+            // TODO: Find a better way for this construct
+            InterruptionTokenSource = new CancellationTokenSource();
+            LinkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(ct, InterruptionTokenSource.Token);
+            Ct = LinkedTokenSource.Token;
         }
 
         public virtual async Task UpdateMetaInformationAsync()
@@ -100,6 +107,11 @@ namespace TumblThree.Applications.Crawler
                 Progress = string.Format(CultureInfo.CurrentCulture, format, args)
             };
             Progress.Report(newProgress);
+        }
+
+        public void InterruptionRequestedEventHandler(object sender, EventArgs e)
+        {
+            InterruptionTokenSource.Cancel();
         }
 
         protected async Task<T> ThrottleConnectionAsync<T>(string url, Func<string, Task<T>> method)

@@ -263,6 +263,7 @@ namespace TumblThree.Applications.Controllers
             try
             {
                 crawler = _crawlerFactory.GetCrawler(blog, progress, pt, ct);
+                queueListItem.InterruptionRequested += crawler.InterruptionRequestedEventHandler;
                 await crawler.CrawlAsync();
                 blog.UpdateProgress(true);
             }
@@ -275,6 +276,10 @@ namespace TumblThree.Applications.Controllers
             }
             finally
             {
+                if (crawler != null)
+                {
+                    queueListItem.InterruptionRequested -= crawler.InterruptionRequestedEventHandler;
+                }
                 crawler?.Dispose();
             }
 

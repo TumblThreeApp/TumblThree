@@ -10,6 +10,8 @@ namespace TumblThree.Domain.Queue
     {
         private string progress;
 
+        public event EventHandler InterruptionRequested;
+
         public QueueListItem(IBlog blog)
         {
             Blog = blog;
@@ -21,6 +23,12 @@ namespace TumblThree.Domain.Queue
         {
             get => progress;
             set => SetProperty(ref progress, value);
+        }
+
+        public void RequestInterruption()
+        {
+            EventHandler handler = InterruptionRequested;
+            handler?.Invoke(this, EventArgs.Empty);
         }
     }
 }

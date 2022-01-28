@@ -21,7 +21,7 @@ namespace TumblThree.Applications.Downloader
         private readonly ICrawlerService _crawlerService;
         private readonly IPostQueue<CrawlerData<XDocument>> _xmlQueue;
         private readonly IShellService _shellService;
-        private readonly CancellationToken _ct;
+        private CancellationToken _ct;
         private readonly PauseToken _pt;
 
         public TumblrXmlDownloader(IShellService shellService, PauseToken pt, IPostQueue<CrawlerData<XDocument>> xmlQueue, ICrawlerService crawlerService, IBlog blog, CancellationToken ct)
@@ -64,6 +64,11 @@ namespace TumblThree.Applications.Downloader
             }
 
             await Task.WhenAll(trackedTasks);
+        }
+
+        public void ChangeCancellationToken(CancellationToken ct)
+        {
+            this._ct = ct;
         }
 
         private async Task DownloadPostAsync(CrawlerData<XDocument> downloadItem)

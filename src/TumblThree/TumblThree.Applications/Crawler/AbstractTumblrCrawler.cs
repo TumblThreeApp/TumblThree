@@ -27,6 +27,8 @@ namespace TumblThree.Applications.Crawler
     {
         private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
 
+        protected readonly ICrawlerDataDownloader crawlerDataDownloader;
+
         public ITumblrParser TumblrParser { get; }
 
         public IImgurParser ImgurParser { get; }
@@ -48,9 +50,12 @@ namespace TumblThree.Applications.Crawler
         protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
             ITumblrParser tumblrParser, IImgurParser imgurParser, IGfycatParser gfycatParser, IWebmshareParser webmshareParser,
             IMixtapeParser mixtapeParser, IUguuParser uguuParser, ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser,
-            ICatBoxParser catboxParser, IPostQueue<AbstractPost> postQueue, IBlog blog, IDownloader downloader, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            ICatBoxParser catboxParser, IPostQueue<AbstractPost> postQueue, IBlog blog, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
+            IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, progress, webRequestFactory, cookieService, postQueue, blog, downloader, pt, ct)
         {
+            this.crawlerDataDownloader = crawlerDataDownloader;
+            this.crawlerDataDownloader?.ChangeCancellationToken(Ct);
             this.TumblrParser = tumblrParser;
             this.ImgurParser = imgurParser;
             this.GfycatParser = gfycatParser;
@@ -225,6 +230,9 @@ namespace TumblThree.Applications.Crawler
 
             foreach (string imageUrl in TumblrParser.SearchForTumblrPhotoUrl(text))
             {
+                if (CheckIfShouldStop()) { return; }
+                CheckIfShouldPause();
+
                 string url = imageUrl;
                 if (CheckIfSkipGif(url)) { continue; }
 
@@ -391,11 +399,16 @@ namespace TumblThree.Applications.Crawler
                     request.Accept = "text/html, application/xhtml+xml, */*";
                     request.UserAgent = ShellService.Settings.UserAgent;
                     request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-                    pageContent = WebRequestFactory.ReadRequestToEndAsync(request).GetAwaiter().GetResult();
+                    using (Ct.Register(() => request.Abort()))
+                    {
+                        pageContent = WebRequestFactory.ReadRequestToEndAsync(request).GetAwaiter().GetResult();
+                    }
                     errCnt = 9;
                 }
                 catch (WebException we)
                 {
+                    if (we.Status == WebExceptionStatus.RequestCanceled)
+                        throw new NullReferenceException("RetrieveOriginalImageUrl request cancelled");
                     if (we.Response != null && ((HttpWebResponse)we.Response).StatusCode == HttpStatusCode.NotFound)
                         return url;
                 }

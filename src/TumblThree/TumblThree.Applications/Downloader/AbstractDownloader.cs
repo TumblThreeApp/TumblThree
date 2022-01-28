@@ -27,7 +27,7 @@ namespace TumblThree.Applications.Downloader
         protected readonly object lockObjectDownload = new object();
         protected readonly IPostQueue<AbstractPost> postQueue;
         protected readonly IShellService shellService;
-        protected readonly CancellationToken ct;
+        protected CancellationToken ct;
         protected readonly PauseToken pt;
         protected readonly FileDownloader fileDownloader;
         private readonly string[] suffixes = { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".heif", ".heic", ".webp" };
@@ -66,6 +66,11 @@ namespace TumblThree.Applications.Downloader
                 Progress = string.Format(CultureInfo.CurrentCulture, format, args)
             };
             progress.Report(newProgress);
+        }
+
+        public void ChangeCancellationToken(CancellationToken ct)
+        {
+            this.ct = ct;
         }
 
         protected virtual string GetCoreImageUrl(string url)

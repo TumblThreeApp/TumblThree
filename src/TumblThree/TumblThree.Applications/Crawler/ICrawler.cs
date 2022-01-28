@@ -10,5 +10,7 @@ namespace TumblThree.Applications.Crawler
         Task IsBlogOnlineAsync();
 
         Task UpdateMetaInformationAsync();
+
+        void InterruptionRequestedEventHandler(object sender, EventArgs e);
     }
 }

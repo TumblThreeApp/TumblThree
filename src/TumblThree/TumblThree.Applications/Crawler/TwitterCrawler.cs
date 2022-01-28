@@ -58,8 +58,10 @@ namespace TumblThree.Applications.Crawler
             : base(shellService, crawlerService, progress, webRequestFactory, cookieService, postQueue, blog, downloader, pt, ct)
         {
             this.downloader = downloader;
+            this.downloader.ChangeCancellationToken(Ct);
             this.jsonQueue = jsonQueue;
             this.crawlerDataDownloader = crawlerDataDownloader;
+            this.crawlerDataDownloader.ChangeCancellationToken(Ct);
         }
 
         public override async Task IsBlogOnlineAsync()
@@ -616,6 +618,8 @@ namespace TumblThree.Applications.Crawler
                 Tweet post = document.GlobalObjects.Tweets[entry.Content.Item.Content.Tweet.Id];
                 try
                 {
+                    if (CheckIfShouldStop()) { break; }
+                    CheckIfShouldPause();
                     if (lastPostId > 0 && ulong.TryParse(post.IdStr, out var postId) && postId < lastPostId) { continue; }
                     if (!PostWithinTimeSpan(post)) { continue; }
                     if (!CheckIfContainsTaggedPost(post)) { continue; }

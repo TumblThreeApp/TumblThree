@@ -23,7 +23,7 @@ namespace TumblThree.Applications.Downloader
         private readonly ICrawlerService crawlerService;
         private readonly IPostQueue<CrawlerData<T>> jsonQueue;
         private readonly IShellService shellService;
-        private readonly CancellationToken ct;
+        private CancellationToken ct;
         private readonly PauseToken pt;
 
         public JsonDownloader(IShellService shellService, PauseToken pt, IPostQueue<CrawlerData<T>> jsonQueue,
@@ -67,6 +67,11 @@ namespace TumblThree.Applications.Downloader
             }
 
             await Task.WhenAll(trackedTasks);
+        }
+
+        public void ChangeCancellationToken(CancellationToken ct)
+        {
+            this.ct = ct;
         }
 
         private async Task DownloadPostAsync(CrawlerData<T> downloadItem)

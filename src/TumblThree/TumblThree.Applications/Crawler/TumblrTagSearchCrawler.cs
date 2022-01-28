@@ -32,7 +32,6 @@ namespace TumblThree.Applications.Crawler
 
         private readonly IDownloader downloader;
         private readonly IPostQueue<CrawlerData<Datum>> jsonQueue;
-        private readonly ICrawlerDataDownloader crawlerDataDownloader;
 
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
@@ -45,11 +44,10 @@ namespace TumblThree.Applications.Crawler
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
             IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Datum>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, progress, pt, ct)
+                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader, progress, pt, ct)
         {
             this.downloader = downloader;
             this.jsonQueue = jsonQueue;
-            this.crawlerDataDownloader = crawlerDataDownloader;
         }
 
         public async Task CrawlAsync()

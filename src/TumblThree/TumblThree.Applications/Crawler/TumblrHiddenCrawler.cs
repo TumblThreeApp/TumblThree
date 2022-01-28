@@ -29,7 +29,6 @@ namespace TumblThree.Applications.Crawler
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
         private readonly IPostQueue<CrawlerData<Post>> jsonQueue;
-        private readonly ICrawlerDataDownloader crawlerDataDownloader;
 
         private string tumblrKey = string.Empty;
 
@@ -47,13 +46,12 @@ namespace TumblThree.Applications.Crawler
             ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
             IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Post>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, progress, pt,
+                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader, progress, pt,
                 ct)
         {
             this.downloader = downloader;
             this.tumblrJsonParser = tumblrJsonParser;
             this.jsonQueue = jsonQueue;
-            this.crawlerDataDownloader = crawlerDataDownloader;
         }
 
         public override async Task IsBlogOnlineAsync()
@@ -371,6 +369,8 @@ namespace TumblThree.Applications.Crawler
                     var lastPostId = GetLastPostId();
                     foreach (Post post in response.Response.Posts)
                     {
+                        if (CheckIfShouldStop()) { break; }
+                        CheckIfShouldPause();
                         if (lastPostId > 0 && ulong.TryParse(post.Id, out var postId) && postId < lastPostId) { continue; }
                         if (!PostWithinTimeSpan(post)) { continue; }
                         if (!CheckIfContainsTaggedPost(post)) { continue; }

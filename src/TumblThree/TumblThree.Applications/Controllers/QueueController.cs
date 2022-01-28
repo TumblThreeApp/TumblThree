@@ -109,6 +109,11 @@ namespace TumblThree.Applications.Controllers
             QueueListItem[] queueItemsToExclude = QueueViewModel.SelectedQueueItems.Except(new[] { QueueViewModel.SelectedQueueItem }).ToArray();
             QueueListItem nextQueueItem = CollectionHelper.GetNextElementOrDefault(QueueManager.Items.Except(queueItemsToExclude).ToArray(), QueueViewModel.SelectedQueueItem);
 
+            foreach (var item in QueueViewModel.SelectedQueueItems)
+            {
+                item.RequestInterruption();
+            }
+
             QueueManager.RemoveItems(QueueViewModel.SelectedQueueItems);
             QueueViewModel.SelectedQueueItem = nextQueueItem ?? QueueManager.Items.LastOrDefault();
         }
