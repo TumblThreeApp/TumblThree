@@ -236,11 +236,11 @@ namespace TumblThree.Applications.Crawler
                 string url = imageUrl;
                 if (CheckIfSkipGif(url)) { continue; }
 
-                url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
-
                 var matchesNewFormat = Regex.Match(url, "media.tumblr.com/([A-Za-z0-9_/:.-]*)/s([0-9]*)x([0-9]*)");
                 if (matchesNewFormat.Success)
                 {
+                    url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
+                    matchesNewFormat = Regex.Match(url, "media.tumblr.com/([A-Za-z0-9_/:.-]*)/s([0-9]*)x([0-9]*)");
                     string id = matchesNewFormat.Groups[1].Value;
                     int width = int.Parse(matchesNewFormat.Groups[2].Value);
                     int height = int.Parse(matchesNewFormat.Groups[3].Value);
@@ -251,9 +251,9 @@ namespace TumblThree.Applications.Crawler
                 else
                 {
                     url = ResizeTumblrImageUrl(url);
+                    url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
                     AddPhotoToDownloadList(url, post);
                 }
-
             }
 
             foreach(string url in photosToDownload.GetUrls())
@@ -376,7 +376,8 @@ namespace TumblThree.Applications.Crawler
             if (width > height) { (width, height) = (height, width); }
             if (ShellService.Settings.ImageSize != "best"
                 || !isInline && !url.Contains("/s1280x1920/")
-                || (width <= 1280 && height <= 1920)) { return url; }
+                || (width <= 1280 && height <= 1920) 
+                || isInline && !new Regex(@"\/s[\d]{2,4}x[\d]{2,4}\/").IsMatch(url)) { return url; }
 
             if (isInline)
             {
