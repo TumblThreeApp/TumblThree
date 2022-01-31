@@ -6,12 +6,10 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using TumblThree.Applications.Converter;
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.DataModels.TumblrApiJson;
 using TumblThree.Applications.DataModels.CrawlerData;
 using TumblThree.Applications.DataModels.TumblrPosts;
-using TumblThree.Applications.DataModels.TumblrSearchJson;
 using TumblThree.Applications.Downloader;
 using TumblThree.Applications.Parser;
 using TumblThree.Applications.Properties;
@@ -22,6 +20,7 @@ using System.Dynamic;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Web;
 
 namespace TumblThree.Applications.Crawler
 {
@@ -136,7 +135,7 @@ namespace TumblThree.Applications.Crawler
                     nextUrl = result.apiUrl + result.SearchRoute.searchApiResponse.response.posts.links.next.href;
                     bearerToken = result.apiFetchStore.API_TOKEN;
 
-                    DownloadMedia(result.SearchRoute.searchApiResponse);
+                    DownloadPage(result.SearchRoute.searchApiResponse);
                 }
                 else
                 {
@@ -156,7 +155,7 @@ namespace TumblThree.Applications.Crawler
                     nextUrl = result.apiUrl + result.SearchRoute.timelines.post.response.timeline.links.next.href;
                     bearerToken = result.apiFetchStore.API_TOKEN;
 
-                    DownloadMedia(result.SearchRoute.timelines.post);
+                    DownloadPage(result.SearchRoute.timelines.post);
                 }
                 while (true)
                 {
@@ -165,7 +164,7 @@ namespace TumblThree.Applications.Crawler
 
                     document = await GetRequestAsync(nextUrl, bearerToken);
                     dynamic apiresult = JsonConvert.DeserializeObject<ExpandoObject>(document, new ExpandoObjectConverter());
-                    DownloadMedia(apiresult);
+                    DownloadPage(apiresult);
 
                     if (!HasProperty(apiresult.response, "timelines"))
                     {
@@ -215,7 +214,7 @@ namespace TumblThree.Applications.Crawler
             return objType.GetProperty(name) != null;
         }
 
-        private void DownloadMedia(dynamic page)
+        private void DownloadPage(dynamic page)
         {
             try
             {
@@ -234,10 +233,12 @@ namespace TumblThree.Applications.Crawler
                         {
                             continue;
                         }
+                        Post data = null;
+                        var countImagesVideos = CountImagesAndVideos((IEnumerable<dynamic>)post.content);
                         int index = -1;
                         foreach (var content in (IEnumerable<dynamic>)post.content)
                         {
-                            Post data = new Post()
+                            data = new Post()
                             {
                                 Date = DateTimeOffset.FromUnixTimeSeconds(post.timestamp).DateTime.ToString("yyyyMMddHHmmss"),
                                 Type = ConvertContentTypeToPostType(content.type),
@@ -251,9 +252,12 @@ namespace TumblThree.Applications.Crawler
                                 Tumblelog = new TumbleLog2() { Name = HasProperty(post, "blog_name") ? post.blog_name : post.blogName },
                                 UrlWithSlug = HasProperty(post, "post_url") ? post.post_url : post.postUrl
                             };
-                            index += (post.content.Count > 1) ? 1 : 0;
+                            index += (countImagesVideos > 1) ? 1 : 0;
                             DownloadMedia(content, data, index);
+                            AddInlinePhotoUrl(post, content, data);
+                            AddInlineVideoUrl(post, content, data);
                         }
+                        DownloadText(post, data);
                         string postData = JsonConvert.SerializeObject(post);
                         AddToJsonQueue(new CrawlerData<string>(Path.ChangeExtension(post.id, ".json"), postData));
                     }
@@ -272,6 +276,60 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
+        private static string InlineSearch(dynamic post, dynamic content)
+        {
+            string text = HasProperty(post, "summary") ? (string)post.summary + " " : " ";
+
+            if (content.type == "video")
+            {
+                text += HttpUtility.UrlDecode(content.embedHtml);
+            }
+            else if (content.type == "text")
+            {
+                text += content.text;
+            }
+
+            return text;
+        }
+
+        private void AddInlinePhotoUrl(dynamic post, dynamic content, Post data)
+        {
+            if (!Blog.DownloadPhoto) return;
+
+            string text = InlineSearch(post, content);
+
+            AddTumblrPhotoUrl(text, data);
+
+            if (Blog.RegExPhotos)
+            {
+                AddGenericPhotoUrl(text, data);
+            }
+        }
+
+        private void AddInlineVideoUrl(dynamic post, dynamic content, Post data)
+        {
+            if (!Blog.DownloadVideo) return;
+
+            string text = InlineSearch(post, content);
+
+            AddTumblrVideoUrl(text, data);
+
+            if (Blog.RegExVideos)
+            {
+                AddGenericVideoUrl(text, data);
+            }
+        }
+
+        private static int CountImagesAndVideos(IEnumerable<dynamic> list)
+        {
+            var count = 0;
+            foreach (var content in list)
+            {
+                count += (content.type == "image" || content.type == "video") ? 1 : 0;
+            }
+            return count;
+        }
+
         private bool CheckIfWithinTimespan(long pagination)
         {
             if (string.IsNullOrEmpty(Blog.DownloadFrom))
@@ -285,6 +343,24 @@ namespace TumblThree.Applications.Crawler
             return pagination >= dateTimeOffset.ToUnixTimeSeconds();
         }
 
+        private void DownloadText(dynamic dynPost, Post post)
+        {
+            if (Blog.DownloadText && dynPost.originalType == "regular")
+            {
+                string text = "";
+                foreach (var content in (IEnumerable<dynamic>)dynPost.content)
+                {
+                    if (content.type == "text")
+                    {
+                        text += content.text + Environment.NewLine;
+                    }
+                }
+                post.RegularBody = text;
+                string textBody = tumblrJsonParser.ParseText(post);
+                AddToDownloadList(new TextPost(textBody, post.Id, post.UnixTimestamp.ToString()));
+            }
+        }
+
         private void DownloadMedia(dynamic content, Post post, int index)
         {
             string type = content.type;
@@ -294,37 +370,36 @@ namespace TumblThree.Applications.Crawler
                 return;
             if (CheckIfSkipGif(url))
                 return;
-            if (type == "text")
-            {
-                if (Blog.DownloadText)
-                {
-                    string textBody = tumblrJsonParser.ParseText(post);
-                    AddToDownloadList(new TextPost(textBody, post.Id, post.UnixTimestamp.ToString()));
-                }
-            }
-            else if (type == "video")
+            if (type == "video")
             {
                 if (Blog.DownloadPhoto)
                 {
-                    var thumbnailUrl = content.poster?[0].url;
-                    AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, index)));
+                    if (content.provider == "tumblr" || Blog.RegExPhotos)
+                    {
+                        string thumbnailUrl = content.poster?[0].url;
+                        AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, index)));
+                    }
                 }
                 // can only download preview image for non-tumblr (embedded) video posts
-                if (Blog.DownloadVideo && url.Contains("tumblr.com/"))
+                if (Blog.DownloadVideo && content.provider == "tumblr")
                     AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
             }
             else if (type == "audio")
             {
-                if (Blog.DownloadAudio && url.Contains("tumblr.com/"))
+                if (Blog.DownloadAudio && content.provider == "tumblr")
                 {
+                    url = url.IndexOf("?") > -1 ? url.Substring(0, url.IndexOf("?")) : url;
                     AddToDownloadList(new AudioPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
                 }
             }
-            else
+            else if (type == "image")
             {
                 if (Blog.DownloadPhoto)
                 {
-                    url = RetrieveOriginalImageUrl(url, 2000, 3000, false);
+                    if (url.Contains("tumblr.com/"))
+                    {
+                        url = RetrieveOriginalImageUrl(url, 2000, 3000, false);
+                    }
                     AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
                 }
             }
