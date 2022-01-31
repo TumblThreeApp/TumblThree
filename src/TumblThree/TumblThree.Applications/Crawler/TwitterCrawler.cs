@@ -31,7 +31,7 @@ namespace TumblThree.Applications.Crawler
     {
         private const string twitterDateTemplate = "ddd MMM dd HH:mm:ss +ffff yyyy";
         private const string graphQlTokenUserByScreenName = "esn6mjj-y68fNAj45x5IYA";
-        private const string BearerToken = "AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA";
+        private const string BearerToken = "AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
 
         private readonly IDownloader downloader;
         private readonly IPostQueue<CrawlerData<Tweet>> jsonQueue;
