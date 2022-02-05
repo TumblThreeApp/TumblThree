@@ -557,7 +557,7 @@ namespace TumblThree.Applications.Properties
             BlogType = "None";
             CheckClipboard = true;
             ShowPicturePreview = true;
-            DisplayConfirmationDialog = false;
+            DisplayConfirmationDialog = true;
             DeleteOnlyIndex = true;
             ArchiveIndex = false;
             CheckOnlineStatusOnStartup = false;
