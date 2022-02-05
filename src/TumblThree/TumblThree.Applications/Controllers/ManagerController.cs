@@ -818,9 +818,8 @@ namespace TumblThree.Applications.Controllers
                 AddToManager(blog);
                 try
                 {
-                    var ecv = ((IEditableCollectionView)_managerService.BlogFilesView);
+                    var ecv = (IEditableCollectionView)_managerService.BlogFilesView;
                     if (ecv.IsAddingNew) ecv.CancelNew();
-                    if (ecv.IsEditingItem) ecv.CancelEdit();
                     _managerService.BlogFilesView.Refresh();
                 }
                 catch (Exception e)

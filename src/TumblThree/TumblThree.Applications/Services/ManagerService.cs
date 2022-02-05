@@ -42,9 +42,8 @@ namespace TumblThree.Applications.Services
         {
             try
             {
-                var ecv = ((IEditableCollectionView)blogFilesView);
+                var ecv = (IEditableCollectionView)blogFilesView;
                 if (ecv.IsAddingNew) ecv.CancelNew();
-                if (ecv.IsEditingItem) ecv.CancelEdit();
                 blogFilesView.Refresh();
             }
             catch (Exception ex)
