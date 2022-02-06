@@ -91,7 +91,7 @@ namespace TumblThree.Applications.Downloader
                                     //    totalBytesToReceive, (long)currentSpeed));
                                 }
                             }
-                            isChunked = isChunked && response.ContentLength != -1;
+                            isChunked = isChunked && response.Headers.ToString().Contains("Content-Range");
                         }
 
                         if (!isChunked && totalBytesReceived >= totalBytesToReceive) break;
