@@ -11,5 +11,7 @@ namespace TumblThree.Applications.Crawler
         Task<bool> IsTumblrBlogAsync(string url);
 
         Task<bool> IsTumblrBlogWithCustomDomainAsync(string url);
+
+        Task<string> GetUrlRedirection(string url);
     }
 }

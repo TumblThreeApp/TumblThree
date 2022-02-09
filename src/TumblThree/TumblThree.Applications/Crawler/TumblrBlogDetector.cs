@@ -49,7 +49,7 @@ namespace TumblThree.Applications.Crawler
             return page.Contains("tumblr://x-callback-url/blog?blogName=");
         }
 
-        private async Task<string> GetUrlRedirection(string url)
+        public async Task<string> GetUrlRedirection(string url)
         {
             HttpWebRequest request = webRequestFactory.CreateGetRequest(url);
             cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));

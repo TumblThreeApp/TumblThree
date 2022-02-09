@@ -28,16 +28,18 @@ namespace TumblThree.Applications.Crawler
         private readonly IManagerService managerService;
         private readonly IShellService shellService;
         private readonly ISharedCookieService cookieService;
+        private readonly ITumblrBlogDetector tumblrBlogDetector;
         private readonly AppSettings settings;
 
         [ImportingConstructor]
         internal CrawlerFactory(ICrawlerService crawlerService, IManagerService managerService, ShellService shellService,
-            ISharedCookieService cookieService)
+            ISharedCookieService cookieService, ITumblrBlogDetector tumblrBlogDetector)
         {
             this.crawlerService = crawlerService;
             this.managerService = managerService;
             this.shellService = shellService;
             this.cookieService = cookieService;
+            this.tumblrBlogDetector = tumblrBlogDetector;
             settings = shellService.Settings;
         }
 
@@ -68,7 +70,7 @@ namespace TumblThree.Applications.Crawler
             {
                 case BlogTypes.tumblr:
                     IPostQueue<CrawlerData<Post>> jsonApiQueue = GetJsonQueue<Post>();
-                    return new TumblrBlogCrawler(shellService, crawlerService, webRequestFactory, cookieService,
+                    return new TumblrBlogCrawler(shellService, crawlerService, webRequestFactory, cookieService, tumblrBlogDetector,
                         GetTumblrDownloader(progress, blog, files, postQueue, pt, ct), GetJsonDownloader(jsonApiQueue, blog, pt, ct),
                         GetTumblrApiJsonToTextParser(blog), GetTumblrParser(), imgurParser, gfycatParser, GetWebmshareParser(),
                         GetMixtapeParser(), GetUguuParser(), GetSafeMoeParser(), GetLoliSafeParser(), GetCatBoxParser(), postQueue,

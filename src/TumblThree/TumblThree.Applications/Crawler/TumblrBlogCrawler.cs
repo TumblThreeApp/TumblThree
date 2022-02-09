@@ -31,9 +31,12 @@ namespace TumblThree.Applications.Crawler
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
         private readonly IPostQueue<CrawlerData<Post>> jsonQueue;
+        private readonly ITumblrBlogDetector tumblrBlogDetector;
 
         private bool completeGrab = true;
         private bool incompleteCrawl = false;
+
+        private bool isHiddenTumblrBlog = false;
 
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
@@ -41,7 +44,7 @@ namespace TumblThree.Applications.Crawler
         private int numberOfPagesCrawled;
 
         public TumblrBlogCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
-            ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
+            ISharedCookieService cookieService, ITumblrBlogDetector tumblrBlogDetector, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
             ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser,
             IUguuParser uguuParser, ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
@@ -54,10 +57,19 @@ namespace TumblThree.Applications.Crawler
             this.downloader.ChangeCancellationToken(Ct);
             this.tumblrJsonParser = tumblrJsonParser;
             this.jsonQueue = jsonQueue;
+            this.tumblrBlogDetector = tumblrBlogDetector;
         }
 
         public override async Task IsBlogOnlineAsync()
         {
+            isHiddenTumblrBlog = await tumblrBlogDetector.IsHiddenTumblrBlogAsync(Blog.Url);
+
+            if (isHiddenTumblrBlog)
+            {
+                Blog.BlogType = Domain.Models.BlogTypes.tmblrpriv;
+                Blog.Online = true;
+                Blog.Url = await tumblrBlogDetector.GetUrlRedirection(Blog.Url);
+            }
             try
             {
                 await GetApiPageWithRetryAsync(0);
@@ -76,6 +88,12 @@ namespace TumblThree.Applications.Crawler
                 }
                 else if (HandleLimitExceededWebException(webException))
                 {
+                    Blog.Online = true;
+                }
+                else if (isHiddenTumblrBlog)
+                {
+                    Logger.Error("TumblrBlogCrawler:IsBlogOnlineAsync:WebException {0}", "User not logged in");
+                    ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
                     Blog.Online = true;
                 }
                 else
