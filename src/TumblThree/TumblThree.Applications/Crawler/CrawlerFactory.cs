@@ -32,7 +32,7 @@ namespace TumblThree.Applications.Crawler
 
         [ImportingConstructor]
         internal CrawlerFactory(ICrawlerService crawlerService, IManagerService managerService, ShellService shellService,
-            ISharedCookieService cookieService, ITumblrBlogDetector tumblrBlogDetector)
+            ISharedCookieService cookieService)
         {
             this.crawlerService = crawlerService;
             this.managerService = managerService;
