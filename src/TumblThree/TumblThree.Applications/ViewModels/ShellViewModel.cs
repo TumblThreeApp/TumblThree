@@ -7,6 +7,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
 using System.Waf.Applications;
+using System.Windows.Data;
 using System.Windows.Input;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
@@ -47,6 +48,7 @@ namespace TumblThree.Applications.ViewModels
             _showSettingsCommand = new DelegateCommand(ShowSettingsView);
             _showAboutCommand = new DelegateCommand(ShowAboutView);
 
+            QueueOnDispatcher.CheckBeginInvokeOnUI(() => BindingOperations.EnableCollectionSynchronization(Errors, _errorsLock));
             _errors.CollectionChanged += ErrorsCollectionChanged;
             view.Closed += ViewClosed;
 
