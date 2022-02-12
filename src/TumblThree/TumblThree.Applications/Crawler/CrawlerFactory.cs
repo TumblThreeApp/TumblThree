@@ -70,7 +70,7 @@ namespace TumblThree.Applications.Crawler
             {
                 case BlogTypes.tumblr:
                     IPostQueue<CrawlerData<Post>> jsonApiQueue = GetJsonQueue<Post>();
-                    return new TumblrBlogCrawler(shellService, crawlerService, webRequestFactory, cookieService, tumblrBlogDetector,
+                    return new TumblrBlogCrawler(shellService, crawlerService, webRequestFactory, cookieService,
                         GetTumblrDownloader(progress, blog, files, postQueue, pt, ct), GetJsonDownloader(jsonApiQueue, blog, pt, ct),
                         GetTumblrApiJsonToTextParser(blog), GetTumblrParser(), imgurParser, gfycatParser, GetWebmshareParser(),
                         GetMixtapeParser(), GetUguuParser(), GetSafeMoeParser(), GetLoliSafeParser(), GetCatBoxParser(), postQueue,
