@@ -28,7 +28,6 @@ namespace TumblThree.Applications.Crawler
         private readonly IManagerService managerService;
         private readonly IShellService shellService;
         private readonly ISharedCookieService cookieService;
-        private readonly ITumblrBlogDetector tumblrBlogDetector;
         private readonly AppSettings settings;
 
         [ImportingConstructor]
