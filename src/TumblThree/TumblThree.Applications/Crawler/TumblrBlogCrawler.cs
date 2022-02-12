@@ -31,7 +31,6 @@ namespace TumblThree.Applications.Crawler
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
         private readonly IPostQueue<CrawlerData<Post>> jsonQueue;
-        private readonly ITumblrBlogDetector tumblrBlogDetector;
 
         private bool completeGrab = true;
         private bool incompleteCrawl = false;
