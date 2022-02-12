@@ -478,7 +478,9 @@ namespace TumblThree.Applications.Controllers
         {
             await semaphoreSlim.WaitAsync();
             ICrawler crawler = null;
-            bool isHiddenTumblrBlog = await _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url);
+            bool isHiddenTumblrBlog = false;
+            if (blog.BlogType == BlogTypes.tumblr)
+                isHiddenTumblrBlog = await _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url);
             if (isHiddenTumblrBlog)
                 blog.BlogType = BlogTypes.tmblrpriv;
             try
