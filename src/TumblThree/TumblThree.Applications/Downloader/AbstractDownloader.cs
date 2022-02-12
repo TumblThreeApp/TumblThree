@@ -32,7 +32,7 @@ namespace TumblThree.Applications.Downloader
         protected readonly FileDownloader fileDownloader;
         private readonly string[] suffixes = { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".heif", ".heic", ".webp" };
         private Timer _saveTimer;
-        private bool _disposed;
+        private volatile bool _disposed;
         private const int SAVE_TIMESPAN_SECS = 120;
 
         private SemaphoreSlim concurrentConnectionsSemaphore;
