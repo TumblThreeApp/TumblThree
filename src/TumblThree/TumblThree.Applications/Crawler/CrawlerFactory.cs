@@ -38,7 +38,6 @@ namespace TumblThree.Applications.Crawler
             this.managerService = managerService;
             this.shellService = shellService;
             this.cookieService = cookieService;
-            this.tumblrBlogDetector = tumblrBlogDetector;
             settings = shellService.Settings;
         }
 
