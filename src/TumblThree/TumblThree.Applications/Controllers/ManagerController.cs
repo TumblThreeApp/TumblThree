@@ -478,6 +478,11 @@ namespace TumblThree.Applications.Controllers
         {
             await semaphoreSlim.WaitAsync();
             ICrawler crawler = null;
+            bool isHiddenTumblrBlog = false;
+            if (blog.BlogType == BlogTypes.tumblr)
+                isHiddenTumblrBlog = await _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url);
+            if (isHiddenTumblrBlog)
+                blog.BlogType = BlogTypes.tmblrpriv;
             try
             {
                 crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), new PauseToken(), new CancellationToken());

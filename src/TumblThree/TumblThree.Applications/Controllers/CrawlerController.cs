@@ -11,6 +11,7 @@ using TumblThree.Applications.DataModels;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Domain;
+using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
 
@@ -22,6 +23,7 @@ namespace TumblThree.Applications.Controllers
         private readonly ICrawlerFactory _crawlerFactory;
         private readonly ICrawlerService _crawlerService;
         private readonly Lazy<CrawlerViewModel> _crawlerViewModel;
+        private readonly ITumblrBlogDetector _tumblrBlogDetector;
         private readonly IManagerService _managerService;
         private readonly IShellService _shellService;
 
@@ -37,12 +39,13 @@ namespace TumblThree.Applications.Controllers
 
         [ImportingConstructor]
         public CrawlerController(IShellService shellService, IManagerService managerService, ICrawlerService crawlerService,
-            ICrawlerFactory crawlerFactory, Lazy<CrawlerViewModel> crawlerViewModel)
+            ICrawlerFactory crawlerFactory, Lazy<CrawlerViewModel> crawlerViewModel, ITumblrBlogDetector tumblrBlogDetector)
         {
             _shellService = shellService;
             _managerService = managerService;
             _crawlerService = crawlerService;
             _crawlerViewModel = crawlerViewModel;
+            _tumblrBlogDetector = tumblrBlogDetector;
             _crawlerFactory = crawlerFactory;
             _crawlCommand = new AsyncDelegateCommand(SetupCrawlAsync, CanCrawl);
             _pauseCommand = new DelegateCommand(Pause, CanPause);
@@ -205,7 +208,11 @@ namespace TumblThree.Applications.Controllers
                             continue;
                         }
                         IBlog blog = nextQueueItem.Blog;
-
+            bool isHiddenTumblrBlog = false;
+            if (blog.BlogType == BlogTypes.tumblr)
+                isHiddenTumblrBlog = await _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url);
+                        if (isHiddenTumblrBlog)
+                            blog.BlogType = BlogTypes.tmblrpriv;
                         var privacyConsentNeeded = false;
                         ICrawler crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), pt, ct);
                         try
