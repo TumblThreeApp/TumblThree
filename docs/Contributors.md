@@ -30,6 +30,7 @@ People are giving themselves and their free time to contribute to our project in
 * [arrowsmith001](https://github.com/arrowsmith001) 💻
 * [Manasi-Kelkar](https://github.com/Manasi-Kelkar) 📖
 * [SpL1Ne](https://github.com/SpL1Ne) 💻
+* [kulesy](https://github.com/kulesy) 💻
 * Your Name?
 
 Did we forget someone? Please drop us a line.

@@ -11,6 +11,29 @@ changing over time.
 
 <br>
 
+## 2.5.1 (2022-02-06)
+
+#### Changed
+- Setting "Display confirmation dialogs" is now on by default (issue 210)
+
+#### Fixed
+- Some Twitter videos are downloaded incomplete since last version
+<br>
+
+## 2.5.0 (2022-01-31)
+
+#### Added
+- Removing a queue item stops its crawler
+
+#### Fixed
+- Downloaded file is huge compared to actual image data (issue #207)
+- Limit exceeded in Twitter crawler (issue #209)
+- More files are downloaded than intended (issue #207)
+- Remove too much crawl overhead
+- Blog url textbox layout
+- Changed translation
+<br>
+
 ## 2.4.8 (2022-01-14)
 
 #### Fixed
