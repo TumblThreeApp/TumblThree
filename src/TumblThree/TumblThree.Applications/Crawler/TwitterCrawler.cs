@@ -43,7 +43,7 @@ namespace TumblThree.Applications.Crawler
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
 
-        private int numberOfPagesCrawled;
+        private int numberOfPostsCrawled;
 
         private Dictionary<string, DataModels.Twitter.TimelineTweets.User> Users;
         private TwitterUser twUser;
@@ -405,7 +405,7 @@ namespace TumblThree.Applications.Crawler
             Blog.Posts = twUser.Data.User.Legacy.StatusesCount;
             if (Blog.PageSize == 0) Blog.PageSize = 50;
 
-            int currentPage = Blog.Posts / Blog.PageSize + 1;
+            int currentPage = (Blog.Posts > 3200) ? (Blog.Posts - 3200) / 20 + 3200 / Blog.PageSize + 1 : Blog.Posts / Blog.PageSize + 1;
             if (Blog.Posts > 3200) currentPage += 50;
             int pageNo = 1;
 
@@ -481,13 +481,13 @@ namespace TumblThree.Applications.Crawler
                     if (response.GlobalObjects.Tweets.Count == 1 ||
                         (oldestApiPost == null && pageNo * Blog.PageSize >= 3200 && response.GlobalObjects.Tweets.Count < Blog.PageSize + 2))
                     {
-                        DateTime createdAt = response.GlobalObjects.Tweets.Count == 1
-                            ? DateTime.ParseExact(response.GlobalObjects.Tweets.First().Value.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"))
-                            : DateTime.ParseExact(response.GlobalObjects.Tweets.OrderBy(x => x.Key).First().Value.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
+                        DateTime createdAt = response.GlobalObjects.Tweets.Count > 1
+                            ? DateTime.ParseExact(response.GlobalObjects.Tweets.OrderBy(x => x.Key).First().Value.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"))
+                            : DateTime.Today;
                         oldestApiPost = createdAt.ToString("yyyy-MM-dd", new CultureInfo("en-US"));
                         cursor = null;
-                        noNewCursor = response.GlobalObjects.Tweets.Count != 1;
-                        if (response.GlobalObjects.Tweets.Count == 1)
+                        noNewCursor = response.GlobalObjects.Tweets.Count > 1;
+                        if (response.GlobalObjects.Tweets.Count <= 1)
                         {
                             document = await GetUserTweetsAsync(3, cursor);
                             response = ConvertJsonToClassNew<TimelineTweets>(document);
@@ -504,8 +504,8 @@ namespace TumblThree.Applications.Crawler
 
                     await AddUrlsToDownloadListAsync(response);
 
-                    numberOfPagesCrawled += Blog.PageSize;
-                    UpdateProgressQueueInformation(Resources.ProgressGetUrlLong, numberOfPagesCrawled, Blog.Posts);
+                    numberOfPostsCrawled += oldestApiPost == null ? Blog.PageSize : 20;
+                    UpdateProgressQueueInformation(Resources.ProgressGetUrlLong, numberOfPostsCrawled, Blog.Posts);
                     retries = 200;
                 }
                 catch (WebException webException) when (webException.Response != null)
