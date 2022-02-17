@@ -738,7 +738,7 @@ namespace TumblThree.Applications.Crawler
 
         private void AddGifUrlToDownloadList(Tweet post)
         {
-            if (Blog.SkipGif) return;
+            if (!Blog.DownloadPhoto || Blog.SkipGif) return;
 
             var media = GetMedia(post);
 
