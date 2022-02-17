@@ -860,6 +860,9 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
     public class Instruction
     {
+        [JsonProperty("clearCache")]
+        public object ClearCache { get; set; }
+
         [JsonProperty("addEntries")]
         public AddEntries AddEntries { get; set; }
 

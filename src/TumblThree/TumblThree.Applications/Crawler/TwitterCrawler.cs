@@ -444,6 +444,15 @@ namespace TumblThree.Applications.Crawler
             return incompleteCrawl;
         }
 
+        private static List<Entry> GetEntries(TimelineTweets response)
+        {
+            if (response.Timeline.Instructions[0].ClearCache != null && response.Timeline.Instructions.Count > 1)
+            {
+                return response.Timeline.Instructions[1].AddEntries.Entries;
+            }
+            return response.Timeline.Instructions[0].AddEntries.Entries;
+        }
+
         private async Task CrawlPageAsync(int pageNo)
         {
             const int maxRetries = 2;
@@ -458,10 +467,11 @@ namespace TumblThree.Applications.Crawler
 
                     var response = ConvertJsonToClassNew<TimelineTweets>(document);
 
+                    var entries = GetEntries(response);
+
                     if (highestId == 0)
                     {
-                        highestId = ulong.Parse(response.Timeline.Instructions[0].AddEntries.Entries
-                            .Where(w => response.GlobalObjects.Tweets.ContainsKey(w.Content?.Item?.Content.Tweet.Id ?? ""))
+                        highestId = ulong.Parse(entries.Where(w => response.GlobalObjects.Tweets.ContainsKey(w.Content?.Item?.Content.Tweet.Id ?? ""))
                             .Max(x => x.Content?.Item.Content.Tweet.Id) ?? "0");
                         if (highestId > 0)
                             Blog.LatestPost = DateTime.ParseExact(response.GlobalObjects.Tweets[highestId.ToString()].CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
@@ -481,12 +491,13 @@ namespace TumblThree.Applications.Crawler
                         {
                             document = await GetUserTweetsAsync(3, cursor);
                             response = ConvertJsonToClassNew<TimelineTweets>(document);
+                            entries = GetEntries(response);
                         }
                     }
 
                     completeGrab = CheckPostAge(response);
 
-                    Entry entry = (response.Timeline.Instructions.Last().ReplaceEntry != null) ? response.Timeline.Instructions.Last().ReplaceEntry.Entry : response.Timeline.Instructions[0].AddEntries.Entries.Last();
+                    Entry entry = (response.Timeline.Instructions.Last().ReplaceEntry != null) ? response.Timeline.Instructions.Last().ReplaceEntry.Entry : entries.Last();
                     var cursorNew = entry.Content.Operation.Cursor.Value;
                     if (cursor == cursorNew || response.GlobalObjects.Tweets.Count == 0) completeGrab = false;
                     if (!noNewCursor) cursor = cursorNew;
@@ -582,7 +593,7 @@ namespace TumblThree.Applications.Crawler
 
         private bool CheckPostAge(TimelineTweets response)
         {
-            var entries = response?.Timeline?.Instructions?[0]?.AddEntries?.Entries;
+            var entries = GetEntries(response);
             if (entries == null || entries.Count == 0) return false;
             var id = entries[0]?.SortIndex;
             if (id == null) return false;
@@ -604,7 +615,7 @@ namespace TumblThree.Applications.Crawler
         {
             Users = document.GlobalObjects.Users;
             var lastPostId = GetLastPostId();
-            foreach (Entry entry in document.Timeline.Instructions[0].AddEntries.Entries)
+            foreach (Entry entry in GetEntries(document))
             {
                 var cursorType = entry.Content.Operation?.Cursor.CursorType;
                 if (cursorType != null) continue;
