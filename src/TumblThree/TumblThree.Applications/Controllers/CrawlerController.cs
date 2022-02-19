@@ -208,9 +208,9 @@ namespace TumblThree.Applications.Controllers
                             continue;
                         }
                         IBlog blog = nextQueueItem.Blog;
-            bool isHiddenTumblrBlog = false;
-            if (blog.BlogType == BlogTypes.tumblr)
-                isHiddenTumblrBlog = await _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url);
+                        bool isHiddenTumblrBlog = false;
+                        if (blog.BlogType == BlogTypes.tumblr)
+                            isHiddenTumblrBlog = _tumblrBlogDetector.IsHiddenTumblrBlogAsync(blog.Url).GetAwaiter().GetResult();
                         if (isHiddenTumblrBlog)
                             blog.BlogType = BlogTypes.tmblrpriv;
                         var privacyConsentNeeded = false;
