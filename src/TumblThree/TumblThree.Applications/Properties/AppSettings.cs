@@ -15,6 +15,9 @@ namespace TumblThree.Applications.Properties
     [Export(typeof(AppSettings))]
     public sealed class AppSettings : IExtensibleDataObject
     {
+        [IgnoreDataMember]
+        public static readonly string USERAGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36";
+
         private static readonly string[] blogTypes =
             {
                 Resources.BlogTypesNone, Resources.BlogTypesAll, Resources.BlogTypesOnceFinished, Resources.BlogTypesNeverFinished
@@ -520,7 +523,7 @@ namespace TumblThree.Applications.Properties
             OAuthCallbackUrl = @"https://github.com/TumblThreeApp/TumblThree";
             ApiKey = "x8pd1InspmnuLSFKT4jNxe8kQUkbRXPNkAffntAFSk01UjRsLV";
             SecretKey = "Mul4BviRQgPLuhN1xzEqmXzwvoWicEoc4w6ftWBGWtioEvexmM";
-            UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36";
+            UserAgent = USERAGENT;
             OAuthToken = string.Empty;
             OAuthTokenSecret = string.Empty;
             Left = 50;
