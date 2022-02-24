@@ -217,15 +217,25 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetApiPageWithRetryAsync(int pageId)
         {
-            string page = string.Empty;
+            string page;
             var attemptCount = 0;
 
             do
             {
-                page = await GetApiPageAsync(pageId);
-                attemptCount++;
+                try
+                {
+                    attemptCount++;
+                    page = await GetApiPageAsync(pageId);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("TumblrBlogCrawler:GetApiPageWithRetryAsync: {0}", ex);
+                    if (attemptCount > ShellService.Settings.MaxNumberOfRetries)
+                        throw;
+                    page = string.Empty;
+                }
             }
-            while (string.IsNullOrEmpty(page) && (attemptCount < ShellService.Settings.MaxNumberOfRetries));
+            while (string.IsNullOrEmpty(page) && (attemptCount <= ShellService.Settings.MaxNumberOfRetries));
 
             return page;
         }
