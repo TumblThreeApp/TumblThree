@@ -161,6 +161,8 @@ namespace TumblThree.Applications.Controllers
                 _appSettings.LastUpdateCheck = DateTime.Today;
             }
 
+            ShellViewModel.SetThumbButtonInfosCommands();
+
             CheckForVCRedistributable();
         }
 

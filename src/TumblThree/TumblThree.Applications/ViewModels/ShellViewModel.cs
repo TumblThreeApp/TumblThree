@@ -165,6 +165,11 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
+        public void SetThumbButtonInfosCommands()
+        {
+            ((IShellView)View).SetThumbButtonInfoCommands();
+        }
+
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);

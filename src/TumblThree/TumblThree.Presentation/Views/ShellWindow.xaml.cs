@@ -3,9 +3,11 @@ using System.ComponentModel.Composition;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Input;
-
+using System.Windows.Media;
+using System.Windows.Shell;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
+using TumblThree.Domain;
 
 namespace TumblThree.Presentation.Views
 {
@@ -18,6 +20,28 @@ namespace TumblThree.Presentation.Views
         {
             InitializeComponent();
             viewModel = new Lazy<ShellViewModel>(() => ViewHelper.GetViewModel<ShellViewModel>(this));
+
+            try
+            {
+                var taskbarItemInfo = new TaskbarItemInfo();
+                taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["PlayButtonImage"] as DrawingImage });
+                taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["PauseButtonImage"] as DrawingImage });
+                taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["ResumeButtonImage"] as DrawingImage });
+                taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["StopButtonImage"] as DrawingImage });
+                TaskbarItemInfo = taskbarItemInfo;
+            }
+            catch (NotImplementedException ex)
+            {
+                Logger.Error("ShellWindow.ShellWindow(): {0}", ex);
+            }
+        }
+
+        public void SetThumbButtonInfoCommands()
+        {
+            TaskbarItemInfo.ThumbButtonInfos[0].Command = viewModel.Value.CrawlerService.CrawlCommand;
+            TaskbarItemInfo.ThumbButtonInfos[1].Command = viewModel.Value.CrawlerService.PauseCommand;
+            TaskbarItemInfo.ThumbButtonInfos[2].Command = viewModel.Value.CrawlerService.ResumeCommand;
+            TaskbarItemInfo.ThumbButtonInfos[3].Command = viewModel.Value.CrawlerService.StopCommand;
         }
 
         private ShellViewModel ViewModel
