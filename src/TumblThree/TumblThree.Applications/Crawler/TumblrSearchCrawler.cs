@@ -166,7 +166,7 @@ namespace TumblThree.Applications.Crawler
                     dynamic apiresult = JsonConvert.DeserializeObject<ExpandoObject>(document, new ExpandoObjectConverter());
                     DownloadPage(apiresult);
 
-                    if (!HasProperty(apiresult.response, "timelines"))
+                    if (!HasProperty(apiresult.response, "timeline"))
                     {
                         if (!HasProperty(apiresult.response.posts, "_links") || apiresult.response.posts._links == null) return;
                         nextUrl = result.apiUrl + apiresult.response.posts._links.next.href;
@@ -212,6 +212,20 @@ namespace TumblThree.Applications.Crawler
             }
 
             return objType.GetProperty(name) != null;
+        }
+
+        private static string GetValue(dynamic obj, string name)
+        {
+            Type objType = obj.GetType();
+
+            if (objType == typeof(ExpandoObject))
+            {
+                var dic = ((IDictionary<string, object>)obj);
+                return dic.ContainsKey(name) ? (string)dic[name] : "";
+            }
+
+            var prop = objType.GetProperty(name);
+            return prop != null ? (string)prop.GetValue(obj) : "";
         }
 
         private void DownloadPage(dynamic page)
@@ -278,11 +292,11 @@ namespace TumblThree.Applications.Crawler
 
         private static string InlineSearch(dynamic post, dynamic content)
         {
-            string text = HasProperty(post, "summary") ? (string)post.summary + " " : " ";
+            string text = GetValue(post, "summary") + " ";
 
             if (content.type == "video")
             {
-                text += HttpUtility.UrlDecode(content.embedHtml);
+                text += HttpUtility.UrlDecode(GetValue(content, "embedHtml"));
             }
             else if (content.type == "text")
             {
@@ -345,7 +359,7 @@ namespace TumblThree.Applications.Crawler
 
         private void DownloadText(dynamic dynPost, Post post)
         {
-            if (Blog.DownloadText && dynPost.originalType == "regular")
+            if (Blog.DownloadText && (GetValue(dynPost, "originalType") == "regular" || GetValue(dynPost, "original_type") == "regular"))
             {
                 string text = "";
                 foreach (var content in (IEnumerable<dynamic>)dynPost.content)
@@ -365,7 +379,7 @@ namespace TumblThree.Applications.Crawler
         {
             string type = content.type;
 
-            string url = HasProperty(content, "media") ? HasProperty(content.media, "Count") ? content.media[0].url : content.media.url : HasProperty(content, "url") ? content.url : "";
+            string url = HasProperty(content, "media") ? HasProperty(content.media, "Count") ? content.media[0].url : content.media.url : GetValue(content, "url");
             if (url == null)
                 return;
             if (CheckIfSkipGif(url))
@@ -374,7 +388,7 @@ namespace TumblThree.Applications.Crawler
             {
                 if (Blog.DownloadPhoto)
                 {
-                    if (content.provider == "tumblr" || Blog.RegExPhotos)
+                    if (GetValue(content, "provider") == "tumblr" || url.Contains("tumblr.com") || Blog.RegExPhotos)
                     {
                         string thumbnailUrl = content.poster?[0].url;
                         AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, index)));
