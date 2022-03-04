@@ -365,10 +365,10 @@ namespace TumblThree.Applications.Crawler
 
                 if (!CheckPostAge(response)) { return; }
 
-                try
+                var lastPostId = GetLastPostId();
+                foreach (Post post in response.Response.Posts)
                 {
-                    var lastPostId = GetLastPostId();
-                    foreach (Post post in response.Response.Posts)
+                    try
                     {
                         if (CheckIfShouldStop()) { break; }
                         CheckIfShouldPause();
@@ -377,22 +377,31 @@ namespace TumblThree.Applications.Crawler
                         if (!CheckIfContainsTaggedPost(post)) { continue; }
                         if (!CheckIfDownloadRebloggedPosts(post)) { continue; }
 
-                        AddPhotoUrlToDownloadList(post);
-                        AddVideoUrlToDownloadList(post);
-                        AddAudioUrlToDownloadList(post);
-                        AddTextUrlToDownloadList(post);
-                        AddQuoteUrlToDownloadList(post);
-                        AddLinkUrlToDownloadList(post);
-                        AddConversationUrlToDownloadList(post);
-                        AddAnswerUrlToDownloadList(post);
-                        AddPhotoMetaUrlToDownloadList(post);
-                        AddVideoMetaUrlToDownloadList(post);
-                        AddAudioMetaUrlToDownloadList(post);
-                        await AddExternalPhotoUrlToDownloadListAsync(post);
+                        try
+                        {
+                            AddPhotoUrlToDownloadList(post);
+                            AddVideoUrlToDownloadList(post);
+                            AddAudioUrlToDownloadList(post);
+                            AddTextUrlToDownloadList(post);
+                            AddQuoteUrlToDownloadList(post);
+                            AddLinkUrlToDownloadList(post);
+                            AddConversationUrlToDownloadList(post);
+                            AddAnswerUrlToDownloadList(post);
+                            AddPhotoMetaUrlToDownloadList(post);
+                            AddVideoMetaUrlToDownloadList(post);
+                            AddAudioMetaUrlToDownloadList(post);
+                            await AddExternalPhotoUrlToDownloadListAsync(post);
+                        }
+                        catch (NullReferenceException e)
+                        {
+                            Logger.Verbose("TumblrHiddenCrawler.AddUrlsToDownloadListAsync: {0}", e);
+                        }
                     }
-                }
-                catch (NullReferenceException)
-                {
+                    catch (Exception e)
+                    {
+                        Logger.Error("TumblrHiddenCrawler.AddUrlsToDownloadListAsync: {0}", e);
+                        ShellService.ShowError(e, "{0}: Error parsing post!", Blog.Name);
+                    }
                 }
 
                 Interlocked.Increment(ref numberOfPagesCrawled);
@@ -643,7 +652,7 @@ namespace TumblThree.Applications.Crawler
 
         private static string InlineSearch(Post post)
         {
-            return string.Join(" ", post.Trail.Select(trail => trail.ContentRaw));
+            return string.Join(" ", post.Trail?.Select(trail => trail.ContentRaw) ?? Enumerable.Empty<string>());
         }
 
         private async Task AddExternalPhotoUrlToDownloadListAsync(Post post)

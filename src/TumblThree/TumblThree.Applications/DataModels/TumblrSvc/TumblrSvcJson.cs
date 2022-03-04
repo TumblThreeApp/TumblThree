@@ -249,7 +249,7 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         public bool Active { get; set; }
 
         [DataMember(Name = "theme", EmitDefaultValue = false)]
-        public List<Theme2> Theme { get; set; }
+        public Theme2 Theme { get; set; }
 
         [DataMember(Name = "share_likes", EmitDefaultValue = false)]
         public bool ShareLikes { get; set; }
