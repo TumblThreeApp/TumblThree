@@ -213,7 +213,7 @@ namespace TumblThree.Applications.Crawler
                 var response = ConvertJsonToClass<TumblrJson>(document);
                 await AddUrlsToDownloadListAsync(response, pageNumber);
             }
-            catch (WebException webException) when (webException.Response != null)
+            catch (WebException webException)
             {
                 if (HandleLimitExceededWebException(webException))
                 {
@@ -225,8 +225,9 @@ namespace TumblThree.Applications.Crawler
                 incompleteCrawl = true;
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("TumblrHiddenCrawler.CrawlPageAsync: {0}", ex);
             }
             finally
             {

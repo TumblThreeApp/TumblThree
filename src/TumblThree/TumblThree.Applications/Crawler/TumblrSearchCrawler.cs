@@ -239,6 +239,8 @@ namespace TumblThree.Applications.Crawler
                     list = page.response.timeline.elements;
                 foreach (var post in (IEnumerable<dynamic>)list)
                 {
+                    if (CheckIfShouldStop()) return;
+                    CheckIfShouldPause();
                     try
                     {
                         var objectType = HasProperty(post, "object_type") ? post.object_type : post.objectType;
@@ -247,37 +249,45 @@ namespace TumblThree.Applications.Crawler
                         {
                             continue;
                         }
-                        Post data = null;
-                        var countImagesVideos = CountImagesAndVideos((IEnumerable<dynamic>)post.content);
-                        int index = -1;
-                        foreach (var content in (IEnumerable<dynamic>)post.content)
+                        try
                         {
-                            data = new Post()
+                            Post data = null;
+                            var countImagesVideos = CountImagesAndVideos((IEnumerable<dynamic>)post.content);
+                            int index = -1;
+                            foreach (var content in (IEnumerable<dynamic>)post.content)
                             {
-                                Date = DateTimeOffset.FromUnixTimeSeconds(post.timestamp).DateTime.ToString("yyyyMMddHHmmss"),
-                                Type = ConvertContentTypeToPostType(content.type),
-                                Id = post.id,
-                                Tags = new List<string>(((IEnumerable<object>)post.tags).Select(i => i.ToString())),
-                                Slug = post.slug,
-                                RegularTitle = post.summary,
-                                RebloggedFromName = "",
-                                ReblogKey = HasProperty(post, "reblog_key") ? post.reblog_key : post.reblogKey,
-                                UnixTimestamp = (int)post.timestamp,
-                                Tumblelog = new TumbleLog2() { Name = HasProperty(post, "blog_name") ? post.blog_name : post.blogName },
-                                UrlWithSlug = HasProperty(post, "post_url") ? post.post_url : post.postUrl
-                            };
-                            index += (countImagesVideos > 1) ? 1 : 0;
-                            DownloadMedia(content, data, index);
-                            AddInlinePhotoUrl(post, content, data);
-                            AddInlineVideoUrl(post, content, data);
+                                data = new Post()
+                                {
+                                    Date = DateTimeOffset.FromUnixTimeSeconds(post.timestamp).DateTime.ToString("yyyyMMddHHmmss"),
+                                    Type = ConvertContentTypeToPostType(content.type),
+                                    Id = post.id,
+                                    Tags = new List<string>(((IEnumerable<object>)post.tags).Select(i => i.ToString())),
+                                    Slug = post.slug,
+                                    RegularTitle = post.summary,
+                                    RebloggedFromName = "",
+                                    ReblogKey = HasProperty(post, "reblog_key") ? post.reblog_key : post.reblogKey,
+                                    UnixTimestamp = (int)post.timestamp,
+                                    Tumblelog = new TumbleLog2() { Name = HasProperty(post, "blog_name") ? post.blog_name : post.blogName },
+                                    UrlWithSlug = HasProperty(post, "post_url") ? post.post_url : post.postUrl
+                                };
+                                index += (countImagesVideos > 1) ? 1 : 0;
+                                DownloadMedia(content, data, index);
+                                AddInlinePhotoUrl(post, content, data);
+                                AddInlineVideoUrl(post, content, data);
+                            }
+                            DownloadText(post, data);
+                            string postData = JsonConvert.SerializeObject(post);
+                            AddToJsonQueue(new CrawlerData<string>(Path.ChangeExtension(post.id, ".json"), postData));
                         }
-                        DownloadText(post, data);
-                        string postData = JsonConvert.SerializeObject(post);
-                        AddToJsonQueue(new CrawlerData<string>(Path.ChangeExtension(post.id, ".json"), postData));
+                        catch (NullReferenceException e)
+                        {
+                            Logger.Verbose("TumblrSearchCrawler.DownloadPage: {0}", e);
+                        }
                     }
                     catch (Exception ex)
                     {
                         Logger.Error("TumblrSearchCrawler.DownloadMedia: {0}", ex);
+                        ShellService.ShowError(ex, "{0}: Error parsing post!", Blog.Name);
                     }
                 }
             }
@@ -287,6 +297,7 @@ namespace TumblThree.Applications.Crawler
             }
             catch (Exception e)
             {
+                Logger.Error("TumblrSearchCrawler.DownloadPage: {0}", e);
             }
         }
 

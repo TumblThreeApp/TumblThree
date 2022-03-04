@@ -643,14 +643,15 @@ namespace TumblThree.Applications.Crawler
                         AddGifUrlToDownloadList(post);
                         AddTextUrlToDownloadList(post);
                     }
-                    catch (NullReferenceException)
+                    catch (NullReferenceException e)
                     {
+                        Logger.Verbose("TwitterCrawler.AddUrlsToDownloadListAsync: {0}", e);
                     }
                 }
                 catch (Exception e)
                 {
                     Logger.Error("TwitterCrawler.AddUrlsToDownloadListAsync: {0}", e);
-                    ShellService.ShowError(e, "Error parsing tweet!");
+                    ShellService.ShowError(e, "{0}: Error parsing tweet!", Blog.Name);
                 }
             }
             await Task.CompletedTask;

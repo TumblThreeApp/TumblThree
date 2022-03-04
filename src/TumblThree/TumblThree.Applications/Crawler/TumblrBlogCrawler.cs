@@ -377,7 +377,7 @@ namespace TumblThree.Applications.Crawler
                 numberOfPagesCrawled += Blog.PageSize;
                 UpdateProgressQueueInformation(Resources.ProgressGetUrlLong, numberOfPagesCrawled, Blog.Posts);
             }
-            catch (WebException webException) when (webException.Response != null)
+            catch (WebException webException)
             {
                 if (HandleLimitExceededWebException(webException))
                 {
@@ -391,7 +391,8 @@ namespace TumblThree.Applications.Crawler
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
+                Logger.Error("TumblrBlogCrawler.CrawlPageAsync: {0}", e);
+                ShellService.ShowError(e, "{0}: Error parsing post!", Blog.Name);
             }
             finally
             {
@@ -472,8 +473,9 @@ namespace TumblThree.Applications.Crawler
                     AddAudioMetaUrlToDownloadList(post);
                     await AddExternalPhotoUrlToDownloadListAsync(post);
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException e)
                 {
+                    Logger.Verbose("TumblrBlogCrawler.AddUrlsToDownloadListAsync: {0}", e);
                 }
             }
         }

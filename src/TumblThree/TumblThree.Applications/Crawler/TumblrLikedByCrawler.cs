@@ -183,7 +183,8 @@ namespace TumblThree.Applications.Crawler
             }
             catch (Exception e)
             {
-                Logger.Verbose("TumblrLikedByCrawler:CrawlPageAsync: {0}", e.ToString());
+                Logger.Error("TumblrLikedByCrawler:CrawlPageAsync: {0}", e);
+                ShellService.ShowError(e, "{0}: Error parsing post!", Blog.Name);
             }
             finally
             {
@@ -267,7 +268,7 @@ namespace TumblThree.Applications.Crawler
             }
             catch (NullReferenceException e)
             {
-                System.Diagnostics.Debug.WriteLine($"TumblrLikedByCrawler.AddUrlsToDownloadListAsync(): {e}");
+                Logger.Verbose("TumblrLikedByCrawler.AddUrlsToDownloadListAsync: {0}", e);
             }
         }
 

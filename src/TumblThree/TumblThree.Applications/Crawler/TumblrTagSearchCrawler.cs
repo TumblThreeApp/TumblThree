@@ -251,6 +251,7 @@ namespace TumblThree.Applications.Crawler
                     }
                     catch (NullReferenceException e)
                     {
+                        Logger.Verbose("TumblrTagSearchCrawler.DownloadMedia: {0}", e);
                     }
                 }
             }
