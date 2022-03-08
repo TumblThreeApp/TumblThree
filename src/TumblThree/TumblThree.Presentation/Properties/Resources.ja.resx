@@ -307,7 +307,7 @@
     <value>画像をダウンロードする</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>ダウンロードビデオ（tumblr.com self hosted）</value>
+    <value>ダウンロードビデオ（tumblr/twitter self hosted）</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>動画サイズ（px）</value>
@@ -510,7 +510,7 @@
     <value>新しい投稿だけでなく、ブログ全体を再スキャンします。</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Tumblr APIを使用して完全にスキャンします。</value>
+    <value>を使用して完全にスキャンします。</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>アップデートを確認</value>

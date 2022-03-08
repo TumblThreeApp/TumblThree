@@ -307,7 +307,7 @@
     <value>ਤਸਵੀਰਾਂ ਡਾਊਨਲੋਡ ਕਰੋ</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>ਵੀਡਿਓ ਡਾਊਨਲੋਡ ਕਰੋ (tumblr.com ਸਵੈ-ਮੇਜ਼ਬਾਨੀ ਕੀਤੀ ਗਈ)</value>
+    <value>ਵੀਡਿਓ ਡਾਊਨਲੋਡ ਕਰੋ (tumblr/twitter ਸਵੈ-ਮੇਜ਼ਬਾਨੀ ਕੀਤੀ ਗਈ)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>ਵੀਡੀਓ ਅਕਾਰ (ਪੈਕਸ)</value>
@@ -511,7 +511,7 @@
     <value>ਪੂਰੇ ਬਲੌਗ ਨੂੰ ਰੀਸੇਨ ਕਰੋ, ਨਾ ਕਿ ਸਿਰਫ ਨਵੀਆਂ ਪੋਸਟਾਂ.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Tumblr api ਦੁਆਰਾ ਇੱਕ ਪੂਰਨ ਸਕੈਨ ਦੀ ਵਰਤੋਂ</value>
+    <value>ਦੁਆਰਾ ਇੱਕ ਪੂਰਨ ਸਕੈਨ ਦੀ ਵਰਤੋਂ</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>ਅੱਪਡੇਟ ਲਈ ਚੈੱਕ ਕਰੋ</value>

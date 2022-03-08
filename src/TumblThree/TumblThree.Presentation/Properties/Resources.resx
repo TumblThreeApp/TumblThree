@@ -307,7 +307,7 @@
     <value>Download images</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Download videos (tumblr.com self hosted)</value>
+    <value>Download videos (tumblr/twitter self hosted)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Video size (px)</value>
@@ -517,7 +517,7 @@ Note: The tumblr api is only used for regular tumblr blog downloads.</value>
     <value>Rescans the whole blog, not just new posts.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Forces a complete scan using the Tumblr api.</value>
+    <value>Forces a complete scan.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Check for Updates</value>

@@ -307,7 +307,7 @@
     <value>Lataa kuvia</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Lataa videoita (tumblr.com itsenäinen)</value>
+    <value>Lataa videoita (tumblr/twitter itsenäinen)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Videon koko (px)</value>
@@ -515,7 +515,7 @@ Huomaa: tumblr api käytetään vain tavallisiin tumblr-blogien latauksiin.</val
     <value>Rescans koko blogi, ei vain uusia viestejä.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Tarvitsee täydellisen skannauksen Tumblr api: n avulla.</value>
+    <value>Tarvitsee täydellisen skannauksen: n avulla.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Tarkista päivitykset</value>

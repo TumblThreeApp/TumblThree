@@ -307,7 +307,7 @@
     <value>ดาวน์โหลดภาพ</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>ดาวน์โหลดวิดีโอ (self-hosted tumblr.com)</value>
+    <value>ดาวน์โหลดวิดีโอ (self-hosted tumblr/twitter)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>ขนาดวิดีโอ (px)</value>
@@ -510,7 +510,7 @@
     <value>บล็อกทั้งบล็อกไม่ใช่เฉพาะโพสต์ใหม่</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>บังคับใช้การสแกนที่สมบูรณ์โดยใช้ Tumblr api</value>
+    <value>บังคับใช้การสแกนที่สมบูรณ์โดยใช้</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>ตรวจสอบสำหรับการอัพเดต</value>

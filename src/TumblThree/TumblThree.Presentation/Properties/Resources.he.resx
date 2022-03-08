@@ -307,7 +307,7 @@
     <value>הורד תמונות</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>קטעי וידאו להורדה (tumblr.com עצמית מתארח)</value>
+    <value>קטעי וידאו להורדה (tumblr/twitter עצמית מתארח)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>גודל סרטון (px)</value>
@@ -513,7 +513,7 @@
     <value>Rescans את הבלוג כולו, לא רק הודעות חדשות.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>מאלצת סריקה מלאה באמצעות ממשק ה- API של Tumblr.</value>
+    <value>מאלצת סריקה מלאה באמצעות ממשק ה.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>בדוק עדכונים</value>

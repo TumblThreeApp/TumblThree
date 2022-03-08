@@ -307,7 +307,7 @@
     <value>Descargar imágenes</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Descargar videos (tumblr.com self hosted)</value>
+    <value>Descargar videos (tumblr/twitter self hosted)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Tamaño del vídeo (px)</value>
@@ -514,7 +514,7 @@ Establezca un par número / hora. Nota: El apuki del tumblr se utiliza solamente
     <value>Rescates todo el blog, no sólo nuevos mensajes.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Fuerza un análisis completo con la API de Tumblr.</value>
+    <value>Fuerza un análisis completo.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Buscar actualizaciones</value>

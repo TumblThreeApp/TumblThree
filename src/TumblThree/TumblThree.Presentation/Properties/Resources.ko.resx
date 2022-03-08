@@ -307,7 +307,7 @@
     <value>이미지 다운로드</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>다운로드 비디오 (tumblr.com 자기 호스팅)</value>
+    <value>다운로드 비디오 (tumblr/twitter 자기 호스팅)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>동영상 크기 (픽셀)</value>
@@ -511,7 +511,7 @@
     <value>새 게시물뿐만 아니라 전체 블로그를 다시 검색합니다.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Tumblr API를 사용하여 전체 스캔을 수행합니다.</value>
+    <value>를 사용하여 전체 스캔을 수행합니다.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>업데이트 확인</value>

@@ -319,7 +319,7 @@
     <value>下载图片帖子</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>下载视频帖子(仅限tumblr的)</value>
+    <value>下载视频帖子(仅限tumblr/twitter的)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>视频分辨率 (px)</value>
@@ -530,7 +530,7 @@
     <value>重新扫描整个博客而不只是新的帖子。</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>强制使用Tumblr-api进行完整扫描。</value>
+    <value>强制使用进行完整扫描。</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>检查更新</value>

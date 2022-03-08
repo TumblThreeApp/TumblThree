@@ -172,7 +172,7 @@
     <value>Speicherort</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Lade Videos (tumblr.com gehostet)</value>
+    <value>Lade Videos (tumblr/twitter gehostet)</value>
   </data>
   <data name="EnqueueSelection" xml:space="preserve">
     <value>Auswahl hinzufügen</value>

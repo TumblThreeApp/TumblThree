@@ -520,7 +520,7 @@
     <value>Повторное сканирование всего блога, а не только поиск новых сообщений.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Принудительное полное сканирование с помощью Tumblr API.</value>
+    <value>Принудительное полное сканирование.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Проверить обновления</value>

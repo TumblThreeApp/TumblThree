@@ -307,7 +307,7 @@
     <value>Λήψη εικόνων</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Λήψη βίντεο (tumblr.com που φιλοξενείται από μόνη της)</value>
+    <value>Λήψη βίντεο (tumblr/twitter που φιλοξενείται από μόνη της)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Μέγεθος βίντεο (px)</value>
@@ -517,7 +517,7 @@
     <value>Rescans ολόκληρο το blog, όχι μόνο νέες θέσεις.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Επιβάλλει μια πλήρη σάρωση χρησιμοποιώντας το Tumblr api.</value>
+    <value>Επιβάλλει μια πλήρη σάρωση χρησιμοποιώντας το.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Ελεγχος για ενημερώσεις</value>

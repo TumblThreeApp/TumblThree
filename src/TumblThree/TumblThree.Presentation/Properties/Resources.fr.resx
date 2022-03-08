@@ -307,7 +307,7 @@
     <value>Télécharger les images</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Télécharger les vidéos (tumblr.com)</value>
+    <value>Télécharger les vidéos (tumblr/twitter)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Taille de la vidéo (px)</value>
@@ -518,7 +518,7 @@ Note: Le tumblr api n'est utilisé que pour les téléchargements réguliers du 
     <value>Rescans le blog entier, pas seulement de nouveaux messages.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Force un scan complet en utilisant l'API Tumblr.</value>
+    <value>Force un scan complet.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Vérifier les mises à jour</value>

@@ -307,7 +307,7 @@
     <value>Baixe imagens</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Baixe vídeos (tumblr.com auto-hospedado)</value>
+    <value>Baixe vídeos (tumblr/twitter auto-hospedado)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Tamanho do vídeo (px)</value>
@@ -516,7 +516,7 @@ Nota: O tumblr api é usado apenas para downloads regulares do blog tumblr.</val
     <value>Rescena todo o blog, não apenas novas postagens.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Força uma verificação completa usando o Tumblr api.</value>
+    <value>Força uma verificação completa.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Verifique atualizações</value>

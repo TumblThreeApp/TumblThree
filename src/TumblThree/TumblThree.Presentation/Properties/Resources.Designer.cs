@@ -763,7 +763,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download videos (tumblr.com self hosted).
+        ///   Looks up a localized string similar to Download videos (tumblr/twitter self hosted).
         /// </summary>
         public static string DownloadVideos {
             get {
@@ -2259,7 +2259,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forces a complete scan using the Tumblr api..
+        ///   Looks up a localized string similar to Forces a complete scan..
         /// </summary>
         public static string ToolTipForceRescanDescription {
             get {

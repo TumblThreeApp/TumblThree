@@ -307,7 +307,7 @@
     <value>Tải hình ảnh</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Tải xuống video (tumblr.com tự tổ chức)</value>
+    <value>Tải xuống video (tumblr/twitter tự tổ chức)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Kích thước video (px)</value>
@@ -514,7 +514,7 @@ Lưu ý: Các api tumblr chỉ được sử dụng cho tải blog thường xuy
     <value>Rescans toàn bộ blog, không chỉ các bài viết mới.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Lực lượng quét toàn bộ bằng cách sử dụng api Tumblr.</value>
+    <value>Lực lượng quét toàn bộ bằng cách.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>Kiểm tra cập nhật</value>

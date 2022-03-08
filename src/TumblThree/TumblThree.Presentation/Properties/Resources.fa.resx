@@ -307,7 +307,7 @@
     <value>تصاویر را دانلود کنید</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>دانلود فیلم (tumblr.com خود میزبان)</value>
+    <value>دانلود فیلم (tumblr/twitter خود میزبان)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>اندازه ویدئو (پیکسل)</value>
@@ -517,7 +517,7 @@
     <value>تمام وبلاگ ها، و نه فقط پست های جدید را بازی می کند.</value>
   </data>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>اسکن کامل با استفاده از Tumblr API</value>
+    <value>اسکن کامل با استفاده از</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
     <value>به روز رسانی ها رو بررسی کن</value>
