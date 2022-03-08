@@ -254,9 +254,9 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
-                if (!IsVC2015Installed())
+                if (!IsVC2019Installed())
                 {
-                    var url = Environment.Is64BitProcess ? "https://aka.ms/vs/16/release/vc_redist.x64.exe" : "https://aka.ms/vs/16/release/vc_redist.x86.exe";
+                    var url = Environment.Is64BitProcess ? "https://aka.ms/vs/17/release/vc_redist.x64.exe" : "https://aka.ms/vs/17/release/vc_redist.x86.exe";
                     MessageBoxResult ret = MessageBoxResult.No;
                     ret = MessageBox.Show($"{Resources.DownloadVCRedistributable}", Resources.DownloadVCRedistributableTitle, MessageBoxButton.YesNo);
                     if (ret == MessageBoxResult.Yes)
@@ -269,7 +269,7 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
-        private static bool IsVC2015Installed()
+        private static bool IsVC2019Installed()
         {
             string dependenciesPath = @"SOFTWARE\Classes\Installer\Dependencies";
 
@@ -284,19 +284,14 @@ namespace TumblThree.Applications.Controllers
                         var value = subDir.GetValue("DisplayName")?.ToString() ?? null;
                         if (string.IsNullOrEmpty(value)) continue;
 
-                        if (Environment.Is64BitProcess)
+                        var pf = Environment.Is64BitProcess ? "x64" : "x86";
+                        if (Regex.IsMatch(value, $@"C\+\+ 2015.*\({pf}\)"))
                         {
-                            if (Regex.IsMatch(value, @"C\+\+ 2015.*\(x64\)"))
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (Regex.IsMatch(value, @"C\+\+ 2015.*\(x86\)"))
-                            {
-                                return true;
-                            }
+                            value = subDir.GetValue("Version")?.ToString() ?? null;
+                            if (string.IsNullOrEmpty(value)) continue;
+
+                            var vs = new Version(value);
+                            if (vs >= new Version(14, 20)) return true;
                         }
                     }
                 }
