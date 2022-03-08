@@ -897,4 +897,13 @@ multimédias manuellement, si nécessaire.</value>
   <data name="CheckStatusOnStartup" xml:space="preserve">
     <value>Vérifier le statut en ligne du blog au démarrage</value>
   </data>
+  <data name="DownloadVideoThumbnails" xml:space="preserve">
+    <value>Télécharger les vignettes vidéo</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Télécharger les vignettes vidéo (Twitter)</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
+    <value>Télécharge les vignettes vidéo disponibles. Ce paramètre est indépendant de 'Télécharger des images' et 'Télécharger des vidéos'.</value>
+  </data>
 </root>

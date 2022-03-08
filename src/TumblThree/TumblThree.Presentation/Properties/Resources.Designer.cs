@@ -781,6 +781,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download video thumbnails.
+        /// </summary>
+        public static string DownloadVideoThumbnails {
+            get {
+                return ResourceManager.GetString("DownloadVideoThumbnails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download webmshare.
         /// </summary>
         public static string DownloadWebmshare {
@@ -2142,6 +2151,24 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipDownloadUrlListDescription {
             get {
                 return ResourceManager.GetString("ToolTipDownloadUrlListDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download video thumbnails (Twitter).
+        /// </summary>
+        public static string ToolTipDownloadVideoThumbnails {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadVideoThumbnails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloads available video thumbnails. This setting is independent of &apos;Download images&apos; and &apos;Download videos&apos;..
+        /// </summary>
+        public static string ToolTipDownloadVideoThumbnailsDescription {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadVideoThumbnailsDescription", resourceCulture);
             }
         }
         

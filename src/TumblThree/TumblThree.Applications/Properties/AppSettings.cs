@@ -200,6 +200,9 @@ namespace TumblThree.Applications.Properties
         public bool SkipGif { get; set; }
 
         [DataMember]
+        public bool DownloadVideoThumbnails { get; set; }
+
+        [DataMember]
         public bool EnablePreview { get; set; }
 
         [DataMember]

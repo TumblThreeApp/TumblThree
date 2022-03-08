@@ -896,4 +896,13 @@ Sie können die alten Mediendateien bei Bedarf manuell verschieben.</value>
   <data name="CheckStatusOnStartup" xml:space="preserve">
     <value>Blog-Onlinestatus beim Start prüfen</value>
   </data>
+  <data name="DownloadVideoThumbnails" xml:space="preserve">
+    <value>Video-Thumbnails herunterladen</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Video-Thumbnails herunterladen (Twitter)</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
+    <value>Lädt verfügbare Video-Thumbnails herunter. Diese Einstellung ist unabhängig von „Bilder herunterladen“ und „Videos herunterladen“.</value>
+  </data>
 </root>

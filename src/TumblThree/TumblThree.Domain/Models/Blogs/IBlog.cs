@@ -123,6 +123,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         bool SkipGif { get; set; }
 
+        bool DownloadVideoThumbnail { get; set; }
+
         bool ForceSize { get; set; }
 
         bool ForceRescan { get; set; }

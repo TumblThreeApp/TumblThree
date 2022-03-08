@@ -1171,4 +1171,13 @@ the blog's download folder with the media remains at the old location. A new fol
 collection's root folder will be created and used for newly downloaded files. You can move the 
 old media files manually, if necessary.</value>
   </data>
+  <data name="DownloadVideoThumbnails" xml:space="preserve">
+    <value>Download video thumbnails</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Download video thumbnails (Twitter)</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
+    <value>Downloads available video thumbnails. This setting is independent of 'Download images' and 'Download videos'.</value>
+  </data>
 </root>

@@ -708,7 +708,7 @@ namespace TumblThree.Applications.Crawler
 
         private void AddVideoUrlToDownloadList(Tweet post)
         {
-            if (!Blog.DownloadVideo) return;
+            if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail) return;
 
             var media = GetMedia(post);
 
@@ -751,11 +751,6 @@ namespace TumblThree.Applications.Crawler
 
         private void AddGifUrl(Tweet post, Media media)
         {
-            var imageUrl = media.MediaUrlHttps;
-            var imageUrlConverted = GetUrlForPreferredImageSize(imageUrl);
-            var filename = BuildFileName(imageUrl, post, "photo", -1);
-            AddToDownloadList(new PhotoPost(imageUrlConverted, post.IdStr, UnixTimestamp(post).ToString(), filename));
-
             var item = media.VideoInfo.Variants[0];
             var urlPrepared = item.Url.IndexOf('?') > 0 ? item.Url.Substring(0, item.Url.IndexOf('?')) : item.Url;
             AddToDownloadList(new VideoPost(item.Url, post.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "gif", -1)));
@@ -791,16 +786,28 @@ namespace TumblThree.Applications.Crawler
         {
             var size = ShellService.Settings.VideoSize;
 
-            var imageUrl = media[0].MediaUrlHttps;
-            var imageUrlConverted = GetUrlForPreferredImageSize(imageUrl);
-            var filename = BuildFileName(imageUrl, post, "photo", -1);
-            AddToDownloadList(new PhotoPost(imageUrlConverted, post.IdStr, UnixTimestamp(post).ToString(), filename));
-
             int max = media[0].VideoInfo.Variants.Where(v => v.ContentType == "video/mp4").Max(v => v.Bitrate.GetValueOrDefault());
             var item = media[0].VideoInfo.Variants.First(v => v.Bitrate == max);
             var urlPrepared = item.Url.IndexOf('?') > 0 ? item.Url.Substring(0, item.Url.IndexOf('?')) : item.Url;
-            AddToDownloadList(new VideoPost(item.Url, post.IdStr, UnixTimestamp( post).ToString(), BuildFileName(urlPrepared, post, "video", -1)));
-            AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), TweetToSave(post)));
+
+            if (Blog.DownloadVideo)
+            {
+                AddToDownloadList(new VideoPost(item.Url, post.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "video", -1)));
+                AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), TweetToSave(post)));
+            }
+
+            if (Blog.DownloadVideoThumbnail)
+            {
+                var imageUrl = media[0].MediaUrlHttps;
+                var imageUrlConverted = GetUrlForPreferredImageSize(imageUrl);
+                var filename = FileName(imageUrl);
+                if (!string.Equals(Path.GetFileNameWithoutExtension(FileName(urlPrepared)), Path.GetFileNameWithoutExtension(filename), StringComparison.OrdinalIgnoreCase))
+                {
+                    filename = Path.GetFileNameWithoutExtension(FileName(urlPrepared)) + "_" + filename;
+                }
+                filename = BuildFileName(filename, post, "photo", -1);
+                AddToDownloadList(new PhotoPost(imageUrlConverted, post.IdStr, UnixTimestamp(post).ToString(), filename));
+            }
         }
 
         private string GetUserOfPost(string userId)

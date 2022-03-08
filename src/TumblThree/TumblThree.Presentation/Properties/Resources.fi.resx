@@ -726,4 +726,13 @@ Vaihtoehtoisesti voit ottaa meihin yhteyttä projektisivustomme {Issues-osion} k
   <data name="FilenameTemplate" xml:space="preserve">
     <value>Tiedostonimen malli:</value>
   </data>
+  <data name="DownloadVideoThumbnails" xml:space="preserve">
+    <value>Lataa videoiden pikkukuvat</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Lataa videoiden pikkukuvat (Twitter)</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
+    <value>Lataa saatavilla olevat videopikkukuvat. Tämä asetus on riippumaton kohdista "Lataa kuvat" ja "Lataa videot".</value>
+  </data>
 </root>

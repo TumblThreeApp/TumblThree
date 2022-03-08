@@ -893,4 +893,13 @@ Puede mover los archivos multimedia antiguos manualmente, si es necesario.</valu
   <data name="CheckStatusOnStartup" xml:space="preserve">
     <value>Comprobar el estado del blog en línea al iniciarse</value>
   </data>
+  <data name="DownloadVideoThumbnails" xml:space="preserve">
+    <value>Descargar miniaturas de video</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Scarica le miniature dei video (Twitter)</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
+    <value>Descarga miniaturas de video disponibles. Esta configuración es independiente de 'Descargar imágenes' y 'Descargar videos'.</value>
+  </data>
 </root>

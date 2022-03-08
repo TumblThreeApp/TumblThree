@@ -1262,6 +1262,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Label
                             x:Name="perBlogLabel"
@@ -1283,7 +1285,7 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DownloadImages}"
                             IsChecked="{Binding DownloadImages, Mode=TwoWay}" />
                         <CheckBox
@@ -1291,7 +1293,7 @@
                             Grid.Row="1"
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             Content="{x:Static p:Resources.DownloadImageMeta}"
                             IsChecked="{Binding CreateImageMeta, Mode=TwoWay}" />
@@ -1300,7 +1302,7 @@
                             Grid.Row="2"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DownloadVideos}"
                             IsChecked="{Binding DownloadVideos, Mode=TwoWay}" />
                         <CheckBox
@@ -1308,7 +1310,7 @@
                             Grid.Row="2"
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             Content="{x:Static p:Resources.DownloadVideoMeta}"
                             IsChecked="{Binding CreateVideoMeta, Mode=TwoWay}" />
@@ -1317,7 +1319,7 @@
                             Grid.Row="3"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DownloadAudios}"
                             IsChecked="{Binding DownloadAudios, Mode=TwoWay}" />
                         <CheckBox
@@ -1325,7 +1327,7 @@
                             Grid.Row="3"
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             Content="{x:Static p:Resources.DownloadAudioMeta}"
                             IsChecked="{Binding CreateAudioMeta, Mode=TwoWay}" />
@@ -1334,7 +1336,7 @@
                             Grid.Row="4"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DownloadTexts}"
                             IsChecked="{Binding DownloadTexts, Mode=TwoWay}" />
                         <CheckBox
@@ -1342,14 +1344,14 @@
                             Grid.Row="5"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DownloadQuotes}"
                             IsChecked="{Binding DownloadQuotes, Mode=TwoWay}" />
                         <Label
                             x:Name="imageSizeLabel"
                             Grid.Row="5"
                             Grid.Column="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.ImageSize}" Padding="4,0">
@@ -1388,14 +1390,14 @@
                             Grid.Row="6"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DownloadConversations}"
                             IsChecked="{Binding DownloadConversations, Mode=TwoWay}" Padding="4,-1,0,0" />
                         <Label
                             x:Name="videoSizeLabel"
                             Grid.Row="6"
                             Grid.Column="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.VideoSize}" Padding="4,0" />
@@ -1416,14 +1418,14 @@
                             Grid.Row="7"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DownloadLinks}"
                             IsChecked="{Binding DownloadLinks, Mode=TwoWay}" />
                         <Label
                             x:Name="imageSizeCategoryLabel"
                             Grid.Row="7"
                             Grid.Column="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.ImageSizeCategory}" Padding="4,0">
@@ -1461,14 +1463,14 @@
                             x:Name="checkBoxDownloadAnswers"
                             Grid.Row="8"
                             Grid.Column="0"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DownloadAnswers}"
                             IsChecked="{Binding DownloadAnswers, Mode=TwoWay}" />
                         <Label
                             x:Name="videoSizeCategoryLabel"
                             Grid.Row="8"
                             Grid.Column="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.VideoSizeCategory}" Padding="4,0">
@@ -1507,20 +1509,37 @@
                             Grid.Row="9"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DownloadRebloggedPosts}"
                             IsChecked="{Binding DownloadRebloggedPosts, Mode=TwoWay}" />
-                        <Label
-                            x:Name="metadataFormatLabel"
+                        <CheckBox
+                            x:Name="checkBoxDownloadVideoThumbnails"
                             Grid.Row="10"
                             Grid.Column="0"
-                            Margin="10"
+                            Grid.ColumnSpan="2"
+                            Margin="10,9"
+                            Content="{x:Static p:Resources.DownloadVideoThumbnails}"
+                            IsChecked="{Binding DownloadVideoThumbnail, Mode=TwoWay}">
+                            <CheckBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadVideoThumbnails}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadVideoThumbnailsDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
+                        <Label
+                            x:Name="metadataFormatLabel"
+                            Grid.Row="11"
+                            Grid.Column="0"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.MetadataFormat}" />
                         <ComboBox
                             x:Name="metadataFormatComboBox"
-                            Grid.Row="10"
+                            Grid.Row="11"
                             Grid.Column="1"
                             MinWidth="40"
                             Margin="0"
@@ -1532,9 +1551,9 @@
                             SelectedValuePath="." />
                         <CheckBox
                             x:Name="checkBoxOverrideTumblrBlogCrawler"
-                            Grid.Row="10"
+                            Grid.Row="11"
                             Grid.Column="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.OverrideTumblrBlogCrawler}"
@@ -1550,7 +1569,7 @@
                         </CheckBox>
                         <ComboBox
                             x:Name="defaultTumblrBlogFormatComboBox"
-                            Grid.Row="10"
+                            Grid.Row="11"
                             Grid.Column="3"
                             MinWidth="40"
                             Margin="0,0,10,0"
@@ -1570,9 +1589,9 @@
                             </ComboBox.ToolTip>
                         </ComboBox>
                         <Label
-                            Grid.Row="11"
+                            Grid.Row="12"
                             Grid.Column="0"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.DownloadPages}">
@@ -1586,7 +1605,7 @@
                             </Label.ToolTip>
                         </Label>
                         <TextBox
-                            Grid.Row="11"
+                            Grid.Row="12"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
@@ -1602,9 +1621,9 @@
                             </TextBox.ToolTip>
                         </TextBox>
                         <Label
-                            Grid.Row="11"
+                            Grid.Row="12"
                             Grid.Column="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.PageSize}">
@@ -1618,7 +1637,7 @@
                             </Label.ToolTip>
                         </Label>
                         <TextBox
-                            Grid.Row="11"
+                            Grid.Row="12"
                             Grid.Column="3"
                             Margin="00,0,10,0"
                             HorizontalAlignment="Stretch"
@@ -1635,9 +1654,9 @@
                             </TextBox.ToolTip>
                         </TextBox>
                         <Label
-                            Grid.Row="12"
+                            Grid.Row="13"
                             Grid.Column="0"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.DownloadFrom}">
@@ -1651,7 +1670,7 @@
                             </Label.ToolTip>
                         </Label>
                         <TextBox
-                            Grid.Row="12"
+                            Grid.Row="13"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
@@ -1667,9 +1686,9 @@
                             </TextBox.ToolTip>
                         </TextBox>
                         <Label
-                            Grid.Row="12"
+                            Grid.Row="13"
                             Grid.Column="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.DownloadTo}">
@@ -1683,7 +1702,7 @@
                             </Label.ToolTip>
                         </Label>
                         <TextBox
-                            Grid.Row="12"
+                            Grid.Row="13"
                             Grid.Column="3"
                             Margin="00,0,10,0"
                             HorizontalAlignment="Stretch"
@@ -1716,10 +1735,10 @@
                         </CheckBox>-->
                         <CheckBox
                             x:Name="checkBoxDownloadUrlList"
-                            Grid.Row="13"
+                            Grid.Row="14"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.DownloadUrlList2}"
                             IsChecked="{Binding DownloadUrlList, Mode=TwoWay}">
@@ -1733,9 +1752,9 @@
                             </CheckBox.ToolTip>
                         </CheckBox>
                         <Label
-                            Grid.Row="13"
+                            Grid.Row="14"
                             Grid.Column="2"
-                            Margin="10"
+                            Margin="10,9"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.Tags}">
@@ -1749,7 +1768,7 @@
                             </Label.ToolTip>
                         </Label>
                         <TextBox
-                            Grid.Row="13"
+                            Grid.Row="14"
                             Grid.Column="3"
                             Margin="00,0,10,0"
                             HorizontalAlignment="Stretch"
@@ -1767,14 +1786,14 @@
                         </TextBox>
                         <CheckBox
                             x:Name="checkBoxSkipGif"
-                            Grid.Row="15"
+                            Grid.Row="16"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.SkipGif}"
                             IsChecked="{Binding SkipGif, Mode=TwoWay}" />
-                        <Label Content="{x:Static p:Resources.FilenameTemplate}" Grid.Column="2" Grid.Row="14"
-                            Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label Content="{x:Static p:Resources.FilenameTemplate}" Grid.Column="2" Grid.Row="15"
+                            Margin="10,9" HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
@@ -1785,7 +1804,7 @@
                                 </ToolTip>
                             </Label.ToolTip>
                         </Label>
-                        <TextBox Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="14" Margin="0,0,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                        <TextBox Grid.Column="3" Grid.ColumnSpan="5" Grid.Row="15" Margin="0,0,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                  Text="{Binding FilenameTemplate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                  PreviewLostKeyboardFocus="FilenameTemplate_PreviewLostKeyboardFocus">
                             <TextBox.ToolTip>
@@ -1800,10 +1819,10 @@
                         </TextBox>
                         <CheckBox
                             x:Name="checkBoxForceSize"
-                            Grid.Row="15"
+                            Grid.Row="16"
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.ForceSize}"
                             IsChecked="{Binding ForceSize, Mode=TwoWay}">
                             <CheckBox.ToolTip>
@@ -1817,10 +1836,10 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxRegExPhotos"
-                            Grid.Row="16"
+                            Grid.Row="17"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.RegExPhotos}"
                             IsChecked="{Binding RegExPhotos, Mode=TwoWay}">
                             <CheckBox.ToolTip>
@@ -1834,10 +1853,10 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxDumpCrawlerData"
-                            Grid.Row="17"
+                            Grid.Row="18"
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.DumpCrawlerData}"
                             IsChecked="{Binding DumpCrawlerData, Mode=TwoWay}">
                             <CheckBox.ToolTip>
@@ -1851,10 +1870,10 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxRegExVideo"
-                            Grid.Row="17"
+                            Grid.Row="18"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.RegExVideos}"
                             IsChecked="{Binding RegExVideos, Mode=TwoWay}">
                             <CheckBox.ToolTip>
@@ -1868,10 +1887,10 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxForceRescan"
-                            Grid.Row="16"
+                            Grid.Row="17"
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             Content="{x:Static p:Resources.ForceRescan}"
                             IsChecked="{Binding ForceRescan, Mode=TwoWay}">
                             <CheckBox.ToolTip>
@@ -1885,10 +1904,10 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxGroupPhotoSets"
-                            Grid.Row="14"
+                            Grid.Row="15"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Margin="10"
+                            Margin="10,9"
                             VerticalAlignment="Center"
                             Content="{x:Static p:Resources.GroupPhotoSets}"
                             IsChecked="{Binding GroupPhotoSets, Mode=TwoWay}">

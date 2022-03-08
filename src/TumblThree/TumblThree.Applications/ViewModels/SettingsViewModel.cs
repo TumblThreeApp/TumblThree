@@ -127,6 +127,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _showPicturePreview;
         private bool _displayConfirmationDialog;
         private bool _skipGif;
+        private bool _downloadVideoThumbnails;
         private int _timeOut;
         private string _timerInterval;
         private int _videoSize;
@@ -427,6 +428,12 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _skipGif;
             set => SetProperty(ref _skipGif, value);
+        }
+
+        public bool DownloadVideoThumbnails
+        {
+            get => _downloadVideoThumbnails;
+            set => SetProperty(ref _downloadVideoThumbnails, value);
         }
 
         public bool EnablePreview
@@ -1198,6 +1205,7 @@ namespace TumblThree.Applications.ViewModels
                 ArchiveIndex = _settings.ArchiveIndex;
                 CheckOnlineStatusOnStartup = _settings.CheckOnlineStatusOnStartup;
                 SkipGif = _settings.SkipGif;
+                DownloadVideoThumbnails = _settings.DownloadVideoThumbnails;
                 EnablePreview = _settings.EnablePreview;
                 RemoveIndexAfterCrawl = _settings.RemoveIndexAfterCrawl;
                 DownloadImages = _settings.DownloadImages;
@@ -1295,6 +1303,7 @@ namespace TumblThree.Applications.ViewModels
                 ArchiveIndex = false;
                 CheckOnlineStatusOnStartup = false;
                 SkipGif = false;
+                DownloadVideoThumbnails = false;
                 EnablePreview = true;
                 RemoveIndexAfterCrawl = false;
                 DownloadImages = true;
@@ -1472,6 +1481,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.ArchiveIndex = ArchiveIndex;
             _settings.CheckOnlineStatusOnStartup = CheckOnlineStatusOnStartup;
             _settings.SkipGif = SkipGif;
+            _settings.DownloadVideoThumbnails = DownloadVideoThumbnails;
             _settings.EnablePreview = EnablePreview;
             _settings.RemoveIndexAfterCrawl = RemoveIndexAfterCrawl;
             _settings.DownloadImages = DownloadImages;

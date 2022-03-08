@@ -39,6 +39,7 @@ namespace TumblThree.Domain.Models.Blogs
         private string notes;
         private int rating;
         private bool skipGif;
+        private bool downloadVideoThumbnail;
         private string tags;
         private int duplicatePhotos;
         private int duplicateVideos;
@@ -851,6 +852,17 @@ namespace TumblThree.Domain.Models.Blogs
             set
             {
                 SetProperty(ref skipGif, value);
+                Dirty = true;
+            }
+        }
+
+        [DataMember]
+        public bool DownloadVideoThumbnail
+        {
+            get => downloadVideoThumbnail;
+            set
+            {
+                SetProperty(ref downloadVideoThumbnail, value);
                 Dirty = true;
             }
         }

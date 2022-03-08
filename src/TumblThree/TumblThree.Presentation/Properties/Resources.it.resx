@@ -730,4 +730,13 @@ In alternativa puoi usare la sezione {Issues} sul sito del nostro progetto per m
   <data name="FilenameTemplate" xml:space="preserve">
     <value>Πρότυπο ονόματος αρχείου:</value>
   </data>
+  <data name="DownloadVideoThumbnails" xml:space="preserve">
+    <value>Scarica le miniature dei video</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Descargar miniaturas de video (Twitter)</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
+    <value>Scarica le miniature dei video disponibili. Questa impostazione è indipendente da "Scarica immagini" e "Scarica video".</value>
+  </data>
 </root>
