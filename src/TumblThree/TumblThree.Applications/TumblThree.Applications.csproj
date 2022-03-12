@@ -365,7 +365,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.Threading.Tasks.Dataflow">
-      <Version>5.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
