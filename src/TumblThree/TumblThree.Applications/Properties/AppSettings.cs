@@ -30,7 +30,7 @@ namespace TumblThree.Applications.Properties
 
         private static readonly string[] imageSizeCategories =
             {
-                "large", "medium", "small", "thumb"
+                "best", "large", "medium", "small", "thumb"
             };
 
         private static readonly string[] videoSizes =

@@ -668,6 +668,11 @@ namespace TumblThree.Applications.Crawler
             return Tags.Count == 0 || post.Entities.Hashtags.Any(x => Tags.Contains(x.Text));
         }
 
+        private string ImageSizeForSearching()
+        {
+            return (ShellService.Settings.ImageSizeCategory == "best") ? "orig" : ShellService.Settings.ImageSizeCategory;
+        }
+
         private string GetUrlForPreferredImageSize(string url)
         {
             // <base_url>?format=<format>&name=<name>
@@ -677,7 +682,7 @@ namespace TumblThree.Applications.Crawler
             var path = url.Replace(filename, "");
             var ext = Path.GetExtension(filename).Replace(".", "");
             if (ext.Length == 0) return url;
-            return string.Format("{0}{1}?format={2}&name={3}", path, Path.GetFileNameWithoutExtension(filename), ext, ShellService.Settings.ImageSizeCategory);
+            return string.Format("{0}{1}?format={2}&name={3}", path, Path.GetFileNameWithoutExtension(filename), ext, ImageSizeForSearching());
         }
 
         private static List<Media> GetMedia(Tweet post)
@@ -799,14 +804,13 @@ namespace TumblThree.Applications.Crawler
             if (Blog.DownloadVideoThumbnail)
             {
                 var imageUrl = media[0].MediaUrlHttps;
-                var imageUrlConverted = GetUrlForPreferredImageSize(imageUrl);
                 var filename = FileName(imageUrl);
                 if (!string.Equals(Path.GetFileNameWithoutExtension(FileName(urlPrepared)), Path.GetFileNameWithoutExtension(filename), StringComparison.OrdinalIgnoreCase))
                 {
                     filename = Path.GetFileNameWithoutExtension(FileName(urlPrepared)) + "_" + filename;
                 }
                 filename = BuildFileName(filename, post, "photo", -1);
-                AddToDownloadList(new PhotoPost(imageUrlConverted, post.IdStr, UnixTimestamp(post).ToString(), filename));
+                AddToDownloadList(new PhotoPost(imageUrl, post.IdStr, UnixTimestamp(post).ToString(), filename));
             }
         }
 
