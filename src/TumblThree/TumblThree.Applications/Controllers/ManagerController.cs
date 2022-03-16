@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Waf.Applications.Services;
 using System.Windows.Forms;
+using System.Windows.Input;
 using TumblThree.Applications.Crawler;
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.Properties;
@@ -930,6 +931,7 @@ namespace TumblThree.Applications.Controllers
             var semaphoreSlim = new SemaphoreSlim(25);
 
             await _addBlogSemaphoreSlim.WaitAsync();
+            QueueOnDispatcher.CheckBeginInvokeOnUI(() => Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait);
             try
             {
                 IEnumerable<Task> tasks = urls.Select(async url => await AddBlogsAsync(semaphoreSlim, url));
@@ -939,6 +941,7 @@ namespace TumblThree.Applications.Controllers
             {
                 _addBlogSemaphoreSlim.Release();
                 semaphoreSlim.Dispose();
+                QueueOnDispatcher.CheckBeginInvokeOnUI(() => Mouse.OverrideCursor = null);
             }
         }
 
