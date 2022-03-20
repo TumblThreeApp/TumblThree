@@ -48,38 +48,11 @@
         </ObjectDataProvider>
 
         <ObjectDataProvider
-            x:Key="MixtapeTypes"
-            MethodName="GetValues"
-            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Models:MixtapeTypes" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-        <ObjectDataProvider
             x:Key="UguuTypes"
             MethodName="GetValues"
             ObjectType="{x:Type sys:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="Models:UguuTypes" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-        <ObjectDataProvider
-            x:Key="SafeMoeTypes"
-            MethodName="GetValues"
-            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Models:SafeMoeTypes" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-        <ObjectDataProvider
-            x:Key="LoliSafeTypes"
-            MethodName="GetValues"
-            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Models:LoliSafeTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
@@ -2041,39 +2014,6 @@
                         </ComboBox>
 
                         <CheckBox
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            Margin="10"
-                            Content="{x:Static p:Resources.DownloadMixtape}"
-                            IsChecked="{Binding DownloadMixtape, Mode=TwoWay}">
-                            <CheckBox.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadMixtape}" />
-                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadMixtapeDescription}" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </CheckBox.ToolTip>
-                        </CheckBox>
-                        <ComboBox
-                            Grid.Row="4"
-                            Grid.Column="2"
-                            Margin="5"
-                            ItemsSource="{Binding Source={StaticResource MixtapeTypes}}"
-                            SelectedItem="{Binding MixtapeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            SelectedValue="{Binding MixtapeType}"
-                            SelectedValuePath=".">
-                            <ComboBox.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipMixtapeFiletype}" />
-                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipMixtapeFiletypeDescription}" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </ComboBox.ToolTip>
-                        </ComboBox>
-
-                        <CheckBox
                             Grid.Row="5"
                             Grid.Column="0"
                             Margin="10"
@@ -2101,72 +2041,6 @@
                                     <StackPanel>
                                         <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipUguuFiletype}" />
                                         <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipUguuFiletypeDescription}" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </ComboBox.ToolTip>
-                        </ComboBox>
-
-                        <CheckBox
-                            Grid.Row="6"
-                            Grid.Column="0"
-                            Margin="10"
-                            Content="{x:Static p:Resources.DownloadSafeMoe}"
-                            IsChecked="{Binding DownloadSafeMoe, Mode=TwoWay}">
-                            <CheckBox.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadSafeMoe}" />
-                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadSafeMoeDescription}" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </CheckBox.ToolTip>
-                        </CheckBox>
-
-                        <ComboBox
-                            Grid.Row="6"
-                            Grid.Column="2"
-                            Margin="5"
-                            ItemsSource="{Binding Source={StaticResource SafeMoeTypes}}"
-                            SelectedItem="{Binding SafeMoeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            SelectedValue="{Binding SafeMoeType}"
-                            SelectedValuePath=".">
-                            <ComboBox.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipSafeMoeFiletype}" />
-                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipSafeMoeFiletypeDescription}" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </ComboBox.ToolTip>
-                        </ComboBox>
-                        <CheckBox
-                            Grid.Row="7"
-                            Grid.Column="0"
-                            Margin="10"
-                            Content="{x:Static p:Resources.DownloadLoliSafe}"
-                            IsChecked="{Binding DownloadLoliSafe, Mode=TwoWay}">
-                            <CheckBox.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadLoliSafe}" />
-                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadLoliSafeDescription}" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </CheckBox.ToolTip>
-                        </CheckBox>
-                        <ComboBox
-                            Grid.Row="7"
-                            Grid.Column="2"
-                            Margin="5"
-                            ItemsSource="{Binding Source={StaticResource LoliSafeTypes}}"
-                            SelectedItem="{Binding LoliSafeType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            SelectedValue="{Binding LoliSafeType}"
-                            SelectedValuePath=".">
-                            <ComboBox.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLoliSafeFiletype}" />
-                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLoliSafeFiletypeDescription}" />
                                     </StackPanel>
                                 </ToolTip>
                             </ComboBox.ToolTip>

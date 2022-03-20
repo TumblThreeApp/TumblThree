@@ -20,10 +20,7 @@
         new bool? DownloadImgur { get; set; }
         new bool? DownloadGfycat { get; set; }
         new bool? DownloadWebmshare { get; set; }
-        new bool? DownloadMixtape { get; set; }
         new bool? DownloadUguu { get; set; }
-        new bool? DownloadSafeMoe { get; set; }
-        new bool? DownloadLoliSafe { get; set; }
         new bool? DownloadCatBox { get; set; }
         new bool? DumpCrawlerData { get; set; }
         new bool? RegExPhotos { get; set; }
@@ -50,10 +47,7 @@
         bool DownloadImgurDiff { get; set; }
         bool DownloadGfycatDiff { get; set; }
         bool DownloadWebmshareDiff { get; set; }
-        bool DownloadMixtapeDiff { get; set; }
         bool DownloadUguuDiff { get; set; }
-        bool DownloadSafeMoeDiff { get; set; }
-        bool DownloadLoliSafeDiff { get; set; }
         bool DownloadCatBoxDiff { get; set; }
         bool DumpCrawlerDataDiff { get; set; }
         bool RegExPhotosDiff { get; set; }

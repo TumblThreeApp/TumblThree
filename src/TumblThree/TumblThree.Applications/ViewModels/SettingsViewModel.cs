@@ -107,20 +107,14 @@ namespace TumblThree.Applications.ViewModels
         private bool _downloadGfycat;
         private bool _downloadImgur;
         private bool _downloadWebmshare;
-        private bool _downloadMixtape;
         private bool _downloadUguu;
-        private bool _downloadSafeMoe;
-        private bool _downloadLoliSafe;
         private bool _downloadCatBox;
         private MetadataType _metadataFormat;
         private bool _overrideTumblrBlogCrawler;
         private TumblrBlogCrawlerTypes _tumblrBlogCrawlerType;
         private GfycatTypes _gfycatType;
         private WebmshareTypes _webmshareType;
-        private MixtapeTypes _mixtapeType;
         private UguuTypes _uguuType;
-        private SafeMoeTypes _safeMoeType;
-        private LoliSafeTypes _loliSafeType;
         private CatBoxTypes _catBoxType;
         private bool _removeIndexAfterCrawl;
         private string _secretKey;
@@ -757,18 +751,6 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _webmshareType, value);
         }
 
-        public bool DownloadMixtape
-        {
-            get => _downloadMixtape;
-            set => SetProperty(ref _downloadMixtape, value);
-        }
-
-        public MixtapeTypes MixtapeType
-        {
-            get => _mixtapeType;
-            set => SetProperty(ref _mixtapeType, value);
-        }
-
         public bool DownloadUguu
         {
             get => _downloadUguu;
@@ -779,30 +761,6 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _uguuType;
             set => SetProperty(ref _uguuType, value);
-        }
-
-        public bool DownloadSafeMoe
-        {
-            get => _downloadSafeMoe;
-            set => SetProperty(ref _downloadSafeMoe, value);
-        }
-
-        public SafeMoeTypes SafeMoeType
-        {
-            get => _safeMoeType;
-            set => SetProperty(ref _safeMoeType, value);
-        }
-
-        public bool DownloadLoliSafe
-        {
-            get => _downloadLoliSafe;
-            set => SetProperty(ref _downloadLoliSafe, value);
-        }
-
-        public LoliSafeTypes LoliSafeType
-        {
-            get => _loliSafeType;
-            set => SetProperty(ref _loliSafeType, value);
         }
 
         public bool DownloadCatBox
@@ -1231,19 +1189,13 @@ namespace TumblThree.Applications.ViewModels
                 DownloadImgur = _settings.DownloadImgur;
                 DownloadGfycat = _settings.DownloadGfycat;
                 DownloadWebmshare = _settings.DownloadWebmshare;
-                DownloadMixtape = _settings.DownloadMixtape;
                 DownloadUguu = _settings.DownloadUguu;
-                DownloadSafeMoe = _settings.DownloadSafeMoe;
-                DownloadLoliSafe = _settings.DownloadLoliSafe;
                 DownloadCatBox = _settings.DownloadCatBox;
                 GfycatType = _settings.GfycatType;
                 WebmshareType = _settings.WebmshareType;
-                MixtapeType = _settings.MixtapeType;
                 OverrideTumblrBlogCrawler = _settings.OverrideTumblrBlogCrawler;
                 TumblrBlogCrawlerType = _settings.TumblrBlogCrawlerType;
                 UguuType = _settings.UguuType;
-                SafeMoeType = _settings.SafeMoeType;
-                LoliSafeType = _settings.LoliSafeType;
                 CatBoxType = _settings.CatBoxType;
                 DownloadRebloggedPosts = _settings.DownloadRebloggedPosts;
                 AutoDownload = _settings.AutoDownload;
@@ -1331,17 +1283,11 @@ namespace TumblThree.Applications.ViewModels
                 DownloadImgur = false;
                 DownloadGfycat = false;
                 DownloadWebmshare = false;
-                DownloadMixtape = false;
                 DownloadUguu = false;
-                DownloadSafeMoe = false;
-                DownloadLoliSafe = false;
                 DownloadCatBox = false;
                 GfycatType = GfycatTypes.Mp4;
                 WebmshareType = WebmshareTypes.Webm;
-                MixtapeType = MixtapeTypes.Any;
                 UguuType = UguuTypes.Any;
-                SafeMoeType = SafeMoeTypes.Any;
-                LoliSafeType = LoliSafeTypes.Any;
                 CatBoxType = CatBoxTypes.Any;
                 DownloadRebloggedPosts = true;
                 AutoDownload = false;
@@ -1518,17 +1464,11 @@ namespace TumblThree.Applications.ViewModels
             _settings.DownloadImgur = DownloadImgur;
             _settings.DownloadGfycat = DownloadGfycat;
             _settings.DownloadWebmshare = DownloadWebmshare;
-            _settings.DownloadMixtape = DownloadMixtape;
             _settings.DownloadUguu = DownloadUguu;
-            _settings.DownloadSafeMoe = DownloadSafeMoe;
-            _settings.DownloadLoliSafe = DownloadLoliSafe;
             _settings.DownloadCatBox = DownloadCatBox;
             _settings.GfycatType = GfycatType;
             _settings.WebmshareType = WebmshareType;
-            _settings.MixtapeType = MixtapeType;
             _settings.UguuType = UguuType;
-            _settings.SafeMoeType = SafeMoeType;
-            _settings.LoliSafeType = LoliSafeType;
             _settings.CatBoxType = CatBoxType;
             _settings.CheckDirectoryForFiles = CheckDirectoryForFiles;
             _settings.DownloadUrlList = DownloadUrlList;

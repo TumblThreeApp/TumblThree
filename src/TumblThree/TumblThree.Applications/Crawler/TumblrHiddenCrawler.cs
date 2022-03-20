@@ -42,11 +42,10 @@ namespace TumblThree.Applications.Crawler
         public TumblrHiddenCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
             ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
-            IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IMixtapeParser mixtapeParser, IUguuParser uguuParser,
-            ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser, ICatBoxParser catboxParser,
+            IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser,
             IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Post>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, mixtapeParser, uguuParser, safemoeParser, lolisafeParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader, progress, pt,
+                webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader, progress, pt,
                 ct)
         {
             this.downloader = downloader;
@@ -680,24 +679,9 @@ namespace TumblThree.Applications.Crawler
                 AddWebmshareUrl(searchableText, timestamp);
             }
 
-            if (Blog.DownloadMixtape)
-            {
-                AddMixtapeUrl(searchableText, timestamp);
-            }
-
             if (Blog.DownloadUguu)
             {
                 AddUguuUrl(searchableText, timestamp);
-            }
-
-            if (Blog.DownloadSafeMoe)
-            {
-                AddSafeMoeUrl(searchableText, timestamp);
-            }
-
-            if (Blog.DownloadLoliSafe)
-            {
-                AddLoliSafeUrl(searchableText, timestamp);
             }
 
             if (Blog.DownloadCatBox)

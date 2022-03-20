@@ -296,10 +296,7 @@ namespace TumblThree.Applications.Controllers
                 DownloadImgur = SetCheckBox(sharedBlogFiles, "DownloadImgur"),
                 DownloadGfycat = SetCheckBox(sharedBlogFiles, "DownloadGfycat"),
                 DownloadWebmshare = SetCheckBox(sharedBlogFiles, "DownloadWebmshare"),
-                DownloadMixtape = SetCheckBox(sharedBlogFiles, "DownloadMixtape"),
                 DownloadUguu = SetCheckBox(sharedBlogFiles, "DownloadUguu"),
-                DownloadSafeMoe = SetCheckBox(sharedBlogFiles, "DownloadSafeMoe"),
-                DownloadLoliSafe = SetCheckBox(sharedBlogFiles, "DownloadLoliSafe"),
                 DownloadCatBox = SetCheckBox(sharedBlogFiles, "DownloadCatBox"),
                 DumpCrawlerData = SetCheckBox(sharedBlogFiles, "DumpCrawlerData"),
                 RegExPhotos = SetCheckBox(sharedBlogFiles, "RegExPhotos"),
@@ -316,10 +313,7 @@ namespace TumblThree.Applications.Controllers
             bool dummy = false;
             ba.GfycatType = SetProperty<GfycatTypes>(sharedBlogFiles, "GfycatType", (outval) => dummy = outval);
             ba.WebmshareType = SetProperty<WebmshareTypes>(sharedBlogFiles, "WebmshareType", (outval) => dummy = outval);
-            ba.MixtapeType = SetProperty<MixtapeTypes>(sharedBlogFiles, "MixtapeType", (outval) => dummy = outval);
             ba.UguuType = SetProperty<UguuTypes>(sharedBlogFiles, "UguuType", (outval) => dummy = outval);
-            ba.SafeMoeType = SetProperty<SafeMoeTypes>(sharedBlogFiles, "SafeMoeType", (outval) => dummy = outval);
-            ba.LoliSafeType = SetProperty<LoliSafeTypes>(sharedBlogFiles, "LoliSafeType", (outval) => dummy = outval);
             ba.CatBoxType = SetProperty<CatBoxTypes>(sharedBlogFiles, "CatBoxType", (outval) => dummy = outval);
             ba.MetadataFormat = SetProperty<MetadataType>(sharedBlogFiles, "MetadataFormat", (outval) => ba.MetadataFormatEnabled = outval);
             ba.BlogType = SetProperty<BlogTypes>(sharedBlogFiles, "BlogType", (outval) => dummy = outval);

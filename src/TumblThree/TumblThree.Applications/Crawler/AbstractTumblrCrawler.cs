@@ -37,19 +37,12 @@ namespace TumblThree.Applications.Crawler
 
         public IWebmshareParser WebmshareParser { get; }
 
-        public IMixtapeParser MixtapeParser { get; }
-
         public IUguuParser UguuParser { get; }
-
-        public ISafeMoeParser SafemoeParser { get; }
-
-        public ILoliSafeParser LolisafeParser { get; }
 
         public ICatBoxParser CatboxParser { get; }
 
         protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
-            ITumblrParser tumblrParser, IImgurParser imgurParser, IGfycatParser gfycatParser, IWebmshareParser webmshareParser,
-            IMixtapeParser mixtapeParser, IUguuParser uguuParser, ISafeMoeParser safemoeParser, ILoliSafeParser lolisafeParser,
+            ITumblrParser tumblrParser, IImgurParser imgurParser, IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser,
             ICatBoxParser catboxParser, IPostQueue<AbstractPost> postQueue, IBlog blog, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
             IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, progress, webRequestFactory, cookieService, postQueue, blog, downloader, pt, ct)
@@ -60,10 +53,7 @@ namespace TumblThree.Applications.Crawler
             this.ImgurParser = imgurParser;
             this.GfycatParser = gfycatParser;
             this.WebmshareParser = webmshareParser;
-            this.MixtapeParser = mixtapeParser;
             this.UguuParser = uguuParser;
-            this.SafemoeParser = safemoeParser;
-            this.LolisafeParser = lolisafeParser;
             this.CatboxParser = catboxParser;
         }
 
@@ -144,16 +134,6 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        protected void AddMixtapeUrl(string post, string timestamp)
-        {
-            foreach (string imageUrl in MixtapeParser.SearchForMixtapeUrl(post, Blog.MixtapeType))
-            {
-                if (CheckIfSkipGif(imageUrl)) { continue; }
-
-                AddToDownloadList(new ExternalVideoPost(imageUrl, MixtapeParser.GetMixtapeId(imageUrl), timestamp));
-            }
-        }
-
         protected void AddUguuUrl(string post, string timestamp)
         {
             foreach (string imageUrl in UguuParser.SearchForUguuUrl(post, Blog.UguuType))
@@ -161,26 +141,6 @@ namespace TumblThree.Applications.Crawler
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
                 AddToDownloadList(new ExternalVideoPost(imageUrl, UguuParser.GetUguuId(imageUrl), timestamp));
-            }
-        }
-
-        protected void AddSafeMoeUrl(string post, string timestamp)
-        {
-            foreach (string imageUrl in SafemoeParser.SearchForSafeMoeUrl(post, Blog.SafeMoeType))
-            {
-                if (CheckIfSkipGif(imageUrl)) { continue; }
-
-                AddToDownloadList(new ExternalVideoPost(imageUrl, SafemoeParser.GetSafeMoeId(imageUrl), timestamp));
-            }
-        }
-
-        protected void AddLoliSafeUrl(string post, string timestamp)
-        {
-            foreach (string imageUrl in LolisafeParser.SearchForLoliSafeUrl(post, Blog.LoliSafeType))
-            {
-                if (CheckIfSkipGif(imageUrl)) { continue; }
-
-                AddToDownloadList(new ExternalVideoPost(imageUrl, LolisafeParser.GetLoliSafeId(imageUrl), timestamp));
             }
         }
 

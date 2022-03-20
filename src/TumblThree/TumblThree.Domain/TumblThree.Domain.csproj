@@ -128,7 +128,6 @@
     <Compile Include="Models\Files\TumblrBlogFiles.cs" />
     <Compile Include="Models\Files\Files.cs" />
     <Compile Include="Models\Files\TwitterBlogFiles.cs" />
-    <Compile Include="Models\LoliSafeTypes.cs" />
     <Compile Include="Models\TumblrBlogCrawlerTypes.cs" />
     <Compile Include="Models\MetadataType.cs" />
     <Compile Include="Models\GfycatType.cs" />
@@ -137,13 +136,11 @@
     <Compile Include="Models\ICrawlerData.cs" />
     <Compile Include="Models\Files\IFiles.cs" />
     <Compile Include="Models\IUrlValidator.cs" />
-    <Compile Include="Models\MixtapeTypes.cs" />
     <Compile Include="Models\Blogs\TumblrHiddenBlog.cs" />
     <Compile Include="Models\Blogs\TumblrBlog.cs" />
     <Compile Include="Models\Blogs\TumblrLikedByBlog.cs" />
     <Compile Include="Models\Blogs\TumblrTagSearchBlog.cs" />
     <Compile Include="Models\Blogs\TumblrSearchBlog.cs" />
-    <Compile Include="Models\SafeMoeTypes.cs" />
     <Compile Include="Models\UguuTypes.cs" />
     <Compile Include="Models\UrlValidator.cs" />
     <Compile Include="Models\WebmshareTypes.cs" />

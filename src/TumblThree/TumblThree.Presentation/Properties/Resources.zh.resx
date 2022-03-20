@@ -777,15 +777,6 @@
   <data name="DownloadCatBox" xml:space="preserve">
     <value>下载 CatBox</value>
   </data>
-  <data name="DownloadLoliSafe" xml:space="preserve">
-    <value>下载 lolisafe</value>
-  </data>
-  <data name="DownloadMixtape" xml:space="preserve">
-    <value>下载 Mixtape</value>
-  </data>
-  <data name="DownloadSafeMoe" xml:space="preserve">
-    <value>下载 SafeMoe</value>
-  </data>
   <data name="DownloadUguu" xml:space="preserve">
     <value>下载 Uguu</value>
   </data>
@@ -794,24 +785,6 @@
   </data>
   <data name="ToolTipDownloadCatBoxDescription" xml:space="preserve">
     <value>下载由 CatBox 外部托管的的文件</value>
-  </data>
-  <data name="ToolTipDownloadLoliSafe" xml:space="preserve">
-    <value>下载外链 loliSafe 的文件</value>
-  </data>
-  <data name="ToolTipDownloadLoliSafeDescription" xml:space="preserve">
-    <value>下载由 loliSafe 外部托管的的文件</value>
-  </data>
-  <data name="ToolTipDownloadMixtape" xml:space="preserve">
-    <value>下载外链 Mixtape.moe 的文件</value>
-  </data>
-  <data name="ToolTipDownloadMixtapeDescription" xml:space="preserve">
-    <value>下载由 Mixtape.moe 外部托管的的文件</value>
-  </data>
-  <data name="ToolTipDownloadSafeMoe" xml:space="preserve">
-    <value>下载外链 SafeMoe 的文件</value>
-  </data>
-  <data name="ToolTipDownloadSafeMoeDescription" xml:space="preserve">
-    <value>下载由 SafeMoe 外部托管的的文件</value>
   </data>
   <data name="ToolTipDownloadUguu" xml:space="preserve">
     <value>下载外链 Uguu 的文件</value>
@@ -823,24 +796,6 @@
     <value>要下载的文件类型</value>
   </data>
   <data name="ToolTipCatBoxFiletypeDescription" xml:space="preserve">
-    <value>选择你想要下载的文件类型</value>
-  </data>
-  <data name="ToolTipLoliSafeFiletype" xml:space="preserve">
-    <value>要下载的文件类型</value>
-  </data>
-  <data name="ToolTipLoliSafeFiletypeDescription" xml:space="preserve">
-    <value>选择你想要下载的文件类型</value>
-  </data>
-  <data name="ToolTipMixtapeFiletype" xml:space="preserve">
-    <value>要下载的文件类型</value>
-  </data>
-  <data name="ToolTipMixtapeFiletypeDescription" xml:space="preserve">
-    <value>选择你想要下载的文件类型</value>
-  </data>
-  <data name="ToolTipSafeMoeFiletype" xml:space="preserve">
-    <value>要下载的文件类型</value>
-  </data>
-  <data name="ToolTipSafeMoeFiletypeDescription" xml:space="preserve">
     <value>选择你想要下载的文件类型</value>
   </data>
   <data name="ToolTipUguuFiletype" xml:space="preserve">

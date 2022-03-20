@@ -26,10 +26,7 @@
         private bool? downloadImgur;
         private bool? downloadGfycat;
         private bool? downloadWebmshare;
-        private bool? downloadMixtape;
         private bool? downloadUguu;
-        private bool? downloadSafeMoe;
-        private bool? downloadLoliSafe;
         private bool? downloadCatBox;
         private bool? dumpCrawlerData;
         private bool? regExPhotos;
@@ -56,10 +53,7 @@
         private bool downloadImgurDiff;
         private bool downloadGfycatDiff;
         private bool downloadWebmshareDiff;
-        private bool downloadMixtapeDiff;
         private bool downloadUguuDiff;
-        private bool downloadSafeMoeDiff;
-        private bool downloadLoliSafeDiff;
         private bool downloadCatBoxDiff;
         private bool dumpCrawlerDataDiff;
         private bool regExPhotosDiff;
@@ -422,25 +416,6 @@
             }
         }
 
-        public new bool? DownloadMixtape
-        {
-            get { return downloadMixtape; }
-            set
-            {
-                DownloadMixtapeDiff = !value.HasValue;
-                SetProperty(ref downloadMixtape, value);
-            }
-        }
-
-        public bool DownloadMixtapeDiff
-        {
-            get { return downloadMixtapeDiff; }
-            set
-            {
-                SetProperty(ref downloadMixtapeDiff, value);
-            }
-        }
-
         public new bool? DownloadUguu
         {
             get { return downloadUguu; }
@@ -457,44 +432,6 @@
             set
             {
                 SetProperty(ref downloadUguuDiff, value);
-            }
-        }
-
-        public new bool? DownloadSafeMoe
-        {
-            get { return downloadSafeMoe; }
-            set
-            {
-                DownloadSafeMoeDiff = !value.HasValue;
-                SetProperty(ref downloadSafeMoe, value);
-            }
-        }
-
-        public bool DownloadSafeMoeDiff
-        {
-            get { return downloadSafeMoeDiff; }
-            set
-            {
-                SetProperty(ref downloadSafeMoeDiff, value);
-            }
-        }
-
-        public new bool? DownloadLoliSafe
-        {
-            get { return downloadLoliSafe; }
-            set
-            {
-                DownloadLoliSafeDiff = !value.HasValue;
-                SetProperty(ref downloadLoliSafe, value);
-            }
-        }
-
-        public bool DownloadLoliSafeDiff
-        {
-            get { return downloadLoliSafeDiff; }
-            set
-            {
-                SetProperty(ref downloadLoliSafeDiff, value);
             }
         }
 

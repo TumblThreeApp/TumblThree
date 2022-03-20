@@ -47,7 +47,7 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * Download meta information for photo, video and audio posts.
 * Downloads inlined photos and videos (e.g. photos embedded in question&answer posts).
 * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
-* Support for downloading Imgur, Gfycat, Webmshare, Mixtape, Lolisafe, Uguu, Catbox and SafeMoe linked files in tumblr posts.
+* Support for downloading Imgur, Gfycat, Webmshare, Uguu and Catbox linked files in tumblr posts.
 * Download of safe mode/NSFW blogs.
 * Allows to download only original content of the blog and skip reblogged posts.
 * Can download only tagged posts.

@@ -71,17 +71,11 @@ namespace TumblThree.Domain.Models.Blogs
         private bool downloadGfycat;
         private bool downloadImgur;
         private bool downloadWebmshare;
-        private bool downloadMixtape;
         private bool downloadUguu;
-        private bool downloadSafeMoe;
-        private bool downloadLoliSafe;
         private bool downloadCatBox;
         private GfycatTypes gfycatType;
         private WebmshareTypes webmshareType;
-        private MixtapeTypes mixtapeType;
         private UguuTypes uguuType;
-        private SafeMoeTypes safemoeType;
-        private LoliSafeTypes lolisafeType;
         private CatBoxTypes catboxType;
         private string downloadPages;
         private int pageSize;
@@ -597,20 +591,6 @@ namespace TumblThree.Domain.Models.Blogs
         }
 
         [DataMember]
-        public bool DownloadMixtape
-        {
-            get => downloadMixtape;
-            set => SetProperty(ref downloadMixtape, value);
-        }
-
-        [DataMember]
-        public MixtapeTypes MixtapeType
-        {
-            get => mixtapeType;
-            set => SetProperty(ref mixtapeType, value);
-        }
-
-        [DataMember]
         public bool DownloadUguu
         {
             get => downloadUguu;
@@ -622,34 +602,6 @@ namespace TumblThree.Domain.Models.Blogs
         {
             get => uguuType;
             set => SetProperty(ref uguuType, value);
-        }
-
-        [DataMember]
-        public bool DownloadSafeMoe
-        {
-            get => downloadSafeMoe;
-            set => SetProperty(ref downloadSafeMoe, value);
-        }
-
-        [DataMember]
-        public SafeMoeTypes SafeMoeType
-        {
-            get => safemoeType;
-            set => SetProperty(ref safemoeType, value);
-        }
-
-        [DataMember]
-        public bool DownloadLoliSafe
-        {
-            get => downloadLoliSafe;
-            set => SetProperty(ref downloadLoliSafe, value);
-        }
-
-        [DataMember]
-        public LoliSafeTypes LoliSafeType
-        {
-            get => lolisafeType;
-            set => SetProperty(ref lolisafeType, value);
         }
 
         [DataMember]

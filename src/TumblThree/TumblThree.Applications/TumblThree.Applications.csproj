@@ -153,11 +153,8 @@
     <Compile Include="Parser\ICatBoxParser.cs" />
     <Compile Include="Parser\IGfycatParser.cs" />
     <Compile Include="Parser\IImgurParser.cs" />
-    <Compile Include="Parser\ILoliSafeParser.cs" />
     <Compile Include="Parser\ImgurParser.cs" />
     <Compile Include="Crawler\ITumblrBlogDetector.cs" />
-    <Compile Include="Parser\IMixtapeParser.cs" />
-    <Compile Include="Parser\ISafeMoeParser.cs" />
     <Compile Include="Parser\ITumblrParser.cs" />
     <Compile Include="Parser\ITumblrToText.cs" />
     <Compile Include="Parser\IUguuParser.cs" />
@@ -167,9 +164,6 @@
     <Compile Include="Services\ILogService.cs" />
     <Compile Include="Services\IWebRequestFactory.cs" />
     <Compile Include="Crawler\TumblrBlogDetector.cs" />
-    <Compile Include="Parser\LoliSafeParser.cs" />
-    <Compile Include="Parser\MixtapeParser.cs" />
-    <Compile Include="Parser\SafeMoeParser.cs" />
     <Compile Include="Parser\TumblrSvcJsonToJson.cs" />
     <Compile Include="Parser\TumblrApiJsonToJson.cs" />
     <Compile Include="Parser\TumblrParser.cs" />
