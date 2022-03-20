@@ -20,7 +20,7 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * Source code at github (Written in C# using WPF and MVVM).
 * Multiple concurrent downloads of a single blog.
 * Multiple concurrent downloads of different blogs.
-* Internationalization support (currently available: de, es, fr, ru, zh).
+* Internationalization support (several languages available).
 * A download queue.
 * Autosave of the queuelist.
 * Save, clear and restore the queuelist.
