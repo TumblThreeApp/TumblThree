@@ -666,6 +666,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         [DataMember(Name = "can_send_in_message", EmitDefaultValue = false)]
         public bool CanSendInMessage { get; set; }
 
+        [DataMember(Name = "is_pinned", EmitDefaultValue = false)]
+        public bool IsPinned { get; set; }
+
         [DataMember(Name = "can_reply", EmitDefaultValue = false)]
         public bool CanReply { get; set; }
 

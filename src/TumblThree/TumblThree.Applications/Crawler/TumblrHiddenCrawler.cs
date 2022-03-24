@@ -262,7 +262,7 @@ namespace TumblThree.Applications.Crawler
             string document = await GetSvcPageAsync("1", "0");
             var response = ConvertJsonToClass<TumblrJson>(document);
 
-            Post post = response.Response.Posts.FirstOrDefault();
+            Post post = response.Response.Posts.FirstOrDefault(x => !x.IsPinned);
             if (DateTime.TryParse(post?.Date, out var latestPost)) Blog.LatestPost = latestPost;
             _ = ulong.TryParse(Blog.Title = post?.Id, out var highestId);
             return highestId;
@@ -417,7 +417,7 @@ namespace TumblThree.Applications.Crawler
         private bool CheckPostAge(TumblrJson document)
         {
             ulong highestPostId = 0;
-            var post = document.Response.Posts.FirstOrDefault();
+            var post = document.Response.Posts.FirstOrDefault(x => !x.IsPinned);
             if (post == null) return false;
             _ = ulong.TryParse(post.Id, out highestPostId);
             return highestPostId >= GetLastPostId();
