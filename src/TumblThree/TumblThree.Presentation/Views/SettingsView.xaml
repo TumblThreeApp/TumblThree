@@ -1492,7 +1492,7 @@
                             Grid.ColumnSpan="2"
                             Margin="10,9"
                             Content="{x:Static p:Resources.DownloadVideoThumbnails}"
-                            IsChecked="{Binding DownloadVideoThumbnail, Mode=TwoWay}">
+                            IsChecked="{Binding DownloadVideoThumbnails, Mode=TwoWay}">
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
