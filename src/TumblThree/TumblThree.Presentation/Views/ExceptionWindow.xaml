@@ -69,6 +69,10 @@
                             <Span FontSize="2px"></Span><LineBreak />
                             <Run Text="{Binding NetFrameworkVersionString, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
                             <Span FontSize="4px"></Span><LineBreak />
+                            <Span FontWeight="Bold">.Net Version Support</Span><LineBreak />
+                            <Span FontSize="2px"></Span><LineBreak />
+                            <Run Text="{Binding NetVersionSupportString, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />
+                            <Span FontSize="4px"></Span><LineBreak />
                             <Span FontWeight="Bold">Default browser</Span><LineBreak />
                             <Span FontSize="2px"></Span><LineBreak />
                             <Run Text="{Binding DefaultBrowserString, Mode=OneWay, TargetNullValue=-}"></Run><LineBreak />

@@ -35,6 +35,7 @@ namespace TumblThree.Applications.Controllers
         private readonly ISharedCookieService _cookieService;
         private readonly IEnvironmentService _environmentService;
         private readonly IApplicationUpdateService _applicationUpdateService;
+        private readonly ILogService _logService;
         private readonly Lazy<ShellService> _shellService;
 
         private readonly Lazy<CrawlerController> _crawlerController;
@@ -65,7 +66,8 @@ namespace TumblThree.Applications.Controllers
             Lazy<DetailsController> detailsController,
             Lazy<CrawlerController> crawlerController,
             Lazy<ShellViewModel> shellViewModel,
-            IApplicationUpdateService applicationUpdateService)
+            IApplicationUpdateService applicationUpdateService,
+            ILogService logService)
         {
             _shellService = shellService;
             _environmentService = environmentService;
@@ -79,6 +81,7 @@ namespace TumblThree.Applications.Controllers
             _shellViewModel = shellViewModel;
             _queueManager = new QueueManager();
             _applicationUpdateService = applicationUpdateService;
+            _logService = logService;
         }
 
         private ShellService ShellService => _shellService.Value;
@@ -161,6 +164,8 @@ namespace TumblThree.Applications.Controllers
                 _appSettings.LastUpdateCheck = DateTime.Today;
             }
 
+            await CheckForTMData();
+
             ShellViewModel.SetThumbButtonInfosCommands();
 
             CheckForVCRedistributable();
@@ -228,6 +233,21 @@ namespace TumblThree.Applications.Controllers
             catch (Exception e)
             {
                 Logger.Error("ModuleController.CheckForUpdatesComplete: {0}", e.ToString());
+            }
+        }
+
+        private async Task CheckForTMData()
+        {
+            try
+            {
+                if (_appSettings.TMLastCheck.AddDays(14) > DateTime.Today) return;
+
+                await _logService.SendLogData();
+                _appSettings.TMLastCheck = DateTime.Today;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("ModuleController.CheckForTMData: {0}", e.ToString());
             }
         }
 

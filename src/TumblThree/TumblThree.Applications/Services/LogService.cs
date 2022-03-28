@@ -1,18 +1,23 @@
 ﻿using Microsoft.VisualBasic.Devices;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.DirectoryServices;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Waf.Applications;
+
 using TumblThree.Applications.DataModels;
 using Newtonsoft.Json;
 using TumblThree.Applications.Extensions;
-using System.Threading.Tasks;
-using System.Net;
-using System.Text;
 using TumblThree.Domain;
 
 namespace TumblThree.Applications.Services
@@ -34,7 +39,7 @@ namespace TumblThree.Applications.Services
         private static string _defaultBrowserVersion;
 
         [ImportingConstructor]
-        public LogService( IShellService shellService, IWebRequestFactory webRequestFactory)
+        public LogService(IShellService shellService, IWebRequestFactory webRequestFactory)
         {
             _shellService = shellService;
             _webRequestFactory = webRequestFactory;
@@ -50,6 +55,8 @@ namespace TumblThree.Applications.Services
 
         public string NetFrameworkVersionString => $"{NetFrameworkVersion} {NetFrameworkBitness} Bit";
 
+        public string NetVersionSupportString => NetVersionSupport;
+
         public async Task SendErrorDetails(Exception ex, bool terminating)
         {
             var log = new LogException(ex, _shellService.IsLongPathSupported, terminating,
@@ -57,8 +64,23 @@ namespace TumblThree.Applications.Services
                 TumblThreeVersion, TumblThreeBitness,
                 DefaultBrowser, DefaultBrowserVersion,
                 WindowsRegionLanguage, WindowsRegionCountry,
-                NetFrameworkVersion, NetFrameworkBitness,
+                NetFrameworkVersion, NetFrameworkBitness, NetVersionSupport,
                 DateTime.UtcNow);
+
+            var data = JsonConvert.SerializeObject(log);
+
+            await SendLogData(data);
+        }
+
+        public async Task SendLogData()
+        {
+            var log = new LogData(_shellService.IsLongPathSupported,
+                WindowsVersion, WindowsEdition, WindowsBitness, WindowsReleaseId, WindowsVersionNumber,
+                TumblThreeVersion, TumblThreeBitness,
+                DefaultBrowser, DefaultBrowserVersion,
+                WindowsRegionLanguage, WindowsRegionCountry,
+                NetFrameworkVersion, NetFrameworkBitness, NetVersionSupport,
+                MachHash, UsrHash, DateTime.UtcNow);
 
             var data = JsonConvert.SerializeObject(log);
 
@@ -246,6 +268,16 @@ namespace TumblThree.Applications.Services
 
         private static string TumblThreeBitness => (string)(Environment.Is64BitProcess ? "64" : "32");
 
+        private static string MachHash
+        {
+            get
+            {
+                return GetComputerSid().Value.ToHash();
+            }
+        }
+
+        private static string UsrHash => $"{Environment.UserDomainName}\\{Environment.UserName}".ToHash();
+
         private static string DefaultBrowser
         {
             get
@@ -270,6 +302,14 @@ namespace TumblThree.Applications.Services
             }
         }
 
+        private static SecurityIdentifier GetComputerSid()
+        {
+            using (var entry = new DirectoryEntry(string.Format("WinNT://{0},Computer", Environment.MachineName)))
+            {
+                return new SecurityIdentifier((byte[])entry.Children.Cast<DirectoryEntry>().First().InvokeGet("objectSID"), 0).AccountDomainSid;
+            }
+        }
+
         private static void GetBrowserInfo()
         {
             string name = string.Empty;
@@ -289,6 +329,52 @@ namespace TumblThree.Applications.Services
             var versionInfo = FileVersionInfo.GetVersionInfo(name);
             _defaultBrowser = versionInfo.ProductName;
             _defaultBrowserVersion = versionInfo.ProductVersion;
+        }
+
+        private static string NetVersionSupport
+        {
+            get
+            {
+                try
+                {
+                    using (Process process = new Process())
+                    {
+                        process.StartInfo.FileName = "dotnet.exe";
+                        process.StartInfo.Arguments = "--info";
+                        process.StartInfo.UseShellExecute = false;
+                        process.StartInfo.RedirectStandardOutput = true;
+                        process.StartInfo.CreateNoWindow = true;
+                        process.Start();
+
+                        string version = process.StandardOutput.ReadToEnd()?.TrimEnd();
+
+                        Match match = Regex.Match(version, @"Host.*:?Version: ([\d.]+)", RegexOptions.Singleline);
+
+                        var list = new List<string>();
+                        if (match.Success)
+                        {
+                            var ver = new Version(match.Groups[1].Value);
+                            if (ver >= new Version("5.0"))
+                            {
+                                list.Add("5");
+                            }
+                            if (ver >= new Version("6.0"))
+                            {
+                                list.Add("6");
+                            }
+                        }
+
+                        process.WaitForExit(3000);
+
+                        return string.Join(" / ", list);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("LogService.NetVersionSupport: {0}", ex);
+                    return "n/a";
+                }
+            }
         }
     }
 }

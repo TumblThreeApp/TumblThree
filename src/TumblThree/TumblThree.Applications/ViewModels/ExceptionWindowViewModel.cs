@@ -33,6 +33,8 @@ namespace TumblThree.Presentation.Exceptions
 
         public string NetFrameworkVersionString => _logService.NetFrameworkVersionString;
 
+        public string NetVersionSupportString => _logService.NetVersionSupportString;
+
         public bool IsTerminating { get; }
 
         public bool IsSendErrorDetailsEnabled { get; set; }

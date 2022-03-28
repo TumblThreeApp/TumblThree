@@ -15,6 +15,10 @@ namespace TumblThree.Applications.Services
 
         string NetFrameworkVersionString { get; }
 
+        string NetVersionSupportString { get; }
+
         Task SendErrorDetails(Exception ex, bool terminating);
+
+        Task SendLogData();
     }
 }

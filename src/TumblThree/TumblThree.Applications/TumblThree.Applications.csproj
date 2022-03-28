@@ -102,6 +102,8 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -127,6 +129,7 @@
     <Compile Include="Crawler\TumblrPhotoLookup.cs" />
     <Compile Include="Crawler\TwitterCrawler.cs" />
     <Compile Include="DataModels\ImageResponse.cs" />
+    <Compile Include="DataModels\LogData.cs" />
     <Compile Include="DataModels\LogException.cs" />
     <Compile Include="DataModels\AbstractPost.cs" />
     <Compile Include="DataModels\TumblrApi\Conversation.cs" />
@@ -148,6 +151,7 @@
     <Compile Include="Extensions\ExceptionExtension.cs" />
     <Compile Include="Extensions\NativeMethods.cs" />
     <Compile Include="Extensions\PathExtension.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Parser\CatBoxParser.cs" />
     <Compile Include="Parser\GfycatParser.cs" />
     <Compile Include="Parser\ICatBoxParser.cs" />

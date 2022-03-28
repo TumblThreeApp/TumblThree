@@ -359,6 +359,9 @@ namespace TumblThree.Applications.Properties
         public DateTime LastUpdateCheck { get; set; }
 
         [DataMember]
+        public DateTime TMLastCheck { get; set; }
+
+        [DataMember]
         public string Language { get; set; }
 
         [DataMember]
