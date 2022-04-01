@@ -400,7 +400,7 @@ namespace TumblThree.Applications.Crawler
                 {
                     if (GetValue(content, "provider") == "tumblr" || url.Contains("tumblr.com") || Blog.RegExPhotos)
                     {
-                        string thumbnailUrl = content.poster?[0].url;
+                        string thumbnailUrl = HasProperty(content, "poster") ? HasProperty(content.poster, "Count") ? content.poster[0].url : "" : "";
                         AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, index)));
                     }
                 }
