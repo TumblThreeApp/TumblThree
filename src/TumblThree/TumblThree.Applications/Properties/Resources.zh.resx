@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationUpToDate" xml:space="preserve">
-    <value>您的应用程序已是最新。</value>
+    <value>您的应用程序已是最新版。</value>
   </data>
   <data name="AudioCaption" xml:space="preserve">
-    <value>Audio caption: {0}</value>
+    <value>音频标题：{0}</value>
   </data>
   <data name="AuthenticationFailure" xml:space="preserve">
-    <value>授权失败：{0}</value>
+    <value>身份验证失败：{0}</value>
   </data>
   <data name="BlogAlreadyExist" xml:space="preserve">
     <value>博客已添加：{0}</value>
@@ -136,25 +136,25 @@
     <value>全部</value>
   </data>
   <data name="BlogTypesNeverFinished" xml:space="preserve">
-    <value>从未完成</value>
+    <value>未曾完成</value>
   </data>
   <data name="BlogTypesNone" xml:space="preserve">
     <value>无</value>
   </data>
   <data name="BlogTypesOnceFinished" xml:space="preserve">
-    <value>有完成过</value>
+    <value>曾经完成</value>
   </data>
   <data name="Body" xml:space="preserve">
     <value>Body: {0]</value>
   </data>
   <data name="ConfirmingTumblrPrivacyConsent" xml:space="preserve">
-    <value>确认Tumblr隐私许可</value>
+    <value>确认 Tumblr 隐私条款</value>
   </data>
   <data name="ConfirmingTumblrPrivacyConsentFailed" xml:space="preserve">
-    <value>确认Tumblr隐私许可失败，可能存在连接问题。</value>
+    <value>确认 Tumblr 隐私条款失败，可能存在连接问题。</value>
   </data>
   <data name="Conversation" xml:space="preserve">
-    <value>Conversation: {0}</value>
+    <value>对话：{0}</value>
   </data>
   <data name="CouldNotAddBlog" xml:space="preserve">
     <value>无法添加博客：{0}</value>
@@ -184,7 +184,7 @@
     <value>队列保存失败。</value>
   </data>
   <data name="CouldNotStartOAuthManager" xml:space="preserve">
-    <value>无法初始化OAuth。</value>
+    <value>初始化 OAuth 管理器失败</value>
   </data>
   <data name="CrawlerError" xml:space="preserve">
     <value>抓取工具线程遇到错误。</value>
@@ -196,15 +196,15 @@
     <value>下载中</value>
   </data>
   <data name="Date" xml:space="preserve">
-    <value>Date: {0}</value>
+    <value>日期：{0}</value>
   </data>
   <data name="DeleteBlogsDialog" xml:space="preserve">
-    <value>你确定要删除以下序号博客？
-{0}</value>
+    <value>确定删除下列博客的索引吗？
+{0}。</value>
   </data>
   <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
-    <value>你确定要删除以下序号博客及其所有已下载文件？
-{0}</value>
+    <value>确定删除下列博客的索引及其已下载的所有文件？
+{0}。</value>
   </data>
   <data name="DiskFull" xml:space="preserve">
     <value>磁盘空间不足。</value>
@@ -216,7 +216,7 @@
     <value>.txt</value>
   </data>
   <data name="FileNameAnswers" xml:space="preserve">
-    <value>回复.txt</value>
+    <value>回答.txt</value>
   </data>
   <data name="FileNameAudios" xml:space="preserve">
     <value>音频_网址.txt</value>
@@ -249,25 +249,25 @@
     <value>视频_网址.txt</value>
   </data>
   <data name="Id3Album" xml:space="preserve">
-    <value>Id3: Album: {0}</value>
+    <value>Id3: 相册: {0}</value>
   </data>
   <data name="Id3Artist" xml:space="preserve">
-    <value>Id3: Artist: {0}</value>
+    <value>Id3: 艺术家: {0}</value>
   </data>
   <data name="Id3Title" xml:space="preserve">
-    <value>Id3: Title: {0}</value>
+    <value>Id3: 标题: {0}</value>
   </data>
   <data name="Id3Track" xml:space="preserve">
-    <value>Id3: Track: {0}</value>
+    <value>Id3: 轨道: {0}</value>
   </data>
   <data name="Id3Year" xml:space="preserve">
-    <value>Id3: Year: {0}</value>
+    <value>Id3: 年份: {0}</value>
   </data>
   <data name="LimitExceeded" xml:space="preserve">
     <value>超出限制：{0}。你应该减少与tumblr-api的连接数。</value>
   </data>
   <data name="Link" xml:space="preserve">
-    <value>Link: {0}</value>
+    <value>链接：{0}</value>
   </data>
   <data name="MaxBytePerSecond" xml:space="preserve">
     <value>限速必须为非负数</value>
@@ -279,7 +279,7 @@
     <value>您需要登录tumblr才能下载{0}。转到"设置-连接"进行登录。</value>
   </data>
   <data name="OnlineChecking" xml:space="preserve">
-    <value>正在检查在线状态</value>
+    <value>检查在线状态</value>
   </data>
   <data name="PasswordProtected" xml:space="preserve">
     <value>该博客受密码保护：{0}。你需要在"详细"标签页输入密码。</value>
@@ -288,19 +288,19 @@
     <value>该博客受隐藏密码保护或已离线：{0}。你需要在"详细"标签页输入密码。</value>
   </data>
   <data name="PhotoCaption" xml:space="preserve">
-    <value>Photo caption: {0}</value>
+    <value>照片标题：{0}</value>
   </data>
   <data name="PhotoSetUrl" xml:space="preserve">
-    <value>Photo set urls: {0}</value>
+    <value>照片集网址：{0}</value>
   </data>
   <data name="PhotoUrl" xml:space="preserve">
-    <value>Photo url: {0}</value>
+    <value>照片网址：{0}</value>
   </data>
   <data name="PostId" xml:space="preserve">
-    <value>Post id: {0}</value>
+    <value>帖子ID：{0}</value>
   </data>
   <data name="PostUrl" xml:space="preserve">
-    <value>Post url: {0}</value>
+    <value>帖子网址：{0}</value>
   </data>
   <data name="ProgressDownloadImage" xml:space="preserve">
     <value>正在下载 {0}。</value>
@@ -312,58 +312,58 @@
     <value>已评估 {0} 个博客。</value>
   </data>
   <data name="ProgressSkipFile" xml:space="preserve">
-    <value>{0} 个已下载，正在跳过..</value>
+    <value>{0} 已下载，跳过..</value>
   </data>
   <data name="ProgressUniqueDownloads" xml:space="preserve">
-    <value>统计唯一的下载，删除重复文件...</value>
+    <value>正在进行下载的统计和去重...</value>
   </data>
   <data name="Queuelist" xml:space="preserve">
     <value>队列列表</value>
   </data>
   <data name="Quote" xml:space="preserve">
-    <value>Quote: {0}</value>
+    <value>队列：{0}</value>
   </data>
   <data name="ReblogKey" xml:space="preserve">
-    <value>Reblog key: {0}</value>
+    <value>转发键值：{0}</value>
   </data>
   <data name="ReblogName" xml:space="preserve">
-    <value>Reblog name: {0}</value>
+    <value>转发名称：{0}</value>
   </data>
   <data name="ReblogUrl" xml:space="preserve">
-    <value>Reblog url: {0}</value>
+    <value>转发网址：{0}</value>
   </data>
   <data name="Slug" xml:space="preserve">
-    <value>Slug: {0}</value>
+    <value>唯一标识：{0}</value>
   </data>
   <data name="Summary" xml:space="preserve">
-    <value>Summary: {0}</value>
+    <value>摘要：{0}</value>
   </data>
   <data name="Tags" xml:space="preserve">
-    <value>Tags: {0}</value>
+    <value>标签：{0}</value>
   </data>
   <data name="Textfile" xml:space="preserve">
-    <value>Text file</value>
+    <value>文本文件</value>
   </data>
   <data name="TimeoutReached" xml:space="preserve">
-    <value>{0} 的 {1} 出现连接超时。</value>
+    <value>{0} 状态的 {1} 出现连接超时。</value>
   </data>
   <data name="TimeoutReachedShort" xml:space="preserve">
     <value>{0} 出现连接超时。</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Title: {0}</value>
+    <value>标题：{0}</value>
   </data>
   <data name="UrlWithSlug" xml:space="preserve">
-    <value>Url with slug: {0}</value>
+    <value>带有唯一标识的网址：{0}</value>
   </data>
   <data name="VideoCaption" xml:space="preserve">
-    <value>Video caption: {0}</value>
+    <value>视频标题：{0}</value>
   </data>
   <data name="VideoPlayer" xml:space="preserve">
-    <value>Video player: {0}</value>
+    <value>视频播放器：{0}</value>
   </data>
   <data name="VideoSource" xml:space="preserve">
-    <value>Video source: {0}</value>
+    <value>视频源：{0}</value>
   </data>
   <data name="DownloadAndInstallNewVersion" xml:space="preserve">
     <value>你想现在下载并安装新版本吗？</value>
@@ -375,14 +375,14 @@
     <value>新版本上市</value>
   </data>
   <data name="DownloadVCRedistributable" xml:space="preserve">
-    <value>TumblThree需要 "Microsoft Visual C++ 2015-2019 Redistributable"。你需要先下载并安装它。
-你想现在下载它吗？</value>
+    <value>TumblThree 需要“Microsoft Visual C++ 2015-2019 可再发行程序包”。您必须先下载并安装它。
+现在下载吗？</value>
   </data>
   <data name="DownloadVCRedistributableTitle" xml:space="preserve">
-    <value>缺少所需组件</value>
+    <value>缺少必要的组件</value>
   </data>
   <data name="ErrorDownloadingBlog" xml:space="preserve">
-    <value>在下载'{0}'时发生了一个错误。{1} ({2})</value>
+    <value>下载'{0}'时发生了一个错误。{1} ({2})</value>
   </data>
   <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
     <value>文件名模板必须以%x或%y结尾!</value>
@@ -391,15 +391,42 @@
     <value>文件名模板不包含任何必要的标记!</value>
   </data>
   <data name="ProtectedBlog" xml:space="preserve">
-    <value>检测到受保护或脱机的博客。{0}.</value>
+    <value>检测到受保护或脱机的博客。{0}。</value>
   </data>
   <data name="SearchTermNotFound" xml:space="preserve">
-    <value>没有找到搜索词'{0}'!</value>
+    <value>搜索关键词“{0}”没有找到结果！</value>
   </data>
   <data name="SendFeedbackError" xml:space="preserve">
     <value>发送反馈时发生错误。请稍后再试。</value>
   </data>
   <data name="PostNotParsable" xml:space="preserve">
     <value>来自'{0}'的帖子无法解析。 将详细信息中的“每页帖子”设置为较低的值可能会增加可下载内容。</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="DefaultCollectionName" xml:space="preserve">
+    <value>&lt;默认/全部&gt;</value>
+  </data>
+  <data name="ConfirmationTumblrPrivacyConsentNeeded" xml:space="preserve">
+    <value>需要在设置中接受 Tumblr 隐私条款！</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>分组</value>
+  </data>
+  <data name="CollectionNameInvalidChars" xml:space="preserve">
+    <value>指定名称含有路径中不允许的字符！</value>
+  </data>
+  <data name="CollectionNameIsEmpty" xml:space="preserve">
+    <value>请输入分组名称或删除相应字符！</value>
+  </data>
+  <data name="CannotChangeCollectionDestFileExists" xml:space="preserve">
+    <value>无法更改指定的分组，目标存在同名文件！</value>
+  </data>
+  <data name="CannotChangeCollectionOfQueuedBlog" xml:space="preserve">
+    <value>无法更改指定的分组，博客在队列中！</value>
+  </data>
+  <data name="CannotDeleteUsedCollection" xml:space="preserve">
+    <value>此分组已被使用，不能删除！</value>
   </data>
 </root>
