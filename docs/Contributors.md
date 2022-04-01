@@ -23,7 +23,7 @@ People are giving themselves and their free time to contribute to our project in
 * [Darío](https://github.com/apokalipsys) 💻 📖
 * [ErikBrown2](https://github.com/ErikBrown2) 💬
 * [HRXN](https://github.com/Hrxn) 💬
-* [YFdyh000](https://github.com/yfdyh000) 💻
+* [YFdyh000](https://github.com/yfdyh000) 💻 🌍
 * [Canna Wen](https://github.com/cannawen) 📖
 * [MaxNau](https://github.com/MaxNau) 💻
 * [khintze1](https://github.com/khintze1) 💻
