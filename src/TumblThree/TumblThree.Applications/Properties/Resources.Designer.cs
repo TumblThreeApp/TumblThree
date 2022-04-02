@@ -901,6 +901,36 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It looks like your system supports 64-bit applications,
+        ///but you are using the 32-bit version of TumblThree.
+        ///
+        ///Please consider switching to the 64-bit version. The 32-bit 
+        ///version will be phased out.
+        ///
+        ///If you prefer, you can do the update manually:
+        ///Please make a backup of your TumblThree application folder, 
+        ///then replace its files with the content of the newly 
+        ///downloaded 64-bit version.
+        ///
+        ///Do you want to automatically download and install the 64-bit 
+        ///version of TumblThree now?.
+        /// </summary>
+        public static string SwitchTo64BitVersion {
+            get {
+                return ResourceManager.GetString("SwitchTo64BitVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usage of 64-bit version.
+        /// </summary>
+        public static string SwitchTo64BitVersionTitle {
+            get {
+                return ResourceManager.GetString("SwitchTo64BitVersionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tags: {0}.
         /// </summary>
         public static string Tags {

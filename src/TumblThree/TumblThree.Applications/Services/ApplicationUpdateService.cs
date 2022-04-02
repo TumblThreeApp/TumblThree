@@ -29,7 +29,7 @@ namespace TumblThree.Applications.Services
             this.webRequestFactory = webRequestFactory;
         }
 
-        public async Task<string> GetLatestReleaseFromServer()
+        public async Task<string> GetLatestReleaseFromServer(bool x64Only = false)
         {
             version = null;
             downloadLink = null;
@@ -42,7 +42,7 @@ namespace TumblThree.Applications.Services
                 version = root.Element("tag_name").Value;
                 if (version.StartsWith("v", StringComparison.InvariantCultureIgnoreCase)) version = version.Substring(1);
 
-                if (Environment.Is64BitProcess)
+                if (x64Only || Environment.Is64BitProcess)
                 {
                     downloadLink = root.Descendants("browser_download_url").Where(s => s.Value.Contains("x64") && !s.Value.Contains("x64-Tra")).FirstOrDefault()?.Value;
                 }

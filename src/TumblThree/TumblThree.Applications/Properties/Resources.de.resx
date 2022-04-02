@@ -405,4 +405,22 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="PostNotParsable" xml:space="preserve">
     <value>Ein Beitrag von '{0}' war nicht parsbar. Ein kleinerer Wert bei 'Beiträge pro Seite' in den Details könnte den herunterladbaren Inhalt erhöhen.</value>
   </data>
+  <data name="SwitchTo64BitVersionTitle" xml:space="preserve">
+    <value>Verwendung der 64-Bit-Version</value>
+  </data>
+  <data name="SwitchTo64BitVersion" xml:space="preserve">
+    <value>Es sieht so aus, als ob Ihr System 64-Bit-Anwendungen unterstützt,
+aber Sie verwenden die 32-Bit-Version von TumblThree.
+
+Bitte erwägen Sie, auf die 64-Bit-Version umzusteigen. Die 
+32-Bit-Version wird auslaufen.
+
+Wenn Sie es vorziehen, können Sie das Update manuell durchführen:
+Bitte erstellen Sie eine Sicherungskopie Ihres TumblThree-
+Anwendungsordners und ersetzen Sie dann dessen Dateien durch den 
+Inhalt der neu heruntergeladenen 64-Bit-Version.
+
+Möchten Sie die 64-Bit-Version von TumblThree jetzt automatisch 
+herunterladen und installieren?</value>
+  </data>
 </root>

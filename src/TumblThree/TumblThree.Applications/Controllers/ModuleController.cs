@@ -45,7 +45,6 @@ namespace TumblThree.Applications.Controllers
 
         private readonly QueueManager _queueManager;
         private readonly ISettingsProvider _settingsProvider;
-        private readonly IConfirmTumblrPrivacyConsent _confirmTumblrPrivacyConsent;
 
         private readonly Lazy<ShellViewModel> _shellViewModel;
 
@@ -58,7 +57,6 @@ namespace TumblThree.Applications.Controllers
         public ModuleController(
             Lazy<ShellService> shellService,
             IEnvironmentService environmentService,
-            IConfirmTumblrPrivacyConsent confirmTumblrPrivacyConsent,
             ISettingsProvider settingsProvider,
             ISharedCookieService cookieService,
             Lazy<ManagerController> managerController,
@@ -71,7 +69,6 @@ namespace TumblThree.Applications.Controllers
         {
             _shellService = shellService;
             _environmentService = environmentService;
-            _confirmTumblrPrivacyConsent = confirmTumblrPrivacyConsent;
             _settingsProvider = settingsProvider;
             _cookieService = cookieService;
             _detailsController = detailsController;
@@ -158,10 +155,13 @@ namespace TumblThree.Applications.Controllers
             await Dispatcher.CurrentDispatcher.InvokeAsync(ManagerController.RestoreColumn, DispatcherPriority.ApplicationIdle);
             await Dispatcher.CurrentDispatcher.InvokeAsync(QueueController.Run, DispatcherPriority.ApplicationIdle);
 
+            if (await CheckFor64BitVersion()) return;
+
             if (_appSettings.LastUpdateCheck != DateTime.Today)
             {
-                await CheckForUpdatesComplete(_applicationUpdateService.GetLatestReleaseFromServer());
+                var executingUpdate = await CheckForUpdatesComplete(_applicationUpdateService.GetLatestReleaseFromServer());
                 _appSettings.LastUpdateCheck = DateTime.Today;
+                if (executingUpdate) return;
             }
 
             await CheckForTMData();
@@ -216,24 +216,25 @@ namespace TumblThree.Applications.Controllers
             DetailsController.OnFinishedCrawlingLastBlog(EventArgs.Empty);
         }
 
-        private async Task CheckForUpdatesComplete(Task<string> task)
+        private async Task<bool> CheckForUpdatesComplete(Task<string> task)
         {
             try
             {
                 string updateText = await task;
-                if (updateText != null || !_applicationUpdateService.IsNewVersionAvailable()) return;
+                if (updateText != null || !_applicationUpdateService.IsNewVersionAvailable()) return false;
                 updateText = string.Format(CultureInfo.CurrentCulture, Resources.NewVersionAvailable, _applicationUpdateService.GetNewAvailableVersion());
                 string url = _applicationUpdateService.GetDownloadUri().AbsoluteUri;
-                MessageBoxResult ret = MessageBoxResult.No;
-                if (updateText != null && url != null)
-                    ret = MessageBox.Show($"{updateText}\n{Resources.DownloadAndInstallNewVersion}", Resources.DownloadNewVersionTitle, MessageBoxButton.YesNo);
-                if (ret == MessageBoxResult.Yes)
-                    DownloadAndUnzipUpdatePackage(url);
+                if (updateText != null && url != null
+                    && MessageBox.Show($"{updateText}\n{Resources.DownloadAndInstallNewVersion}", Resources.DownloadNewVersionTitle, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    return DownloadAndUnzipUpdatePackage(url);
+                }
             }
             catch (Exception e)
             {
-                Logger.Error("ModuleController.CheckForUpdatesComplete: {0}", e.ToString());
+                Logger.Error("ModuleController.CheckForUpdatesComplete: {0}", e);
             }
+            return false;
         }
 
         private async Task CheckForTMData()
@@ -247,11 +248,35 @@ namespace TumblThree.Applications.Controllers
             }
             catch (Exception e)
             {
-                Logger.Error("ModuleController.CheckForTMData: {0}", e.ToString());
+                Logger.Error("ModuleController.CheckForTMData: {0}", e);
             }
         }
 
-        private void DownloadAndUnzipUpdatePackage(string url)
+        private async Task<bool> CheckFor64BitVersion()
+        {
+            try
+            {
+                if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
+                {
+                    if (MessageBox.Show(Resources.SwitchTo64BitVersion, Resources.SwitchTo64BitVersionTitle, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        var result = await _applicationUpdateService.GetLatestReleaseFromServer(true);
+                        if (result == null)
+                        {
+                            return DownloadAndUnzipUpdatePackage(_applicationUpdateService.GetDownloadUri().AbsoluteUri);
+                        }
+                        MessageBox.Show(result, ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("ModuleController.CheckFor64BitVersion: {0}", e);
+            }
+            return false;
+        }
+
+        private bool DownloadAndUnzipUpdatePackage(string url)
         {
             AutoUpdater.RunUpdateAsAdmin = false;
             AutoUpdater.UpdateMode = Mode.ForcedDownload;
@@ -261,6 +286,7 @@ namespace TumblThree.Applications.Controllers
                 if (AutoUpdater.DownloadUpdate(args))
                 {
                     ((IShellView)_shellViewModel.Value.View).Close();
+                    return true;
                 }
             }
             catch (Exception e)
@@ -268,6 +294,7 @@ namespace TumblThree.Applications.Controllers
                 Logger.Error("ModuleController.DownloadAndUnzipUpdatePackage: {0}", e.ToString());
                 MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            return false;
         }
 
         private static void CheckForVCRedistributable()
@@ -278,7 +305,7 @@ namespace TumblThree.Applications.Controllers
                 {
                     var url = Environment.Is64BitProcess ? "https://aka.ms/vs/17/release/vc_redist.x64.exe" : "https://aka.ms/vs/17/release/vc_redist.x86.exe";
                     MessageBoxResult ret = MessageBoxResult.No;
-                    ret = MessageBox.Show($"{Resources.DownloadVCRedistributable}", Resources.DownloadVCRedistributableTitle, MessageBoxButton.YesNo);
+                    ret = MessageBox.Show(Resources.DownloadVCRedistributable, Resources.DownloadVCRedistributableTitle, MessageBoxButton.YesNo);
                     if (ret == MessageBoxResult.Yes)
                         Process.Start(new ProcessStartInfo(url));
                 }

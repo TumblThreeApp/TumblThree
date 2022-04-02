@@ -429,4 +429,22 @@ Do you want to download it now?</value>
   <data name="ErrorDownloadingBlog" xml:space="preserve">
     <value>An error occurred while downloading '{0}': {1} ({2})</value>
   </data>
+  <data name="SwitchTo64BitVersion" xml:space="preserve">
+    <value>It looks like your system supports 64-bit applications,
+but you are using the 32-bit version of TumblThree.
+
+Please consider switching to the 64-bit version. The 32-bit 
+version will be phased out.
+
+If you prefer, you can do the update manually:
+Please make a backup of your TumblThree application folder, 
+then replace its files with the content of the newly 
+downloaded 64-bit version.
+
+Do you want to automatically download and install the 64-bit 
+version of TumblThree now?</value>
+  </data>
+  <data name="SwitchTo64BitVersionTitle" xml:space="preserve">
+    <value>Usage of 64-bit version</value>
+  </data>
 </root>

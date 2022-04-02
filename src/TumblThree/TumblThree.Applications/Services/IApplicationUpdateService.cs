@@ -5,7 +5,7 @@ namespace TumblThree.Applications.Services
 {
     public interface IApplicationUpdateService
     {
-        Task<string> GetLatestReleaseFromServer();
+        Task<string> GetLatestReleaseFromServer(bool x64Only = false);
 
         bool IsNewVersionAvailable();
 

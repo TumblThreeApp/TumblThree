@@ -399,4 +399,22 @@
   <data name="PostNotParsable" xml:space="preserve">
     <value>No se pudo analizar una publicación de '{0}'. Establecer 'publicaciones por página' en los Detalles a un valor más bajo podría aumentar el contenido descargable.</value>
   </data>
+  <data name="SwitchTo64BitVersionTitle" xml:space="preserve">
+    <value>Uso de la versión de 64 bits</value>
+  </data>
+  <data name="SwitchTo64BitVersion" xml:space="preserve">
+    <value>Parece que su sistema admite aplicaciones de 64 bits,
+pero está utilizando la versión de 32 bits de TumblThree.
+
+Considere cambiar a la versión de 64 bits. La versión de 32 
+bits se eliminará gradualmente.
+
+Si lo prefieres, puedes hacer la actualización manualmente:
+Realice una copia de seguridad de la carpeta de su aplicación 
+TumblThree, luego reemplace sus archivos con el contenido de 
+la versión de 64 bits recién descargada.
+
+¿Desea descargar e instalar automáticamente la versión de 64 
+bits de TumblThree ahora?</value>
+  </data>
 </root>

@@ -417,4 +417,22 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="VideoSource" xml:space="preserve">
     <value>Source vidéo : {0}</value>
   </data>
+  <data name="SwitchTo64BitVersionTitle" xml:space="preserve">
+    <value>Utilisation de la version 64 bits</value>
+  </data>
+  <data name="SwitchTo64BitVersion" xml:space="preserve">
+    <value>Il semble que votre système supporte les applications 64 bits,
+mais vous utilisez la version 32 bits de TumblThree.
+
+Veuillez envisager de passer à la version 64 bits. La version 
+32 bits sera progressivement supprimée.
+
+Si vous préférez, vous pouvez faire la mise à jour manuellement:
+Veuillez faire une sauvegarde de votre dossier d'application 
+TumblThree, puis remplacer ses fichiers par le contenu de la 
+version 64 bits nouvellement téléchargée.
+
+Voulez-vous télécharger et installer automatiquement la version 
+64 bits de TumblThree maintenant ?</value>
+  </data>
 </root>
