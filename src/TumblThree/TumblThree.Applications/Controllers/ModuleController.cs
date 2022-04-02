@@ -10,7 +10,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Waf.Applications;
-using System.Windows;
 using System.Windows.Threading;
 
 using AutoUpdaterDotNET;
@@ -20,6 +19,7 @@ using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain;
 using TumblThree.Domain.Queue;
+using System.Waf.Applications.Services;
 
 namespace TumblThree.Applications.Controllers
 {
@@ -37,6 +37,7 @@ namespace TumblThree.Applications.Controllers
         private readonly IApplicationUpdateService _applicationUpdateService;
         private readonly ILogService _logService;
         private readonly Lazy<ShellService> _shellService;
+        private readonly Lazy<IMessageService> _messageService;
 
         private readonly Lazy<CrawlerController> _crawlerController;
         private readonly Lazy<DetailsController> _detailsController;
@@ -65,7 +66,8 @@ namespace TumblThree.Applications.Controllers
             Lazy<CrawlerController> crawlerController,
             Lazy<ShellViewModel> shellViewModel,
             IApplicationUpdateService applicationUpdateService,
-            ILogService logService)
+            ILogService logService,
+            Lazy<IMessageService> messageService)
         {
             _shellService = shellService;
             _environmentService = environmentService;
@@ -79,9 +81,12 @@ namespace TumblThree.Applications.Controllers
             _queueManager = new QueueManager();
             _applicationUpdateService = applicationUpdateService;
             _logService = logService;
+            _messageService = messageService;
         }
 
         private ShellService ShellService => _shellService.Value;
+
+        private IMessageService MessageService => _messageService.Value;
 
         private ManagerController ManagerController => _managerController.Value;
 
@@ -225,7 +230,7 @@ namespace TumblThree.Applications.Controllers
                 updateText = string.Format(CultureInfo.CurrentCulture, Resources.NewVersionAvailable, _applicationUpdateService.GetNewAvailableVersion());
                 string url = _applicationUpdateService.GetDownloadUri().AbsoluteUri;
                 if (updateText != null && url != null
-                    && MessageBox.Show($"{updateText}\n{Resources.DownloadAndInstallNewVersion}", Resources.DownloadNewVersionTitle, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    && MessageService.ShowYesNoQuestion($"{updateText}\n{Resources.DownloadAndInstallNewVersion}", Resources.DownloadNewVersionTitle))
                 {
                     return DownloadAndUnzipUpdatePackage(url);
                 }
@@ -258,14 +263,14 @@ namespace TumblThree.Applications.Controllers
             {
                 if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
                 {
-                    if (MessageBox.Show(Resources.SwitchTo64BitVersion, Resources.SwitchTo64BitVersionTitle, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    if (MessageService.ShowYesNoQuestion(Resources.SwitchTo64BitVersion, Resources.SwitchTo64BitVersionTitle))
                     {
                         var result = await _applicationUpdateService.GetLatestReleaseFromServer(true);
                         if (result == null)
                         {
                             return DownloadAndUnzipUpdatePackage(_applicationUpdateService.GetDownloadUri().AbsoluteUri);
                         }
-                        MessageBox.Show(result, ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageService.ShowError(result);
                     }
                 }
             }
@@ -292,21 +297,19 @@ namespace TumblThree.Applications.Controllers
             catch (Exception e)
             {
                 Logger.Error("ModuleController.DownloadAndUnzipUpdatePackage: {0}", e.ToString());
-                MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageService.ShowError(e.Message, e.GetType().ToString());
             }
             return false;
         }
 
-        private static void CheckForVCRedistributable()
+        private void CheckForVCRedistributable()
         {
             try
             {
                 if (!IsVC2019Installed())
                 {
                     var url = Environment.Is64BitProcess ? "https://aka.ms/vs/17/release/vc_redist.x64.exe" : "https://aka.ms/vs/17/release/vc_redist.x86.exe";
-                    MessageBoxResult ret = MessageBoxResult.No;
-                    ret = MessageBox.Show(Resources.DownloadVCRedistributable, Resources.DownloadVCRedistributableTitle, MessageBoxButton.YesNo);
-                    if (ret == MessageBoxResult.Yes)
+                    if (MessageService.ShowYesNoQuestion(Resources.DownloadVCRedistributable, Resources.DownloadVCRedistributableTitle))
                         Process.Start(new ProcessStartInfo(url));
                 }
             }

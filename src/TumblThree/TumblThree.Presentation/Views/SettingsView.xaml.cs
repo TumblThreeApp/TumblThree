@@ -37,7 +37,7 @@ namespace TumblThree.Presentation.Views
 
         private void closeWindow(object sender, RoutedEventArgs e)
         {
-            if (Collections.SelectedIndex != 0 && !SettingsViewModel.CollectionNameValidate(CollectionName.Text))
+            if (Collections.SelectedIndex != 0 && !ViewModel.CollectionNameValidate(CollectionName.Text))
             {
                 e.Handled = true;
             }
@@ -66,12 +66,12 @@ namespace TumblThree.Presentation.Views
 
         private void CollectionName_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            e.Handled = !SettingsViewModel.CollectionNameValidate(((TextBox)e.Source).Text);
+            e.Handled = !ViewModel.CollectionNameValidate(((TextBox)e.Source).Text);
         }
 
         private void DownloadLocation_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            e.Handled = !SettingsViewModel.DownloadLocationValidate(((TextBox)e.Source).Text);
+            e.Handled = !ViewModel.DownloadLocationValidate(((TextBox)e.Source).Text);
         }
     }
 }

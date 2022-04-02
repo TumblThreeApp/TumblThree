@@ -1,8 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using System.Waf.Applications;
+using System.Waf.Applications.Services;
 using System.Windows;
 using System.Windows.Input;
 using TumblThree.Applications.Properties;
@@ -17,16 +17,18 @@ namespace TumblThree.Applications.ViewModels
     {
         private readonly AsyncDelegateCommand _sendCommand;
         private readonly IApplicationUpdateService _applicationUpdateService;
+        private readonly IMessageService _messageService;
 
         private string _message;
 
         [ImportingConstructor]
-        public FeedbackViewModel(IFeedbackView view, IShellService shellService, IApplicationUpdateService applicationUpdateService)
+        public FeedbackViewModel(IFeedbackView view, IShellService shellService, IApplicationUpdateService applicationUpdateService, IMessageService messageService)
             : base(view)
         {
             ShellService = shellService;
             _sendCommand = new AsyncDelegateCommand(Send);
             _applicationUpdateService = applicationUpdateService;
+            _messageService = messageService;
         }
 
         public string Name { get; set; }
@@ -52,7 +54,7 @@ namespace TumblThree.Applications.ViewModels
             catch (Exception ex)
             {
                 Logger.Error($"FeedbackViewModel:Send: {ex}");
-                MessageBox.Show(Resources.SendFeedbackError, Resources.Warning);
+                _messageService.ShowWarning(Resources.SendFeedbackError);
             }
             finally
             {

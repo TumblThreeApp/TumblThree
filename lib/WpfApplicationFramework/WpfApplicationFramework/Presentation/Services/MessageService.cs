@@ -71,17 +71,28 @@ namespace System.Waf.Presentation.Services
         /// </summary>
         /// <param name="owner">The window that owns this Message Window.</param>
         /// <param name="message">The message.</param>
-        public void ShowError(object owner, string message)
+        public void ShowError(Window owner, string message)
         {
-            Window ownerWindow = owner as Window;
-            if (ownerWindow != null)
+            ShowError(owner, message, null);
+        }
+
+        /// <summary>
+        /// Shows the message as error.
+        /// </summary>
+        /// <param name="owner">The window that owns this Message Window.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="caption">The caption.</param>
+        public void ShowError(Window owner, string message, string caption)
+        {
+            if (string.IsNullOrEmpty(caption)) caption = ApplicationInfo.ProductName;
+            if (owner != null)
             {
-                MessageBox.Show(ownerWindow, message, ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error,
+                MessageBox.Show(owner, message, caption, MessageBoxButton.OK, MessageBoxImage.Error,
                     MessageBoxResult, MessageBoxOptions);
             }
             else
             {
-                MessageBox.Show(message, ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error,
+                MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Error,
                     MessageBoxResult, MessageBoxOptions);
             }
         }
@@ -119,18 +130,30 @@ namespace System.Waf.Presentation.Services
         /// <param name="owner">The window that owns this Message Window.</param>
         /// <param name="message">The question.</param>
         /// <returns><c>true</c> for yes and <c>false</c> for no.</returns>
-        public bool ShowYesNoQuestion(object owner, string message)
+        public bool ShowYesNoQuestion(Window owner, string message)
         {
-            Window ownerWindow = owner as Window;
+            return ShowYesNoQuestion(owner, message, null);
+        }
+
+        /// <summary>
+        /// Shows the specified yes/no question.
+        /// </summary>
+        /// <param name="owner">The window that owns this Message Window.</param>
+        /// <param name="message">The question.</param>
+        /// <param name="caption">The caption.</param>
+        /// <returns><c>true</c> for yes and <c>false</c> for no.</returns>
+        public bool ShowYesNoQuestion(Window owner, string message, string caption)
+        {
+            if (string.IsNullOrEmpty(caption)) caption = ApplicationInfo.ProductName;
             MessageBoxResult result;
-            if (ownerWindow != null)
+            if (owner != null)
             {
-                result = MessageBox.Show(ownerWindow, message, ApplicationInfo.ProductName, MessageBoxButton.YesNo,
+                result = MessageBox.Show(owner, message, caption, MessageBoxButton.YesNo,
                     MessageBoxImage.Question, MessageBoxResult.No, MessageBoxOptions);
             }
             else
             {
-                result = MessageBox.Show(message, ApplicationInfo.ProductName, MessageBoxButton.YesNo,
+                result = MessageBox.Show(message, caption, MessageBoxButton.YesNo,
                     MessageBoxImage.Question, MessageBoxResult.No, MessageBoxOptions);
             }
 

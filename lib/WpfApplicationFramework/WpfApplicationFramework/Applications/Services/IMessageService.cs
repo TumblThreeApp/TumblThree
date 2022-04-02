@@ -1,4 +1,6 @@
-﻿namespace System.Waf.Applications.Services
+﻿using System.Windows;
+
+namespace System.Waf.Applications.Services
 {
     /// <summary>
     /// This service shows messages to the user. It returns the answer when the message was a question.
@@ -28,7 +30,15 @@
         /// </summary>
         /// <param name="owner">The window that owns this Message Window.</param>
         /// <param name="message">The message.</param>
-        void ShowError(object owner, string message);
+        void ShowError(Window owner, string message);
+
+        /// <summary>
+        /// Shows the message as error.
+        /// </summary>
+        /// <param name="owner">The window that owns this Message Window.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="caption">The caption.</param>
+        void ShowError(Window owner, string message, string caption);
 
         /// <summary>
         /// Shows the specified question.
@@ -44,6 +54,15 @@
         /// <param name="owner">The window that owns this Message Window.</param>
         /// <param name="message">The question.</param>
         /// <returns><c>true</c> for yes and <c>false</c> for no.</returns>
-        bool ShowYesNoQuestion(object owner, string message);
+        bool ShowYesNoQuestion(Window owner, string message);
+
+        /// <summary>
+        /// Shows the specified yes/no question.
+        /// </summary>
+        /// <param name="owner">The window that owns this Message Window.</param>
+        /// <param name="message">The question.</param>
+        /// <param name="caption">The caption.</param>
+        /// <returns><c>true</c> for yes and <c>false</c> for no.</returns>
+        bool ShowYesNoQuestion(Window owner, string message, string caption);
     }
 }

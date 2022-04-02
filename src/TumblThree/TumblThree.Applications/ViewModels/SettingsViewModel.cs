@@ -44,6 +44,7 @@ namespace TumblThree.Applications.ViewModels
         private readonly FileType _bloglistExportFileType;
         private readonly AppSettings _settings;
         private readonly IDetailsService _detailsService;
+        private readonly IMessageService _messageService;
 
         private string _apiKey;
         private bool _autoDownload;
@@ -145,7 +146,7 @@ namespace TumblThree.Applications.ViewModels
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
             ILoginService loginService, IFolderBrowserDialog folderBrowserDialog, IFileDialogService fileDialogService,
-            ExportFactory<AuthenticateViewModel> authenticateViewModelFactory, IDetailsService detailsService)
+            ExportFactory<AuthenticateViewModel> authenticateViewModelFactory, IDetailsService detailsService, IMessageService messageService)
             : base(view)
         {
             _folderBrowserDialog = folderBrowserDialog;
@@ -156,6 +157,7 @@ namespace TumblThree.Applications.ViewModels
             ManagerService = managerService;
             LoginService = loginService;
             _detailsService = detailsService;
+            _messageService = messageService;
             _authenticateViewModelFactory = authenticateViewModelFactory;
             _browseDownloadLocationCommand = new DelegateCommand(BrowseDownloadLocation);
             _browseCollectionDownloadLocationCommand = new DelegateCommand(BrowseCategoryDownloadLocation);
@@ -509,22 +511,22 @@ namespace TumblThree.Applications.ViewModels
             return string.Join("-", filename.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.');
         }
 
-        public static bool CollectionNameValidate(string enteredCollectionName)
+        public bool CollectionNameValidate(string enteredCollectionName)
         {
             bool valid = !string.IsNullOrWhiteSpace(enteredCollectionName);
             if (!valid)
             {
-                MessageBox.Show(Resources.CollectionNameIsEmpty, Resources.Warning);
+                _messageService.ShowWarning(Resources.CollectionNameIsEmpty);
             }
             if (valid && enteredCollectionName != Sanitize(enteredCollectionName))
             {
                 valid = false;
-                MessageBox.Show(Resources.CollectionNameInvalidChars, Resources.Warning);
+                _messageService.ShowWarning(Resources.CollectionNameInvalidChars);
             }
             return valid;
         }
 
-        public static bool DownloadLocationValidate(string enteredDownloadLocation)
+        public bool DownloadLocationValidate(string enteredDownloadLocation)
         {
             bool valid = !string.IsNullOrWhiteSpace(enteredDownloadLocation);
             if (valid)
@@ -541,7 +543,7 @@ namespace TumblThree.Applications.ViewModels
                 }
                 if (!valid)
                 {
-                    MessageBox.Show(msg, Resources.Warning);
+                    _messageService.ShowWarning(msg);
                 }
             }
             return valid;
@@ -1018,7 +1020,7 @@ namespace TumblThree.Applications.ViewModels
         {
             if (ManagerService.IsCollectionIdUsed((int)id))
             {
-                MessageBox.Show(Resources.CannotDeleteUsedCollection, Resources.Warning);
+                _messageService.ShowWarning(Resources.CannotDeleteUsedCollection);
             }
             else
             {

@@ -42,6 +42,19 @@
         }
 
         /// <summary>
+        /// Shows the message as error.
+        /// </summary>
+        /// <param name="service">The message service.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="caption">The dialog title.</param>
+        /// <exception cref="ArgumentNullException">The argument service must not be null.</exception>
+        public static void ShowError(this IMessageService service, string message, string caption)
+        {
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            service.ShowError(null, message, caption);
+        }
+
+        /// <summary>
         /// Shows the specified question.
         /// </summary>
         /// <param name="service">The message service.</param>
@@ -65,6 +78,20 @@
         {
             if (service == null) { throw new ArgumentNullException(nameof(service)); }
             return service.ShowYesNoQuestion(null, message);
+        }
+
+        /// <summary>
+        /// Shows the specified yes/no question.
+        /// </summary>
+        /// <param name="service">The message service.</param>
+        /// <param name="message">The question.</param>
+        /// <param name="caption">The dialog title.</param>
+        /// <returns><c>true</c> for yes and <c>false</c> for no.</returns>
+        /// <exception cref="ArgumentNullException">The argument service must not be null.</exception>
+        public static bool ShowYesNoQuestion(this IMessageService service, string message, string caption)
+        {
+            if (service == null) { throw new ArgumentNullException(nameof(service)); }
+            return service.ShowYesNoQuestion(null, message, caption);
         }
     }
 }

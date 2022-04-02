@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -7,6 +6,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Waf.Applications.Services;
 using System.Windows;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
@@ -27,6 +27,7 @@ namespace TumblThree.Applications.Controllers
         private readonly ISelectionService _selectionService;
         private readonly IShellService _shellService;
         private readonly IManagerService _managerService;
+        private readonly IMessageService _messageService;
         private readonly ExportFactory<FullScreenMediaViewModel> _fullScreenMediaViewModelFactory;
 
         private Lazy<IDetailsViewModel> _detailsViewModel;
@@ -41,11 +42,12 @@ namespace TumblThree.Applications.Controllers
 
         [ImportingConstructor]
         public DetailsController(IShellService shellService, ISelectionService selectionService, IManagerService managerService,
-            ExportFactory<FullScreenMediaViewModel> fullScreenMediaViewModelFactory)
+            IMessageService messageService, ExportFactory<FullScreenMediaViewModel> fullScreenMediaViewModelFactory)
         {
             _shellService = shellService;
             _selectionService = selectionService;
             _managerService = managerService;
+            _messageService = messageService;
             _fullScreenMediaViewModelFactory = fullScreenMediaViewModelFactory;
             _blogsToSave = new HashSet<IBlog>();
         }
@@ -109,14 +111,14 @@ namespace TumblThree.Applications.Controllers
             //var tokens = new List<string>() { "%f", "%d", "%p", "%i", "%s" };
             //if (!tokens.Any(x => enteredFilenameTemplate.IndexOf(x, StringComparison.InvariantCultureIgnoreCase) >= 0))
             //{
-            //    MessageBox.Show(Resources.FilenameTemplateTokenNotFound, Resources.Warning);
+            //    _messageService.ShowWarning(Resources.FilenameTemplateTokenNotFound);
             //    return false;
             //}
             var needed = new List<string>() { "%x", "%y" };
             if (enteredFilenameTemplate.IndexOf("%f", StringComparison.InvariantCultureIgnoreCase) == -1 &&
                 !needed.Any(x => enteredFilenameTemplate.IndexOf(x, StringComparison.InvariantCultureIgnoreCase) >= 0))
             {
-                MessageBox.Show(Resources.FilenameTemplateAppendTokenNotFound, Resources.Warning);
+                _messageService.ShowWarning(Resources.FilenameTemplateAppendTokenNotFound);
                 return false;
             }
             return true;
@@ -140,7 +142,7 @@ namespace TumblThree.Applications.Controllers
 
             if (QueueManager.Items.Any(x => x.Blog.Name == blog.Name && x.Blog.OriginalBlogType == blog.OriginalBlogType))
             {
-                MessageBox.Show(Resources.CannotChangeCollectionOfQueuedBlog, Resources.Warning);
+                _messageService.ShowWarning(Resources.CannotChangeCollectionOfQueuedBlog);
                 return false;
             }
 
@@ -153,7 +155,7 @@ namespace TumblThree.Applications.Controllers
 
             if (File.Exists(newFilenameIndex) || File.Exists(newFilenameChild))
             {
-                MessageBox.Show(Resources.CannotChangeCollectionDestFileExists, Resources.Warning);
+                _messageService.ShowWarning(Resources.CannotChangeCollectionDestFileExists);
                 return false;
             }
 

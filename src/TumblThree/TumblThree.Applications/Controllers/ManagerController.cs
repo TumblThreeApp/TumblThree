@@ -656,7 +656,7 @@ namespace TumblThree.Applications.Controllers
                     _shellService.Settings.DeleteOnlyIndex ? Resources.DeleteBlogsDialog : Resources.DeleteBlogsAndFilesDialog,
                     blogNames);
 
-                if (!_messageService.ShowYesNoQuestion(this, message))
+                if (!_messageService.ShowYesNoQuestion(message))
                 {
                     return;
                 }
