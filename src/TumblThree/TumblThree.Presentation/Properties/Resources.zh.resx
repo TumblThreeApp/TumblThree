@@ -1009,7 +1009,10 @@
     <value>文件名模板中可使用下列变量：
   %f   原文件名（默认）
   %b  博客名称
-  %d  发帖日期（yyyymmdd）
+  %d  发帖日期（yyyyMMdd）
+  %e  发布日期和时间(yyyyMMddHHmmss)
+  %g  发帖日期 GMT (yyyyMMdd)
+  %h  发布日期和时间 GMT (yyyyMMddHHmmss)
   %u  帖子时间戳（数字）
   %p  帖子标题
   %i   帖子ID

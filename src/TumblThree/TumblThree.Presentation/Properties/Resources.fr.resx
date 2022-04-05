@@ -750,16 +750,19 @@ modèle: {Post Id} _ {Index des photos} _ {Nom de fichier d'origine}</value>
   </data>
   <data name="ToolTipFilenameTemplateDescription" xml:space="preserve">
     <value>Les jetons suivants peuvent être utilisés dans le modèle de nom de fichier:
-   %f nom de fichier d'origine (par défaut)
-   %d date de publication (aaaammjj)
-   %u Horodatage de la publication (nombre)
+   %f  nom de fichier d'origine (par défaut)
+   %d date de publication (aaaaMMjj)
+   %e date et heure de publication (aaaaMMjjHHmmss)
+   %g date de publication en GMT (aaaaMMjj)
+   %h date et heure de publication en GMT (aaaaMMjjHHmmss)
+   %u horodatage de la publication (nombre)
    %p titre du message
-   %i identifiant de publication
+   %i  identifiant de publication
    %n index d'image (des ensembles de photos, sinon ignoré)
-   %t pour tous les tags (mignon + chats, gros + chiens)
-   %r pour le magazine
-   %s slug (dernière partie de l'URL d'un message)
-   %k clé de publication
+   %t  pour tous les tags (mignon + chats, gros + chiens)
+   %r  pour le magazine
+   %s  slug (dernière partie de l'URL d'un message)
+   %k  clé de publication
 Jetons obligatoires (si vous n'utilisez pas le jeton %f) pour rendre les noms de fichiers uniques:
    %x "_ {nombre}" ({nombre}: 2..n) ajouté au nom de fichier
    %y "({nombre})" ({nombre}: 2..n) ajouté au nom du fichier

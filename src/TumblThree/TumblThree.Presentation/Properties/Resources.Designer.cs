@@ -2176,7 +2176,10 @@ namespace TumblThree.Presentation.Properties {
         ///   Looks up a localized string similar to The following tokens can be used in the filename template:
         ///  %f   original filename (default)
         ///  %b  blog name
-        ///  %d  post date (yyyymmdd)
+        ///  %d  post date (yyyyMMdd)
+        ///  %e  post date and time (yyyyMMddHHmmss)
+        ///  %g  post date in GMT (yyyyMMdd)
+        ///  %h  post date and time in GMT (yyyyMMddHHmmss)
         ///  %u  post timestamp (number)
         ///  %p  post title
         ///  %i   post id
@@ -2185,9 +2188,7 @@ namespace TumblThree.Presentation.Properties {
         ///  %r   for reblog
         ///  %s   slug (last part of a post&apos;s url)
         ///  %k  reblog-key
-        ///Mandatory tokens (if not using token %f) to make filenames unique:
-        ///  %x  &quot;_{number}&quot; ({number}: 2..n) appended to filename
-        ///  %y  &quot; ({nu [rest of string was truncated]&quot;;.
+        ///Mandatory [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ToolTipFilenameTemplateDescription {
             get {

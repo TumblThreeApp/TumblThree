@@ -899,7 +899,10 @@ namespace TumblThree.Applications.Crawler
              * Replaced are:
              *  %f  original filename (default)
                 %b  blog name
-                %d  post date (yyyyMMddHHmmss)
+                %d  post date (yyyyMMdd)
+                %e  post date and time (yyyyMMddHHmmss)
+                %g  post date in GMT (yyyyMMdd)
+                %h  post date and time in GMT (yyyyMMddHHmmss)
                 %u  post timestamp (number)
                 %p  post title (shorted if needed…)
                 %i  post id
@@ -917,6 +920,9 @@ namespace TumblThree.Applications.Crawler
             filename += Path.GetExtension(FileName(url));
             if (ContainsCI(filename, "%f")) filename = ReplaceCI(filename, "%f", Path.GetFileNameWithoutExtension(FileName(url)));
             if (ContainsCI(filename, "%d")) filename = ReplaceCI(filename, "%d", date.ToString("yyyyMMdd"));
+            if (ContainsCI(filename, "%e")) filename = ReplaceCI(filename, "%e", date.ToString("yyyyMMddHHmmss"));
+            if (ContainsCI(filename, "%g")) filename = ReplaceCI(filename, "%g", date.ToUniversalTime().ToString("yyyyMMdd"));
+            if (ContainsCI(filename, "%h")) filename = ReplaceCI(filename, "%h", date.ToUniversalTime().ToString("yyyyMMddHHmmss"));
             if (ContainsCI(filename, "%u")) filename = ReplaceCI(filename, "%u", timestamp.ToString());
             if (ContainsCI(filename, "%b")) filename = ReplaceCI(filename, "%b", blogName);
             if (ContainsCI(filename, "%i"))
