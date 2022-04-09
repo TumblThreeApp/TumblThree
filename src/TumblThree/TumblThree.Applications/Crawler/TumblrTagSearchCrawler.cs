@@ -117,6 +117,14 @@ namespace TumblThree.Applications.Crawler
                 string document = await GetTaggedSearchPageAsync();
                 string json = extractJsonFromSearch.Match(document).Groups[1].Value;
                 TagSearch result = ConvertJsonToClass<TagSearch>(json);
+
+                if (result.Tagged.ShouldRedirect)
+                {
+                    document = await GetTaggedSearchPageAsync(true);
+                    json = extractJsonFromSearch.Match(document).Groups[1].Value;
+                    result = ConvertJsonToClass<TagSearch>(json);
+                }
+
                 string nextUrl = result.ApiUrl + result.Tagged.Timeline.Links.Next.Href;
                 string bearerToken = result.ApiFetchStore.APITOKEN;
 
@@ -341,14 +349,19 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        private async Task<string> GetTaggedSearchPageAsync()
+        private async Task<string> GetTaggedSearchPageAsync(bool secondTry = false)
         {
             if (ShellService.Settings.LimitConnectionsSearchApi)
             {
                 CrawlerService.TimeconstraintSearchApi.Acquire();
             }
 
-            return await GetRequestAsync("https://www.tumblr.com/tagged/" + Blog.Name);
+            var url = Blog.Url;
+            if (secondTry)
+            {
+                url = url.Replace("/tagged/", "/tagged/%23");
+            }
+            return await GetRequestAsync(url);
         }
 
         protected virtual void Dispose(bool disposing)

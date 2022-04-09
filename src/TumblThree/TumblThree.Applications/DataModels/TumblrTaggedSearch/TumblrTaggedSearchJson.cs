@@ -851,10 +851,10 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
         public string HeaderImage { get; set; }
 
         [DataMember(Name = "headerImageWidth")]
-        public int HeaderImageWidth { get; set; }
+        public int? HeaderImageWidth { get; set; }
 
         [DataMember(Name = "headerImageHeight")]
-        public int HeaderImageHeight { get; set; }
+        public int? HeaderImageHeight { get; set; }
 
         [DataMember(Name = "headerLink")]
         public string HeaderLink { get; set; }
@@ -899,20 +899,23 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
     [DataContract]
     public class Tagged
     {
-        [DataMember(Name = "header")]
+        [DataMember(Name = "header", EmitDefaultValue = false)]
         public Header Header { get; set; }
 
-        [DataMember(Name = "emptyResultsTextSeed")]
+        [DataMember(Name = "emptyResultsTextSeed", EmitDefaultValue = false)]
         public string EmptyResultsTextSeed { get; set; }
 
-        [DataMember(Name = "relatedTags")]
+        [DataMember(Name = "relatedTags", EmitDefaultValue = false)]
         public List<string> RelatedTags { get; set; }
 
-        [DataMember(Name = "timeline")]
+        [DataMember(Name = "timeline", EmitDefaultValue = false)]
         public Timeline Timeline { get; set; }
 
-        [DataMember(Name = "sidebarTimelineObject")]
+        [DataMember(Name = "sidebarTimelineObject", EmitDefaultValue = false)]
         public SidebarTimelineObject SidebarTimelineObject { get; set; }
+
+        [DataMember(Name = "shouldRedirect", EmitDefaultValue = false)]
+        public bool ShouldRedirect { get; set; }
     }
 
     [DataContract]
