@@ -1316,13 +1316,16 @@ namespace TumblThree.Applications.ViewModels
 
         private async Task Save()
         {
-            bool downloadLocationChanged = DownloadLocationChanged();
-            bool loadAllDatabasesChanged = LoadAllDatabasesChanged();
-            bool logLevelChanged = LogLevelChanged();
-            SaveSettings();
-            await ApplySettings(downloadLocationChanged, loadAllDatabasesChanged, logLevelChanged);
+            using (ShellService.SetApplicationBusy())
+            {
+                bool downloadLocationChanged = DownloadLocationChanged();
+                bool loadAllDatabasesChanged = LoadAllDatabasesChanged();
+                bool logLevelChanged = LogLevelChanged();
+                SaveSettings();
+                await ApplySettings(downloadLocationChanged, loadAllDatabasesChanged, logLevelChanged);
 
-            ShellService.SettingsUpdated();
+                ShellService.SettingsUpdated();
+            }
         }
 
         private async Task ApplySettings(bool downloadLocationChanged, bool loadAllDatabasesChanged, bool logLevelChanged)
