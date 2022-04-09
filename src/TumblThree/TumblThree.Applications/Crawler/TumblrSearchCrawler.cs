@@ -257,7 +257,8 @@ namespace TumblThree.Applications.Crawler
                             {
                                 data = new Post()
                                 {
-                                    Date = DateTimeOffset.FromUnixTimeSeconds(post.timestamp).DateTime.ToString("yyyyMMddHHmmss"),
+                                    Date = DateTimeOffset.FromUnixTimeSeconds(post.timestamp).DateTime.ToString("R"),
+                                    DateGmt = DateTimeOffset.FromUnixTimeSeconds(post.timestamp).DateTime.ToString("R"),
                                     Type = ConvertContentTypeToPostType(content.type),
                                     Id = post.id,
                                     Tags = new List<string>(((IEnumerable<object>)post.tags).Select(i => i.ToString())),

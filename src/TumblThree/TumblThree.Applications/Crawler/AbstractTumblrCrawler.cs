@@ -446,7 +446,7 @@ namespace TumblThree.Applications.Crawler
         {
             if (post == null)
             {
-                post = new Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
+                post = new Post() { Date = DateTime.MinValue.ToString("R"), DateGmt = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
                     Slug = "", RegularTitle = "", RebloggedFromName = "", ReblogKey = "", Tumblelog = new TumbleLog2() { Name = "" } };
             }
             return BuildFileNameCore(url, post.Tumblelog.Name, GetDate(post), post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.ReblogKey);

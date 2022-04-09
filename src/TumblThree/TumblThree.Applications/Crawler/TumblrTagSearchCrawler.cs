@@ -179,7 +179,8 @@ namespace TumblThree.Applications.Crawler
                         {
                             Post data = new Post()
                             {
-                                Date = DateTimeOffset.FromUnixTimeSeconds(post.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
+                                Date = DateTimeOffset.FromUnixTimeSeconds(post.Timestamp).DateTime.ToString("R"),
+                                DateGmt = DateTimeOffset.FromUnixTimeSeconds(post.Timestamp).DateTime.ToString("R"),
                                 Type = ConvertContentTypeToPostType(content.Type),
                                 Id = post.Id,
                                 Tags = new List<string>(post.Tags),
@@ -229,7 +230,8 @@ namespace TumblThree.Applications.Crawler
                         {
                             Post post = new Post()
                             {
-                                Date = DateTimeOffset.FromUnixTimeSeconds(data.Timestamp).DateTime.ToString("yyyyMMddHHmmss"),
+                                Date = DateTimeOffset.FromUnixTimeSeconds(data.Timestamp).DateTime.ToString("R"),
+                                DateGmt = DateTimeOffset.FromUnixTimeSeconds(data.Timestamp).DateTime.ToString("R"),
                                 Type = ConvertContentTypeToPostType(content.Type),
                                 Id = data.Id,
                                 Tags = new List<string>(data.Tags),
