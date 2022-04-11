@@ -6,7 +6,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Waf.Foundation;
-
+using System.Windows.Input;
 using TumblThree.Applications.Auth;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Views;
@@ -161,6 +161,7 @@ namespace TumblThree.Applications.Services
             };
             applicationBusyContext.Add(context);
             IsApplicationBusy = true;
+            QueueOnDispatcher.CheckBeginInvokeOnUI(() => Mouse.OverrideCursor = Cursors.Wait);
             return context;
         }
 
@@ -182,6 +183,7 @@ namespace TumblThree.Applications.Services
 
         private void ApplicationBusyContextDisposeCallback(ApplicationBusyContext context)
         {
+            QueueOnDispatcher.CheckBeginInvokeOnUI(() => Mouse.OverrideCursor = null);
             applicationBusyContext.Remove(context);
             IsApplicationBusy = applicationBusyContext.Any();
         }
