@@ -994,6 +994,7 @@ template: {Post Id}_{Photo Index}_{Original Filename}</value>
   %g  post date in GMT (yyyyMMdd)
   %h  post date and time in GMT (yyyyMMddHHmmss)
   %u  post timestamp (number)
+  %o  blog name of reblog origin
   %p  post title
   %i   post id
   %n  image index (of photo sets, else skipped)

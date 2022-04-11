@@ -891,6 +891,7 @@ Sie können die alten Mediendateien bei Bedarf manuell verschieben.</value>
    %g Postdatum in GMT (jjjjMMtt)
    %h Postdatum und Uhrzeit in GMT (jjjjMMttHHmmss)
    %u post timestamp (number)
+   %o Blog-Name des Reblog-Ursprungs
    %p Post-Titel
    %i  Post ID
    %n Bildindex (von Fotosets, sonst übersprungen)

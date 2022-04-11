@@ -1014,6 +1014,7 @@
   %g  发帖日期 GMT (yyyyMMdd)
   %h  发布日期和时间 GMT (yyyyMMddHHmmss)
   %u  帖子时间戳（数字）
+  %o  转发来源的博客名称
   %p  帖子标题
   %i   帖子ID
   %n  图像编号（图像集中，否则忽略）

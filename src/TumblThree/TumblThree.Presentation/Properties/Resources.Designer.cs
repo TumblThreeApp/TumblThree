@@ -2181,14 +2181,13 @@ namespace TumblThree.Presentation.Properties {
         ///  %g  post date in GMT (yyyyMMdd)
         ///  %h  post date and time in GMT (yyyyMMddHHmmss)
         ///  %u  post timestamp (number)
+        ///  %o  blog name of reblog origin
         ///  %p  post title
         ///  %i   post id
         ///  %n  image index (of photo sets, else skipped)
         ///  %t   for all tags (cute+cats,big+dogs)
         ///  %r   for reblog
-        ///  %s   slug (last part of a post&apos;s url)
-        ///  %k  reblog-key
-        ///Mandatory [rest of string was truncated]&quot;;.
+        ///  %s   slug (last part of a post&apos;s [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ToolTipFilenameTemplateDescription {
             get {

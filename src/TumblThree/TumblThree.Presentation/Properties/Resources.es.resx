@@ -753,6 +753,7 @@ plantilla: {ID de publicación} _ {Índice de fotos} _ {Nombre de archivo origin
    %g fecha de publicación en GMT (aaaaMMdd)
    %h fecha y hora de publicación en GMT (aaaaMMddHHmmss)
    %u marca de tiempo de publicación (número)
+   %o nombre del blog de origen reblog
    %p título de la publicación
    %i  publico id
    %n índice de imágenes (de conjuntos de fotos, de lo contrario se omitieron)

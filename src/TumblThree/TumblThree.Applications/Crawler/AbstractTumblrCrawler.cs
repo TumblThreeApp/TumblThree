@@ -303,6 +303,7 @@ namespace TumblThree.Applications.Crawler
                 Slug = p.Slug,
                 RegularTitle = p.Title,
                 RebloggedFromName = p.RebloggedFromName,
+                RebloggedRootName = p.RebloggedRootName,
                 ReblogKey = p.ReblogKey,
                 Tumblelog = new TumbleLog2() { Name = p.Tumblelog}
             };
@@ -447,9 +448,9 @@ namespace TumblThree.Applications.Crawler
             if (post == null)
             {
                 post = new Post() { Date = DateTime.MinValue.ToString("R"), DateGmt = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
-                    Slug = "", RegularTitle = "", RebloggedFromName = "", ReblogKey = "", Tumblelog = new TumbleLog2() { Name = "" } };
+                    Slug = "", RegularTitle = "", RebloggedFromName = "", RebloggedRootName = "", ReblogKey = "", Tumblelog = new TumbleLog2() { Name = "" } };
             }
-            return BuildFileNameCore(url, post.Tumblelog.Name, GetDate(post), post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.ReblogKey);
+            return BuildFileNameCore(url, post.Tumblelog.Name, GetDate(post), post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey);
         }
 
         protected string BuildFileName(string url, TumblrSvcJson.Post post, int index)
@@ -457,9 +458,9 @@ namespace TumblThree.Applications.Crawler
             if (post == null)
             {
                 post = new TumblrSvcJson.Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
-                    Slug = "", Title = "", RebloggedFromName = "", ReblogKey = "", Tumblelog = "" };
+                    Slug = "", Title = "", RebloggedFromName = "", RebloggedRootName = "", ReblogKey = "", Tumblelog = "" };
             }
-            return BuildFileNameCore(url, post.Tumblelog, GetDate(post), post.Timestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.ReblogKey);
+            return BuildFileNameCore(url, post.Tumblelog, GetDate(post), post.Timestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey);
         }
 
         private static DateTime GetDate(Post post)
@@ -489,7 +490,7 @@ namespace TumblThree.Applications.Crawler
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
-        private string BuildFileNameCore(string url, string blogName, DateTime date, int timestamp, int index, string type, string id, List<string> tags, string slug, string title, string rebloggedFromName, string reblog_key)
+        private string BuildFileNameCore(string url, string blogName, DateTime date, int timestamp, int index, string type, string id, List<string> tags, string slug, string title, string rebloggedFromName, string rebloggedRootName, string reblog_key)
         {
             /*
              * Replaced are:
@@ -500,6 +501,7 @@ namespace TumblThree.Applications.Crawler
                 %g  post date in GMT (yyyyMMdd)
                 %h  post date and time in GMT (yyyyMMddHHmmss)
                 %u  post timestamp (number)
+                %o  blog name of reblog origin
                 %p  post title (shorted if needed…)
                 %i  post id
                 %n  image index (of photo sets)
@@ -561,6 +563,10 @@ namespace TumblThree.Applications.Crawler
                     filename = filename.Remove(filename.IndexOf("%r", StringComparison.OrdinalIgnoreCase), 3);
                 }
                 filename = ReplaceCI(filename, "%r", (rebloggedFromName.Length == 0 ? "" : "reblog"));
+            }
+            if (ContainsCI(filename, "%o"))
+            {
+                filename = ReplaceCI(filename, "%o", rebloggedRootName);
             }
             if (ContainsCI(filename, "%s")) filename = ReplaceCI(filename, "%s", slug);
             if (ContainsCI(filename, "%k")) filename = ReplaceCI(filename, "%k", reblog_key);

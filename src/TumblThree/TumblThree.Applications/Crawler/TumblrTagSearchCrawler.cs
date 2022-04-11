@@ -195,6 +195,7 @@ namespace TumblThree.Applications.Crawler
                                 Slug = post.Slug,
                                 RegularTitle = post.Summary,
                                 RebloggedFromName = "",
+                                RebloggedRootName = "",
                                 ReblogKey = post.ReblogKey,
                                 UnixTimestamp = post.Timestamp,
                                 Tumblelog = new TumbleLog2(){ Name = post.BlogName }
@@ -246,6 +247,7 @@ namespace TumblThree.Applications.Crawler
                                 Slug = data.Slug,
                                 RegularTitle = data.Summary,
                                 RebloggedFromName = "",
+                                RebloggedRootName = "",
                                 ReblogKey = data.ReblogKey,
                                 UnixTimestamp = data.Timestamp,
                                 Tumblelog = new TumbleLog2() { Name = data.BlogName }

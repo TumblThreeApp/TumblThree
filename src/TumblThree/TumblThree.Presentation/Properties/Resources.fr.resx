@@ -756,6 +756,7 @@ modèle: {Post Id} _ {Index des photos} _ {Nom de fichier d'origine}</value>
    %g date de publication en GMT (aaaaMMjj)
    %h date et heure de publication en GMT (aaaaMMjjHHmmss)
    %u horodatage de la publication (nombre)
+   %o nom de blog d'origine du reblog
    %p titre du message
    %i  identifiant de publication
    %n index d'image (des ensembles de photos, sinon ignoré)

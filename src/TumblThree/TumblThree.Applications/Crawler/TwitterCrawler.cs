@@ -904,6 +904,7 @@ namespace TumblThree.Applications.Crawler
                 %g  post date in GMT (yyyyMMdd)
                 %h  post date and time in GMT (yyyyMMddHHmmss)
                 %u  post timestamp (number)
+                %o  blog name of reblog origin
                 %p  post title (shorted if needed…)
                 %i  post id
                 %n  image index (of photo sets)
@@ -963,6 +964,10 @@ namespace TumblThree.Applications.Crawler
                     filename = filename.Remove(filename.IndexOf("%r", StringComparison.OrdinalIgnoreCase), 3);
                 }
                 filename = ReplaceCI(filename, "%r", (rebloggedFromName.Length == 0 ? "" : "reblog"));
+            }
+            if (ContainsCI(filename, "%o"))
+            {
+                filename = ReplaceCI(filename, "%o", rebloggedFromName);
             }
             if (ContainsCI(filename, "%s")) filename = ReplaceCI(filename, "%s", slug);
             if (ContainsCI(filename, "%k")) filename = ReplaceCI(filename, "%k", reblog_key);

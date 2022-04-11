@@ -265,6 +265,7 @@ namespace TumblThree.Applications.Crawler
                                     Slug = post.slug,
                                     RegularTitle = post.summary,
                                     RebloggedFromName = "",
+                                    RebloggedRootName = "",
                                     ReblogKey = HasProperty(post, "reblog_key") ? post.reblog_key : post.reblogKey,
                                     UnixTimestamp = (int)post.timestamp,
                                     Tumblelog = new TumbleLog2() { Name = HasProperty(post, "blog_name") ? post.blog_name : post.blogName },
