@@ -288,8 +288,7 @@ namespace TumblThree.Applications.Crawler
         private void DownloadMedia(Content content, Post post, int index)  //String id, long timestamp, IList<string> tags
         {
             string type = content.Type;
-            string url = string.Empty;
-            url = type == "video" || type == "audio" ? content.Url : content.Media?[0].Url;
+            string url = type == "video" || type == "audio" ? content.Url : content.Media?[0].Url;
             if (url == null)
                 return;
             if (!CheckIfContainsTaggedPost(post.Tags))
@@ -298,7 +297,7 @@ namespace TumblThree.Applications.Crawler
                 return;
             if (type == "video")
             {
-                if (Blog.DownloadPhoto)
+                if (Blog.DownloadVideoThumbnail)
                 {
                     var thumbnailUrl = content.Poster?[0].Url;
                     AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, index)));

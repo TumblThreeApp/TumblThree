@@ -1257,7 +1257,7 @@ namespace TumblThree.Applications.ViewModels
                 ArchiveIndex = false;
                 CheckOnlineStatusOnStartup = false;
                 SkipGif = false;
-                DownloadVideoThumbnails = false;
+                DownloadVideoThumbnails = true;
                 EnablePreview = true;
                 RemoveIndexAfterCrawl = false;
                 DownloadImages = true;

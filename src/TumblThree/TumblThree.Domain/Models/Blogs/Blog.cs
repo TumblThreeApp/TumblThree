@@ -97,7 +97,7 @@ namespace TumblThree.Domain.Models.Blogs
         private int collectionId;
 
         [DataMember(Name = "Links")]
-        private readonly List<string> links = new List<string>();
+        private List<string> links;
 
         private int downloadedImages;
 
@@ -980,7 +980,7 @@ namespace TumblThree.Domain.Models.Blogs
             using (var stream = new FileStream(fileLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 var serializer = new DataContractJsonSerializer(GetType());
-                var blog = (IBlog)serializer.ReadObject(stream);
+                var blog = (Blog)serializer.ReadObject(stream);
 
                 if (blog.Version == "3")
                 {
@@ -995,6 +995,12 @@ namespace TumblThree.Domain.Models.Blogs
                     blog.Location = Path.Combine(Directory.GetParent(fileLocation).FullName, "Index");
                 if (string.IsNullOrEmpty(blog.ChildId))
                     blog.ChildId = Path.Combine(blog.Location, blog.Name + "_files." + blog.OriginalBlogType);
+                if (blog.Links != null && blog.BlogType != BlogTypes.twitter && blog.BlogType != BlogTypes.instagram)
+                {
+                    // use leftover property Links to indicate if one-time update of DownloadVideoThumbnail was done
+                    blog.DownloadVideoThumbnail = true;
+                    blog.links = null;
+                }
 
                 return blog;
             }

@@ -289,6 +289,7 @@ namespace TumblThree.Applications.Controllers
                 CreateVideoMeta = SetCheckBox(sharedBlogFiles, "CreateVideoMeta"),
                 CreateAudioMeta = SetCheckBox(sharedBlogFiles, "CreateAudioMeta"),
                 DownloadRebloggedPosts = SetCheckBox(sharedBlogFiles, "DownloadRebloggedPosts"),
+                DownloadVideoThumbnail = SetCheckBox(sharedBlogFiles, "DownloadVideoThumbnail"),
                 SkipGif = SetCheckBox(sharedBlogFiles, "SkipGif"),
                 GroupPhotoSets = SetCheckBox(sharedBlogFiles, "GroupPhotoSets"),
                 ForceSize = SetCheckBox(sharedBlogFiles, "ForceSize"),

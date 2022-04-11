@@ -553,6 +553,7 @@ namespace TumblThree.Applications.Properties
             ArchiveIndex = false;
             CheckOnlineStatusOnStartup = false;
             SkipGif = false;
+            DownloadVideoThumbnails = true;
             EnablePreview = true;
             RemoveIndexAfterCrawl = false;
             DownloadImages = true;

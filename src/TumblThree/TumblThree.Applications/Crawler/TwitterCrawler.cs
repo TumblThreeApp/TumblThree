@@ -811,6 +811,10 @@ namespace TumblThree.Applications.Crawler
                 }
                 filename = BuildFileName(filename, post, "photo", -1);
                 AddToDownloadList(new PhotoPost(imageUrl, post.IdStr, UnixTimestamp(post).ToString(), filename));
+                if (!Blog.DownloadVideo)
+                {
+                    AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), TweetToSave(post)));
+                }
             }
         }
 

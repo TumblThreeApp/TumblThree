@@ -214,6 +214,8 @@
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="{StaticResource Layout.RowSpace}"/>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
@@ -853,6 +855,20 @@
                                   IsChecked="{Binding BlogAll.DownloadRebloggedPosts, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadRebloggedPostsDiff, Mode=OneWay}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="44" Margin="3,0,0,0" Padding="3,0,0,0" />
 
+                            <CheckBox Content="{x:Static p:Resources.DownloadVideoThumbnails}" IsChecked="{Binding BlogAll.DownloadVideoThumbnail, Mode=TwoWay}"
+                                  IsThreeState="{Binding BlogAll.DownloadVideoThumbnailDiff, Mode=OneWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="46" Margin="3,0,0,0" Padding="3,0,0,0">
+                                <CheckBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadVideoThumbnails}" />
+                                            <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipDownloadVideoThumbnailsDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </CheckBox.ToolTip>
+                            </CheckBox>
+                            
                             <!--<CheckBox Content="{x:Static p:Resources.CheckDirectoryForFiles}"
                                   IsChecked="{Binding BlogAll.CheckDirectoryForFiles, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
                                   Grid.Row="38" Margin="3,0,0,0" Padding="3,0,0,0">
@@ -870,7 +886,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.DownloadUrlList2}"
                                   IsChecked="{Binding BlogAll.DownloadUrlList, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadUrlListDiff, Mode=OneWay}"
-                                  Grid.Column="0" Grid.Row="46" Grid.ColumnSpan="5" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Column="0" Grid.Row="48" Grid.ColumnSpan="5" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -884,7 +900,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.ForceSize}"
                                   IsChecked="{Binding BlogAll.ForceSize, Mode=TwoWay}" IsThreeState="{Binding BlogAll.ForceSizeDiff, Mode=OneWay}"
-                                  Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="48" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="50" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -898,7 +914,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.RegExPhotos}"
                                       IsChecked="{Binding BlogAll.RegExPhotos, Mode=TwoWay}" IsThreeState="{Binding BlogAll.RegExPhotosDiff, Mode=OneWay}"
-                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="50" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="52" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -912,7 +928,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.RegExVideos}"
                                       IsChecked="{Binding BlogAll.RegExVideos, Mode=TwoWay}" IsThreeState="{Binding BlogAll.RegExVideosDiff, Mode=OneWay}"
-                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="52" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="54" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -926,7 +942,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.DumpCrawlerData}"
                                       IsChecked="{Binding BlogAll.DumpCrawlerData, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DumpCrawlerDataDiff, Mode=OneWay}"
-                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="54" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="56" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -940,7 +956,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.ForceRescan}"
                                       IsChecked="{Binding BlogAll.ForceRescan, Mode=TwoWay}" IsThreeState="{Binding BlogAll.ForceRescanDiff, Mode=OneWay}"
-                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="56" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="58" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>

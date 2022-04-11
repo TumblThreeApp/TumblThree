@@ -11,6 +11,8 @@ namespace TumblThree.Applications.Parser
 
         public Regex GetTumblrVVideoUrlRegex() => new Regex("\"(https?://v[A-Za-z0-9_.]*.tumblr.com/(tumblr_[\\w]*))");
 
+        public Regex GetTumblrThumbnailUrlRegex() => new Regex("\"(https?://v[A-Za-z0-9_.]*.tumblr.com/(tumblr_[\\w]*_(frame1|smart1)[\\w]*))");
+
         public Regex GetTumblrInlineVideoUrlRegex() => new Regex("\"(http[A-Za-z0-9_/:.]*video_file[\\S]*/(tumblr_[\\w]*))[0-9/]*\"");
 
         public Regex GetGenericVideoUrlRegex() => new Regex("\"(https?://(?:[a-z0-9\\-]+\\.)+[a-z]{2,6}(?:/[^/#?]+)+\\.(?:mp4|mkv|wmv|mpeg|mpg|avi|gifv|webm))\"");
@@ -49,6 +51,17 @@ namespace TumblThree.Applications.Parser
                 string videoUrl = match.Groups[1].Value;
 
                 yield return videoUrl;
+            }
+        }
+
+        public IEnumerable<string> SearchForTumblrVideoThumbnailUrl(string searchableText)
+        {
+            Regex regex = GetTumblrThumbnailUrlRegex();
+            foreach (Match match in regex.Matches(searchableText))
+            {
+                string thumbnailUrl = match.Groups[1].Value;
+
+                yield return thumbnailUrl;
             }
         }
 

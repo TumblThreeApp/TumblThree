@@ -237,6 +237,8 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{StaticResource Layout.RowSpace}"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
@@ -539,8 +541,21 @@
                             </CheckBox.ToolTip>
                         </CheckBox>-->
 
+                            <CheckBox Content="{x:Static p:Resources.DownloadVideoThumbnails}" IsChecked="{Binding BlogFile.DownloadVideoThumbnail, Mode=TwoWay}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="19" Margin="3,0,0,0" Padding="3,0,0,0">
+                                <CheckBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadVideoThumbnails}" />
+                                            <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipDownloadVideoThumbnailsDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </CheckBox.ToolTip>
+                            </CheckBox>
+                            
                             <CheckBox
-                                Grid.Row="19"
+                                Grid.Row="21"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"
@@ -558,7 +573,7 @@
                             </CheckBox>
 
                             <CheckBox
-                                Grid.Row="21"
+                                Grid.Row="23"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"
@@ -576,7 +591,7 @@
                             </CheckBox>
 
                             <CheckBox
-                                Grid.Row="23"
+                                Grid.Row="25"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"
@@ -594,7 +609,7 @@
                             </CheckBox>
 
                             <CheckBox
-                                Grid.Row="25"
+                                Grid.Row="27"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"
@@ -612,7 +627,7 @@
                             </CheckBox>
 
                             <CheckBox
-                                Grid.Row="27"
+                                Grid.Row="29"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="5"
                                 Margin="3,0,0,0"

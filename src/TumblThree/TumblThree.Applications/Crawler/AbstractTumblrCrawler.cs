@@ -227,8 +227,12 @@ namespace TumblThree.Applications.Crawler
             AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, -1)));
         }
 
-        protected void AddTumblrVideoUrl(string text, Post post)
+        protected string[] AddTumblrVideoUrl(string text, Post post)
         {
+            if (!Blog.DownloadVideo) return Array.Empty<string>();
+
+            var list = new List<string>();
+
             foreach (string videoUrl in TumblrParser.SearchForTumblrVideoUrl(text))
             {
                 string url = videoUrl;
@@ -237,37 +241,70 @@ namespace TumblThree.Applications.Crawler
                     url += "_480";
                 }
 
-                AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + url + ".mp4", post.Id, post.UnixTimestamp.ToString(), BuildFileName("https://vtt.tumblr.com/" + url + ".mp4", post, -1)));
+                url = "https://vtt.tumblr.com/" + url + ".mp4";
+                AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, -1)));
+                list.Add(url);
+            }
+
+            return list.ToArray();
+        }
+
+        protected void AddInlineTumblrVideoUrl(string post, Regex regexVideo, Regex regexThumbnail)
+        {
+            if (Blog.DownloadVideo)
+            {
+                foreach (Match match in regexVideo.Matches(post))
+                {
+                    string videoUrl = match.Groups[1].Value;
+
+                    if (ShellService.Settings.VideoSize == 480)
+                    {
+                        videoUrl += "_480";
+                    }
+
+                    AddToDownloadList(new VideoPost(videoUrl + ".mp4", Guid.NewGuid().ToString("N"), FileName(videoUrl + ".mp4")));
+                }
+            }
+
+            if (Blog.DownloadVideoThumbnail)
+            {
+                foreach (Match match in regexThumbnail.Matches(post))
+                {
+                    string thumbnailUrl = match.Groups[1].Value;
+                    AddToDownloadList(new VideoPost(thumbnailUrl, Guid.NewGuid().ToString("N"), FileName(thumbnailUrl)));
+                }
             }
         }
 
-        protected void AddInlineTumblrVideoUrl(string post, Regex regex)
+        protected string[] AddInlineTumblrVideoUrl(string text, Post post)
         {
-            foreach (Match match in regex.Matches(post))
+            var list = new List<string>();
+
+            if (Blog.DownloadVideo)
             {
-                string videoUrl = match.Groups[1].Value;
-
-                if (ShellService.Settings.VideoSize == 480)
+                foreach (string videoUrl in TumblrParser.SearchForTumblrInlineVideoUrl(text))
                 {
-                    videoUrl += "_480";
+                    string url = videoUrl;
+                    if (ShellService.Settings.VideoSize == 480)
+                    {
+                        url += "_480";
+                    }
+
+                    url += ".mp4";
+                    AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, -1)));
+                    list.Add(url);
                 }
-
-                AddToDownloadList(new VideoPost(videoUrl + ".mp4", Guid.NewGuid().ToString("N"), FileName(videoUrl + ".mp4")));
             }
-        }
 
-        protected void AddInlineTumblrVideoUrl(string text, Post post)
-        {
-            foreach (string videoUrl in TumblrParser.SearchForTumblrInlineVideoUrl(text))
+            if (Blog.DownloadVideoThumbnail)
             {
-                string url = videoUrl;
-                if (ShellService.Settings.VideoSize == 480)
+                foreach (string thumbnailUrl in TumblrParser.SearchForTumblrVideoThumbnailUrl(text))
                 {
-                    url += "_480";
+                    AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, "photo", -1)));
                 }
-
-                AddToDownloadList(new VideoPost(url + ".mp4", post.Id, post.UnixTimestamp.ToString(), BuildFileName(url + ".mp4", post, -1)));
             }
+
+            return list.ToArray();
         }
 
         protected void AddGenericPhotoUrl(string text, Post post)
@@ -443,24 +480,36 @@ namespace TumblThree.Applications.Crawler
             return String.Join("-", filename.Split(invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.');
         }
 
-        protected string BuildFileName(string url, Post post, int index)
+        protected string BuildFileName(string url, Post post, string type, int index)
         {
             if (post == null)
             {
                 post = new Post() { Date = DateTime.MinValue.ToString("R"), DateGmt = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
                     Slug = "", RegularTitle = "", RebloggedFromName = "", RebloggedRootName = "", ReblogKey = "", Tumblelog = new TumbleLog2() { Name = "" } };
             }
-            return BuildFileNameCore(url, post.Tumblelog.Name, GetDate(post), post.UnixTimestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey);
+            return BuildFileNameCore(url, post.Tumblelog.Name, GetDate(post), post.UnixTimestamp, index, type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey);
         }
 
-        protected string BuildFileName(string url, TumblrSvcJson.Post post, int index)
+        protected string BuildFileName(string url, Post post, int index)
+        {
+            var type = post?.Type ?? "";
+            return BuildFileName(url, post, type, index);
+        }
+
+        protected string BuildFileName(string url, TumblrSvcJson.Post post, string type, int index)
         {
             if (post == null)
             {
                 post = new TumblrSvcJson.Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
                     Slug = "", Title = "", RebloggedFromName = "", RebloggedRootName = "", ReblogKey = "", Tumblelog = "" };
             }
-            return BuildFileNameCore(url, post.Tumblelog, GetDate(post), post.Timestamp, index, post.Type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey);
+            return BuildFileNameCore(url, post.Tumblelog, GetDate(post), post.Timestamp, index, type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey);
+        }
+
+        protected string BuildFileName(string url, TumblrSvcJson.Post post, int index)
+        {
+            var type = post?.Type ?? "";
+            return BuildFileName(url, post, type, index);
         }
 
         private static DateTime GetDate(Post post)

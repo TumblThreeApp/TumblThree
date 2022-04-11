@@ -17,6 +17,7 @@
         private bool? createVideoMeta;
         private bool? createAudioMeta;
         private bool? downloadRebloggedPosts;
+        private bool? downloadVideoThumbnail;
         private bool? skipGif;
         private bool? groupPhotoSets;
         private bool? forceSize;
@@ -44,6 +45,7 @@
         private bool createVideoMetaDiff;
         private bool createAudioMetaDiff;
         private bool downloadRebloggedPostsDiff;
+        private bool downloadVideoThumbnailDiff;
         private bool skipGifDiff;
         private bool groupPhotoSetsDiff;
         private bool forceSizeDiff;
@@ -242,6 +244,25 @@
             set
             {
                 SetProperty(ref downloadRebloggedPostsDiff, value);
+            }
+        }
+
+        public new bool? DownloadVideoThumbnail
+        {
+            get { return downloadVideoThumbnail; }
+            set
+            {
+                DownloadVideoThumbnailDiff = !value.HasValue;
+                SetProperty(ref downloadVideoThumbnail, value);
+            }
+        }
+
+        public bool DownloadVideoThumbnailDiff
+        {
+            get { return downloadVideoThumbnailDiff; }
+            set
+            {
+                SetProperty(ref downloadVideoThumbnailDiff, value);
             }
         }
 

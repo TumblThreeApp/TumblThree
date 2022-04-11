@@ -398,9 +398,9 @@ namespace TumblThree.Applications.Crawler
                 return;
             if (type == "video")
             {
-                if (Blog.DownloadPhoto)
+                if (Blog.DownloadVideoThumbnail)
                 {
-                    if (GetValue(content, "provider") == "tumblr" || url.Contains("tumblr.com") || Blog.RegExPhotos)
+                    if (GetValue(content, "provider") == "tumblr" || url.Contains("tumblr.com") || Blog.RegExVideos)
                     {
                         string thumbnailUrl = HasProperty(content, "poster") ? HasProperty(content.poster, "Count") ? content.poster[0].url : "" : "";
                         AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, index)));

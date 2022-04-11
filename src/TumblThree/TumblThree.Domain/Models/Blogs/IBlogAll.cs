@@ -11,6 +11,7 @@
         new bool? CreateVideoMeta { get; set; }
         new bool? CreateAudioMeta { get; set; }
         new bool? DownloadRebloggedPosts { get; set; }
+        new bool? DownloadVideoThumbnail { get; set; }
         new bool? SkipGif { get; set; }
         new bool? GroupPhotoSets { get; set; }
         new bool? ForceSize { get; set; }
@@ -38,6 +39,7 @@
         bool CreateVideoMetaDiff { get; set; }
         bool CreateAudioMetaDiff { get; set; }
         bool DownloadRebloggedPostsDiff { get; set; }
+        bool DownloadVideoThumbnailDiff { get; set; }
         bool SkipGifDiff { get; set; }
         bool GroupPhotoSetsDiff { get; set; }
         bool ForceSizeDiff { get; set; }

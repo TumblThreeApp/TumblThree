@@ -436,6 +436,12 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
+        private void AddToJsonQueue(string[] urls, Post post)
+        {
+            if (urls == null || urls.Length == 0) return;
+            AddToJsonQueue(new CrawlerData<Post>(FileName(urls[0]), post));
+        }
+
         private bool CheckIfContainsTaggedPost(Post post)
         {
             return !Tags.Any() || post.Tags.Any(x => Tags.Contains(x, StringComparer.OrdinalIgnoreCase));
@@ -502,7 +508,7 @@ namespace TumblThree.Applications.Crawler
 
         private void AddVideoUrlToDownloadList(Post post)
         {
-            if (!Blog.DownloadVideo) { return; }
+            if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail) { return; }
 
             Post postCopy = post;
             if (post.Type == "video")
@@ -513,9 +519,12 @@ namespace TumblThree.Applications.Crawler
                 postCopy.VideoUrl = string.Empty;
             }
 
-            AddTumblrVideoUrl(InlineSearch(postCopy), ConvertTumblrApiJson(post));
-            AddInlineTumblrVideoUrl(InlineSearch(postCopy), ConvertTumblrApiJson(post));
-            if (Blog.RegExVideos)
+            var urls = AddTumblrVideoUrl(InlineSearch(postCopy), ConvertTumblrApiJson(post));
+            AddToJsonQueue(urls, post);
+            urls = AddInlineTumblrVideoUrl(InlineSearch(postCopy), ConvertTumblrApiJson(post));
+            AddToJsonQueue(urls, post);
+
+            if (Blog.DownloadVideo && Blog.RegExVideos)
             {
                 AddGenericInlineVideoUrl(postCopy);
             }
@@ -536,8 +545,20 @@ namespace TumblThree.Applications.Crawler
                 }
             }
 
-            AddToDownloadList(new VideoPost(videoUrl, postId, post.Timestamp.ToString(), BuildFileName(videoUrl, post, -1)));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(videoUrl.Split('/').Last(), ".json"), post));
+            if (Blog.DownloadVideo)
+            {
+                AddToDownloadList(new VideoPost(videoUrl, postId, post.Timestamp.ToString(), BuildFileName(videoUrl, post, -1)));
+                AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(videoUrl.Split('/').Last(), ".json"), post));
+            }
+
+            if (Blog.DownloadVideoThumbnail)
+            {
+                AddToDownloadList(new PhotoPost(post.ThumbnailUrl, postId, post.Timestamp.ToString(), BuildFileName(post.ThumbnailUrl, post, "photo", -1)));
+                if (!Blog.DownloadVideo)
+                {
+                    AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(videoUrl.Split('/').Last(), ".json"), post));
+                }
+            }
         }
 
         private void AddGenericInlineVideoUrl(Post post)

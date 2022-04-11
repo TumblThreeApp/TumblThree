@@ -324,7 +324,7 @@ namespace TumblThree.Applications.Crawler
 
         private void AddVideoUrlToDownloadList(string document)
         {
-            if (!Blog.DownloadVideo)
+            if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail)
             {
                 return;
             }
@@ -332,9 +332,9 @@ namespace TumblThree.Applications.Crawler
             var post = new DataModels.TumblrApiJson.Post() { Id = "", Tumblelog = new DataModels.TumblrApiJson.TumbleLog2() { Name = "" },
                 UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() };
             AddTumblrVideoUrl(document, post);
-            AddInlineTumblrVideoUrl(document, TumblrParser.GetTumblrVVideoUrlRegex());
+            AddInlineTumblrVideoUrl(document, TumblrParser.GetTumblrVVideoUrlRegex(), TumblrParser.GetTumblrThumbnailUrlRegex());
 
-            if (Blog.RegExVideos)
+            if (Blog.DownloadVideo && Blog.RegExVideos)
             {
                 AddGenericVideoUrl(document, post);
             }

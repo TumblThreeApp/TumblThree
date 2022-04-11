@@ -11,6 +11,8 @@ namespace TumblThree.Applications.Parser
 
         Regex GetTumblrVVideoUrlRegex();
 
+        Regex GetTumblrThumbnailUrlRegex();
+
         Regex GetTumblrInlineVideoUrlRegex();
 
         Regex GetGenericVideoUrlRegex();
@@ -18,6 +20,8 @@ namespace TumblThree.Applications.Parser
         IEnumerable<string> SearchForTumblrPhotoUrl(string searchableText);
 
         IEnumerable<string> SearchForTumblrVideoUrl(string searchableText);
+
+        IEnumerable<string> SearchForTumblrVideoThumbnailUrl(string searchableText);
 
         IEnumerable<string> SearchForTumblrInlineVideoUrl(string searchableText);
 
