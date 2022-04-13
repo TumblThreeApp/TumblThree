@@ -42,14 +42,23 @@ namespace TumblThree.Applications.Downloader
             {
                 var fileInfo = new FileInfo(destinationPath);
                 totalBytesReceived = fileInfo.Length;
-                if (totalBytesReceived >= await CheckDownloadSizeAsync(url).TimeoutAfter(settings.TimeOut)) return true;
+                var result = await CheckDownloadSizeAsync(url, destinationPath).TimeoutAfter(settings.TimeOut);
+                if (totalBytesReceived >= result.contentLength) return true;
+                if (destinationPath != result.destinationPath)
+                {
+                    File.Delete(destinationPath);
+                    destinationPath = result.destinationPath;
+                    fileInfo = new FileInfo(destinationPath);
+                    totalBytesReceived = fileInfo.Length;
+                }
             }
 
             if (ct.IsCancellationRequested) return false;
 
             var fileMode = totalBytesReceived > 0 ? FileMode.Append : FileMode.Create;
 
-            using (var fileStream = new FileStream(destinationPath, fileMode, FileAccess.Write, FileShare.Read, bufferSize, true))
+            var fileStream = new FileStream(destinationPath, fileMode, FileAccess.Write, FileShare.Read, bufferSize, true);
+            try
             {
                 while (true)
                 {
@@ -69,6 +78,15 @@ namespace TumblThree.Applications.Downloader
                         bool isChunked = false;
                         using (var response = await request.GetResponseAsync().TimeoutAfter(settings.TimeOut))
                         {
+                            if (url.Contains("tumblr.com") && (url.Contains(".png") || url.Contains(".pnj"))
+                                && Path.GetExtension(destinationPath).ToLower() == ".png" && (response.Headers["Content-Type"]?.Contains("jpeg") ?? false))
+                            {
+                                fileStream.Dispose();
+                                File.Delete(destinationPath);
+                                destinationPath = Path.Combine(Path.GetDirectoryName(destinationPath), Path.GetFileNameWithoutExtension(destinationPath) + ".jpg");
+                                fileStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.Read, bufferSize, true);
+                            }
+
                             isChunked = response.Headers.ToString().Contains("chunked");
                             totalBytesToReceive = totalBytesReceived + (response.ContentLength == -1 ? 0 : response.ContentLength);
 
@@ -124,9 +142,13 @@ namespace TumblThree.Applications.Downloader
 
                 return true;
             }
+            finally
+            {
+                fileStream?.Dispose();
+            }
         }
 
-        private async Task<long> CheckDownloadSizeAsync(string url)
+        private async Task<(long contentLength, string destinationPath)> CheckDownloadSizeAsync(string url, string destinationPath)
         {
             var requestRegistration = new CancellationTokenRegistration();
             try
@@ -136,7 +158,12 @@ namespace TumblThree.Applications.Downloader
 
                 using (var response = await request.GetResponseAsync())
                 {
-                    return response.ContentLength;
+                    if (url.Contains("tumblr.com") && (url.Contains(".png") || url.Contains(".pnj"))
+                        && Path.GetExtension(destinationPath).ToLower() == ".png" && (response.Headers["Content-Type"]?.Contains("jpeg") ?? false))
+                    {
+                        destinationPath = Path.Combine(Path.GetDirectoryName(destinationPath), Path.GetFileNameWithoutExtension(destinationPath) + ".jpg");
+                    }
+                    return (response.ContentLength, destinationPath);
                 }
             }
             finally

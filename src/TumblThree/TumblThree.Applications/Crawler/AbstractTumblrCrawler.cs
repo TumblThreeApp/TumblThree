@@ -586,11 +586,14 @@ namespace TumblThree.Applications.Crawler
                 %x  "_{number}" ({number}: 2..n)
                 %y  " ({number})" ({number}: 2..n)
              */
-            string filename = Blog.FilenameTemplate;
-
             url = url.IndexOf('?') > 0 ? url.Substring(0, url.IndexOf('?')) : url;
 
-            filename += Path.GetExtension(FileName(url));
+            string extension = Path.GetExtension(FileName(url));
+            if (extension.ToLower() == ".gifv")
+                extension = ".gif";
+            else if (extension.ToLower() == ".pnj")
+                extension += ".png";
+            string filename = Blog.FilenameTemplate + extension;
             if (ContainsCI(filename, "%f")) filename = ReplaceCI(filename, "%f", Path.GetFileNameWithoutExtension(FileName(url)));
             if (ContainsCI(filename, "%d")) filename = ReplaceCI(filename, "%d", date.ToString("yyyyMMdd"));
             if (ContainsCI(filename, "%e")) filename = ReplaceCI(filename, "%e", date.ToString("yyyyMMddHHmmss"));

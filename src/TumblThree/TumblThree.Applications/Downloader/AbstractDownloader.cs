@@ -289,7 +289,8 @@ namespace TumblThree.Applications.Downloader
                 string fileName = FileName(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
             }
-            else if (!shellService.Settings.LoadAllDatabases && blog.CheckDirectoryForFiles && blog.CheckIfBlogShouldCheckDirectory(FileName(downloadItem), FileNameNew(downloadItem)))
+            else if (!shellService.Settings.LoadAllDatabases && blog.CheckDirectoryForFiles && (blog.CheckIfBlogShouldCheckDirectory(FileNameUrl(downloadItem), FileNameNew(downloadItem))
+                || blog.CheckIfBlogShouldCheckDirectory(FileName(downloadItem), FileNameNew(downloadItem))))
             {
                 string fileName = AddFileToDb(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
@@ -346,7 +347,7 @@ namespace TumblThree.Applications.Downloader
         {
             if (AppendTemplate == null)
             {
-                files.AddFileToDb(FileName(downloadItem), downloadItem.Filename);
+                files.AddFileToDb(FileNameUrl(downloadItem), downloadItem.Filename);
                 return downloadItem.Filename;
             }
             return files.AddFileToDb(FileName(downloadItem), downloadItem.Filename, AppendTemplate);
@@ -359,7 +360,7 @@ namespace TumblThree.Applications.Downloader
 
         protected bool CheckIfFileExistsInDB(TumblrPost downloadItem)
         {
-            string filename = FileName(downloadItem);
+            string filename = FileNameUrl(downloadItem);
             if (shellService.Settings.LoadAllDatabases)
             {
                 return managerService.CheckIfFileExistsInDB(filename, shellService.Settings.LoadArchive);
@@ -410,9 +411,19 @@ namespace TumblThree.Applications.Downloader
             return downloadItem.Url;
         }
 
-        protected virtual string FileName(TumblrPost downloadItem)
+        protected virtual string FileNameUrl(TumblrPost downloadItem)
         {
             return downloadItem.Url.Split('/').Last();
+        }
+
+        protected virtual string FileName(TumblrPost downloadItem)
+        {
+            string filename = downloadItem.Url.Split('/').Last();
+            if (Path.GetExtension(filename).ToLower() == ".gifv")
+                filename = Path.GetFileNameWithoutExtension(filename) + ".gif";
+            if (Path.GetExtension(filename).ToLower() == ".pnj")
+                filename += ".png";
+            return filename;
         }
 
         protected static string FileNameNew(TumblrPost downloadItem)
