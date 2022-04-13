@@ -486,7 +486,9 @@ namespace TumblThree.Applications.Crawler
 
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new PhotoPost(imageUrl, postId, post.Timestamp.ToString(), BuildFileName(imageUrl, post, i)));
+                var filename = BuildFileName(imageUrl, post, i);
+                AddDownloadedMedia(imageUrl, filename, post);
+                AddToDownloadList(new PhotoPost(imageUrl, postId, post.Timestamp.ToString(), filename));
                 if (!jsonSaved || !Blog.GroupPhotoSets && !(string.Equals(Blog.FilenameTemplate, "%f", StringComparison.OrdinalIgnoreCase) && i == -1))
                 {
                     jsonSaved = true;
@@ -547,13 +549,17 @@ namespace TumblThree.Applications.Crawler
 
             if (Blog.DownloadVideo)
             {
-                AddToDownloadList(new VideoPost(videoUrl, postId, post.Timestamp.ToString(), BuildFileName(videoUrl, post, -1)));
+                var filename = BuildFileName(videoUrl, post, -1);
+                AddDownloadedMedia(videoUrl, filename, post);
+                AddToDownloadList(new VideoPost(videoUrl, postId, post.Timestamp.ToString(), filename));
                 AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(videoUrl.Split('/').Last(), ".json"), post));
             }
 
             if (Blog.DownloadVideoThumbnail)
             {
-                AddToDownloadList(new PhotoPost(post.ThumbnailUrl, postId, post.Timestamp.ToString(), BuildFileName(post.ThumbnailUrl, post, "photo", -1)));
+                var filename = BuildFileName(post.ThumbnailUrl, post, "photo", -1);
+                AddDownloadedMedia(post.ThumbnailUrl, filename, post);
+                AddToDownloadList(new PhotoPost(post.ThumbnailUrl, postId, post.Timestamp.ToString(), filename));
                 if (!Blog.DownloadVideo)
                 {
                     AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(videoUrl.Split('/').Last(), ".json"), post));
@@ -578,7 +584,9 @@ namespace TumblThree.Applications.Crawler
                 audioUrl = audioUrl + ".mp3";
             }
 
-            AddToDownloadList(new AudioPost(audioUrl, postId, post.Timestamp.ToString(), BuildFileName(audioUrl, post, -1)));
+            var filename = BuildFileName(audioUrl, post, -1);
+            AddDownloadedMedia(audioUrl, filename, post);
+            AddToDownloadList(new AudioPost(audioUrl, postId, post.Timestamp.ToString(), filename));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(audioUrl.Split('/').Last(), ".json"), post));
         }
 
@@ -683,10 +691,6 @@ namespace TumblThree.Applications.Crawler
             if (Blog.DownloadImgur)
             {
                 AddImgurUrl(searchableText, timestamp);
-            }
-
-            if (Blog.DownloadImgur)
-            {
                 await AddImgurAlbumUrlAsync(searchableText, timestamp);
             }
 

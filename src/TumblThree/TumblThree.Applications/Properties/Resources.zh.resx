@@ -145,7 +145,7 @@
     <value>曾经完成</value>
   </data>
   <data name="Body" xml:space="preserve">
-    <value>Body: {0]</value>
+    <value>Body: {0}</value>
   </data>
   <data name="ConfirmingTumblrPrivacyConsent" xml:space="preserve">
     <value>确认 Tumblr 隐私条款</value>

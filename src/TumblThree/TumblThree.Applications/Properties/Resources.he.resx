@@ -145,7 +145,7 @@
     <value>לאחר שתסיים</value>
   </data>
   <data name="Body" xml:space="preserve">
-    <value>גוף: {0]</value>
+    <value>גוף: {0}</value>
   </data>
   <data name="Conversation" xml:space="preserve">
     <value>שיחה: {0}</value>

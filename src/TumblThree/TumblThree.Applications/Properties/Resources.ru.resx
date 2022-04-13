@@ -145,7 +145,7 @@
     <value>Хотя бы раз скачаные</value>
   </data>
   <data name="Body" xml:space="preserve">
-    <value>Тело поста: {0]</value>
+    <value>Тело поста: {0}</value>
   </data>
   <data name="Conversation" xml:space="preserve">
     <value>Текст диалога: {0}</value>

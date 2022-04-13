@@ -108,7 +108,6 @@
     </Compile>
     <Compile Include="Attributes\LocalizedDescriptionAttribute.cs" />
     <Compile Include="Converter\EnumDescriptionTypeConverter.cs" />
-    <Compile Include="JsonFormatter.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Models\Blogs\BlogAll.cs" />
     <Compile Include="Models\Blogs\IBlogAll.cs" />

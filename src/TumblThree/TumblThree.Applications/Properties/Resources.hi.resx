@@ -145,7 +145,7 @@
     <value>एक बार समाप्त हो गया</value>
   </data>
   <data name="Body" xml:space="preserve">
-    <value>बॉडी: {0]</value>
+    <value>बॉडी: {0}</value>
   </data>
   <data name="Conversation" xml:space="preserve">
     <value>वार्तालाप: {0}</value>

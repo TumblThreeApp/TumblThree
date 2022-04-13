@@ -26,11 +26,14 @@ namespace TumblThree.Applications.Parser
                    string.Format(CultureInfo.CurrentCulture, Resources.ReblogName, post.RebloggedFromName) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Title, post.RegularTitle) +
-                   Environment.NewLine + post.RegularBody +
+                   Environment.NewLine +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Body, post.RegularBody) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Tags,
                        string.Join(", ", post.Tags.ToArray())) +
-                   Environment.NewLine;
+                   Environment.NewLine +
+                   ((post.DownloadedFilenames?.Count > 0) ? string.Format(CultureInfo.CurrentCulture, Resources.DownloadedFiles,
+                       "\"" + string.Join("\",\n \"", post.DownloadedFilenames.ToArray()) + "\"") + Environment.NewLine : "");
         }
 
         public string ParseQuote(T post)
@@ -50,8 +53,10 @@ namespace TumblThree.Applications.Parser
                    string.Format(CultureInfo.CurrentCulture, Resources.ReblogName, post.RebloggedFromName) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Quote, post.QuoteText) +
-                   Environment.NewLine + post.QuoteSource +
-                   Environment.NewLine + post.RegularBody +
+                   Environment.NewLine +
+                   string.Format(CultureInfo.CurrentCulture, Resources.QuoteSource, post.QuoteSource) +
+                   Environment.NewLine +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Body, post.RegularBody) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Tags,
                        string.Join(", ", post.Tags.ToArray())) +
@@ -75,9 +80,10 @@ namespace TumblThree.Applications.Parser
                    string.Format(CultureInfo.CurrentCulture, Resources.ReblogName, post.RebloggedFromName) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Link, post.LinkDescription) +
-                   Environment.NewLine + post.LinkText +
-                   Environment.NewLine + post.LinkUrl +
-                   Environment.NewLine + post.RegularBody +
+                   (string.IsNullOrEmpty(post.LinkText) ? "" : Environment.NewLine + post.LinkText) +
+                   (string.IsNullOrEmpty(post.LinkUrl) ? "" : Environment.NewLine + post.LinkUrl) +
+                   Environment.NewLine +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Body, post.RegularBody) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Tags,
                        string.Join(", ", post.Tags.ToArray())) +
@@ -102,7 +108,8 @@ namespace TumblThree.Applications.Parser
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Quote,
                        post.Conversation.Select(dialogue => new { name = dialogue.Name, phrase = dialogue.Phrase })) +
-                   Environment.NewLine + post.RegularBody +
+                   Environment.NewLine +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Body, post.RegularBody) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Tags,
                        string.Join(", ", post.Tags.ToArray())) +
@@ -125,9 +132,9 @@ namespace TumblThree.Applications.Parser
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.ReblogName, post.RebloggedFromName) +
                    Environment.NewLine +
-                   post.Question +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Question, post.Question) +
                    Environment.NewLine +
-                   post.Answer +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Answer, post.Answer) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Tags,
                        string.Join(", ", post.Tags.ToArray())) +
@@ -159,6 +166,9 @@ namespace TumblThree.Applications.Parser
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Tags,
                        string.Join(", ", post.Tags.ToArray())) +
+                   Environment.NewLine +
+                   string.Format(CultureInfo.CurrentCulture, Resources.DownloadedFiles,
+                       (post.DownloadedFilenames?.Count > 0 ? "\"" + string.Join("\",\n \"", post.DownloadedFilenames.ToArray()) + "\"" : "")) +
                    Environment.NewLine;
         }
 
@@ -186,6 +196,9 @@ namespace TumblThree.Applications.Parser
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Tags,
                        string.Join(", ", post.Tags.ToArray())) +
+                   Environment.NewLine +
+                   string.Format(CultureInfo.CurrentCulture, Resources.DownloadedFiles,
+                       (post.DownloadedFilenames?.Count > 0 ? "\"" + string.Join("\",\n \"", post.DownloadedFilenames.ToArray()) + "\"" : "")) +
                    Environment.NewLine;
         }
 
@@ -214,10 +227,14 @@ namespace TumblThree.Applications.Parser
                    string.Format(CultureInfo.CurrentCulture, Resources.Id3Track, post.Id3Track) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Id3Album, post.Id3Album) +
-                   string.Format(CultureInfo.CurrentCulture, Resources.Id3Track, post.Id3Year) +
+                   Environment.NewLine +
+                   string.Format(CultureInfo.CurrentCulture, Resources.Id3Year, post.Id3Year) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Tags,
                        string.Join(", ", post.Tags.ToArray())) +
+                   Environment.NewLine +
+                   string.Format(CultureInfo.CurrentCulture, Resources.DownloadedFiles,
+                       (post.DownloadedFilenames?.Count > 0 ? "\"" + string.Join("\",\n \"", post.DownloadedFilenames.ToArray()) + "\"" : "")) +
                    Environment.NewLine;
         }
     }

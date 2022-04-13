@@ -71,6 +71,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         [DataMember(Name = "header_image_focused", EmitDefaultValue = false)]
         public string HeaderImageFocused { get; set; }
 
+        [DataMember(Name = "header_image_poster", EmitDefaultValue = false)]
+        public string HeaderImagePoster { get; set; }
+
         [DataMember(Name = "header_image_scaled", EmitDefaultValue = false)]
         public string HeaderImageScaled { get; set; }
 
@@ -246,6 +249,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         public string Name { get; set; }
 
         [DataMember(Name = "routactiveeSet", EmitDefaultValue = false)]
+        public bool Active2 { get; set; }
+
+        [DataMember(Name = "active", EmitDefaultValue = false)]
         public bool Active { get; set; }
 
         [DataMember(Name = "theme", EmitDefaultValue = false)]
@@ -264,6 +270,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         public string Uuid { get; set; }
 
         [DataMember(Name = "ris_adultouteSet", EmitDefaultValue = false)]
+        public bool IsAdult2 { get; set; }
+
+        [DataMember(Name = "is_adult", EmitDefaultValue = false)]
         public bool IsAdult { get; set; }
     }
 
@@ -415,6 +424,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         [DataMember(Name = "show_pinterest", EmitDefaultValue = false)]
         public bool ShowPinterest { get; set; }
 
+        [DataMember(Name = "show_embed", EmitDefaultValue = false)]
+        public bool ShowEmbed { get; set; }
+
         [DataMember(Name = "pinterest_share_window", EmitDefaultValue = false)]
         public object PinterestShareWindow { get; set; }
 
@@ -423,6 +435,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
 
         [DataMember(Name = "show_flagging", EmitDefaultValue = false)]
         public bool ShowFlagging { get; set; }
+
+        [DataMember(Name = "embed_url", EmitDefaultValue = false)]
+        public string EmbedUrl { get; set; }
     }
 
     [DataContract]
@@ -501,6 +516,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         [DataMember(Name = "is_nsfw", EmitDefaultValue = false)]
         public bool IsNsfw { get; set; }
 
+        [DataMember(Name = "classification", EmitDefaultValue = false)]
+        public string Classification { get; set; }
+
         [DataMember(Name = "nsfw_score", EmitDefaultValue = false)]
         public double NsfwScore { get; set; }
 
@@ -540,6 +558,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         [DataMember(Name = "summary", EmitDefaultValue = false)]
         public string Summary { get; set; }
 
+        [DataMember(Name = "should_open_in_legacy", EmitDefaultValue = false)]
+        public bool ShouldOpenInLegacy { get; set; }
+
         [DataMember(Name = "is_blocks_post_format", EmitDefaultValue = false)]
         public bool IsBlocksPostFormat { get; set; }
 
@@ -554,6 +575,15 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
 
         [DataMember(Name = "liked", EmitDefaultValue = false)]
         public bool Liked { get; set; }
+
+        [DataMember(Name = "like_count", EmitDefaultValue = false)]
+        public int LikeCount { get; set; }
+
+        [DataMember(Name = "reblog_count", EmitDefaultValue = false)]
+        public int ReblogCount { get; set; }
+
+        [DataMember(Name = "reply_count", EmitDefaultValue = false)]
+        public int ReplyCount { get; set; }
 
         [DataMember(Name = "source_url", EmitDefaultValue = false)]
         public string SourceUrl { get; set; }
@@ -660,6 +690,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         [DataMember(Name = "can_like", EmitDefaultValue = false)]
         public bool CanLike { get; set; }
 
+        [DataMember(Name = "interactability_reblog", EmitDefaultValue = false)]
+        public string InteractabilityReblog { get; set; }
+
         [DataMember(Name = "can_reblog", EmitDefaultValue = false)]
         public bool CanReblog { get; set; }
 
@@ -674,6 +707,9 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
 
         [DataMember(Name = "display_avatar", EmitDefaultValue = false)]
         public bool DisplayAvatar { get; set; }
+
+        [DataMember(Name = "classification-status", EmitDefaultValue = false)]
+        public ClassificationStatus ClassificationStatus { get; set; }
 
         [DataMember(Name = "tumblelog_key", EmitDefaultValue = false)]
         public string TumblelogKey { get; set; }
@@ -778,10 +814,16 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         public bool? IsSubmission { get; set; }
 
         [DataMember(Name = "should_bypass_tagfiltering", EmitDefaultValue = false)]
-        public bool ShouldypassTagfiltering { get; set; }
+        public bool ShouldBypassTagfiltering { get; set; }
 
         [DataMember(Name = "should_bypass_safemode", EmitDefaultValue = false)]
         public bool ShouldBypassSafemode { get; set; }
+
+        [DataMember(Name = "should_bypass_safemode_forblog", EmitDefaultValue = false)]
+        public bool ShouldBypassSafemodeForBlog { get; set; }
+
+        [DataMember(Name = "should_bypass_safemode_forpost", EmitDefaultValue = false)]
+        public bool ShouldBypassSafemodeForPost { get; set; }
 
         [DataMember(Name = "can_modify_safe_mode", EmitDefaultValue = false)]
         public bool CanModifySafeMode { get; set; }
@@ -807,10 +849,31 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         [DataMember(Name = "description", EmitDefaultValue = false)]
         public string Description { get; set; }
 
+        public List<string> DownloadedUrls { get; private set; }
+
+        public List<string> DownloadedFilenames { get; private set; }
+
         public object Clone()
         {
             return MemberwiseClone();
         }
+
+        [OnDeserializing]
+        internal void OnDeserializingMethod(StreamingContext context)
+        {
+            DownloadedFilenames = new List<string>();
+            DownloadedUrls = new List<string>();
+        }
+    }
+
+    [DataContract]
+    public class ClassificationStatus
+    {
+        [DataMember(Name = "classification", EmitDefaultValue = false)]
+        public string Classification { get; set; }
+
+        [DataMember(Name = "status", EmitDefaultValue = false)]
+        public string Status { get; set; }
     }
 
     [DataContract]

@@ -250,6 +250,10 @@ namespace TumblThree.Applications.DataModels.TumblrApiJson
         [DataMember(Name = "answer", EmitDefaultValue = false)]
         public string Answer { get; set; }
 
+        public List<string> DownloadedUrls { get; set; }
+
+        public List<string> DownloadedFilenames { get; set; }
+
         public object Clone()
         {
             return MemberwiseClone();
@@ -344,6 +348,8 @@ namespace TumblThree.Applications.DataModels.TumblrApiJson
             Conversation = new List<Conversation>();
             Question = string.Empty;
             Answer = string.Empty;
+            DownloadedFilenames = new List<string>();
+            DownloadedUrls = new List<string>();
         }
     }
 }

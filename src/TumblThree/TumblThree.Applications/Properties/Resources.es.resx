@@ -145,7 +145,7 @@
     <value>Una vez terminado</value>
   </data>
   <data name="Body" xml:space="preserve">
-    <value>Cuerpo: {0]</value>
+    <value>Cuerpo: {0}</value>
   </data>
   <data name="Conversation" xml:space="preserve">
     <value>Conversación: {0}</value>
@@ -416,5 +416,17 @@ la versión de 64 bits recién descargada.
 
 ¿Desea descargar e instalar automáticamente la versión de 64 
 bits de TumblThree ahora?</value>
+  </data>
+  <data name="QuoteSource" xml:space="preserve">
+    <value>Fuente de la cita: {0}</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Pregunta: {0}</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Réponse : {0}</value>
+  </data>
+  <data name="DownloadedFiles" xml:space="preserve">
+    <value>Archivos descargados: {0}</value>
   </data>
 </root>

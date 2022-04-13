@@ -145,7 +145,7 @@
     <value>Uma vez terminado</value>
   </data>
   <data name="Body" xml:space="preserve">
-    <value>Corpo: {0]</value>
+    <value>Corpo: {0}</value>
   </data>
   <data name="Conversation" xml:space="preserve">
     <value>Conversação: {0}</value>

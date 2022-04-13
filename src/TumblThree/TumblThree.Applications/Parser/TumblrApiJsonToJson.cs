@@ -3,7 +3,6 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 
 using TumblThree.Applications.DataModels.TumblrApiJson;
-using TumblThree.Domain;
 
 namespace TumblThree.Applications.Parser
 {
@@ -25,37 +24,120 @@ namespace TumblThree.Applications.Parser
 
         public string ParseAudioMeta(T post) => GetPostAsString(post);
 
-        private string GetPostAsString(T post)
+        private static string GetPostAsString(T post)
         {
             var postCopy = (Post)post.Clone();
-            postCopy.Tumblelog = new TumbleLog2();
-            postCopy.RebloggedFromAvatarUrl128 = null;
-            postCopy.RebloggedFromAvatarUrl16 = null;
-            postCopy.RebloggedFromAvatarUrl24 = null;
-            postCopy.RebloggedFromAvatarUrl30 = null;
-            postCopy.RebloggedFromAvatarUrl40 = null;
-            postCopy.RebloggedFromAvatarUrl48 = null;
-            postCopy.RebloggedFromAvatarUrl512 = null;
-            postCopy.RebloggedFromAvatarUrl64 = null;
-            postCopy.RebloggedFromAvatarUrl96 = null;
 
-            postCopy.RebloggedRootAvatarUrl128 = null;
-            postCopy.RebloggedRootAvatarUrl16 = null;
-            postCopy.RebloggedRootAvatarUrl24 = null;
-            postCopy.RebloggedRootAvatarUrl30 = null;
-            postCopy.RebloggedRootAvatarUrl40 = null;
-            postCopy.RebloggedRootAvatarUrl48 = null;
-            postCopy.RebloggedRootAvatarUrl512 = null;
-            postCopy.RebloggedRootAvatarUrl64 = null;
-            postCopy.RebloggedRootAvatarUrl96 = null;
+            var meta = FillMetaDataObject(postCopy);
 
-            var serializer = new DataContractJsonSerializer(postCopy.GetType());
+            var serializer = new DataContractJsonSerializer(meta.GetType());
 
             using (var ms = new MemoryStream())
             {
-                serializer.WriteObject(ms, postCopy);
-                return JsonFormatter.FormatOutput(Encoding.UTF8.GetString(ms.ToArray()));
+                using (var writer = JsonReaderWriterFactory.CreateJsonWriter(
+                    ms, Encoding.UTF8, false, true, "  "))
+                {
+                    serializer.WriteObject(writer, meta);
+                }
+                return Encoding.UTF8.GetString(ms.ToArray());
             }
+        }
+
+        private static MetaDataApi FillMetaDataObject(Post post)
+        {
+            var md = new MetaDataApi
+            {
+                Date = post.Date,
+                DateGmt = post.DateGmt,
+                Format = post.Format,
+                Id = post.Id,
+                Slug = post.Slug,
+                Tags = post.Tags,
+                Type = post.Type,
+                UnixTimestamp = post.UnixTimestamp,
+                Url = post.Url,
+                UrlWithSlug = post.UrlWithSlug,
+
+                ReblogKey = post.ReblogKey
+            };
+
+            if (!string.IsNullOrEmpty(post.RebloggedFromName)) md.RebloggedFromName = post.RebloggedFromName;
+            if (!string.IsNullOrEmpty(post.RebloggedFromTitle)) md.RebloggedFromTitle = post.RebloggedFromTitle;
+            if (!string.IsNullOrEmpty(post.RebloggedFromUrl)) md.RebloggedFromUrl = post.RebloggedFromUrl;
+            if (!string.IsNullOrEmpty(post.RebloggedRootName)) md.RebloggedRootName = post.RebloggedRootName;
+            if (!string.IsNullOrEmpty(post.RebloggedRootTitle)) md.RebloggedRootTitle = post.RebloggedRootTitle;
+            if (!string.IsNullOrEmpty(post.RebloggedRootUrl)) md.RebloggedRootUrl = post.RebloggedRootUrl;
+
+            if (post.Type == "regular")
+            {
+                md.RegularBody = post.RegularBody;
+                md.RegularTitle = post.RegularTitle;
+
+                md.DownloadedMediaFiles = (post.DownloadedFilenames?.Count > 0) ? post.DownloadedFilenames : null;
+            }
+            else if (post.Type == "audio")
+            {
+                md.AudioCaption = post.AudioCaption;
+                md.AudioEmbed = post.AudioEmbed;
+                md.AudioPlayer = post.AudioPlayer;
+                md.AudioPlays = post.AudioPlays;
+
+                md.Id3Album = post.Id3Album;
+                md.Id3Artist = post.Id3Artist;
+                md.Id3Title = post.Id3Title;
+                md.Id3Track = post.Id3Track;
+                md.Id3Year = post.Id3Year;
+
+                md.DownloadedMediaFiles = post.DownloadedFilenames;
+            }
+            else if (post.Type == "photo")
+            {
+                md.PhotoCaption = post.PhotoCaption;
+                md.PhotoLinkUrl = post.PhotoLinkUrl;
+                md.PhotoUrl100 = post.PhotoUrl100;
+                md.PhotoUrl1280 = post.PhotoUrl1280;
+                md.PhotoUrl250 = post.PhotoUrl250;
+                md.PhotoUrl400 = post.PhotoUrl400;
+                md.PhotoUrl500 = post.PhotoUrl500;
+                md.PhotoUrl75 = post.PhotoUrl75;
+                md.Photos = post.Photos;
+
+                md.DownloadedMediaFiles = post.DownloadedFilenames;
+            }
+            else if (post.Type == "video")
+            {
+                md.VideoCaption = post.VideoCaption;
+                md.VideoPlayer = post.VideoPlayer;
+                md.VideoPlayer250 = post.VideoPlayer250;
+                md.VideoPlayer500 = post.VideoPlayer500;
+                md.VideoSource = post.VideoSource;
+
+                md.DownloadedMediaFiles = post.DownloadedFilenames;
+            }
+            else if (post.Type == "answer")
+            {
+                md.Answer = post.Answer;
+                md.Question = post.Question;
+            }
+            else if (post.Type == "quote")
+            {
+                md.QuoteText = post.QuoteText;
+                md.QuoteSource = post.QuoteSource;
+            }
+            else if (post.Type == "conversation")
+            {
+                md.Conversation = post.Conversation;
+                md.ConversationText = post.ConversationText;
+                md.ConversationTitle = post.ConversationTitle;
+            }
+            else if (post.Type == "link")
+            {
+                md.LinkDescription = post.LinkDescription;
+                md.LinkText = post.LinkText;
+                md.LinkUrl = post.LinkUrl;
+            }
+
+            return md;
         }
     }
 }

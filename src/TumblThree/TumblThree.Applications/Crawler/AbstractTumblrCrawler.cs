@@ -224,7 +224,9 @@ namespace TumblThree.Applications.Crawler
 
         protected void AddPhotoToDownloadList(string url, Post post)
         {
-            AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, -1)));
+            var filename = BuildFileName(url, post, -1);
+            AddDownloadedMedia(url, filename, post);
+            AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), filename));
         }
 
         protected string[] AddTumblrVideoUrl(string text, Post post)
@@ -242,7 +244,9 @@ namespace TumblThree.Applications.Crawler
                 }
 
                 url = "https://vtt.tumblr.com/" + url + ".mp4";
-                AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, -1)));
+                var filename = BuildFileName(url, post, -1);
+                AddDownloadedMedia(url, filename, post);
+                AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), filename));
                 list.Add(url);
             }
 
@@ -291,7 +295,9 @@ namespace TumblThree.Applications.Crawler
                     }
 
                     url += ".mp4";
-                    AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, -1)));
+                    var filename = BuildFileName(url, post, -1);
+                    AddDownloadedMedia(url, filename, post);
+                    AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), filename));
                     list.Add(url);
                 }
             }
@@ -300,7 +306,9 @@ namespace TumblThree.Applications.Crawler
             {
                 foreach (string thumbnailUrl in TumblrParser.SearchForTumblrVideoThumbnailUrl(text))
                 {
-                    AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, "photo", -1)));
+                    var filename = BuildFileName(thumbnailUrl, post, "photo", -1);
+                    AddDownloadedMedia(thumbnailUrl, filename, post);
+                    AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), filename));
                 }
             }
 
@@ -328,7 +336,7 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        protected static Post ConvertTumblrApiJson(DataModels.TumblrSvcJson.Post p)
+        protected static Post ConvertTumblrApiJson(TumblrSvcJson.Post p)
         {
             return new Post()
             {
@@ -342,7 +350,9 @@ namespace TumblThree.Applications.Crawler
                 RebloggedFromName = p.RebloggedFromName,
                 RebloggedRootName = p.RebloggedRootName,
                 ReblogKey = p.ReblogKey,
-                Tumblelog = new TumbleLog2() { Name = p.Tumblelog}
+                Tumblelog = new TumbleLog2() { Name = p.Tumblelog},
+                DownloadedFilenames = p.DownloadedFilenames?.Select(s => string.Copy(s)).ToList(),
+                DownloadedUrls = p.DownloadedUrls?.Select(s => string.Copy(s)).ToList()
             };
         }
 
@@ -510,6 +520,20 @@ namespace TumblThree.Applications.Crawler
         {
             var type = post?.Type ?? "";
             return BuildFileName(url, post, type, index);
+        }
+
+        protected static void AddDownloadedMedia(string url, string filename, Post post)
+        {
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            post.DownloadedFilenames.Add(filename);
+            post.DownloadedUrls.Add(url);
+        }
+
+        protected static void AddDownloadedMedia(string url, string filename, TumblrSvcJson.Post post)
+        {
+            if (post == null) throw new ArgumentNullException(nameof(post));
+            post.DownloadedFilenames.Add(filename);
+            post.DownloadedUrls.Add(url);
         }
 
         private static DateTime GetDate(Post post)

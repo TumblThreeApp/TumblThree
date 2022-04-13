@@ -145,7 +145,7 @@
     <value>ਇੱਕ ਵਾਰ ਪੂਰਾ ਹੋ ਗਿਆ</value>
   </data>
   <data name="Body" xml:space="preserve">
-    <value>ਸਰੀਰ: {0]</value>
+    <value>ਸਰੀਰ: {0}</value>
   </data>
   <data name="Conversation" xml:space="preserve">
     <value>ਗੱਲਬਾਤ: {0}</value>

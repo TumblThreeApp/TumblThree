@@ -61,6 +61,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Answer: {0}.
+        /// </summary>
+        public static string Answer {
+            get {
+                return ResourceManager.GetString("Answer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your application is up to date..
         /// </summary>
         public static string ApplicationUpToDate {
@@ -142,7 +151,7 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Body: {0].
+        ///   Looks up a localized string similar to Body: {0}.
         /// </summary>
         public static string Body {
             get {
@@ -401,6 +410,15 @@ namespace TumblThree.Applications.Properties {
         public static string DownloadAndInstallNewVersion {
             get {
                 return ResourceManager.GetString("DownloadAndInstallNewVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloaded files: {0}.
+        /// </summary>
+        public static string DownloadedFiles {
+            get {
+                return ResourceManager.GetString("DownloadedFiles", resourceCulture);
             }
         }
         
@@ -820,6 +838,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Question: {0}.
+        /// </summary>
+        public static string Question {
+            get {
+                return ResourceManager.GetString("Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Queuelist.
         /// </summary>
         public static string Queuelist {
@@ -834,6 +861,15 @@ namespace TumblThree.Applications.Properties {
         public static string Quote {
             get {
                 return ResourceManager.GetString("Quote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quote source: {0}.
+        /// </summary>
+        public static string QuoteSource {
+            get {
+                return ResourceManager.GetString("QuoteSource", resourceCulture);
             }
         }
         

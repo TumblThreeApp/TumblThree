@@ -145,7 +145,7 @@
     <value>Once finished</value>
   </data>
   <data name="Body" xml:space="preserve">
-    <value>Body: {0]</value>
+    <value>Body: {0}</value>
   </data>
   <data name="ConfirmingTumblrPrivacyConsent" xml:space="preserve">
     <value>confirming to the Tumblr privacy consent</value>
@@ -446,5 +446,17 @@ version of TumblThree now?</value>
   </data>
   <data name="SwitchTo64BitVersionTitle" xml:space="preserve">
     <value>Usage of 64-bit version</value>
+  </data>
+  <data name="QuoteSource" xml:space="preserve">
+    <value>Quote source: {0}</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Question: {0}</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Answer: {0}</value>
+  </data>
+  <data name="DownloadedFiles" xml:space="preserve">
+    <value>Downloaded files: {0}</value>
   </data>
 </root>

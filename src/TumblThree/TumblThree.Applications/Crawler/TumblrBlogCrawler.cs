@@ -689,7 +689,9 @@ namespace TumblThree.Applications.Crawler
             int index = -1;
             if (post.Photos?.Count > 0 && post.PhotoUrl1280 == post.Photos[0].PhotoUrl1280 && !post.Photos[0].PhotoUrl1280.Split('/').Last().StartsWith("tumblr_")) index = 1;
 
-            AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(imageUrl, post, index)));
+            var filename = BuildFileName(imageUrl, post, index);
+            AddDownloadedMedia(imageUrl, filename, post);
+            AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), filename));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
         }
 
@@ -705,7 +707,9 @@ namespace TumblThree.Applications.Crawler
             if (post.Photos[0].PhotoUrl1280.Split('/').Last().StartsWith("tumblr_")) i = -1;
             foreach (string imageUrl in post.Photos.Select(ParseImageUrl).Where(imgUrl => !CheckIfSkipGif(imgUrl)))
             {
-                AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(imageUrl, post, i)));
+                var filename = BuildFileName(imageUrl, post, i);
+                AddDownloadedMedia(imageUrl, filename, post);
+                AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), filename));
                 if (!jsonSaved || !Blog.GroupPhotoSets && !(string.Equals(Blog.FilenameTemplate, "%f", StringComparison.OrdinalIgnoreCase) && i == -1))
                 {
                     jsonSaved = true;
@@ -735,7 +739,9 @@ namespace TumblThree.Applications.Crawler
                         videoUrl += "_480";
                     }
 
-                    AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + videoUrl + ".mp4", post.Id, post.UnixTimestamp.ToString(), BuildFileName("https://vtt.tumblr.com/" + videoUrl + ".mp4", post, -1)));
+                    var filename = BuildFileName("https://vtt.tumblr.com/" + videoUrl + ".mp4", post, -1);
+                    AddDownloadedMedia("https://vtt.tumblr.com/" + videoUrl + ".mp4", filename, post);
+                    AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + videoUrl + ".mp4", post.Id, post.UnixTimestamp.ToString(), filename));
                     AddToJsonQueue(new CrawlerData<Post>(videoUrl + ".json", post));
                 }
             }
@@ -745,7 +751,9 @@ namespace TumblThree.Applications.Crawler
                 string thumbnailUrl = Regex.Match(post.VideoPlayer, "poster='([\\S]*/(tumblr_[\\S]*_(frame1|smart1))[\\S]*)'").Groups[1].ToString();
                 if (!string.IsNullOrEmpty(thumbnailUrl))
                 {
-                    AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, "photo", -1)));
+                    var filename = BuildFileName(thumbnailUrl, post, "photo", -1);
+                    AddDownloadedMedia(thumbnailUrl, filename, post);
+                    AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), filename));
                     if (string.IsNullOrEmpty(videoUrl))
                     {
                         thumbnailUrl = Regex.Replace(thumbnailUrl, "_(frame1|smart1)", "");
@@ -761,10 +769,12 @@ namespace TumblThree.Applications.Crawler
             audioUrl = HttpUtility.UrlDecode(audioUrl);
             if (!audioUrl.EndsWith(".mp3"))
             {
-                audioUrl = audioUrl + ".mp3";
+                audioUrl += ".mp3";
             }
 
-            AddToDownloadList(new AudioPost(WebUtility.UrlDecode(audioUrl), post.Id, post.UnixTimestamp.ToString(), BuildFileName(audioUrl, post, -1)));
+            var filename = BuildFileName(audioUrl, post, -1);
+            AddDownloadedMedia(audioUrl, filename, post);
+            AddToDownloadList(new AudioPost(WebUtility.UrlDecode(audioUrl), post.Id, post.UnixTimestamp.ToString(), filename));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(audioUrl.Split('/').Last(), ".json"), post));
         }
 
@@ -776,10 +786,6 @@ namespace TumblThree.Applications.Crawler
             if (Blog.DownloadImgur)
             {
                 AddImgurUrl(searchableText, timestamp);
-            }
-
-            if (Blog.DownloadImgur)
-            {
                 await AddImgurAlbumUrlAsync(searchableText, timestamp);
             }
 

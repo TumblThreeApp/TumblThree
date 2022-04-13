@@ -204,11 +204,6 @@ namespace TumblThree.Applications.Crawler
             return new PostQueue<AbstractPost>();
         }
 
-        private ITumblrApiXmlToTextParser GetTumblrApiXmlToTextParser()
-        {
-            return new TumblrApiXmlToTextParser();
-        }
-
         private ITumblrToTextParser<Post> GetTumblrApiJsonToTextParser(IBlog blog)
         {
             switch (blog.MetadataFormat)

@@ -423,4 +423,16 @@ Inhalt der neu heruntergeladenen 64-Bit-Version.
 Möchten Sie die 64-Bit-Version von TumblThree jetzt automatisch 
 herunterladen und installieren?</value>
   </data>
+  <data name="QuoteSource" xml:space="preserve">
+    <value>Zitatquelle: {0}</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Frage: {0}</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Antwort: {0}</value>
+  </data>
+  <data name="DownloadedFiles" xml:space="preserve">
+    <value>Heruntergeladene Dateien: {0}</value>
+  </data>
 </root>

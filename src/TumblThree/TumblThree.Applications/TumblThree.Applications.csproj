@@ -139,7 +139,9 @@
     <Compile Include="DataModels\TumblrApi\TumbleLog2.cs" />
     <Compile Include="DataModels\TumblrApi\TumblrApiJson.cs" />
     <Compile Include="DataModels\CrawlerData\CrawlerData.cs" />
+    <Compile Include="DataModels\TumblrApi\MetaDataApi.cs" />
     <Compile Include="DataModels\TumblrSearch\TumblrSearchJson.cs" />
+    <Compile Include="DataModels\TumblrSvc\MetaDataSvc.cs" />
     <Compile Include="DataModels\TumblrTaggedSearch\TumblrTaggedSearchJson.cs" />
     <Compile Include="DataModels\Twitter\TwitterPost.cs" />
     <Compile Include="DataModels\Twitter\TwitterUser.cs" />
@@ -210,9 +212,7 @@
     <Compile Include="Crawler\TumblrSearchCrawler.cs" />
     <Compile Include="Downloader\TumblrDownloader.cs" />
     <Compile Include="Downloader\FileDownloader.cs" />
-    <Compile Include="Parser\ITumblrApiXmlToText.cs" />
     <Compile Include="Parser\TumblrSvcJsonToText.cs" />
-    <Compile Include="Parser\TumblrApiXmlToText.cs" />
     <Compile Include="QueueOnDispatcher.cs" />
     <Compile Include="Crawler\ICrawler.cs" />
     <Compile Include="Crawler\TumblrBlogCrawler.cs" />

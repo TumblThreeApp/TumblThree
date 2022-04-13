@@ -145,7 +145,7 @@
     <value>Une fois terminé</value>
   </data>
   <data name="Body" xml:space="preserve">
-    <value>Corps: {0]</value>
+    <value>Corps: {0}</value>
   </data>
   <data name="Conversation" xml:space="preserve">
     <value>Conversation: {0}</value>
@@ -289,7 +289,7 @@
     <value>Liste des files d'attente</value>
   </data>
   <data name="Quote" xml:space="preserve">
-    <value>Quote: {0}</value>
+    <value>Citation: {0}</value>
   </data>
   <data name="ReblogKey" xml:space="preserve">
     <value>Reblog key: {0}</value>
@@ -434,5 +434,17 @@ version 64 bits nouvellement téléchargée.
 
 Voulez-vous télécharger et installer automatiquement la version 
 64 bits de TumblThree maintenant ?</value>
+  </data>
+  <data name="QuoteSource" xml:space="preserve">
+    <value>Source de la citation: {0}</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Question : {0}</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Réponse : {0}</value>
+  </data>
+  <data name="DownloadedFiles" xml:space="preserve">
+    <value>Fichiers téléchargés : {0}</value>
   </data>
 </root>
