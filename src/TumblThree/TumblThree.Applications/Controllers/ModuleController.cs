@@ -160,13 +160,21 @@ namespace TumblThree.Applications.Controllers
             await Dispatcher.CurrentDispatcher.InvokeAsync(ManagerController.RestoreColumn, DispatcherPriority.ApplicationIdle);
             await Dispatcher.CurrentDispatcher.InvokeAsync(QueueController.Run, DispatcherPriority.ApplicationIdle);
 
-            if (await CheckFor64BitVersion()) return;
+            if (await CheckFor64BitVersion())
+            {
+                _appSettings.TMLastCheck = DateTime.MinValue.ToUniversalTime();
+                return;
+            }
 
             if (_appSettings.LastUpdateCheck != DateTime.Today)
             {
                 var executingUpdate = await CheckForUpdatesComplete(_applicationUpdateService.GetLatestReleaseFromServer());
                 _appSettings.LastUpdateCheck = DateTime.Today;
-                if (executingUpdate) return;
+                if (executingUpdate)
+                {
+                    _appSettings.TMLastCheck = DateTime.MinValue.ToUniversalTime();
+                    return;
+                }
             }
 
             await CheckForTMData();
