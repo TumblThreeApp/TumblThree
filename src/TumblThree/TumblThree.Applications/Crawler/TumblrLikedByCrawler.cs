@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using TumblThree.Applications.DataModels;
+using TumblThree.Applications.DataModels.TumblrApiJson;
 using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.Downloader;
 using TumblThree.Applications.Parser;
@@ -312,8 +313,8 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            var post = new DataModels.TumblrApiJson.Post() { Date = DateTime.Now.ToString("R"), UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds(), Type = "",
-                Id = "", Tags = new List<string>(), Slug = "", RegularTitle = "", RebloggedFromName = "", ReblogKey = "", Tumblelog = new DataModels.TumblrApiJson.TumbleLog2() { Name = "" } };
+            var post = new Post() { Date = DateTime.Now.ToString("R"), DateGmt= DateTime.Now.ToString("R"), UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds(), Type = "",
+                Id = "", Tags = new List<string>(), Slug = "", RegularTitle = "", RebloggedFromName = "", RebloggedRootName="", ReblogKey = "", Tumblelog = new TumbleLog2() { Name = "" } };
             AddTumblrPhotoUrl(document, post);
 
             if (Blog.RegExPhotos)
@@ -329,7 +330,7 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            var post = new DataModels.TumblrApiJson.Post() { Id = "", Tumblelog = new DataModels.TumblrApiJson.TumbleLog2() { Name = "" },
+            var post = new Post() { Id = "", Tumblelog = new TumbleLog2() { Name = "" },
                 UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() };
             AddTumblrVideoUrl(document, post);
             AddInlineTumblrVideoUrl(document, TumblrParser.GetTumblrVVideoUrlRegex(), TumblrParser.GetTumblrThumbnailUrlRegex());

@@ -254,6 +254,12 @@ namespace TumblThree.Applications.DataModels.TumblrApiJson
 
         public List<string> DownloadedFilenames { get; set; }
 
+        public Post()
+        {
+            DownloadedUrls = new List<string>();
+            DownloadedFilenames = new List<string>();
+        }
+
         public object Clone()
         {
             return MemberwiseClone();

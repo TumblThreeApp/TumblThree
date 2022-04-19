@@ -853,6 +853,12 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
 
         public List<string> DownloadedFilenames { get; private set; }
 
+        public Post()
+        {
+            DownloadedUrls = new List<string>();
+            DownloadedFilenames = new List<string>();
+        }
+
         public object Clone()
         {
             return MemberwiseClone();
