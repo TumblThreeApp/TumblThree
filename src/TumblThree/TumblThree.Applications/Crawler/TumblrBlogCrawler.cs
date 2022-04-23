@@ -77,10 +77,14 @@ namespace TumblThree.Applications.Crawler
                 {
                     Blog.Online = true;
                 }
+                else if (HandleNotFoundWebException(webException))
+                {
+                    Blog.Online = false;
+                }
                 else
                 {
-                    Logger.Error("TumblrBlogCrawler:IsBlogOnlineAsync:WebException {0}", webException);
-                    ShellService.ShowError(webException, Resources.BlogIsOffline, Blog.Name);
+                    Logger.Error("TumblrBlogCrawler:IsBlogOnlineAsync: {0}, {1}", Blog.Name, webException);
+                    ShellService.ShowError(webException, "{0}, {1}", Blog.Name, webException.Message);
                     Blog.Online = false;
                 }
             }

@@ -374,8 +374,7 @@ namespace TumblThree.Applications.Crawler
 
         protected void HandleTimeoutException(TimeoutException timeoutException, string duringAction)
         {
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.TimeoutReached, duringAction, Blog.Name),
-                timeoutException);
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.TimeoutReached, duringAction, Blog.Name), timeoutException?.Message);
             ShellService.ShowError(timeoutException, Resources.TimeoutReached, duringAction, Blog.Name);
         }
 
@@ -387,7 +386,7 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.NotLoggedIn, Blog.Name), webException);
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.NotLoggedIn, Blog.Name), webException.Message);
             ShellService.ShowError(webException, Resources.NotLoggedIn, Blog.Name);
             return true;
         }
@@ -400,7 +399,7 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.BlogIsOffline, Blog.Name), webException);
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.BlogIsOffline, Blog.Name), webException.Message);
             ShellService.ShowError(webException, Resources.BlogIsOffline, Blog.Name);
             return true;
         }
@@ -413,7 +412,7 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.LimitExceeded, Blog.Name), webException);  //TODO: 2nd resource
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.LimitExceeded, Blog.Name), webException.Message);
             ShellService.ShowError(webException, Resources.LimitExceeded, Blog.Name);
             return true;
         }
@@ -426,8 +425,7 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.PasswordProtected, Blog.Name),
-                webException);
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.PasswordProtected, Blog.Name), webException.Message);
             ShellService.ShowError(webException, Resources.PasswordProtected, Blog.Name);
             return true;
         }
