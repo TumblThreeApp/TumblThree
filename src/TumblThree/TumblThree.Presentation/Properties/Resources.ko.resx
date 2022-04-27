@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>클립 보드 확인</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>포복</value>
+  <data name="Download" xml:space="preserve">
+    <value>다운로드</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>크롤링 선택</value>

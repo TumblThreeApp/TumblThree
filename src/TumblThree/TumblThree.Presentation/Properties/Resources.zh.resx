@@ -138,7 +138,7 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>监视剪贴板</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
+  <data name="Download" xml:space="preserve">
     <value>开始</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">

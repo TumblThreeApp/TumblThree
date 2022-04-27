@@ -439,15 +439,6 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Crawl.
-        /// </summary>
-        public static string Crawl {
-            get {
-                return ResourceManager.GetString("Crawl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Crawl selection.
         /// </summary>
         public static string CrawlSelection {
@@ -516,6 +507,15 @@ namespace TumblThree.Presentation.Properties {
         public static string DisplayConfirmationDialog {
             get {
                 return ResourceManager.GetString("DisplayConfirmationDialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
             }
         }
         

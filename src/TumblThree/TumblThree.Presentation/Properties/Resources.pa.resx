@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>ਕਲਿੱਪਬੋਰਡ ਚੈੱਕ ਕਰੋ</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>ਕ੍ਰੌਲ</value>
+  <data name="Download" xml:space="preserve">
+    <value>ਡਾਊਨਲੋਡ ਕਰੋ</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>ਕ੍ਰੌਲ ਚੋਣ</value>

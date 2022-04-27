@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>क्लिपबोर्ड की जांच करें</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>क्रॉल</value>
+  <data name="Download" xml:space="preserve">
+    <value>डाउनलोड करा</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>क्रॉल चयन</value>

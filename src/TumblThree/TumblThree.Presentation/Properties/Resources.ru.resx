@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>Из буфера</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>Выкачать</value>
+  <data name="Download" xml:space="preserve">
+    <value>Cкачать</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>Вычкачать выбранное</value>

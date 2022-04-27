@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>چک کردن کلیپ بورد</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>خزیدن</value>
+  <data name="Download" xml:space="preserve">
+    <value>دانلود</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>انتخاب خزیدن</value>

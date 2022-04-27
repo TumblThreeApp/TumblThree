@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>Tarkista leikepöydälle</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>ryömiä</value>
+  <data name="Download" xml:space="preserve">
+    <value>Lataa</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>Indeksoinnin valinta</value>

@@ -141,8 +141,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>Zwischenablage kontrollieren</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>Download starten</value>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>Auswahl herunterladen</value>

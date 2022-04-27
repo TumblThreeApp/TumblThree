@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>Controllare gli Appunti</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>Strisciare</value>
+  <data name="Download" xml:space="preserve">
+    <value>Scaricare</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>Selezione della scansione</value>

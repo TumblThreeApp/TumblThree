@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>تحقق الحافظة</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>زحف</value>
+  <data name="Download" xml:space="preserve">
+    <value>جارى التحميل</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>تحديد الزحف</value>

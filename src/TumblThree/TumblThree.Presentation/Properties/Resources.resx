@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>Check Clipboard</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>Crawl</value>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>Crawl selection</value>

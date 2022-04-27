@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>Pano kontrol edin</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>Yavaş ilerleme</value>
+  <data name="Download" xml:space="preserve">
+    <value>Indirmek</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>Tarama seçimi</value>

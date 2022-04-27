@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>בדוק את הלוח</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>לִזחוֹל</value>
+  <data name="Download" xml:space="preserve">
+    <value>הורד</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>בחירת סריקה</value>

@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>ตรวจสอบคลิปบอร์ด</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>คลาน</value>
+  <data name="Download" xml:space="preserve">
+    <value>ดาวน์โหลด</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>การรวบรวมข้อมูลที่เลือก</value>

@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>Ελέγξτε το Πρόχειρο</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>Αργή πορεία</value>
+  <data name="Download" xml:space="preserve">
+    <value>Κατεβάστε</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>Επιλογή ανίχνευσης</value>

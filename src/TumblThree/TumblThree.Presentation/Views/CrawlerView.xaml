@@ -171,9 +171,9 @@
                 <Button Command="{Binding CrawlerService.CrawlCommand}">
                     <StackPanel>
                         <Grid>
-                            <fa:ImageAwesome Icon="Search" />
+                            <fa:ImageAwesome Icon="Download" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.Crawl}" />
+                        <TextBlock Text="{x:Static p:Resources.Download}" />
                     </StackPanel>
                 </Button>
 

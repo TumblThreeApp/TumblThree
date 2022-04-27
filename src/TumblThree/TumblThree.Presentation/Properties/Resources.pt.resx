@@ -138,8 +138,8 @@
   <data name="ClipboardMonitor" xml:space="preserve">
     <value>Verifique a área de transferência</value>
   </data>
-  <data name="Crawl" xml:space="preserve">
-    <value>Rastejar</value>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
   </data>
   <data name="CrawlSelection" xml:space="preserve">
     <value>Seleção de rastreamento</value>
