@@ -786,7 +786,7 @@ Das Cookie mit Ihren Anmeldeinformationen Ihres Kontos wird gespeichert und der 
     <value>Während eines aktiven Crawls wird jede Datei global überprüft, ob sie bereits vorhanden ist, anstatt blogweise.</value>
   </data>
   <data name="ToolTipLoadAllDatabasesDescription" xml:space="preserve">
-    <value>Beim Crawlen eines Blogs werden alle Beiträge vor dem Herunterladen miteinander verglichen, um das Herunterladen doppelter Binärdateien zu verhindern.
+    <value>Beim Überprüfen eines Blogs werden alle Beiträge vor dem Herunterladen miteinander verglichen, um das Herunterladen doppelter Binärdateien zu verhindern.
 Dies geschieht blogweise. Durch Aktivieren dieser Optionen wird jede Datei global verglichen.
 Durch die Aktivierung wird die Speichernutzung während des Betriebs basierend auf der Menge des bereits heruntergeladenen Inhalts erhöht.</value>
   </data>

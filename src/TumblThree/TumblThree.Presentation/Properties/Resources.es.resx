@@ -809,7 +809,7 @@ La cookie con sus credenciales de su cuenta se guarda y el proceso de autenticac
     <value>Durante un rastreo activo, cada archivo se comprueba globalmente si ya existe en lugar de en el blog.</value>
   </data>
   <data name="ToolTipLoadAllDatabasesDescription" xml:space="preserve">
-    <value>Al rastrear un blog, todas las publicaciones se comparan entre sí antes de descargarlas para evitar la descarga de archivos binarios duplicados.
+    <value>Al revisar un blog, todas las publicaciones se comparan entre sí antes de descargarlas para evitar la descarga de archivos binarios duplicados.
 Esto se hace en un blog. Habilitar estas opciones comparará cada archivo globalmente.
 La activación aumentará el uso de la memoria durante la operación según la cantidad de contenido ya descargado.</value>
   </data>
