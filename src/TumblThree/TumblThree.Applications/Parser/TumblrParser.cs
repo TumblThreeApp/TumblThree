@@ -23,7 +23,7 @@ namespace TumblThree.Applications.Parser
             foreach (Match match in regex.Matches(searchableText))
             {
                 string imageUrl = match.Groups[1].Value;
-                if (imageUrl.Contains("avatar") || imageUrl.Contains("previews"))
+                if (imageUrl.Contains("avatar") || imageUrl.Contains("previews") || Regex.IsMatch(imageUrl, "/s[0-9]+x[0-9]+u_c1/"))
                 {
                     continue;
                 }
@@ -71,7 +71,7 @@ namespace TumblThree.Applications.Parser
             foreach (Match match in regex.Matches(searchableText))
             {
                 string imageUrl = match.Groups[1].Value;
-                if (imageUrl.Contains("avatar") || imageUrl.Contains("previews"))
+                if (imageUrl.Contains("avatar") || imageUrl.Contains("previews") || Regex.IsMatch(imageUrl, "/s[0-9]+x[0-9]+u_c1/"))
                 {
                     continue;
                 }
