@@ -28,5 +28,10 @@ namespace TumblThree.Applications.Downloader
             }
             return url;
         }
+
+        protected override string FileNameUrl(TumblrPost downloadItem)
+        {
+            return FileName(downloadItem);
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace TumblThree.Domain.Models.Files
     [DataContract]
     public class Files : Model, IFiles
     {
-        private const int MAX_SUPPORTED_DB_VERSION = 4;
+        private const int MAX_SUPPORTED_DB_VERSION = 5;
 
         [DataMember(Name = "Links", IsRequired = false, EmitDefaultValue = false)]
         protected List<string> links;
@@ -171,6 +171,25 @@ namespace TumblThree.Domain.Models.Files
                     file.Version = "4";
                     file.isDirty = true;
                     file.entries = newList;
+                }
+                if (file.Version == "4")
+                {
+                    // cleanup wrong twitter links (incompletely fixing issue 231)
+                    if (file.BlogType == BlogTypes.twitter && file.entries.Any(a => a.Link.Contains("?format=")))
+                    {
+                        foreach (var entry in file.entries)
+                        {
+                            var newLink = Regex.Replace(entry.Link, @"([^?]+)\?format=([\w]+)&name=[\w]+", "$1.$2");
+                            if (newLink != entry.Link)
+                            {
+                                entry.Link = newLink;
+                                file.isDirty = true;
+                            }
+                        }
+                        if (file.isDirty) file.entries = new HashSet<FileEntry>(file.entries, new FileEntryComparer());
+                    }
+                    file.Version = "5";
+                    file.isDirty = true;
                 }
                 if (int.Parse(file.Version) > MAX_SUPPORTED_DB_VERSION)
                 {

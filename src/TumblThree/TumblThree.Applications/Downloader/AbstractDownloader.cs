@@ -350,7 +350,7 @@ namespace TumblThree.Applications.Downloader
                 files.AddFileToDb(FileNameUrl(downloadItem), downloadItem.Filename);
                 return downloadItem.Filename;
             }
-            return files.AddFileToDb(FileName(downloadItem), downloadItem.Filename, AppendTemplate);
+            return files.AddFileToDb(FileNameUrl(downloadItem), downloadItem.Filename, AppendTemplate);
         }
 
         public bool CheckIfFileExistsInDB(string filenameUrl)
