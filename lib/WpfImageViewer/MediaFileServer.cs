@@ -6,7 +6,7 @@ namespace WpfImageViewer
 {
     internal class MediaFileServer
     {
-        private readonly HttpListener _httpListener = new HttpListener();
+        private readonly HttpListener _httpListener;
         private readonly Func<HttpListenerRequest, byte[]> _requestHandlerMethod;
         private string _prefix;
 
@@ -14,6 +14,10 @@ namespace WpfImageViewer
 
         public MediaFileServer(string prefix, Func<HttpListenerRequest, byte[]> requestHandlerMethod)
         {
+            if (!HttpListener.IsSupported) throw new NotSupportedException();
+
+            _httpListener = new HttpListener();
+
             _ = prefix ?? throw new ArgumentNullException(nameof(prefix));
             _ = requestHandlerMethod ?? throw new ArgumentNullException(nameof(requestHandlerMethod));
 

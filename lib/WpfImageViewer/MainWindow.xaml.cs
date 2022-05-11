@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
@@ -299,12 +300,16 @@ namespace WpfImageViewer
                         _mediaFileServer = new MediaFileServer($"http://localhost:{port}/", RequestHandlerMethod);
                         port = 0;
                     }
+                    catch (NotSupportedException)
+                    {
+                        port = 0;
+                    }
                     catch (HttpListenerException)
                     {
                         port = new Random().Next(50000, 65000);
                     }
-                } while (port != 0 || count < 3);
-                _mediaFileServer.Run();
+                } while (port != 0 && count < 3);
+                _mediaFileServer?.Run();
             }
         }
 
@@ -645,17 +650,25 @@ namespace WpfImageViewer
 
                 if (e.ChangedButton == MouseButton.Right)
                 {
-                    if (e.ClickCount == 2)
+                    var data = (e.ClickCount == 2) ? imagePath : Path.GetDirectoryName(imagePath);
+                    string message;
+                    int i = 0;
+                    do
                     {
-                        Clipboard.SetText(imagePath);
-                        ShowMessage("Image path copied to clipboard");
-                    }
-                    else
-                    {
-                        var imageDir = Path.GetDirectoryName(imagePath);
-                        Clipboard.SetText(imageDir);
-                        ShowMessage("Directory path copied to clipboard");
-                    }
+                        i++;
+                        message = (e.ClickCount == 2) ? "Image path copied to clipboard" : "Directory path copied to clipboard";
+                        try
+                        {
+                            Clipboard.SetText(data);
+                            i = 9;
+                        }
+                        catch (Exception)
+                        {
+                            message = "Failed to set clipboard content!";
+                            Thread.Sleep(200);
+                        }
+                    } while (i > 0 && i < 2);
+                    ShowMessage(message);
                 }
             }
         }
