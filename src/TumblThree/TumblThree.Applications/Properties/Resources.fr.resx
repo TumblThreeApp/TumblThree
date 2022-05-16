@@ -447,4 +447,10 @@ Voulez-vous télécharger et installer automatiquement la version
   <data name="DownloadedFiles" xml:space="preserve">
     <value>Fichiers téléchargés : {0}</value>
   </data>
+  <data name="WriteProtectedInstallation" xml:space="preserve">
+    <value>Le dossier du programme TumblThree se trouve dans un dossier protégé ou est protégé en écriture. Ceci n'est pas recommandé.
+
+C'est la meilleure option pour déplacer le dossier du programme TumblrThree vers un autre emplacement.
+Sinon, vous devez au moins modifier les entrées d'emplacement "Télécharger" et "Exporter les blogs" dans l'onglet "Général" des paramètres.</value>
+  </data>
 </root>

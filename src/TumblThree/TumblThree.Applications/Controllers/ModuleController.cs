@@ -7,9 +7,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Waf.Applications;
+using System.Waf.Applications.Services;
 using System.Windows.Threading;
 
 using AutoUpdaterDotNET;
@@ -19,7 +22,6 @@ using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain;
 using TumblThree.Domain.Queue;
-using System.Waf.Applications.Services;
 
 namespace TumblThree.Applications.Controllers
 {
@@ -177,6 +179,8 @@ namespace TumblThree.Applications.Controllers
                 }
             }
 
+            CheckForWritableFolder();
+
             await CheckForTMData();
 
             ShellViewModel.SetThumbButtonInfosCommands();
@@ -287,6 +291,63 @@ namespace TumblThree.Applications.Controllers
                 Logger.Error("ModuleController.CheckFor64BitVersion: {0}", e);
             }
             return false;
+        }
+
+        private void CheckForWritableFolder()
+        {
+            var appPath = AppDomain.CurrentDomain.BaseDirectory;
+            var hasWriteAccess = HasCurrentUserDirectoryAccessRights(appPath, FileSystemRights.Write);
+            if (!hasWriteAccess && _shellService.Value.Settings.DownloadLocation == "Blogs")
+            {
+                MessageService.ShowWarning(Resources.WriteProtectedInstallation);
+            }
+        }
+
+        private static bool HasCurrentUserDirectoryAccessRights(string path, FileSystemRights accessRights)
+        {
+            var hasAccessRights = false;
+
+            try
+            {
+                var di = new DirectoryInfo(path);
+                var acl = di.GetAccessControl();
+                var authorizationRules = acl.GetAccessRules(true, true, typeof(NTAccount));
+
+                var currentIdentity = WindowsIdentity.GetCurrent();
+                var principal = new WindowsPrincipal(currentIdentity);
+                foreach (AuthorizationRule authorizationRule in authorizationRules)
+                {
+                    var accessRule = authorizationRule as FileSystemAccessRule;
+                    if (accessRule == null)
+                    {
+                        continue;
+                    }
+
+                    if ((accessRule.FileSystemRights & accessRights) != 0)
+                    {
+                        var account = authorizationRule.IdentityReference as NTAccount;
+                        if (account == null)
+                        {
+                            continue;
+                        }
+
+                        if (principal.IsInRole(account.Value))
+                        {
+                            if (accessRule.AccessControlType == AccessControlType.Deny)
+                            {
+                                hasAccessRights = false;
+                                break;
+                            }
+                            hasAccessRights = true;
+                        }
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                hasAccessRights = false;
+            }
+            return hasAccessRights;
         }
 
         private bool DownloadAndUnzipUpdatePackage(string url)

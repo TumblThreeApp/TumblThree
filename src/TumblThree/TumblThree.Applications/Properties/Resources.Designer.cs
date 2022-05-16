@@ -1055,5 +1055,17 @@ namespace TumblThree.Applications.Properties {
                 return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The TumblThree program folder is located in a protected folder or is write-protected. This is not recommended.
+        ///
+        ///It is the best option to move the TumblrThree program folder to another location.
+        ///Else you should change at least the &quot;Download&quot; and &quot;Export Blogs&quot; location entries on the &quot;General&quot; tab in the Settings..
+        /// </summary>
+        public static string WriteProtectedInstallation {
+            get {
+                return ResourceManager.GetString("WriteProtectedInstallation", resourceCulture);
+            }
+        }
     }
 }

@@ -435,4 +435,10 @@ herunterladen und installieren?</value>
   <data name="DownloadedFiles" xml:space="preserve">
     <value>Heruntergeladene Dateien: {0}</value>
   </data>
+  <data name="WriteProtectedInstallation" xml:space="preserve">
+    <value>Der Programmordner von TumblThree befindet sich in einem geschützten Ordner oder ist schreibgeschützt. Dies wird nicht empfohlen.
+
+Es ist die beste Option, den TumblrThree-Programmordner an einen anderen Ort zu verschieben.
+Andernfalls sollten Sie zumindest die Standorteinträge „Download“ und „Blogs exportieren“ auf der Registerkarte „Allgemein“ in den Einstellungen ändern.</value>
+  </data>
 </root>

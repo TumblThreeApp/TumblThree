@@ -459,4 +459,10 @@ version of TumblThree now?</value>
   <data name="DownloadedFiles" xml:space="preserve">
     <value>Downloaded files: {0}</value>
   </data>
+  <data name="WriteProtectedInstallation" xml:space="preserve">
+    <value>The TumblThree program folder is located in a protected folder or is write-protected. This is not recommended.
+
+It is the best option to move the TumblrThree program folder to another location.
+Else you should change at least the "Download" and "Export Blogs" location entries on the "General" tab in the Settings.</value>
+  </data>
 </root>

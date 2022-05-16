@@ -429,4 +429,10 @@ bits de TumblThree ahora?</value>
   <data name="DownloadedFiles" xml:space="preserve">
     <value>Archivos descargados: {0}</value>
   </data>
+  <data name="WriteProtectedInstallation" xml:space="preserve">
+    <value>La carpeta del programa TumblThree se encuentra en una carpeta protegida o está protegida contra escritura. Esto no es recomendable.
+
+Es la mejor opción para mover la carpeta del programa TumblrThree a otra ubicación.
+De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y "Exportar blogs" en la pestaña "General" en la Configuración.</value>
+  </data>
 </root>
