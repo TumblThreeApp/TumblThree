@@ -453,4 +453,10 @@ Voulez-vous télécharger et installer automatiquement la version
 C'est la meilleure option pour déplacer le dossier du programme TumblrThree vers un autre emplacement.
 Sinon, vous devez au moins modifier les entrées d'emplacement "Télécharger" et "Exporter les blogs" dans l'onglet "Général" des paramètres.</value>
   </data>
+  <data name="ErrorShowingBlogFiles" xml:space="preserve">
+    <value>{0}: Erreur lors de l'ouverture du dossier!</value>
+  </data>
+  <data name="ErrorOpeningBlogUrl" xml:space="preserve">
+    <value>{0}: Erreur lors de l'ouverture de l'URL du blog!</value>
+  </data>
 </root>

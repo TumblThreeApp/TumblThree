@@ -478,6 +478,24 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}: Error opening blog url!.
+        /// </summary>
+        public static string ErrorOpeningBlogUrl {
+            get {
+                return ResourceManager.GetString("ErrorOpeningBlogUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: Error opening folder!.
+        /// </summary>
+        public static string ErrorShowingBlogFiles {
+            get {
+                return ResourceManager.GetString("ErrorShowingBlogFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text files (*.txt)|*.txt.
         /// </summary>
         public static string ExportFileFilter {

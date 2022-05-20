@@ -744,7 +744,14 @@ namespace TumblThree.Applications.Controllers
         {
             foreach (IBlog blog in _selectionService.SelectedBlogFiles.ToArray())
             {
-                Process.Start("explorer.exe", blog.DownloadLocation());
+                try
+                {
+                    Process.Start("explorer.exe", blog.DownloadLocation());
+                }
+                catch (Exception ex)
+                {
+                    _shellService.ShowError(ex, Resources.ErrorShowingBlogFiles, blog.Name);
+                }
             }
         }
 
@@ -754,7 +761,14 @@ namespace TumblThree.Applications.Controllers
         {
             foreach (IBlog blog in _selectionService.SelectedBlogFiles.ToArray())
             {
-                Process.Start(blog.Url);
+                try
+                {
+                    Process.Start(blog.Url);
+                }
+                catch (Exception ex)
+                {
+                    _shellService.ShowError(ex, Resources.ErrorOpeningBlogUrl, blog.Name);
+                }
             }
         }
 

@@ -435,4 +435,10 @@ bits de TumblThree ahora?</value>
 Es la mejor opción para mover la carpeta del programa TumblrThree a otra ubicación.
 De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y "Exportar blogs" en la pestaña "General" en la Configuración.</value>
   </data>
+  <data name="ErrorShowingBlogFiles" xml:space="preserve">
+    <value>{0}: ¡Error al abrir la carpeta!</value>
+  </data>
+  <data name="ErrorOpeningBlogUrl" xml:space="preserve">
+    <value>{0}: ¡Error al abrir la URL del blog!</value>
+  </data>
 </root>

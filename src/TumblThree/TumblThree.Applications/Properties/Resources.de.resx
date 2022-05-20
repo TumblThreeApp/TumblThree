@@ -441,4 +441,10 @@ herunterladen und installieren?</value>
 Es ist die beste Option, den TumblrThree-Programmordner an einen anderen Ort zu verschieben.
 Andernfalls sollten Sie zumindest die Standorteinträge „Download“ und „Blogs exportieren“ auf der Registerkarte „Allgemein“ in den Einstellungen ändern.</value>
   </data>
+  <data name="ErrorShowingBlogFiles" xml:space="preserve">
+    <value>{0}: Fehler beim Öffnen des Ordners!</value>
+  </data>
+  <data name="ErrorOpeningBlogUrl" xml:space="preserve">
+    <value>{0}: Fehler beim Öffnen der Blog-URL!</value>
+  </data>
 </root>
