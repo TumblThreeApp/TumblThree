@@ -35,6 +35,7 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * Uses SSL connections
 * Preview of photos & videos
 * Taskbar buttons and key bindings
+* Download of Gif instead of WebP/Gifv images from Tumblr
 * File rename functionality
 * :star: Download of Twitter blogs 🆕
 * Image viewer with slideshow mode 🆕
