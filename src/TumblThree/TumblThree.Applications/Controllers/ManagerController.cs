@@ -836,16 +836,20 @@ namespace TumblThree.Applications.Controllers
             if (blog.Save())
             {
                 AddToManager(blog);
-                try
+                QueueOnDispatcher.CheckBeginInvokeOnUI(() =>
                 {
-                    var ecv = (IEditableCollectionView)_managerService.BlogFilesView;
-                    if (ecv.IsAddingNew) ecv.CancelNew();
-                    _managerService.BlogFilesView.Refresh();
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("Exception 1", e);
-                }
+                    try
+                    {
+                        var ecv = (IEditableCollectionView)_managerService.BlogFilesView;
+                        if (ecv.IsAddingNew) ecv.CancelNew();
+                        _managerService.BlogFilesView.Refresh();
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error($"ManagerController:SaveBlog: {e}");
+                        throw new Exception("Exception 1", e);
+                    }
+                });
             }
         }
 
