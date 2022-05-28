@@ -195,6 +195,7 @@ namespace TumblThree.Applications.Crawler
 
                 string url = imageUrl;
                 if (CheckIfSkipGif(url)) { continue; }
+                if (!Blog.DownloadVideoThumbnail && (url.Contains("_frame1.") || url.Contains("_smart1."))) { continue; }
 
                 var matchesNewFormat = Regex.Match(url, "media.tumblr.com/([A-Za-z0-9_/:.-]*)/s([0-9]*)x([0-9]*)");
                 if (matchesNewFormat.Success)
