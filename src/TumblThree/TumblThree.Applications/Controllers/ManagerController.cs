@@ -563,7 +563,7 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
-                await AddBlogAsync(null);
+                await AddBlogAsync(null, false);
             }
             catch (WebException we)
             {
@@ -590,7 +590,7 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
-                IBlog blog = CheckIfCrawlableBlog(_crawlerService.NewBlogUrl).GetAwaiter().GetResult();
+                IBlog blog = CheckIfCrawlableBlog(_crawlerService.NewBlogUrl, false).GetAwaiter().GetResult();
                 if (Directory.Exists(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)) &&
                     !Directory.EnumerateFileSystemEntries(Path.Combine(Directory.GetParent(blog.Location).FullName, blog.Name)).Any())
                 {
@@ -635,7 +635,7 @@ namespace TumblThree.Applications.Controllers
 
                 var blogUris = fileContent.Split().Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x));
 
-                await Task.Run(() => AddBlogBatchedAsync(blogUris));
+                await Task.Run(() => AddBlogBatchedAsync(blogUris, false));
             }
             catch (Exception ex)
             {
@@ -794,14 +794,14 @@ namespace TumblThree.Applications.Controllers
 
         private bool CanCheckStatus() => ManagerViewModel.SelectedBlogFile != null;
 
-        private async Task AddBlogAsync(string blogUrl)
+        private async Task AddBlogAsync(string blogUrl, bool fromClipboard)
         {
             if (string.IsNullOrEmpty(blogUrl))
             {
                 blogUrl = _crawlerService.NewBlogUrl;
             }
 
-            IBlog blog = await CheckIfCrawlableBlog(blogUrl);
+            IBlog blog = await CheckIfCrawlableBlog(blogUrl, fromClipboard);
 
             blog = await CheckIfBlogIsHiddenTumblrBlogAsync(blog);
 
@@ -878,10 +878,11 @@ namespace TumblThree.Applications.Controllers
             return Path.Combine(downloadLocation, "Index");
         }
 
-        private async Task<IBlog> CheckIfCrawlableBlog(string blogUrl)
+        private async Task<IBlog> CheckIfCrawlableBlog(string blogUrl, bool fromClipboard)
         {
             if (!_blogFactory.IsValidBlogUrl(blogUrl))
             {
+                if (fromClipboard) throw new Exception();
                 if (_blogFactory.IsValidUrl(blogUrl) && await _tumblrBlogDetector.IsTumblrBlogWithCustomDomainAsync(blogUrl))
                     return TumblrBlog.Create(blogUrl, GetIndexFolderPath(_shellService.Settings.ActiveCollectionId), _shellService.Settings.FilenameTemplate, true);
                 throw new Exception($"The url '{blogUrl}' cannot be recognized as valid blog!");
@@ -910,6 +911,8 @@ namespace TumblThree.Applications.Controllers
             return blog;
         }
 
+        private static string oldContent;
+
         private void OnClipboardContentChanged(object sender, EventArgs e)
         {
             try
@@ -918,10 +921,11 @@ namespace TumblThree.Applications.Controllers
 
                 // Count each whitespace as new url
                 string content = Clipboard.GetText();
-                if (content == null) return;
+                if (content == null || oldContent == content) return;
+                oldContent = content;
                 string[] urls = content.Split();
 
-                Task.Run(() => AddBlogBatchedAsync(urls));
+                Task.Run(() => AddBlogBatchedAsync(urls, true));
             }
             catch (Exception ex)
             {
@@ -930,7 +934,7 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
-        private async Task AddBlogBatchedAsync(IEnumerable<string> urls)
+        private async Task AddBlogBatchedAsync(IEnumerable<string> urls, bool fromClipboard)
         {
             var semaphoreSlim = new SemaphoreSlim(25);
 
@@ -938,7 +942,7 @@ namespace TumblThree.Applications.Controllers
             QueueOnDispatcher.CheckBeginInvokeOnUI(() => Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait);
             try
             {
-                IEnumerable<Task> tasks = urls.Select(async url => await AddBlogsAsync(semaphoreSlim, url));
+                IEnumerable<Task> tasks = urls.Select(async url => await AddBlogsAsync(semaphoreSlim, url, fromClipboard));
                 await Task.WhenAll(tasks);
             }
             finally
@@ -949,17 +953,20 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
-        private async Task AddBlogsAsync(SemaphoreSlim semaphoreSlim, string url)
+        private async Task AddBlogsAsync(SemaphoreSlim semaphoreSlim, string url, bool fromClipboard)
         {
             try
             {
                 await semaphoreSlim.WaitAsync();
-                await AddBlogAsync(url);
+                await AddBlogAsync(url, fromClipboard);
             }
             catch (Exception e)
             {
-                Logger.Error("ManagerController.AddBlogsAsync: {0}", e);
-                _shellService.ShowError(e, Resources.CouldNotAddBlog, e.Message);
+                if (!fromClipboard)
+                {
+                    Logger.Error("ManagerController.AddBlogsAsync: {0}", e);
+                    _shellService.ShowError(e, Resources.CouldNotAddBlog, e.Message);
+                }
             }
             finally
             {
