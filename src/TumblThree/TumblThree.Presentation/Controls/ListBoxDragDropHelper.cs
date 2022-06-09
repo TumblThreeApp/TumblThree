@@ -73,6 +73,11 @@ namespace TumblThree.Presentation.Controls
         private void ListBoxItemPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             startPoint = e.GetPosition(null);
+            var item = sender as ListBoxItem;
+            if (item != null && item.IsSelected && listBox.SelectedItems.Count > 1)
+            {
+                e.Handled = true;
+            }
         }
 
         private void ListBoxItemPreviewMouseMove(object sender, MouseEventArgs e)
