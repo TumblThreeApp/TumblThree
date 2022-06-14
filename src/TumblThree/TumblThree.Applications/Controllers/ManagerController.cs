@@ -687,9 +687,9 @@ namespace TumblThree.Applications.Controllers
                     }
                 }
 
-                string indexFile = Path.Combine(blog.Location, blog.Name) + "." + blog.OriginalBlogType;
                 try
                 {
+                    string indexFile = Path.Combine(blog.Location, blog.Name) + "." + blog.OriginalBlogType;
                     if (doArchive && _shellService.Settings.ArchiveIndex)
                     {
                         var indexMovedFile = indexFile.Replace(@"\Index\", @"\Index\Archive\");
@@ -709,8 +709,12 @@ namespace TumblThree.Applications.Controllers
                             childMovedFile = Path.Combine(Path.GetDirectoryName(childMovedFile), Path.GetFileNameWithoutExtension(childMovedFile) + appendix + Path.GetExtension(childMovedFile));
                         }
 
+                        string currentChildId = blog.ChildId;
+                        blog.ChildId = childMovedFile;
+                        blog.Save();
+
                         File.Move(indexFile, indexMovedFile);
-                        File.Move(blog.ChildId, childMovedFile);
+                        File.Move(currentChildId, childMovedFile);
                     }
                     else
                     {
