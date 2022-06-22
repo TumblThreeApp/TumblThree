@@ -126,6 +126,15 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn x:Name="DownloadedItemsNew" Header="{x:Static p:Resources.DownloadedItemsNew}"
+                                    Binding="{Binding DownloadedItemsNew, Converter={StaticResource IntToDisplayValueConverter}}"
+                                    IsReadOnly="True" Width="SizeToHeader">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextCellElementStyle}">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn x:Name="TotalCount" Header="{x:Static p:Resources.NumberOfDownloadableItems}"
                                     Binding="{Binding TotalCount, Converter={StaticResource IntToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="SizeToHeader">

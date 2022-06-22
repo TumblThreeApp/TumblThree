@@ -912,6 +912,9 @@ Deaktivieren Sie die Option, wenn Sie Ihre eigene Vorlage für Fotosets verwende
   <data name="DownloadedItems" xml:space="preserve">
     <value>Elemente heruntergeladen</value>
   </data>
+  <data name="DownloadedItemsNew" xml:space="preserve">
+    <value>Neu heruntergeladene Elemente</value>
+  </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
     <value>Anzahl herunterladbarer Elemente</value>
   </data>

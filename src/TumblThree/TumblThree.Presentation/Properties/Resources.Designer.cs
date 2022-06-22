@@ -592,6 +592,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Newly downloaded items.
+        /// </summary>
+        public static string DownloadedItemsNew {
+            get {
+                return ResourceManager.GetString("DownloadedItemsNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download from:.
         /// </summary>
         public static string DownloadFrom {

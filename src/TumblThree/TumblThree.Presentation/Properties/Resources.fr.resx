@@ -913,6 +913,9 @@ multimédias manuellement, si nécessaire.</value>
   <data name="DownloadedItems" xml:space="preserve">
     <value>Éléments téléchargés</value>
   </data>
+  <data name="DownloadedItemsNew" xml:space="preserve">
+    <value>Éléments récemment téléchargés</value>
+  </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
     <value>Nombre d'éléments téléchargeables</value>
   </data>

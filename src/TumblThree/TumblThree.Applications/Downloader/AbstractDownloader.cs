@@ -393,7 +393,7 @@ namespace TumblThree.Applications.Downloader
         protected void UpdateBlogDB(string postType)
         {
             blog.UpdatePostCount(postType);
-            blog.UpdateProgress();
+            blog.UpdateProgress(true);
         }
 
         protected void SetFileDate(string fileLocation, DateTime postDate)

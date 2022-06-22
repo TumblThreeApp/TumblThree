@@ -909,6 +909,9 @@ Puede mover los archivos multimedia antiguos manualmente, si es necesario.</valu
   <data name="DownloadedItems" xml:space="preserve">
     <value>Elementos descargados</value>
   </data>
+  <data name="DownloadedItemsNew" xml:space="preserve">
+    <value>Elementos recién descargados</value>
+  </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
     <value>Número de elementos descargables</value>
   </data>

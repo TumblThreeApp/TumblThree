@@ -476,6 +476,20 @@ namespace TumblThree.Applications.Properties
                 settings.ColumnSettings.Add("Collection", Tuple.Create(12, 120.0, Visibility.Visible));
                 updated = true;
             }
+            if (settings.ColumnSettings.Count > 0 && !settings.ColumnSettings.ContainsKey("DownloadedItemsNew"))
+            {
+                var newList = new Dictionary<object, Tuple<int, double, Visibility>>();
+                foreach (var col in settings.ColumnSettings)
+                {
+                    if (col.Value.Item1 == 2)
+                    {
+                        newList.Add("DownloadedItemsNew", Tuple.Create(2, 60.0, Visibility.Visible));
+                    }
+                    newList.Add(col.Key, Tuple.Create(col.Value.Item1 + (col.Value.Item1 >= 2 ? 1 : 0), col.Value.Item2, col.Value.Item3));
+                }
+                settings.ColumnSettings = newList;
+                updated = true;
+            }
             if (string.IsNullOrEmpty(settings.ImageSizeCategory))
             {
                 settings.ImageSizeCategory = "medium";

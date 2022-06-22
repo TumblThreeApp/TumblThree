@@ -95,6 +95,7 @@ namespace TumblThree.Domain.Models.Blogs
         private PostType states;
         private bool groupPhotoSets;
         private int collectionId;
+        private int downloadedItemsNew;
 
         [DataMember(Name = "Links")]
         private List<string> links;
@@ -341,6 +342,12 @@ namespace TumblThree.Domain.Models.Blogs
                 SetProperty(ref blogType, value);
                 Dirty = true;
             }
+        }
+
+        public int DownloadedItemsNew
+        {
+            get => downloadedItemsNew;
+            set => SetProperty(ref downloadedItemsNew, value);
         }
 
         /// <summary>
@@ -932,10 +939,11 @@ namespace TumblThree.Domain.Models.Blogs
         [IgnoreDataMember]
         public long LastPreviewShown { get; set; }
 
-        public void UpdateProgress()
+        public void UpdateProgress(bool doCount)
         {
             lock (lockObjectProgress)
             {
+                if (doCount) { DownloadedItemsNew++; }
                 Progress = (int)(DownloadedItems / (double)TotalCount * 100);
             }
         }

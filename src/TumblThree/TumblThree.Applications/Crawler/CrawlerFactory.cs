@@ -59,6 +59,7 @@ namespace TumblThree.Applications.Crawler
 
         public ICrawler GetCrawler(IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
         {
+            blog.DownloadedItemsNew = 0;
             IPostQueue<AbstractPost> postQueue = GetProducerConsumerCollection();
             IFiles files = LoadFiles(blog);
             IWebRequestFactory webRequestFactory = GetWebRequestFactory();
