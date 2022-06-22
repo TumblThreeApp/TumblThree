@@ -726,4 +726,7 @@ Alternatywnie możesz użyć sekcji {Sekcja Problemy} na naszej stronie projektu
   <data name="FilenameTemplate" xml:space="preserve">
     <value>Szablon nazwy pliku:</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Liczba elementów do pobrania</value>
+  </data>
 </root>

@@ -19,7 +19,7 @@ namespace TumblThree.Presentation.DesignData
                 {
                     Name = "Nature Wallpapers",
                     Url = "http://nature-wallpaper.tumblr.com/",
-                    DownloadedImages = 123,
+                    DownloadedPhotos = 123,
                     DateAdded = DateTime.Now,
                     Progress = 66,
                     TotalCount = 234,
@@ -28,7 +28,7 @@ namespace TumblThree.Presentation.DesignData
                 {
                     Name = "Landscape Wallpapers",
                     Url = "http://landscape-wallpaper.tumblr.com/",
-                    DownloadedImages = 17236,
+                    DownloadedPhotos = 17236,
                     DateAdded = DateTime.Now,
                     Progress = 95,
                     TotalCount = 15739,
@@ -37,7 +37,7 @@ namespace TumblThree.Presentation.DesignData
                 {
                     Name = "FX Wallpapers",
                     Url = "http://nature-wallpaper.tumblr.com/",
-                    DownloadedImages = 12845,
+                    DownloadedPhotos = 12845,
                     DateAdded = DateTime.Now,
                     Progress = 12,
                     TotalCount = 82453,

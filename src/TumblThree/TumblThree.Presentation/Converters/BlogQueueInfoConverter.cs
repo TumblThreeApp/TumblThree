@@ -17,10 +17,10 @@ namespace TumblThree.Presentation.Converters
                 return DependencyProperty.UnsetValue;
             }
 
-            object downloadedImages = values[0];
+            object downloadedItems = values[0];
             object totalImages = values[1];
 
-            return string.Format(CultureInfo.CurrentCulture, Resources.DownloadedFilesOf, downloadedImages, totalImages);
+            return string.Format(CultureInfo.CurrentCulture, Resources.DownloadedFilesOf, downloadedItems, totalImages);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) =>

@@ -735,4 +735,7 @@ Vaihtoehtoisesti voit ottaa meihin yhteyttä projektisivustomme {Issues-osion} k
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Lataa saatavilla olevat videopikkukuvat. Tämä asetus on riippumaton kohdista "Lataa kuvat" ja "Lataa videot".</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Ladattavien kohteiden määrä</value>
+  </data>
 </root>

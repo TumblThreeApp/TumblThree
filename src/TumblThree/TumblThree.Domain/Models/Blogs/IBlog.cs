@@ -73,7 +73,7 @@ namespace TumblThree.Domain.Models.Blogs
 
         int DownloadedAudioMetas { get; set; }
 
-        int DownloadedImages { get; set; }
+        int DownloadedItems { get; }
 
         int TotalCount { get; set; }
 
@@ -195,7 +195,7 @@ namespace TumblThree.Domain.Models.Blogs
 
         int CollectionId { get; set; }
 
-        void UpdateProgress(bool calcOnly);
+        void UpdateProgress();
 
         void UpdatePostCount(string propertyName);
 

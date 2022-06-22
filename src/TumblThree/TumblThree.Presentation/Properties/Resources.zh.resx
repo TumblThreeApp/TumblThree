@@ -1125,4 +1125,7 @@ best（最佳） - 尽可能下载图像的最大分辨率版本（SVC，API 仅
   <data name="ActiveCollection" xml:space="preserve">
     <value>当前分组：</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>可下载项目数</value>
+  </data>
 </root>

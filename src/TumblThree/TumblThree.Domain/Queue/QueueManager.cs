@@ -95,14 +95,14 @@ namespace TumblThree.Domain.Queue
             }
         }
 
-        private void UpdateDownloadedImageCount()
+        private void UpdateDownloadedItemsCount()
         {
             if (items.Any())
             {
-                IEnumerable<QueueListItem> loadedItems = items.Where(x => x.Blog.DownloadedImages > 0);
+                IEnumerable<QueueListItem> loadedItems = items.Where(x => x.Blog.DownloadedItems > 0);
 
                 QueueDownloadedImageCount =
-                    loadedItems.Select(x => x.Blog.DownloadedImages).Aggregate((current, next) => current + next);
+                    loadedItems.Select(x => x.Blog.DownloadedItems).Aggregate((current, next) => current + next);
             }
             else
             {

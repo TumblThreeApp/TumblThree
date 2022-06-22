@@ -727,4 +727,7 @@ Em alternativa, pode utilizar a secção {Issues} no nosso sítio do projecto pa
   <data name="FilenameTemplate" xml:space="preserve">
     <value>Modelo de nome de ficheiro:</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Número de itens para download</value>
+  </data>
 </root>

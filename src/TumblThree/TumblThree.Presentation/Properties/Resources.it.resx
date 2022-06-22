@@ -739,4 +739,7 @@ In alternativa puoi usare la sezione {Issues} sul sito del nostro progetto per m
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Scarica le miniature dei video disponibili. Questa impostazione è indipendente da "Scarica immagini" e "Scarica video".</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Numero di elementi scaricabili</value>
+  </data>
 </root>

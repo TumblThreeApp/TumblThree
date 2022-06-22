@@ -99,8 +99,6 @@ namespace TumblThree.Domain.Models.Blogs
         [DataMember(Name = "Links")]
         private List<string> links;
 
-        private int downloadedImages;
-
         private object lockObjectProgress = new object();
         private object lockObjectPostCount = new object();
         private object lockObjectDb = new object();
@@ -346,17 +344,19 @@ namespace TumblThree.Domain.Models.Blogs
         }
 
         /// <summary>
-        /// Number of already downloaded (media) files.
+        /// Number of already downloaded (media) items.
         /// </summary>
-        [DataMember]
-        public int DownloadedImages
+        public int DownloadedItems
         {
-            get => downloadedImages;
-            set => SetProperty(ref downloadedImages, value);
+            get
+            {
+                return downloadedAnswers + downloadedAudioMetas + downloadedAudios + downloadedConversations + downloadedLinks 
+                    + downloadedPhotoMetas + downloadedPhotos + downloadedQuotes + downloadedTexts + downloadedVideoMetas + downloadedVideos;
+            }
         }
 
         /// <summary>
-        /// Number of files to download.
+        /// Number of items to download.
         /// </summary>
         [DataMember]
         public int TotalCount
@@ -475,77 +475,143 @@ namespace TumblThree.Domain.Models.Blogs
         public int DownloadedTexts
         {
             get => downloadedTexts;
-            set => SetProperty(ref downloadedTexts, value);
+            set
+            {
+                if (SetProperty(ref downloadedTexts, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedQuotes
         {
             get => downloadedQuotes;
-            set => SetProperty(ref downloadedQuotes, value);
+            set
+            {
+                if (SetProperty(ref downloadedQuotes, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedPhotos
         {
             get => downloadedPhotos;
-            set => SetProperty(ref downloadedPhotos, value);
+            set
+            {
+                if (SetProperty(ref downloadedPhotos, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedLinks
         {
             get => downloadedLinks;
-            set => SetProperty(ref downloadedLinks, value);
+            set
+            {
+                if (SetProperty(ref downloadedLinks, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedConversations
         {
             get => downloadedConversations;
-            set => SetProperty(ref downloadedConversations, value);
+            set
+            {
+                if (SetProperty(ref downloadedConversations, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedAnswers
         {
             get => downloadedAnswers;
-            set => SetProperty(ref downloadedAnswers, value);
+            set
+            {
+                if (SetProperty(ref downloadedAnswers, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedVideos
         {
             get => downloadedVideos;
-            set => SetProperty(ref downloadedVideos, value);
+            set
+            {
+                if (SetProperty(ref downloadedVideos, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedAudios
         {
             get => downloadedAudios;
-            set => SetProperty(ref downloadedAudios, value);
+            set
+            {
+                if (SetProperty(ref downloadedAudios, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedPhotoMetas
         {
             get => downloadedPhotoMetas;
-            set => SetProperty(ref downloadedPhotoMetas, value);
+            set
+            {
+                if (SetProperty(ref downloadedPhotoMetas, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedVideoMetas
         {
             get => downloadedVideoMetas;
-            set => SetProperty(ref downloadedVideoMetas, value);
+            set
+            {
+                if (SetProperty(ref downloadedVideoMetas, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
         public int DownloadedAudioMetas
         {
             get => downloadedAudioMetas;
-            set => SetProperty(ref downloadedAudioMetas, value);
+            set
+            {
+                if (SetProperty(ref downloadedAudioMetas, value))
+                {
+                    RaisePropertyChanged(nameof(DownloadedItems));
+                }
+            }
         }
 
         [DataMember]
@@ -866,12 +932,11 @@ namespace TumblThree.Domain.Models.Blogs
         [IgnoreDataMember]
         public long LastPreviewShown { get; set; }
 
-        public void UpdateProgress(bool calcOnly)
+        public void UpdateProgress()
         {
             lock (lockObjectProgress)
             {
-                if (!calcOnly) DownloadedImages++;
-                Progress = (int)(DownloadedImages / (double)TotalCount * 100);
+                Progress = (int)(DownloadedItems / (double)TotalCount * 100);
             }
         }
 

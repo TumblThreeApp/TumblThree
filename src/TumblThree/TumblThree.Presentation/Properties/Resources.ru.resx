@@ -732,4 +732,7 @@
   <data name="FilenameTemplate" xml:space="preserve">
     <value>Шаблон имени файла:</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Количество загружаемых элементов</value>
+  </data>
 </root>

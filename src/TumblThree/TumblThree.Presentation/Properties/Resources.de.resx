@@ -909,4 +909,10 @@ durch {Post id}_{Bildindex} ersetzt, oder wenn das Token nicht verwendet wird, w
 Bildsätze als {Post id}_{Bildindex}_{Dateinamenvorlage} gespeichert.
 Deaktivieren Sie die Option, wenn Sie Ihre eigene Vorlage für Fotosets verwenden möchten.</value>
   </data>
+  <data name="DownloadedItems" xml:space="preserve">
+    <value>Elemente heruntergeladen</value>
+  </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Anzahl herunterladbarer Elemente</value>
+  </data>
 </root>

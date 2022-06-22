@@ -723,4 +723,7 @@ TumblThreeについて好きなこと、嫌いなことを教えてください�
   <data name="FilenameTemplate" xml:space="preserve">
     <value>ファイル名テンプレート。</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>ダウンロード可能なアイテムの数</value>
+  </data>
 </root>

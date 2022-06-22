@@ -734,4 +734,7 @@
   <data name="FilenameTemplate" xml:space="preserve">
     <value>Πρότυπο ονόματος αρχείου:</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Αριθμός αντικειμένων με δυνατότητα λήψης</value>
+  </data>
 </root>

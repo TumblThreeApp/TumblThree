@@ -1139,4 +1139,10 @@ old media files manually, if necessary.</value>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Downloads available video thumbnails. This setting is independent of 'Download images' and 'Download videos'.</value>
   </data>
+  <data name="DownloadedItems" xml:space="preserve">
+    <value>Downloaded Items</value>
+  </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Number of downloadable Items</value>
+  </data>
 </root>

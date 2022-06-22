@@ -117,8 +117,8 @@
                 <DataGridTextColumn x:Name="Name" Header="{x:Static p:Resources.Name}" Binding="{Binding Name}" IsReadOnly="True"
                                     Width="200"
                                     ElementStyle="{StaticResource TextCellElementStyle}" />
-                <DataGridTextColumn x:Name="DownloadedItems" Header="{x:Static p:Resources.DownloadedFiles}"
-                                    Binding="{Binding DownloadedImages, Converter={StaticResource IntToDisplayValueConverter}}"
+                <DataGridTextColumn x:Name="DownloadedItems" Header="{x:Static p:Resources.DownloadedItems}"
+                                    Binding="{Binding DownloadedItems, Converter={StaticResource IntToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="SizeToHeader">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextCellElementStyle}">
@@ -126,7 +126,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn x:Name="TotalCount" Header="{x:Static p:Resources.NumberOfDownloads}"
+                <DataGridTextColumn x:Name="TotalCount" Header="{x:Static p:Resources.NumberOfDownloadableItems}"
                                     Binding="{Binding TotalCount, Converter={StaticResource IntToDisplayValueConverter}}"
                                     IsReadOnly="True" Width="SizeToHeader">
                     <DataGridTextColumn.ElementStyle>

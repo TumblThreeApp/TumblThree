@@ -710,4 +710,7 @@ F.eks stor stor bil, bjørn søker etter store store biler og bjørner.</value>
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Antall nedlastbare elementer</value>
+  </data>
 </root>

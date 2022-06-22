@@ -710,4 +710,7 @@ Ví dụ. chiếc xe to lớn, tìm kiếm những chiếc xe lớn và gấu.</
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Số lượng mặt hàng có thể tải xuống</value>
+  </data>
 </root>

@@ -910,4 +910,10 @@ multimédias manuellement, si nécessaire.</value>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Télécharge les vignettes vidéo disponibles. Ce paramètre est indépendant de 'Télécharger des images' et 'Télécharger des vidéos'.</value>
   </data>
+  <data name="DownloadedItems" xml:space="preserve">
+    <value>Éléments téléchargés</value>
+  </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>Nombre d'éléments téléchargeables</value>
+  </data>
 </root>

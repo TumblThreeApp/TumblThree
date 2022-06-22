@@ -704,4 +704,7 @@
   <data name="ToolTipLogLevelDescription" xml:space="preserve">
     <value>Specify the log level (from Error only to Verbose details) or put it Off.</value>
   </data>
+  <data name="NumberOfDownloadableItems" xml:space="preserve">
+    <value>จำนวนรายการที่ดาวน์โหลดได้</value>
+  </data>
 </root>
