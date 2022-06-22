@@ -41,6 +41,15 @@
                         </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" ctrl:ToolTipBehavior.AutoToolTip="True" />
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
             </DataGrid.Resources>
             <DataGrid.InputBindings>
                 <!-- <KeyBinding Command="{Binding CrawlerService.CrawlCommand}" Key="Return"/> -->
@@ -136,6 +145,11 @@
                                          Foreground="{StaticResource ActiveForeground}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" ctrl:ToolTipBehavior.AutoToolTip="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn x:Name="Online" Header="{x:Static p:Resources.Online}"
                                     Binding="{Binding Online, Converter={StaticResource StatusToBoolConverter}}"
@@ -179,6 +193,11 @@
                             </ctrl:Rating>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" ctrl:ToolTipBehavior.AutoToolTip="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn x:Name="Notes" Header="{x:Static p:Resources.Notes}"
                                     Binding="{Binding Notes, Mode=TwoWay}"
@@ -196,6 +215,11 @@
                             </TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" ctrl:ToolTipBehavior.AutoToolTip="True" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
