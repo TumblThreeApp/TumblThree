@@ -442,7 +442,8 @@ namespace TumblThree.Applications.Crawler
                 ImageResponse imgRsp = DeserializeImageResponse(extracted);
                 int maxWidth = imgRsp.Images.Max(x => x.Width);
                 Image img = imgRsp.Images.FirstOrDefault(x => x.Width == maxWidth);
-                return string.IsNullOrEmpty(img?.MediaKey) ? url : img.Url;
+                url = string.IsNullOrEmpty(img?.MediaKey) ? url : img.Url;
+                return url.EndsWith(".pnj") ? url.Substring(0, url.Length - 4) + ".png" : url;
             }
             catch (Exception ex)
             {
