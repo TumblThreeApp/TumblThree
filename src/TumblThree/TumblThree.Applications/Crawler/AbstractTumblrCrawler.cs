@@ -382,6 +382,7 @@ namespace TumblThree.Applications.Crawler
 
         protected string RetrieveOriginalImageUrl(string url, int width, int height, bool isInline)
         {
+            if (url.EndsWith(".pnj")) url = url.Substring(0, url.Length - 4) + ".png";
             if (width > height) { (width, height) = (height, width); }
             if (ShellService.Settings.ImageSize != "best"
                 || !isInline && !url.Contains("/s1280x1920/")
@@ -397,6 +398,7 @@ namespace TumblThree.Applications.Crawler
             {
                 url = url.Replace("/s1280x1920/", (width <= 2048 && height <= 3072) ? "/s2048x3072/" : "/s99999x99999/");
             }
+
             string pageContent = "";
             int errCnt = 0;
             Exception lastError = null;
@@ -442,7 +444,11 @@ namespace TumblThree.Applications.Crawler
                 ImageResponse imgRsp = DeserializeImageResponse(extracted);
                 int maxWidth = imgRsp.Images.Max(x => x.Width);
                 Image img = imgRsp.Images.FirstOrDefault(x => x.Width == maxWidth);
-                return string.IsNullOrEmpty(img?.MediaKey) ? url : img.Url;
+
+                if (string.IsNullOrEmpty(img?.MediaKey))
+                    return url;
+
+                return img.Url.EndsWith(".pnj") ? img.Url.Substring(0, img.Url.Length - 4) + ".png" : img.Url;
             }
             catch (Exception ex)
             {
