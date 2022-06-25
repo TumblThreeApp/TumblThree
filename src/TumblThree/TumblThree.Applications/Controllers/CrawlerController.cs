@@ -83,12 +83,17 @@ namespace TumblThree.Applications.Controllers
             {
             }
 
-            foreach (IBlog blog in _managerService.BlogFiles)
+            using (_shellService.SetApplicationBusy())
             {
-                if (blog.Dirty)
+                foreach (IBlog blog in _managerService.BlogFiles)
                 {
-                    blog.Save();
+                    if (blog.Dirty)
+                    {
+                        blog.Save();
+                    }
                 }
+
+                _managerService.CacheLibraries();
             }
         }
 

@@ -459,4 +459,10 @@ Sinon, vous devez au moins modifier les entrées d'emplacement "Télécharger" e
   <data name="ErrorOpeningBlogUrl" xml:space="preserve">
     <value>{0}: Erreur lors de l'ouverture de l'URL du blog!</value>
   </data>
+  <data name="FoundUnusedCacheFolder" xml:space="preserve">
+    <value>Dossier de cache inutilisé trouvé : {0}</value>
+  </data>
+  <data name="FoundWrongNamedCacheFolder" xml:space="preserve">
+    <value>Dossier de cache mal nommé : {0}</value>
+  </data>
 </root>

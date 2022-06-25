@@ -217,6 +217,7 @@ namespace TumblThree.Applications.Controllers
                 await LoadAllDatabasesAsync();
                 await LoadArchiveAsync();
                 CheckIfDatabasesComplete();
+                _crawlerService.UpdateCollectionsList(false);
                 await CheckBlogsOnlineStatusAsync();
             }
             catch (Exception e)
@@ -233,15 +234,24 @@ namespace TumblThree.Applications.Controllers
 
             foreach (var collection in _shellService.Settings.Collections)
             {
-                string path = Path.Combine(collection.DownloadLocation, "Index");
+                var path = collection.DownloadLocation;
 
                 if (Directory.Exists(path))
                 {
-                    IReadOnlyList<IBlog> files = await GetIBlogsAsync(path);
+                    collection.IsOnline = true;
+                    IReadOnlyList<IBlog> files = await GetIBlogsAsync(Path.Combine(collection.DownloadLocation, "Index"));
                     foreach (IBlog file in files)
                     {
                         _managerService.BlogFiles.Add(file);
                     }
+                }
+                else if (string.Compare(Directory.GetParent(path).FullName, path, true) != 0 && Directory.GetParent(path).Exists)
+                {
+                    collection.IsOnline = true;
+                }
+                else
+                {
+                    collection.IsOnline = false;
                 }
             }
 
@@ -355,19 +365,26 @@ namespace TumblThree.Applications.Controllers
             Logger.Verbose("ManagerController.LoadArchiveAsync:Start");
             _managerService.ClearArchive();
 
-            if (_shellService.Settings.LoadArchive)
+            if (_shellService.Settings.LoadArchive || _shellService.Settings.Collections.Any(x => x.OfflineDuplicateCheck && !x.IsOnline.Value))
             {
                 foreach (var collection in _shellService.Settings.Collections)
                 {
-                    string path = Path.Combine(GetIndexFolderPath(collection.Id), "Archive");
+                    if (!_shellService.Settings.LoadArchive && collection.Id != 0) continue;
+
+                    string path = GetIndexFolderPath(collection.Id);
+                    if (!Directory.Exists(path)) continue;
+
+                    path = Path.Combine(path, "Archive");
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
-                    List<string> dirs = new List<string>(Directory.GetDirectories(path, "*", SearchOption.AllDirectories));
-                    dirs.Insert(0, path);
+                    List<string> folders = new List<string>(Directory.GetDirectories(path, "*", SearchOption.AllDirectories));
+                    folders.Insert(0, path);
 
-                    foreach (var item in dirs)
+                    foreach (var folder in folders)
                     {
-                        IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(item);
+                        if (SkipFolder(collection.Id, folder, _shellService.Settings.LoadArchive)) continue;
+
+                        IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(folder);
                         foreach (IFiles archiveDB in archiveDatabases)
                         {
                             _managerService.AddArchive(archiveDB);
@@ -378,6 +395,28 @@ namespace TumblThree.Applications.Controllers
 
             BlogManagerFinishedLoadingArchive?.Invoke(this, EventArgs.Empty);
             Logger.Verbose("ManagerController.LoadArchiveAsync:End");
+        }
+
+        private bool SkipFolder(int currentCollectionId, string folder, bool loadArchives)
+        {
+            var cachePart = Path.Combine(_shellService.Settings.DownloadLocation, "Index", "Archive", "[cache]");
+            if (currentCollectionId == 0 && folder.StartsWith(cachePart, StringComparison.Ordinal))
+            {
+                var parts = folder.Replace(cachePart, "").Split('\\');
+                var firstPart = parts.First();
+                if (!int.TryParse(firstPart, out int id))
+                {
+                    Logger.Warning(Resources.FoundWrongNamedCacheFolder, folder);
+                    return true;
+                }
+                Collection collection = _shellService.Settings.GetCollection(id);
+                if (!collection.OfflineDuplicateCheck)
+                {
+                    Logger.Warning(Resources.FoundUnusedCacheFolder, folder);
+                }
+                return collection.IsOnline.Value || !collection.OfflineDuplicateCheck;
+            }
+            return !loadArchives;
         }
 
         private Task<IReadOnlyList<IFiles>> GetIFilesAsync(string directory) => Task.Factory.StartNew(

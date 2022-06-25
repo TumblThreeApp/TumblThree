@@ -441,4 +441,10 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="ErrorOpeningBlogUrl" xml:space="preserve">
     <value>{0}: ¡Error al abrir la URL del blog!</value>
   </data>
+  <data name="FoundUnusedCacheFolder" xml:space="preserve">
+    <value>Carpeta de caché no utilizada encontrada: {0}</value>
+  </data>
+  <data name="FoundWrongNamedCacheFolder" xml:space="preserve">
+    <value>Se encontró una carpeta de caché con un nombre incorrecto: {0}</value>
+  </data>
 </root>

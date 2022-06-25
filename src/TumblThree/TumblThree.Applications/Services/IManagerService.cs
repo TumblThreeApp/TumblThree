@@ -29,5 +29,7 @@ namespace TumblThree.Applications.Services
         ICollectionView BlogFilesView { get; }
 
         bool IsCollectionIdUsed(int id);
+
+        void CacheLibraries();
     }
 }

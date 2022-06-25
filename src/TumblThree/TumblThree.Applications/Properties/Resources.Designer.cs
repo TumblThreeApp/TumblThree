@@ -631,6 +631,24 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found unused cache folder: {0}.
+        /// </summary>
+        public static string FoundUnusedCacheFolder {
+            get {
+                return ResourceManager.GetString("FoundUnusedCacheFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found wrong named cache folder: {0}.
+        /// </summary>
+        public static string FoundWrongNamedCacheFolder {
+            get {
+                return ResourceManager.GetString("FoundWrongNamedCacheFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id3: Album: {0}.
         /// </summary>
         public static string Id3Album {

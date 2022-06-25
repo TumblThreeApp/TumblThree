@@ -791,7 +791,7 @@ Désactivez l'option si vous souhaitez utiliser votre propre modèle pour les en
   </data>
   <data name="ToolTipAuthenticateBrowserDescription" xml:space="preserve">
     <value>Ouvre une fenêtre de navigateur pour vous authentifier sur le site tumblr.com.
-Le cookie avec vos informations d'identification de votre compte est enregistré et le processus d'authentification ne doit être effectué qu'une seule fois.</value>
+Les cookies utilisés pour l'authentification sont enregistrés et le processus d'authentification ne doit être effectué qu'une seule fois.</value>
   </data>
   <data name="UserAgent" xml:space="preserve">
     <value>Agent utilisateur</value>
@@ -871,7 +871,7 @@ Tous les fichiers d'index de ce sous-dossier peuvent être utilisés pour la vé
     <value>Nom de la collection:</value>
   </data>
   <data name="CollectionsHint" xml:space="preserve">
-    <value>L'emplacement de téléchargement n'est utilisé que pour les blogs nouvellement créés dans cette collection. Si une collection est supprimée, les blogs attribués seront affichés sous la collection par défaut.</value>
+    <value>L'emplacement de téléchargement n'est utilisé que pour les blogs nouvellement créés dans cette collection. Si la collection affectée d'un blog est modifiée, seuls les fichiers d'index du blog sont déplacés vers la nouvelle collection. Le dossier de téléchargement du blog doit être déplacé manuellement, si nécessaire.</value>
   </data>
   <data name="Feedback" xml:space="preserve">
     <value>Réaction</value>
@@ -930,5 +930,29 @@ prend beaucoup moins d'espace de stockage.</value>
   </data>
   <data name="ToolTipPnjDownloadFormat" xml:space="preserve">
     <value>Format d'image pour le téléchargement des liens PNJ</value>
+  </data>
+  <data name="CollectionOptions" xml:space="preserve">
+    <value>Options:</value>
+  </data>
+  <data name="OfflineDuplicateCheck" xml:space="preserve">
+    <value>cache pour la vérification des doublons hors ligne</value>
+  </data>
+  <data name="IsArchiveCollection" xml:space="preserve">
+    <value>est une archive</value>
+  </data>
+  <data name="ToolTipIsArchiveCollection" xml:space="preserve">
+    <value>La collection est une archive</value>
+  </data>
+  <data name="ToolTipIsArchiveCollectionDescription" xml:space="preserve">
+    <value>Si elle est activée, la collection est marquée comme une archive.
+La collection est en lecture seule et aucun blog ne peut lui être attribué.</value>
+  </data>
+  <data name="ToolTipOfflineDuplicateCheck" xml:space="preserve">
+    <value>Cachez les bases de données du blog pour la vérification des doublons hors ligne</value>
+  </data>
+  <data name="ToolTipOfflineDuplicateCheckDescription" xml:space="preserve">
+    <value>Si activé, les bases de données de blogs de cette collection sont copiées dans un 
+dossier de cache dans le dossier d'archives de la collection par défaut. La copie 
+se fait sur arrêt de l'application, si la collection est disponible.</value>
   </data>
 </root>

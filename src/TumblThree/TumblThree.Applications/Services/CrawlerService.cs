@@ -278,7 +278,7 @@ namespace TumblThree.Applications.Services
         {
             _collections.Clear();
 
-            foreach (var item in _shellService.Settings.Collections.OrderBy(x => x.Name))
+            foreach (var item in _shellService.Settings.Collections.Where(x => isInit || x.IsOnline.Value).OrderBy(x => x.Name))
             {
                 _collections.Add(item);
             }

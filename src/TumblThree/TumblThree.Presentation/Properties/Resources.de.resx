@@ -761,7 +761,7 @@ Vorlage: {Post-ID} _ {Fotoindex} _ {Ursprünglicher Dateiname}</value>
   </data>
   <data name="ToolTipAuthenticateBrowserDescription" xml:space="preserve">
     <value>Öffnet ein Browserfenster, in dem Sie sich bei der Website tumblr.com authentifizieren können.
-Das Cookie mit Ihren Anmeldeinformationen Ihres Kontos wird gespeichert und der Authentifizierungsvorgang muss nur einmal durchgeführt werden.</value>
+Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authentifizierungsprozess muss nur einmal durchgeführt werden.</value>
   </data>
   <data name="UserAgent" xml:space="preserve">
     <value>User-Agent</value>
@@ -841,7 +841,7 @@ Alle Indexdateien in diesem Unterordner können bei Aktivierung für die globale
     <value>Sammlungsname:</value>
   </data>
   <data name="CollectionsHint" xml:space="preserve">
-    <value>Der Speicherort wird nur für neu erstellte Blogs unter dieser Sammlung verwendet. Wenn eine Sammlung gelöscht wird, werden die zugewiesenen Blogs unter der Standardsammlung angezeigt.</value>
+    <value>Der Speicherort wird nur für neu erstellte Blogs unter dieser Sammlung verwendet. Wenn die zugewiesene Sammlung eines Blogs geändert wird, werden nur die Indexdateien des Blogs in die neue Sammlung verschoben. Der Download-Ordner des Blogs muss ggf. manuell verschoben werden.</value>
   </data>
   <data name="Feedback" xml:space="preserve">
     <value>Feedback</value>
@@ -929,5 +929,29 @@ viel weniger Speicherplatz benötigt.</value>
   <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Überprüft das gesamte Blog nach neuen Beiträgen,
 nicht nur neue Beiträge seit dem letzten Durchlauf</value>
+  </data>
+  <data name="CollectionOptions" xml:space="preserve">
+    <value>Optionen:</value>
+  </data>
+  <data name="OfflineDuplicateCheck" xml:space="preserve">
+    <value>zwischenspeichern für Offline-Dublettenprüfung</value>
+  </data>
+  <data name="IsArchiveCollection" xml:space="preserve">
+    <value>ist Archiv</value>
+  </data>
+  <data name="ToolTipIsArchiveCollection" xml:space="preserve">
+    <value>Sammlung ist ein Archiv</value>
+  </data>
+  <data name="ToolTipIsArchiveCollectionDescription" xml:space="preserve">
+    <value>Wenn aktiviert, wird die Sammlung als Archiv gekennzeichnet.
+Die Sammlung ist schreibgeschützt und ihr können keine Blogs zugeordnet werden.</value>
+  </data>
+  <data name="ToolTipOfflineDuplicateCheck" xml:space="preserve">
+    <value>Cachen der Blog-Datenbanken für die Offline-Dublettenprüfung</value>
+  </data>
+  <data name="ToolTipOfflineDuplicateCheckDescription" xml:space="preserve">
+    <value>Wenn aktiviert, werden die Blog-Datenbanken dieser Sammlung in einen Cache-Ordner 
+im Archiv-Ordner der Standardsammlung kopiert. Das Kopieren erfolgt beim 
+Herunterfahren der Anwendung, falls die Sammlung verfügbar ist.</value>
   </data>
 </root>

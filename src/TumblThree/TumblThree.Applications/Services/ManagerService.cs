@@ -5,9 +5,11 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Waf.Applications.Services;
 using System.Waf.Foundation;
 using System.Windows;
 using System.Windows.Data;
+using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Models.Files;
 
@@ -24,9 +26,10 @@ namespace TumblThree.Applications.Services
         private readonly ICollectionView blogFilesView;
         private static object blogFilesLock = new object();
         private readonly IShellService shellService;
+        private readonly IMessageService messageService;
 
         [ImportingConstructor]
-        public ManagerService(IShellService shellService, ICrawlerService crawlerService)
+        public ManagerService(IShellService shellService, ICrawlerService crawlerService, IMessageService messageService)
         {
             BlogFiles = new ObservableCollection<IBlog>();
             Application.Current.Dispatcher.Invoke(new Action(() => BindingOperations.EnableCollectionSynchronization(BlogFiles, blogFilesLock)));
@@ -35,6 +38,7 @@ namespace TumblThree.Applications.Services
             databases = new List<IFiles>();
             archivedLinks = new HashSet<string>();
             this.shellService = shellService;
+            this.messageService = messageService;
             crawlerService.ActiveCollectionIdChanged += CrawlerService_ActiveCollectionIdChanged;
         }
 
@@ -151,6 +155,99 @@ namespace TumblThree.Applications.Services
                 if (blog.CollectionId == id) return true;
             }
             return false;
+        }
+
+        public void CacheLibraries()
+        {
+            try
+            {
+                // remember all cache folders
+                var cachePath = Path.Combine(shellService.Settings.DownloadLocation, "Index", "Archive");
+                if (!Directory.Exists(cachePath)) return;
+
+                var folderList = new List<string>();
+                foreach (var folder in Directory.EnumerateDirectories(cachePath, "[cache]*", SearchOption.TopDirectoryOnly))
+                {
+                    folderList.Add(folder.ToLower());
+                }
+
+                foreach (var collection in shellService.Settings.Collections)
+                {
+                    if (collection.Id == 0) continue;
+                    var collIndexPath = Path.Combine(collection.DownloadLocation, "Index");
+                    var currPath = Path.Combine(cachePath, "[cache]" + collection.Id.ToString());
+                    folderList.Remove(currPath.ToLower());
+                    if (!collection.IsOnline.Value) continue;
+
+                    if (collection.OfflineDuplicateCheck)
+                    {
+                        if (!Directory.Exists(currPath)) { Directory.CreateDirectory(currPath); }
+                        EmptyDirectory(currPath);
+                        CopyAll(collIndexPath, currPath);
+                    }
+                    else
+                    {
+                        if (Directory.Exists(currPath))
+                        {
+                            Directory.Delete(currPath, true);
+                        }
+                    }
+                }
+
+                // remove the rest of the old cache folders
+                foreach (var folder in folderList)
+                {
+                    Directory.Delete(folder, true);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("ManagerService.CacheLibraries: {0}", e);
+                messageService.ShowError(e.Message);
+            }
+        }
+
+        private static void EmptyDirectory(string folder)
+        {
+            DirectoryInfo di = new DirectoryInfo(folder);
+            foreach (FileInfo file in di.EnumerateFiles())
+            {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dir in di.EnumerateDirectories())
+            {
+                dir.Delete(true);
+            }
+        }
+
+        public static void CopyAll(string sourcePath, string targetPath)
+        {
+            var source = new DirectoryInfo(sourcePath);
+            var target = new DirectoryInfo(targetPath);
+
+            if (string.Equals(source.FullName, target.FullName, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            // Check if the target directory exists, if not, create it.
+            if (!Directory.Exists(target.FullName))
+            {
+                Directory.CreateDirectory(target.FullName);
+            }
+
+            // Copy each file into it's new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
+            }
+
+            // Copy each subdirectory using recursion.
+            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir = target.CreateSubdirectory(diSourceSubDir.Name);
+                CopyAll(diSourceSubDir.FullName, nextTargetSubDir.FullName);
+            }
         }
     }
 }

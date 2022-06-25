@@ -447,4 +447,10 @@ Andernfalls sollten Sie zumindest die Standorteinträge „Download“ und „Bl
   <data name="ErrorOpeningBlogUrl" xml:space="preserve">
     <value>{0}: Fehler beim Öffnen der Blog-URL!</value>
   </data>
+  <data name="FoundUnusedCacheFolder" xml:space="preserve">
+    <value>Ungenutzten Cache-Ordner gefunden: {0}</value>
+  </data>
+  <data name="FoundWrongNamedCacheFolder" xml:space="preserve">
+    <value>Falsch benannter Cache-Ordner gefunden: {0}</value>
+  </data>
 </root>

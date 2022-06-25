@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using System.Waf.Foundation;
 
 namespace TumblThree.Domain.Models
@@ -9,6 +10,8 @@ namespace TumblThree.Domain.Models
         private int id;
         private string name;
         private string downloadLocation;
+        private bool offlineDuplicateCheck;
+        private Nullable<bool> isOnline;
 
         [DataMember]
         public int Id
@@ -31,13 +34,28 @@ namespace TumblThree.Domain.Models
             set => SetProperty(ref downloadLocation, value);
         }
 
+        [DataMember]
+        public bool OfflineDuplicateCheck
+        {
+            get => offlineDuplicateCheck;
+            set => SetProperty(ref offlineDuplicateCheck, value);
+        }
+
+        public Nullable<bool> IsOnline
+        {
+            get => isOnline;
+            set => SetProperty(ref isOnline, value);
+        }
+
         public Collection Clone()
         {
             return new Collection()
             {
                 Id = Id,
                 Name = Name,
-                DownloadLocation = DownloadLocation
+                DownloadLocation = DownloadLocation,
+                OfflineDuplicateCheck = OfflineDuplicateCheck,
+                IsOnline = IsOnline
             };
         }
     }

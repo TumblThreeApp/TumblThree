@@ -471,4 +471,10 @@ Else you should change at least the "Download" and "Export Blogs" location entri
   <data name="ErrorOpeningBlogUrl" xml:space="preserve">
     <value>{0}: Error opening blog url!</value>
   </data>
+  <data name="FoundUnusedCacheFolder" xml:space="preserve">
+    <value>Found unused cache folder: {0}</value>
+  </data>
+  <data name="FoundWrongNamedCacheFolder" xml:space="preserve">
+    <value>Found wrong named cache folder: {0}</value>
+  </data>
 </root>

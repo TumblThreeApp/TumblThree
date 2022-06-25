@@ -829,7 +829,7 @@
   </data>
   <data name="ToolTipAuthenticateBrowserDescription" xml:space="preserve">
     <value>打开一个浏览器窗口来登录 tumblr.com。
-与您的账户验证相关的 Cookie 将被保存，故此操作只需一次。</value>
+用于身份验证的 cookie 被保存，身份验证过程只需执行一次。</value>
   </data>
   <data name="UserAgent" xml:space="preserve">
     <value>UserAgent</value>
@@ -1117,7 +1117,7 @@ best（最佳） - 尽可能下载图像的最大分辨率版本（SVC，API 仅
     <value>分组名称</value>
   </data>
   <data name="CollectionsHint" xml:space="preserve">
-    <value>下载位置仅应用于在分组中新创建的博客。删除分组后其中的博客将出现在默认分组中。</value>
+    <value>下载位置仅应用于在分组中新创建的博客。如果更改了博客的指定集合，则仅将博客的索引文件移动到新集合。 如有必要，需要手动移动博客的下载文件夹。</value>
   </data>
   <data name="AvailableCollections" xml:space="preserve">
     <value>可用分组：</value>

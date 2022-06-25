@@ -48,5 +48,7 @@ namespace TumblThree.Presentation.DesignData
         public void ClearArchive() => throw new NotImplementedException();
 
         public bool IsCollectionIdUsed(int id) => throw new NotImplementedException();
+
+        public void CacheLibraries() => throw new NotImplementedException();
     }
 }

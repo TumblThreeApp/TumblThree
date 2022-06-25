@@ -82,7 +82,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TabControl Grid.Row="0" SelectedIndex="{Binding SettingsTabIndex}">
-                <TabItem Header="{x:Static p:Resources.General}">
+                <TabItem Header="{x:Static p:Resources.General}" Height="22" VerticalAlignment="Top">
                     <Grid Height="Auto" MinHeight="46">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -2164,6 +2164,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0" Height="Auto" HorizontalAlignment="Left">
@@ -2269,7 +2270,34 @@
                                         CommandParameter="{Binding ElementName=Collections, Path=SelectedValue}"
                                         Content="{x:Static p:Resources.Browse}" />
                                 </Grid>
-                                <StackPanel Grid.Row="3" MaxWidth="{Binding ElementName=MyGrid, Path=ActualWidth}">
+                                <Grid Grid.Row="3" Height="Auto" HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" 
+                                           MinWidth="140"
+                                           Margin="0,5"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Content="{x:Static p:Resources.CollectionOptions}" />
+                                    <CheckBox x:Name="checkBoxOfflineDuplicateCheck" Grid.Column="1" 
+                                              Content="{x:Static p:Resources.OfflineDuplicateCheck}" VerticalAlignment="Center" MinWidth="200"
+                                              IsChecked="{Binding ElementName=Collections, Path=SelectedItem.OfflineDuplicateCheck}" 
+                                              IsEnabled="{Binding ElementName=Collections, Path=SelectedItem.Id, Converter={StaticResource CollectionOptionEnabledConverter}}"
+                                              Margin="0,0,20,0">
+                                        <CheckBox.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipOfflineDuplicateCheck}" />
+                                                    <TextBlock Text="{x:Static p:Resources.ToolTipOfflineDuplicateCheckDescription}" />
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </CheckBox.ToolTip>
+                                    </CheckBox>
+                                </Grid>
+                                <StackPanel Grid.Row="4" MaxWidth="{Binding ElementName=MyGrid, Path=ActualWidth}">
                                     <TextBlock 
                                         Margin="5" 
                                         Text="{x:Static p:Resources.CollectionsHint}" 

@@ -367,6 +367,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Options:.
+        /// </summary>
+        public static string CollectionOptions {
+            get {
+                return ResourceManager.GetString("CollectionOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collections.
         /// </summary>
         public static string Collections {
@@ -376,7 +385,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The download location is only used for newly created blogs under that collection. If a collection is deleted the assigned blogs will be shown under the default collection..
+        ///   Looks up a localized string similar to The download location is only used for newly created blogs under that collection. If the assigned collection of a blog is changed, only the blog&apos;s index files are moved to the new collection. The blog&apos;s download folder needs to be moved manually, if necessary..
         /// </summary>
         public static string CollectionsHint {
             get {
@@ -1036,6 +1045,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to is archive.
+        /// </summary>
+        public static string IsArchiveCollection {
+            get {
+                return ResourceManager.GetString("IsArchiveCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language:.
         /// </summary>
         public static string Language {
@@ -1266,6 +1284,15 @@ namespace TumblThree.Presentation.Properties {
         public static string Offline {
             get {
                 return ResourceManager.GetString("Offline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to cache for offline duplicate check.
+        /// </summary>
+        public static string OfflineDuplicateCheck {
+            get {
+                return ResourceManager.GetString("OfflineDuplicateCheck", resourceCulture);
             }
         }
         
@@ -1776,7 +1803,7 @@ namespace TumblThree.Presentation.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to Opens a browser window to authenticate yourself to the tumblr.com site.
-        ///The cookie with your credentials of your account is saved and the authentication process needs to be done only once..
+        ///The cookies used for authentication are saved and the authentication process needs to be done only once..
         /// </summary>
         public static string ToolTipAuthenticateBrowserDescription {
             get {
@@ -2349,6 +2376,25 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collection is an archive.
+        /// </summary>
+        public static string ToolTipIsArchiveCollection {
+            get {
+                return ResourceManager.GetString("ToolTipIsArchiveCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If activated, the collection is marked as an archive.
+        ///The collection is readonly and no blogs can be assigned to it..
+        /// </summary>
+        public static string ToolTipIsArchiveCollectionDescription {
+            get {
+                return ResourceManager.GetString("ToolTipIsArchiveCollectionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to UI Language.
         /// </summary>
         public static string ToolTipLanguage {
@@ -2540,6 +2586,26 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipLogoutDescription {
             get {
                 return ResourceManager.GetString("ToolTipLogoutDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cache the blog databases for offline duplicate check.
+        /// </summary>
+        public static string ToolTipOfflineDuplicateCheck {
+            get {
+                return ResourceManager.GetString("ToolTipOfflineDuplicateCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If activated, this collection&apos;s blog databases are copied to a cache folder 
+        ///inside the default collection&apos;s archive folder. The copying is done on 
+        ///shutdown of the application, if the collection is available..
+        /// </summary>
+        public static string ToolTipOfflineDuplicateCheckDescription {
+            get {
+                return ResourceManager.GetString("ToolTipOfflineDuplicateCheckDescription", resourceCulture);
             }
         }
         
