@@ -45,14 +45,18 @@
                 <Label Content="{Binding ProductName}" Grid.Column="1" />
 
                 <Label Content="{x:Static p:Resources.Version}" Grid.Row="1" />
-                <Label Content="{Binding Version}" Grid.Column="1" Grid.Row="1" />
+                <Label Grid.Column="1" Grid.Row="1">
+                    <Hyperlink Command="{Binding ShowWebsiteCommand}"
+                               CommandParameter="{Binding ReleaseNotesUrl}">
+                        <TextBlock Text="{Binding Version}"/>
+                    </Hyperlink>
+                </Label>
 
                 <Label Content="{x:Static p:Resources.License}" Grid.Row="2" />
                 <Label Grid.Column="1" Grid.Row="2">
                     <Hyperlink Command="{Binding ShowWebsiteCommand}"
-                               CommandParameter="https://github.com/TumblThreeApp/TumblThree/raw/master/LICENSE">
-                        The
-                        MIT License (MIT)
+                               CommandParameter="file:///LICENSE.txt">
+                        The MIT License (MIT)
                     </Hyperlink>
                 </Label>
 
@@ -67,9 +71,8 @@
                 <Label Content="{x:Static p:Resources.ThirdPartySoftware}" Grid.Row="4" />
                 <Label Grid.Column="1" Grid.Row="4">
                     <Hyperlink Command="{Binding ShowWebsiteCommand}"
-                               CommandParameter="https://github.com/TumblThreeApp/TumblThree/raw/master/LICENSE-3RD-PARTY">
-                        Third-party
-                        Software and Licenses
+                               CommandParameter="file:///LICENSE-3RD-PARTY.txt">
+                        Third-party Software and Licenses
                     </Hyperlink>
                 </Label>
 

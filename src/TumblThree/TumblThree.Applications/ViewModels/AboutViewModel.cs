@@ -47,6 +47,8 @@ namespace TumblThree.Applications.ViewModels
 
         public ICommand FeedbackCommand => _feedbackCommand;
 
+        public string ReleaseNotesUrl => "https://github.com/TumblThreeApp/TumblThree/releases/tag/v" + System.Version.Parse(Version).ToString(3);
+
 #pragma warning disable CA1822
         public string ProductName => ApplicationInfo.ProductName;
 
@@ -84,6 +86,12 @@ namespace TumblThree.Applications.ViewModels
             var url = (string)parameter;
             try
             {
+                if (url.StartsWith("file://", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var path = ApplicationInfo.ApplicationPath.Replace(@"\", "/");
+                    path = path.StartsWith("//", StringComparison.Ordinal) ? path.Substring(2) : path;
+                    url = url.Replace("///", "//" + path + "/");
+                }
                 Process.Start(url);
             }
             catch (Exception e)
