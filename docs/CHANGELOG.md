@@ -11,6 +11,119 @@ changing over time.
 
 <br>
 
+## 2.7.0 (2022-06-25)
+
+#### Added
+- Add tooltips to the blog list header
+- New column showing number of newly downloaded items since last run (issue #135)
+- New option to choose download format (PNG/JPG) for .pnj links (issue #231)
+- Offline collections can be cached for global duplicate checks
+
+#### Changed
+- Change translations of columns in the blog list (issue #135)
+
+#### Fixed
+- Dragging multiple lines in the queue view not working
+- Referenced file indexes of removed and archived blogs aren't updated
+- App window is closed long before app finishes shutdown process
+- Use the correct links in the about dialog
+<br>
+
+## 2.6.3 (2022-06-05)
+
+#### Changed
+- Check for write-protected app folder on program start if using default download location
+#### Fixed
+- Catch errors during 'show blog files/url' and show them in notification bar
+- Still downloading video thumbnails sometimes (issue #241)
+- Occasional exception when adding blogs (issue #242)
+- Errors in the clipboard monitor
+<br>
+
+## 2.6.2 (2022-05-07)
+
+#### Changed
+- The icon and caption of the 'crawl' (start) button has been changed to 'download' (issue #228)
+- Improved log and error messages
+#### Fixed
+- Liked/By crawler downloads avatar images (issue #239)
+- Twitter crawler downloads same files again
+<br>
+
+## 2.6.1 (2022-04-19)
+
+#### Fixed
+- Liked/by crawler not working (issue #233/#234)
+- Possible error loading/writing settings file (issue #235)
+<br>
+
+## 2.6.0 (2022-04-13)
+
+#### Added
+- Check for 64-bit version on startup
+- New filename template tokens for post date (short/long, local/GMT) (issue #203)
+- New filename template token for reblog origin's blog name (issue #231)
+- Setting for disabling Tumblr video thumbnail download (issue #225)
+- Add names of downloaded files to metadata (issue #229)
+#### Changed
+- Updated chinese simplified translations (PR #230)
+#### Fixed
+- Some posts don't have a property "poster" which produces an error
+- Tumblr Tag Search can't download some blogs (issue #232)
+- Show wait cursor while saving settings and doing extra work
+- Download gifv / pnj with their real file extension (issue #231)
+<br>
+
+## 2.5.6 (2022-03-28)
+
+#### Changed
+- Update CefSharp package reference to 99.2.120
+- Remove outdated image hosters
+- Refactor global exception handling
+#### Fixed
+- Display wait cursor while importing blogs
+- Downloaded Twitter images are capped in resolution (issue #211)
+- Hidden blogs containing pinned posts are crawled unnecessary long (issue #204)
+- Cannot save "Download video thumbnails" setting
+<br>
+
+## 2.5.5 (2022-03-08)
+
+#### Changed
+- Updated CefSharp version to 98.1.210 (PR #218)
+- More exceptions are logged
+- Check for VC++ 2019 version on app start
+- Updated some translations
+- New setting to optionally download Twitter video thumbnails (issue #217)
+#### Fixed
+- Occasional error checking blog status
+- Exception in WindowTitleConverter
+- Exception during task bar button initialization on some systems
+- Errors in Search crawler
+- Error while parsing the JSON structure interrupted download process (issue #219/#220)
+- Prepend video filename to video thumbnail filename (issue #217)
+<br>
+
+## 2.5.4 (2022-02-20)
+
+#### Fixed
+- Download stops when offline blog is detected (issue #216)
+<br>
+
+## 2.5.3 (2022-02-19)
+
+#### Fixed
+- Blogs not downloading (issue #215)
+<br>
+
+## 2.5.2 (2022-02-17)
+
+#### Fixed
+- Twitter crawler doesn't download some blogs
+- Twitter crawler didn't always follow the "download images" setting
+- Twitter crawler cannot download big blogs (issue #212)
+<br>
+
 ## 2.5.1 (2022-02-06)
 
 #### Changed

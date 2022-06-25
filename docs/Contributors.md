@@ -31,6 +31,7 @@ People are giving themselves and their free time to contribute to our project in
 * [Manasi-Kelkar](https://github.com/Manasi-Kelkar) 📖
 * [SpL1Ne](https://github.com/SpL1Ne) 💻
 * [kulesy](https://github.com/kulesy) 💻
+* [Khodyn](https://github.com/Khodyn) 💻
 * Your Name?
 
 Did we forget someone? Please drop us a line.
