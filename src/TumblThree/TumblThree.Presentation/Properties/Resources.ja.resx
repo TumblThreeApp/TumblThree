@@ -506,10 +506,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>強制再スキャン</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>新しい投稿だけでなく、ブログ全体を再スキャンします。</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>を使用して完全にスキャンします。</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

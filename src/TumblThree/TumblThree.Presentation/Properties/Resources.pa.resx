@@ -507,10 +507,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>ਫੋਰਸ ਦੀ ਮੁੜ ਜਾਂਚ</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>ਪੂਰੇ ਬਲੌਗ ਨੂੰ ਰੀਸੇਨ ਕਰੋ, ਨਾ ਕਿ ਸਿਰਫ ਨਵੀਆਂ ਪੋਸਟਾਂ.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>ਦੁਆਰਾ ਇੱਕ ਪੂਰਨ ਸਕੈਨ ਦੀ ਵਰਤੋਂ</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

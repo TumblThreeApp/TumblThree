@@ -509,10 +509,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>قوة إعادة المسح</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>يؤدي إلى إزالة المدونة بأكملها، وليس فقط المشاركات الجديدة.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>يفرض مسح كامل باستخدام أبي نعرفكم.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

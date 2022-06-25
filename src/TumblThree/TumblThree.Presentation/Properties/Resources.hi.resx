@@ -509,10 +509,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>बल की जांच</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>पूरे ब्लॉग को रद्द करें, केवल नई पोस्ट न करें</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>टंब्लर एपीआई का इस्तेमाल करते हुए एक पूर्ण स्कैन के लिए मजबूर करता है</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

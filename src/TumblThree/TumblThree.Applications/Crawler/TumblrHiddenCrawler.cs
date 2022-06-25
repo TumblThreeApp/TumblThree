@@ -485,6 +485,7 @@ namespace TumblThree.Applications.Crawler
                 }
 
                 if (CheckIfSkipGif(imageUrl)) { continue; }
+                imageUrl = CheckPnjUrl(imageUrl);
 
                 var filename = BuildFileName(imageUrl, post, i);
                 AddDownloadedMedia(imageUrl, filename, post);

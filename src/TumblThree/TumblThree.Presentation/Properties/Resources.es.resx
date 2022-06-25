@@ -510,10 +510,10 @@ Establezca un par número / hora. Nota: El apuki del tumblr se utiliza solamente
   <data name="ForceRescan" xml:space="preserve">
     <value>Reanudación de la fuerza</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescates todo el blog, no sólo nuevos mensajes.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Fuerza un análisis completo.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
@@ -914,5 +914,17 @@ Puede mover los archivos multimedia antiguos manualmente, si es necesario.</valu
   </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
     <value>Número de elementos descargables</value>
+  </data>
+  <data name="PnjDownloadFormat" xml:space="preserve">
+    <value>Descargar PNJ como</value>
+  </data>
+  <data name="ToolTipPnjDownloadFormatDescription" xml:space="preserve">
+    <value>Elija el formato de imagen para descargar enlaces PNJ. Tumblr ofrece algunas imágenes 
+como las subidas PNG y convertido a formato JPG para ahorrar espacio. En un navegador 
+se te muestra el JPG versión que normalmente es visualmente la misma, pero ocupa mucho 
+menos espacio de almacenamiento.</value>
+  </data>
+  <data name="ToolTipPnjDownloadFormat" xml:space="preserve">
+    <value>Formato de imagen para descargar enlaces PNJ</value>
   </data>
 </root>

@@ -513,10 +513,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>Δύναμη επανεξέτασης</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescans ολόκληρο το blog, όχι μόνο νέες θέσεις.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Επιβάλλει μια πλήρη σάρωση χρησιμοποιώντας το.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

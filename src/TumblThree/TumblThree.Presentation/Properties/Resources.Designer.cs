@@ -1351,6 +1351,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download PNJ as.
+        /// </summary>
+        public static string PnjDownloadFormat {
+            get {
+                return ResourceManager.GetString("PnjDownloadFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activate portable mode.
         /// </summary>
         public static string PortableMode {
@@ -2223,7 +2232,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rescans the whole blog, not just new posts..
+        ///   Looks up a localized string similar to Forces a complete scan..
         /// </summary>
         public static string ToolTipForceRescan {
             get {
@@ -2232,7 +2241,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forces a complete scan..
+        ///   Looks up a localized string similar to Rescans the whole blog, not just new posts..
         /// </summary>
         public static string ToolTipForceRescanDescription {
             get {
@@ -2288,7 +2297,8 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Group photo sets together by using similar filenames (sets with names like tumblr_* are not adjusted). Already downloaded photos are only renamed, if this option is set and a rescan is done.
+        ///   Looks up a localized string similar to Group photo sets together by using similar filenames (sets with names like tumblr_* are not adjusted). 
+        ///Already downloaded photos are only renamed, if this option is set and a rescan is done.
         ///
         ///template: {Post Id}_{Photo Index}_{Original Filename}.
         /// </summary>
@@ -2604,6 +2614,26 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipPasswordDescription {
             get {
                 return ResourceManager.GetString("ToolTipPasswordDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image format for downloading PNJ links.
+        /// </summary>
+        public static string ToolTipPnjDownloadFormat {
+            get {
+                return ResourceManager.GetString("ToolTipPnjDownloadFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose the image format for downloading PNJ links. Tumblr offers some images as the uploaded 
+        ///PNG and as converted to JPG format for space saving. In a browser you are shown the JPG 
+        ///version which normally is visually the same, but takes much less storage space..
+        /// </summary>
+        public static string ToolTipPnjDownloadFormatDescription {
+            get {
+                return ResourceManager.GetString("ToolTipPnjDownloadFormatDescription", resourceCulture);
             }
         }
         

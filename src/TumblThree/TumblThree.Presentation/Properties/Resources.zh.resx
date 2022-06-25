@@ -528,10 +528,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>强制重新扫描</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>重新扫描整个博客而不只是新的帖子。</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>强制使用进行完整扫描。</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

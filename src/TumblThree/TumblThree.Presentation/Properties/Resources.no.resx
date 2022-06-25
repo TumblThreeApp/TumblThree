@@ -511,10 +511,10 @@ Merk: The tumblr api brukes kun til vanlige tumblr blognedlastinger.</value>
   <data name="ForceRescan" xml:space="preserve">
     <value>Force rescan</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescans hele bloggen, ikke bare nye innlegg.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Forces en komplett skanning.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

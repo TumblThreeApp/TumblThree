@@ -53,6 +53,7 @@ namespace TumblThree.Applications.Services
             blog.GroupPhotoSets = shellService.Settings.GroupPhotoSets;
             blog.FilenameTemplate = shellService.Settings.FilenameTemplate;
             blog.CollectionId = shellService.Settings.ActiveCollectionId;
+            blog.PnjDownloadFormat = shellService.Settings.PnjDownloadFormat;
             return blog;
         }
     }

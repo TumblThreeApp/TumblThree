@@ -510,10 +510,10 @@ Lưu ý: Các api tumblr chỉ được sử dụng cho tải blog thường xuy
   <data name="ForceRescan" xml:space="preserve">
     <value>Lực lượng rescan</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescans toàn bộ blog, không chỉ các bài viết mới.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Lực lượng quét toàn bộ bằng cách.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

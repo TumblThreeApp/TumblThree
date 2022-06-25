@@ -197,6 +197,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         int CollectionId { get; set; }
 
+        string PnjDownloadFormat { get; set; }
+
         void UpdateProgress(bool doCount);
 
         void UpdatePostCount(string propertyName);

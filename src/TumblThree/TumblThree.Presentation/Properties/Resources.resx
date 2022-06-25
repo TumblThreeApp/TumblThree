@@ -513,10 +513,10 @@ Note: The tumblr api is only used for regular tumblr blog downloads.</value>
   <data name="ForceRescan" xml:space="preserve">
     <value>Force rescan</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescans the whole blog, not just new posts.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Forces a complete scan.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
@@ -969,7 +969,8 @@ Note: The Tumblr API is only used for regular Tumblr-Blog downloads.</value>
     <value>Group photo sets together</value>
   </data>
   <data name="ToolTipGroupPhotoSetsDescription" xml:space="preserve">
-    <value>Group photo sets together by using similar filenames (sets with names like tumblr_* are not adjusted). Already downloaded photos are only renamed, if this option is set and a rescan is done.
+    <value>Group photo sets together by using similar filenames (sets with names like tumblr_* are not adjusted). 
+Already downloaded photos are only renamed, if this option is set and a rescan is done.
 
 template: {Post Id}_{Photo Index}_{Original Filename}</value>
   </data>
@@ -1147,5 +1148,16 @@ old media files manually, if necessary.</value>
   </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
     <value>Number of downloadable Items</value>
+  </data>
+  <data name="ToolTipPnjDownloadFormat" xml:space="preserve">
+    <value>Image format for downloading PNJ links</value>
+  </data>
+  <data name="ToolTipPnjDownloadFormatDescription" xml:space="preserve">
+    <value>Choose the image format for downloading PNJ links. Tumblr offers some images as the uploaded 
+PNG and as converted to JPG format for space saving. In a browser you are shown the JPG 
+version which normally is visually the same, but takes much less storage space.</value>
+  </data>
+  <data name="PnjDownloadFormat" xml:space="preserve">
+    <value>Download PNJ as</value>
   </data>
 </root>

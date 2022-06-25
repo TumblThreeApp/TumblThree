@@ -142,6 +142,7 @@ namespace TumblThree.Applications.ViewModels
         private ObservableCollection<Collection> _collections;
         private int _activeCollectionId;
         private int _selectedCollectionId;
+        private string _pnjDownloadFormat;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -503,6 +504,12 @@ namespace TumblThree.Applications.ViewModels
                 RaisePropertyChanged(nameof(CollectionNameEnabled));
                 RaisePropertyChanged(nameof(DownloadLocationTextBox2Enabled));
             }
+        }
+
+        public string PnjDownloadFormat
+        {
+            get => _pnjDownloadFormat;
+            set => SetProperty(ref _pnjDownloadFormat, value);
         }
 
         private static string Sanitize(string filename)
@@ -1219,6 +1226,7 @@ namespace TumblThree.Applications.ViewModels
                 GroupPhotoSets = _settings.GroupPhotoSets;
                 FilenameTemplate = _settings.FilenameTemplate;
                 Language = _settings.Language;
+                PnjDownloadFormat = _settings.PnjDownloadFormat;
             }
             else
             {
@@ -1506,6 +1514,7 @@ namespace TumblThree.Applications.ViewModels
             }
             _settings.Collections = list;
             _settings.ActiveCollectionId = ActiveCollectionId;
+            _settings.PnjDownloadFormat = PnjDownloadFormat;
         }
     }
 }

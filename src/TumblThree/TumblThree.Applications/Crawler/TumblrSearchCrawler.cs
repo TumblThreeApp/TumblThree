@@ -425,6 +425,7 @@ namespace TumblThree.Applications.Crawler
                     if (url.Contains("tumblr.com/"))
                     {
                         url = RetrieveOriginalImageUrl(url, 2000, 3000, false);
+                        url = CheckPnjUrl(url);
                     }
                     AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
                 }

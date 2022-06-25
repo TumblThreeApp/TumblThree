@@ -514,10 +514,10 @@ Note: Le tumblr api n'est utilisé que pour les téléchargements réguliers du 
   <data name="ForceRescan" xml:space="preserve">
     <value>Forcer nouveau balayage</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescans le blog entier, pas seulement de nouveaux messages.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Force un scan complet.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
@@ -918,5 +918,17 @@ multimédias manuellement, si nécessaire.</value>
   </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
     <value>Nombre d'éléments téléchargeables</value>
+  </data>
+  <data name="PnjDownloadFormat" xml:space="preserve">
+    <value>Télécharger PNJ comme</value>
+  </data>
+  <data name="ToolTipPnjDownloadFormatDescription" xml:space="preserve">
+    <value>Choisissez le format d'image pour télécharger les liens PNJ. Tumblr propose des images au fur 
+et à mesure du téléchargement PNG et converti au format JPG pour économiser de l'espace. Dans 
+un navigateur, on vous montre le JPG version qui est normalement visuellement la même, mais 
+prend beaucoup moins d'espace de stockage.</value>
+  </data>
+  <data name="ToolTipPnjDownloadFormat" xml:space="preserve">
+    <value>Format d'image pour le téléchargement des liens PNJ</value>
   </data>
 </root>

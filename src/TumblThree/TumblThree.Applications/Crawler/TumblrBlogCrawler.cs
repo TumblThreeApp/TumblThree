@@ -689,6 +689,7 @@ namespace TumblThree.Applications.Crawler
         {
             string imageUrl = ParseImageUrl(post);
             if (CheckIfSkipGif(imageUrl)) return;
+            imageUrl = CheckPnjUrl(imageUrl);
 
             int index = -1;
             if (post.Photos?.Count > 0 && post.PhotoUrl1280 == post.Photos[0].PhotoUrl1280 && !post.Photos[0].PhotoUrl1280.Split('/').Last().StartsWith("tumblr_")) index = 1;
@@ -711,13 +712,14 @@ namespace TumblThree.Applications.Crawler
             if (post.Photos[0].PhotoUrl1280.Split('/').Last().StartsWith("tumblr_")) i = -1;
             foreach (string imageUrl in post.Photos.Select(ParseImageUrl).Where(imgUrl => !CheckIfSkipGif(imgUrl)))
             {
-                var filename = BuildFileName(imageUrl, post, i);
-                AddDownloadedMedia(imageUrl, filename, post);
-                AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), filename));
+                var url = CheckPnjUrl(imageUrl);
+                var filename = BuildFileName(url, post, i);
+                AddDownloadedMedia(url, filename, post);
+                AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), filename));
                 if (!jsonSaved || !Blog.GroupPhotoSets && !(string.Equals(Blog.FilenameTemplate, "%f", StringComparison.OrdinalIgnoreCase) && i == -1))
                 {
                     jsonSaved = true;
-                    AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
+                    AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(url.Split('/').Last(), ".json"), post));
                 }
                 if (i != -1) i++;
             }

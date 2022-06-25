@@ -515,10 +515,10 @@ Nota: l'api tumblr viene utilizzato solo per i download normali di blog tumblr.<
   <data name="ForceRescan" xml:space="preserve">
     <value>Forza scansione</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescans tutto il blog, non solo nuovi post.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Forza una scansione completa.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

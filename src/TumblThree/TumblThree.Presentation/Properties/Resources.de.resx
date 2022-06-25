@@ -592,10 +592,6 @@ Kann die Geschwindigkeit beeinflussen bei vielen Dateien.</value>
   <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Überprüft das gesamte Blog</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
-    <value>Überprüft das gesamte Blog nach neuen Beiträgen,
-nicht nur neue Beiträge seit dem letzten Durchlauf</value>
-  </data>
   <data name="ToolTipDownloadPages" xml:space="preserve">
     <value>Lade nur bestimmte Seiten</value>
   </data>
@@ -917,5 +913,21 @@ Deaktivieren Sie die Option, wenn Sie Ihre eigene Vorlage für Fotosets verwende
   </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
     <value>Anzahl herunterladbarer Elemente</value>
+  </data>
+  <data name="PnjDownloadFormat" xml:space="preserve">
+    <value>Lade PNJ als</value>
+  </data>
+  <data name="ToolTipPnjDownloadFormatDescription" xml:space="preserve">
+    <value>Wählen Sie das Bildformat zum Herunterladen von PNJ-Links aus. Tumblr bietet einige Bilder 
+als hochgeladenes PNG und zur Platzersparnis in das JPG-Format konvertiert an. In einem 
+Browser wird Ihnen das JPG-Version angezeigt, die normalerweise optisch gleich ist, aber 
+viel weniger Speicherplatz benötigt.</value>
+  </data>
+  <data name="ToolTipPnjDownloadFormat" xml:space="preserve">
+    <value>Bildformat beim Herunterladen von PNJ-Links</value>
+  </data>
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+    <value>Überprüft das gesamte Blog nach neuen Beiträgen,
+nicht nur neue Beiträge seit dem letzten Durchlauf</value>
   </data>
 </root>

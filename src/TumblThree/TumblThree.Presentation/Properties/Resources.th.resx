@@ -506,10 +506,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>บังคับให้ rescan</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>บล็อกทั้งบล็อกไม่ใช่เฉพาะโพสต์ใหม่</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>บังคับใช้การสแกนที่สมบูรณ์โดยใช้</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

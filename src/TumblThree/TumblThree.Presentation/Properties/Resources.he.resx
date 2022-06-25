@@ -509,10 +509,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>כוח לסרוק מחדש</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescans את הבלוג כולו, לא רק הודעות חדשות.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>מאלצת סריקה מלאה באמצעות ממשק ה.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

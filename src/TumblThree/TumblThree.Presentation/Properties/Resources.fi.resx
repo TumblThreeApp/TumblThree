@@ -511,10 +511,10 @@ Huomaa: tumblr api käytetään vain tavallisiin tumblr-blogien latauksiin.</val
   <data name="ForceRescan" xml:space="preserve">
     <value>Pakota uudelleen</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescans koko blogi, ei vain uusia viestejä.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Tarvitsee täydellisen skannauksen: n avulla.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

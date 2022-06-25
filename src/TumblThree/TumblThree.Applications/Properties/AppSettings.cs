@@ -50,6 +50,8 @@ namespace TumblThree.Applications.Properties
 
         private static string[] logLevels = Enum.GetNames(typeof(System.Diagnostics.TraceLevel));
 
+        private static string[] pnjDownloadFormats = Enum.GetNames(typeof(PnjDownloadType));
+
         public AppSettings()
         {
             Initialize();
@@ -371,6 +373,9 @@ namespace TumblThree.Applications.Properties
         public int ActiveCollectionId { get; set; }
 
         [DataMember]
+        public string PnjDownloadFormat { get; set; }
+
+        [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
         public ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
@@ -384,6 +389,8 @@ namespace TumblThree.Applications.Properties
         public ObservableCollection<string> BlogTypes => new ObservableCollection<string>(blogTypes);
 
         public ObservableCollection<string> LogLevels => new ObservableCollection<string>(logLevels);
+
+        public ObservableCollection<string> PnjDownloadFormats => new ObservableCollection<string>(pnjDownloadFormats);
 
         [IgnoreDataMember]
         public static ObservableCollection<KeyValuePair<string, string>> Languages
@@ -615,6 +622,7 @@ namespace TumblThree.Applications.Properties
             TMLastCheck = new DateTime(1970, 1, 1);
             Language = "en-US";
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
+            PnjDownloadFormat = nameof(PnjDownloadType.jpg);
         }
 
         [OnDeserializing]

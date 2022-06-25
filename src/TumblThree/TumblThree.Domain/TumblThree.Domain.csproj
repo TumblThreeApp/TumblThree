@@ -127,6 +127,7 @@
     <Compile Include="Models\Files\TumblrBlogFiles.cs" />
     <Compile Include="Models\Files\Files.cs" />
     <Compile Include="Models\Files\TwitterBlogFiles.cs" />
+    <Compile Include="Models\PnjDownloadType.cs" />
     <Compile Include="Models\TumblrBlogCrawlerTypes.cs" />
     <Compile Include="Models\MetadataType.cs" />
     <Compile Include="Models\GfycatType.cs" />

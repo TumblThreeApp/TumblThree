@@ -20,6 +20,7 @@ using System.IO;
 using TumblThree.Applications.Downloader;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TumblThree.Domain.Models;
 
 namespace TumblThree.Applications.Crawler
 {
@@ -201,6 +202,7 @@ namespace TumblThree.Applications.Crawler
                 if (matchesNewFormat.Success)
                 {
                     url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
+                    url = CheckPnjUrl(url);
                     matchesNewFormat = Regex.Match(url, "media.tumblr.com/([A-Za-z0-9_/:.-]*)/s([0-9]*)x([0-9]*)");
                     string id = matchesNewFormat.Groups[1].Value;
                     int width = int.Parse(matchesNewFormat.Groups[2].Value);
@@ -213,6 +215,7 @@ namespace TumblThree.Applications.Crawler
                 {
                     url = ResizeTumblrImageUrl(url);
                     url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
+                    url = CheckPnjUrl(url);
                     AddPhotoToDownloadList(url, post);
                 }
             }
@@ -221,6 +224,16 @@ namespace TumblThree.Applications.Crawler
             {
                 AddPhotoToDownloadList(url, post);
             }
+        }
+
+        protected string CheckPnjUrl(string url)
+        {
+            if (url.EndsWith(".pnj", StringComparison.OrdinalIgnoreCase) &&
+                Blog.PnjDownloadFormat == nameof(PnjDownloadType.png))
+            {
+                url = url.Substring(0, url.Length - 3) + "png";
+            }
+            return url;
         }
 
         protected void AddPhotoToDownloadList(string url, Post post)
@@ -382,11 +395,10 @@ namespace TumblThree.Applications.Crawler
 
         protected string RetrieveOriginalImageUrl(string url, int width, int height, bool isInline)
         {
-            if (url.EndsWith(".pnj")) url = url.Substring(0, url.Length - 4) + ".png";
             if (width > height) { (width, height) = (height, width); }
             if (ShellService.Settings.ImageSize != "best"
                 || !isInline && !url.Contains("/s1280x1920/")
-                || (width <= 1280 && height <= 1920) 
+                || (width <= 1280 && height <= 1920)
                 || isInline && !new Regex(@"\/s[\d]{2,4}x[\d]{2,4}\/").IsMatch(url)) { return url; }
 
             if (isInline)
@@ -398,7 +410,6 @@ namespace TumblThree.Applications.Crawler
             {
                 url = url.Replace("/s1280x1920/", (width <= 2048 && height <= 3072) ? "/s2048x3072/" : "/s99999x99999/");
             }
-
             string pageContent = "";
             int errCnt = 0;
             Exception lastError = null;
@@ -444,11 +455,7 @@ namespace TumblThree.Applications.Crawler
                 ImageResponse imgRsp = DeserializeImageResponse(extracted);
                 int maxWidth = imgRsp.Images.Max(x => x.Width);
                 Image img = imgRsp.Images.FirstOrDefault(x => x.Width == maxWidth);
-
-                if (string.IsNullOrEmpty(img?.MediaKey))
-                    return url;
-
-                return img.Url.EndsWith(".pnj") ? img.Url.Substring(0, img.Url.Length - 4) + ".png" : img.Url;
+                return string.IsNullOrEmpty(img?.MediaKey) ? url : img.Url;
             }
             catch (Exception ex)
             {

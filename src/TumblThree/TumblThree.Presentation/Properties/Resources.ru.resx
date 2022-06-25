@@ -516,10 +516,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>Повторное сканирование</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Повторное сканирование всего блога, а не только поиск новых сообщений.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Принудительное полное сканирование.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

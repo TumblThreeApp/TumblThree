@@ -514,10 +514,10 @@ Not: Tumblr api yalnızca düzenli tumblr blog indirmeleri için kullanılır.</
   <data name="ForceRescan" xml:space="preserve">
     <value>Sadece yeni mesajlar değil, tüm blogu yeniden tarar.</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Tumblr api'sini kullanarak tam bir taramaya zorlar.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Güncellemeleri kontrol et</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

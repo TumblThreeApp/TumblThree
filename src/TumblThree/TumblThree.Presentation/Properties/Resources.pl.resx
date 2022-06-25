@@ -512,10 +512,10 @@ Uwaga: Aplikacja tumblr jest używana tylko w przypadku regularnych pobierania b
   <data name="ForceRescan" xml:space="preserve">
     <value>Wymuś skanowanie</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>Rescans cały blog, a nie tylko nowe posty.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>Wymusza pełne skanowanie.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

@@ -513,10 +513,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>مجبور کردن مجدد</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>تمام وبلاگ ها، و نه فقط پست های جدید را بازی می کند.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>اسکن کامل با استفاده از</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

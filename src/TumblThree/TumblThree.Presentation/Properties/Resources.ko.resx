@@ -507,10 +507,10 @@
   <data name="ForceRescan" xml:space="preserve">
     <value>강제 재검색</value>
   </data>
-  <data name="ToolTipForceRescan" xml:space="preserve">
+  <data name="ToolTipForceRescanDescription" xml:space="preserve">
     <value>새 게시물뿐만 아니라 전체 블로그를 다시 검색합니다.</value>
   </data>
-  <data name="ToolTipForceRescanDescription" xml:space="preserve">
+  <data name="ToolTipForceRescan" xml:space="preserve">
     <value>를 사용하여 전체 스캔을 수행합니다.</value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">

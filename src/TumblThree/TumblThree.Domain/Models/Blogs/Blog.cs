@@ -96,6 +96,7 @@ namespace TumblThree.Domain.Models.Blogs
         private bool groupPhotoSets;
         private int collectionId;
         private int downloadedItemsNew;
+        private string pnjDownloadFormat;
 
         [DataMember(Name = "Links")]
         private List<string> links;
@@ -839,7 +840,6 @@ namespace TumblThree.Domain.Models.Blogs
 
         public List<string> Links => links;
 
-        [DataMember]
         public string LastDownloadedPhoto
         {
             get => lastDownloadedPhoto;
@@ -850,7 +850,6 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
-        [DataMember]
         public string LastDownloadedVideo
         {
             get => lastDownloadedVideo;
@@ -932,6 +931,17 @@ namespace TumblThree.Domain.Models.Blogs
             set
             {
                 SetProperty(ref collectionId, value);
+                Dirty = true;
+            }
+        }
+
+        [DataMember]
+        public string PnjDownloadFormat
+        {
+            get => pnjDownloadFormat;
+            set
+            {
+                SetProperty(ref pnjDownloadFormat, value);
                 Dirty = true;
             }
         }
@@ -1073,6 +1083,10 @@ namespace TumblThree.Domain.Models.Blogs
                     // use leftover property Links to indicate if one-time update of DownloadVideoThumbnail was done
                     blog.DownloadVideoThumbnail = true;
                     blog.links = null;
+                }
+                if (string.IsNullOrEmpty(blog.PnjDownloadFormat))
+                {
+                    blog.PnjDownloadFormat = nameof(PnjDownloadType.png);
                 }
 
                 return blog;
