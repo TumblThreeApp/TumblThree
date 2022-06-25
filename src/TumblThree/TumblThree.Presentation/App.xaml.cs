@@ -28,6 +28,7 @@ namespace TumblThree.Presentation
 #pragma warning disable IDE0052 // Remove unread private members
         private readonly WindowExceptionHandler _exceptionHandler;
 #pragma warning restore IDE0052 // Remove unread private members
+        private bool shutdownExecuted;
 
         public App()
         {
@@ -37,6 +38,15 @@ namespace TumblThree.Presentation
         public ILogService GetLogService()
         {
             return container.GetExportedValue<ILogService>();
+        }
+
+        public void RequestShutdown()
+        {
+            Task.Run(() => QueueOnDispatcher.CheckBeginInvokeOnUI(() =>
+            {
+                DoShutdown();
+                Shutdown();
+            })).GetAwaiter().GetResult();
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -87,6 +97,17 @@ namespace TumblThree.Presentation
 
         protected override void OnExit(ExitEventArgs e)
         {
+            if (!shutdownExecuted)
+            {
+                DoShutdown();
+            }
+            base.OnExit(e);
+        }
+
+        private void DoShutdown()
+        {
+            shutdownExecuted = true;
+
             // Shutdown the module controllers in reverse order
             foreach (IModuleController moduleController in moduleControllers.Reverse())
             {
@@ -104,7 +125,6 @@ namespace TumblThree.Presentation
             // Dispose
             container.Dispose();
             catalog.Dispose();
-            base.OnExit(e);
         }
 
         private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

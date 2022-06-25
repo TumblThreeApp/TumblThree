@@ -196,6 +196,8 @@ namespace TumblThree.Applications.Controllers
             CrawlerController.Shutdown();
 
             SaveSettings();
+
+            ShellViewModel.CloseForced();
         }
 
         private string GetAppDataPath()

@@ -47,6 +47,9 @@ namespace TumblThree.Presentation.DesignData
             {
             }
 
+            public void CloseForced()
+            {
+            }
             protected virtual void OnClosing(CancelEventArgs e) => Closing?.Invoke(this, e);
 
             protected virtual void OnClosed(EventArgs e) => Closed?.Invoke(this, e);

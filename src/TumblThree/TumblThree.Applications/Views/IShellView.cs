@@ -30,6 +30,8 @@ namespace TumblThree.Applications.Views
 
         void Close();
 
+        void CloseForced();
+
         void SetThumbButtonInfoCommands();
     }
 }

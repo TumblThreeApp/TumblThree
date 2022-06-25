@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shell;
+using TumblThree.Applications;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain;
@@ -15,6 +17,7 @@ namespace TumblThree.Presentation.Views
     public partial class ShellWindow : Window, IShellView
     {
         private readonly Lazy<ShellViewModel> viewModel;
+        private bool isForceClose;
 
         public ShellWindow()
         {
@@ -34,6 +37,26 @@ namespace TumblThree.Presentation.Views
             {
                 Logger.Error("ShellWindow.ShellWindow(): {0}", ex);
             }
+
+            Closing += ShellWindow_Closing;
+        }
+
+        private void ShellWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (isForceClose)
+            {
+                e.Cancel = false;
+                return;
+            }
+
+            e.Cancel = true;
+            ((App)Application.Current).RequestShutdown();
+        }
+
+        public void CloseForced()
+        {
+            isForceClose = true;
+            Close();
         }
 
         public void SetThumbButtonInfoCommands()

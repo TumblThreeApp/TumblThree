@@ -137,6 +137,8 @@ namespace TumblThree.Applications.ViewModels
 
         private void Close() => ViewCore.Close();
 
+        public void CloseForced() => ViewCore.CloseForced();
+
         public void ShowSettingsView()
         {
             SettingsViewModel settingsViewModel = _settingsViewModelFactory.CreateExport().Value;
