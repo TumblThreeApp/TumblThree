@@ -528,6 +528,12 @@ namespace TumblThree.Applications.Controllers
                 crawler = _crawlerFactory.GetCrawler(blog, new Progress<DownloadProgress>(), new PauseToken(), new CancellationToken());
                 await crawler.IsBlogOnlineAsync();
             }
+            catch (Exception ex)
+            {
+                Logger.Error("ManagerController.CheckStatusOfBlogsAsync: {0}", ex);
+                _shellService.ShowError(ex, $"Online check for '{blog.Name}' failed: {ex.Message}");
+                blog.Online = false;
+            }
             finally
             {
                 crawler?.Dispose();
