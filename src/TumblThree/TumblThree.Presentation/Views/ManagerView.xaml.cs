@@ -101,6 +101,15 @@ namespace TumblThree.Presentation.Views
                 return;
             }
 
+            if (collectionView.IsEditingItem)
+            {
+                collectionView.CancelEdit();
+            }
+            if (collectionView.IsAddingNew)
+            {
+                collectionView.CancelNew();
+            }
+
             //ListSortDirection newDirection = e.Column.SortDirection == ListSortDirection.Ascending
             //    ? ListSortDirection.Descending
             //    : ListSortDirection.Ascending;
