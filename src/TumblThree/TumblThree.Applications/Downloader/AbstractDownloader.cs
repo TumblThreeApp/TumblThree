@@ -289,7 +289,7 @@ namespace TumblThree.Applications.Downloader
                 string fileName = FileName(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
             }
-            else if (!shellService.Settings.LoadAllDatabases && blog.CheckDirectoryForFiles && (blog.CheckIfBlogShouldCheckDirectory(FileNameUrl(downloadItem), FileNameNew(downloadItem))
+            /*else if (!shellService.Settings.LoadAllDatabases && blog.CheckDirectoryForFiles && (blog.CheckIfBlogShouldCheckDirectory(FileNameUrl(downloadItem), FileNameNew(downloadItem))
                 || blog.CheckIfBlogShouldCheckDirectory(FileName(downloadItem), FileNameNew(downloadItem))))
             {
                 string fileName = AddFileToDb(downloadItem);
@@ -299,7 +299,7 @@ namespace TumblThree.Applications.Downloader
             {
                 string fileName = AddFileToDb(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, fileName);
-            }
+            }*/
             else
             {
                 string blogDownloadLocation = blog.DownloadLocation();
@@ -310,6 +310,7 @@ namespace TumblThree.Applications.Downloader
                 UpdateProgressQueueInformation(Resources.ProgressDownloadImage, fileName);
                 if (!await DownloadBinaryFileAsync(fileLocation, fileLocationUrlList, Url(downloadItem)))
                 {
+                    RemoveFileFromDb(FileNameUrl(downloadItem)); // TODO: Temp plan, the addition should happen only when the download is successful.
                     return false;
                 }
 
@@ -351,6 +352,10 @@ namespace TumblThree.Applications.Downloader
                 return downloadItem.Filename;
             }
             return files.AddFileToDb(FileNameUrl(downloadItem), downloadItem.Filename, AppendTemplate);
+        }
+        protected void RemoveFileFromDb(string fileNameUrl)
+        {
+            files.RemoveFileFromDb(fileNameUrl);
         }
 
         public bool CheckIfFileExistsInDB(string filenameUrl)

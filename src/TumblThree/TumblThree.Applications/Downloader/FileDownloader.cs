@@ -55,7 +55,7 @@ namespace TumblThree.Applications.Downloader
 
             if (ct.IsCancellationRequested) return false;
 
-            var fileMode = totalBytesReceived > 0 ? FileMode.Append : FileMode.Create;
+            var fileMode = File.Exists(destinationPath) ? FileMode.Append : FileMode.Create;
 
             var fileStream = new FileStream(destinationPath, fileMode, FileAccess.Write, FileShare.Read, bufferSize, true);
             try
@@ -131,6 +131,8 @@ namespace TumblThree.Applications.Downloader
                         }
                         else
                         {
+                            fileStream?.Dispose();
+                            File.Delete(destinationPath);
                             throw;
                         }
                     }

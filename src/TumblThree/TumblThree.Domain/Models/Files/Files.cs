@@ -75,6 +75,14 @@ namespace TumblThree.Domain.Models.Files
                 isDirty = true;
             }
         }
+        public void RemoveFileFromDb(string fileNameUrl)
+        {
+            lock (_lockList)
+            {
+                entries.RemoveWhere(i => i.Link == fileNameUrl);
+                isDirty = true;
+            }
+        }
 
         public string AddFileToDb(string fileNameUrl, string fileName, string appendTemplate)
         {
