@@ -118,7 +118,7 @@ namespace TumblThree.Applications.ViewModels
         private void Feedback()
         {
             FeedbackViewModel feedbackViewModel = _feedbackViewModelFactory.CreateExport().Value;
-            feedbackViewModel.ShowDialog(this);
+            feedbackViewModel.ShowDialog(View);
         }
 
         private async Task CheckForUpdatesComplete(Task<string> task)
