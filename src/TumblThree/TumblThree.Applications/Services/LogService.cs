@@ -30,6 +30,7 @@ namespace TumblThree.Applications.Services
 
         private static string _windowsVersion;
         private static string _windowsVersionNumber;
+        private static bool? _isWindowsServerVersion;
         private static string _windowsEdition;
         private static string _windowsReleaseId;
         private static string _windowsRegionLanguage;
@@ -131,7 +132,14 @@ namespace TumblThree.Applications.Services
                                 operatingSystem = "8.1";
                             break;
                         case 10:
-                            operatingSystem = "10";
+                            if (IsWindowsServerVersion)
+                            {
+                                operatingSystem = "Server" + (vs.Build == 14393 ? " 2016" : vs.Build == 17763 ? " 2019" : vs.Build == 20348 ? " 2022" : "");
+                            }
+                            else
+                            {
+                                operatingSystem = (vs.Build < 21996) ? "10" : "11";
+                            }
                             break;
                     }
                 }
@@ -156,28 +164,46 @@ namespace TumblThree.Applications.Services
             {
                 if (_windowsVersionNumber != null) return _windowsVersionNumber;
 
-                var osVersionInfo = new NativeMethods.OSVERSIONINFOEX { OSVersionInfoSize = Marshal.SizeOf(typeof(NativeMethods.OSVERSIONINFOEX)) };
-                if (NativeMethods.RtlGetVersion(ref osVersionInfo) != 0)
-                {
-                    // TODO: Error handling
-                }
-
-                int ubr = 0;
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", false))
-                {
-                    if (key != null)
-                    {
-                        Object o = key.GetValue("UBR");
-                        if (o != null && o is int)
-                        {
-                            ubr = (int)o;
-                        }
-                    }
-                }
-                _windowsVersionNumber = $"{osVersionInfo.MajorVersion}.{osVersionInfo.MinorVersion}.{osVersionInfo.BuildNumber}.{ubr}";
+                DetermineVersionNumberAndServerVersion();
 
                 return _windowsVersionNumber;
             }
+        }
+
+        private static bool IsWindowsServerVersion
+        {
+            get
+            {
+                if (_isWindowsServerVersion.HasValue) return _isWindowsServerVersion.Value;
+
+                DetermineVersionNumberAndServerVersion();
+
+                return _isWindowsServerVersion.Value;
+            }
+        }
+
+        private static void DetermineVersionNumberAndServerVersion()
+        {
+            var osVersionInfo = new NativeMethods.OSVERSIONINFOEX { OSVersionInfoSize = Marshal.SizeOf(typeof(NativeMethods.OSVERSIONINFOEX)) };
+            if (NativeMethods.RtlGetVersion(ref osVersionInfo) != 0)
+            {
+                // TODO: Error handling
+            }
+
+            int ubr = 0;
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", false))
+            {
+                if (key != null)
+                {
+                    object o = key.GetValue("UBR");
+                    if (o is int i)
+                    {
+                        ubr = i;
+                    }
+                }
+            }
+            _windowsVersionNumber = $"{osVersionInfo.MajorVersion}.{osVersionInfo.MinorVersion}.{osVersionInfo.BuildNumber}.{ubr}";
+            _isWindowsServerVersion = (osVersionInfo.ProductType & 2) != 0;
         }
 
         private static string WindowsEdition
@@ -209,10 +235,18 @@ namespace TumblThree.Applications.Services
                 {
                     if (key != null)
                     {
-                        Object o = key.GetValue("ReleaseID");
-                        if (o != null && o is string)
+                        object o = key.GetValue("DisplayVersion");
+                        if (o is string dv)
                         {
-                            id = (string)o;
+                            id = dv;
+                        }
+                        if (string.IsNullOrEmpty(id))
+                        {
+                            o = key.GetValue("ReleaseID");
+                            if (o is string rid)
+                            {
+                                id = rid;
+                            }
                         }
                     }
                 }
