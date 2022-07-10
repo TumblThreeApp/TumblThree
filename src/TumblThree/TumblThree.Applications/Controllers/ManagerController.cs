@@ -239,10 +239,18 @@ namespace TumblThree.Applications.Controllers
                 if (Directory.Exists(path))
                 {
                     collection.IsOnline = true;
-                    IReadOnlyList<IBlog> files = await GetIBlogsAsync(Path.Combine(collection.DownloadLocation, "Index"));
-                    foreach (IBlog file in files)
+                    path = Path.Combine(path, "Index");
+                    if (Directory.Exists(path))
                     {
-                        _managerService.BlogFiles.Add(file);
+                        IReadOnlyList<IBlog> files = await GetIBlogsAsync(path);
+                        foreach (IBlog file in files)
+                        {
+                            _managerService.BlogFiles.Add(file);
+                        }
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(path);
                     }
                 }
                 else if (string.Compare(Directory.GetParent(path).FullName, path, true) != 0 && Directory.GetParent(path).Exists)
