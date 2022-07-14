@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Waf.Applications.Services;
-using System.Windows;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
@@ -152,6 +151,8 @@ namespace TumblThree.Applications.Controllers
             var newRootFolder = Path.Combine(newItem.DownloadLocation, "Index");
             var newFilenameIndex = Path.Combine(newRootFolder, blog.Name) + "." + blog.OriginalBlogType;
             var newFilenameChild = Path.Combine(newRootFolder, Path.GetFileName(oldFilenameChild));
+
+            Directory.CreateDirectory(newRootFolder);
 
             if (File.Exists(newFilenameIndex) || File.Exists(newFilenameChild))
             {

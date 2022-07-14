@@ -35,6 +35,12 @@ namespace TumblThree.Applications.ViewModels.DetailsViewModels
             _copyUrlCommand = new DelegateCommand(CopyUrlToClipboard);
             _browseFileDownloadLocationCommand = new DelegateCommand(BrowseFileDownloadLocation);
             Collections = CollectionViewSource.GetDefaultView(crawlerService.Collections);
+            crawlerService.Collections.CollectionChanged += CrawlerService_Collections_CollectionChanged;
+        }
+
+        private void CrawlerService_Collections_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(CollectionId));
         }
 
         public ICommand CopyUrlCommand => _copyUrlCommand;
