@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Dynamic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using TumblThree.Applications.DataModels;
-using TumblThree.Applications.DataModels.TumblrApiJson;
 using TumblThree.Applications.DataModels.CrawlerData;
+using TumblThree.Applications.DataModels.TumblrApiJson;
 using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.Downloader;
 using TumblThree.Applications.Parser;
@@ -16,11 +22,6 @@ using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
-using System.Dynamic;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
-using System.Linq;
-using System.Web;
 
 namespace TumblThree.Applications.Crawler
 {
@@ -35,6 +36,8 @@ namespace TumblThree.Applications.Crawler
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
         private readonly IPostQueue<CrawlerData<string>> jsonQueue;
+        private readonly IList<string> existingCrawlerData = new List<string>();
+        private readonly object existingCrawlerDataLock = new object();
 
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
@@ -64,6 +67,7 @@ namespace TumblThree.Applications.Crawler
             Task crawlerDownloader = Task.CompletedTask;
             if (Blog.DumpCrawlerData)
             {
+                await GetAlreadyExistingCrawlerDataFilesAsync();
                 crawlerDownloader = crawlerDataDownloader.DownloadCrawlerDataAsync();
             }
 
@@ -451,11 +455,26 @@ namespace TumblThree.Applications.Crawler
             return await RequestDataAsync(Blog.Url, headers, cookieHosts);
         }
 
+        private async Task GetAlreadyExistingCrawlerDataFilesAsync()
+        {
+            foreach (var filepath in Directory.GetFiles(Blog.DownloadLocation(), "*.json"))
+            {
+                existingCrawlerData.Add(Path.GetFileName(filepath));
+            }
+            await Task.CompletedTask;
+        }
+
         private void AddToJsonQueue(CrawlerData<string> addToList)
         {
-            if (Blog.DumpCrawlerData)
+            if (!Blog.DumpCrawlerData) { return; }
+
+            lock (existingCrawlerDataLock)
             {
-                jsonQueue.Add(addToList);
+                if (Blog.ForceRescan || !existingCrawlerData.Contains(addToList.Filename))
+                {
+                    jsonQueue.Add(addToList);
+                    existingCrawlerData.Add(addToList.Filename);
+                }
             }
         }
 

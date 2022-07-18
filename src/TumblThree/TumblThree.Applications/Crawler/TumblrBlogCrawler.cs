@@ -31,9 +31,11 @@ namespace TumblThree.Applications.Crawler
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
         private readonly IPostQueue<CrawlerData<Post>> jsonQueue;
+        private readonly IList<string> existingCrawlerData = new List<string>();
+        private readonly object existingCrawlerDataLock = new object();
 
         private bool completeGrab = true;
-        private bool incompleteCrawl = false;
+        private bool incompleteCrawl;
 
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
@@ -145,6 +147,7 @@ namespace TumblThree.Applications.Crawler
             Task crawlerDownloader = Task.CompletedTask;
             if (Blog.DumpCrawlerData)
             {
+                await GetAlreadyExistingCrawlerDataFilesAsync();
                 crawlerDownloader = crawlerDataDownloader.DownloadCrawlerDataAsync();
             }
 
@@ -441,11 +444,26 @@ namespace TumblThree.Applications.Crawler
             return highestPostId >= GetLastPostId();
         }
 
+        private async Task GetAlreadyExistingCrawlerDataFilesAsync()
+        {
+            foreach (var filepath in Directory.GetFiles(Blog.DownloadLocation(), "*.json"))
+            {
+                existingCrawlerData.Add(Path.GetFileName(filepath));
+            }
+            await Task.CompletedTask;
+        }
+
         private void AddToJsonQueue(CrawlerData<Post> addToList)
         {
-            if (Blog.DumpCrawlerData)
+            if (!Blog.DumpCrawlerData) { return; }
+
+            lock (existingCrawlerDataLock)
             {
-                jsonQueue.Add(addToList);
+                if (Blog.ForceRescan || !existingCrawlerData.Contains(addToList.Filename))
+                {
+                    jsonQueue.Add(addToList);
+                    existingCrawlerData.Add(addToList.Filename);
+                }
             }
         }
 
