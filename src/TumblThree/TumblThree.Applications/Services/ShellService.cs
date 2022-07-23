@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Waf.Foundation;
 using System.Windows.Input;
@@ -128,6 +131,63 @@ namespace TumblThree.Applications.Services
                 }
                 return isLongPathSupported == 1;
             }
+        }
+
+        public static bool IsWriteProtectedInstallation
+        {
+            get
+            {
+                var appPath = AppDomain.CurrentDomain.BaseDirectory;
+                var hasWriteAccess = HasCurrentUserDirectoryAccessRights(appPath, FileSystemRights.Write);
+                return !hasWriteAccess;
+            }
+        }
+
+        private static bool HasCurrentUserDirectoryAccessRights(string path, FileSystemRights accessRights)
+        {
+            var hasAccessRights = false;
+
+            try
+            {
+                var di = new DirectoryInfo(path);
+                var acl = di.GetAccessControl();
+                var authorizationRules = acl.GetAccessRules(true, true, typeof(NTAccount));
+
+                var currentIdentity = WindowsIdentity.GetCurrent();
+                var principal = new WindowsPrincipal(currentIdentity);
+                foreach (AuthorizationRule authorizationRule in authorizationRules)
+                {
+                    var accessRule = authorizationRule as FileSystemAccessRule;
+                    if (accessRule == null)
+                    {
+                        continue;
+                    }
+
+                    if ((accessRule.FileSystemRights & accessRights) != 0)
+                    {
+                        var account = authorizationRule.IdentityReference as NTAccount;
+                        if (account == null)
+                        {
+                            continue;
+                        }
+
+                        if (principal.IsInRole(account.Value))
+                        {
+                            if (accessRule.AccessControlType == AccessControlType.Deny)
+                            {
+                                hasAccessRights = false;
+                                break;
+                            }
+                            hasAccessRights = true;
+                        }
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                hasAccessRights = false;
+            }
+            return hasAccessRights;
         }
 
         public event CancelEventHandler Closing
