@@ -477,4 +477,7 @@ Else you should change at least the "Download" and "Export Blogs" location entri
   <data name="FoundWrongNamedCacheFolder" xml:space="preserve">
     <value>Found wrong named cache folder: {0}</value>
   </data>
+  <data name="GotHtmlNotJson" xml:space="preserve">
+    <value>The server returned the wrong type of data. For downloading some blogs ({0}) you have to log in (settings dialog) and accept a privacy consent.</value>
+  </data>
 </root>

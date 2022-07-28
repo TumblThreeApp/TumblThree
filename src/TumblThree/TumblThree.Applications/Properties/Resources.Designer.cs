@@ -649,6 +649,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The server returned the wrong type of data. For downloading some blogs ({0}) you have to log in (settings dialog) and accept a privacy consent..
+        /// </summary>
+        public static string GotHtmlNotJson {
+            get {
+                return ResourceManager.GetString("GotHtmlNotJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id3: Album: {0}.
         /// </summary>
         public static string Id3Album {

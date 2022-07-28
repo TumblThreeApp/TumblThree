@@ -447,4 +447,7 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="FoundWrongNamedCacheFolder" xml:space="preserve">
     <value>Se encontró una carpeta de caché con un nombre incorrecto: {0}</value>
   </data>
+  <data name="GotHtmlNotJson" xml:space="preserve">
+    <value>El servidor devolvió el tipo de datos incorrecto. Para descargar algunos blogs ({0}), debe iniciar sesión (diálogo de configuración) y aceptar un consentimiento de privacidad.</value>
+  </data>
 </root>

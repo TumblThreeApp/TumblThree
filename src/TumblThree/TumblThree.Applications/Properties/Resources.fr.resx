@@ -465,4 +465,7 @@ Sinon, vous devez au moins modifier les entrées d'emplacement "Télécharger" e
   <data name="FoundWrongNamedCacheFolder" xml:space="preserve">
     <value>Dossier de cache mal nommé : {0}</value>
   </data>
+  <data name="GotHtmlNotJson" xml:space="preserve">
+    <value>Le serveur a renvoyé le mauvais type de données. Pour télécharger certains blogs ({0}), vous devez vous connecter (dialogue des paramètres) et accepter un consentement de confidentialité.</value>
+  </data>
 </root>

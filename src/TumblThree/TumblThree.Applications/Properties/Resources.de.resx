@@ -453,4 +453,7 @@ Andernfalls sollten Sie zumindest die Standorteinträge „Download“ und „Bl
   <data name="FoundWrongNamedCacheFolder" xml:space="preserve">
     <value>Falsch benannter Cache-Ordner gefunden: {0}</value>
   </data>
+  <data name="GotHtmlNotJson" xml:space="preserve">
+    <value>Der Server hat den falschen Datentyp zurückgegeben. Für das Herunterladen einiger Blogs ({0}) müssen Sie sich anmelden (Einstellungsdialog) und eine Datenschutzeinwilligung akzeptieren.</value>
+  </data>
 </root>

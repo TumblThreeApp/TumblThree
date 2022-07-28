@@ -221,8 +221,16 @@ namespace TumblThree.Applications.Crawler
             }
             catch (SerializationException serializationException)
             {
-                Logger.Error("AbstractCrawler:ConvertJsonToClass<T>: {0}", "Could not parse data");
-                ShellService.ShowError(serializationException, Resources.PostNotParsable, Blog.Name);
+                if (json.TrimStart(new char[] { '\r', '\n', ' ' }).StartsWith("<"))
+                {
+                    Logger.Error("AbstractCrawler:ConvertJsonToClass<T>: {0}", "Html instead of Json data");
+                    ShellService.ShowError(serializationException, Resources.GotHtmlNotJson, Blog.Name);
+                }
+                else
+                {
+                    Logger.Error("AbstractCrawler:ConvertJsonToClass<T>: {0}", "Could not parse data");
+                    ShellService.ShowError(serializationException, Resources.PostNotParsable, Blog.Name);
+                }
                 return new T();
             }
         }
