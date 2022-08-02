@@ -243,9 +243,11 @@ namespace TumblThree.Applications.Services
 
         private void ApplicationBusyContextDisposeCallback(ApplicationBusyContext context)
         {
-            QueueOnDispatcher.CheckBeginInvokeOnUI(() => Mouse.OverrideCursor = null);
             applicationBusyContext.Remove(context);
-            IsApplicationBusy = applicationBusyContext.Any();
+            var isBusy = applicationBusyContext.Any();
+            IsApplicationBusy = isBusy;
+            if (isBusy) { return; }
+            QueueOnDispatcher.CheckBeginInvokeOnUI(() => Mouse.OverrideCursor = null);
         }
 
         private void InitializeClosingEvent()
