@@ -124,8 +124,13 @@ namespace TumblThree.Applications.Controllers
             _shellService.ShowDetailsView();
         }
 
-        private void InsertBlogFiles(int index, IEnumerable<IBlog> blogFiles) =>
-            QueueManager.InsertItems(index, blogFiles.Select(x => new QueueListItem(x)));
+        private void InsertBlogFiles(int index, IEnumerable<IBlog> blogFiles)
+        {
+            using (_shellService.SetApplicationBusy())
+            {
+                QueueManager.InsertItems(index, blogFiles.Select(x => new QueueListItem(x)));
+            }
+        }
 
         private void OpenList()
         {

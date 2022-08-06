@@ -31,5 +31,7 @@ namespace TumblThree.Applications.Services
         bool IsCollectionIdUsed(int id);
 
         void CacheLibraries();
+
+        bool IsDragOperationActive { get; set; }
     }
 }

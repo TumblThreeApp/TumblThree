@@ -26,11 +26,13 @@ namespace TumblThree.Applications.ViewModels
         private readonly ObservableCollection<QueueListItem> _selectedQueueItems;
 
         [ImportingConstructor]
-        public QueueViewModel(IQueueView view, ICrawlerService crawlerService)
+        public QueueViewModel(IQueueView view, ICrawlerService crawlerService, IShellService shellService, IManagerService managerService)
             : base(view)
         {
             _selectedQueueItems = new ObservableCollection<QueueListItem>();
             CrawlerService = crawlerService;
+            ShellService = shellService;
+            ManagerService = managerService;
         }
 
         public QueueManager QueueManager
@@ -40,6 +42,10 @@ namespace TumblThree.Applications.ViewModels
         }
 
         public ICrawlerService CrawlerService { get; }
+
+        public IShellService ShellService { get; }
+
+        public IManagerService ManagerService { get; }
 
         public QueueListItem SelectedQueueItem
         {

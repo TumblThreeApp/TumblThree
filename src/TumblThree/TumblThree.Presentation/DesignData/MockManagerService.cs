@@ -27,6 +27,8 @@ namespace TumblThree.Presentation.DesignData
 
         public IEnumerable<IFiles> Databases { get; }
 
+        public bool IsDragOperationActive { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public void SetBlogFiles(IEnumerable<IBlog> blogFilesToAdd)
         {
             innerBlogFiles.Clear();

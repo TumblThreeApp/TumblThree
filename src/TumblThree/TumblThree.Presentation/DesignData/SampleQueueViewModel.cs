@@ -11,7 +11,7 @@ namespace TumblThree.Presentation.DesignData
     public class SampleQueueViewModel : QueueViewModel
     {
         public SampleQueueViewModel()
-            : base(new MockQueueView(), new MockCrawlerService())
+            : base(new MockQueueView(), new MockCrawlerService(), new MockShellService(), new MockManagerService())
         {
             var blogFiles = new[]
             {

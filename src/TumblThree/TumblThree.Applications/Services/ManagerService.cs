@@ -27,6 +27,8 @@ namespace TumblThree.Applications.Services
         private static object blogFilesLock = new object();
         private readonly IShellService shellService;
         private readonly IMessageService messageService;
+        private readonly object isDragOperationActiveLock = new object();
+        private bool isDragOperationActive;
 
         [ImportingConstructor]
         public ManagerService(IShellService shellService, ICrawlerService crawlerService, IMessageService messageService)
@@ -65,6 +67,24 @@ namespace TumblThree.Applications.Services
         }
 
         public ObservableCollection<IBlog> BlogFiles { get; }
+
+        public bool IsDragOperationActive
+        {
+            get
+            {
+                lock (isDragOperationActiveLock)
+                {
+                    return isDragOperationActive;
+                }
+            }
+            set
+            {
+                lock (isDragOperationActiveLock)
+                {
+                    isDragOperationActive = value;
+                }
+            }
+        }
 
         public ICollectionView BlogFilesView => blogFilesView;
 

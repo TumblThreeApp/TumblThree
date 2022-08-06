@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Waf.Applications;
 using System.Windows;
-
+using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models.Blogs;
@@ -26,8 +26,7 @@ namespace TumblThree.Presentation.Views
         {
             InitializeComponent();
             viewModel = new Lazy<QueueViewModel>(() => ViewHelper.GetViewModel<QueueViewModel>(this));
-            listBoxDragDropHelper = new ListBoxDragDropHelper<QueueListItem>(queueListBox, MoveItems, TryGetInsertItems,
-                InsertItems);
+            listBoxDragDropHelper = new ListBoxDragDropHelper<QueueListItem>(queueListBox, MoveItems, TryGetInsertItems, InsertItems);
         }
 
         private QueueViewModel ViewModel
@@ -48,7 +47,10 @@ namespace TumblThree.Presentation.Views
 
         private void MoveItems(int newIndex, IEnumerable<QueueListItem> itemsToMove)
         {
-            ViewModel.QueueManager.MoveItems(newIndex, itemsToMove);
+            using (ViewModel.ShellService.SetApplicationBusy())
+            {
+                ViewModel.QueueManager.MoveItems(newIndex, itemsToMove);
+            }
         }
 
         private IEnumerable TryGetInsertItems(DragEventArgs e)
@@ -58,9 +60,16 @@ namespace TumblThree.Presentation.Views
 
         private void InsertItems(int index, IEnumerable itemsToInsert)
         {
-            if (itemsToInsert is IEnumerable<IBlog>)
+            try
             {
-                ViewModel.InsertBlogFilesAction(index, (IEnumerable<IBlog>)itemsToInsert);
+                using (ViewModel.ShellService.SetApplicationBusy())
+                {
+                    ViewModel.InsertBlogFilesAction(index, (IEnumerable<IBlog>)itemsToInsert);
+                }
+            }
+            finally
+            {
+                ViewModel.ManagerService.IsDragOperationActive = false;
             }
         }
     }

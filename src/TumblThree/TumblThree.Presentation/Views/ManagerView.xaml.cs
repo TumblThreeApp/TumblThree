@@ -215,7 +215,7 @@ namespace TumblThree.Presentation.Views
 
         private void DataGridRowMouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (!ViewModel.ManagerService.IsDragOperationActive && e.LeftButton == MouseButtonState.Pressed)
             {
                 var draggedItem = (DataGridRow)sender;
 
@@ -239,7 +239,17 @@ namespace TumblThree.Presentation.Views
                     .Cast<IBlog>()
                     .OrderBy(x => items.FindIndex(f => f.Blog.ChildId == x.ChildId))
                     .Select(x => new QueueListItem(x));
+                ViewModel.ManagerService.IsDragOperationActive = true;
+                DragDrop.AddQueryContinueDragHandler(draggedItem, DataGridRowQueryContinueDrag);
                 DragDrop.DoDragDrop(draggedItem, selectedItems.Select(x => x.Blog).ToArray(), DragDropEffects.Copy);
+            }
+        }
+
+        private void DataGridRowQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            if (e.KeyStates == DragDropKeyStates.None)
+            {
+                ViewModel.ManagerService.IsDragOperationActive = false;
             }
         }
     }
