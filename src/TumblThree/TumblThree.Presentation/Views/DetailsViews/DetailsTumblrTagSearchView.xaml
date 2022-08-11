@@ -715,26 +715,19 @@
                 </TabControl>
             </Grid>
         </ScrollViewer>
-        <Border
-            Grid.Row="2"
-            Height="21"
-            Background="{StaticResource DarkBackground}"
-            BorderThickness="0">
-            <TextBlock
-                Margin="7,0"
-                VerticalAlignment="Center"
-                Foreground="{StaticResource DarkErrorForeground}"
-                Text="{x:Static p:Resources.Error}">
-                <TextBlock.Style>
-                    <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding BlogFile.LoadError}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
+        <Border Grid.Row="2" Height="21" Background="{StaticResource DarkBackground}" BorderThickness="0">
+            <TextBlock Text="{x:Static p:Resources.Error}" Foreground="{StaticResource DarkErrorForeground}"
+                        Margin="7,0" VerticalAlignment="Center" >
             </TextBlock>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BlogFile.LoadError}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
         </Border>
 
         <Border

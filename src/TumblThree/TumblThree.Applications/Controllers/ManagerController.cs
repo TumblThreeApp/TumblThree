@@ -286,10 +286,9 @@ namespace TumblThree.Applications.Controllers
                             !fileName.Contains("_files")))
             {
                 //TODO: Refactor
+                IBlog blog = null;
                 try
                 {
-                    IBlog blog = null;
-
                     if (filename.EndsWith(BlogTypes.tumblr.ToString()))
                     {
                         blog = new TumblrBlog().Load(filename);
@@ -330,6 +329,7 @@ namespace TumblThree.Applications.Controllers
                 }
                 catch (SerializationException ex)
                 {
+                    if (blog != null) { blog.LoadError = ex; }
                     failedToLoadBlogs.Add(ex.Data["Filename"].ToString());
                 }
             }

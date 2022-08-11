@@ -832,10 +832,10 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
-        [DataMember]
+        // no DataMember
         public bool Dirty { get; set; }
 
-        [DataMember]
+        // no DataMember
         public Exception LoadError { get; set; }
 
         public List<string> Links => links;
