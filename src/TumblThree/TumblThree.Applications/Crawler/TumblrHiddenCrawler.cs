@@ -59,7 +59,7 @@ namespace TumblThree.Applications.Crawler
         {
             if (!await CheckIfLoggedInAsync())
             {
-                Logger.Error("TumblrHiddenCrawler:GetUrlsAsync: {0}", "User not logged in");
+                Logger.Error("TumblrHiddenCrawler:IsBlogOnlineAsync: {0}", "User not logged in");
                 ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
                 PostQueue.CompleteAdding();
             }
@@ -81,13 +81,11 @@ namespace TumblThree.Applications.Crawler
                 {
                     Blog.Online = true;
                 }
-
-                if (HandleNotFoundWebException(webException))
+                else if (HandleNotFoundWebException(webException))
                 {
                     Blog.Online = false;
                 }
-
-                if (HandleLimitExceededWebException(webException))
+                else if (HandleLimitExceededWebException(webException))
                 {
                     Blog.Online = true;
                 }

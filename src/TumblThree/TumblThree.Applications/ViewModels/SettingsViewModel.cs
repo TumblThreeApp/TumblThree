@@ -1122,9 +1122,9 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
-        private void CheckIfTumblrLoggedIn()
+        private async Task CheckIfTumblrLoggedIn()
         {
-            TumblrLoggedIn = LoginService.CheckIfLoggedInAsync();
+            TumblrLoggedIn = await LoginService.CheckIfLoggedInAsync();
         }
 
         public async Task Load()
