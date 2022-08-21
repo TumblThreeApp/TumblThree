@@ -954,4 +954,7 @@ Die Sammlung ist schreibgeschützt und ihr können keine Blogs zugeordnet werden
 im Archiv-Ordner der Standardsammlung kopiert. Das Kopieren erfolgt beim 
 Herunterfahren der Anwendung, falls die Sammlung verfügbar ist.</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
 </root>

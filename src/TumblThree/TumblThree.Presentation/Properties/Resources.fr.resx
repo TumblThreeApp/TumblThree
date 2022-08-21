@@ -955,4 +955,7 @@ La collection est en lecture seule et aucun blog ne peut lui être attribué.</v
 dossier de cache dans le dossier d'archives de la collection par défaut. La copie 
 se fait sur arrêt de l'application, si la collection est disponible.</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
 </root>

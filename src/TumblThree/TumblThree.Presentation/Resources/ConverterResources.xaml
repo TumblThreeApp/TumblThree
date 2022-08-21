@@ -12,6 +12,8 @@
 
     <waf:ValidationErrorsConverter x:Key="ValidationErrorsConverter" />
 
+    <c:NullToBoolConverter x:Key="NullToBoolConverter" />
+    
     <c:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
     <c:BlogQueueInfoConverter x:Key="BlogQueueInfoConverter" />

@@ -135,7 +135,13 @@
 
                 <Label Content="{x:Static p:Resources.Name}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" />
                 <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="0">
-                    <TextBlock Text="{Binding BlogFile.Name}" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{Binding BlogFile.Name}" TextTrimming="CharacterEllipsis"
+                               ToolTipService.IsEnabled="{Binding BlogFile.Description, Converter={StaticResource NullToBoolConverter}, ConverterParameter=includeEmpty}">
+                        <TextBlock.ToolTip>
+                            <ctrl:SuperToolTip Title="{x:Static p:Resources.Description}"
+                                               Description="{Binding BlogFile.Description}" />
+                        </TextBlock.ToolTip>
+                    </TextBlock>
                 </Label>
 
                 <Label Content="{x:Static p:Resources.Url}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" />

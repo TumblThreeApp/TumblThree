@@ -951,4 +951,7 @@ La colección es de solo lectura y no se le pueden asignar blogs.</value>
 carpeta de caché dentro de la carpeta de archivo de la colección predeterminada. 
 La copia se realiza en cierre de la aplicación, si la colección está disponible.</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
 </root>

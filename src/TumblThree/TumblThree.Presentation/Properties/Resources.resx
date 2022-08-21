@@ -1184,4 +1184,7 @@ The collection is readonly and no blogs can be assigned to it.</value>
 inside the default collection's archive folder. The copying is done on 
 shutdown of the application, if the collection is available.</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
 </root>
