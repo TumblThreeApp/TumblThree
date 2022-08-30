@@ -33,6 +33,7 @@ People are giving themselves and their free time to contribute to our project in
 * [kulesy](https://github.com/kulesy) 💻
 * [Khodyn](https://github.com/Khodyn) 💻
 * [T-prog3](https://github.com/T-prog3) 🐛
+* [Emmanuel Tanimowo](https://github.com/Mannuel25) 🛠️
 * Your Name?
 
 Did we forget someone? Please drop us a line.
