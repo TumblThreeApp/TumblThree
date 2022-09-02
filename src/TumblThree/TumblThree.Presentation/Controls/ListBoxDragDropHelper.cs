@@ -120,9 +120,12 @@ namespace TumblThree.Presentation.Controls
         {
             var scrollViewer = FindVisualChild<ScrollViewer>(listBox);
             const double tolerance = 15;
-            const double offset = 3;
+            double offset = 3;
             double delta = 0;
             double verticalPosition = lastPreviewDragOverEventArgs.GetPosition(listBox).Y;
+            double horizontalPosition = lastPreviewDragOverEventArgs.GetPosition(listBox).X;
+
+            offset *= Math.Ceiling(horizontalPosition * 4 / listBox.ActualWidth);
 
             if (verticalPosition < tolerance)
             {
