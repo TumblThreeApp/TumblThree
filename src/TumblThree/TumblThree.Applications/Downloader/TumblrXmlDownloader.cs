@@ -43,7 +43,7 @@ namespace TumblThree.Applications.Downloader
             {
                 while (await _xmlQueue.OutputAvailableAsync(_ct))
                 {
-                    CrawlerData<XDocument> downloadItem = (CrawlerData<XDocument>)await _xmlQueue.ReceiveAsync();
+                    CrawlerData<XDocument> downloadItem = await _xmlQueue.ReceiveAsync();
 
                     if (_ct.IsCancellationRequested)
                     {

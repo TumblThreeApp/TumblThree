@@ -83,10 +83,12 @@ namespace TumblThree.Applications.Crawler
                         imgurParser, gfycatParser, GetWebmshareParser(), GetUguuParser(),
                         GetCatBoxParser(), postQueue, jsonSvcQueue, blog, progress, pt, ct);
                 case BlogTypes.tlb:
+                    IPostQueue<CrawlerData<DataModels.TumblrSearchJson.Data>> jsonDataQueue = GetJsonQueue<DataModels.TumblrSearchJson.Data>();
                     return new TumblrLikedByCrawler(shellService, crawlerService, webRequestFactory,
-                        cookieService, GetTumblrDownloader(progress, blog, files, postQueue, pt, ct), GetTumblrParser(),
+                        cookieService, GetTumblrDownloader(progress, blog, files, postQueue, pt, ct), GetJsonDownloader(jsonDataQueue, blog, pt, ct),
+                        GetTumblrApiJsonToTextParser(blog), GetTumblrParser(),
                         imgurParser, gfycatParser, GetWebmshareParser(), GetUguuParser(),
-                        GetCatBoxParser(), postQueue, blog, progress, pt, ct);
+                        GetCatBoxParser(), postQueue, jsonDataQueue, blog, progress, pt, ct);
                 case BlogTypes.tumblrsearch:
                     IPostQueue<CrawlerData<string>> jsonQueue = GetJsonQueue<string>();
                     return new TumblrSearchCrawler(shellService, crawlerService, webRequestFactory,

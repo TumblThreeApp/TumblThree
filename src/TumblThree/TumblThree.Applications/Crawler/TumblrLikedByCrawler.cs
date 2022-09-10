@@ -3,13 +3,16 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-
+using System.Web;
+using Newtonsoft.Json;
 using TumblThree.Applications.DataModels;
+using TumblThree.Applications.DataModels.CrawlerData;
 using TumblThree.Applications.DataModels.TumblrApiJson;
 using TumblThree.Applications.DataModels.TumblrPosts;
 using TumblThree.Applications.Downloader;
@@ -26,7 +29,13 @@ namespace TumblThree.Applications.Crawler
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class TumblrLikedByCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
+        private static readonly Regex extractJsonFromLikes = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);", RegexOptions.Singleline);
+
         private readonly IDownloader downloader;
+        private readonly ITumblrToTextParser<Post> tumblrJsonParser;
+        private readonly IPostQueue<CrawlerData<DataModels.TumblrSearchJson.Data>> jsonQueue;
+        private readonly IList<string> existingCrawlerData = new List<string>();
+        private readonly object existingCrawlerDataLock = new object();
 
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
@@ -35,14 +44,17 @@ namespace TumblThree.Applications.Crawler
         private int numberOfPagesCrawled;
 
         public TumblrLikedByCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
-            ISharedCookieService cookieService, IDownloader downloader, ITumblrParser tumblrParser, IImgurParser imgurParser,
+            ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader, 
+            ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser,
-            IPostQueue<AbstractPost> postQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<DataModels.TumblrSearchJson.Data>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, null,
+                webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader,
                 progress, pt, ct)
         {
             this.downloader = downloader;
+            this.tumblrJsonParser = tumblrJsonParser;
+            this.jsonQueue = jsonQueue;
         }
 
         public async Task CrawlAsync()
@@ -51,6 +63,13 @@ namespace TumblThree.Applications.Crawler
 
             Task grabber = GetUrlsAsync();
             Task<bool> download = downloader.DownloadBlogAsync();
+
+            Task crawlerDownloader = Task.CompletedTask;
+            if (Blog.DumpCrawlerData)
+            {
+                await GetAlreadyExistingCrawlerDataFilesAsync();
+                crawlerDownloader = crawlerDataDownloader.DownloadCrawlerDataAsync();
+            }
 
             await grabber;
 
@@ -62,6 +81,7 @@ namespace TumblThree.Applications.Crawler
 
             CleanCollectedBlogStatistics();
 
+            await crawlerDownloader;
             await download;
 
             if (!Ct.IsCancellationRequested)
@@ -101,6 +121,7 @@ namespace TumblThree.Applications.Crawler
             await Task.WhenAll(trackedTasks);
 
             PostQueue.CompleteAdding();
+            jsonQueue.CompleteAdding();
 
             UpdateBlogStats(true);
         }
@@ -136,7 +157,6 @@ namespace TumblThree.Applications.Crawler
                     try
                     {
                         document = await GetRequestAsync(url);
-                        document = Regex.Unescape(document);
                     }
                     catch (Exception ex)
                     {
@@ -167,7 +187,8 @@ namespace TumblThree.Applications.Crawler
                     }
                     nextPage.Add(Blog.Url + (TumblrLikedByBlog.IsLikesUrl(Blog.Url) ? "?before=" : "/page/" + pageNumber + "/") + pagination);
 
-                    await AddUrlsToDownloadListAsync(document);
+                    var posts = ExtractPosts(document);
+                    await DownloadPage(posts);
 
                     Interlocked.Increment(ref numberOfPagesCrawled);
                     UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
@@ -190,6 +211,86 @@ namespace TumblThree.Applications.Crawler
             {
                 semaphoreSlim.Release();
             }
+        }
+
+        private static string InlineSearch(DataModels.TumblrSearchJson.Data post, DataModels.TumblrSearchJson.Content content)
+        {
+            string text = post.Summary;
+
+            if (content.Type == "video")
+            {
+                text += HttpUtility.UrlDecode(content.EmbedHtml);
+            }
+            else if (content.Type == "text")
+            {
+                text += content.Text;
+            }
+
+            return text;
+        }
+
+        private void AddInlinePhotoUrl(DataModels.TumblrSearchJson.Data post, DataModels.TumblrSearchJson.Content content, Post data)
+        {
+            if (!Blog.DownloadPhoto) return;
+
+            string text = InlineSearch(post, content);
+
+            AddTumblrPhotoUrl(text, data);
+
+            if (Blog.RegExPhotos)
+            {
+                AddGenericPhotoUrl(text, data);
+            }
+        }
+
+        private void AddInlineVideoUrl(DataModels.TumblrSearchJson.Data post, DataModels.TumblrSearchJson.Content content, Post data)
+        {
+            if (!Blog.DownloadVideo) return;
+
+            string text = InlineSearch(post, content);
+
+            AddTumblrVideoUrl(text, data);
+
+            if (Blog.RegExVideos)
+            {
+                AddGenericVideoUrl(text, data);
+            }
+        }
+
+        private static int CountImagesAndVideos(IList<DataModels.TumblrSearchJson.Content> list)
+        {
+            var count = 0;
+            foreach (var content in list)
+            {
+                count += (content.Type == "image" || content.Type == "video") ? 1 : 0;
+            }
+            return count;
+        }
+
+        private bool PostWithinTimespan(DataModels.TumblrSearchJson.Data post)
+        {
+            if (string.IsNullOrEmpty(Blog.DownloadFrom) && string.IsNullOrEmpty(Blog.DownloadTo))
+            {
+                return true;
+            }
+
+            long downloadFromUnixTime = 0;
+            long downloadToUnixTime = long.MaxValue;
+            if (!string.IsNullOrEmpty(Blog.DownloadFrom))
+            {
+                DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
+                    DateTimeStyles.None);
+                downloadFromUnixTime = new DateTimeOffset(downloadFrom).ToUnixTimeSeconds();
+            }
+
+            if (!string.IsNullOrEmpty(Blog.DownloadTo))
+            {
+                DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
+                    DateTimeStyles.None);
+                downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
+            }
+            long postTime = post.Timestamp;
+            return downloadFromUnixTime < postTime && postTime < downloadToUnixTime;
         }
 
         public override async Task IsBlogOnlineAsync()
@@ -258,17 +359,61 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        private async Task AddUrlsToDownloadListAsync(string document)
+        private static List<DataModels.TumblrSearchJson.Data> ExtractPosts(string document)
         {
-            try
+            var extracted = extractJsonFromLikes.Match(document).Groups[1].Value;
+            dynamic obj = JsonConvert.DeserializeObject(extracted);
+            var likedPosts = obj.Likes.likedPosts;
+            extracted = JsonConvert.SerializeObject(likedPosts);
+            var posts = JsonConvert.DeserializeObject<List<DataModels.TumblrSearchJson.Data>>(extracted);
+            return posts;
+        }
+
+        private async Task DownloadPage(List<DataModels.TumblrSearchJson.Data> posts)
+        {
+            foreach (var post in posts)
             {
-                AddPhotoUrlToDownloadList(document);
-                AddVideoUrlToDownloadList(document);
-                await Task.CompletedTask;
-            }
-            catch (NullReferenceException e)
-            {
-                Logger.Verbose("TumblrLikedByCrawler.AddUrlsToDownloadListAsync: {0}", e);
+                if (CheckIfShouldStop()) { break; }
+                CheckIfShouldPause();
+                if (!PostWithinTimespan(post)) { continue; }
+
+                try
+                {
+                    Post data = null;
+                    var countImagesVideos = CountImagesAndVideos(post.Content);
+                    int index = -1;
+                    foreach (var content in post.Content)
+                    {
+                        data = new Post()
+                        {
+                            Date = post.Date,
+                            DateGmt = post.Date,
+                            Type = ConvertContentTypeToPostType(content.Type),
+                            Id = post.Id,
+                            Tags = post.Tags.ToList(),
+                            Slug = post.Slug,
+                            RegularTitle = post.Summary,
+                            RebloggedFromName = "",
+                            RebloggedRootName = "",
+                            ReblogKey = post.ReblogKey,
+                            UnixTimestamp = post.Timestamp,
+                            Tumblelog = new TumbleLog2() { Name = post.BlogName },
+                            UrlWithSlug = post.PostUrl
+                        };
+                        index += (countImagesVideos > 1) ? 1 : 0;
+                        DownloadMedia(content, data, index);
+                        AddInlinePhotoUrl(post, content, data);
+                        AddInlineVideoUrl(post, content, data);
+                    }
+                    DownloadText(post, data);
+                    AddToJsonQueue(new CrawlerData<DataModels.TumblrSearchJson.Data>(Path.ChangeExtension(post.Id, ".json"), post));
+
+                    await Task.CompletedTask;
+                }
+                catch (NullReferenceException e)
+                {
+                    Logger.Verbose("TumblrLikedByCrawler.DownloadPage: {0}", e);
+                }
             }
         }
 
@@ -306,38 +451,126 @@ namespace TumblThree.Applications.Crawler
             return pagination >= dateTimeOffset.ToUnixTimeSeconds();
         }
 
-        private void AddPhotoUrlToDownloadList(string document)
+        private void DownloadText(DataModels.TumblrSearchJson.Data post, Post data)
         {
-            if (!Blog.DownloadPhoto)
+            if (Blog.DownloadText && new string[] { "regular", "quote", "note", "link", "conversation" }.Contains(post.OriginalType))
             {
-                return;
-            }
+                string text = "";
+                foreach (var content in post.Content)
+                {
+                    if (content.Type == "text")
+                    {
+                        text += content.Text + Environment.NewLine;
+                    }
+                }
+                data.RegularBody = text;
+                data.Type = post.OriginalType;
 
-            var post = new Post() { Date = DateTime.Now.ToString("R"), DateGmt= DateTime.Now.ToString("R"), UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds(), Type = "",
-                Id = "", Tags = new List<string>(), Slug = "", RegularTitle = "", RebloggedFromName = "", RebloggedRootName="", ReblogKey = "", Tumblelog = new TumbleLog2() { Name = "" } };
-            AddTumblrPhotoUrl(document, post);
-
-            if (Blog.RegExPhotos)
-            {
-                AddGenericPhotoUrl(document, post);
+                switch (post.OriginalType)
+                {
+                    case "regular":
+                        data.RegularTitle = post.Content?[0]?.Text;
+                        data.RegularBody = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
+                        text = tumblrJsonParser.ParseText(data);
+                        AddToDownloadList(new TextPost(text, data.Id, data.UnixTimestamp.ToString()));
+                        break;
+                    case "quote":
+                        data.QuoteText = post.Content?[0]?.Text;
+                        data.QuoteSource = post.Content?[1]?.Text;
+                        text = tumblrJsonParser.ParseQuote(data);
+                        AddToDownloadList(new QuotePost(text, data.Id, data.UnixTimestamp.ToString()));
+                        break;
+                    case "note":
+                        data.Type = "answer";
+                        data.Question = post.Content?[0]?.Text;
+                        data.Answer = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
+                        text = tumblrJsonParser.ParseAnswer(data);
+                        AddToDownloadList(new AnswerPost(text, data.Id, data.UnixTimestamp.ToString()));
+                        break;
+                    case "link":
+                        var o = post.Content.FirstOrDefault(x => x.Type == "link") ?? new DataModels.TumblrSearchJson.Content();
+                        data.LinkDescription = o.Description;
+                        data.LinkText = o.Title;
+                        data.LinkUrl = o.Url;
+                        text = tumblrJsonParser.ParseLink(data);
+                        AddToDownloadList(new LinkPost(text, data.Id, data.UnixTimestamp.ToString()));
+                        break;
+                    case "conversation":
+                        data.Conversation = null;
+                        data.ConversationTitle = post.Content?[0]?.Text;
+                        data.ConversationText = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
+                        text = tumblrJsonParser.ParseConversation(data);
+                        AddToDownloadList(new ConversationPost(text, data.Id, data.UnixTimestamp.ToString()));
+                        break;
+                }
             }
         }
 
-        private void AddVideoUrlToDownloadList(string document)
+        private void DownloadMedia(DataModels.TumblrSearchJson.Content content, Post data, int index)
         {
-            if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail)
-            {
+            string type = content.Type;
+
+            string url = content.Media?[0]?.Url;
+            if (url == null)
                 return;
-            }
-
-            var post = new Post() { Id = "", Tumblelog = new TumbleLog2() { Name = "" },
-                UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() };
-            AddTumblrVideoUrl(document, post);
-            AddInlineTumblrVideoUrl(document, TumblrParser.GetTumblrVVideoUrlRegex(), TumblrParser.GetTumblrThumbnailUrlRegex());
-
-            if (Blog.DownloadVideo && Blog.RegExVideos)
+            if (CheckIfSkipGif(url))
+                return;
+            if (type == "video")
             {
-                AddGenericVideoUrl(document, post);
+                if (Blog.DownloadVideoThumbnail)
+                {
+                    if (content.Provider == "tumblr" || url.Contains("tumblr.com") || Blog.RegExVideos)
+                    {
+                        string thumbnailUrl = content.Poster[0].Url;
+                        AddToDownloadList(new PhotoPost(thumbnailUrl, data.Id, data.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, data, index)));
+                    }
+                }
+                // can only download preview image for non-tumblr (embedded) video posts
+                if (Blog.DownloadVideo && content.Provider == "tumblr")
+                    AddToDownloadList(new VideoPost(url, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+            }
+            else if (type == "audio")
+            {
+                if (Blog.DownloadAudio && content.Provider == "tumblr")
+                {
+                    url = url.IndexOf("?") > -1 ? url.Substring(0, url.IndexOf("?")) : url;
+                    AddToDownloadList(new AudioPost(url, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+                }
+            }
+            else if (type == "image")
+            {
+                if (Blog.DownloadPhoto)
+                {
+                    if (url.Contains("tumblr.com/"))
+                    {
+                        url = RetrieveOriginalImageUrl(url, 2000, 3000, false);
+                        url = CheckPnjUrl(url);
+                    }
+                    AddToDownloadList(new PhotoPost(url, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+                }
+            }
+        }
+
+        private async Task GetAlreadyExistingCrawlerDataFilesAsync()
+        {
+            foreach (var filepath in Directory.GetFiles(Blog.DownloadLocation(), "*.json"))
+            {
+                existingCrawlerData.Add(Path.GetFileName(filepath));
+            }
+            await Task.CompletedTask;
+        }
+
+        private void AddToJsonQueue(CrawlerData<DataModels.TumblrSearchJson.Data> addToList)
+        {
+            if (!Blog.DumpCrawlerData) { return; }
+
+            lock (existingCrawlerDataLock)
+            {
+                if (Blog.ForceRescan || !existingCrawlerData.Contains(addToList.Filename))
+                {
+                    jsonQueue.Add(addToList);
+                    existingCrawlerData.Add(addToList.Filename);
+                }
             }
         }
 

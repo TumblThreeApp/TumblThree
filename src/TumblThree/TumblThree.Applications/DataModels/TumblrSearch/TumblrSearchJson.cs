@@ -543,6 +543,13 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
         [JsonProperty("attribution")]
         [JsonConverter(typeof(SingleOrArrayConverter<Attribution>))]
         public IList<Attribution> Attribution { get; set; }
+
+
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
     }
 
     public class Posts

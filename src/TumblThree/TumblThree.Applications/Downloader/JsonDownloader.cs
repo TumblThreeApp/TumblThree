@@ -46,7 +46,7 @@ namespace TumblThree.Applications.Downloader
             {
                 while (await jsonQueue.OutputAvailableAsync(ct))
                 {
-                    CrawlerData<T> downloadItem = (CrawlerData<T>)await jsonQueue.ReceiveAsync();
+                    CrawlerData<T> downloadItem = await jsonQueue.ReceiveAsync();
 
                     if (ct.IsCancellationRequested)
                     {
