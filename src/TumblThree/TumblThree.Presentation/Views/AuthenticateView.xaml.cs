@@ -24,7 +24,8 @@ namespace TumblThree.Presentation.Views
     public partial class AuthenticateView : IAuthenticateView
     {
         private readonly Lazy<AuthenticateViewModel> viewModel;
-        private String _url;
+        private string _url;
+        private string _domain;
 
         public AuthenticateView()
         {
@@ -61,34 +62,39 @@ namespace TumblThree.Presentation.Views
             return browser.Address;
         }
 
-        public async Task<CookieCollection> GetCookies(String url)
+        public void SetDomain(string domain)
+        {
+            _domain = domain;
+        }
+
+        public async Task<CookieCollection> GetCookies(string url)
         {
             var cookieManager = Cef.GetGlobalCookieManager();
             var cookies = await cookieManager.VisitUrlCookiesAsync(url, true);
 
-            // don't ask why, but one cookieCollection works and the other not
-            var cookieHeader = GetCookieHeader(cookies);
-            CookieContainer cookieCon = new CookieContainer();
-            cookieCon.SetCookies(new Uri("https://www.tumblr.com/"), cookieHeader);
-            var cookieCollection = FixCookieDates(cookieCon.GetCookies(new Uri("https://www.tumblr.com/")));
+            //// don't ask why, but one cookieCollection works and the other not
+            //var cookieHeader = GetCookieHeader(cookies);
+            //CookieContainer cookieCon = new CookieContainer();
+            //cookieCon.SetCookies(new Uri("https://" + _domain + "/"), cookieHeader);
+            //var cookieCollection = FixCookieDates(cookieCon.GetCookies(new Uri("https://" + _domain + "/")));
 
-            //var cookieCollection = GetCookies(cookies);
+            var cookieCollection = GetCookies(cookies);
             return cookieCollection;
         }
 
-        //private static CookieCollection GetCookies(List<CefSharp.Cookie> cookies)
-        //{
-        //    CookieCollection cookieCollection = new CookieCollection();
-        //    foreach (var cookie in cookies)
-        //    {
-        //        var transferCookie = new System.Net.Cookie(cookie.Name, WebUtility.UrlEncode(cookie.Value), cookie.Path, cookie.Domain);
-        //        transferCookie.Expires = cookie.Expires.Value;
-        //        transferCookie.HttpOnly = cookie.HttpOnly;
-        //        transferCookie.Secure = cookie.Secure;
-        //        cookieCollection.Add(transferCookie);
-        //    }
-        //    return cookieCollection;
-        //}
+        private static CookieCollection GetCookies(List<CefSharp.Cookie> cookies)
+        {
+            CookieCollection cookieCollection = new CookieCollection();
+            foreach (var cookie in cookies)
+            {
+                var transferCookie = new System.Net.Cookie(cookie.Name, WebUtility.UrlEncode(cookie.Value), cookie.Path, cookie.Domain);
+                transferCookie.Expires = cookie.Expires.Value;
+                transferCookie.HttpOnly = cookie.HttpOnly;
+                transferCookie.Secure = cookie.Secure;
+                cookieCollection.Add(transferCookie);
+            }
+            return cookieCollection;
+        }
 
         private static string GetCookieHeader(List<CefSharp.Cookie> cookies)
         {

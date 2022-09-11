@@ -315,4 +315,10 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Video Oynatıcı: {0}</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>Değerlendirildi {0} postaları {1} toplam yayın dışına gönderdi.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>{0} blog gönderisi değerlendirildi.</value>
+  </data>
 </root>

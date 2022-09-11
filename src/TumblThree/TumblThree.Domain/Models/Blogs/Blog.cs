@@ -1078,7 +1078,7 @@ namespace TumblThree.Domain.Models.Blogs
                     blog.Location = Path.Combine(Directory.GetParent(fileLocation).FullName, "Index");
                 if (string.IsNullOrEmpty(blog.ChildId))
                     blog.ChildId = Path.Combine(blog.Location, blog.Name + "_files." + blog.OriginalBlogType);
-                if (blog.Links != null && blog.BlogType != BlogTypes.twitter && blog.BlogType != BlogTypes.instagram)
+                if (blog.Links != null && blog.BlogType != BlogTypes.twitter && blog.BlogType != BlogTypes.newtumbl && blog.BlogType != BlogTypes.instagram)
                 {
                     // use leftover property Links to indicate if one-time update of DownloadVideoThumbnail was done
                     blog.DownloadVideoThumbnail = true;

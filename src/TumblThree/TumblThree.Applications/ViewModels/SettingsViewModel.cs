@@ -37,6 +37,9 @@ namespace TumblThree.Applications.ViewModels
         private readonly AsyncDelegateCommand _tumblrLoginCommand;
         private readonly AsyncDelegateCommand _tumblrLogoutCommand;
         private readonly AsyncDelegateCommand _tumblrSubmitTfaCommand;
+        private readonly AsyncDelegateCommand _newTumblAuthenticateCommand;
+        private readonly AsyncDelegateCommand _newTumblPrivacyConsentCommand;
+        private readonly AsyncDelegateCommand _newTumblLogoutCommand;
 
         private readonly IFolderBrowserDialog _folderBrowserDialog;
         private readonly IFileDialogService _fileDialogService;
@@ -143,6 +146,8 @@ namespace TumblThree.Applications.ViewModels
         private int _activeCollectionId;
         private int _selectedCollectionId;
         private string _pnjDownloadFormat;
+        private bool _newTumblLoggedIn;
+        private string _newTumblEmail = string.Empty;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -173,6 +178,10 @@ namespace TumblThree.Applications.ViewModels
             _saveCommand = new AsyncDelegateCommand(Save);
             _enableAutoDownloadCommand = new DelegateCommand(EnableAutoDownload);
             _exportCommand = new DelegateCommand(ExportBlogs);
+            _newTumblAuthenticateCommand = new AsyncDelegateCommand(NewTumblAuthenticate);
+            _newTumblPrivacyConsentCommand = new AsyncDelegateCommand(NewTumblPrivacyConsent);
+            _newTumblLogoutCommand = new AsyncDelegateCommand(NewTumblLogout);
+
             _bloglistExportFileType = new FileType(Resources.Textfile, SupportedFileTypes.BloglistExportFileType);
 
             Task loadSettingsTask = Load();
@@ -212,6 +221,12 @@ namespace TumblThree.Applications.ViewModels
         public ICommand ExportCommand => _exportCommand;
 
         public ICommand BrowseExportLocationCommand => _browseExportLocationCommand;
+
+        public ICommand NewTumblAuthenticateCommand => _newTumblAuthenticateCommand;
+
+        public ICommand NewTumblPrivacyConsentCommand => _newTumblPrivacyConsentCommand;
+
+        public ICommand NewTumblLogoutCommand => _newTumblLogoutCommand;
 
         public string OAuthToken
         {
@@ -914,6 +929,18 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
+        public bool NewTumblLoggedIn
+        {
+            get => _newTumblLoggedIn;
+            set => SetProperty(ref _newTumblLoggedIn, value);
+        }
+
+        public string NewTumblEmail
+        {
+            get => _newTumblEmail;
+            set => SetProperty(ref _newTumblEmail, value);
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -1044,12 +1071,13 @@ namespace TumblThree.Applications.ViewModels
 
             AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
             authenticateViewModel.AddUrl(url);
+            authenticateViewModel.SetDomain("www.tumblr.com");
             authenticateViewModel.ShowDialog(ShellService.ShellView);
 
             var cookies = await authenticateViewModel.GetCookies("https://www.tumblr.com/");
 
             LoginService.AddCookies(cookies);
-            await UpdateTumblrLogin();
+            await UpdateLoginAsync(Provider.Tumblr);
         }
 
         private async Task PrivacyConsent()
@@ -1079,7 +1107,7 @@ namespace TumblThree.Applications.ViewModels
             TumblrTfaDetected = LoginService.CheckIfTumblrTFANeeded();
             if (!TumblrTfaDetected)
             {
-                await UpdateTumblrLogin();
+                await UpdateLoginAsync(Provider.Tumblr);
             }
         }
 
@@ -1087,8 +1115,8 @@ namespace TumblThree.Applications.ViewModels
         {
             try
             {
-                LoginService.PerformTumblrLogout();
-                await UpdateTumblrLogin();
+                await LoginService.PerformLogoutAsync(Provider.Tumblr);
+                await UpdateLoginAsync(Provider.Tumblr);
             }
             catch (Exception e)
             {
@@ -1101,7 +1129,7 @@ namespace TumblThree.Applications.ViewModels
             try
             {
                 await LoginService.PerformTumblrTFALoginAsync(TumblrUser, TumblrTfaAuthCode);
-                await UpdateTumblrLogin();
+                await UpdateLoginAsync(Provider.Tumblr);
             }
             catch (Exception e)
             {
@@ -1109,16 +1137,27 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
-        private async Task UpdateTumblrLogin()
+        private async Task UpdateLoginAsync(Provider provider)
         {
             try
             {
-                TumblrEmail = await LoginService.GetTumblrUsernameAsync();
-                TumblrLoggedIn = !string.IsNullOrEmpty(TumblrEmail);
+                switch (provider)
+                {
+                    case Provider.Tumblr:
+                        TumblrEmail = await LoginService.GetUsernameAsync(provider);
+                        TumblrLoggedIn = !string.IsNullOrEmpty(TumblrEmail);
+                        break;
+                    case Provider.Twitter:
+                        break;
+                    case Provider.newTumbl:
+                        NewTumblEmail = await LoginService.GetUsernameAsync(provider);
+                        NewTumblLoggedIn = !string.IsNullOrEmpty(NewTumblEmail);
+                        break;
+                }
             }
             catch (Exception e)
             {
-                Logger.Error("SettingsViewModel.UpdateTumblrLogin: {0}", e);
+                Logger.Error("SettingsViewModel.UpdateLoginAsync: {0}", e);
             }
         }
 
@@ -1127,10 +1166,45 @@ namespace TumblThree.Applications.ViewModels
             TumblrLoggedIn = await LoginService.CheckIfLoggedInAsync();
         }
 
+        private async Task NewTumblAuthenticate()
+        {
+            const string url = @"https://newtumbl.com/sign?in";
+            ShellService.Settings.OAuthCallbackUrl = "https://newtumbl.com";
+
+            AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
+            authenticateViewModel.AddUrl(url);
+            authenticateViewModel.SetDomain("newtumbl.com");
+            authenticateViewModel.ShowDialog(ShellService.ShellView);
+
+            var cookies = await authenticateViewModel.GetCookies("https://newtumbl.com/");
+
+            LoginService.AddCookies(cookies);
+            await UpdateLoginAsync(Provider.newTumbl);
+        }
+
+        private async Task NewTumblPrivacyConsent()
+        {
+            await Task.CompletedTask;
+        }
+
+        private async Task NewTumblLogout()
+        {
+            try
+            {
+                await LoginService.PerformLogoutAsync(Provider.newTumbl);
+                await UpdateLoginAsync(Provider.newTumbl);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("SettingsViewModel.NewTumblLogout: {0}", e);
+            }
+        }
+
         public async Task Load()
         {
             LoadSettings();
-            await UpdateTumblrLogin();
+            await UpdateLoginAsync(Provider.Tumblr);
+            await UpdateLoginAsync(Provider.newTumbl);
         }
 
         private void LoadSettings()

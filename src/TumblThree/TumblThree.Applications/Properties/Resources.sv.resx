@@ -332,4 +332,10 @@
   <data name="PostNotParsable" xml:space="preserve">
     <value>Ett inlägg från '{0}' gick inte att analysera. Om du ställer in 'inlägg per sida' i Detaljerna till ett lägre värde kan det hämtningsbara innehållet öka.</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>Utvärderade {0} postadresser ur {1} totala inlägg.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>Utvärderade {0} blogginlägg.</value>
+  </data>
 </root>

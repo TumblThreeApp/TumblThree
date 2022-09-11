@@ -450,4 +450,13 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="GotHtmlNotJson" xml:space="preserve">
     <value>El servidor devolvió el tipo de datos incorrecto. Para descargar algunos blogs ({0}), debe iniciar sesión (diálogo de configuración) y aceptar un consentimiento de privacidad.</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>Evaluado {0} post urls de {1} mensajes totales.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>Evaluado {0} publicaciones de blogs.</value>
+  </data>
+  <data name="ErrorDownloadingBlog2" xml:space="preserve">
+    <value>Error al descargar '{0}' ({1}). Vuelva a intentarlo en breve. Un valor bajo (1-2) de "Blogs concurrentes" también es útil.</value>
+  </data>
 </root>

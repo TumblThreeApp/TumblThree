@@ -44,5 +44,7 @@ namespace TumblThree.Applications.ViewModels
         public void AddUrl(string url) => ViewCore.AddUrl(url);
 
         public string GetUrl() => ViewCore.GetUrl();
+
+        public void SetDomain(string domain) => ViewCore.SetDomain(domain);
     }
 }

@@ -508,7 +508,7 @@ namespace TumblThree.Applications.Crawler
                     await AddUrlsToDownloadListAsync(response);
 
                     numberOfPostsCrawled += oldestApiPost == null ? Blog.PageSize : 20;
-                    UpdateProgressQueueInformation(Resources.ProgressGetUrlLong, numberOfPostsCrawled, Blog.Posts);
+                    UpdateProgressQueueInformation(Resources.ProgressGetUrl2Long, numberOfPostsCrawled, Blog.Posts);
                     retries = 200;
                 }
                 catch (WebException webException) when (webException.Response != null)

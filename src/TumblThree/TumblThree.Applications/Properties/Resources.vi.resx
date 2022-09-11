@@ -315,4 +315,10 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Trình phát Video: {0}</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>Đã đánh giá {0} post url trong số {1} tổng số bài đăng.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>Đã đánh giá {0} bài đăng trên blog.</value>
+  </data>
 </root>

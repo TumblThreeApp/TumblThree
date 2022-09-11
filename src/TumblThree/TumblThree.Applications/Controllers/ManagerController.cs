@@ -319,6 +319,11 @@ namespace TumblThree.Applications.Controllers
                         blog = new TwitterBlog().Load(filename);
                     }
 
+                    if (filename.EndsWith(BlogTypes.newtumbl.ToString()))
+                    {
+                        blog = new NewTumblBlog().Load(filename);
+                    }
+
                     if (blog != null)
                     {
                         if (!validCollectionIds.Contains(blog.CollectionId))

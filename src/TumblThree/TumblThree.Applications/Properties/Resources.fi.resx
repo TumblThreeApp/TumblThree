@@ -402,4 +402,10 @@ Haluatko ladata sen nyt?</value>
   <data name="PostNotParsable" xml:space="preserve">
     <value>Viestiä lähettäjältä '{0}' ei voitu jäsentää. Tietojen julkaisun sivukohtaisen arvon asettaminen pienemmäksi arvoksi saattaa lisätä ladattavaa sisältöä.</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>Arvioitu {0} post urlista {1} kaikista viesteistä.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>Arvioitu {0} blogitekstiä.</value>
+  </data>
 </root>

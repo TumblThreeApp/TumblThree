@@ -7,7 +7,7 @@ namespace TumblThree.Applications.Services
     {
         Task PerformTumblrLoginAsync(string login, string password);
 
-        void PerformTumblrLogout();
+        Task PerformLogoutAsync(Provider provider);
 
         Task PerformTumblrTFALoginAsync(string login, string tumblrTFAAuthCode);
 
@@ -15,7 +15,7 @@ namespace TumblThree.Applications.Services
 
         Task<bool> CheckIfLoggedInAsync();
 
-        Task<string> GetTumblrUsernameAsync();
+        Task<string> GetUsernameAsync(Provider provider);
 
         void AddCookies(CookieCollection cookies);
     }

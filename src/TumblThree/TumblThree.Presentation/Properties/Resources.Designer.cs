@@ -223,6 +223,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to newTumbl.
+        /// </summary>
+        public static string BlogtypeNewTumbl {
+            get {
+                return ResourceManager.GetString("BlogtypeNewTumbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tumblr.
         /// </summary>
         public static string BlogtypeTumblr {
@@ -1180,6 +1189,24 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to newTumbl.
+        /// </summary>
+        public static string LoginNewTumbl {
+            get {
+                return ResourceManager.GetString("LoginNewTumbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tumblr.
+        /// </summary>
+        public static string LoginTumblr {
+            get {
+                return ResourceManager.GetString("LoginTumblr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log Level.
         /// </summary>
         public static string LogLevel {
@@ -1817,6 +1844,25 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipAuthenticateBrowserDescription {
             get {
                 return ResourceManager.GetString("ToolTipAuthenticateBrowserDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authenticate to the newtumbl.com network.
+        /// </summary>
+        public static string ToolTipAuthenticateBrowserNT {
+            get {
+                return ResourceManager.GetString("ToolTipAuthenticateBrowserNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opens a browser window to authenticate yourself to the newtumbl.com site.
+        ///The cookies used for authentication are saved and the authentication process needs to be done only once..
+        /// </summary>
+        public static string ToolTipAuthenticateBrowserNTDescription {
+            get {
+                return ResourceManager.GetString("ToolTipAuthenticateBrowserNTDescription", resourceCulture);
             }
         }
         
@@ -2599,6 +2645,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout from newTumbl.com.
+        /// </summary>
+        public static string ToolTipLogoutNT {
+            get {
+                return ResourceManager.GetString("ToolTipLogoutNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cache the blog databases for offline duplicate check.
         /// </summary>
         public static string ToolTipOfflineDuplicateCheck {
@@ -2746,6 +2801,25 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipPrivacyConsentBrowserDescription {
             get {
                 return ResourceManager.GetString("ToolTipPrivacyConsentBrowserDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accept the newtumbl.com privacy consent.
+        /// </summary>
+        public static string ToolTipPrivacyConsentBrowserNT {
+            get {
+                return ResourceManager.GetString("ToolTipPrivacyConsentBrowserNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opens a browser window to accept the newtumbl.com privacy consent.
+        ///The cookies for the privacy consent are saved and the process needs to be done only once in a while..
+        /// </summary>
+        public static string ToolTipPrivacyConsentBrowserNTDescription {
+            get {
+                return ResourceManager.GetString("ToolTipPrivacyConsentBrowserNTDescription", resourceCulture);
             }
         }
         

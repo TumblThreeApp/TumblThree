@@ -145,7 +145,7 @@ namespace TumblThree.Applications.Services
             }
         }
 
-        public async Task<ResponseDetails> ReadRequestToEnd2Async(HttpWebRequest request)
+        public async Task<ResponseDetails> ReadRequestToEnd2Async(HttpWebRequest request, string cookieDomain)
         {
             using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
             {
@@ -153,7 +153,7 @@ namespace TumblThree.Applications.Services
                 {
                     response.Close();
                     if (response.Headers.AllKeys.Contains("Set-Cookie"))
-                        cookieService.SetUriCookie(CookieParser.GetAllCookiesFromHeader(response.Headers["Set-Cookie"], "www.tumblr.com"));
+                        cookieService.SetUriCookie(CookieParser.GetAllCookiesFromHeader(response.Headers["Set-Cookie"], cookieDomain));
 
                     return new ResponseDetails() { HttpStatusCode = response.StatusCode, RedirectUrl = response.Headers["Location"] };
                 }

@@ -315,4 +315,10 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>โปรแกรมเล่นวิดีโอ: {0}</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>ประเมิน {0} โพสต์ URL จาก {1} จำนวนการโพสต์ทั้งหมด</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>ประเมินแล้ว {0} บล็อกโพสต์</value>
+  </data>
 </root>

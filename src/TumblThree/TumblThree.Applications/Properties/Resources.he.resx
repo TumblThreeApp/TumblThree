@@ -315,4 +315,7 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>נגן וידאו: {0}</value>
   </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>הוערך {0} פוסטים בבלוג.</value>
+  </data>
 </root>

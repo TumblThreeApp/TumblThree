@@ -335,4 +335,10 @@
   <data name="PostNotParsable" xml:space="preserve">
     <value>Un post di '{0}' non è stato analizzabile. L'impostazione di 'Post per pagina' nei Dettagli su un valore inferiore potrebbe aumentare il contenuto scaricabile.</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>Valutato {0} post urls su {1} post totali.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>Valutato {0} post del blog.</value>
+  </data>
 </root>

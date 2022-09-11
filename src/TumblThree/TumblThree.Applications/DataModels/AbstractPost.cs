@@ -10,7 +10,7 @@
     {
         public PostType PostType { get; protected set; }
 
-        public string Url { get; }
+        public string Url { get; protected set; }
 
         public string Id { get; }
 

@@ -468,4 +468,13 @@ Sinon, vous devez au moins modifier les entrées d'emplacement "Télécharger" e
   <data name="GotHtmlNotJson" xml:space="preserve">
     <value>Le serveur a renvoyé le mauvais type de données. Pour télécharger certains blogs ({0}), vous devez vous connecter (dialogue des paramètres) et accepter un consentement de confidentialité.</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>Evalué {0} post urls out of {1} total des publications.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>Evalué {0} articles de blog.</value>
+  </data>
+  <data name="ErrorDownloadingBlog2" xml:space="preserve">
+    <value>Erreur lors du téléchargement de '{0}' ({1}). Veuillez réessayer sous peu. Une faible valeur (1-2) de "Nombre de blogs parallèls" est également utile.</value>
+  </data>
 </root>

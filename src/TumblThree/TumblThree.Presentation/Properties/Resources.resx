@@ -1187,4 +1187,30 @@ shutdown of the application, if the collection is available.</value>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="BlogtypeNewTumbl" xml:space="preserve">
+    <value>newTumbl</value>
+  </data>
+  <data name="LoginTumblr" xml:space="preserve">
+    <value>Tumblr</value>
+  </data>
+  <data name="LoginNewTumbl" xml:space="preserve">
+    <value>newTumbl</value>
+  </data>
+  <data name="ToolTipAuthenticateBrowserNT" xml:space="preserve">
+    <value>Authenticate to the newtumbl.com network</value>
+  </data>
+  <data name="ToolTipAuthenticateBrowserNTDescription" xml:space="preserve">
+    <value>Opens a browser window to authenticate yourself to the newtumbl.com site.
+The cookies used for authentication are saved and the authentication process needs to be done only once.</value>
+  </data>
+  <data name="ToolTipPrivacyConsentBrowserNT" xml:space="preserve">
+    <value>Accept the newtumbl.com privacy consent</value>
+  </data>
+  <data name="ToolTipPrivacyConsentBrowserNTDescription" xml:space="preserve">
+    <value>Opens a browser window to accept the newtumbl.com privacy consent.
+The cookies for the privacy consent are saved and the process needs to be done only once in a while.</value>
+  </data>
+  <data name="ToolTipLogoutNT" xml:space="preserve">
+    <value>Logout from newTumbl.com</value>
+  </data>
 </root>

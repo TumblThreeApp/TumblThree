@@ -111,6 +111,7 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Models\Blogs\BlogAll.cs" />
     <Compile Include="Models\Blogs\IBlogAll.cs" />
+    <Compile Include="Models\Blogs\NewTumblBlog.cs" />
     <Compile Include="Models\Blogs\TwitterBlog.cs" />
     <Compile Include="Models\CatboxTypes.cs" />
     <Compile Include="Models\Collection.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Models\BlogTypes.cs" />
     <Compile Include="Models\Files\FileEntry.cs" />
     <Compile Include="Models\Files\FileEntryComparer.cs" />
+    <Compile Include="Models\Files\NewTumblBlogFiles.cs" />
     <Compile Include="Models\Files\TumblrLikedByBlogFiles.cs" />
     <Compile Include="Models\Files\TumblrSearchBlogFiles.cs" />
     <Compile Include="Models\Files\TumblrTagSearchBlogFiles.cs" />

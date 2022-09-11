@@ -6,5 +6,12 @@
             : base(url, id, date, filename)
         {
         }
+
+        public TumblrPost CloneWithAdjustedUrl(string newUrl)
+        {
+            var obj = (TumblrPost)MemberwiseClone();
+            obj.Url = newUrl;
+            return obj;
+        }
     }
 }

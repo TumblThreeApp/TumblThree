@@ -478,6 +478,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error while downloading &apos;{0}&apos; ({1}). Please retry shortly. A low value (1-2) of &quot;Concurrent blogs&quot; is also helpful..
+        /// </summary>
+        public static string ErrorDownloadingBlog2 {
+            get {
+                return ResourceManager.GetString("ErrorDownloadingBlog2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}: Error opening blog url!.
         /// </summary>
         public static string ErrorOpeningBlogUrl {
@@ -838,6 +847,24 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluated {0} post urls out of {1} total posts..
+        /// </summary>
+        public static string ProgressGetUrl2Long {
+            get {
+                return ResourceManager.GetString("ProgressGetUrl2Long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluated {0} blog posts..
+        /// </summary>
+        public static string ProgressGetUrl2Short {
+            get {
+                return ResourceManager.GetString("ProgressGetUrl2Short", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Evaluated {0} tumblr post urls out of {1} total posts..
         /// </summary>
         public static string ProgressGetUrlLong {
@@ -847,7 +874,7 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluated {0} tumblr blog sites..
+        ///   Looks up a localized string similar to Evaluated {0} tumblr blog pages..
         /// </summary>
         public static string ProgressGetUrlShort {
             get {

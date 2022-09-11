@@ -378,4 +378,7 @@
   <data name="PostNotParsable" xml:space="preserve">
     <value>Μια ανάρτηση από το '{0}' δεν ήταν αναλύσιμη. Η ρύθμιση 'αναρτήσεις ανά σελίδα' στις Λεπτομέρειες σε χαμηλότερη τιμή ενδέχεται να αυξήσει το περιεχόμενο με δυνατότητα λήψης.</value>
   </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>Αξιολογήθηκαν {0} αναρτήσεις ιστολογίου.</value>
+  </data>
 </root>

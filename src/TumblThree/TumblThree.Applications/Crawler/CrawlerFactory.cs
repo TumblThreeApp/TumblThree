@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -108,6 +107,12 @@ namespace TumblThree.Applications.Crawler
                     return new TwitterCrawler(shellService, crawlerService, progress, webRequestFactory,
                         cookieService, postQueue, jsonTwitterQueue, blog, GetTwitterDownloader(progress, blog, files, postQueue, pt, ct),
                         GetJsonDownloader(jsonTwitterQueue, blog, pt, ct), pt, ct);
+                case BlogTypes.newtumbl:
+                    IPostQueue<CrawlerData<DataModels.NewTumbl.Post>> jsonNewTumblQueue = GetJsonQueue<DataModels.NewTumbl.Post>();
+                    return new NewTumblCrawler(shellService, crawlerService, progress, webRequestFactory,
+                        cookieService, postQueue, jsonNewTumblQueue, blog, GetNewTumblDownloader(progress, blog, files, postQueue, pt, ct),
+                        GetJsonDownloader(jsonNewTumblQueue, blog, pt, ct), GetNewTumblParser(), pt, ct);
+
                 default:
                     throw new ArgumentException("Website is not supported!", nameof(blog));
             }
@@ -139,6 +144,11 @@ namespace TumblThree.Applications.Crawler
         private ITumblrParser GetTumblrParser()
         {
             return new TumblrParser();
+        }
+
+        private INewTumblParser GetNewTumblParser()
+        {
+            return new NewTumblParser();
         }
 
         private IImgurParser GetImgurParser(IWebRequestFactory webRequestFactory, CancellationToken ct)
@@ -180,6 +190,13 @@ namespace TumblThree.Applications.Crawler
             IPostQueue<AbstractPost> postQueue, PauseToken pt, CancellationToken ct)
         {
             return new TwitterDownloader(shellService, managerService, ct, pt, progress, postQueue, GetFileDownloader(ct),
+                crawlerService, blog, files);
+        }
+
+        private NewTumblDownloader GetNewTumblDownloader(IProgress<DownloadProgress> progress, IBlog blog, IFiles files,
+            IPostQueue<AbstractPost> postQueue, PauseToken pt, CancellationToken ct)
+        {
+            return new NewTumblDownloader(shellService, managerService, ct, pt, progress, postQueue, GetFileDownloader(ct),
                 crawlerService, blog, files);
         }
 

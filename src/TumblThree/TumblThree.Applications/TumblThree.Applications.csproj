@@ -126,12 +126,16 @@
     <Compile Include="Converter\SingleOrArrayConverter.cs" />
     <Compile Include="CookieParser.cs" />
     <Compile Include="Crawler\AbstractTumblrCrawler.cs" />
+    <Compile Include="Crawler\NewTumblCrawler.cs" />
     <Compile Include="Crawler\TumblrPhotoLookup.cs" />
     <Compile Include="Crawler\TwitterCrawler.cs" />
     <Compile Include="DataModels\ImageResponse.cs" />
     <Compile Include="DataModels\LogData.cs" />
     <Compile Include="DataModels\LogException.cs" />
     <Compile Include="DataModels\AbstractPost.cs" />
+    <Compile Include="DataModels\NewTumbl\NewTumblPost.cs" />
+    <Compile Include="DataModels\NewTumbl\Post.cs" />
+    <Compile Include="DataModels\NewTumbl\SearchResult.cs" />
     <Compile Include="DataModels\TumblrApi\Conversation.cs" />
     <Compile Include="DataModels\TumblrApi\Photo.cs" />
     <Compile Include="DataModels\TumblrApi\Post.cs" />
@@ -147,6 +151,7 @@
     <Compile Include="DataModels\Twitter\TwitterUser.cs" />
     <Compile Include="DataModels\Twitter\TimelineTweets.cs" />
     <Compile Include="Downloader\JsonDownloader.cs" />
+    <Compile Include="Downloader\NewTumblDownloader.cs" />
     <Compile Include="Downloader\StreamWriterWithInfo.cs" />
     <Compile Include="Downloader\TwitterDownloader.cs" />
     <Compile Include="ErrorExceptions.cs" />
@@ -161,10 +166,12 @@
     <Compile Include="Parser\IImgurParser.cs" />
     <Compile Include="Parser\ImgurParser.cs" />
     <Compile Include="Crawler\ITumblrBlogDetector.cs" />
+    <Compile Include="Parser\INewTumblParser.cs" />
     <Compile Include="Parser\ITumblrParser.cs" />
     <Compile Include="Parser\ITumblrToText.cs" />
     <Compile Include="Parser\IUguuParser.cs" />
     <Compile Include="Parser\IWebmshareParser.cs" />
+    <Compile Include="Parser\NewTumblParser.cs" />
     <Compile Include="ResponseDetails.cs" />
     <Compile Include="Services\ILoginService.cs" />
     <Compile Include="Services\ILogService.cs" />
@@ -254,6 +261,7 @@
     <Compile Include="Extensions\TaskTimeoutExtension.cs" />
     <Compile Include="Services\WindowsFormsFolderBrowserDialog.cs" />
     <Compile Include="ThrottledStream.cs" />
+    <Compile Include="ViewModels\DetailsViewModels\DetailsNewTumblBlogViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrHiddenBlogViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrBlogViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrLikedByViewModel.cs" />
@@ -366,6 +374,7 @@
       <Version>6.0.0</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

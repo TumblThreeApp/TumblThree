@@ -10,6 +10,7 @@
         tlb,
         tumblrsearch,
         tumblrtagsearch,
+        newtumbl,
         all
 #pragma warning restore SA1300
     }

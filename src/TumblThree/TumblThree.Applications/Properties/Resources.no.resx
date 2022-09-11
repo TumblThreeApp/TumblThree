@@ -315,4 +315,10 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>Videospiller: {0}</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>Evaluert {0} postadresser ut av {1} totalt innlegg.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>Evaluerte {0} blogginnlegg.</value>
+  </data>
 </root>

@@ -21,5 +21,7 @@
         bool IsValidUrl(string url);
 
         bool IsValidTwitterUrl(string url);
+
+        bool IsValidNewTumblUrl(string url);
     }
 }

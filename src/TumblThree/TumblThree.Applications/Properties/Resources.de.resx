@@ -456,4 +456,13 @@ Andernfalls sollten Sie zumindest die Standorteinträge „Download“ und „Bl
   <data name="GotHtmlNotJson" xml:space="preserve">
     <value>Der Server hat den falschen Datentyp zurückgegeben. Für das Herunterladen einiger Blogs ({0}) müssen Sie sich anmelden (Einstellungsdialog) und eine Datenschutzeinwilligung akzeptieren.</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>{0} Beiträge von {1} Gesamtbeiträgen ausgewertet.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>{0} Blog-Beiträge ausgewertet.</value>
+  </data>
+  <data name="ErrorDownloadingBlog2" xml:space="preserve">
+    <value>Fehler beim Herunterladen von '{0}' ({1}). Bitte versuchen Sie es in Kürze erneut. Hilfreich ist auch ein niedriger Wert (1-2) bei "Gleichzeitig zu verarbeitende Blogs".</value>
+  </data>
 </root>

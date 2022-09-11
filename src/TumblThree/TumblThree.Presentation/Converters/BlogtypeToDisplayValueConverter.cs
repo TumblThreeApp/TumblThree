@@ -28,6 +28,8 @@ namespace TumblThree.Presentation.Converters
                     return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeInstagram);
                 case BlogTypes.twitter:
                     return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeTwitter);
+                case BlogTypes.newtumbl:
+                    return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeNewTumbl);
                 case BlogTypes.all:
                     return string.Empty;
                 default:

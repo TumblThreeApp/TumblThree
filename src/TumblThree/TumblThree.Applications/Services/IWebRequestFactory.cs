@@ -23,7 +23,7 @@ namespace TumblThree.Applications.Services
 
         Task<string> ReadRequestToEndAsync(HttpWebRequest request, bool storeCookies = false);
 
-        Task<ResponseDetails> ReadRequestToEnd2Async(HttpWebRequest request);
+        Task<ResponseDetails> ReadRequestToEnd2Async(HttpWebRequest request, string cookieDomain);
 
         Stream GetStreamForApiRequest(Stream stream);
 

@@ -335,4 +335,7 @@
   <data name="PostNotParsable" xml:space="preserve">
     <value>'{0}'からの投稿は解析できませんでした。 詳細の「ページあたりの投稿数」を低い値に設定すると、ダウンロード可能なコンテンツが増える可能性があります。</value>
   </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>{0} 件のブログ投稿を評価しました。</value>
+  </data>
 </root>

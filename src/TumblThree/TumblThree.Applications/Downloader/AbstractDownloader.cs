@@ -22,7 +22,7 @@ namespace TumblThree.Applications.Downloader
         protected readonly IBlog blog;
         protected readonly IFiles files;
         protected readonly ICrawlerService crawlerService;
-        private readonly IManagerService managerService;
+        protected readonly IManagerService managerService;
         protected readonly IProgress<DownloadProgress> progress;
         protected readonly object lockObjectDownload = new object();
         protected readonly IPostQueue<AbstractPost> postQueue;

@@ -315,4 +315,7 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>비디오 플레이어 : {0}</value>
   </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>평가된 블로그 게시물 {0}개.</value>
+  </data>
 </root>

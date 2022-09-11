@@ -11,6 +11,7 @@ namespace TumblThree.Domain.Models
         private readonly Regex tumbexRegex = new Regex("(http[A-Za-z0-9_/:.]*www.tumbex.com[A-Za-z0-9_/:.-]*tumblr/)");
         private readonly Regex urlRegex = new Regex(@"^(?:http(s)?:\/\/){1}?[\w.-]+(?:\.[\w\.-]+)+[/]??$");
         private readonly Regex twitterRegex = new Regex("(^https?://twitter.com/[A-Za-z0-9_]+$)");
+        private readonly Regex newTumblRegex = new Regex(@"(^https?://[\w.-]+newtumbl.com[/]??$)");
 
         public bool IsValidTumblrUrl(string url)
         {
@@ -63,6 +64,11 @@ namespace TumblThree.Domain.Models
         public bool IsValidTwitterUrl(string url)
         {
             return url != null && twitterRegex.IsMatch(url) && !url.EndsWith("/home");
+        }
+
+        public bool IsValidNewTumblUrl(string url)
+        {
+            return url != null && newTumblRegex.IsMatch(url);
         }
 
         public string AddHttpsProtocol(string url)

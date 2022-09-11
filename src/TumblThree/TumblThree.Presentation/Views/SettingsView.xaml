@@ -495,6 +495,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid
                             Grid.Row="0"
@@ -991,6 +992,7 @@
                             MinHeight="46"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -1001,9 +1003,14 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.LoginTumblr}" />
                             <Button
                                 x:Name="buttonAuthenticate"
-                                Grid.Column="0"
+                                Grid.Column="1"
                                 MinWidth="90"
                                 Margin="10"
                                 HorizontalAlignment="Left"
@@ -1022,7 +1029,7 @@
                             </Button>
                             <Button
                                 x:Name="buttonPrivacyConsent"
-                                Grid.Column="1"
+                                Grid.Column="2"
                                 MinWidth="90"
                                 Margin="10"
                                 HorizontalAlignment="Left"
@@ -1040,8 +1047,8 @@
                                 </Button.ToolTip>
                             </Button>
                             <Button
-                                x:Name="tumblrLogout"
-                                Grid.Column="6"
+                                x:Name="LogoutTumblr"
+                                Grid.Column="7"
                                 MinWidth="90"
                                 Margin="10"
                                 HorizontalAlignment="Left"
@@ -1060,8 +1067,8 @@
                                 </Button.ToolTip>
                             </Button>
                             <Label
-                                x:Name="TumblrLoggedInLabel"
-                                Grid.Column="7"
+                                x:Name="LoggedInLabelTumblr"
+                                Grid.Column="8"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center">
@@ -1077,8 +1084,8 @@
                                 </Label.Style>
                             </Label>
                             <Label
-                                x:Name="TumblrUsernameLabel"
-                                Grid.Column="8"
+                                x:Name="UsernameLabelTumblr"
+                                Grid.Column="9"
                                 Margin="-5,0,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center">
@@ -1096,6 +1103,121 @@
                         </Grid>
                         <Grid
                             Grid.Row="10"
+                            Height="Auto"
+                            MinHeight="46"
+                            HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.LoginNewTumbl}" />
+                            <Button
+                                x:Name="buttonAuthenticateNT"
+                                Grid.Column="1"
+                                MinWidth="90"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Command="{Binding NewTumblAuthenticateCommand}"
+                                Content="{x:Static p:Resources.Authenticate}"
+                                IsEnabled="True">
+                                <Button.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipAuthenticateBrowserNT}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipAuthenticateBrowserNTDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Button.ToolTip>
+                            </Button>
+                            <Button
+                                x:Name="buttonPrivacyConsentNT"
+                                Grid.Column="2"
+                                MinWidth="90"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Command="{Binding NewTumblPrivacyConsentCommand}"
+                                Content="{x:Static p:Resources.PrivacyConsent}"
+                                IsEnabled="False">
+                                <Button.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipPrivacyConsentBrowserNT}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipPrivacyConsentBrowserNTDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Button.ToolTip>
+                            </Button>
+                            <Button
+                                x:Name="newTumblLogout"
+                                Grid.Column="7"
+                                MinWidth="90"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Command="{Binding NewTumblLogoutCommand}"
+                                Content="{x:Static p:Resources.Logout}"
+                                IsEnabled="True"
+                                Visibility="{Binding NewTumblLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Button.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLogoutNT}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLogoutDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Button.ToolTip>
+                            </Button>
+                            <Label
+                                x:Name="LoggedInLabelNT"
+                                Grid.Column="8"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}">
+                                        <Setter Property="Content" Value="{x:Static p:Resources.LoggedOut}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding NewTumblLoggedIn}" Value="True">
+                                                <Setter Property="Content" Value="{x:Static p:Resources.LoggedIn}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label
+                                x:Name="UsernameLabelNT"
+                                Grid.Column="9"
+                                Margin="-5,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}">
+                                        <Setter Property="Label.Content" Value="" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding NewTumblLoggedIn}" Value="True">
+                                                <Setter Property="Label.Content" Value="{Binding NewTumblEmail}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Grid>
+                        <Grid
+                            Grid.Row="11"
                             Height="Auto"
                             MinHeight="46"
                             HorizontalAlignment="Left"

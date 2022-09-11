@@ -11,6 +11,8 @@ namespace TumblThree.Applications.Views
 
         event EventHandler Closed;
 
+        void SetDomain(string domain);
+
         void AddUrl(string url);
 
         string GetUrl();

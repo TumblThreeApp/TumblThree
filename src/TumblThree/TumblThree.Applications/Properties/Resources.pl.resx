@@ -335,4 +335,10 @@
   <data name="PostNotParsable" xml:space="preserve">
     <value>Nie można przeanalizować posta z '{0}'. Ustawienie niższej wartości „postów na stronę” w szczegółach może zwiększyć ilość pobieranych treści.</value>
   </data>
+  <data name="ProgressGetUrl2Long" xml:space="preserve">
+    <value>Ocenione {0} posty po urlach z {1} wszystkich postów.</value>
+  </data>
+  <data name="ProgressGetUrl2Short" xml:space="preserve">
+    <value>Oceniono {0} posty na blogu.</value>
+  </data>
 </root>
