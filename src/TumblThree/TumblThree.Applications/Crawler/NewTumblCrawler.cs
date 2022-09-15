@@ -603,13 +603,15 @@ namespace TumblThree.Applications.Crawler
         {
             if (!post.bPostTypeIx.Equals(PostType.Text)) return;
 
+            var data = ParseText(post);
+
             if (!Blog.DownloadText)
             {
-                StatisticsBag.Add(new TextPost(null, null, null));
+                StatisticsBag.Add(new TextPost(data, null, null));
                 return;
             }
 
-            AddToDownloadList(new TextPost(ParseText(post), GetPostId(post)));
+            AddToDownloadList(new TextPost(data, GetPostId(post)));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(GetPostId(post), ".json"), post));
         }
 
@@ -617,13 +619,15 @@ namespace TumblThree.Applications.Crawler
         {
             if (!post.bPostTypeIx.Equals(PostType.Quote)) return;
 
+            var data = ParseQuote(post);
+
             if (!Blog.DownloadQuote)
             {
-                StatisticsBag.Add(new QuotePost(null, null, null));
+                StatisticsBag.Add(new QuotePost(data, null, null));
                 return;
             }
 
-            AddToDownloadList(new QuotePost(ParseQuote(post), GetPostId(post)));
+            AddToDownloadList(new QuotePost(data, GetPostId(post)));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(GetPostId(post), ".json"), post));
         }
 
@@ -631,13 +635,15 @@ namespace TumblThree.Applications.Crawler
         {
             if (!post.bPostTypeIx.Equals(PostType.Link)) return;
 
+            var data = ParseLink(post);
+
             if (!Blog.DownloadLink)
             {
-                StatisticsBag.Add(new LinkPost(null, null, null));
+                StatisticsBag.Add(new LinkPost(data, null, null));
                 return;
             }
 
-            AddToDownloadList(new LinkPost(ParseLink(post), GetPostId(post)));
+            AddToDownloadList(new LinkPost(data, GetPostId(post)));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(GetPostId(post), ".json"), post));
         }
 
@@ -645,13 +651,15 @@ namespace TumblThree.Applications.Crawler
         {
             if (!post.bPostTypeIx.Equals(PostType.Answer)) return;
 
+            var data = ParseAnswer(post);
+
             if (!Blog.DownloadAnswer)
             {
-                StatisticsBag.Add(new AnswerPost(null, null, null));
+                StatisticsBag.Add(new AnswerPost(data, null, null));
                 return;
             }
 
-            AddToDownloadList(new AnswerPost(ParseAnswer(post), GetPostId(post)));
+            AddToDownloadList(new AnswerPost(data, GetPostId(post)));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(GetPostId(post), ".json"), post));
         }
 
@@ -752,15 +760,16 @@ namespace TumblThree.Applications.Crawler
             foreach (var part in post.Parts)
             {
                 if (!part.bPartTypeIx.Equals(PostType.Photo)) continue;
+
+                var media = part.Medias[0];
+                var imageUrl = GetMediaUrl(blogIx, post.qwPostIx, part.nPartIz, part.qwPartIx, media.bMediaTypeIx, media.nWidth, media.nHeight, 0);
+
                 if (!Blog.DownloadPhoto && post.bPostTypeIx.Equals(PostType.Photo))
                 {
-                    StatisticsBag.Add(new PhotoPost(null, null, null));
+                    StatisticsBag.Add(new PhotoPost(imageUrl, null, null));
                     continue;
                 }
 
-                var media = part.Medias[0];
-
-                var imageUrl = GetMediaUrl(blogIx, post.qwPostIx, part.nPartIz, part.qwPartIx, media.bMediaTypeIx, media.nWidth, media.nHeight, 0);
                 if (firstImageUrl == null) firstImageUrl = imageUrl;
 
                 var index = photoCount > 1 ? counter++ : -1;
@@ -830,29 +839,24 @@ namespace TumblThree.Applications.Crawler
             foreach (var part in post.Parts)
             {
                 if (!post.bPostTypeIx.Equals(PostType.Video) || !part.bPartTypeIx.Equals(PostType.Video)) continue;
-                if (!Blog.DownloadVideo)
-                {
-                    StatisticsBag.Add(new VideoPost(null, null, null));
-                    continue;
-                }
-                else if (!Blog.DownloadVideoThumbnail)
-                {
-                    StatisticsBag.Add(new PhotoPost(null, null, null));
-                    continue;
-                }
+
                 var media = part.Medias[0];
-
                 var videoUrl = GetMediaUrl(blogIx, post.qwPostIx, part.nPartIz, part.qwPartIx, media.bMediaTypeIx, media.nWidth, media.nHeight, 0);
-                if (firstVideoUrl == null) firstVideoUrl = videoUrl;
-
+                
                 if (Blog.DownloadVideo)
                 {
+                    if (firstVideoUrl == null) firstVideoUrl = videoUrl;
                     AddToDownloadList(new VideoPost(videoUrl, GetPostId(part), UnixTimestamp(post).ToString(), BuildFileName(videoUrl, post, "video", -1)));
                 }
+                else
+                {
+                    StatisticsBag.Add(new VideoPost(videoUrl, null, null));
+                }
+
+                var imageUrl = GetMediaUrl(blogIx, post.qwPostIx, part.nPartIz, part.qwPartIx, media.bMediaTypeIx, media.nWidth, media.nHeight, 300);
 
                 if (Blog.DownloadVideoThumbnail)
                 {
-                    var imageUrl = GetMediaUrl(blogIx, post.qwPostIx, part.nPartIz, part.qwPartIx, media.bMediaTypeIx, media.nWidth, media.nHeight, 300);
                     var filename = FileName(imageUrl);
                     filename = BuildFileName(filename, post, "photo", -1);
                     AddToDownloadList(new PhotoPost(imageUrl, GetPostId(part, true), UnixTimestamp(post).ToString(), filename));
@@ -860,6 +864,10 @@ namespace TumblThree.Applications.Crawler
                     {
                         AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
                     }
+                }
+                else
+                {
+                    StatisticsBag.Add(new PhotoPost(imageUrl, null, null));
                 }
             }
             if (firstVideoUrl != null)
@@ -875,14 +883,16 @@ namespace TumblThree.Applications.Crawler
             foreach (var part in post.Parts)
             {
                 if (!part.bPartTypeIx.Equals(PostType.Audio)) continue;
-                if (!Blog.DownloadAudio && post.bPostTypeIx.Equals(PostType.Audio)) {
-                    StatisticsBag.Add(new AudioPost(null, null, null));
+
+                var media = part.Medias[0];
+                var audioUrl = GetMediaUrl(blogIx, post.qwPostIx, part.nPartIz, part.qwPartIx, media.bMediaTypeIx, media.nWidth, media.nHeight, 0);
+
+                if (!Blog.DownloadAudio && post.bPostTypeIx.Equals(PostType.Audio))
+                {
+                    StatisticsBag.Add(new AudioPost(audioUrl, null, null));
                     continue;
                 }
 
-                var media = part.Medias[0];
-
-                var audioUrl = GetMediaUrl(blogIx, post.qwPostIx, part.nPartIz, part.qwPartIx, media.bMediaTypeIx, media.nWidth, media.nHeight, 0);
                 if (firstAudioUrl == null) firstAudioUrl = audioUrl;
 
                 var filename = BuildFileName(audioUrl, post, "audio", -1);
