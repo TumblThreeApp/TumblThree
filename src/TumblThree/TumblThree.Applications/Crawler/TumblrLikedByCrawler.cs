@@ -134,6 +134,8 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
+                var isLikesUrl = TumblrLikedByBlog.IsLikesUrl(Blog.Url);
+
                 while (true)
                 {
                     if (CheckIfShouldStop())
@@ -157,6 +159,10 @@ namespace TumblThree.Applications.Crawler
                     try
                     {
                         document = await GetRequestAsync(url);
+                        if (!isLikesUrl)
+                        {
+                            document = Regex.Unescape(document);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -176,7 +182,7 @@ namespace TumblThree.Applications.Crawler
                     pagination = ExtractNextPageLink(document);
                     pageNumber++;
                     var notWithinTimespan = !CheckIfWithinTimespan(pagination);
-                    if (TumblrLikedByBlog.IsLikesUrl(Blog.Url))
+                    if (isLikesUrl)
                     {
                         if (pagination >= prevPagination)
                         {
@@ -185,10 +191,17 @@ namespace TumblThree.Applications.Crawler
                         }
                         prevPagination = pagination;
                     }
-                    nextPage.Add(Blog.Url + (TumblrLikedByBlog.IsLikesUrl(Blog.Url) ? "?before=" : "/page/" + pageNumber + "/") + pagination);
+                    nextPage.Add(Blog.Url + (isLikesUrl ? "?before=" : "/page/" + pageNumber + "/") + pagination);
 
-                    var posts = ExtractPosts(document);
-                    await DownloadPage(posts);
+                    if (isLikesUrl)
+                    {
+                        var posts = ExtractPosts(document);
+                        await DownloadPage(posts);
+                    }
+                    else
+                    {
+                        await AddUrlsToDownloadListAsync(document);
+                    }
 
                     Interlocked.Increment(ref numberOfPagesCrawled);
                     UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
@@ -212,6 +225,8 @@ namespace TumblThree.Applications.Crawler
                 semaphoreSlim.Release();
             }
         }
+
+        #region "Likes download"
 
         private static string InlineSearch(DataModels.TumblrSearchJson.Data post, DataModels.TumblrSearchJson.Content content)
         {
@@ -293,72 +308,6 @@ namespace TumblThree.Applications.Crawler
             return downloadFromUnixTime < postTime && postTime < downloadToUnixTime;
         }
 
-        public override async Task IsBlogOnlineAsync()
-        {
-            try
-            {
-                await GetRequestAsync(Blog.Url);
-                Blog.Online = true;
-            }
-            catch (WebException webException)
-            {
-                if (webException.Status == WebExceptionStatus.RequestCanceled)
-                {
-                    return;
-                }
-
-                Logger.Error("TumblrLikedByCrawler:IsBlogOnlineAsync:WebException {0}", webException);
-                ShellService.ShowError(webException, Resources.BlogIsOffline, Blog.Name);
-                Blog.Online = false;
-            }
-            catch (TimeoutException timeoutException)
-            {
-                HandleTimeoutException(timeoutException, Resources.OnlineChecking);
-                Blog.Online = false;
-            }
-            catch (Exception ex) when (ex.Message == "Acceptance of privacy consent needed!")
-            {
-                Blog.Online = false;
-            }
-        }
-
-        private long CreateStartPagination()
-        {
-            if (string.IsNullOrEmpty(Blog.DownloadTo))
-            {
-                return DateTimeOffset.Now.ToUnixTimeSeconds();
-            }
-
-            DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
-                DateTimeStyles.None);
-            var dateTimeOffset = new DateTimeOffset(downloadTo);
-            return dateTimeOffset.ToUnixTimeSeconds();
-        }
-
-        private bool CheckIfPageCountReached(int pageCount)
-        {
-            int numberOfPages = RangeToSequence(Blog.DownloadPages).Count();
-            return pageCount >= numberOfPages;
-        }
-
-        private async Task<bool> CheckIfLoggedInAsync()
-        {
-            try
-            {
-                string document = await GetRequestAsync(Blog.Url + "/page/1");
-                return !document.Contains("<div class=\"signup_view account login\"");
-            }
-            catch (WebException webException) when (webException.Status == WebExceptionStatus.RequestCanceled)
-            {
-                return true;
-            }
-            catch (TimeoutException timeoutException)
-            {
-                HandleTimeoutException(timeoutException, Resources.Crawling);
-                return false;
-            }
-        }
-
         private static List<DataModels.TumblrSearchJson.Data> ExtractPosts(string document)
         {
             var extracted = extractJsonFromLikes.Match(document).Groups[1].Value;
@@ -415,40 +364,6 @@ namespace TumblThree.Applications.Crawler
                     Logger.Verbose("TumblrLikedByCrawler.DownloadPage: {0}", e);
                 }
             }
-        }
-
-        private static long ExtractNextPageLink(string document)
-        {
-            // Example pagination:
-            //
-            // <div id="pagination" class="pagination "><a id="previous_page_link" href="/liked/by/wallpaperfx/page/3/-1457140452" class="previous button chrome">Previous</a>
-            // <a id="next_page_link" href="/liked/by/wallpaperfx/page/5/1457139681" class="next button chrome blue">Next</a></div></div>
-
-            const string htmlPagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
-            const string jsonPagination = "&before=([0-9]*)";
-
-            long.TryParse(Regex.Match(document, htmlPagination).Groups[3].Value, out var unixTime);
-            
-            if(unixTime == 0)
-            {
-                var r = Regex.Match(document, jsonPagination);
-                long.TryParse(r.Groups[1].Value, out unixTime);
-            }
-
-            return unixTime;
-        }
-
-        private bool CheckIfWithinTimespan(long pagination)
-        {
-            if (string.IsNullOrEmpty(Blog.DownloadFrom))
-            {
-                return true;
-            }
-
-            DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
-                DateTimeStyles.None);
-            var dateTimeOffset = new DateTimeOffset(downloadFrom);
-            return pagination >= dateTimeOffset.ToUnixTimeSeconds();
         }
 
         private void DownloadText(DataModels.TumblrSearchJson.Data post, Post data)
@@ -549,6 +464,178 @@ namespace TumblThree.Applications.Crawler
                     AddToDownloadList(new PhotoPost(url, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
                 }
             }
+        }
+
+        #endregion
+
+        #region "Liked/By download"
+        
+        private async Task AddUrlsToDownloadListAsync(string document)
+        {
+            try
+            {
+                AddPhotoUrlToDownloadList(document);
+                AddVideoUrlToDownloadList(document);
+                await Task.CompletedTask;
+            }
+            catch (NullReferenceException e)
+            {
+                Logger.Verbose("TumblrLikedByCrawler.AddUrlsToDownloadListAsync: {0}", e);
+            }
+        }
+
+        private void AddPhotoUrlToDownloadList(string document)
+        {
+            if (!Blog.DownloadPhoto)
+            {
+                return;
+            }
+
+            var post = new Post()
+            {
+                Date = DateTime.Now.ToString("R"),
+                DateGmt = DateTime.Now.ToString("R"),
+                UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds(),
+                Type = "",
+                Id = "",
+                Tags = new List<string>(),
+                Slug = "",
+                RegularTitle = "",
+                RebloggedFromName = "",
+                RebloggedRootName = "",
+                ReblogKey = "",
+                Tumblelog = new TumbleLog2() { Name = "" }
+            };
+            AddTumblrPhotoUrl(document, post);
+
+            if (Blog.RegExPhotos)
+            {
+                AddGenericPhotoUrl(document, post);
+            }
+        }
+
+        private void AddVideoUrlToDownloadList(string document)
+        {
+            if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail)
+            {
+                return;
+            }
+
+            var post = new Post()
+            {
+                Id = "",
+                Tumblelog = new TumbleLog2() { Name = "" },
+                UnixTimestamp = (int)((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()
+            };
+            AddTumblrVideoUrl(document, post);
+            AddInlineTumblrVideoUrl(document, TumblrParser.GetTumblrVVideoUrlRegex(), TumblrParser.GetTumblrThumbnailUrlRegex());
+
+            if (Blog.DownloadVideo && Blog.RegExVideos)
+            {
+                AddGenericVideoUrl(document, post);
+            }
+        }
+
+        #endregion
+
+        public override async Task IsBlogOnlineAsync()
+        {
+            try
+            {
+                await GetRequestAsync(Blog.Url);
+                Blog.Online = true;
+            }
+            catch (WebException webException)
+            {
+                if (webException.Status == WebExceptionStatus.RequestCanceled)
+                {
+                    return;
+                }
+
+                Logger.Error("TumblrLikedByCrawler:IsBlogOnlineAsync:WebException {0}", webException);
+                ShellService.ShowError(webException, Resources.BlogIsOffline, Blog.Name);
+                Blog.Online = false;
+            }
+            catch (TimeoutException timeoutException)
+            {
+                HandleTimeoutException(timeoutException, Resources.OnlineChecking);
+                Blog.Online = false;
+            }
+            catch (Exception ex) when (ex.Message == "Acceptance of privacy consent needed!")
+            {
+                Blog.Online = false;
+            }
+        }
+
+        private long CreateStartPagination()
+        {
+            if (string.IsNullOrEmpty(Blog.DownloadTo))
+            {
+                return DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
+
+            DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
+                DateTimeStyles.None);
+            var dateTimeOffset = new DateTimeOffset(downloadTo);
+            return dateTimeOffset.ToUnixTimeSeconds();
+        }
+
+        private bool CheckIfPageCountReached(int pageCount)
+        {
+            int numberOfPages = RangeToSequence(Blog.DownloadPages).Count();
+            return pageCount >= numberOfPages;
+        }
+
+        private async Task<bool> CheckIfLoggedInAsync()
+        {
+            try
+            {
+                string document = await GetRequestAsync(Blog.Url + "/page/1");
+                return !document.Contains("<div class=\"signup_view account login\"");
+            }
+            catch (WebException webException) when (webException.Status == WebExceptionStatus.RequestCanceled)
+            {
+                return true;
+            }
+            catch (TimeoutException timeoutException)
+            {
+                HandleTimeoutException(timeoutException, Resources.Crawling);
+                return false;
+            }
+        }
+
+        private static long ExtractNextPageLink(string document)
+        {
+            // Example pagination:
+            //
+            // <div id="pagination" class="pagination "><a id="previous_page_link" href="/liked/by/wallpaperfx/page/3/-1457140452" class="previous button chrome">Previous</a>
+            // <a id="next_page_link" href="/liked/by/wallpaperfx/page/5/1457139681" class="next button chrome blue">Next</a></div></div>
+
+            const string htmlPagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
+            const string jsonPagination = "&before=([0-9]*)";
+
+            long.TryParse(Regex.Match(document, htmlPagination).Groups[3].Value, out var unixTime);
+            
+            if(unixTime == 0)
+            {
+                var r = Regex.Match(document, jsonPagination);
+                long.TryParse(r.Groups[1].Value, out unixTime);
+            }
+
+            return unixTime;
+        }
+
+        private bool CheckIfWithinTimespan(long pagination)
+        {
+            if (string.IsNullOrEmpty(Blog.DownloadFrom))
+            {
+                return true;
+            }
+
+            DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
+                DateTimeStyles.None);
+            var dateTimeOffset = new DateTimeOffset(downloadFrom);
+            return pagination >= dateTimeOffset.ToUnixTimeSeconds();
         }
 
         private async Task GetAlreadyExistingCrawlerDataFilesAsync()
