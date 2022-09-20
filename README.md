@@ -14,8 +14,7 @@ TumblThree is a free and open source Tumblr, Twitter and newTumbl blog backup ap
 It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), using the [Win Application Framework (WAF)](https://github.com/jbe2277/waf) and C# with WPF and the MVVM pattern.
 
 <a href="#"><img valign="middle" src="https://raw.githubusercontent.com/wiki/TumblThreeApp/TumblThree/images/label_new_yellow.png" alt="new" height="30"/></a>&nbsp;&nbsp; TumblThree 2.8 - Now with newTumbl blog downloader!
-</br>
-</br>
+</br></br>
 
 <p align="center"><img src="https://raw.githubusercontent.com/wiki/TumblThreeApp/TumblThree/images/tumblthree.png" width="75%" align="center" alt="TumblThree Main UI"></p>
 
