@@ -72,13 +72,20 @@ namespace TumblThree.Presentation.Views
             var cookieManager = Cef.GetGlobalCookieManager();
             var cookies = await cookieManager.VisitUrlCookiesAsync(url, true);
 
-            //// don't ask why, but one cookieCollection works and the other not
-            //var cookieHeader = GetCookieHeader(cookies);
-            //CookieContainer cookieCon = new CookieContainer();
-            //cookieCon.SetCookies(new Uri("https://" + _domain + "/"), cookieHeader);
-            //var cookieCollection = FixCookieDates(cookieCon.GetCookies(new Uri("https://" + _domain + "/")));
-
-            var cookieCollection = GetCookies(cookies);
+            CookieCollection cookieCollection;
+            if (url.Contains("tumblr.com"))
+            {
+                // don't ask why, but one cookieCollection works and the other not
+                var cookieHeader = GetCookieHeader(cookies);
+                CookieContainer cookieCon = new CookieContainer();
+                cookieCon.SetCookies(new Uri("https://" + _domain + "/"), cookieHeader);
+                cookieCollection = FixCookieDates(cookieCon.GetCookies(new Uri("https://" + _domain + "/")));
+            }
+            else
+            {
+                cookieCollection = GetCookies(cookies);
+            }
+      
             return cookieCollection;
         }
 
