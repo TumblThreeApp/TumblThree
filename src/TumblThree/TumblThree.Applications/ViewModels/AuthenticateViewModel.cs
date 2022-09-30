@@ -33,7 +33,7 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _oauthCallbackUrl, value);
         }
 
-        public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
+        public void ShowDialog(object owner, string url, string cookieDomain) => ViewCore.ShowDialog(owner, url, cookieDomain);
 
         private void ViewClosed(object sender, EventArgs e)
         {
@@ -41,10 +41,6 @@ namespace TumblThree.Applications.ViewModels
 
         public Task<CookieCollection> GetCookies(String url) => ViewCore.GetCookies(url);
 
-        public void AddUrl(string url) => ViewCore.AddUrl(url);
-
         public string GetUrl() => ViewCore.GetUrl();
-
-        public void SetDomain(string domain) => ViewCore.SetDomain(domain);
     }
 }

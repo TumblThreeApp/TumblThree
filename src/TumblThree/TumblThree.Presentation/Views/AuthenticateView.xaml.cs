@@ -39,10 +39,12 @@ namespace TumblThree.Presentation.Views
             get { return viewModel.Value; }
         }
 
-        public void ShowDialog(object owner)
+        public void ShowDialog(object owner, string url, string cookieDomain)
         {
             browser.IsBrowserInitializedChanged += OnLoad;
             Owner = owner as Window;
+            _url = url;
+            _domain = cookieDomain;
             ShowDialog();
         }
 
@@ -52,19 +54,9 @@ namespace TumblThree.Presentation.Views
                 browser.Load(_url);
         }
 
-        public void AddUrl(string url)
-        {
-            _url = url;
-        }
-
         public string GetUrl()
         {
             return browser.Address;
-        }
-
-        public void SetDomain(string domain)
-        {
-            _domain = domain;
         }
 
         public async Task<CookieCollection> GetCookies(string url)

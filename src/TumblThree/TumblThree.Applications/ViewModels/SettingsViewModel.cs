@@ -1070,9 +1070,7 @@ namespace TumblThree.Applications.ViewModels
             ShellService.Settings.OAuthCallbackUrl = "https://www.tumblr.com/dashboard_";
 
             AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
-            authenticateViewModel.AddUrl(url);
-            authenticateViewModel.SetDomain("www.tumblr.com");
-            authenticateViewModel.ShowDialog(ShellService.ShellView);
+            authenticateViewModel.ShowDialog(ShellService.ShellView, url, "www.tumblr.com");
 
             var cookies = await authenticateViewModel.GetCookies("https://www.tumblr.com/");
 
@@ -1085,8 +1083,7 @@ namespace TumblThree.Applications.ViewModels
             const string url = @"https://www.tumblr.com/search/cat";
 
             AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
-            authenticateViewModel.AddUrl(url);
-            authenticateViewModel.ShowDialog(ShellService.ShellView);
+            authenticateViewModel.ShowDialog(ShellService.ShellView, url, "www.tumblr.com");
 
             var cookies = await authenticateViewModel.GetCookies("https://www.tumblr.com/");
 
@@ -1172,9 +1169,7 @@ namespace TumblThree.Applications.ViewModels
             ShellService.Settings.OAuthCallbackUrl = "https://newtumbl.com";
 
             AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
-            authenticateViewModel.AddUrl(url);
-            authenticateViewModel.SetDomain("newtumbl.com");
-            authenticateViewModel.ShowDialog(ShellService.ShellView);
+            authenticateViewModel.ShowDialog(ShellService.ShellView, url, "newtumbl.com");
 
             var cookies = await authenticateViewModel.GetCookies("https://newtumbl.com/");
 

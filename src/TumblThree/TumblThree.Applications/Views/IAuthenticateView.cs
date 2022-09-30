@@ -7,13 +7,9 @@ namespace TumblThree.Applications.Views
 {
     public interface IAuthenticateView : IView
     {
-        void ShowDialog(object owner);
+        void ShowDialog(object owner, string url, string cookieDomain);
 
         event EventHandler Closed;
-
-        void SetDomain(string domain);
-
-        void AddUrl(string url);
 
         string GetUrl();
 
