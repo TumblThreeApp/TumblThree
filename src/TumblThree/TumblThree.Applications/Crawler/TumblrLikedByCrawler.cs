@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Dynamic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -104,6 +105,7 @@ namespace TumblThree.Applications.Crawler
                 Logger.Error("TumblrLikedByCrawler:GetUrlsAsync: {0}", "User not logged in");
                 ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
                 PostQueue.CompleteAdding();
+                jsonQueue.CompleteAdding();
                 return;
             }
 
@@ -590,8 +592,19 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                string document = await GetRequestAsync(Blog.Url + "/page/1");
-                return !document.Contains("<div class=\"signup_view account login\"");
+                var url = Blog.Url + (TumblrLikedByBlog.IsLikesUrl(Blog.Url) ? "" : "/page/1");
+                string document = await GetRequestAsync(url);
+                if (document.Contains("___INITIAL_STATE___"))
+                {
+                    var extracted = extractJsonFromLikes.Match(document).Groups[1].Value;
+                    dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(extracted);
+                    var loggedIn = obj?.isLoggedIn?.isLoggedIn ?? false;
+                    return loggedIn;
+                }
+                else
+                {
+                    return document.IndexOf("data-page-root=\"" + new Uri(Blog.Url).AbsolutePath, StringComparison.OrdinalIgnoreCase) >= 0;
+                }
             }
             catch (WebException webException) when (webException.Status == WebExceptionStatus.RequestCanceled)
             {
@@ -600,6 +613,10 @@ namespace TumblThree.Applications.Crawler
             catch (TimeoutException timeoutException)
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
+                return false;
+            }
+            catch (Exception ex)
+            {
                 return false;
             }
         }
