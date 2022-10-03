@@ -470,7 +470,7 @@ namespace TumblThree.Applications.Crawler
         private void AddToJsonQueue(string[] urls, Post post)
         {
             if (urls == null || urls.Length == 0) return;
-            AddToJsonQueue(new CrawlerData<Post>(FileName(urls[0]), post));
+            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(FileName(urls[0]), ".json"), post));
         }
 
         private async Task AddUrlsToDownloadListAsync(TumblrApiJson document)

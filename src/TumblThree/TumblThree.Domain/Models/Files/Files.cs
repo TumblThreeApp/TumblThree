@@ -51,6 +51,9 @@ namespace TumblThree.Domain.Models.Files
         public BlogTypes BlogType { get; set; }
 
         [DataMember]
+        public string Updates { get; set; }
+
+        [DataMember]
         public string Version { get; set; }
 
         //public IList<string> Links => links;
@@ -102,12 +105,13 @@ namespace TumblThree.Domain.Models.Files
             }
         }
 
-        public static IFiles Load(string fileLocation)
+        public static IFiles Load(string fileLocation, bool isArchive = false)
         {
             try
             {
-                //isDirty = false;
-                return LoadCore(fileLocation);
+                IFiles file = LoadCore(fileLocation, isArchive);
+                if (!isArchive && file.IsDirty) file.Save();
+                return file;
             }
             catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException || ex is IOException)
             {
@@ -116,7 +120,7 @@ namespace TumblThree.Domain.Models.Files
             }
         }
 
-        private static IFiles LoadCore(string fileLocation)
+        private static IFiles LoadCore(string fileLocation, bool isArchive)
         {
             using (var stream = new FileStream(fileLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
@@ -124,6 +128,7 @@ namespace TumblThree.Domain.Models.Files
                 var file = (Files)serializer.ReadObject(stream);
                 if (file.entries != null) file.entries = new HashSet<FileEntry>(file.entries, new FileEntryComparer());
 
+                if (!isArchive) DoUpdates(file);
                 if (file.Version == "1")
                 {
                     for (int i = 0; i < file.links.Count; i++)
@@ -202,6 +207,57 @@ namespace TumblThree.Domain.Models.Files
             }
         }
 
+        private static void DoUpdates(Files file)
+        {
+            // T01
+            if (!(file.Updates ?? "").Contains("T01") &&
+                (file.BlogType == BlogTypes.tumblr || file.BlogType == BlogTypes.tmblrpriv) &&
+                new string[] { "1", "2", "3", "4", "5" }.Contains(file.Version) &&
+                Directory.Exists(file.Location))
+            {
+                if (new string[] { "4", "5" }.Contains(file.Version))
+                {
+                    foreach (var entry in file.entries.ToArray())
+                    {
+                        if (!entry.Filename.ToLower().EndsWith(".mp4")) { continue; }
+                        var filepath = Path.Combine(file.Location.Replace("\\Index", ""), file.Name, entry.Filename);
+                        if (!File.Exists(filepath)) { continue; }
+
+                        var fi = new FileInfo(filepath);
+                        var fileLength = fi.Length;
+                        if (fi.Length <= 50 * 1024 && 
+                            fi.CreationTime > new DateTime(2022, 4, 1))
+                        {
+                            bool redo = false;
+                            if (fi.Length < 8)
+                            {
+                                redo = true;
+                            }
+                            else
+                            {
+                                using (var fs = File.OpenRead(filepath))
+                                {
+                                    byte[] ba = new byte[8];
+                                    fs.Read(ba, 0, 8);
+
+                                    if (ba[4] == 0x66 && ba[5] == 0x74 && ba[6] == 0x79 && ba[7] == 0x70) { continue; }
+                                    if (ba[0] == 0x7B && ba[1] == 0x0D && ba[2] == 0x0A) { redo = true; }
+                                }
+                            }
+
+                            if (redo)
+                            {
+                                File.Delete(filepath);
+                                file.entries.Remove(entry);
+                            }
+                        }
+                    }
+                }
+                file.Updates = (string.IsNullOrEmpty(file.Updates) ? "" : "|") + "T01";
+                file.isDirty = true;
+            }
+        }
+
         public bool Save()
         {
             lock (_lockList)
@@ -230,7 +286,7 @@ namespace TumblThree.Domain.Models.Files
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("Files:Save: {0}", ex);
+                    Logger.Error("Files:Save: {0}: {1}", Name, ex);
                     throw;
                 }
             }

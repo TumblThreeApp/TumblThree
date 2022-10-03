@@ -361,7 +361,7 @@ namespace TumblThree.Applications.Controllers
 
                 if (Directory.Exists(path))
                 {
-                    IReadOnlyList<IFiles> databases = await GetIFilesAsync(path);
+                    IReadOnlyList<IFiles> databases = await GetIFilesAsync(path, false);
                     foreach (IFiles database in databases)
                     {
                         _managerService.AddDatabase(database);
@@ -397,7 +397,7 @@ namespace TumblThree.Applications.Controllers
                     {
                         if (SkipFolder(collection.Id, folder, _shellService.Settings.LoadArchive)) continue;
 
-                        IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(folder);
+                        IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(folder, true);
                         foreach (IFiles archiveDB in archiveDatabases)
                         {
                             _managerService.AddArchive(archiveDB);
@@ -432,10 +432,10 @@ namespace TumblThree.Applications.Controllers
             return !loadArchives;
         }
 
-        private Task<IReadOnlyList<IFiles>> GetIFilesAsync(string directory) => Task.Factory.StartNew(
-            () => GetIFilesCore(directory), CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+        private Task<IReadOnlyList<IFiles>> GetIFilesAsync(string directory, bool isArchive) => Task.Factory.StartNew(
+            () => GetIFilesCore(directory, isArchive), CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
 
-        private IReadOnlyList<IFiles> GetIFilesCore(string directory)
+        private IReadOnlyList<IFiles> GetIFilesCore(string directory, bool isArchive)
         {
             Logger.Verbose("ManagerController:GetFilesCore Start");
 
@@ -451,7 +451,7 @@ namespace TumblThree.Applications.Controllers
                 //TODO: Refactor
                 try
                 {
-                    IFiles database = Files.Load(filename);
+                    IFiles database = Files.Load(filename, isArchive);
                     if (_shellService.Settings.LoadAllDatabases)
                     {
                         databases.Add(database);
