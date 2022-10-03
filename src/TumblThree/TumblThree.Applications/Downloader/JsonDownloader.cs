@@ -96,7 +96,9 @@ namespace TumblThree.Applications.Downloader
         {
             try
             {
-                if (typeof(T) == typeof(DataModels.TumblrSearchJson.Datum) || typeof(T) == typeof(DataModels.Twitter.TimelineTweets.Tweet))
+                if (typeof(T) == typeof(DataModels.TumblrSearchJson.Datum) ||
+                    typeof(T) == typeof(DataModels.Twitter.TimelineTweets.Tweet) ||
+                    typeof(T) == typeof(DataModels.NewTumbl.Post))
                 {
                     var serializer = new JsonSerializer();
                     using (StreamWriter sw = new StreamWriter(fileLocation, false))

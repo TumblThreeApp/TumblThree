@@ -367,7 +367,7 @@ namespace TumblThree.Applications.Crawler
             var title = "";
             if (post.bPostTypeIx.Equals(PostType.Photo) || post.bPostTypeIx.Equals(PostType.Video) || post.bPostTypeIx.Equals(PostType.Audio))
             {
-                title = post.Parts.FirstOrDefault(p => p.bPartTypeIx == PostType.Comment).Medias[0].szBody;
+                title = post.Parts.FirstOrDefault(p => p.bPartTypeIx == PostType.Comment)?.Medias?[0]?.szBody;
             }
             if (title?.Length > 100)
             {

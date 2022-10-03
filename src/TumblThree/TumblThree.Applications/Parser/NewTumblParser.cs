@@ -5,8 +5,7 @@ namespace TumblThree.Applications.Parser
 {
     public class NewTumblParser : INewTumblParser
     {
-        // TODO change regex
-        public Regex GetPhotoUrlRegex() => new Regex("\"(http[A-Za-z0-9_/:.]*media.tumblr.com[A-Za-z0-9_/:.-]*(jpg|jpeg|tiff|tif|heif|heic|png|gif|webp))\"");
+        public Regex GetPhotoUrlRegex() => new Regex("\"(http[A-Za-z0-9_/:.]*newtumbl\\.com[A-Za-z0-9_/:.-]*(?<!_150)\\.(jpg|jpeg|png|gif))\"");
 
         public Regex GetGenericPhotoUrlRegex() => new Regex("\"(https?://(?:[a-z0-9\\-]+\\.)+[a-z]{2,6}(?:/[^/#?]+)+\\.(?:jpg|jpeg|tiff|tif|heif|heic|png|gif|webp))\"");
 
