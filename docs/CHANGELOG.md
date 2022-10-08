@@ -11,6 +11,67 @@ changing over time.
 
 <br>
 
+## 2.8.3 (2022-10-03)
+
+#### Fixed
+- Error in privacy consent dialog (issue #356)
+- Likes crawler not working
+- newTumbl crawler data wasn't saved
+- Inline photos of newTumbl posts aren't downloaded
+- Not all newTumbl posts were parsable
+- Some embedded Tumblr videos were saved incorrectly
+<br>
+
+## 2.8.2 (2022-09-20)
+
+#### Fixed
+- Unable to authenticate to Tumblr (issue #349)
+<br>
+
+## 2.8.1 (2022-09-16)
+
+#### Fixed
+- Duplicate counter for not downloaded types showed wrong number for newTumbl blogs
+- LikedBy crawler not working (issue #346)
+<br>
+
+## 2.8.0 (2022-09-11)
+
+Now with newTumbl blog downloader!
+
+#### Added
+- newTumbl blog downloader
+- Download of liked text posts (issue #340)
+- Show blog description when hoovering blog name in details pane
+- Moving queue items with scroll speed depending on horizontal mouse position
+
+#### Fixed
+- Show blog load error bar only if needed
+<br>
+
+## 2.7.2 (2022-08-06)
+
+#### Changed
+- Show a message if a blog cannot be downloaded most probable due to missing login
+
+#### Fixed
+- Crawler data JSON files updated for old blogs (issue #98)
+- Run the updater with admin rights if write-protected installation detected
+- Wait cursor handling
+- Error "A drag operation is already in progress"
+<br>
+
+## 2.7.1 (2022-07-14)
+
+#### Fixed
+- Occasional errors while checking online status of blogs
+- Error "'Sorting' is not allowed during an AddNew or EditItem transaction"
+- Feedback window could slip to background making the app look like hanging
+- Error "Could not find a part of the path '..\Index'." on startup
+- Error if new collection's directory doesn't exist
+- When changing collections the displayed blog's collection combo box lost its display value
+<br>
+
 ## 2.7.0 (2022-06-25)
 
 #### Added
