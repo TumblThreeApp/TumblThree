@@ -469,7 +469,7 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while downloading &apos;{0}&apos;: {1} ({2}).
+        ///   Looks up a localized string similar to An error occurred while downloading &apos;{0}&apos; ({2}): {1}.
         /// </summary>
         public static string ErrorDownloadingBlog {
             get {

@@ -382,7 +382,7 @@
     <value>缺少必要的组件</value>
   </data>
   <data name="ErrorDownloadingBlog" xml:space="preserve">
-    <value>下载'{0}'时发生了一个错误。{1} ({2})</value>
+    <value>下载'{0}' ({2})时发生了一个错误。{1}</value>
   </data>
   <data name="FilenameTemplateAppendTokenNotFound" xml:space="preserve">
     <value>文件名模板必须以%x或%y结尾!</value>

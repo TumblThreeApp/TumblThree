@@ -346,7 +346,7 @@ Haluatko ladata sen nyt?</value>
     <value>Tarvittava komponentti puuttuu</value>
   </data>
   <data name="ErrorDownloadingBlog" xml:space="preserve">
-    <value>'{0}' lataamisessa tapahtui virhe: {1} ({2})</value>
+    <value>'{0}' ({2}) lataamisessa tapahtui virhe: {1}</value>
   </data>
   <data name="FilenameTemplateTokenNotFound" xml:space="preserve">
     <value>Tiedostonimen malli ei sisällä mitään tarvittavaa merkkiä!</value>

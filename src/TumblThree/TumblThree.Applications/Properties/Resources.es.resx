@@ -386,7 +386,7 @@
     <value>¡No se encontró el término de búsqueda '{0}'!</value>
   </data>
   <data name="ErrorDownloadingBlog" xml:space="preserve">
-    <value>Se produjo un error al descargar {0}: {1} ({2})</value>
+    <value>Se produjo un error al descargar {0} ({2}): {1}</value>
   </data>
   <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
     <value>¿Realmente quieres borrar los siguientes índices del blog incluyendo todos los archivos descargados?

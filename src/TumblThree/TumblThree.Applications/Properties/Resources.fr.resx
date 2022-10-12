@@ -386,7 +386,7 @@ Voulez-vous le télécharger maintenant?</value>
     <value>Le terme de recherche '{0}' n'a pas été trouvé!</value>
   </data>
   <data name="ErrorDownloadingBlog" xml:space="preserve">
-    <value>Une erreur s'est produite lors du téléchargement de {0}: {1} ({2})</value>
+    <value>Une erreur s'est produite lors du téléchargement de {0} ({2}): {1}</value>
   </data>
   <data name="Downloading" xml:space="preserve">
     <value>télécharger</value>

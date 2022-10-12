@@ -386,7 +386,7 @@ Möchten Sie es jetzt herunterladen?</value>
     <value>Suchbegriff '{0}' nicht gefunden!</value>
   </data>
   <data name="ErrorDownloadingBlog" xml:space="preserve">
-    <value>Beim Herunterladen von {0} ist ein Fehler aufgetreten: {1} ({2})</value>
+    <value>Beim Herunterladen von {0} ({2}) ist ein Fehler aufgetreten: {1}</value>
   </data>
   <data name="DeleteBlogsAndFilesDialog" xml:space="preserve">
     <value>Möchten Sie wirklich die folgenden Blog-Indizes einschließlich aller heruntergeladenen Dateien löschen?
