@@ -381,4 +381,7 @@
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>Αξιολογήθηκαν {0} αναρτήσεις ιστολογίου.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Σφάλμα {0}: {1}</value>
+  </data>
 </root>

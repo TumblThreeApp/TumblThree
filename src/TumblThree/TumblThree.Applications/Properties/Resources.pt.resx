@@ -341,4 +341,7 @@
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>Avaliado {0} postagens do blog.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Erro {0}: {1}</value>
+  </data>
 </root>

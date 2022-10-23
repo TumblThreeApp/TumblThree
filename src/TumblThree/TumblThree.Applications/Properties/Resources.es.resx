@@ -459,4 +459,7 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="ErrorDownloadingBlog2" xml:space="preserve">
     <value>Error al descargar '{0}' ({1}). Vuelva a intentarlo en breve. Un valor bajo (1-2) de "Blogs concurrentes" también es útil.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Error {0}: {1}</value>
+  </data>
 </root>

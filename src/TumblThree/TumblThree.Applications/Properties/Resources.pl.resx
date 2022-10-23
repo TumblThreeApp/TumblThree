@@ -341,4 +341,7 @@
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>Oceniono {0} posty na blogu.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Błąd {0}: {1}</value>
+  </data>
 </root>

@@ -73,13 +73,13 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Foreground="White" Padding="5,4" TextTrimming="CharacterEllipsis">
-                    <TextBlock.Text>
+                <TextBlock Foreground="White" Padding="5,4" TextTrimming="CharacterEllipsis" Text="{Binding LastErrorMessage}">
+                    <!--<TextBlock.Text>
                         <MultiBinding Converter="{StaticResource ErrorMessagesConverter}">
                             <Binding Path="Errors" />
                             <Binding Path="Errors.Count" />
                         </MultiBinding>
-                    </TextBlock.Text>
+                    </TextBlock.Text>-->
                     <TextBlock.ToolTip>
                         <ctrl:SuperToolTip Title="{x:Static p:Resources.InternalErrorDescription}"
                                            Description="{Binding LastError.Item1.Message}" />

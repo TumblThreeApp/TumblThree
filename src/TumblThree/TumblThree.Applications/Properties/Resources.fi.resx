@@ -408,4 +408,7 @@ Haluatko ladata sen nyt?</value>
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>Arvioitu {0} blogitekstiä.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Virhe {0}: {1}</value>
+  </data>
 </root>

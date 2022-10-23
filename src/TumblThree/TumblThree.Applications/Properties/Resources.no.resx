@@ -321,4 +321,7 @@
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>Evaluerte {0} blogginnlegg.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Feil {0}: {1}</value>
+  </data>
 </root>

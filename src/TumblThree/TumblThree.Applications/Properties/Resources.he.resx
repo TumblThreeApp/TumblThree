@@ -318,4 +318,7 @@
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>הוערך {0} פוסטים בבלוג.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>שגיאה {0}: {1}</value>
+  </data>
 </root>

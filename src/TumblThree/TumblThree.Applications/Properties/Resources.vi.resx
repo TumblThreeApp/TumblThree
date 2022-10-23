@@ -321,4 +321,7 @@
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>Đã đánh giá {0} bài đăng trên blog.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Lỗi {0}: {1}</value>
+  </data>
 </root>

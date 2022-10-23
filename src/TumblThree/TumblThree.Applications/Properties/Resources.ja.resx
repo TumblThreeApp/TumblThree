@@ -338,4 +338,7 @@
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>{0} 件のブログ投稿を評価しました。</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>エラー{0}：{1}</value>
+  </data>
 </root>

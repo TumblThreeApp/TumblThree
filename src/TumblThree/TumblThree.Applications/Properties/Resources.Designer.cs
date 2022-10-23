@@ -487,6 +487,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error {0}: {1}.
+        /// </summary>
+        public static string ErrorMessage {
+            get {
+                return ResourceManager.GetString("ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}: Error opening blog url!.
         /// </summary>
         public static string ErrorOpeningBlogUrl {

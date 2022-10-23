@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Waf.Applications;
@@ -75,7 +76,29 @@ namespace TumblThree.Applications.ViewModels
 
         public IReadOnlyList<Tuple<Exception, string>> Errors => _errors;
 
-        public Tuple<Exception, string> LastError => _errors.LastOrDefault();
+        public Tuple<Exception, string> LastError
+        {
+            get
+            {
+                lock (_errorsLock)
+                    return _errors.LastOrDefault();
+            }
+        }
+
+        public string LastErrorMessage
+        {
+            get
+            {
+                lock (_errorsLock)
+                {
+                    var count = _errors.Count;
+                    if (count == 0) return "";
+
+                    var t = _errors.Last();
+                    return string.Format(CultureInfo.CurrentCulture, Resources.ErrorMessage, count, t.Item2);
+                }
+            }
+        }
 
         public ICommand ExitCommand => _exitCommand;
 
@@ -119,14 +142,16 @@ namespace TumblThree.Applications.ViewModels
 
         public string LastErrorColorString
         {
-            get {
-                if (LastError != null)
+            get
+            {
+                var lastError = LastError;
+                if (lastError != null)
                 {
-                    if (LastError.Item1 is TimeoutException) return "ErrorBackgroundPurple";
+                    if (lastError.Item1 is TimeoutException) return "ErrorBackgroundPurple";
 
-                    if (LastError.Item1 is WebException) return "ErrorBackgroundRed";
+                    if (lastError.Item1 is WebException) return "ErrorBackgroundRed";
 
-                    if (LastError.Item1 is DiskFullException) return "ErrorBackgroundGreen";
+                    if (lastError.Item1 is DiskFullException) return "ErrorBackgroundGreen";
                 }
 
                 return "ErrorBackgroundBlue";
@@ -163,6 +188,7 @@ namespace TumblThree.Applications.ViewModels
                             error.Item2 == errorMessage.Item2))
                 {
                     _errors.Add(errorMessage);
+                    RaisePropertyChanged(nameof(LastErrorMessage));
                 }
             }
         }

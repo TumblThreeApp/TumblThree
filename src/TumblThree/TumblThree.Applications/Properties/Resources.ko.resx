@@ -318,4 +318,7 @@
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>평가된 블로그 게시물 {0}개.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>오류 {0} : {1}</value>
+  </data>
 </root>

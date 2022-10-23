@@ -315,4 +315,7 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>ਵੀਡਿਓ ਪਲੇਅਰ: {0}</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>ਗਲਤੀ {0}: {1}</value>
+  </data>
 </root>

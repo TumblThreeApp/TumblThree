@@ -429,4 +429,7 @@
   <data name="CannotDeleteUsedCollection" xml:space="preserve">
     <value>此分组已被使用，不能删除！</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>错误序号 {0}：{1}</value>
+  </data>
 </root>

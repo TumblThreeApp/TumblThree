@@ -477,4 +477,7 @@ Sinon, vous devez au moins modifier les entrées d'emplacement "Télécharger" e
   <data name="ErrorDownloadingBlog2" xml:space="preserve">
     <value>Erreur lors du téléchargement de '{0}' ({1}). Veuillez réessayer sous peu. Une faible valeur (1-2) de "Nombre de blogs parallèls" est également utile.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Erreur {0}: {1}</value>
+  </data>
 </root>

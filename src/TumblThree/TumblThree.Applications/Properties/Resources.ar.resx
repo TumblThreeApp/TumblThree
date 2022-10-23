@@ -315,4 +315,7 @@
   <data name="VideoPlayer" xml:space="preserve">
     <value>مشغل الفيديو: {0}</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>خطأ {0}: {1}</value>
+  </data>
 </root>

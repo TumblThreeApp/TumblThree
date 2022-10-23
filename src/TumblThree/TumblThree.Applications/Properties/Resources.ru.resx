@@ -329,4 +329,7 @@
   <data name="PostNotParsable" xml:space="preserve">
     <value>Сообщение от '{0}' не поддается синтаксическому анализу. Установка более низкого значения «количества сообщений на страницу» в разделе «Подробности» может увеличить загружаемый контент.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Ошибка {0}: {1}</value>
+  </data>
 </root>

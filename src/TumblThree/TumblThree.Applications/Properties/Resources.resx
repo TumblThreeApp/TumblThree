@@ -489,4 +489,7 @@ Else you should change at least the "Download" and "Export Blogs" location entri
   <data name="ErrorDownloadingBlog2" xml:space="preserve">
     <value>Error while downloading '{0}' ({1}). Please retry shortly. A low value (1-2) of "Concurrent blogs" is also helpful.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Error {0}: {1}</value>
+  </data>
 </root>

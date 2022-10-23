@@ -321,4 +321,7 @@
   <data name="ProgressGetUrl2Short" xml:space="preserve">
     <value>{0} blog gönderisi değerlendirildi.</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Hata {0}: {1}</value>
+  </data>
 </root>
