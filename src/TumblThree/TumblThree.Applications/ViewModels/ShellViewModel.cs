@@ -206,7 +206,7 @@ namespace TumblThree.Applications.ViewModels
                 RaisePropertyChanged(nameof(IsDetailsViewVisible));
                 RaisePropertyChanged(nameof(IsQueueViewVisible));
             }
-            if(e.PropertyName == nameof(LastError))
+            if(e.PropertyName == nameof(LastErrorMessage))
             {
                 RaisePropertyChanged(nameof(LastErrorColorString));
             }
@@ -223,7 +223,7 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
-        private void ErrorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => RaisePropertyChanged(nameof(LastError));
+        private void ErrorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => RaisePropertyChanged(nameof(LastErrorMessage));
 
         private void ViewClosed(object sender, EventArgs e)
         {
