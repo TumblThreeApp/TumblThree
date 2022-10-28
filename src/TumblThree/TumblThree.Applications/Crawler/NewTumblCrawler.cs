@@ -362,18 +362,24 @@ namespace TumblThree.Applications.Crawler
                 tags, "", GetTitle(post), reblogName, reblogId);
         }
 
+        private static string RemoveHtmlFromString(string text)
+        {
+            if (string.IsNullOrEmpty(text)) { return text; }
+
+            text = Regex.Replace(text, "<[^>]+>", "").Trim();
+            text = Regex.Replace(text, "&nbsp;", " ");
+            return Regex.Replace(text, @"\s{2,}", " ");
+        }
+
         private static string GetTitle(Post post)
         {
             var title = "";
             if (post.bPostTypeIx.Equals(PostType.Photo) || post.bPostTypeIx.Equals(PostType.Video) || post.bPostTypeIx.Equals(PostType.Audio))
             {
-                title = post.Parts.FirstOrDefault(p => p.bPartTypeIx == PostType.Comment)?.Medias?[0]?.szBody;
+                title = post.Parts.FirstOrDefault(p => p.bPartTypeIx == PostType.Comment)?.Medias?[0]?.szBody ?? "";
+                title = RemoveHtmlFromString(title);
             }
-            if (title?.Length > 100)
-            {
-                title = title.Substring(0, 99) + "…";
-            }
-            return title ?? "";
+            return title;
         }
 
         protected static string FileName(string url)
