@@ -5,7 +5,7 @@ namespace TumblThree.Applications.DataModels.TumblrPosts
     public class ExternalPhotoPost : TumblrPost
     {
         public ExternalPhotoPost(string url, string id, string date, string filename)
-            : base(url, id, date, filename)
+            : base(url, null, id, date, filename)
         {
             PostType = PostType.Binary;
             DbType = "DownloadedPhotos";

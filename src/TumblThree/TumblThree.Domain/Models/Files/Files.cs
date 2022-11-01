@@ -15,7 +15,7 @@ namespace TumblThree.Domain.Models.Files
     [DataContract]
     public class Files : Model, IFiles
     {
-        private const int MAX_SUPPORTED_DB_VERSION = 5;
+        private const int MAX_SUPPORTED_DB_VERSION = 6;
 
         [DataMember(Name = "Links", IsRequired = false, EmitDefaultValue = false)]
         protected List<string> links;
@@ -23,9 +23,11 @@ namespace TumblThree.Domain.Models.Files
         [DataMember(Name = "Entries")]
         protected HashSet<FileEntry> entries;
 
+        private HashSet<string> originalLinks;
+
         protected bool isDirty;
 
-        private object _lockList = new object();
+        private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
         public Files()
         {
@@ -39,6 +41,7 @@ namespace TumblThree.Domain.Models.Files
             Version = MAX_SUPPORTED_DB_VERSION.ToString();
             //links = new List<string>();
             entries = new HashSet<FileEntry>(new FileEntryComparer());
+            originalLinks = new HashSet<string>();
         }
 
         [DataMember]
@@ -70,38 +73,70 @@ namespace TumblThree.Domain.Models.Files
             return Regex.IsMatch(Path.GetFileNameWithoutExtension(x.Filename), pattern);
         }
 
-        public void AddFileToDb(string fileNameUrl, string fileName)
+        public void AddFileToDb(string fileNameUrl, string fileNameOriginalUrl, string fileName)
         {
-            lock (_lockList)
+            _lock.EnterWriteLock();
+            try
             {
-                entries.Add(new FileEntry() { Link = fileNameUrl, Filename = fileName });
+                entries.Add(new FileEntry() { Link = fileNameUrl, OriginalLink = fileNameOriginalUrl, Filename = fileName });
+                originalLinks.Add(fileNameOriginalUrl);
                 isDirty = true;
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
             }
         }
 
-        public string AddFileToDb(string fileNameUrl, string fileName, string appendTemplate)
+        public string AddFileToDb(string fileNameUrl, string fileNameOriginalUrl, string fileName, string appendTemplate)
         {
-            lock (_lockList)
+            _lock.EnterWriteLock();
+            try
             {
                 int n = entries.Count(x => IsMatch(x, fileName, appendTemplate));
                 if (n > 0) fileName = Path.GetFileNameWithoutExtension(fileName) + appendTemplate.Replace("<0>", (n + 1).ToString()) + Path.GetExtension(fileName);
 
-                entries.Add(new FileEntry() { Link = fileNameUrl, Filename = fileName });
+                entries.Add(new FileEntry() { Link = fileNameUrl, OriginalLink = fileNameOriginalUrl, Filename = fileName });
+                originalLinks.Add(fileNameOriginalUrl);
                 isDirty = true;
                 return fileName;
             }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
         }
 
-        public virtual bool CheckIfFileExistsInDB(string filenameUrl)
+        public void UpdateOriginalLink(string filenameUrl, string filenameOriginalUrl)
         {
-            Monitor.Enter(_lockList);
+            _lock.EnterWriteLock();
             try
             {
+                var entry = entries.First(x => x.Link == filenameUrl);
+                originalLinks.Remove(entry.OriginalLink);
+                entry.OriginalLink = filenameOriginalUrl;
+                originalLinks.Add(filenameOriginalUrl);
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
+        }
+
+        public virtual bool CheckIfFileExistsInDB(string filenameUrl, bool checkOriginalLinkFirst)
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                if (checkOriginalLinkFirst)
+                {
+                    if (originalLinks.Contains(filenameUrl)) return true;
+                }
                 return entries.Contains(new FileEntry() { Link = filenameUrl });
             }
             finally
             {
-                Monitor.Exit(_lockList);
+                _lock.ExitReadLock();
             }
         }
 
@@ -196,10 +231,21 @@ namespace TumblThree.Domain.Models.Files
                     file.Version = "5";
                     file.isDirty = true;
                 }
+                if (file.Version == "5")
+                {
+                    // going back to older app version would drop OriginalLinks
+                    file.Version = "6";
+                    file.isDirty = true;
+                }
                 if (int.Parse(file.Version) > MAX_SUPPORTED_DB_VERSION)
                 {
                     Logger.Error("{0}: DB version {1} not supported!", file.Name, file.Version);
                     throw new SerializationException($"{file.Name}: DB version {file.Version} not supported!");
+                }
+
+                foreach (var entry in file.entries)
+                {
+                    file.originalLinks.Add(entry.OriginalLink);
                 }
 
                 file.Location = Path.Combine(Directory.GetParent(fileLocation).FullName);
@@ -260,35 +306,37 @@ namespace TumblThree.Domain.Models.Files
 
         public bool Save()
         {
-            lock (_lockList)
+            _lock.EnterWriteLock();
+            try
             {
                 string currentIndex = Path.Combine(Location, Name + "_files." + BlogType);
                 string newIndex = Path.Combine(Location, Name + "_files." + BlogType + ".new");
                 string backupIndex = Path.Combine(Location, Name + "_files." + BlogType + ".bak");
 
-                try
+                if (File.Exists(currentIndex))
                 {
-                    if (File.Exists(currentIndex))
-                    {
-                        Save(newIndex);
+                    Save(newIndex);
 
-                        File.Replace(newIndex, currentIndex, backupIndex, true);
-                        File.Delete(backupIndex);
-                    }
-                    else
-                    {
-                        Save(currentIndex);
-                    }
-
-                    isDirty = false;
-
-                    return true;
+                    File.Replace(newIndex, currentIndex, backupIndex, true);
+                    File.Delete(backupIndex);
                 }
-                catch (Exception ex)
+                else
                 {
-                    Logger.Error("Files:Save: {0}: {1}", Name, ex);
-                    throw;
+                    Save(currentIndex);
                 }
+
+                isDirty = false;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Files:Save: {0}", ex);
+                throw;
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
             }
         }
 
@@ -310,7 +358,8 @@ namespace TumblThree.Domain.Models.Files
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)
         {
-            _lockList = new object();
+            _lock = new ReaderWriterLockSlim();
+            originalLinks = new HashSet<string>();
         }
     }
 }

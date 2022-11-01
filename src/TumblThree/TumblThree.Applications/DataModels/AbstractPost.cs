@@ -12,6 +12,8 @@
 
         public string Url { get; protected set; }
 
+        public string PostedUrl { get; }
+
         public string Id { get; }
 
         public string Date { get; }
@@ -22,9 +24,10 @@
 
         public string TextFileLocation { get; protected set; }
 
-        protected AbstractPost(string url, string id, string date, string filename)
+        protected AbstractPost(string url, string postedUrl, string id, string date, string filename)
         {
             Url = url;
+            PostedUrl = postedUrl;
             Id = id;
             Date = date;
             Filename = filename;

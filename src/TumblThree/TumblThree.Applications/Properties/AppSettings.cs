@@ -43,11 +43,6 @@ namespace TumblThree.Applications.Properties
                 "large", "medium", "small"
             };
 
-        private static string[] tumblrHosts =
-            {
-                "data.tumblr.com"
-            };
-
         private static string[] logLevels = Enum.GetNames(typeof(System.Diagnostics.TraceLevel));
 
         private static string[] pnjDownloadFormats = Enum.GetNames(typeof(PnjDownloadType));
@@ -406,12 +401,6 @@ namespace TumblThree.Applications.Properties
                 }
                 return languages;
             }
-        }
-
-        public string[] TumblrHosts
-        {
-            get => tumblrHosts;
-            set => tumblrHosts = value;
         }
 
         public static bool Upgrade(AppSettings settings)

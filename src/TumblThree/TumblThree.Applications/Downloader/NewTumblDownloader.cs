@@ -22,10 +22,10 @@ namespace TumblThree.Applications.Downloader
 
             if (AppendTemplate == null)
             {
-                files.AddFileToDb(FileNameUrl(downloadItem), downloadItem.Filename);
+                files.AddFileToDb(FileNameUrl(downloadItem), "", downloadItem.Filename);
                 return downloadItem.Filename;
             }
-            return files.AddFileToDb(FileNameUrl(downloadItem), downloadItem.Filename, AppendTemplate);
+            return files.AddFileToDb(FileNameUrl(downloadItem), "", downloadItem.Filename, AppendTemplate);
         }
 
         protected new bool CheckIfFileExistsInDB(TumblrPost downloadItem)
@@ -33,10 +33,10 @@ namespace TumblThree.Applications.Downloader
             string filename = FileNameUrl(downloadItem);
             if (shellService.Settings.LoadAllDatabases)
             {
-                return managerService.CheckIfFileExistsInDB(filename, shellService.Settings.LoadArchive);
+                return managerService.CheckIfFileExistsInDB(filename, false, shellService.Settings.LoadArchive);
             }
 
-            return files.CheckIfFileExistsInDB(filename);
+            return files.CheckIfFileExistsInDB(filename, false);
         }
 
         protected override string FileNameUrl(TumblrPost downloadItem)

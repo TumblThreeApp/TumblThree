@@ -799,7 +799,7 @@ namespace TumblThree.Applications.Crawler
                 var imageUrlConverted = GetUrlForPreferredImageSize(imageUrl);
                 var index = media.Count > 1 ? i + 1 : -1;
                 var filename = BuildFileName(imageUrl, post, "photo", index);
-                AddToDownloadList(new PhotoPost(imageUrlConverted, post.IdStr, UnixTimestamp(post).ToString(), filename));
+                AddToDownloadList(new PhotoPost(imageUrlConverted, "", post.IdStr, UnixTimestamp(post).ToString(), filename));
             }
             var imageUrl2 = media[0].MediaUrlHttps;
             AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(imageUrl2.Split('/').Last(), ".json"), TweetToSave(post)));
@@ -828,7 +828,7 @@ namespace TumblThree.Applications.Crawler
                     filename = Path.GetFileNameWithoutExtension(FileName(urlPrepared)) + "_" + filename;
                 }
                 filename = BuildFileName(filename, post, "photo", -1);
-                AddToDownloadList(new PhotoPost(imageUrl, post.IdStr, UnixTimestamp(post).ToString(), filename));
+                AddToDownloadList(new PhotoPost(imageUrl, "", post.IdStr, UnixTimestamp(post).ToString(), filename));
                 if (!Blog.DownloadVideo)
                 {
                     AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), TweetToSave(post)));

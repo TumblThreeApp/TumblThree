@@ -407,7 +407,7 @@ namespace TumblThree.Applications.Crawler
                     if (GetValue(content, "provider") == "tumblr" || url.Contains("tumblr.com") || Blog.RegExVideos)
                     {
                         string thumbnailUrl = HasProperty(content, "poster") ? HasProperty(content.poster, "Count") ? content.poster[0].url : "" : "";
-                        AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, index)));
+                        AddToDownloadList(new PhotoPost(thumbnailUrl, "", post.Id, post.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, post, index)));
                     }
                 }
                 // can only download preview image for non-tumblr (embedded) video posts
@@ -426,12 +426,14 @@ namespace TumblThree.Applications.Crawler
             {
                 if (Blog.DownloadPhoto)
                 {
+                    var postedUrl = url;
                     if (url.Contains("tumblr.com/"))
                     {
-                        url = RetrieveOriginalImageUrl(url, 2000, 3000, false);
+                        if (!Downloader.CheckIfPostedUrlIsDownloaded(url))
+                            url = RetrieveOriginalImageUrl(url, 2000, 3000, false);
                         url = CheckPnjUrl(url);
                     }
-                    AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
+                    AddToDownloadList(new PhotoPost(url, postedUrl, post.Id, post.UnixTimestamp.ToString(), BuildFileName(url, post, index)));
                 }
             }
         }

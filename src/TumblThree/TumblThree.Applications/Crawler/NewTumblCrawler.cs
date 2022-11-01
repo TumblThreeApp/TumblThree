@@ -772,7 +772,7 @@ namespace TumblThree.Applications.Crawler
 
                 if (!Blog.DownloadPhoto && post.bPostTypeIx.Equals(PostType.Photo))
                 {
-                    StatisticsBag.Add(new PhotoPost(imageUrl, null, null));
+                    StatisticsBag.Add(new PhotoPost(imageUrl, "", null, null));
                     continue;
                 }
 
@@ -873,7 +873,7 @@ namespace TumblThree.Applications.Crawler
                 }
                 else
                 {
-                    StatisticsBag.Add(new PhotoPost(imageUrl, null, null));
+                    StatisticsBag.Add(new PhotoPost(imageUrl, "", null, null));
                 }
             }
             if (firstVideoUrl != null)

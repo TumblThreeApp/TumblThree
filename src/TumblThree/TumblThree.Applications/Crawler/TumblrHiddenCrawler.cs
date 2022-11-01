@@ -505,7 +505,7 @@ namespace TumblThree.Applications.Crawler
 
                 var filename = BuildFileName(imageUrl, post, i);
                 AddDownloadedMedia(imageUrl, filename, post);
-                AddToDownloadList(new PhotoPost(imageUrl, postId, post.Timestamp.ToString(), filename));
+                AddToDownloadList(new PhotoPost(imageUrl, "", postId, post.Timestamp.ToString(), filename));
                 if (!jsonSaved || !Blog.GroupPhotoSets && !(string.Equals(Blog.FilenameTemplate, "%f", StringComparison.OrdinalIgnoreCase) && i == -1))
                 {
                     jsonSaved = true;
@@ -576,7 +576,7 @@ namespace TumblThree.Applications.Crawler
             {
                 var filename = BuildFileName(post.ThumbnailUrl, post, "photo", -1);
                 AddDownloadedMedia(post.ThumbnailUrl, filename, post);
-                AddToDownloadList(new PhotoPost(post.ThumbnailUrl, postId, post.Timestamp.ToString(), filename));
+                AddToDownloadList(new PhotoPost(post.ThumbnailUrl, "", postId, post.Timestamp.ToString(), filename));
                 if (!Blog.DownloadVideo)
                 {
                     AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(videoUrl.Split('/').Last(), ".json"), post));

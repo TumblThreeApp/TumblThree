@@ -201,7 +201,9 @@ namespace TumblThree.Applications.Crawler
                 var matchesNewFormat = Regex.Match(url, "media.tumblr.com/([A-Za-z0-9_/:.-]*)/s([0-9]*)x([0-9]*)");
                 if (matchesNewFormat.Success)
                 {
-                    url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
+                    var postedUrl = url;
+                    if (!Downloader.CheckIfPostedUrlIsDownloaded(url))
+                        url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
                     url = CheckPnjUrl(url);
                     matchesNewFormat = Regex.Match(url, "media.tumblr.com/([A-Za-z0-9_/:.-]*)/s([0-9]*)x([0-9]*)");
                     string id = matchesNewFormat.Groups[1].Value;
@@ -209,20 +211,22 @@ namespace TumblThree.Applications.Crawler
                     int height = int.Parse(matchesNewFormat.Groups[3].Value);
                     int resolution = width * height;
 
-                    photosToDownload.AddOrReplace(id, url, resolution);
+                    photosToDownload.AddOrReplace(id, url, postedUrl, resolution);
                 }
                 else
                 {
                     url = ResizeTumblrImageUrl(url);
-                    url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
+                    var postedUrl = url;
+                    if (!Downloader.CheckIfPostedUrlIsDownloaded(url))
+                        url = RetrieveOriginalImageUrl(url, 2000, 3000, true);
                     url = CheckPnjUrl(url);
-                    AddPhotoToDownloadList(url, post);
+                    AddPhotoToDownloadList(url, postedUrl, post);
                 }
             }
 
-            foreach(string url in photosToDownload.GetUrls())
+            foreach((string, string) urls in photosToDownload.GetUrls())
             {
-                AddPhotoToDownloadList(url, post);
+                AddPhotoToDownloadList(urls.Item1, urls.Item2, post);
             }
         }
 
@@ -236,11 +240,11 @@ namespace TumblThree.Applications.Crawler
             return url;
         }
 
-        protected void AddPhotoToDownloadList(string url, Post post)
+        protected void AddPhotoToDownloadList(string url, string postedUrl, Post post)
         {
             var filename = BuildFileName(url, post, -1);
             AddDownloadedMedia(url, filename, post);
-            AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), filename));
+            AddToDownloadList(new PhotoPost(url, postedUrl, post.Id, post.UnixTimestamp.ToString(), filename));
         }
 
         protected string[] AddTumblrVideoUrl(string text, Post post)
@@ -322,7 +326,7 @@ namespace TumblThree.Applications.Crawler
                 {
                     var filename = BuildFileName(thumbnailUrl, post, "photo", -1);
                     AddDownloadedMedia(thumbnailUrl, filename, post);
-                    AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), filename));
+                    AddToDownloadList(new PhotoPost(thumbnailUrl, "", post.Id, post.UnixTimestamp.ToString(), filename));
                 }
             }
 
@@ -336,7 +340,7 @@ namespace TumblThree.Applications.Crawler
                 if (TumblrParser.IsTumblrUrl(imageUrl)) { continue; }
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
-                AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), FileName(imageUrl)));
+                AddToDownloadList(new PhotoPost(imageUrl, "", post.Id, post.UnixTimestamp.ToString(), FileName(imageUrl)));
             }
         }
 

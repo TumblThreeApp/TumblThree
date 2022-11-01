@@ -3,7 +3,7 @@
     public class TwitterPost : AbstractPost
     {
         public TwitterPost(string url, string id, string date, string filename)
-            : base(url, id, date, filename)
+            : base(url, null, id, date, filename)
         {
         }
     }

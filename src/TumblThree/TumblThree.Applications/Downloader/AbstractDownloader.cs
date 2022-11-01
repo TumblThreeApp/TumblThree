@@ -73,11 +73,6 @@ namespace TumblThree.Applications.Downloader
             this.ct = ct;
         }
 
-        protected virtual string GetCoreImageUrl(string url)
-        {
-            return url;
-        }
-
         protected virtual async Task<bool> DownloadBinaryFileAsync(string fileLocation, string url)
         {
             try
@@ -340,39 +335,64 @@ namespace TumblThree.Applications.Downloader
 
         private void AddTextToDb(TumblrPost downloadItem)
         {
-            files.AddFileToDb(PostId(downloadItem), downloadItem.Filename);
+            files.AddFileToDb(PostId(downloadItem), null, downloadItem.Filename);
         }
 
         protected string AddFileToDb(TumblrPost downloadItem)
         {
             if (AppendTemplate == null)
             {
-                files.AddFileToDb(FileNameUrl(downloadItem), downloadItem.Filename);
+                files.AddFileToDb(FileNameUrl(downloadItem), FileNameOriginalUrl(downloadItem), downloadItem.Filename);
                 return downloadItem.Filename;
             }
-            return files.AddFileToDb(FileNameUrl(downloadItem), downloadItem.Filename, AppendTemplate);
+            return files.AddFileToDb(FileNameUrl(downloadItem), FileNameOriginalUrl(downloadItem), downloadItem.Filename, AppendTemplate);
         }
 
         public bool CheckIfFileExistsInDB(string filenameUrl)
         {
-            return files.CheckIfFileExistsInDB(filenameUrl);
+            return files.CheckIfFileExistsInDB(filenameUrl, false);
         }
 
         protected bool CheckIfFileExistsInDB(TumblrPost downloadItem)
         {
+            bool found;
+            string filenameOrgUrl = string.IsNullOrEmpty(downloadItem.PostedUrl) ? null : FileNameOriginalUrl(downloadItem);
             string filename = FileNameUrl(downloadItem);
             if (shellService.Settings.LoadAllDatabases)
             {
-                return managerService.CheckIfFileExistsInDB(filename, shellService.Settings.LoadArchive);
+                if (filenameOrgUrl != null)
+                {
+                    found = managerService.CheckIfFileExistsInDB(filenameOrgUrl, true, shellService.Settings.LoadArchive);
+                    if (found || string.IsNullOrEmpty(filename)) return found;
+                }
+                found = managerService.CheckIfFileExistsInDB(filename, false, shellService.Settings.LoadArchive);
+                UpdateLinkIfNeeded(found, filename, filenameOrgUrl);
+                return found;
             }
 
-            return files.CheckIfFileExistsInDB(filename);
+            if (filenameOrgUrl != null)
+            {
+                found = files.CheckIfFileExistsInDB(filenameOrgUrl, true);
+                if (found || string.IsNullOrEmpty(filename)) return found;
+            }
+            found = files.CheckIfFileExistsInDB(filename, false);
+            UpdateLinkIfNeeded(found, filename, filenameOrgUrl);
+            return found;
+        }
+
+        private void UpdateLinkIfNeeded(bool found, string filename, string filenameOrgUrl)
+        {
+            if (found && filenameOrgUrl != null)
+            {
+                // filenameOrgUrl is not equal filename and not found, but filename is found, so update file entry
+                files.UpdateOriginalLink(filename, filenameOrgUrl);
+            }
         }
 
         private void DownloadTextPost(TumblrPost downloadItem)
         {
             string postId = PostId(downloadItem);
-            if (files.CheckIfFileExistsInDB(postId))
+            if (files.CheckIfFileExistsInDB(postId, false))
             {
                 UpdateProgressQueueInformation(Resources.ProgressSkipFile, postId);
             }
@@ -413,7 +433,12 @@ namespace TumblThree.Applications.Downloader
 
         protected virtual string FileNameUrl(TumblrPost downloadItem)
         {
-            return downloadItem.Url.Split('/').Last();
+            return downloadItem.Url?.Split('/').Last();
+        }
+
+        protected virtual string FileNameOriginalUrl(TumblrPost downloadItem)
+        {
+            return downloadItem.PostedUrl?.Split('/').Last();
         }
 
         protected virtual string FileName(TumblrPost downloadItem)
@@ -490,6 +515,11 @@ namespace TumblThree.Applications.Downloader
                 if (!_disposed)
                     _saveTimer.Change(SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
             }
+        }
+
+        public virtual bool CheckIfPostedUrlIsDownloaded(string url)
+        {
+            return false;
         }
 
         protected virtual void Dispose(bool disposing)

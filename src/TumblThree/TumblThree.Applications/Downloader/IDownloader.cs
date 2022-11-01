@@ -16,6 +16,8 @@ namespace TumblThree.Applications.Downloader
 
         bool CheckIfFileExistsInDB(string filenameUrl);
 
+        bool CheckIfPostedUrlIsDownloaded(string url);
+
         void ChangeCancellationToken(CancellationToken ct);
     }
 }

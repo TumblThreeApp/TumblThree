@@ -37,7 +37,7 @@ namespace TumblThree.Presentation.DesignData
 
         public void EnsureUniqueFolder(IBlog blog) => throw new NotImplementedException();
 
-        public bool CheckIfFileExistsInDB(string filename, bool checkArchive) => false;
+        public bool CheckIfFileExistsInDB(string filename, bool checkOriginalLink, bool checkArchive) => false;
 
         public void AddDatabase(IFiles database) => throw new NotImplementedException();
 

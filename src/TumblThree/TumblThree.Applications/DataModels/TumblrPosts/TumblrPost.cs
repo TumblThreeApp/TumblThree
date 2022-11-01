@@ -2,8 +2,8 @@
 {
     public abstract class TumblrPost : AbstractPost
     {
-        protected TumblrPost(string url, string id, string date, string filename)
-            : base(url, id, date, filename)
+        protected TumblrPost(string url, string postedUrl, string id, string date, string filename)
+            : base(url, postedUrl, id, date, filename)
         {
         }
 

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Waf.Applications.Services;
 using System.Waf.Foundation;
 using System.Windows;
@@ -20,9 +21,9 @@ namespace TumblThree.Applications.Services
     internal class ManagerService : Model, IManagerService
     {
         private readonly IList<IFiles> databases;
-        private readonly object databasesLock = new object();
-        private readonly ISet<string> archivedLinks;
-        private readonly object archiveLock = new object();
+        private readonly ReaderWriterLockSlim databasesLock = new ReaderWriterLockSlim();
+        private readonly IList<IFiles> archiveDatabases;
+        private readonly ReaderWriterLockSlim archivesLock = new ReaderWriterLockSlim();
         private readonly ICollectionView blogFilesView;
         private static object blogFilesLock = new object();
         private readonly IShellService shellService;
@@ -38,7 +39,7 @@ namespace TumblThree.Applications.Services
             blogFilesView = CollectionViewSource.GetDefaultView(BlogFiles);
             blogFilesView.Filter = BlogFilesViewSource_Filter;
             databases = new List<IFiles>();
-            archivedLinks = new HashSet<string>();
+            archiveDatabases = new List<IFiles>();
             this.shellService = shellService;
             this.messageService = messageService;
             crawlerService.ActiveCollectionIdChanged += CrawlerService_ActiveCollectionIdChanged;
@@ -106,20 +107,33 @@ namespace TumblThree.Applications.Services
             Directory.CreateDirectory(blog.DownloadLocation());
         }
 
-        public bool CheckIfFileExistsInDB(string filename, bool checkArchive)
+        public bool CheckIfFileExistsInDB(string filename, bool checkOriginalLinkFirst, bool checkArchive)
         {
-            lock (databasesLock)
+            databasesLock.EnterReadLock();
+            try
             {
                 foreach (IFiles db in databases)
                 {
-                    if (db.CheckIfFileExistsInDB(filename)) return true;
+                    if (db.CheckIfFileExistsInDB(filename, checkOriginalLinkFirst)) return true;
                 }
+            }
+            finally
+            {
+                databasesLock.ExitReadLock();
             }
             if (checkArchive)
             {
-                lock (archiveLock)
+                archivesLock.EnterReadLock();
+                try
                 {
-                    if (archivedLinks.Contains(filename)) return true;
+                    foreach (IFiles db in archiveDatabases)
+                    {
+                        if (db.CheckIfFileExistsInDB(filename, checkOriginalLinkFirst)) return true;
+                    }
+                }
+                finally
+                {
+                    archivesLock.ExitReadLock();
                 }
             }
             return false;
@@ -127,44 +141,66 @@ namespace TumblThree.Applications.Services
 
         public void RemoveDatabase(IFiles database)
         {
-            lock (databasesLock)
+            databasesLock.EnterWriteLock();
+            try
             {
                 databases.Remove(database);
+            }
+            finally
+            {
+                databasesLock.ExitWriteLock();
             }
         }
 
         public void AddDatabase(IFiles database)
         {
-            lock (databasesLock)
+            databasesLock.EnterWriteLock();
+            try
             {
                 databases.Add(database);
+            }
+            finally
+            {
+                databasesLock.ExitWriteLock();
             }
         }
 
         public void ClearDatabases()
         {
-            lock (databasesLock)
+            databasesLock.EnterWriteLock();
+            try
             {
                 databases.Clear();
+            }
+            finally
+            {
+                databasesLock.ExitWriteLock();
             }
         }
 
         public void AddArchive(IFiles archiveDB)
         {
-            lock (archiveLock)
+            archivesLock.EnterWriteLock();
+            try
             {
-                foreach (var entry in archiveDB.Entries)
-                {
-                    archivedLinks.Add(entry.Link);
-                }
+                archiveDatabases.Add(archiveDB);
+            }
+            finally
+            {
+                archivesLock.ExitWriteLock();
             }
         }
 
         public void ClearArchive()
         {
-            lock (archiveLock)
+            archivesLock.EnterWriteLock();
+            try
             {
-                archivedLinks.Clear();
+                archiveDatabases.Clear();
+            }
+            finally
+            {
+                archivesLock.ExitWriteLock();
             }
         }
 

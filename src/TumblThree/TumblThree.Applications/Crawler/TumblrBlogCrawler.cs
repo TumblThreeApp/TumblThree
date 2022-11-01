@@ -672,18 +672,18 @@ namespace TumblThree.Applications.Crawler
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
-        private string ParseImageUrl(Post post)
+        private string ParseImageUrl(Post post, out string imageUrl)
         {
-            // TODO: Not use reflection here? We know the types...
-            var imageUrl = (string)post.GetType().GetProperty("PhotoUrl" + ImageSizeForSearching()).GetValue(post, null) ?? post.PhotoUrl1280;
-            return RetrieveOriginalImageUrl(imageUrl, (int)post.Width, (int)post.Height, false);
+            imageUrl = (string)post.GetType().GetProperty("PhotoUrl" + ImageSizeForSearching()).GetValue(post, null) ?? post.PhotoUrl1280;
+            var already = Downloader.CheckIfPostedUrlIsDownloaded(imageUrl);
+            return already ? imageUrl : RetrieveOriginalImageUrl(imageUrl, (int)post.Width, (int)post.Height, false);
         }
 
-        private string ParseImageUrl(Photo post)
+        private string ParseImageUrl(Photo post, out string imageUrl)
         {
-            // TODO: Not use reflection here? We know the types...
-            var imageUrl = (string)post.GetType().GetProperty("PhotoUrl" + ImageSizeForSearching()).GetValue(post, null) ?? post.PhotoUrl1280;
-            return RetrieveOriginalImageUrl(imageUrl, post.Width, post.Height, false);
+            imageUrl = (string)post.GetType().GetProperty("PhotoUrl" + ImageSizeForSearching()).GetValue(post, null) ?? post.PhotoUrl1280;
+            var already = Downloader.CheckIfPostedUrlIsDownloaded(imageUrl);
+            return already ? imageUrl : RetrieveOriginalImageUrl(imageUrl, post.Width, post.Height, false);
         }
 
         private static string InlineSearch(Post post)
@@ -705,8 +705,9 @@ namespace TumblThree.Applications.Crawler
 
         private void AddPhotoUrl(Post post)
         {
-            string imageUrl = ParseImageUrl(post);
-            if (CheckIfSkipGif(imageUrl)) return;
+            string postedUrl;
+            string imageUrl = ParseImageUrl(post, out postedUrl);
+            if (imageUrl is null || CheckIfSkipGif(imageUrl)) return;
             imageUrl = CheckPnjUrl(imageUrl);
 
             int index = -1;
@@ -714,7 +715,7 @@ namespace TumblThree.Applications.Crawler
 
             var filename = BuildFileName(imageUrl, post, index);
             AddDownloadedMedia(imageUrl, filename, post);
-            AddToDownloadList(new PhotoPost(imageUrl, post.Id, post.UnixTimestamp.ToString(), filename));
+            AddToDownloadList(new PhotoPost(imageUrl, postedUrl, post.Id, post.UnixTimestamp.ToString(), filename));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
         }
 
@@ -728,12 +729,14 @@ namespace TumblThree.Applications.Crawler
             bool jsonSaved = false;
             int i = 1;
             if (post.Photos[0].PhotoUrl1280.Split('/').Last().StartsWith("tumblr_")) i = -1;
-            foreach (string imageUrl in post.Photos.Select(ParseImageUrl).Where(imgUrl => !CheckIfSkipGif(imgUrl)))
+            foreach (Tuple<string, string> imageUrls in post.Photos
+                .Select(p => Tuple.Create(ParseImageUrl(p, out string url), url))
+                .Where(imgUrls => !(imgUrls.Item1 is null) && !CheckIfSkipGif(imgUrls.Item1)))
             {
-                var url = CheckPnjUrl(imageUrl);
+                var url = CheckPnjUrl(imageUrls.Item1);
                 var filename = BuildFileName(url, post, i);
                 AddDownloadedMedia(url, filename, post);
-                AddToDownloadList(new PhotoPost(url, post.Id, post.UnixTimestamp.ToString(), filename));
+                AddToDownloadList(new PhotoPost(url, imageUrls.Item2, post.Id, post.UnixTimestamp.ToString(), filename));
                 if (!jsonSaved || !Blog.GroupPhotoSets && !(string.Equals(Blog.FilenameTemplate, "%f", StringComparison.OrdinalIgnoreCase) && i == -1))
                 {
                     jsonSaved = true;
@@ -777,7 +780,7 @@ namespace TumblThree.Applications.Crawler
                 {
                     var filename = BuildFileName(thumbnailUrl, post, "photo", -1);
                     AddDownloadedMedia(thumbnailUrl, filename, post);
-                    AddToDownloadList(new PhotoPost(thumbnailUrl, post.Id, post.UnixTimestamp.ToString(), filename));
+                    AddToDownloadList(new PhotoPost(thumbnailUrl, "", post.Id, post.UnixTimestamp.ToString(), filename));
                     if (string.IsNullOrEmpty(videoUrl))
                     {
                         thumbnailUrl = Regex.Replace(thumbnailUrl, "_(frame1|smart1)", "");

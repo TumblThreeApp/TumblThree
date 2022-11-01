@@ -14,7 +14,7 @@ namespace TumblThree.Applications.Services
 
         void EnsureUniqueFolder(IBlog blog);
 
-        bool CheckIfFileExistsInDB(string filename, bool checkArchive);
+        bool CheckIfFileExistsInDB(string filename, bool checkOriginalLinkFirst, bool checkArchive);
 
         void RemoveDatabase(IFiles database);
 

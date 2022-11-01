@@ -17,11 +17,13 @@ namespace TumblThree.Domain.Models.Files
 
         string Version { get; set; }
 
-        void AddFileToDb(string fileNameUrl, string fileName);
+        void AddFileToDb(string fileNameUrl, string fileNameOriginalUrl, string fileName);
 
-        string AddFileToDb(string fileNameUrl, string fileName, string appendTemplate);
+        string AddFileToDb(string fileNameUrl, string fileNameOriginalUrl, string fileName, string appendTemplate);
 
-        bool CheckIfFileExistsInDB(string filenameUrl);
+        void UpdateOriginalLink(string filenameUrl, string filenameOriginalUrl);
+
+        bool CheckIfFileExistsInDB(string filenameUrl, bool checkOriginalLinkFirst);
 
         bool Save();
     }

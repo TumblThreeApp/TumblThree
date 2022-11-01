@@ -5,7 +5,7 @@ namespace TumblThree.Applications.DataModels.TumblrPosts
     public class AudioMetaPost : TumblrPost
     {
         public AudioMetaPost(string url, string id, string date)
-            : base(url, id, date, null)
+            : base(url, null, id, date, null)
         {
             PostType = PostType.Text;
             DbType = "DownloadedAudioMetas";
