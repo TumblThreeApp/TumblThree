@@ -331,26 +331,27 @@ namespace TumblThree.Applications.Crawler
                 try
                 {
                     Post data = null;
+                    data = new Post()
+                    {
+                        Date = post.Date,
+                        DateGmt = post.Date,
+                        Type = "regular",
+                        Id = post.Id,
+                        Tags = post.Tags.ToList(),
+                        Slug = post.Slug,
+                        RegularTitle = post.Summary,
+                        RebloggedFromName = "",
+                        RebloggedRootName = "",
+                        ReblogKey = post.ReblogKey,
+                        UnixTimestamp = post.Timestamp,
+                        Tumblelog = new TumbleLog2() { Name = post.BlogName },
+                        UrlWithSlug = post.PostUrl
+                    };
                     var countImagesVideos = CountImagesAndVideos(post.Content);
                     int index = -1;
                     foreach (var content in post.Content)
                     {
-                        data = new Post()
-                        {
-                            Date = post.Date,
-                            DateGmt = post.Date,
-                            Type = ConvertContentTypeToPostType(content.Type),
-                            Id = post.Id,
-                            Tags = post.Tags.ToList(),
-                            Slug = post.Slug,
-                            RegularTitle = post.Summary,
-                            RebloggedFromName = "",
-                            RebloggedRootName = "",
-                            ReblogKey = post.ReblogKey,
-                            UnixTimestamp = post.Timestamp,
-                            Tumblelog = new TumbleLog2() { Name = post.BlogName },
-                            UrlWithSlug = post.PostUrl
-                        };
+                        data.Type = ConvertContentTypeToPostType(content.Type);
                         index += (countImagesVideos > 1) ? 1 : 0;
                         DownloadMedia(content, data, index);
                         AddInlinePhotoUrl(post, content, data);
@@ -373,23 +374,66 @@ namespace TumblThree.Applications.Crawler
             if (Blog.DownloadText && new string[] { "regular", "quote", "note", "link", "conversation" }.Contains(post.OriginalType))
             {
                 string text = "";
-                foreach (var content in post.Content)
+                if (post.Content.Count == 0)
                 {
-                    if (content.Type == "text")
+                    foreach (var trail in post.Trail)
                     {
-                        text += content.Text + Environment.NewLine;
+                        text += Environment.NewLine + trail.Blog.Name + "/" + trail.Post.Id + ":" + Environment.NewLine + Environment.NewLine;
+                        foreach (var content in trail.Content)
+                        {
+                            if (content.Type == "text")
+                            {
+                                text += content.Text + Environment.NewLine + (content.SubType == "heading1" || content.SubType == "heading2" ? "" : Environment.NewLine);
+                            }
+                        }
                     }
                 }
-                data.RegularBody = text;
+                else
+                {
+                    foreach (var content in post.Content)
+                    {
+                        if (content.Type == "text")
+                        {
+                            text += content.Text + Environment.NewLine + (content.SubType == "heading1" || content.SubType == "heading2" ? "" : Environment.NewLine);
+                        }
+                    }
+                }
+                data.RegularBody = text.Trim(Environment.NewLine.ToCharArray());
                 data.Type = post.OriginalType;
 
                 switch (post.OriginalType)
                 {
                     case "regular":
-                        data.RegularTitle = post.Content?[0]?.Text;
-                        data.RegularBody = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
-                        text = tumblrJsonParser.ParseText(data);
-                        AddToDownloadList(new TextPost(text, data.Id, data.UnixTimestamp.ToString()));
+                        if (post.Content.Count == 0)
+                        {
+                            data.RegularTitle = $"{post.BlogName} reblogged {post.RebloggedFromName}/{post.RebloggedFromId}";
+                            foreach (var trail in post.Trail)
+                            {
+                                text += Environment.NewLine + trail.Blog.Name + "/" + trail.Post.Id + ":" + Environment.NewLine + Environment.NewLine;
+                                foreach (var content in trail.Content)
+                                {
+                                    if (content.Type == "text")
+                                    {
+                                        text += content.Text + Environment.NewLine + (content.SubType == "heading1" || content.SubType == "heading2" ? "" : Environment.NewLine);
+                                    }
+                                }
+                            }
+                            data.RegularBody = text.Trim(Environment.NewLine.ToCharArray());
+                        }
+                        else
+                        {
+                            data.RegularTitle = (post.Content?[0]?.SubType ?? "") == "heading1" ? post.Content?[0]?.Text : "";
+                            data.RegularBody = string.Join("", post.Content
+                                .Where(c => c.Type == "text")
+                                .Skip((post.Content?[0]?.SubType ?? "") == "heading1" ? 1 : 0)
+                                .Select(s => s.Text + Environment.NewLine + (s.SubType == "heading1" || s.SubType == "heading2" ? "" : Environment.NewLine)))
+                                .Trim(Environment.NewLine.ToCharArray());
+                        }
+                        if (data.RegularTitle.Length != 0 || data.RegularBody.Length != 0)
+                        {
+                            text = tumblrJsonParser.ParseText(data);
+                            AddToDownloadList(new TextPost(text, data.Id, data.UnixTimestamp.ToString()));
+                        }
                         break;
                     case "quote":
                         data.QuoteText = post.Content?[0]?.Text;

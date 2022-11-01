@@ -434,10 +434,17 @@ namespace TumblThree.Applications.Crawler
                 }
                 catch (WebException we)
                 {
+                    errCnt++;
                     if (we.Status == WebExceptionStatus.RequestCanceled)
                         throw new NullReferenceException("RetrieveOriginalImageUrl request cancelled");
                     if (we.Response != null && ((HttpWebResponse)we.Response).StatusCode == HttpStatusCode.NotFound)
                         return url;
+                    if (we.Response != null && (int)((HttpWebResponse)we.Response).StatusCode == 429)
+                    {
+                        throw new Exception("429 - Limit exceeded.");
+                    }
+                    lastError = we;
+                    if (errCnt < 3) Thread.Sleep(errCnt * 10000);
                 }
                 catch (Exception e)
                 {

@@ -243,10 +243,73 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
         public IList<Layout> Layout { get; set; }
 
         [JsonProperty("trail")]
-        public IList<object> Trail { get; set; }
+        public IList<Trail> Trail { get; set; }
 
         [JsonProperty("placementId")]
         public string PlacementId { get; set; }
+
+        [JsonProperty("rebloggedFromId")]
+        public string RebloggedFromId { get; set; }
+
+        [JsonProperty("rebloggedFromUrl")]
+        public string RebloggedFromUrl { get; set; }
+
+        [JsonProperty("rebloggedFromName")]
+        public string RebloggedFromName { get; set; }
+
+        [JsonProperty("rebloggedFromTitle")]
+        public string RebloggedFromTitle { get; set; }
+
+        [JsonProperty("rebloggedFromUuid")]
+        public string RebloggedFromUuid { get; set; }
+
+        [JsonProperty("rebloggedFromCanMessage")]
+        public bool RebloggedFromCanMessage { get; set; }
+
+        [JsonProperty("rebloggedFromShareLikes")]
+        public bool RebloggedFromShareLikes { get; set; }
+
+        [JsonProperty("rebloggedFromShareFollowing")]
+        public bool RebloggedFromShareFollowing { get; set; }
+
+        [JsonProperty("rebloggedFromCanBeFollowed")]
+        public bool RebloggedFromCanBeFollowed { get; set; }
+
+        [JsonProperty("rebloggedFromFollowing")]
+        public bool RebloggedFromFollowing { get; set; }
+
+        [JsonProperty("rebloggedRootId")]
+        public string RebloggedRootId { get; set; }
+
+        [JsonProperty("rebloggedRootUrl")]
+        public string RebloggedRootUrl { get; set; }
+
+        [JsonProperty("rebloggedRootName")]
+        public string RebloggedRootName { get; set; }
+
+        [JsonProperty("rebloggedRootTitle")]
+        public string RebloggedRootTitle { get; set; }
+
+        [JsonProperty("rebloggedRootUuid")]
+        public string RebloggedRootUuid { get; set; }
+
+        [JsonProperty("rebloggedRootCanMessage")]
+        public bool RebloggedRootCanMessage { get; set; }
+
+        [JsonProperty("rebloggedRootShareLikes")]
+        public bool RebloggedRootShareLikes { get; set; }
+
+        [JsonProperty("rebloggedRootShareFollowing")]
+        public bool RebloggedRootShareFollowing { get; set; }
+
+        [JsonProperty("rebloggedRootCanBeFollowed")]
+        public bool RebloggedRootCanBeFollowed { get; set; }
+
+        [JsonProperty("rebloggedRootFollowing")]
+        public bool RebloggedRootFollowing { get; set; }
+
+        [JsonProperty("likedTimestamp")]
+        public int LikedTimestamp { get; set; }
 
         [JsonProperty("canEdit")]
         public bool CanEdit { get; set; }
@@ -512,6 +575,9 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
         [JsonProperty("type")]
         public string Type { get; set; }
 
+        [JsonProperty("subtype")]
+        public string SubType { get; set; }
+
         [JsonProperty("media")]
         [JsonConverter(typeof(SingleOrArrayConverter<Medium>))]
         public IList<Medium> Media { get; set; }
@@ -717,7 +783,7 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
         public object SyndicationId { get; set; }
 
         [JsonProperty("deepLinks")]
-        public IList<object> DeepLinks { get; set; }
+        public object DeepLinks { get; set; }
 
         [JsonProperty("appStoreIds")]
         public AppStoreIds AppStoreIds { get; set; }
@@ -1539,5 +1605,26 @@ namespace TumblThree.Applications.DataModels.TumblrSearchJson
     {
         [JsonProperty("next")]
         public NextRequest Next { get; set; }
+    }
+
+    public class Trail
+    {
+        [JsonProperty("content")]
+        public IList<Content> Content { get; set; }
+
+        [JsonProperty("layout")]
+        public IList<Layout> Layout { get; set; }
+
+        [JsonProperty("post")]
+        public TrailPost Post { get; set; }
+
+        [JsonProperty("blog")]
+        public Blog Blog { get; set; }
+    }
+
+    public class TrailPost
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
     }
 }
