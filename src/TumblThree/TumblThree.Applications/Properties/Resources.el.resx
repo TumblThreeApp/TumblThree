@@ -326,7 +326,7 @@
   <data name="ErrorDownloadingBlog" xml:space="preserve">
     <value>An error occurred while downloading '{0}' ({2}): {1}</value>
   </data>
-  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+  <data name="DownloadComponentTitle" xml:space="preserve">
     <value>Απαιτούμενο συστατικό που λείπει</value>
   </data>
   <data name="DownloadNewVersion" xml:space="preserve">

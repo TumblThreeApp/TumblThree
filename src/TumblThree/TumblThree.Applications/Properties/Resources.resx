@@ -386,7 +386,7 @@
   <data name="ConfirmationTumblrPrivacyConsentNeeded" xml:space="preserve">
     <value>Tumblr Privacy Consent needs to be accepted in the settings!</value>
   </data>
-  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+  <data name="DownloadComponentTitle" xml:space="preserve">
     <value>Required component missing</value>
   </data>
   <data name="DownloadVCRedistributable" xml:space="preserve">
@@ -491,5 +491,9 @@ Else you should change at least the "Download" and "Export Blogs" location entri
   </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>Error {0}: {1}</value>
+  </data>
+  <data name="DownloadWebView2Runtime" xml:space="preserve">
+    <value>TumblThree requires the "Microsoft WebView2 Runtime". You need to download and install it first.
+Do you want to download it now?</value>
   </data>
 </root>

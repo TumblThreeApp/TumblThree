@@ -49,5 +49,7 @@ namespace TumblThree.Applications.Services
         event EventHandler SettingsUpdatedHandler;
 
         void SettingsUpdated();
+
+        bool CheckForWebView2Runtime();
     }
 }

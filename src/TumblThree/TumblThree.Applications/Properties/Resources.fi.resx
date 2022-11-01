@@ -342,7 +342,7 @@
     <value>TumblThree vaatii "Microsoft Visual C++ 2015-2019 Redistributable". Sinun on ladattava ja asennettava se ensin.
 Haluatko ladata sen nyt?</value>
   </data>
-  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+  <data name="DownloadComponentTitle" xml:space="preserve">
     <value>Tarvittava komponentti puuttuu</value>
   </data>
   <data name="ErrorDownloadingBlog" xml:space="preserve">

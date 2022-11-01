@@ -183,7 +183,8 @@ namespace TumblThree.Applications.Controllers
 
             ShellViewModel.SetThumbButtonInfosCommands();
 
-            CheckForVCRedistributable();
+            //CheckForVCRedistributable();
+            ShellService.CheckForWebView2Runtime();
         }
 
         public void Shutdown()
@@ -322,6 +323,7 @@ namespace TumblThree.Applications.Controllers
             return false;
         }
 
+        /*
         private void CheckForVCRedistributable()
         {
             try
@@ -329,7 +331,7 @@ namespace TumblThree.Applications.Controllers
                 if (!IsVC2019Installed())
                 {
                     var url = Environment.Is64BitProcess ? "https://aka.ms/vs/17/release/vc_redist.x64.exe" : "https://aka.ms/vs/17/release/vc_redist.x86.exe";
-                    if (MessageService.ShowYesNoQuestion(Resources.DownloadVCRedistributable, Resources.DownloadVCRedistributableTitle))
+                    if (MessageService.ShowYesNoQuestion(Resources.DownloadVCRedistributable, Resources.DownloadComponentTitle))
                         Process.Start(new ProcessStartInfo(url));
                 }
             }
@@ -368,6 +370,7 @@ namespace TumblThree.Applications.Controllers
             }
             return false;
         }
+        */
 
         private static bool CheckIfPortableMode(string fileName)
         {

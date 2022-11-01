@@ -7,7 +7,7 @@
         xmlns:ctrl="clr-namespace:TumblThree.Presentation.Controls"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:TumblThree.Applications.ViewModels;assembly=TumblThree.Applications"
-		xmlns:wpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d" Title="AuthenticateView" Height="540" Width="600"
         d:DataContext="{d:DesignInstance vm:AuthenticateViewModel}">
 
@@ -21,6 +21,7 @@
         </Grid.RowDefinitions>
         <!--<WebBrowser x:Name="browser" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="10,10,10,10"
                     VerticalAlignment="Top" Width="Auto" Height="Auto" />-->
-        <wpf:ChromiumWebBrowser x:Name="browser" Address="" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="10,10,10,0" Width="Auto" Height="Auto"/>
+        <!-- wpf:ChromiumWebBrowser x:Name="browser" Address="" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="10,10,10,0" Width="Auto" Height="Auto"/> -->
+        <wpf:WebView2 x:Name="browser" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="10,10,10,0" Width="Auto" Height="Auto"/>
     </Grid>
 </Window>

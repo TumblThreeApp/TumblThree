@@ -414,6 +414,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Required component missing.
+        /// </summary>
+        public static string DownloadComponentTitle {
+            get {
+                return ResourceManager.GetString("DownloadComponentTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Downloaded files: {0}.
         /// </summary>
         public static string DownloadedFiles {
@@ -460,11 +469,12 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Required component missing.
+        ///   Looks up a localized string similar to TumblThree requires the &quot;Microsoft WebView2 Runtime&quot;. You need to download and install it first.
+        ///Do you want to download it now?.
         /// </summary>
-        public static string DownloadVCRedistributableTitle {
+        public static string DownloadWebView2Runtime {
             get {
-                return ResourceManager.GetString("DownloadVCRedistributableTitle", resourceCulture);
+                return ResourceManager.GetString("DownloadWebView2Runtime", resourceCulture);
             }
         }
         

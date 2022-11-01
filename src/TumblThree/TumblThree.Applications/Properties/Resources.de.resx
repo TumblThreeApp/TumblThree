@@ -330,7 +330,7 @@
   <data name="ConfirmationTumblrPrivacyConsentNeeded" xml:space="preserve">
     <value>Die Zustimmung zum Datenschutz von Tumblr muss in den Einstellungen akzeptiert werden!</value>
   </data>
-  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+  <data name="DownloadComponentTitle" xml:space="preserve">
     <value>Erforderliche Komponente fehlt</value>
   </data>
   <data name="DownloadVCRedistributable" xml:space="preserve">
@@ -467,5 +467,9 @@ Andernfalls sollten Sie zumindest die Standorteinträge „Download“ und „Bl
   </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>Fehler {0}: {1}</value>
+  </data>
+  <data name="DownloadWebView2Runtime" xml:space="preserve">
+    <value>TumblThree benötigt die "Microsoft WebView2 Runtime". Sie müssen es zuerst herunterladen und installieren.
+Möchten Sie es jetzt herunterladen?</value>
   </data>
 </root>

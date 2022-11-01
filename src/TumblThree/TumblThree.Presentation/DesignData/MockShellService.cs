@@ -68,5 +68,10 @@ namespace TumblThree.Presentation.DesignData
         }
 
         protected virtual void OnClosing(CancelEventArgs e) => Closing?.Invoke(this, e);
+
+        public bool CheckForWebView2Runtime()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

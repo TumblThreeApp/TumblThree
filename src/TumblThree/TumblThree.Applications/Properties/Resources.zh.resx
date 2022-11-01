@@ -378,7 +378,7 @@
     <value>TumblThree 需要“Microsoft Visual C++ 2015-2019 可再发行程序包”。您必须先下载并安装它。
 现在下载吗？</value>
   </data>
-  <data name="DownloadVCRedistributableTitle" xml:space="preserve">
+  <data name="DownloadComponentTitle" xml:space="preserve">
     <value>缺少必要的组件</value>
   </data>
   <data name="ErrorDownloadingBlog" xml:space="preserve">

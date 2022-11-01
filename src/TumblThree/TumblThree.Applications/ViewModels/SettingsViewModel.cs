@@ -1066,6 +1066,8 @@ namespace TumblThree.Applications.ViewModels
 
         private async Task Authenticate()
         {
+            if (!ShellService.CheckForWebView2Runtime()) { return; }
+
             const string url = @"https://www.tumblr.com/login";
             ShellService.Settings.OAuthCallbackUrl = "https://www.tumblr.com/dashboard_";
 
@@ -1080,6 +1082,8 @@ namespace TumblThree.Applications.ViewModels
 
         private async Task PrivacyConsent()
         {
+            if (!ShellService.CheckForWebView2Runtime()) { return; }
+
             const string url = @"https://www.tumblr.com/search/cat";
 
             AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
@@ -1165,6 +1169,8 @@ namespace TumblThree.Applications.ViewModels
 
         private async Task NewTumblAuthenticate()
         {
+            if (!ShellService.CheckForWebView2Runtime()) { return; }
+
             const string url = @"https://newtumbl.com/sign?in";
             ShellService.Settings.OAuthCallbackUrl = "https://newtumbl.com";
 

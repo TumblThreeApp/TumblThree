@@ -1,5 +1,4 @@
-﻿using CefSharp;
-using CefSharp.Wpf;
+﻿using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -41,28 +40,32 @@ namespace TumblThree.Presentation.Views
 
         public void ShowDialog(object owner, string url, string cookieDomain)
         {
-            browser.IsBrowserInitializedChanged += OnLoad;
+            browser.Initialized += OnLoad;
             Owner = owner as Window;
             _url = url;
             _domain = cookieDomain;
             ShowDialog();
         }
 
-        private void OnLoad(object sender, DependencyPropertyChangedEventArgs e)
+        private void OnLoad(object sender, EventArgs e)
         {
-            if (browser.IsBrowserInitialized)
-                browser.Load(_url);
+            browser.EnsureCoreWebView2Async(null).GetAwaiter().GetResult();
+            if (browser.IsInitialized)
+                browser.CoreWebView2.Navigate(_url);
         }
 
         public string GetUrl()
         {
-            return browser.Address;
+            return browser.Source.ToString();
         }
 
         public async Task<CookieCollection> GetCookies(string url)
         {
-            var cookieManager = Cef.GetGlobalCookieManager();
-            var cookies = await cookieManager.VisitUrlCookiesAsync(url, true);
+            //var cookieManager = Cef.GetGlobalCookieManager();
+            //var cookies = await cookieManager.VisitUrlCookiesAsync(url, true);
+
+            var cookieManager = browser.CoreWebView2.CookieManager;
+            var cookies = await cookieManager.GetCookiesAsync(url);
 
             CookieCollection cookieCollection;
             if (url.Contains("tumblr.com"))
@@ -75,27 +78,27 @@ namespace TumblThree.Presentation.Views
             }
             else
             {
-                cookieCollection = GetCookies(cookies);
+                cookieCollection = AuthenticateView.GetCookies(cookies);
             }
       
             return cookieCollection;
         }
 
-        private static CookieCollection GetCookies(List<CefSharp.Cookie> cookies)
+        private static CookieCollection GetCookies(List<CoreWebView2Cookie> cookies)
         {
             CookieCollection cookieCollection = new CookieCollection();
             foreach (var cookie in cookies)
             {
                 var transferCookie = new System.Net.Cookie(cookie.Name, WebUtility.UrlEncode(cookie.Value), cookie.Path, cookie.Domain);
-                transferCookie.Expires = cookie.Expires.Value;
-                transferCookie.HttpOnly = cookie.HttpOnly;
-                transferCookie.Secure = cookie.Secure;
+                transferCookie.Expires = cookie.Expires;
+                transferCookie.HttpOnly = cookie.IsHttpOnly;
+                transferCookie.Secure = cookie.IsSecure;
                 cookieCollection.Add(transferCookie);
             }
             return cookieCollection;
         }
 
-        private static string GetCookieHeader(List<CefSharp.Cookie> cookies)
+        private static string GetCookieHeader(List<CoreWebView2Cookie> cookies)
         {
             StringBuilder cookieString = new StringBuilder();
             string delimiter = string.Empty;
@@ -124,17 +127,19 @@ namespace TumblThree.Presentation.Views
 
         private void Browser_Navigated(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var cwb = (ChromiumWebBrowser)sender;
-                if (cwb.Address.Equals(ViewModel.OAuthCallbackUrl))
-                {
-                    Close();
-                }
-            }
-            catch
-            {
-            }
+            if (browser.IsInitialized)
+                browser.Source = new Uri(_url);
+            //try
+            //{
+            //    var cwb = (ChromiumWebBrowser)sender;
+            //    if (cwb.Address.Equals(ViewModel.OAuthCallbackUrl))
+            //    {
+            //        Close();
+            //    }
+            //}
+            //catch
+            //{
+            //}
         }
 
         public static void SetSilent(WebBrowser browser, bool silent)
