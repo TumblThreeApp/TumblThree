@@ -472,4 +472,7 @@ Andernfalls sollten Sie zumindest die Standorteinträge „Download“ und „Bl
     <value>TumblThree benötigt die "Microsoft WebView2 Runtime". Sie müssen es zuerst herunterladen und installieren.
 Möchten Sie es jetzt herunterladen?</value>
   </data>
+  <data name="ErrorRemovingOldFileOrFolder" xml:space="preserve">
+    <value>Beim Bereinigen alter Dateien und Ordner ist ein Fehler aufgetreten.</value>
+  </data>
 </root>

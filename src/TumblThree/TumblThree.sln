@@ -13,6 +13,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TumblThree.Applications", "TumblThree.Applications\TumblThree.Applications.csproj", "{BD6B0ABD-6114-476B-B0DF-734E891D6634}"
 	ProjectSection(ProjectDependencies) = postProject
 		{24EDEBE0-E068-44E3-B730-0E75974A8206} = {24EDEBE0-E068-44E3-B730-0E75974A8206}
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564} = {7C52A3FB-3342-4734-82FB-6BA0C0FC6564}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplicationFramework", "..\..\lib\WpfApplicationFramework\WpfApplicationFramework\WpfApplicationFramework.csproj", "{27B67DFE-0BF1-4435-B036-E4C083EAEA03}"
@@ -29,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfImageViewer", "..\..\lib\WpfImageViewer\WpfImageViewer.csproj", "{0B2E0EE3-EFA1-4D22-BE4D-4C27F7FAE598}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TumblThreeSubProcess", "TumblThreeSubProcess\TumblThreeSubProcess.csproj", "{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +115,18 @@ Global
 		{0B2E0EE3-EFA1-4D22-BE4D-4C27F7FAE598}.Release|x64.Build.0 = Release|Any CPU
 		{0B2E0EE3-EFA1-4D22-BE4D-4C27F7FAE598}.Release|x86.ActiveCfg = Release|Any CPU
 		{0B2E0EE3-EFA1-4D22-BE4D-4C27F7FAE598}.Release|x86.Build.0 = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Debug|x64.ActiveCfg = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Debug|x64.Build.0 = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Debug|x86.ActiveCfg = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Debug|x86.Build.0 = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Release|x64.ActiveCfg = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Release|x64.Build.0 = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Release|x86.ActiveCfg = Release|Any CPU
+		{7C52A3FB-3342-4734-82FB-6BA0C0FC6564}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

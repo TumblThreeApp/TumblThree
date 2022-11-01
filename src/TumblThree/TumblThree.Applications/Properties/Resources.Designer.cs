@@ -515,6 +515,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occured during cleanup of old files and folders..
+        /// </summary>
+        public static string ErrorRemovingOldFileOrFolder {
+            get {
+                return ResourceManager.GetString("ErrorRemovingOldFileOrFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}: Error opening folder!.
         /// </summary>
         public static string ErrorShowingBlogFiles {
@@ -1099,6 +1108,16 @@ namespace TumblThree.Applications.Properties {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] TumblThreeSubProcess {
+            get {
+                object obj = ResourceManager.GetObject("TumblThreeSubProcess", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

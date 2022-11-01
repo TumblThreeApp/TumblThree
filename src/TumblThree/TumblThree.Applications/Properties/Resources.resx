@@ -496,4 +496,11 @@ Else you should change at least the "Download" and "Export Blogs" location entri
     <value>TumblThree requires the "Microsoft WebView2 Runtime". You need to download and install it first.
 Do you want to download it now?</value>
   </data>
+  <data name="ErrorRemovingOldFileOrFolder" xml:space="preserve">
+    <value>An error occured during cleanup of old files and folders.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TumblThreeSubProcess" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\TumblThreeSubProcess\bin\Release\TumblThreeSubProcess.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

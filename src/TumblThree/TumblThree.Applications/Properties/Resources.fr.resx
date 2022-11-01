@@ -484,4 +484,7 @@ Sinon, vous devez au moins modifier les entrées d'emplacement "Télécharger" e
     <value>TumblThree nécessite le "Microsoft WebView2 Runtime". Vous devez d'abord le télécharger et l'installer.
 Voulez-vous le télécharger maintenant?</value>
   </data>
+  <data name="ErrorRemovingOldFileOrFolder" xml:space="preserve">
+    <value>Une erreur s'est produite lors du nettoyage des anciens fichiers et dossiers.</value>
+  </data>
 </root>

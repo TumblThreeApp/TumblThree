@@ -20,6 +20,8 @@ using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain;
 using TumblThree.Domain.Queue;
+using TumblThree.Applications.Extensions;
+using System.Reflection;
 
 namespace TumblThree.Applications.Controllers
 {
@@ -178,6 +180,7 @@ namespace TumblThree.Applications.Controllers
             }
 
             CheckForWritableFolder();
+            CleanupOldFilesFromPreviousVersions();
 
             await CheckForTMData();
 
@@ -299,6 +302,67 @@ namespace TumblThree.Applications.Controllers
             if (ShellService.IsWriteProtectedInstallation && _shellService.Value.Settings.DownloadLocation == "Blogs")
             {
                 MessageService.ShowWarning(Resources.WriteProtectedInstallation);
+            }
+        }
+
+        private void CleanupOldFilesFromPreviousVersions()
+        {
+            if (ShellService.IsWriteProtectedInstallation) { return; }
+
+            string baseFolder = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            string[] directoriesToRemove = new string[] { "GPUCache", "locales" };
+            string[] filesToRemove = new string[] { "CefSharp.BrowserSubprocess.Core.dll", "CefSharp.BrowserSubprocess.Core.pdb", "CefSharp.BrowserSubprocess.exe",
+                "CefSharp.BrowserSubprocess.pdb", "CefSharp.Core.dll", "CefSharp.Core.pdb", "CefSharp.Core.Runtime.dll", "CefSharp.Core.Runtime.pdb", "CefSharp.Core.Runtime.xml",
+                "CefSharp.dll", "CefSharp.pdb", "CefSharp.Wpf.dll", "CefSharp.Wpf.pdb", "chrome_100_percent.pak", "chrome_200_percent.pak", "chrome_elf.dll", "debug.log",
+                "icudtl.dat", "libcef.dll", "libEGL.dll", "libGLESv2.dll", "LICENSE.txt", "README.txt", "resources.pak", "snapshot_blob.bin", "v8_context_snapshot.bin",
+                "vk_swiftshader.dll", "vk_swiftshader_icd.json", "vulkan-1.dll" };
+
+            foreach (var name in directoriesToRemove)
+            {
+                try
+                {
+                    if (!Directory.Exists(Path.Combine(baseFolder, name))) { continue; }
+                    Directory.Delete(Path.Combine(baseFolder, name), true);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("ModuleController.CleanupOldFilesFromPreviousVersions: {0}", e.ToString());
+                    ShellService.ShowError(e, Resources.ErrorRemovingOldFileOrFolder);
+                }
+            }
+            foreach (var name in filesToRemove)
+            {
+                try
+                {
+                    if (!File.Exists(Path.Combine(baseFolder, name))) { continue; }
+                    File.Delete(Path.Combine(baseFolder, name));
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("ModuleController.CleanupOldFilesFromPreviousVersions: {0}", e.ToString());
+                    ShellService.ShowError(e, Resources.ErrorRemovingOldFileOrFolder);
+                }
+            }
+
+            try
+            {
+                var filePath = Path.Combine(baseFolder, "d3dcompiler_47.dll");
+                if (!File.Exists(filePath)) { return; }
+
+                var processId = Process.GetCurrentProcess().Id;
+                var tempfilePath = Path.GetTempFileName();
+                File.Delete(tempfilePath);
+                Directory.CreateDirectory(tempfilePath);
+                tempfilePath = Path.Combine(tempfilePath, "TumblThreeSubProcess");
+                File.WriteAllBytes(tempfilePath, Resources.TumblThreeSubProcess);
+                ProcessStartInfo psi = new ProcessStartInfo(tempfilePath, $@"{processId} ""{filePath}""");
+                psi.CreateNoWindow = true;
+                psi.UseShellExecute = false;
+                Process.Start(psi);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("ModuleController.CleanupOldFilesFromPreviousVersions: {0}", e.ToString());
             }
         }
 
