@@ -122,7 +122,7 @@ The default settings should cover most users. You should only have to change the
 If you like TumblThree, give it a star <img src="https://raw.githubusercontent.com/wiki/TumblThreeApp/TumblThree/images/star.png" alt="star" height="16"/> (at the right upper corner of the page)!
 
 **You are welcome to participate in [Discussions](https://github.com/TumblThreeApp/TumblThree/discussions) (our forum).** If you don't have a GitHub account yet, please sign up for one, it is free.<br>
-We appreciate it, if you send us your feedback or file a bug report. Preferably, just fill out a [Bug report](https://github.com/TumblThreeApp/TumblThree/issues/new/choose).
+We appreciate it, if you send us your feedback or file a bug report. In case of an error, preferably just fill out a [Bug report](https://github.com/TumblThreeApp/TumblThree/issues/new/choose).
 
 In case you don't like to register an account for some reason, but still want to provide feedback or a bug report, use the following web form:
 [tumblthreeapp.github.io/TumblThree/feedback.html](https://tumblthreeapp.github.io/TumblThree/feedback.html)
