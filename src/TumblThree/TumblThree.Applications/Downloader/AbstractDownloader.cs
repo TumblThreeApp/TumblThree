@@ -519,7 +519,8 @@ namespace TumblThree.Applications.Downloader
 
         public virtual bool CheckIfPostedUrlIsDownloaded(string url)
         {
-            return false;
+            var filenameUrl = url.Split('/').Last();
+            return files.CheckIfFileExistsInDB(filenameUrl, true);
         }
 
         protected virtual void Dispose(bool disposing)
