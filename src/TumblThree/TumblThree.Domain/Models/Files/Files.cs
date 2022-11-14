@@ -161,7 +161,7 @@ namespace TumblThree.Domain.Models.Files
             {
                 var serializer = new DataContractJsonSerializer(typeof(Files));
                 var file = (Files)serializer.ReadObject(stream);
-                if (file.entries != null) file.entries = new HashSet<FileEntry>(file.entries, new FileEntryComparer());
+                file.entries = file.entries is null ? new HashSet<FileEntry>(new FileEntryComparer()) : new HashSet<FileEntry>(file.entries, new FileEntryComparer());
 
                 if (!isArchive) DoUpdates(file);
                 if (file.Version == "1")
@@ -348,7 +348,7 @@ namespace TumblThree.Domain.Models.Files
                     stream, Encoding.UTF8, true, true, "  "))
                 {
                     var serializer = new DataContractJsonSerializer(GetType());
-                    this.links = null;
+                    links = null;
                     serializer.WriteObject(writer, this);
                     writer.Flush();
                 }
