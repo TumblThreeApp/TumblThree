@@ -439,10 +439,6 @@ namespace TumblThree.Applications.Crawler
                         throw new NullReferenceException("RetrieveOriginalImageUrl request cancelled");
                     if (we.Response != null && ((HttpWebResponse)we.Response).StatusCode == HttpStatusCode.NotFound)
                         return url;
-                    if (we.Response != null && (int)((HttpWebResponse)we.Response).StatusCode == 429)
-                    {
-                        throw new Exception("429 - Limit exceeded.");
-                    }
                     lastError = we;
                     if (errCnt < 3) Thread.Sleep(errCnt * 10000);
                 }
@@ -456,6 +452,10 @@ namespace TumblThree.Applications.Crawler
             } while (errCnt < 3);
             if (errCnt == 3)
             {
+                if ((lastError is WebException we) && we.Response != null && (int)((HttpWebResponse)we.Response).StatusCode == 429)
+                {
+                    throw new LimitExceededWebException(lastError);
+                }
                 ShellService.ShowError(lastError, Resources.PostNotParsable, Blog.Name);
                 throw new NullReferenceException("RetrieveOriginalImageUrl download", lastError);
             }

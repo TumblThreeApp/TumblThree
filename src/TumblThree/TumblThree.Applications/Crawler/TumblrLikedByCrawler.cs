@@ -217,6 +217,14 @@ namespace TumblThree.Applications.Crawler
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
+            catch (LimitExceededWebException limitExceededException)
+            {
+                if (!HandleLimitExceededWebException((WebException)limitExceededException.InnerException))
+                {
+                    Logger.Error("TumblrLikedByCrawler:CrawlPageAsync: {0}", limitExceededException);
+                    ShellService.ShowError(limitExceededException, "{0}: {1}", Blog.Name, limitExceededException.Message);
+                }
+            }
             catch (Exception e)
             {
                 Logger.Error("TumblrLikedByCrawler:CrawlPageAsync: {0}", e);
