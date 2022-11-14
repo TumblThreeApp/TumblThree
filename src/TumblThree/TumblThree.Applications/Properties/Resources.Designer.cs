@@ -115,6 +115,16 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This blog has a rating of X and publishes some content that has been filtered out based on your preferred comfort zone settings.
+        ///To view more content on this blog, you will need to increase your comfort zone from within your newTumbl User Settings page..
+        /// </summary>
+        public static string BlogOverrated {
+            get {
+                return ResourceManager.GetString("BlogOverrated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string BlogTypesAll {
@@ -781,6 +791,15 @@ namespace TumblThree.Applications.Properties {
         public static string NotLoggedIn {
             get {
                 return ResourceManager.GetString("NotLoggedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This blog has a rating of X and publishes some content that you are not permitted to view without logging in..
+        /// </summary>
+        public static string NotLoggedInNT {
+            get {
+                return ResourceManager.GetString("NotLoggedInNT", resourceCulture);
             }
         }
         

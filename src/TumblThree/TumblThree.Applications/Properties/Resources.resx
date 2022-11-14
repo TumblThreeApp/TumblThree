@@ -503,4 +503,11 @@ Do you want to download it now?</value>
   <data name="TumblThreeSubProcess" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\TumblThreeSubProcess\bin\Release\TumblThreeSubProcess.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="BlogOverrated" xml:space="preserve">
+    <value>This blog has a rating of X and publishes some content that has been filtered out based on your preferred comfort zone settings.
+To view more content on this blog, you will need to increase your comfort zone from within your newTumbl User Settings page.</value>
+  </data>
+  <data name="NotLoggedInNT" xml:space="preserve">
+    <value>This blog has a rating of X and publishes some content that you are not permitted to view without logging in.</value>
+  </data>
 </root>

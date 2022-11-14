@@ -207,10 +207,11 @@ namespace TumblThree.Applications.Crawler
 
             if (!await CheckIfLoggedInAsync())
             {
-                Logger.Error("NewTumblCrawler:GetUrlsAsync: {0}", "User not logged in");
-                ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
-                PostQueue.CompleteAdding();
-                return true;
+                //Logger.Error("NewTumblCrawler:GetUrlsAsync: {0}", "User not logged in");
+                //ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
+                //PostQueue.CompleteAdding();
+                //jsonQueue.CompleteAdding();
+                //return true;
             }
 
             GenerateTags();
@@ -274,6 +275,12 @@ namespace TumblThree.Applications.Crawler
                 incompleteCrawl = true;
                 Logger.Error(Resources.ErrorDownloadingBlog2, Blog.Name, ShellService.Settings.GetCollection(Blog.CollectionId).Name);
                 ShellService.ShowError(new Exception(), string.Format(Resources.ErrorDownloadingBlog2, Blog.Name, ShellService.Settings.GetCollection(Blog.CollectionId).Name));
+            }
+            catch (APIException ae2)
+            {
+                incompleteCrawl = true;
+                Logger.Error(Resources.ErrorDownloadingBlog, Blog.Name, ae2.Message, ShellService.Settings.GetCollection(Blog.CollectionId).Name);
+                ShellService.ShowError(new Exception(), string.Format(Resources.ErrorDownloadingBlog, Blog.Name, ae2.Message, ShellService.Settings.GetCollection(Blog.CollectionId).Name));
             }
             catch (Exception e)
             {
@@ -915,7 +922,16 @@ namespace TumblThree.Applications.Crawler
             try
             {
                 blogJson = await GetApiPageAsync(0);
-                return (BlogInfo(blogJson, 3)?.bLoggedIn ?? 0) == 1;
+                var user = BlogInfo(blogJson, 3);
+                var blog = BlogInfo(blogJson, 2);
+                if ((user?.bLoggedIn ?? 0) == 0 && blog?.bRatingIx > 2 || user?.bRatingIx < blog?.bRatingIx)
+                {
+                    var msg = ((user?.bRatingIx < blog?.bRatingIx) ? Resources.BlogOverrated : Resources.NotLoggedInNT);
+                    var errorMsg = $"{Blog.Name} ({ShellService.Settings.GetCollection(Blog.CollectionId).Name}): {msg.Replace(Environment.NewLine, " ")}";
+                    Logger.Error($"NewTumblCrawler:CheckIfLoggedInAsync: {errorMsg}");
+                    ShellService.ShowError(new Exception(msg), errorMsg);
+                }
+                return (user?.bLoggedIn ?? 0) == 1;
             }
             catch (WebException webException) when (webException.Status == WebExceptionStatus.RequestCanceled)
             {
@@ -962,7 +978,8 @@ namespace TumblThree.Applications.Crawler
                     var url = $"https://api-ro.newtumbl.com/sp/NewTumbl/search_Blog_Posts?affinity={affinity}";
 
                     var d = new Dictionary<string, string>();
-                    d.Add("json", "{\"Params\":[\"[{IPADDRESS}]\",\"" + token + "\",null,\"0\",\"0\"," + activeBlog + ",null," + (dtSearchField == null ? "null" : $"\"{dtSearchField}\"") + "," + pageNo + ",50,0,null,0,\"\",0,0,0,0,0," + blogIx + ",null]}");
+                    d.Add("json", "{\"Params\":[\"[{IPADDRESS}]\",\"" + token + "\",null,\"0\",\"0\"," + activeBlog + ",null," +
+                        (dtSearchField == null ? "null" : $"\"{dtSearchField}\"") + "," + pageNo + ",50,0,null,0,\"\",0,0,0,0,0," + blogIx + ",null]}");
                     
                     return await PostDataAsync(url, Blog.Url, d, cookieHosts);
                 default:
@@ -970,11 +987,17 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        private static void CheckError(Root obj)
+        private void CheckError(Root obj)
         {
             if (obj.nResult == "-1")
             {
+                Logger.Error($"server returned: {obj.aResultSet[0].aRow[0].szError} ({obj.aResultSet[0].aRow[0].dwError})");
                 throw new ApplicationException($"{obj.aResultSet[0].aRow[0].szError} ({obj.aResultSet[0].aRow[0].dwError})");
+            }
+            else if (obj.nResult == "-9999")
+            {
+                throw new APIException(string.Format(Resources.ErrorDownloadingBlog, Blog.Name, $"{obj.sError}({obj.sAPIErrorCode}): {obj.sAPIErrorMessage}",
+                    ShellService.Settings.GetCollection(Blog.CollectionId).Name));
             }
         }
 

@@ -101,4 +101,18 @@ namespace TumblThree.Applications
 
         protected LimitExceededWebException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+
+    [Serializable]
+    public class APIException : Exception
+    {
+        public APIException(Exception innerException) : base(innerException?.Message, innerException) { }
+
+        public APIException() { }
+
+        public APIException(string message) : base(message) { }
+
+        public APIException(string message, Exception innerException) : base(message, innerException) { }
+
+        protected APIException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

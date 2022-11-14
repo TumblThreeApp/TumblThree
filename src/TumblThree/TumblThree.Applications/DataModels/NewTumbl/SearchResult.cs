@@ -123,5 +123,11 @@ namespace TumblThree.Applications.DataModels.NewTumbl
     {
         public string nResult { get; set; }
         public List<AResultSet> aResultSet { get; set; }
+
+        public string sError { get; set; }
+
+        public string sAPIErrorCode { get; set; }
+
+        public string sAPIErrorMessage { get; set; }
     }
 }
