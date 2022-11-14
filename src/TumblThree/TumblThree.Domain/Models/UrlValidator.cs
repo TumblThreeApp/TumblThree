@@ -6,22 +6,35 @@ namespace TumblThree.Domain.Models
 {
     [Export(typeof(IUrlValidator))]
     [PartCreationPolicy(CreationPolicy.Shared)]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
     public class UrlValidator : IUrlValidator
     {
-        private readonly Regex tumbexRegex = new Regex("(http[A-Za-z0-9_/:.]*www.tumbex.com[A-Za-z0-9_/:.-]*tumblr/)");
-        private readonly Regex urlRegex = new Regex(@"^(?:http(s)?:\/\/){1}?[\w.-]+(?:\.[\w\.-]+)+[/]??$");
-        private readonly Regex twitterRegex = new Regex("(^https?://twitter.com/[A-Za-z0-9_]+$)");
-        private readonly Regex newTumblRegex = new Regex(@"(^https?://[\w.-]+newtumbl.com[/]??$)");
+        private static readonly Regex tumbexRegex = new Regex("(http[A-Za-z0-9_/:.]*www.tumbex.com[A-Za-z0-9_/:.-]*tumblr/)");
+        private static readonly Regex urlRegex = new Regex(@"^(?:http(s)?:\/\/){1}?[\w.-]+(?:\.[\w\.-]+)+[/]??$");
+        private static readonly Regex twitterRegex = new Regex("(^https?://twitter.com/[A-Za-z0-9_]+$)");
+        private static readonly Regex newTumblRegex = new Regex(@"(^https?://[\w.-]+newtumbl.com[/]??$)");
+        private static readonly Regex tumblrUrl = new Regex(@"^(?:http(s)?:\/\/)[\w.-]+.tumblr.com[/]??$");
+        private static readonly Regex tumblrUrlNew = new Regex(@"^(?:http(s)?:\/\/)www.tumblr.com\/[^\/]+$");
+
+        private static bool CheckNullLengthProtocolAndWhiteSpace(string url, int minLength)
+        {
+            return url != null && (minLength <= 0 || url.Length > minLength) && !url.Any(char.IsWhiteSpace) &&
+                (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null));
+        }
+
+        public static bool IsValidTumblrUrlInNewFormat(string url)
+        {
+            return CheckNullLengthProtocolAndWhiteSpace(url, 0) && tumblrUrlNew.IsMatch(url);
+        }
 
         public bool IsValidTumblrUrl(string url)
         {
-            return url != null &&
-                url.Length > 18 &&
-                url.Contains(".tumblr.com") &&
-                (!url.Contains("//www.tumblr.com") || url.EndsWith("www.tumblr.com/likes", true, null)) &&
-                !url.Any(char.IsWhiteSpace) &&
+            var b = CheckNullLengthProtocolAndWhiteSpace(url, 18) &&
+                //url.Contains(".tumblr.com") &&
+                //(!url.Contains("//www.tumblr.com") || url.EndsWith("www.tumblr.com/likes", true, null)) &&
                 !url.Contains(".media.tumblr.com") &&
-                (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null));
+                (tumblrUrl.IsMatch(url) || tumblrUrlNew.IsMatch(url));
+            return b;
         }
 
         public bool IsTumbexUrl(string url)
@@ -31,34 +44,32 @@ namespace TumblThree.Domain.Models
 
         public bool IsValidTumblrHiddenUrl(string url)
         {
-            return url != null && url.Length > 38 && url.Contains("www.tumblr.com/dashboard/blog/") &&
-                   !url.Any(char.IsWhiteSpace) &&
-                   (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null));
+            return CheckNullLengthProtocolAndWhiteSpace(url, 38) && url.Contains("www.tumblr.com/dashboard/blog/");
+        }
+
+        public bool IsValidTumblrLikesUrl(string url)
+        {
+            return CheckNullLengthProtocolAndWhiteSpace(url, 0) && url.Contains("www.tumblr.com/likes");
         }
 
         public bool IsValidTumblrLikedByUrl(string url)
         {
-            return url != null && url.Length > 31 && url.Contains("www.tumblr.com/liked/by/") && !url.Any(char.IsWhiteSpace) &&
-                   (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null));
+            return CheckNullLengthProtocolAndWhiteSpace(url, 31) && url.Contains("www.tumblr.com/liked/by/");
         }
 
         public bool IsValidTumblrSearchUrl(string url)
         {
-            return url != null && url.Length > 29 && url.Contains("www.tumblr.com/search/") && !url.Any(char.IsWhiteSpace) &&
-                   (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null));
+            return CheckNullLengthProtocolAndWhiteSpace(url, 29) && url.Contains("www.tumblr.com/search/");
         }
 
         public bool IsValidTumblrTagSearchUrl(string url)
         {
-            return url != null && url.Length > 29 && url.Contains("www.tumblr.com/tagged/") && !url.Any(char.IsWhiteSpace) &&
-                   (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null));
+            return CheckNullLengthProtocolAndWhiteSpace(url, 29) && url.Contains("www.tumblr.com/tagged/");
         }
 
         public bool IsValidUrl(string url)
         {
-            return url != null && !url.Any(char.IsWhiteSpace) &&
-                   (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null)) &&
-                   urlRegex.IsMatch(url);
+            return CheckNullLengthProtocolAndWhiteSpace(url, 0) && urlRegex.IsMatch(url);
         }
 
         public bool IsValidTwitterUrl(string url)
@@ -78,18 +89,12 @@ namespace TumblThree.Domain.Models
                 return string.Empty;
             }
 
-            if (!url.Contains("http"))
+            if (!url.StartsWith("http"))
             {
                 return "https://" + url;
             }
 
             return url;
-        }
-
-        public bool IsValidTumblrLikesUrl(string url)
-        {
-            return url != null && url.Contains("www.tumblr.com/likes") && !url.Any(char.IsWhiteSpace) &&
-                   (url.StartsWith("http://", true, null) || url.StartsWith("https://", true, null));
         }
     }
 }

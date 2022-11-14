@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 
 using TumblThree.Domain.Models.Files;
@@ -12,14 +13,14 @@ namespace TumblThree.Domain.Models.Blogs
     {
         public static Blog Create(string url, string location, string filenameTemplate, bool isCustomDomain = false)
         {
-            url = isCustomDomain ? url : ExtractUrl(url);
+            url = isCustomDomain ? url : ExtractUrl(ConvertNewFormatUrl(url));
             var name = isCustomDomain ? ExtractCustomName(url) : ExtractName(url);
             var blog = new TumblrBlog()
             {
                 Url = url,
                 Name = name,
-                BlogType = Models.BlogTypes.tumblr,
-                OriginalBlogType = Models.BlogTypes.tumblr,
+                BlogType = BlogTypes.tumblr,
+                OriginalBlogType = BlogTypes.tumblr,
                 Location = location,
                 Online = true,
                 Version = "4",
@@ -37,6 +38,14 @@ namespace TumblThree.Domain.Models.Blogs
             }
 
             return blog;
+        }
+
+        private static string ConvertNewFormatUrl(string url)
+        {
+            if (!UrlValidator.IsValidTumblrUrlInNewFormat(url)) return url;
+
+            var name = url.Split('/').Last();
+            return $"https://{name}.tumblr.com";
         }
 
         private static string ExtractCustomName(string url)

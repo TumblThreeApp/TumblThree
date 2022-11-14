@@ -877,6 +877,7 @@ namespace TumblThree.Applications.Controllers
                 blog = _settingsService.TransferGlobalSettingsToBlog(blog);
                 _managerService.EnsureUniqueFolder(blog);
                 SaveBlog(blog);
+                _crawlerService.NewBlogUrl = "";
             }
 
             await UpdateMetaInformationAsync(blog);
