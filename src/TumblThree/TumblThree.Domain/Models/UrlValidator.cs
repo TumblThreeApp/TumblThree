@@ -13,8 +13,8 @@ namespace TumblThree.Domain.Models
         private static readonly Regex urlRegex = new Regex(@"^(?:http(s)?:\/\/){1}?[\w.-]+(?:\.[\w\.-]+)+[/]??$");
         private static readonly Regex twitterRegex = new Regex("(^https?://twitter.com/[A-Za-z0-9_]+$)");
         private static readonly Regex newTumblRegex = new Regex(@"(^https?://[\w.-]+newtumbl.com[/]??$)");
-        private static readonly Regex tumblrUrl = new Regex(@"^(?:http(s)?:\/\/)[\w.-]+.tumblr.com[/]??$");
-        private static readonly Regex tumblrUrlNew = new Regex(@"^(?:http(s)?:\/\/)www.tumblr.com\/[^\/]+$");
+        private static readonly Regex tumblrUrl = new Regex(@"^(?:http(?:s)?:\/\/)(?!www)[\w-]+.tumblr.com[/]??");
+        private static readonly Regex tumblrUrlNew = new Regex(@"^(?:http(?:s)?:\/\/)www.tumblr.com\/((?!dashboard|like(s|d)|search|tagged)[^/]+)");
 
         private static bool CheckNullLengthProtocolAndWhiteSpace(string url, int minLength)
         {
@@ -27,14 +27,16 @@ namespace TumblThree.Domain.Models
             return CheckNullLengthProtocolAndWhiteSpace(url, 0) && tumblrUrlNew.IsMatch(url);
         }
 
+        public static string GetTumblrNewUrlFormatBlogname(string url)
+        {
+            var match = tumblrUrlNew.Match(url);
+            return match.Success ? match.Groups[1].Value : "";
+        }
+
         public bool IsValidTumblrUrl(string url)
         {
-            var b = CheckNullLengthProtocolAndWhiteSpace(url, 18) &&
-                //url.Contains(".tumblr.com") &&
-                //(!url.Contains("//www.tumblr.com") || url.EndsWith("www.tumblr.com/likes", true, null)) &&
-                !url.Contains(".media.tumblr.com") &&
+            return CheckNullLengthProtocolAndWhiteSpace(url, 18) && !url.Contains(".media.tumblr.com") &&
                 (tumblrUrl.IsMatch(url) || tumblrUrlNew.IsMatch(url));
-            return b;
         }
 
         public bool IsTumbexUrl(string url)

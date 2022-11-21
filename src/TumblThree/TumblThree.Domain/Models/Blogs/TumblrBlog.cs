@@ -42,10 +42,15 @@ namespace TumblThree.Domain.Models.Blogs
 
         private static string ConvertNewFormatUrl(string url)
         {
-            if (!UrlValidator.IsValidTumblrUrlInNewFormat(url)) return url;
-
-            var name = url.Split('/').Last();
-            return $"https://{name}.tumblr.com";
+            if (UrlValidator.IsValidTumblrUrlInNewFormat(url))
+            {
+                var name = UrlValidator.GetTumblrNewUrlFormatBlogname(url);
+                return $"https://{name}.tumblr.com";
+            }
+            else
+            {
+                return Blog.ExtractUrl(url);
+            }
         }
 
         private static string ExtractCustomName(string url)
