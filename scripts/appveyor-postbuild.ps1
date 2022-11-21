@@ -15,20 +15,6 @@ Get-ChildItem -Path "$harvestPath\*" -Include *.exe,*.dll,*.config | Copy-Item -
 #New-Item -ItemType Directory -Force -Path "$applicationArtifactsPath\en"
 #Get-ChildItem -Path "$harvestPath\en\*" | Copy-Item -Destination "$applicationArtifactsPath\en"
 
-# CEF
-Get-ChildItem -Path "$harvestPath\*" -Include CefSharp.BrowserSubprocess.exe | Copy-Item -Destination $applicationArtifactsPath
-Get-ChildItem -Path "$harvestPath\*" -Include libcef.dll | Copy-Item -Destination $applicationArtifactsPath
-Get-ChildItem -Path "$harvestPath\*" -Include chrome_elf.dll | Copy-Item -Destination $applicationArtifactsPath
-Get-ChildItem -Path "$harvestPath\*" -Include icudtl.dat | Copy-Item -Destination $applicationArtifactsPath
-Get-ChildItem -Path "$harvestPath\*" -Include snapshot_blob.bin | Copy-Item -Destination $applicationArtifactsPath
-Get-ChildItem -Path "$harvestPath\*" -Include v8_context_snapshot.bin | Copy-Item -Destination $applicationArtifactsPath
-Get-ChildItem -Path "$harvestPath\*" -Include vk_swiftshader_icd.json | Copy-Item -Destination $applicationArtifactsPath
-Get-ChildItem -Path "$harvestPath\*" -Include *.pak | Copy-Item -Destination $applicationArtifactsPath
-New-Item -ItemType Directory -Force -Path "$applicationArtifactsPath\locales"
-Get-ChildItem -Path "$harvestPath\locales\*" -Include en-US.pak | Copy-Item -Destination "$applicationArtifactsPath\locales"
-New-Item -ItemType Directory -Force -Path "$applicationArtifactsPath\swiftshader"
-Get-ChildItem -Path "$harvestPath\swiftshader\*" -Include *.dll | Copy-Item -Destination "$applicationArtifactsPath\swiftshader"
-
 # Licenses
 Copy-Item "$env:APPVEYOR_BUILD_FOLDER\LICENSE" -Destination "$applicationArtifactsPath\LICENSE.txt"
 Copy-Item "$env:APPVEYOR_BUILD_FOLDER\LICENSE-3RD-PARTY" -Destination "$applicationArtifactsPath\LICENSE-3RD-PARTY.txt"
