@@ -1,7 +1,9 @@
 ﻿using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.Wpf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Controls;
+using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 
@@ -23,14 +26,24 @@ namespace TumblThree.Presentation.Views
     public partial class AuthenticateView : IAuthenticateView
     {
         private readonly Lazy<AuthenticateViewModel> viewModel;
+        private readonly string _appSettingsPath;
         private string _url;
         private string _domain;
 
-        public AuthenticateView()
+        [ImportingConstructor]
+        public AuthenticateView(IEnvironmentService environmentService)
         {
             InitializeComponent();
+            _appSettingsPath = Path.GetFullPath(Path.Combine(environmentService.AppSettingsPath, ".."));
             viewModel = new Lazy<AuthenticateViewModel>(() => ViewHelper.GetViewModel<AuthenticateViewModel>(this));
             browser.Loaded += Browser_Navigated;
+            InitializeAsync();
+        }
+
+        private async void InitializeAsync()
+        {
+            CoreWebView2Environment env = await CoreWebView2Environment.CreateAsync(null, _appSettingsPath);
+            await browser.EnsureCoreWebView2Async(env);
         }
 
         private AuthenticateViewModel ViewModel
@@ -49,7 +62,6 @@ namespace TumblThree.Presentation.Views
 
         private void OnLoad(object sender, EventArgs e)
         {
-            browser.EnsureCoreWebView2Async(null).GetAwaiter().GetResult();
             if (browser.IsInitialized)
                 browser.CoreWebView2.Navigate(_url);
         }

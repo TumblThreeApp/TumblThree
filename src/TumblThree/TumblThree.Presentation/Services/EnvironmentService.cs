@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Waf.Applications;
-
+using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 
 namespace TumblThree.Presentation.Services
@@ -23,6 +23,8 @@ namespace TumblThree.Presentation.Services
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ApplicationInfo.Company,
                     ApplicationInfo.ProductName, "ProfileOptimization"));
             appSettingsPath = new Lazy<string>(() =>
+                File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppSettings.SETTINGS_FILENAME)) ?
+                AppDomain.CurrentDomain.BaseDirectory :
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ApplicationInfo.Company,
                     ApplicationInfo.ProductName, "Settings"));
         }

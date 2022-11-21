@@ -15,17 +15,19 @@ namespace TumblThree.Applications.ViewModels
         private string _oauthCallbackUrl;
 
         [ImportingConstructor]
-        public AuthenticateViewModel(IAuthenticateView view, IShellService shellService, ILoginService loginService)
+        public AuthenticateViewModel(IAuthenticateView view, IShellService shellService, ILoginService loginService, IEnvironmentService environmentService)
             : base(view)
         {
             view.Closed += ViewClosed;
             ShellService = shellService;
             LoginService = loginService;
+            EnvironmentService = environmentService;
             _oauthCallbackUrl = shellService.Settings.OAuthCallbackUrl;
         }
 
         public IShellService ShellService { get; }
         public ILoginService LoginService { get; }
+        public IEnvironmentService EnvironmentService { get; }
 
         public string OAuthCallbackUrl
         {
@@ -42,5 +44,7 @@ namespace TumblThree.Applications.ViewModels
         public Task<CookieCollection> GetCookies(String url) => ViewCore.GetCookies(url);
 
         public string GetUrl() => ViewCore.GetUrl();
+
+        public string AppSettingsPath => EnvironmentService.AppSettingsPath;
     }
 }

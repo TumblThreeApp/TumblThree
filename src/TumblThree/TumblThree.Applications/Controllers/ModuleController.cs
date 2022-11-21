@@ -114,7 +114,7 @@ namespace TumblThree.Applications.Controllers
 
             _appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, AppSettingsFileName));
             InitializeCultures(_appSettings);
-            if (AppSettings.Upgrade(_appSettings)) SaveSettings(Path.Combine(GetAppDataPath(), AppSettingsFileName), _appSettings);
+            if (AppSettings.Upgrade(_appSettings)) { SaveSettings(Path.Combine(GetAppDataPath(), AppSettingsFileName), _appSettings); }
 
             Logger.ChangeLogLevel((TraceLevel)Enum.Parse(typeof(TraceLevel), _appSettings.LogLevel));
 

@@ -18,6 +18,10 @@ namespace TumblThree.Applications.Properties
         [IgnoreDataMember]
         public static readonly string USERAGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36";
 
+        [IgnoreDataMember]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "<Pending>")]
+        public static readonly string SETTINGS_FILENAME = "Settings.json";
+
         private static readonly string[] blogTypes =
             {
                 Resources.BlogTypesNone, Resources.BlogTypesAll, Resources.BlogTypesOnceFinished, Resources.BlogTypesNeverFinished
@@ -373,19 +377,19 @@ namespace TumblThree.Applications.Properties
         [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
-        public ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
+        public static ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
 
-        public ObservableCollection<string> ImageSizeCategories => new ObservableCollection<string>(imageSizeCategories);
+        public static ObservableCollection<string> ImageSizeCategories => new ObservableCollection<string>(imageSizeCategories);
 
-        public ObservableCollection<string> VideoSizes => new ObservableCollection<string>(videoSizes);
+        public static ObservableCollection<string> VideoSizes => new ObservableCollection<string>(videoSizes);
 
-        public ObservableCollection<string> VideoSizeCategories => new ObservableCollection<string>(videoSizeCategories);
+        public static ObservableCollection<string> VideoSizeCategories => new ObservableCollection<string>(videoSizeCategories);
 
-        public ObservableCollection<string> BlogTypes => new ObservableCollection<string>(blogTypes);
+        public static ObservableCollection<string> BlogTypes => new ObservableCollection<string>(blogTypes);
 
-        public ObservableCollection<string> LogLevels => new ObservableCollection<string>(logLevels);
+        public static ObservableCollection<string> LogLevels => new ObservableCollection<string>(logLevels);
 
-        public ObservableCollection<string> PnjDownloadFormats => new ObservableCollection<string>(pnjDownloadFormats);
+        public static ObservableCollection<string> PnjDownloadFormats => new ObservableCollection<string>(pnjDownloadFormats);
 
         [IgnoreDataMember]
         public static ObservableCollection<KeyValuePair<string, string>> Languages
@@ -405,6 +409,8 @@ namespace TumblThree.Applications.Properties
 
         public static bool Upgrade(AppSettings settings)
         {
+            _ = settings ?? throw new ArgumentNullException(nameof(settings));
+
             var updated = false;
             var newStgs = new AppSettings();
 
@@ -615,7 +621,7 @@ namespace TumblThree.Applications.Properties
         }
 
         [OnDeserializing]
-        private void OnDeserializing(StreamingContext context)
+        private static void OnDeserializing(StreamingContext context)
         {
         }
 

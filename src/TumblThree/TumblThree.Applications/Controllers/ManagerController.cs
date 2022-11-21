@@ -582,12 +582,12 @@ namespace TumblThree.Applications.Controllers
             //{
             //}
 
-            if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(1))
+            if (_shellService.Settings.BlogType == AppSettings.BlogTypes.ElementAtOrDefault(1))
             {
                 Enqueue(_managerService.BlogFiles.Where(blog => blog.Online).ToArray());
             }
 
-            if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(2))
+            if (_shellService.Settings.BlogType == AppSettings.BlogTypes.ElementAtOrDefault(2))
             {
                 Enqueue(
                     _managerService
@@ -595,7 +595,7 @@ namespace TumblThree.Applications.Controllers
                         .ToArray());
             }
 
-            if (_shellService.Settings.BlogType == _shellService.Settings.BlogTypes.ElementAtOrDefault(3))
+            if (_shellService.Settings.BlogType == AppSettings.BlogTypes.ElementAtOrDefault(3))
             {
                 Enqueue(
                     _managerService
