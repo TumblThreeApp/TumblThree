@@ -155,6 +155,8 @@ namespace TumblThree.Applications.Controllers
 
         public async void Run()
         {
+            CleanupOldFilesFromPreviousVersions();
+
             ShellViewModel.IsQueueViewVisible = true;
             ShellViewModel.Show();
 
@@ -180,7 +182,6 @@ namespace TumblThree.Applications.Controllers
             }
 
             CheckForWritableFolder();
-            CleanupOldFilesFromPreviousVersions();
 
             await CheckForTMData();
 
@@ -313,8 +314,8 @@ namespace TumblThree.Applications.Controllers
             string[] directoriesToRemove = new string[] { "GPUCache", "locales" };
             string[] filesToRemove = new string[] { "CefSharp.BrowserSubprocess.Core.dll", "CefSharp.BrowserSubprocess.Core.pdb", "CefSharp.BrowserSubprocess.exe",
                 "CefSharp.BrowserSubprocess.pdb", "CefSharp.Core.dll", "CefSharp.Core.pdb", "CefSharp.Core.Runtime.dll", "CefSharp.Core.Runtime.pdb", "CefSharp.Core.Runtime.xml",
-                "CefSharp.dll", "CefSharp.pdb", "CefSharp.Wpf.dll", "CefSharp.Wpf.pdb", "chrome_100_percent.pak", "chrome_200_percent.pak", "chrome_elf.dll", "debug.log",
-                "icudtl.dat", "libcef.dll", "libEGL.dll", "libGLESv2.dll", "LICENSE.txt", "README.txt", "resources.pak", "snapshot_blob.bin", "v8_context_snapshot.bin",
+                "CefSharp.dll", "CefSharp.pdb", "CefSharp.Wpf.dll", "CefSharp.Wpf.pdb", "chrome_100_percent.pak", "chrome_200_percent.pak", "chrome_elf.dll", "d3dcompiler_47.dll",
+                "debug.log", "icudtl.dat", "libcef.dll", "libEGL.dll", "libGLESv2.dll", "LICENSE.txt", "README.txt", "resources.pak", "snapshot_blob.bin", "v8_context_snapshot.bin",
                 "vk_swiftshader.dll", "vk_swiftshader_icd.json", "vulkan-1.dll" };
 
             foreach (var name in directoriesToRemove)
@@ -342,27 +343,6 @@ namespace TumblThree.Applications.Controllers
                     Logger.Error("ModuleController.CleanupOldFilesFromPreviousVersions: {0}", e.ToString());
                     ShellService.ShowError(e, Resources.ErrorRemovingOldFileOrFolder);
                 }
-            }
-
-            try
-            {
-                var filePath = Path.Combine(baseFolder, "d3dcompiler_47.dll");
-                if (!File.Exists(filePath)) { return; }
-
-                var processId = Process.GetCurrentProcess().Id;
-                var tempfilePath = Path.GetTempFileName();
-                File.Delete(tempfilePath);
-                Directory.CreateDirectory(tempfilePath);
-                tempfilePath = Path.Combine(tempfilePath, "TumblThreeSubProcess");
-                File.WriteAllBytes(tempfilePath, Resources.TumblThreeSubProcess);
-                ProcessStartInfo psi = new ProcessStartInfo(tempfilePath, $@"{processId} ""{filePath}""");
-                psi.CreateNoWindow = true;
-                psi.UseShellExecute = false;
-                Process.Start(psi);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("ModuleController.CleanupOldFilesFromPreviousVersions: {0}", e.ToString());
             }
         }
 

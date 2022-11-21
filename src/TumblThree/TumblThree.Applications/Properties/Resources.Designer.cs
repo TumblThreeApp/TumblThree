@@ -1131,16 +1131,6 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] TumblThreeSubProcess {
-            get {
-                object obj = ResourceManager.GetObject("TumblThreeSubProcess", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Url with slug: {0}.
         /// </summary>
         public static string UrlWithSlug {
