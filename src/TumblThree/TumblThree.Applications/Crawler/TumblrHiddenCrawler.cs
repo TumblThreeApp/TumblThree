@@ -347,7 +347,7 @@ namespace TumblThree.Applications.Crawler
                 CookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
                 CookieService.GetUriCookie(request.CookieContainer, new Uri("https://" + Blog.Name.Replace("+", "-") + ".tumblr.com"));
                 requestRegistration = Ct.Register(() => request.Abort());
-                return await WebRequestFactory.ReadRequestToEndAsync(request);
+                return await WebRequestFactory.ReadRequestToEndAsync(request, true);
             }
             finally
             {

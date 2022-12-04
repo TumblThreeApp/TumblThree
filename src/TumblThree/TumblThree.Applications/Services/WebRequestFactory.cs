@@ -149,11 +149,13 @@ namespace TumblThree.Applications.Services
         {
             using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
             {
+                if (response.Headers.AllKeys.Contains("Set-Cookie"))
+                {
+                    cookieService.SetUriCookie(CookieParser.GetAllCookiesFromHeader(response.Headers["Set-Cookie"], cookieDomain));
+                }
                 if (response.StatusCode == HttpStatusCode.Found || response.StatusCode == HttpStatusCode.Moved)
                 {
                     response.Close();
-                    if (response.Headers.AllKeys.Contains("Set-Cookie"))
-                        cookieService.SetUriCookie(CookieParser.GetAllCookiesFromHeader(response.Headers["Set-Cookie"], cookieDomain));
 
                     return new ResponseDetails() { HttpStatusCode = response.StatusCode, RedirectUrl = response.Headers["Location"] };
                 }
