@@ -20,6 +20,8 @@ using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
+using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace TumblThree.Applications.Crawler
 {
@@ -28,6 +30,8 @@ namespace TumblThree.Applications.Crawler
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class TumblrBlogCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
+        private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
+
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
         private readonly IPostQueue<CrawlerData<Post>> jsonQueue;
@@ -301,11 +305,21 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<ulong> GetHighestPostIdCoreAsync()
         {
-            string document = await GetApiPageWithRetryAsync(0);
+            var url = "https://www.tumblr.com/" + TumblThree.Domain.Models.Blogs.Blog.ExtractName(Blog.Url);
+            string document = await GetRequestAsync(url);
+            string pinnedId = "";
+            if (document.Contains("___INITIAL_STATE___"))
+            {
+                var extracted = extractJsonFromPage.Match(document).Groups[1].Value;
+                dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(extracted);
+                pinnedId = obj?.PeeprRoute?.initialTimeline?.objects?[0]?.id ?? "";
+            }
+
+            document = await GetApiPageWithRetryAsync(0);
             var response = ConvertJsonToClass<TumblrApiJson>(document);
 
             Blog.Posts = response.PostsTotal;
-            Post post = response.Posts?.FirstOrDefault();
+            Post post = response.Posts?.FirstOrDefault(x => x.Id != pinnedId);
             if (DateTime.TryParse(post?.DateGmt, out var latestPost)) Blog.LatestPost = latestPost;
             _ = ulong.TryParse(post?.Id, out var highestId);
             return highestId;

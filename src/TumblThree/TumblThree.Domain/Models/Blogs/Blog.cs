@@ -1157,7 +1157,7 @@ namespace TumblThree.Domain.Models.Blogs
             return null;
         }
 
-        protected static string ExtractName(string url)
+        public static string ExtractName(string url)
         {
             return ExtractSubDomain(url);
         }
