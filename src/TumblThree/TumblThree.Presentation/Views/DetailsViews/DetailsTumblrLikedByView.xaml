@@ -484,8 +484,8 @@
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadFrom}" />
-                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadTagsFromDescription}" />
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadLikesFrom}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadLikesFromDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Label.ToolTip>
@@ -496,9 +496,8 @@
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadFrom}" />
-                                            <TextBlock xml:space="preserve"
-                                            Text="{x:Static p:Resources.ToolTipDownloadTagsFromDescription}" />
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadLikesFrom}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadLikesFromDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </TextBox.ToolTip>
@@ -508,8 +507,8 @@
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadTo}" />
-                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadTagsToDescription}" />
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadLikesTo}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadToDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Label.ToolTip>
@@ -520,9 +519,8 @@
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadTo}" />
-                                            <TextBlock xml:space="preserve"
-                                            Text="{x:Static p:Resources.ToolTipDownloadTagsToDescription}" />
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadLikesTo}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadToDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </TextBox.ToolTip>

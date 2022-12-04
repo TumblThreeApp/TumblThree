@@ -614,14 +614,8 @@ Leer bedeutet das gesamte Blog.</value>
   <data name="ToolTipDownloadFrom" xml:space="preserve">
     <value>Lade Beiträge von diesem Datum</value>
   </data>
-  <data name="ToolTipDownloadTagsFromDescription" xml:space="preserve">
-    <value>Angabe in JJJJMMTT. Leer bedeutet von Mai 2007.</value>
-  </data>
   <data name="ToolTipDownloadTo" xml:space="preserve">
     <value>Lade Beiträge bis zu diesem Datum</value>
-  </data>
-  <data name="ToolTipDownloadTagsToDescription" xml:space="preserve">
-    <value>Angabe in JJJJMMTT. Leer bedeutet bis jetzt.</value>
   </data>
   <data name="ToolTipDownloadFromDescription" xml:space="preserve">
     <value>Angabe in JJJJMMTT. Leer bedeutet seit Anfang des Blogs.</value>
@@ -963,5 +957,14 @@ Herunterfahren der Anwendung, falls die Sammlung verfügbar ist.</value>
   <data name="ToolTipAuthenticateBrowserNTDescription" xml:space="preserve">
     <value>Öffnet ein Browserfenster, in dem Sie sich bei der Website newtumbl.com authentifizieren können.
 Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authentifizierungsprozess muss nur einmal durchgeführt werden.</value>
+  </data>
+  <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">
+    <value>Muss im Format JJJJMMTT vorliegen. Leer bedeutet von Anfang an Likes.</value>
+  </data>
+  <data name="ToolTipDownloadLikesFrom" xml:space="preserve">
+    <value>Lade Likes von diesem Datum</value>
+  </data>
+  <data name="ToolTipDownloadLikesTo" xml:space="preserve">
+    <value>Lade Likes bis zu diesem Datum</value>
   </data>
 </root>

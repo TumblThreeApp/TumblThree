@@ -2102,6 +2102,33 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Crawl likes from this date.
+        /// </summary>
+        public static string ToolTipDownloadLikesFrom {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadLikesFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must be in YYYYMMDD format. Empty means from the beginning of the likes..
+        /// </summary>
+        public static string ToolTipDownloadLikesFromDescription {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadLikesFromDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Crawl likes to this date.
+        /// </summary>
+        public static string ToolTipDownloadLikesTo {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadLikesTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download only specific pages.
         /// </summary>
         public static string ToolTipDownloadPages {
@@ -2116,24 +2143,6 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipDownloadPagesDescription {
             get {
                 return ResourceManager.GetString("ToolTipDownloadPagesDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Must be in YYYYMMDD format. Empty means from May 2007..
-        /// </summary>
-        public static string ToolTipDownloadTagsFromDescription {
-            get {
-                return ResourceManager.GetString("ToolTipDownloadTagsFromDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Must be in YYYYMMDD format. Empty means to now..
-        /// </summary>
-        public static string ToolTipDownloadTagsToDescription {
-            get {
-                return ResourceManager.GetString("ToolTipDownloadTagsToDescription", resourceCulture);
             }
         }
         

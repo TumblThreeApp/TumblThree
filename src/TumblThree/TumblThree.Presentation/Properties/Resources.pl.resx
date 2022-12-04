@@ -620,14 +620,8 @@ Na przykład. 50 oznacza skanowanie 50 postów na stronie.</value>
   <data name="ToolTipDownloadFrom" xml:space="preserve">
     <value>Przesyłaj wiadomości z tej daty</value>
   </data>
-  <data name="ToolTipDownloadTagsFromDescription" xml:space="preserve">
-    <value>Musi być w formacie RRRRMMDD. Pusty oznacza od maja 2007.</value>
-  </data>
   <data name="ToolTipDownloadTo" xml:space="preserve">
     <value>Przesyłaj wiadomości do tej daty</value>
-  </data>
-  <data name="ToolTipDownloadTagsToDescription" xml:space="preserve">
-    <value>Musi być w formacie RRRRMMDD. Puste znaczenie dla teraz.</value>
   </data>
   <data name="ToolTipDownloadFromDescription" xml:space="preserve">
     <value>Musi być w formacie RRRRMMDD. Puste środki od początku bloga.</value>

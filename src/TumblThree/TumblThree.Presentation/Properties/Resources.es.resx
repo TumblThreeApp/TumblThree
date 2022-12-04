@@ -617,14 +617,8 @@ P.ej. 50 medios para escanear 50 mensajes por página.</value>
   <data name="ToolTipDownloadFrom" xml:space="preserve">
     <value>Rastrear mensajes desde esta fecha</value>
   </data>
-  <data name="ToolTipDownloadTagsFromDescription" xml:space="preserve">
-    <value>Debe estar en formato AAAAMMDD. Vaciar significa desde mayo de 2007.</value>
-  </data>
   <data name="ToolTipDownloadTo" xml:space="preserve">
     <value>Rastrear publicaciones a esta fecha</value>
-  </data>
-  <data name="ToolTipDownloadTagsToDescription" xml:space="preserve">
-    <value>Debe estar en formato AAAAMMDD. Vacío significa ahora.</value>
   </data>
   <data name="ToolTipDownloadFromDescription" xml:space="preserve">
     <value>Debe estar en formato AAAAMMDD. Empty significa desde el principio del blog.</value>
@@ -960,5 +954,14 @@ La copia se realiza en cierre de la aplicación, si la colección está disponib
   <data name="ToolTipAuthenticateBrowserNTDescription" xml:space="preserve">
     <value>Abre una ventana del navegador para autenticarse en el sitio newtumbl.com.
 Las cookies utilizadas para la autenticación se guardan y el proceso de autenticación debe realizarse solo una vez.</value>
+  </data>
+  <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">
+    <value>Debe estar en formato AAAAMMDD. Medios vacíos desde el comienzo de los me gusta.</value>
+  </data>
+  <data name="ToolTipDownloadLikesFrom" xml:space="preserve">
+    <value>Rastrear los me gusta desde esta fecha</value>
+  </data>
+  <data name="ToolTipDownloadLikesTo" xml:space="preserve">
+    <value>Rastrear los me gusta a esta fecha</value>
   </data>
 </root>

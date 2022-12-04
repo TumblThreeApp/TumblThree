@@ -621,14 +621,8 @@ Par exemple. 50 signifie numériser 50 posts par page.</value>
   <data name="ToolTipDownloadFrom" xml:space="preserve">
     <value>Ranger les messages à partir de cette date</value>
   </data>
-  <data name="ToolTipDownloadTagsFromDescription" xml:space="preserve">
-    <value>Doit être au format YYYYMMDD. Moyens vide à partir de mai 2007.</value>
-  </data>
   <data name="ToolTipDownloadTo" xml:space="preserve">
     <value>Ranger les messages à cette date</value>
-  </data>
-  <data name="ToolTipDownloadTagsToDescription" xml:space="preserve">
-    <value>Doit être au format YYYYMMDD. Des moyens vides pour l'instant.</value>
   </data>
   <data name="ToolTipDownloadFromDescription" xml:space="preserve">
     <value>Doit être au format YYYYMMDD. Vide signifie dès le début du blog.</value>
@@ -964,5 +958,14 @@ se fait sur arrêt de l'application, si la collection est disponible.</value>
   <data name="ToolTipAuthenticateBrowserNTDescription" xml:space="preserve">
     <value>Ouvre une fenêtre de navigateur pour vous authentifier sur le site newtumbl.com.
 Les cookies utilisés pour l'authentification sont enregistrés et le processus d'authentification ne doit être effectué qu'une seule fois.</value>
+  </data>
+  <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">
+    <value>Doit être au format AAAAMMJJ. Vide signifie depuis le début des likes.</value>
+  </data>
+  <data name="ToolTipDownloadLikesFrom" xml:space="preserve">
+    <value>Ranger les likes à partir de cette date</value>
+  </data>
+  <data name="ToolTipDownloadLikesTo" xml:space="preserve">
+    <value>Ranger les likes à cette date</value>
   </data>
 </root>

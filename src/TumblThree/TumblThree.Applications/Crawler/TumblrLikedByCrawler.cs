@@ -314,8 +314,8 @@ namespace TumblThree.Applications.Crawler
                     DateTimeStyles.None);
                 downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
             }
-            long postTime = post.Timestamp;
-            return downloadFromUnixTime < postTime && postTime < downloadToUnixTime;
+            long likedTimestamp = post.LikedTimestamp;
+            return downloadFromUnixTime < likedTimestamp && likedTimestamp < downloadToUnixTime;
         }
 
         private static List<DataModels.TumblrSearchJson.Data> ExtractPosts(string document)
