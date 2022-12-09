@@ -26,7 +26,7 @@ namespace TumblThree.Applications.Crawler
 
         public async Task<bool> IsTumblrBlogAsync(string url)
         {
-            string location = await GetUrlRedirection(url);
+            string location = await GetUrlRedirection(url, false);
             return !location.Contains("login_required");
         }
 
@@ -34,7 +34,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                string location = await GetUrlRedirection(url);
+                string location = await GetUrlRedirection(url, false);
                 return location.Contains("login_required") || location.Contains("dashboard/blog/") ||
                     location.Contains("/blog/view/") || location.Contains("/safe-mode?url");
             }
@@ -46,7 +46,7 @@ namespace TumblThree.Applications.Crawler
 
         public async Task<bool> IsPasswordProtectedTumblrBlogAsync(string url)
         {
-            string location = await GetUrlRedirection(url);
+            string location = await GetUrlRedirection(url, true);
             return location.Contains("blog_auth");
         }
 
@@ -56,10 +56,13 @@ namespace TumblThree.Applications.Crawler
             return page.Contains("tumblr://x-callback-url/blog?blogName=");
         }
 
-        private async Task<string> GetUrlRedirection(string url)
+        private async Task<string> GetUrlRedirection(string url, bool useCookies)
         {
             HttpWebRequest request = webRequestFactory.CreateGetRequest(url);
-            cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
+            if (useCookies)
+            {
+                cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
+            }
             string location;
             using (var response = await request.GetResponseAsync().TimeoutAfter(shellService.Settings.TimeOut) as HttpWebResponse)
             {
