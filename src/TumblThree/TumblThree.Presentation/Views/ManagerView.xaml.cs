@@ -58,7 +58,8 @@ namespace TumblThree.Presentation.Views
                 var columnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
                 foreach (DataGridColumn column in blogFilesGrid.Columns)
                 {
-                    columnSettings.Add(GetName(column), Tuple.Create(column.DisplayIndex, column.Width.Value, column.Visibility));
+                    var width = Math.Round(column.ActualWidth);
+                    columnSettings.Add(GetName(column), Tuple.Create(column.DisplayIndex, width, column.Visibility));
                 }
 
                 return columnSettings;
