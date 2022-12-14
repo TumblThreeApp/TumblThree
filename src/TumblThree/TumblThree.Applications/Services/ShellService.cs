@@ -172,7 +172,7 @@ namespace TumblThree.Applications.Services
                 if (value != null)
                 {
                     var version = new Version(value);
-                    if (version >= new Version("106.0.1370.52")) { return true; }
+                    if (version >= new Version("106.0.1370.28")) { return true; }
                 }
             }
 
@@ -185,7 +185,7 @@ namespace TumblThree.Applications.Services
                 if (value != null)
                 {
                     var version = new Version(value);
-                    if (version >= new Version("106.0.1370.52")) { return true; }
+                    if (version >= new Version("106.0.1370.28")) { return true; }
                 }
             }
 
