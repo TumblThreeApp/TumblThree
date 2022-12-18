@@ -12,16 +12,13 @@
         d:DataContext="{d:DesignInstance vm:AuthenticateViewModel}">
 
 
-    <Grid Margin="0" VerticalAlignment="Stretch" Grid.Row="0">
+    <Grid x:Name="webViewHost" Margin="0" VerticalAlignment="Stretch" Grid.Row="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <!--<WebBrowser x:Name="browser" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="10,10,10,10"
-                    VerticalAlignment="Top" Width="Auto" Height="Auto" />-->
-        <!-- wpf:ChromiumWebBrowser x:Name="browser" Address="" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="10,10,10,0" Width="Auto" Height="Auto"/> -->
         <wpf:WebView2 x:Name="browser" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="10,10,10,0" Width="Auto" Height="Auto"/>
     </Grid>
 </Window>

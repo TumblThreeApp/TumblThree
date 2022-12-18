@@ -5,13 +5,10 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Net;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows;
-using System.Windows.Controls;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
@@ -36,8 +33,65 @@ namespace TumblThree.Presentation.Views
             InitializeComponent();
             _appSettingsPath = Path.GetFullPath(Path.Combine(environmentService.AppSettingsPath, ".."));
             viewModel = new Lazy<AuthenticateViewModel>(() => ViewHelper.GetViewModel<AuthenticateViewModel>(this));
-            browser.Loaded += Browser_Navigated;
+            Configure();
             InitializeAsync();
+        }
+
+        private void CoreWebView2_ProcessFailed(object sender, CoreWebView2ProcessFailedEventArgs e)
+        {
+            switch (e.ProcessFailedKind)
+            {
+                case CoreWebView2ProcessFailedKind.BrowserProcessExited:
+                case CoreWebView2ProcessFailedKind.RenderProcessUnresponsive:
+                    RecreateWebView2();
+                    break;
+                case CoreWebView2ProcessFailedKind.RenderProcessExited:
+                case CoreWebView2ProcessFailedKind.FrameRenderProcessExited:
+                    browser.Reload();
+                    break;
+            }
+        }
+
+        private void Configure()
+        {
+            browser.CoreWebView2InitializationCompleted += (_, e) =>
+            {
+                _ = Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (e.IsSuccess && browser.CoreWebView2 != null)
+                    {
+                        browser.CoreWebView2.ProcessFailed += CoreWebView2_ProcessFailed;
+                    }
+                    if (_url != null)
+                    {
+                        browser.Source = new Uri(_url);
+                    }
+                }));
+            };
+        }
+
+        private void RecreateWebView2()
+        {
+            _ = Dispatcher.BeginInvoke(new Action(() =>
+            {
+                try
+                {
+                    webViewHost.Children.Clear();
+                }
+                catch { }
+
+                try
+                {
+                    browser.Dispose();
+                }
+                catch { }
+
+                browser = new WebView2();
+                _ = webViewHost.Children.Add(browser);
+
+                Configure();
+                InitializeAsync();
+            }));
         }
 
         private async void InitializeAsync()
@@ -46,24 +100,14 @@ namespace TumblThree.Presentation.Views
             await browser.EnsureCoreWebView2Async(env);
         }
 
-        private AuthenticateViewModel ViewModel
-        {
-            get { return viewModel.Value; }
-        }
+        private AuthenticateViewModel ViewModel => viewModel.Value;
 
         public void ShowDialog(object owner, string url, string cookieDomain)
         {
-            browser.Initialized += OnLoad;
             Owner = owner as Window;
             _url = url;
             _domain = cookieDomain;
             ShowDialog();
-        }
-
-        private void OnLoad(object sender, EventArgs e)
-        {
-            if (browser.IsInitialized)
-                browser.CoreWebView2.Navigate(_url);
         }
 
         public string GetUrl()
@@ -73,9 +117,6 @@ namespace TumblThree.Presentation.Views
 
         public async Task<CookieCollection> GetCookies(string url)
         {
-            //var cookieManager = Cef.GetGlobalCookieManager();
-            //var cookies = await cookieManager.VisitUrlCookiesAsync(url, true);
-
             var cookieManager = browser.CoreWebView2.CookieManager;
             var cookies = await cookieManager.GetCookiesAsync(url);
 
@@ -135,56 +176,6 @@ namespace TumblThree.Presentation.Views
                     cookie.Expires = new DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             }
             return cookieCol;
-        }
-
-        private void Browser_Navigated(object sender, RoutedEventArgs e)
-        {
-            if (browser.IsInitialized)
-                browser.Source = new Uri(_url);
-            //try
-            //{
-            //    var cwb = (ChromiumWebBrowser)sender;
-            //    if (cwb.Address.Equals(ViewModel.OAuthCallbackUrl))
-            //    {
-            //        Close();
-            //    }
-            //}
-            //catch
-            //{
-            //}
-        }
-
-        public static void SetSilent(WebBrowser browser, bool silent)
-        {
-            if (browser == null)
-            {
-                throw new ArgumentNullException("browser");
-            }
-
-            // get an IWebBrowser2 from the document
-            var sp = browser.Document as IOleServiceProvider;
-            if (sp != null)
-            {
-                var IID_IWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
-                var IID_IWebBrowser2 = new Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E");
-
-                object webBrowser;
-                sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out webBrowser);
-                if (webBrowser != null)
-                {
-                    webBrowser.GetType()
-                              .InvokeMember("Silent", BindingFlags.Instance | BindingFlags.Public | BindingFlags.PutDispProperty,
-                                  null, webBrowser, new object[] { silent });
-                }
-            }
-        }
-
-        [ComImport, Guid("6D5140C1-7436-11CE-8034-00AA006009FA"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        private interface IOleServiceProvider
-        {
-            [PreserveSig]
-            int QueryService([In] ref Guid guidService, [In] ref Guid riid,
-                [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
         }
     }
 }
