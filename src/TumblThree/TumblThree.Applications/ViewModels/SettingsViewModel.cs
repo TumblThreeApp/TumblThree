@@ -1585,10 +1585,7 @@ namespace TumblThree.Applications.ViewModels
                 {
                     item.DownloadLocation = Path.Combine(DownloadLocation, item.Name);
                 }
-                if (item.IsOnline is null)
-                {
-                    item.IsOnline = Directory.Exists(item.DownloadLocation);
-                }
+                item.IsOnline = Directory.Exists(item.DownloadLocation) || Directory.Exists(Directory.GetParent(item.DownloadLocation).FullName);
                 list.Add(item);
             }
             _settings.Collections = list;
