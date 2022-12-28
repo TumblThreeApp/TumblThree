@@ -735,7 +735,8 @@ namespace TumblThree.Applications.Controllers
                     try
                     {
                         string blogPath = blog.DownloadLocation();
-                        Directory.Delete(blogPath, true);
+                        if (Directory.Exists(blogPath))
+                            Directory.Delete(blogPath, true);
                     }
                     catch (Exception ex)
                     {
