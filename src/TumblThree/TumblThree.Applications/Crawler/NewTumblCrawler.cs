@@ -241,8 +241,29 @@ namespace TumblThree.Applications.Crawler
 
                     CheckIfShouldPause();
 
-                    var json = await GetApiPageAsync(1);
-                    var posts = GetPosts(json);
+                    string json = null;
+                    List<Post> posts = null;
+                    for (int numberOfTrials = 0; numberOfTrials < 2; numberOfTrials++)
+                    {
+                        try
+                        {
+                            json = await GetApiPageAsync(1);
+                            posts = GetPosts(json);
+                            break;
+                        }
+                        catch (APIException ex)
+                        {
+                            if (numberOfTrials == 0)
+                            {
+                                Logger.Error($"CrawlPageAsync, retrying: {ex.Message}");
+                                await Task.Delay(10000);
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                    }
                     pageNo++;
                     totalPosts += posts.Count;
 
@@ -953,13 +974,33 @@ namespace TumblThree.Applications.Crawler
             switch (mode)
             {
                 case 0:
-                    var test = Blog.Url;
-                    string document = await RequestDataAsync(test, null, cookieHosts);
+                    string json = null;
+                    Root obj = null;
+                    for (int numberOfTrials = 0; numberOfTrials < 2; numberOfTrials++)
+                    {
+                        try
+                        {
+                            var test = Blog.Url;
+                            string document = await RequestDataAsync(test, null, cookieHosts);
 
-                    string json = extractJsonFromPage.Match(document).Groups[1].Value + "}";
-                    Root obj = ConvertJsonToClassNew<Root>(json);
-                    CheckError(obj);
-
+                            json = extractJsonFromPage.Match(document).Groups[1].Value + "}";
+                            obj = ConvertJsonToClassNew<Root>(json);
+                            CheckError(obj);
+                            break;
+                        }
+                        catch (APIException ex)
+                        {
+                            if (numberOfTrials == 0)
+                            {
+                                Logger.Error($"GetApiPageAsync, retrying: {ex.Message}");
+                                await Task.Delay(10000);
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                    }
                     if (obj.aResultSet[2].aRow.Count == 0)
                     {
                         throw CreateWebException(HttpStatusCode.NotFound);
