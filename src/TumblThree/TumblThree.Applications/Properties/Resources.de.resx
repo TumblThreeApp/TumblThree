@@ -475,4 +475,7 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="ErrorRemovingOldFileOrFolder" xml:space="preserve">
     <value>Beim Bereinigen alter Dateien und Ordner ist ein Fehler aufgetreten.</value>
   </data>
+  <data name="ImageSizeNotRetrievable" xml:space="preserve">
+    <value>Die Bildgröße konnte für einen Beitrag in „{0}“ ({1}) nicht abgerufen werden.</value>
+  </data>
 </root>

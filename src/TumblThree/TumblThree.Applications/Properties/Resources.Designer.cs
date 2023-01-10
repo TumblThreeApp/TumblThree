@@ -750,6 +750,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image size couldn&apos;t be retrieved for a post in &apos;{0}&apos; ({1})..
+        /// </summary>
+        public static string ImageSizeNotRetrievable {
+            get {
+                return ResourceManager.GetString("ImageSizeNotRetrievable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Limit exceeded: {0}. You should lower the connections to the tumblr api in the Settings-&gt;Connection pane..
         /// </summary>
         public static string LimitExceeded {

@@ -506,4 +506,7 @@ To view more content on this blog, you will need to increase your comfort zone f
   <data name="NotLoggedInNT" xml:space="preserve">
     <value>This blog has a rating of X and publishes some content that you are not permitted to view without logging in.</value>
   </data>
+  <data name="ImageSizeNotRetrievable" xml:space="preserve">
+    <value>Image size couldn't be retrieved for a post in '{0}' ({1}).</value>
+  </data>
 </root>

@@ -27,6 +27,8 @@ namespace TumblThree.Applications.Crawler
     public abstract class AbstractTumblrCrawler : AbstractCrawler
     {
         private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
+        private static readonly Regex extractImageLink = new Regex("<img class=\"\\w+?\" src=\"([^\"]+?)\" alt=\"[^\"]+?\"/>");
+        private static readonly Regex extractImageSize = new Regex("/s(\\d+?)x(\\d+?)/");
 
         protected readonly ICrawlerDataDownloader crawlerDataDownloader;
 
@@ -456,7 +458,7 @@ namespace TumblThree.Applications.Crawler
                 {
                     throw new LimitExceededWebException(lastError);
                 }
-                ShellService.ShowError(lastError, Resources.PostNotParsable, Blog.Name);
+                ShellService.ShowError(lastError, Resources.ImageSizeNotRetrievable, Blog.Name, ShellService.Settings.GetCollection(Blog.CollectionId).Name);
                 throw new NullReferenceException("RetrieveOriginalImageUrl download", lastError);
             }
             try
@@ -466,12 +468,28 @@ namespace TumblThree.Applications.Crawler
                 ImageResponse imgRsp = DeserializeImageResponse(extracted);
                 int maxWidth = imgRsp.Images.Max(x => x.Width);
                 Image img = imgRsp.Images.FirstOrDefault(x => x.Width == maxWidth);
-                return string.IsNullOrEmpty(img?.MediaKey) ? url : img.Url;
+                if (string.IsNullOrEmpty(img?.MediaKey))
+                {
+                    return url;
+                }
+                else
+                {
+                    var matchSizesImgUrl = extractImageSize.Match(img.Url);
+                    var sizesImgUrl = (int.Parse(matchSizesImgUrl.Groups[1].Value), int.Parse(matchSizesImgUrl.Groups[2].Value));
+
+                    if (sizesImgUrl.Item1 >= 2048) { return img.Url; }
+
+                    var parsedImgLink = extractImageLink.Match(pageContent).Groups[1].Value;
+                    var matchSizesParsedImgLink = extractImageSize.Match(parsedImgLink);
+                    var sizesParsedImgLink = (int.Parse(matchSizesParsedImgLink.Groups[1].Value), int.Parse(matchSizesParsedImgLink.Groups[2].Value));
+
+                    return sizesParsedImgLink.Item1 > sizesImgUrl.Item1 ? parsedImgLink : img.Url;
+                }
             }
             catch (Exception ex)
             {
                 Logger.Error("AbstractTumblrCrawler:RetrieveOriginalImageUrl: {0}", ex);
-                ShellService.ShowError(ex, Resources.PostNotParsable, Blog.Name);
+                ShellService.ShowError(ex, Resources.ImageSizeNotRetrievable, Blog.Name, Blog.Name, ShellService.Settings.GetCollection(Blog.CollectionId).Name);
                 throw new NullReferenceException("RetrieveOriginalImageUrl parsing", ex);
             }
         }

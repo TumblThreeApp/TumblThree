@@ -487,4 +487,7 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="ErrorRemovingOldFileOrFolder" xml:space="preserve">
     <value>Une erreur s'est produite lors du nettoyage des anciens fichiers et dossiers.</value>
   </data>
+  <data name="ImageSizeNotRetrievable" xml:space="preserve">
+    <value>La taille de l'image n'a pas pu être récupérée pour un message dans '{0}' ({1}).</value>
+  </data>
 </root>

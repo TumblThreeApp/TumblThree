@@ -469,4 +469,7 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="ErrorRemovingOldFileOrFolder" xml:space="preserve">
     <value>Se produjo un error durante la limpieza de archivos y carpetas antiguos.</value>
   </data>
+  <data name="ImageSizeNotRetrievable" xml:space="preserve">
+    <value>No se pudo recuperar el tamaño de la imagen para una publicación en '{0}' ({1}).</value>
+  </data>
 </root>
