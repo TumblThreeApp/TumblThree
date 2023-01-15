@@ -311,11 +311,11 @@ namespace TumblThree.Applications.Crawler
             if (!string.IsNullOrEmpty(Blog.DownloadTo))
             {
                 DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None);
+                    DateTimeStyles.None).AddDays(1);
                 downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
             }
             long likedTimestamp = post.LikedTimestamp;
-            return downloadFromUnixTime < likedTimestamp && likedTimestamp < downloadToUnixTime;
+            return downloadFromUnixTime <= likedTimestamp && likedTimestamp < downloadToUnixTime;
         }
 
         private static List<DataModels.TumblrSearchJson.Data> ExtractPosts(string document)

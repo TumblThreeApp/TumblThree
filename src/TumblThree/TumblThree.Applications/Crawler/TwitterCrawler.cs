@@ -585,13 +585,13 @@ namespace TumblThree.Applications.Crawler
             if (!string.IsNullOrEmpty(Blog.DownloadTo))
             {
                 DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None);
+                    DateTimeStyles.None).AddDays(1);
                 downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
             }
 
             DateTime createdAt = DateTime.ParseExact(post.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
             long postTime = ((DateTimeOffset)createdAt).ToUnixTimeSeconds();
-            return downloadFromUnixTime < postTime && postTime < downloadToUnixTime;
+            return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
         }
 
         private bool CheckPostAge(TimelineTweets response)

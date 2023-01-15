@@ -439,13 +439,12 @@ namespace TumblThree.Applications.Crawler
             if (!string.IsNullOrEmpty(Blog.DownloadTo))
             {
                 DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None);
+                    DateTimeStyles.None).AddDays(1);
                 downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
             }
 
-            long postTime = 0;
-            postTime = post.UnixTimestamp;
-            return downloadFromUnixTime < postTime && postTime < downloadToUnixTime;
+            long postTime = post.UnixTimestamp;
+            return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
         }
 
         private bool CheckPostAge(TumblrApiJson response)

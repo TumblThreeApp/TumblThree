@@ -339,10 +339,10 @@ namespace TumblThree.Applications.Crawler
             }
             if (!string.IsNullOrEmpty(Blog.DownloadTo))
             {
-                downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None).AddDays(1);
             }
 
-            return downloadFrom < post.dtActive.Value && post.dtActive.Value < downloadTo;
+            return downloadFrom <= post.dtActive.Value && post.dtActive.Value < downloadTo;
         }
 
         private bool CheckIfSkipGif(string imageUrl)

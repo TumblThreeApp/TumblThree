@@ -288,13 +288,12 @@ namespace TumblThree.Applications.Crawler
             if (!string.IsNullOrEmpty(Blog.DownloadTo))
             {
                 DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None);
+                    DateTimeStyles.None).AddDays(1);
                 downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
             }
 
-            long postTime = 0;
-            postTime = Convert.ToInt64(post.Timestamp);
-            return downloadFromUnixTime < postTime && postTime < downloadToUnixTime;
+            long postTime = Convert.ToInt64(post.Timestamp);
+            return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
         }
 
         private async Task<bool> CheckIfLoggedInAsync()
