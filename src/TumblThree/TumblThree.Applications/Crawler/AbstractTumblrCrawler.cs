@@ -370,9 +370,10 @@ namespace TumblThree.Applications.Crawler
                 RebloggedFromName = p.RebloggedFromName,
                 RebloggedRootName = p.RebloggedRootName,
                 ReblogKey = p.ReblogKey,
-                Tumblelog = new TumbleLog2() { Name = p.Tumblelog},
-                DownloadedFilenames = p.DownloadedFilenames?.Select(s => string.Copy(s)).ToList(),
-                DownloadedUrls = p.DownloadedUrls?.Select(s => string.Copy(s)).ToList()
+                Tumblelog = new TumbleLog2() { Name = p.Tumblelog },
+                // deep copies here prevent inline media from being listed at the end
+                DownloadedFilenames = p.DownloadedFilenames,  //?.Select(s => string.Copy(s)).ToList(),
+                DownloadedUrls = p.DownloadedUrls  //?.Select(s => string.Copy(s)).ToList()
             };
         }
 
