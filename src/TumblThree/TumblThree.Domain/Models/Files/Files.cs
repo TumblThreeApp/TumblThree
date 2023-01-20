@@ -245,6 +245,12 @@ namespace TumblThree.Domain.Models.Files
 
                 foreach (var entry in file.entries)
                 {
+                    // remove erroneously added original links
+                    if (file.BlogType == BlogTypes.newtumbl && entry.OriginalLink != null)
+                    {
+                        entry.OriginalLink = null;
+                    }
+
                     file.originalLinks.Add(entry.OriginalLink);
                 }
 
