@@ -12,7 +12,7 @@ namespace TumblThree.Domain.Models
         private static readonly Regex tumbexRegex = new Regex("(http[A-Za-z0-9_/:.]*www.tumbex.com[A-Za-z0-9_/:.-]*tumblr/)");
         private static readonly Regex urlRegex = new Regex(@"^(?:http(s)?:\/\/){1}?[\w.-]+(?:\.[\w\.-]+)+[/]??$");
         private static readonly Regex twitterRegex = new Regex("(^https?://twitter.com/[A-Za-z0-9_]+$)");
-        private static readonly Regex newTumblRegex = new Regex(@"(^https?://[\w.-]+newtumbl.com[/]??$)");
+        private static readonly Regex newTumblRegex = new Regex(@"(^(?:https?://)?(?:(?!.+like$)(?:[\w-]+\.{1})|.{0})newtumbl.com[/]??(?:like|.{0})$)");
         private static readonly Regex tumblrUrl = new Regex(@"^(?:http(?:s)?:\/\/)(?!www)[\w-]+.tumblr.com[/]??");
         private static readonly Regex tumblrUrlNew = new Regex(@"^(?:http(?:s)?:\/\/)www.tumblr.com\/((?!dashboard|like(s|d)|search|tagged)[^/]+)");
 

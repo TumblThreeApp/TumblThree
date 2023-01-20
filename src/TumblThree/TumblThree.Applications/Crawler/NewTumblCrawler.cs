@@ -58,6 +58,7 @@ namespace TumblThree.Applications.Crawler
         private long blogIx;
         private int totalPosts;
         private int pageNo;
+        private bool isLike;
 
         public NewTumblCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Post>> jsonQueue, IBlog blog, IDownloader downloader,
@@ -154,6 +155,8 @@ namespace TumblThree.Applications.Crawler
         public async Task CrawlAsync()
         {
             Logger.Verbose("NewTumblCrawler.Crawl:Start");
+
+            isLike = Blog.Url.EndsWith("/Like", StringComparison.InvariantCultureIgnoreCase);
 
             Task<bool> grabber = GetUrlsAsync();
             Task<bool> download = downloader.DownloadBlogAsync();
@@ -1005,7 +1008,7 @@ namespace TumblThree.Applications.Crawler
                     {
                         throw CreateWebException(HttpStatusCode.NotFound);
                     }
-                    blogIx = blogIx > 0 ? blogIx : BlogInfo(obj, 8)?.dwBlogIx ?? 0;
+                    blogIx = blogIx > 0 ? blogIx : BlogInfo(obj, isLike ? 2 : 8)?.dwBlogIx ?? 0;
                     return json;
                 case 1:
                     var cookies = CookieService.GetAllCookies();
@@ -1016,11 +1019,13 @@ namespace TumblThree.Applications.Crawler
                     cookie = cookies.FirstOrDefault(c => c.Name == "ActiveBlog");
                     var activeBlog = long.TryParse(cookie?.Value, out var result) ? result : 0;
 
-                    var url = $"https://api-ro.newtumbl.com/sp/NewTumbl/search_Blog_Posts?affinity={affinity}";
+                    var url = "https://api-ro.newtumbl.com/sp/NewTumbl/" +
+                        (isLike ? "search_User_Posts_Like" : "search_Blog_Posts") + $"?affinity={affinity}";
 
                     var d = new Dictionary<string, string>();
                     d.Add("json", "{\"Params\":[\"[{IPADDRESS}]\",\"" + token + "\",null,\"0\",\"0\"," + activeBlog + ",null," +
-                        (dtSearchField == null ? "null" : $"\"{dtSearchField}\"") + "," + pageNo + ",50,0,null,0,\"\",0,0,0,0,0," + blogIx + ",null]}");
+                        (dtSearchField == null ? "null" : $"\"{dtSearchField}\"") + "," + pageNo + ",50,0,null,0,\"\",0,0,0,0,0," +
+                        (isLike ? "null" : blogIx.ToString()) + ",null]}");
                     
                     return await PostDataAsync(url, Blog.Url, d, cookieHosts);
                 default:
@@ -1106,7 +1111,7 @@ namespace TumblThree.Applications.Crawler
             switch (type)
             {
                 case 2:
-                    return obj.aResultSet[type].aRow.Where(w => w.dwBlogIx == blogIx).First();
+                    return isLike ? obj.aResultSet[type].aRow[0] : obj.aResultSet[type].aRow.Where(w => w.dwBlogIx == blogIx).First();
                 case 3:
                     return obj.aResultSet[type].aRow[0];
                 case 8:
