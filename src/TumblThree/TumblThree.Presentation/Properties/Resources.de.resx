@@ -967,4 +967,7 @@ Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authent
   <data name="ToolTipDownloadLikesTo" xml:space="preserve">
     <value>Lade Likes bis zu diesem Datum</value>
   </data>
+  <data name="DownloadReplies" xml:space="preserve">
+    <value>Lade Antworten</value>
+  </data>
 </root>

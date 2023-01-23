@@ -964,4 +964,7 @@ Las cookies utilizadas para la autenticación se guardan y el proceso de autenti
   <data name="ToolTipDownloadLikesTo" xml:space="preserve">
     <value>Rastrear los me gusta a esta fecha</value>
   </data>
+  <data name="DownloadReplies" xml:space="preserve">
+    <value>Descargar respuestas</value>
+  </data>
 </root>

@@ -54,6 +54,9 @@ namespace TumblThree.Applications.Crawler
         private string cursor;
         private string oldestApiPost;
 
+        // instead of new field reuse DownloadAnswer for replies
+        private bool BlogDownloadReplies => Blog.DownloadAnswer;
+
         public TwitterCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Tweet>> jsonQueue, IBlog blog, IDownloader downloader,
             ICrawlerDataDownloader crawlerDataDownloader, PauseToken pt, CancellationToken ct)
@@ -221,9 +224,10 @@ namespace TumblThree.Applications.Crawler
                 case 2:
                     if (!string.IsNullOrEmpty(cursor)) cursor = string.Format("&cursor={0}", cursor.Replace("+", "%2B"));    //HttpUtility.UrlEncode(cursor)
                     var restId = (await GetTwUser()).Data.User.RestId;
+                    var includeReplies = BlogDownloadReplies.ToString().ToLower();
                     url = string.Format("https://api.twitter.com/2/timeline/profile/{0}.json" +
-                        "?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&send_error_codes=true&simple_quoted_tweets=true&include_tweet_replies=true&userId={0}&count={1}{2}&ext=mediaStats%2ChighlightedLabel%2CcameraMoment",
-                        restId, pageSize, cursor);
+                        "?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&send_error_codes=true&simple_quoted_tweets=true&include_tweet_replies={3}&userId={0}&count={1}{2}&ext=mediaStats%2ChighlightedLabel%2CcameraMoment",
+                        restId, pageSize, cursor, includeReplies);
                     break;
                 case 3:
                     if (!string.IsNullOrEmpty(cursor)) cursor = string.Format("&cursor={0}", cursor.Replace("+", "%2B"));
@@ -720,6 +724,7 @@ namespace TumblThree.Applications.Crawler
         private void AddPhotoUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadPhoto) return;
+            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.InReplyToStatusIdStr)) return;
 
             var media = GetMedia(post);
 
@@ -732,6 +737,7 @@ namespace TumblThree.Applications.Crawler
         private void AddVideoUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail) return;
+            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.InReplyToStatusIdStr)) return;
 
             var media = GetMedia(post);
 
@@ -755,6 +761,7 @@ namespace TumblThree.Applications.Crawler
         {
             if (!Blog.DownloadText) return;
             if (!(post.Entities == null || post.Entities.Media == null || post.Entities.Media.Count == 0)) return;
+            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.InReplyToStatusIdStr)) return;
 
             AddToDownloadList(new TextPost(post.FullText, post.IdStr));
             AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(post.IdStr, ".json"), TweetToSave(post)));
@@ -763,6 +770,7 @@ namespace TumblThree.Applications.Crawler
         private void AddGifUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadPhoto || Blog.SkipGif) return;
+            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.InReplyToStatusIdStr)) return;
 
             var media = GetMedia(post);
 

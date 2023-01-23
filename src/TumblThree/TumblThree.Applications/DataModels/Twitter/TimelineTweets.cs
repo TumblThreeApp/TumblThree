@@ -24,6 +24,9 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("full_text")]
         public string FullText { get; set; }
 
+        [JsonProperty("truncated")]
+        public bool Truncated { get; set; }
+
         [JsonProperty("display_text_range")]
         public List<int> DisplayTextRange { get; set; }
 
@@ -36,11 +39,23 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("source")]
         public string Source { get; set; }
 
+        [JsonProperty("in_reply_to_status_id_str")]
+        public string InReplyToStatusIdStr { get; set; }
+
+        [JsonProperty("in_reply_to_user_id_str")]
+        public string InReplyToUserIdStr { get; set; }
+
+        [JsonProperty("in_reply_to_screen_name")]
+        public string InReplyToScreenName { get; set; }
+
         [JsonProperty("user_id_str")]
         public string UserIdStr { get; set; }
 
         [JsonProperty("user")]
         public User User { get; set; }
+
+        [JsonProperty("is_quote_status")]
+        public bool IsQuoteStatus { get; set; }
 
         [JsonProperty("retweeted_status_id_str")]
         public string RetweetedStatusIdStr { get; set; }
@@ -57,14 +72,29 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("quote_count")]
         public int QuoteCount { get; set; }
 
+        [JsonProperty("conversation_id")]
+        public long ConversationId { get; set; }
+
         [JsonProperty("conversation_id_str")]
         public string ConversationIdStr { get; set; }
+
+        [JsonProperty("favorited")]
+        public bool Favorited { get; set; }
+
+        [JsonProperty("retweeted")]
+        public bool Retweeted { get; set; }
+
+        [JsonProperty("possibly_sensitive")]
+        public bool PossiblySensitive { get; set; }
 
         [JsonProperty("possibly_sensitive_editable")]
         public bool PossiblySensitiveEditable { get; set; }
 
         [JsonProperty("lang")]
         public string Lang { get; set; }
+
+        [JsonProperty("supplemental_language")]
+        public string SupplementalLanguage { get; set; }
 
         public object Clone()
         {

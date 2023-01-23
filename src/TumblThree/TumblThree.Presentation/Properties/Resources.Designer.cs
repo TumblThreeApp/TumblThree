@@ -727,6 +727,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download replies.
+        /// </summary>
+        public static string DownloadReplies {
+            get {
+                return ResourceManager.GetString("DownloadReplies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download text posts.
         /// </summary>
         public static string DownloadTexts {

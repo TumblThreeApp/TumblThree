@@ -1216,4 +1216,7 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="ToolTipDownloadLikesTo" xml:space="preserve">
     <value>Crawl likes to this date</value>
   </data>
+  <data name="DownloadReplies" xml:space="preserve">
+    <value>Download replies</value>
+  </data>
 </root>

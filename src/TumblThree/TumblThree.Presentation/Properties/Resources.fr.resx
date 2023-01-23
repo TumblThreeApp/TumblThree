@@ -968,4 +968,7 @@ Les cookies utilisés pour l'authentification sont enregistrés et le processus 
   <data name="ToolTipDownloadLikesTo" xml:space="preserve">
     <value>Ranger les likes à cette date</value>
   </data>
+  <data name="DownloadReplies" xml:space="preserve">
+    <value>Télécharger les réponses</value>
+  </data>
 </root>
