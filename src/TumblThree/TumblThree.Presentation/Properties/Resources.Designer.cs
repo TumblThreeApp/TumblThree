@@ -619,7 +619,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Newly downloaded items.
+        ///   Looks up a localized string similar to Newly Downloaded Items.
         /// </summary>
         public static string DownloadedItemsNew {
             get {
@@ -1288,7 +1288,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of downloadable Items.
+        ///   Looks up a localized string similar to Number of Downloadable Items.
         /// </summary>
         public static string NumberOfDownloadableItems {
             get {

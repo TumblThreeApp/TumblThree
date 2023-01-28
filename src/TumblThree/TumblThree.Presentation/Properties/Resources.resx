@@ -1138,10 +1138,10 @@ old media files manually, if necessary.</value>
     <value>Downloaded Items</value>
   </data>
   <data name="DownloadedItemsNew" xml:space="preserve">
-    <value>Newly downloaded items</value>
+    <value>Newly Downloaded Items</value>
   </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
-    <value>Number of downloadable Items</value>
+    <value>Number of Downloadable Items</value>
   </data>
   <data name="ToolTipPnjDownloadFormat" xml:space="preserve">
     <value>Image format for downloading PNJ links</value>
