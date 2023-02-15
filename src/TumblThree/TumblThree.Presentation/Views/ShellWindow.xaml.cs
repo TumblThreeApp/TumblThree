@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shell;
-using TumblThree.Applications;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain;
@@ -16,8 +16,50 @@ namespace TumblThree.Presentation.Views
     [Export(typeof(IShellView))]
     public partial class ShellWindow : Window, IShellView
     {
+        private const string TaskbarListInterfaceGuid = "56FDF342-FD6D-11d0-958A-006097C9A090";
+        private const string TaskbarListObjectGuid = "56FDF344-FD6D-11d0-958A-006097C9A090";
+
         private readonly Lazy<ShellViewModel> viewModel;
         private bool isForceClose;
+
+        [SecurityCritical, SuppressUnmanagedCodeSecurity]
+        [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid(TaskbarListInterfaceGuid)]
+        private interface ITaskbarList
+        {
+            void HrInit();
+            void AddTab(IntPtr hwnd);
+            void DeleteTab(IntPtr hwnd);
+            void ActivateTab(IntPtr hwnd);
+            void SetActiveAlt(IntPtr hwnd);
+        }
+
+        private static bool IsWindows7orNewer => Environment.OSVersion.Version >= new Version(6, 1);
+
+        [SecuritySafeCritical]
+        private static bool IsTaskbarListAvailable()
+        {
+            try
+            {
+                ITaskbarList taskbarList = (ITaskbarList)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(TaskbarListObjectGuid)));
+                try
+                {
+                    taskbarList.HrInit();
+                }
+                catch (NotImplementedException)
+                {
+                    return false;
+                }
+                finally
+                {
+                    _ = Marshal.ReleaseComObject(taskbarList);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
 
         public ShellWindow()
         {
@@ -26,12 +68,15 @@ namespace TumblThree.Presentation.Views
 
             try
             {
-                var taskbarItemInfo = new TaskbarItemInfo();
-                taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["PlayButtonImage"] as DrawingImage });
-                taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["PauseButtonImage"] as DrawingImage });
-                taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["ResumeButtonImage"] as DrawingImage });
-                taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["StopButtonImage"] as DrawingImage });
-                TaskbarItemInfo = taskbarItemInfo;
+                if (IsWindows7orNewer && IsTaskbarListAvailable())
+                {
+                    var taskbarItemInfo = new TaskbarItemInfo();
+                    taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["PlayButtonImage"] as DrawingImage });
+                    taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["PauseButtonImage"] as DrawingImage });
+                    taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["ResumeButtonImage"] as DrawingImage });
+                    taskbarItemInfo.ThumbButtonInfos.Add(new ThumbButtonInfo() { ImageSource = Application.Current.Resources["StopButtonImage"] as DrawingImage });
+                    TaskbarItemInfo = taskbarItemInfo;
+                }
             }
             catch (NotImplementedException ex)
             {
@@ -61,6 +106,8 @@ namespace TumblThree.Presentation.Views
 
         public void SetThumbButtonInfoCommands()
         {
+            if (TaskbarItemInfo is null) { return; }
+
             TaskbarItemInfo.ThumbButtonInfos[0].Command = viewModel.Value.CrawlerService.CrawlCommand;
             TaskbarItemInfo.ThumbButtonInfos[1].Command = viewModel.Value.CrawlerService.PauseCommand;
             TaskbarItemInfo.ThumbButtonInfos[2].Command = viewModel.Value.CrawlerService.ResumeCommand;
@@ -103,14 +150,6 @@ namespace TumblThree.Presentation.Views
         {
             get { return grid.ColumnDefinitions[2].Width.Value; }
             set { grid.ColumnDefinitions[2].Width = new GridLength(value, GridUnitType.Pixel); }
-        }
-
-        private static void TryExecute(ICommand command)
-        {
-            if (command.CanExecute(null))
-            {
-                command.Execute(null);
-            }
         }
     }
 }
