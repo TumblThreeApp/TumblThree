@@ -282,6 +282,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<ulong> GetHighestPostIdAsync()
         {
+            ulong lastId = Blog.LastId;
             try
             {
                 return await GetHighestPostIdCoreAsync();
@@ -290,16 +291,16 @@ namespace TumblThree.Applications.Crawler
             {
                 if (webException.Status == WebExceptionStatus.RequestCanceled)
                 {
-                    return 0;
+                    return lastId;
                 }
 
                 HandleLimitExceededWebException(webException);
-                return 0;
+                return lastId;
             }
             catch (TimeoutException timeoutException)
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
-                return 0;
+                return lastId;
             }
         }
 

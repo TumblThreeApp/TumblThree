@@ -237,6 +237,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<ulong> GetHighestPostIdAsync()
         {
+            ulong lastId = Blog.LastId;
             try
             {
                 return await GetHighestPostIdCoreAsync();
@@ -245,16 +246,16 @@ namespace TumblThree.Applications.Crawler
             {
                 if (webException.Status == WebExceptionStatus.RequestCanceled)
                 {
-                    return 0;
+                    return lastId;
                 }
 
                 HandleLimitExceededWebException(webException);
-                return 0;
+                return lastId;
             }
             catch (TimeoutException timeoutException)
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
-                return 0;
+                return lastId;
             }
         }
 
@@ -263,9 +264,9 @@ namespace TumblThree.Applications.Crawler
             string document = await GetSvcPageAsync("1", "0");
             var response = ConvertJsonToClass<TumblrJson>(document);
 
-            Post post = response.Response.Posts.FirstOrDefault(x => !x.IsPinned);
+            Post post = response.Response?.Posts?.FirstOrDefault(x => !x.IsPinned);
             if (DateTime.TryParse(post?.Date, out var latestPost)) Blog.LatestPost = latestPost;
-            _ = ulong.TryParse(Blog.Title = post?.Id, out var highestId);
+            _ = ulong.TryParse(post?.Id, out var highestId);
             return highestId;
         }
 
