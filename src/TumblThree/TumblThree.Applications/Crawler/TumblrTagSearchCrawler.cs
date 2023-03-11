@@ -177,7 +177,8 @@ namespace TumblThree.Applications.Crawler
             {
                 foreach (var post in page.Response.Timeline.Elements)
                 {
-                    if (!CheckIfWithinTimespan(post.Timestamp))
+                    if (post.OriginalType is null ||
+                        !CheckIfWithinTimespan(post.Timestamp))
                     {
                         continue;
                     }
