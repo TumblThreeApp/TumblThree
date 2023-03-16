@@ -73,7 +73,7 @@ namespace TumblThree.Applications.Downloader
             this.ct = ct;
         }
 
-        protected virtual async Task<bool> DownloadBinaryFileAsync(string fileLocation, string url)
+        protected virtual async Task<(bool result, string fileLocation)> DownloadBinaryFileAsync(string fileLocation, string url)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace TumblThree.Applications.Downloader
             catch (IOException ex) when ((ex.HResult & 0xFFFF) == 0x20)
             {
                 // The process cannot access the file because it is being used by another process.", HRESULT: -2147024864 == 0xFFFFFFFF80070020
-                return true;
+                return (true, fileLocation);
             }
             catch (WebException webException) when (webException.Response != null)
             {
@@ -106,7 +106,7 @@ namespace TumblThree.Applications.Downloader
                     }
                 }
 
-                return false;
+                return (false, fileLocation);
             }
             catch (TimeoutException timeoutException)
             {
@@ -116,14 +116,14 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
-        protected virtual async Task<bool> DownloadBinaryFileAsync(string fileLocation, string fileLocationUrlList, string url)
+        protected virtual async Task<(bool result, string fileLocation)> DownloadBinaryFileAsync(string fileLocation, string fileLocationUrlList, string url)
         {
             if (!blog.DownloadUrlList)
             {
                 return await DownloadBinaryFileAsync(fileLocation, url);
             }
 
-            return AppendToTextFile(fileLocationUrlList, url, false);
+            return (AppendToTextFile(fileLocationUrlList, url, false), fileLocation);
         }
 
         protected virtual bool AppendToTextFile(string fileLocation, string text, bool isJson)
@@ -222,8 +222,9 @@ namespace TumblThree.Applications.Downloader
             {
                 await DownloadPostCoreAsync(downloadItem);
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Error("AbstractDownloader.DownloadPostAsync: {0}", e);
             }
             finally
             {
@@ -303,7 +304,9 @@ namespace TumblThree.Applications.Downloader
                 string fileLocationUrlList = FileLocationLocalized(blogDownloadLocation, downloadItem.TextFileLocation);
                 DateTime postDate = PostDate(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressDownloadImage, fileName);
-                if (!await DownloadBinaryFileAsync(fileLocation, fileLocationUrlList, Url(downloadItem)))
+                bool result;
+                (result, fileLocation) = await DownloadBinaryFileAsync(fileLocation, fileLocationUrlList, Url(downloadItem));
+                if (!result)
                 {
                     return false;
                 }

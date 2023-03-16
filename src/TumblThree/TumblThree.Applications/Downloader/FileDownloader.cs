@@ -32,7 +32,7 @@ namespace TumblThree.Applications.Downloader
         // TODO: Needs a complete rewrite. Also a append/cache function for resuming incomplete files on the disk.
         // Should be in separated class with support for events for downloadspeed, is resumable file?, etc.
         // Should check if file is complete, else it will trigger an WebException -- 416 requested range not satisfiable at every request
-        public async Task<bool> DownloadFileWithResumeAsync(string url, string destinationPath)
+        public async Task<(bool result, string destinationPath)> DownloadFileWithResumeAsync(string url, string destinationPath)
         {
             long totalBytesReceived = 0;
             var attemptCount = 0;
@@ -43,7 +43,7 @@ namespace TumblThree.Applications.Downloader
                 var fileInfo = new FileInfo(destinationPath);
                 totalBytesReceived = fileInfo.Length;
                 var result = await CheckDownloadSizeAsync(url, destinationPath).TimeoutAfter(settings.TimeOut);
-                if (totalBytesReceived >= result.contentLength) return true;
+                if (totalBytesReceived >= result.contentLength) return (true, result.destinationPath);
                 if (destinationPath != result.destinationPath)
                 {
                     File.Delete(destinationPath);
@@ -53,7 +53,7 @@ namespace TumblThree.Applications.Downloader
                 }
             }
 
-            if (ct.IsCancellationRequested) return false;
+            if (ct.IsCancellationRequested) return (false, destinationPath);
 
             var fileMode = totalBytesReceived > 0 ? FileMode.Append : FileMode.Create;
 
@@ -64,7 +64,7 @@ namespace TumblThree.Applications.Downloader
                 {
                     attemptCount += 1;
 
-                    if (attemptCount > settings.MaxNumberOfRetries) return false;
+                    if (attemptCount > settings.MaxNumberOfRetries) return (false, destinationPath);
 
                     var requestRegistration = new CancellationTokenRegistration();
 
@@ -119,7 +119,7 @@ namespace TumblThree.Applications.Downloader
                     {
                         // file in use
                         long win32ErrorCode = ioException.HResult & 0xFFFF;
-                        if (win32ErrorCode == 0x21 || win32ErrorCode == 0x20) return false;
+                        if (win32ErrorCode == 0x21 || win32ErrorCode == 0x20) return (false, destinationPath);
 
                         // retry (IOException: Received an unexpected EOF or 0 bytes from the transport stream)
                     }
@@ -140,7 +140,7 @@ namespace TumblThree.Applications.Downloader
                     }
                 }
 
-                return true;
+                return (true, destinationPath);
             }
             finally
             {
