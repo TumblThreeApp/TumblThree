@@ -25,6 +25,9 @@ namespace TumblThree.Applications.Crawler
 {
     public abstract class AbstractCrawler
     {
+        private const int MAX_PATH = 260;
+        private const int MaximumComponentLength = 255;
+
         protected IBlog Blog { get; }
         protected IProgress<DownloadProgress> Progress { get; }
         protected ISharedCookieService CookieService { get; }
@@ -467,38 +470,30 @@ namespace TumblThree.Applications.Crawler
             }
             if (ContainsCI(filename, "%s")) filename = ReplaceCI(filename, "%s", slug);
             if (ContainsCI(filename, "%k")) filename = ReplaceCI(filename, "%k", reblogKey);
-            int neededChars = 0;
+            int neededCharactersForNumbering = 0;
             if (ContainsCI(filename, "%x"))
             {
-                neededChars = 6;
+                neededCharactersForNumbering = 6;
                 Downloader.AppendTemplate = "_<0>";
                 filename = ReplaceCI(filename, "%x", "");
             }
             if (ContainsCI(filename, "%y"))
             {
-                neededChars = 8;
+                neededCharactersForNumbering = 8;
                 Downloader.AppendTemplate = " (<0>)";
                 filename = ReplaceCI(filename, "%y", "");
             }
+
+            int tokenLength = ContainsCI(filename, "%p") ? 2 : 0;
+            int maxCharacters = ShellService.IsLongPathSupported ? MaximumComponentLength : MAX_PATH - 1;
+            int intendedLength = ShellService.IsLongPathSupported ? filename.Length : Path.Combine(Blog.DownloadLocation(), filename).Length;
+            // without long path support: 259 (max path minus NULL) - current filename length + 2 chars (%p) - chars for numbering
+            int charactersLeft = maxCharacters - intendedLength + tokenLength - neededCharactersForNumbering;
+            if (charactersLeft < 0) throw new PathTooLongException($"{Blog.Name}: filename for post id {id} is too long");
             if (ContainsCI(filename, "%p"))
             {
-                string _title = title;
-                if (!ShellService.IsLongPathSupported)
-                {
-                    string filepath = Path.Combine(Blog.DownloadLocation(), filename);
-                    // 260 (max path minus NULL) - current filename length + 2 chars (%p) - chars for numbering
-                    int charactersLeft = 259 - filepath.Length + 2 - neededChars;
-                    if (charactersLeft < 0) throw new PathTooLongException($"{Blog.Name}: filename for post id {id} is too long");
-                    if (charactersLeft < _title.Length) _title = _title.Substring(0, charactersLeft - 1) + "…";
-                }
+                string _title = charactersLeft == 0 ? "" : (charactersLeft < title.Length) ? title.Substring(0, charactersLeft - 1) + "…" : title;
                 filename = ReplaceCI(filename, "%p", _title);
-            }
-            else if (!ShellService.IsLongPathSupported)
-            {
-                string filepath = Path.Combine(Blog.DownloadLocation(), filename);
-                // 260 (max path minus NULL) - current filename length - chars for numbering
-                int charactersLeft = 259 - filepath.Length - neededChars;
-                if (charactersLeft < 0) throw new PathTooLongException($"{Blog.Name}: filename for post id {id} is too long");
             }
 
             return Sanitize(filename);
