@@ -416,7 +416,7 @@ namespace TumblThree.Applications.Crawler
             if (extension.ToLower() == ".gifv")
                 extension = ".gif";
             else if (extension.ToLower() == ".pnj")
-                extension += ".png";
+                extension += $".{Blog.PnjDownloadFormat}";
             string filename = Blog.FilenameTemplate + extension;
             if (ContainsCI(filename, "%f")) filename = ReplaceCI(filename, "%f", Path.GetFileNameWithoutExtension(FileName(url)));
             if (ContainsCI(filename, "%d")) filename = ReplaceCI(filename, "%d", date.ToString("yyyyMMdd"));
