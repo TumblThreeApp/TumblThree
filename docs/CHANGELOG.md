@@ -11,6 +11,86 @@ changing over time.
 
 <br>
 
+##  2.10.1 (2023-03-19)
+
+#### Fixed
+- Correct spelling of some header columns
+- Exception during task bar button initialization on some systems
+- Last position is reset in case of errors, checking the whole blog again (issue #404)
+- Ignore ads in the returned posts list for tag searches
+- Not all downloaded images are counted in the statistics (issue #374)
+- Downloaded filenames/URLs aren't saved in newTumbl crawler dump files
+- newTumbl posts with long titles aren't downloaded using title token (issue #436)
+<br>
+
+## 2.10.0 (2023-01-23)
+
+#### Added
+- Download of newTumbl Likes (issue 412)
+- Option to download/skip Twitter replies (issue #411)
+
+#### Fixed
+- Collections list not updating after saving and closing settings dialog
+- Removing blog directory makes blogs unremovable (issue #413)
+- Try again once if newTumbl API returns an error
+- Tumblr crawler sometimes doesn't get full resolution images (issue #417)
+- downloaded_media_files metadata is missing for "text" posts on hidden blogs (issue #414)
+- Problem downloading posts by date range
+- The newTumbl crawler doesn't download all images of a post
+<br>
+
+## 2.9.3 (2022-12-18)
+
+#### Fixed
+- Hidden crawler stops working because TumblThree gets logged out (one fix) (issue #404)
+- Blog crawler seems to rescan whole blog (issue #404)
+- Downloading liked posts from a date range doesn't work (issue #401)
+- Problem adding hidden blogs (issue #162)
+- Column widths are always reset to minimum value (issue #152)
+- Window dimensions are lost on startup (issue #406)
+- Occasional error parsing post
+- Exception when WebView2 crashes internally
+<br>
+
+## 2.9.2 (2022-11-21)
+
+#### Fixed
+- Problem when cleaning up old files
+- Authentication window stays blank in some cases (issue #392)
+- Check Tumblr blog URL format less strict (issue #380)
+<br>
+
+## 2.9.1 (2022-11-15)
+
+#### Fixed
+- Display a LimitExceeded error in LikedBy crawler in same way like in other crawlers (issue #374)
+- Error when file entries list is empty (issue #384)
+- NullReferenceException errors while downloading newTumbl blogs (issue #385)
+- newTumbl blog's public content cannot be downloaded while not logged in
+- Emptying URL input field after successfully adding blog (issue #250)
+- Also recognize Tumblr's new style blog URLs (issue #380)
+<br>
+
+## 2.9.0 (2022-11-01)
+
+#### Added
+- Faster scans and saving bandwidth by not downloading the same information again
+
+#### Changed
+- Update of some translations
+- Replacement of CefSharp by WebView2
+
+#### Fixed
+- Occasional problem displaying error message
+- Filename contains converted HTML tags when using title token on newTumbl blogs
+- Error parsing some "Likes" posts (#374)
+
+*Note: From this version on the "MS Edge Webview2 Runtime" is needed. If not yet 
+installed, you need to download and install it, in order for TumblThree to work 
+properly. On application start the requirement is checked and the download link 
+offered.*
+<br>
+
 ## 2.8.3 (2022-10-03)
 
 #### Fixed
