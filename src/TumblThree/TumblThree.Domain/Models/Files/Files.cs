@@ -112,8 +112,14 @@ namespace TumblThree.Domain.Models.Files
             _lock.EnterWriteLock();
             try
             {
-                var entry = entries.First(x => x.Link == filenameUrl);
-                originalLinks.Remove(entry.OriginalLink);
+                var entry = entries.FirstOrDefault(x => x.Link == filenameUrl);
+                if (entry == null)
+                {
+                    entry = new FileEntry() { Link = filenameUrl };
+                    entries.Add(entry);
+                }
+                else
+                    originalLinks.Remove(entry.OriginalLink);
                 entry.OriginalLink = filenameOriginalUrl;
                 originalLinks.Add(filenameOriginalUrl);
             }
