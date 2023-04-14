@@ -28,7 +28,7 @@ namespace TumblThree.Applications.Crawler
     {
         private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
         private static readonly Regex extractImageLink = new Regex("<img class=\"\\w+?\" src=\"([^\"]+?)\" alt=\"[^\"]+?\"/>");
-        private static readonly Regex extractImageSize = new Regex("/s(\\d+?)x(\\d+?)/");
+        private static readonly Regex extractImageSize = new Regex("/s(\\d+?)x(\\d+?)[^/]*?/");
 
         protected readonly ICrawlerDataDownloader crawlerDataDownloader;
 
