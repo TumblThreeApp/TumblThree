@@ -913,8 +913,7 @@ namespace TumblThree.Applications.Crawler
             }
             else if (obj.nResult == "-9999")
             {
-                throw new APIException(string.Format(Resources.ErrorDownloadingBlog, Blog.Name, $"{obj.sError}({obj.sAPIErrorCode}): {obj.sAPIErrorMessage}",
-                    ShellService.Settings.GetCollection(Blog.CollectionId).Name));
+                throw new APIException($"{obj.sError}({obj.sAPIErrorCode}): {obj.sAPIErrorMessage}");
             }
         }
 
