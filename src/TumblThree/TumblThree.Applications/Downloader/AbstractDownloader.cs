@@ -31,6 +31,7 @@ namespace TumblThree.Applications.Downloader
         protected readonly PauseToken pt;
         protected readonly FileDownloader fileDownloader;
         private readonly string[] suffixes = { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".heif", ".heic", ".webp" };
+        private readonly object _saveTimerLock = new object();
         private Timer _saveTimer;
         private volatile bool _disposed;
         private const int SAVE_TIMESPAN_SECS = 120;
@@ -501,22 +502,25 @@ namespace TumblThree.Applications.Downloader
 
         protected void OnSaveTimedEvent(IProgress<Exception> progress)
         {
-            if (_disposed) return;
+            lock (_saveTimerLock)
+            {
+                if (_disposed) return;
 
-            try
-            {
-                _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                try
+                {
+                    _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
-                if (files != null && files.IsDirty) files.Save();
-            }
-            catch (Exception e)
-            {
-                progress.Report(e);
-            }
-            finally
-            {
-                if (!_disposed)
-                    _saveTimer.Change(SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
+                    if (files != null && files.IsDirty) files.Save();
+                }
+                catch (Exception e)
+                {
+                    progress.Report(e);
+                }
+                finally
+                {
+                    if (!_disposed)
+                        _saveTimer.Change(SAVE_TIMESPAN_SECS * 1000, SAVE_TIMESPAN_SECS * 1000);
+                }
             }
         }
 
@@ -530,9 +534,12 @@ namespace TumblThree.Applications.Downloader
         {
             if (disposing)
             {
-                _disposed = true;
-                _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
-                _saveTimer.Dispose();
+                lock (_saveTimerLock)
+                {
+                    _disposed = true;
+                    _saveTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                    _saveTimer.Dispose();
+                }
                 concurrentConnectionsSemaphore?.Dispose();
                 concurrentVideoConnectionsSemaphore?.Dispose();
 
