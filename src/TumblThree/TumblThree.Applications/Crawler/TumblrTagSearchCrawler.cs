@@ -96,6 +96,7 @@ namespace TumblThree.Applications.Crawler
                 Logger.Error("TumblrTagSearchCrawler:GetUrlsAsync: {0}", "User not logged in");
                 ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
                 PostQueue.CompleteAdding();
+                jsonQueue.CompleteAdding();
                 return;
             }
 
