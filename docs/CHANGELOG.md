@@ -11,6 +11,17 @@ changing over time.
 
 <br>
 
+##  2.10.2 (2023-05-10)
+
+#### Fixed
+- Correct filename extension for pnj links
+- Fix shown progress messages
+- Some Tumblr items are skipped due to an error while crawling
+- Some Tumblr images aren't downloaded due to an error determining original size
+- An error message is formatted wrong
+- Sometimes automatic blog save timer event occurs after timer is destroyed
+<br>
+
 ##  2.10.1 (2023-03-19)
 
 #### Fixed
