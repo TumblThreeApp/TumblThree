@@ -30,7 +30,7 @@ namespace TumblThree.Applications.Crawler
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class TumblrLikedByCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
-        private static readonly Regex extractJsonFromLikes = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);", RegexOptions.Singleline);
+        private static readonly Regex extractJsonFromLikes = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);[\\s]*?</script>", RegexOptions.Singleline);
 
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
