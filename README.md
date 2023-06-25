@@ -106,7 +106,7 @@ Read our wiki page about [Application Usage](https://github.com/TumblThreeApp/Tu
 
 The default settings should cover most users. You should only have to change the download location and the kind of posts you want to download. You can find more information in our wiki [Getting Started](https://github.com/TumblThreeApp/TumblThree/wiki/Getting-Started) and [Insights](https://github.com/TumblThreeApp/TumblThree/wiki/Insights).
 
-## Feedback and Bug reports
+## Feedback and Bug Reports
 
 If you like TumblThree, give it a star <img src="https://raw.githubusercontent.com/wiki/TumblThreeApp/TumblThree/images/star.png" alt="star" height="16"/> (at the right upper corner of the page)!
 
