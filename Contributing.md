@@ -77,7 +77,7 @@ So you have finished working on your issue, congratulations! It's time to get it
 If you are not finished an issue but would like feedback, you can make a PR asking for reviews with `[WIP]` at the start of your PR title. Remember to remove the `[WIP]` when it is ready to be merged!
 
 ### Development Environment
-- Visual Studio 2015 (or higher, 2019 recommended), with all .Net features and latest patches/updates
+- Visual Studio 2019 (or higher), with all .NET features and latest patches/updates
 - PowerShell
 
 ### How to Build the Source Code
