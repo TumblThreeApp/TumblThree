@@ -130,12 +130,13 @@ section h4{
   color: rgb(92, 81, 190);
 }
 .center{
-    display: block;
+  display: block;
   margin-left: auto;
   margin-right: auto;
   width:40%;
   height:40%;
 }
+/*
 .center:hover{
 position:relative;
 top:-25px;
@@ -145,6 +146,7 @@ height:fit-content;
 display:block;
 z-index:999;
 }
+*/
 
 @media screen and (min-width:1501px) and (max-width:1600px) {
   .navbar a {

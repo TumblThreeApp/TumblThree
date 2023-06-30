@@ -9,7 +9,10 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://tumblthreeapp.github.io/TumblThree/" />
     <link rel="canonical" href="https://tumblthreeapp.github.io/TumblThree/" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main3.css" />
+    <link rel="stylesheet" type="text/css" href="css/magnific-popup.css" />
   </head>
   <body>
     <header>
@@ -57,7 +60,7 @@
           >TumblTwo</a>, using the <a href="https://github.com/jbe2277/waf">Win Application
           Framework (WAF)</a> and C# with WPF and the MVVM pattern.</p>
       <p>More information can also be found on our <a href="https://github.com/TumblThreeApp/TumblThree">project site</a> on GitHub!</p>
-          <a href="images/getting-started.png" target="_blank"><img src="images/getting-started.png" alt="Getting Started" class="center"></a>
+          <a href="images/getting-started.png" class="image-link"><img src="images/getting-started.png" alt="Getting Started" class="center"></a>
       <h2 id="features">Features</h2><ul>
         <li> Source code at GitHub (written in C# using WPF and MVVM) </li>
         <li> Multiple concurrent downloads of a single blog </li>
@@ -175,7 +178,7 @@
             <li>If you copy (ctrl-c) a &lt;blogname&gt;.tumblr.com blog URL from the address bar/text file,
               the clipboard monitor from TumblThree will detect it and automatically add the blog.</li><br>
           </ul>
-          <a href="images/how-to-add-a-blog.png" target="_blank"><img src="images/how-to-add-a-blog.png" alt="How to add a blog" class="center"></a>
+          <a href="images/how-to-add-a-blog.png" class="image-link"><img src="images/how-to-add-a-blog.png" alt="How to add a blog" class="center"></a>
         </li>
         <li>
           <h4 id="howtodwnldablog">How to download a blog?</h4>
@@ -187,7 +190,7 @@
               drop first and then click "Download," or you start the download process first
               and add blogs to the queue afterwards.</li>
           </ol><br>
-          <a href="images/how-to-download-a-blog.png" target="_blank"><img src="images/how-to-download-a-blog.png" alt="How to download a blog" class="center"></a>
+          <a href="images/how-to-download-a-blog.png" class="image-link"><img src="images/how-to-download-a-blog.png" alt="How to download a blog" class="center"></a>
         </li>
         <li>
           <h4 id="howtodetectstateoftheblog">How to detect state of the blog?</h4>
@@ -228,7 +231,7 @@
               sign (e.g. great big car, bears would search for images that are tagged for
               either a great big car or bears or both.).</li><br>
           </ol>
-          <a href="images/how-to-download-only-tagged-posts.png" target="_blank">
+          <a href="images/how-to-download-only-tagged-posts.png" class="image-link">
             <img src="images/how-to-download-only-tagged-posts.png" alt="How to download only tagged posts" class="center"></a>
         </li>
       </ul>
@@ -239,7 +242,7 @@
             <li>Add the blog URL.</li>
             <li>Open the blog in the "Details" tab, enter the password in the "Password" textbox.</li><br>
           </ol>
-          <a href="images/how-to-download-password-protected-blogs.png" target="_blank"><img src="images/how-to-download-password-protected-blogs.png" alt="How to download password protected blogs" class="center"></a>
+          <a href="images/how-to-download-password-protected-blogs.png" class="image-link"><img src="images/how-to-download-password-protected-blogs.png" alt="How to download password protected blogs" class="center"></a>
         </li>
         <li>
           <h4 id="howtodwnldhiddenblogs">How to download hidden blogs (login required blogs)?</h4>
@@ -252,7 +255,7 @@
               %LOCALAPPDATA%\TumblThree in json format).</li>
             <li>Add the blog URL.</li>
              </ol>
-           <a href="images/how-to-download-hidden-blogs.png" target="_blank"><img src="images/how-to-download-hidden-blogs.png" alt="How to download hidden blogs (login required blogs)" class="center"></a>
+           <a href="images/how-to-download-hidden-blogs.png" class="image-link"><img src="images/how-to-download-hidden-blogs.png" alt="How to download hidden blogs (login required blogs)" class="center"></a>
         </li><br>
         <li>
           <h4 id="howtodwnldlikedphotosandvideos">How to download "liked" photos and videos?</h4>
@@ -316,7 +319,7 @@
       <ul>
         <li> General &gt; Download location: Specifies where to download the files. The
           default is in folder blogs relative to the TumblThree.exe. </li>
-          <a href="images/blog-location.png" target="_blank"><img src="images/blog-location.png" alt="Blog location" class="center"></a>
+          <a href="images/blog-location.png" class="image-link"><img src="images/blog-location.png" alt="Blog location" class="center"></a>
         <li> Blog &gt; Settings applied to each blog upon addition: <ul>
             <li>Here you can set what posts, newly added blogs will download per default.
               <ol>
@@ -325,7 +328,7 @@
                 <li>Select the &quot;Details&quot; tab on the right and change
                   the settings.</li>   
               </ol>
-          <a href="images/blog-setting.png" target="_blank"><img src="images/blog-setting.png" alt="Blog Setting" class="center"></a>
+          <a href="images/blog-setting.png" class="image-link"><img src="images/blog-setting.png" alt="Blog Setting" class="center"></a>
           </li>
           </ul>
           <ul>
@@ -399,5 +402,16 @@
       </ul>
     </section>
     <br><br>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('.image-link').magnificPopup({
+          type:'image',
+          closeOnContentClick: true,
+          image: {
+            verticalFit: true
+          }
+        });
+      });
+    </script>
   </body>
 </html>
