@@ -11,6 +11,14 @@ changing over time.
 
 <br>
 
+##  2.10.3 (2023-06-20)
+
+#### Fixed
+- Blog with custom domain isn't downloading (issue #443)
+- Build process fails on some systems (issue #447)
+- Likes crawler not working (issue #374)
+<br>
+
 ##  2.10.2 (2023-05-10)
 
 #### Fixed
