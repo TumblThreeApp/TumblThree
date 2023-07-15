@@ -168,12 +168,13 @@ namespace TumblThree.Applications.Crawler
                     }
                     catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine(ex);
+                        Logger.Error("TumblrLikedByCrawler:CrawlPageAsync: {0}", ex);
                     }
 
                     if (document.Length == 0)
                     {
-                        throw new Exception("TumblrLikedByCrawler:AddUrlsToDownloadListAsync: empty document");
+                        Logger.Verbose("TumblrLikedByCrawler:CrawlPageAsync: empty document");
+                        throw new Exception("TumblrLikedByCrawler:CrawlPageAsync: empty document");
                     }
                     if (document.Contains("<div class=\"no_posts_found\""))
                     {
@@ -617,6 +618,7 @@ namespace TumblThree.Applications.Crawler
             }
             catch (Exception ex) when (ex.Message == "Acceptance of privacy consent needed!")
             {
+                Logger.Error("TumblrLikedByCrawler:IsBlogOnlineAsync: {0}", "Acceptance of privacy consent needed!");
                 Blog.Online = false;
             }
         }
@@ -669,6 +671,7 @@ namespace TumblThree.Applications.Crawler
             }
             catch (Exception ex)
             {
+                Logger.Error("TumblrLikedByCrawler:CheckIfLoggedInAsync: {0}", ex);
                 return false;
             }
         }

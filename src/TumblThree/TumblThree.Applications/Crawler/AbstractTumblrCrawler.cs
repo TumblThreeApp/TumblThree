@@ -443,12 +443,13 @@ namespace TumblThree.Applications.Crawler
                     if (we.Response != null && ((HttpWebResponse)we.Response).StatusCode == HttpStatusCode.NotFound)
                         return url;
                     lastError = we;
+                    Logger.Verbose("AbstractTumblrCrawler:RetrieveOriginalImageUrl, WebExcetion ({0}): {1}", errCnt, we);
                     if (errCnt < 3) Thread.Sleep(errCnt * 10000);
                 }
                 catch (Exception e)
                 {
                     errCnt++;
-                    Logger.Error("AbstractTumblrCrawler:RetrieveOriginalImageUrl: {0}", e);
+                    Logger.Error("AbstractTumblrCrawler:RetrieveOriginalImageUrl ({0}): {1}", errCnt, e);
                     lastError = e;
                     if (errCnt < 3) Thread.Sleep(errCnt * 10000);
                 }
