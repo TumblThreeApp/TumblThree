@@ -6,6 +6,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows;
@@ -20,12 +21,14 @@ namespace TumblThree.Presentation.Views
     /// </summary>
     [Export(typeof(IAuthenticateView))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public partial class AuthenticateView : IAuthenticateView
+    public partial class AuthenticateView : IAuthenticateView, IDisposable
     {
         private readonly Lazy<AuthenticateViewModel> viewModel;
         private readonly string _appSettingsPath;
         private string _url;
         private string _domain;
+        private static IntPtr HWND_MESSAGE = new IntPtr(-3);
+        private readonly CountdownEvent _pageLoad = new CountdownEvent(1);
 
         [ImportingConstructor]
         public AuthenticateView(IEnvironmentService environmentService)
@@ -115,6 +118,30 @@ namespace TumblThree.Presentation.Views
             return browser.Source.ToString();
         }
 
+        private void CoreWebView2_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+        {
+            _pageLoad.Signal();
+            Thread.Sleep(1);
+            _pageLoad.Reset();
+        }
+
+        private string WaitForPageLoad()
+        {
+            return _pageLoad.Wait(20000) ? "Success" : "Timeout";
+        }
+
+        public async Task<string> GetDocument()
+        {
+            CoreWebView2 webview = await GetWebviewAsync();
+            webview.NavigationCompleted -= CoreWebView2_NavigationCompleted;
+            webview.NavigationCompleted += CoreWebView2_NavigationCompleted;
+            webview.Navigate("https://twitter.com/settings");
+            await Task.Run(() => { WaitForPageLoad(); });
+            string document = await webview.ExecuteScriptAsync("document.documentElement.outerHTML");
+            document = System.Text.RegularExpressions.Regex.Unescape(document.Substring(1, document.Length - 2));
+            return document;
+        }
+
         public async Task<CookieCollection> GetCookies(string url)
         {
             var cookieManager = browser.CoreWebView2.CookieManager;
@@ -135,6 +162,29 @@ namespace TumblThree.Presentation.Views
             }
       
             return cookieCollection;
+        }
+
+        public async Task DeleteCookies(string url)
+        {
+            CoreWebView2 webview = await GetWebviewAsync();
+            var cookieManager = webview.CookieManager;
+            var cookies = await cookieManager.GetCookiesAsync(url);
+            foreach (var cookie in cookies)
+            {
+                cookieManager.DeleteCookie(cookie);
+            }
+        }
+
+        private async Task<CoreWebView2> GetWebviewAsync()
+        {
+            CoreWebView2 webview = browser.CoreWebView2;
+            if (webview is null)
+            {
+                CoreWebView2Environment env = await CoreWebView2Environment.CreateAsync(null, _appSettingsPath);
+                var browserController = await env.CreateCoreWebView2ControllerAsync(HWND_MESSAGE);
+                webview = browserController.CoreWebView2;
+            }
+            return webview;
         }
 
         private static CookieCollection GetCookies(List<CoreWebView2Cookie> cookies)
@@ -176,6 +226,20 @@ namespace TumblThree.Presentation.Views
                     cookie.Expires = new DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             }
             return cookieCol;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _pageLoad.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

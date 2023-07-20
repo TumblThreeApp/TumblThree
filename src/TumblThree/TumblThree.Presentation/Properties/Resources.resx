@@ -1187,25 +1187,25 @@ shutdown of the application, if the collection is available.</value>
   <data name="LoginTumblr" xml:space="preserve">
     <value>Tumblr</value>
   </data>
-  <data name="LoginNewTumbl" xml:space="preserve">
-    <value>newTumbl</value>
+  <data name="LoginTwitter" xml:space="preserve">
+    <value>Twitter</value>
   </data>
-  <data name="ToolTipAuthenticateBrowserNT" xml:space="preserve">
-    <value>Authenticate to the newtumbl.com network</value>
+  <data name="ToolTipAuthenticateBrowserTwitter" xml:space="preserve">
+    <value>Authenticate to the twitter.com network</value>
   </data>
-  <data name="ToolTipAuthenticateBrowserNTDescription" xml:space="preserve">
-    <value>Opens a browser window to authenticate yourself to the newtumbl.com site.
+  <data name="ToolTipAuthenticateBrowserTwitterDescription" xml:space="preserve">
+    <value>Opens a browser window to authenticate yourself to the twitter.com site.
 The cookies used for authentication are saved and the authentication process needs to be done only once.</value>
   </data>
-  <data name="ToolTipPrivacyConsentBrowserNT" xml:space="preserve">
-    <value>Accept the newtumbl.com privacy consent</value>
+  <data name="ToolTipPrivacyConsentBrowserTwitter" xml:space="preserve">
+    <value>Accept the Twitter.com privacy consent</value>
   </data>
-  <data name="ToolTipPrivacyConsentBrowserNTDescription" xml:space="preserve">
-    <value>Opens a browser window to accept the newtumbl.com privacy consent.
+  <data name="ToolTipPrivacyConsentBrowserTwitterDescription" xml:space="preserve">
+    <value>Opens a browser window to accept the Twitter.com privacy consent.
 The cookies for the privacy consent are saved and the process needs to be done only once in a while.</value>
   </data>
-  <data name="ToolTipLogoutNT" xml:space="preserve">
-    <value>Logout from newTumbl.com</value>
+  <data name="ToolTipLogoutTwitter" xml:space="preserve">
+    <value>Logout from Twitter.com</value>
   </data>
   <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">
     <value>Must be in YYYYMMDD format. Empty means from the beginning of the likes.</value>

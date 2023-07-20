@@ -952,11 +952,11 @@ se fait sur arrêt de l'application, si la collection est disponible.</value>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
-  <data name="ToolTipAuthenticateBrowserNT" xml:space="preserve">
+  <data name="ToolTipAuthenticateBrowserTwitter" xml:space="preserve">
     <value>Authentifiez-vous sur le réseau tumblr.com</value>
   </data>
-  <data name="ToolTipAuthenticateBrowserNTDescription" xml:space="preserve">
-    <value>Ouvre une fenêtre de navigateur pour vous authentifier sur le site newtumbl.com.
+  <data name="ToolTipAuthenticateBrowserTwitterDescription" xml:space="preserve">
+    <value>Ouvre une fenêtre de navigateur pour vous authentifier sur le site twitter.com.
 Les cookies utilisés pour l'authentification sont enregistrés et le processus d'authentification ne doit être effectué qu'une seule fois.</value>
   </data>
   <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">

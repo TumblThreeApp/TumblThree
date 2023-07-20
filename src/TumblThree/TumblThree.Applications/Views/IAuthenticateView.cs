@@ -13,6 +13,10 @@ namespace TumblThree.Applications.Views
 
         string GetUrl();
 
-        Task<CookieCollection> GetCookies(String url);
+        Task<string> GetDocument();
+
+        Task<CookieCollection> GetCookies(string url);
+
+        Task DeleteCookies(string url);
     }
 }

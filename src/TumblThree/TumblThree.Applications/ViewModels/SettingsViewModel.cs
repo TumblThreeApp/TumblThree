@@ -37,9 +37,9 @@ namespace TumblThree.Applications.ViewModels
         private readonly AsyncDelegateCommand _tumblrLoginCommand;
         private readonly AsyncDelegateCommand _tumblrLogoutCommand;
         private readonly AsyncDelegateCommand _tumblrSubmitTfaCommand;
-        private readonly AsyncDelegateCommand _newTumblAuthenticateCommand;
-        private readonly AsyncDelegateCommand _newTumblPrivacyConsentCommand;
-        private readonly AsyncDelegateCommand _newTumblLogoutCommand;
+        private readonly AsyncDelegateCommand _twitterAuthenticateCommand;
+        private readonly AsyncDelegateCommand _twitterPrivacyConsentCommand;
+        private readonly AsyncDelegateCommand _twitterLogoutCommand;
 
         private readonly IFolderBrowserDialog _folderBrowserDialog;
         private readonly IFileDialogService _fileDialogService;
@@ -146,8 +146,8 @@ namespace TumblThree.Applications.ViewModels
         private int _activeCollectionId;
         private int _selectedCollectionId;
         private string _pnjDownloadFormat;
-        private bool _newTumblLoggedIn;
-        private string _newTumblEmail = string.Empty;
+        private bool _twitterLoggedIn;
+        private string _twitterEmail = string.Empty;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -178,9 +178,9 @@ namespace TumblThree.Applications.ViewModels
             _saveCommand = new AsyncDelegateCommand(Save);
             _enableAutoDownloadCommand = new DelegateCommand(EnableAutoDownload);
             _exportCommand = new DelegateCommand(ExportBlogs);
-            _newTumblAuthenticateCommand = new AsyncDelegateCommand(NewTumblAuthenticate);
-            _newTumblPrivacyConsentCommand = new AsyncDelegateCommand(NewTumblPrivacyConsent);
-            _newTumblLogoutCommand = new AsyncDelegateCommand(NewTumblLogout);
+            _twitterAuthenticateCommand = new AsyncDelegateCommand(TwitterAuthenticate);
+            _twitterPrivacyConsentCommand = new AsyncDelegateCommand(TwitterPrivacyConsent);
+            _twitterLogoutCommand = new AsyncDelegateCommand(TwitterLogout);
 
             _bloglistExportFileType = new FileType(Resources.Textfile, SupportedFileTypes.BloglistExportFileType);
 
@@ -222,11 +222,11 @@ namespace TumblThree.Applications.ViewModels
 
         public ICommand BrowseExportLocationCommand => _browseExportLocationCommand;
 
-        public ICommand NewTumblAuthenticateCommand => _newTumblAuthenticateCommand;
+        public ICommand TwitterAuthenticateCommand => _twitterAuthenticateCommand;
 
-        public ICommand NewTumblPrivacyConsentCommand => _newTumblPrivacyConsentCommand;
+        public ICommand TwitterPrivacyConsentCommand => _twitterPrivacyConsentCommand;
 
-        public ICommand NewTumblLogoutCommand => _newTumblLogoutCommand;
+        public ICommand TwitterLogoutCommand => _twitterLogoutCommand;
 
         public string OAuthToken
         {
@@ -929,16 +929,16 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
-        public bool NewTumblLoggedIn
+        public bool TwitterLoggedIn
         {
-            get => _newTumblLoggedIn;
-            set => SetProperty(ref _newTumblLoggedIn, value);
+            get => _twitterLoggedIn;
+            set => SetProperty(ref _twitterLoggedIn, value);
         }
 
-        public string NewTumblEmail
+        public string TwitterEmail
         {
-            get => _newTumblEmail;
-            set => SetProperty(ref _newTumblEmail, value);
+            get => _twitterEmail;
+            set => SetProperty(ref _twitterEmail, value);
         }
 
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
@@ -1138,7 +1138,7 @@ namespace TumblThree.Applications.ViewModels
             }
         }
 
-        private async Task UpdateLoginAsync(Provider provider)
+        private async Task UpdateLoginAsync(Provider provider, string document = null)
         {
             try
             {
@@ -1149,10 +1149,8 @@ namespace TumblThree.Applications.ViewModels
                         TumblrLoggedIn = !string.IsNullOrEmpty(TumblrEmail);
                         break;
                     case Provider.Twitter:
-                        break;
-                    case Provider.newTumbl:
-                        NewTumblEmail = await LoginService.GetUsernameAsync(provider);
-                        NewTumblLoggedIn = !string.IsNullOrEmpty(NewTumblEmail);
+                        TwitterEmail = await LoginService.GetUsernameAsync(provider, document);
+                        TwitterLoggedIn = !string.IsNullOrEmpty(TwitterEmail);
                         break;
                 }
             }
@@ -1167,37 +1165,38 @@ namespace TumblThree.Applications.ViewModels
             TumblrLoggedIn = await LoginService.CheckIfLoggedInAsync();
         }
 
-        private async Task NewTumblAuthenticate()
+        private async Task TwitterAuthenticate()
         {
             if (!ShellService.CheckForWebView2Runtime()) { return; }
 
-            const string url = @"https://newtumbl.com/sign?in";
-            ShellService.Settings.OAuthCallbackUrl = "https://newtumbl.com";
+            const string url = @"https://twitter.com/settings";
+            ShellService.Settings.OAuthCallbackUrl = "https://twitter.com";
 
             AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
-            authenticateViewModel.ShowDialog(ShellService.ShellView, url, "newtumbl.com");
+            authenticateViewModel.ShowDialog(ShellService.ShellView, url, "twitter.com");
 
-            var cookies = await authenticateViewModel.GetCookies("https://newtumbl.com/");
-
+            var cookies = await authenticateViewModel.GetCookies("https://twitter.com/");
+            var document = await authenticateViewModel.GetDocument();
+            
             LoginService.AddCookies(cookies);
-            await UpdateLoginAsync(Provider.newTumbl);
+            await UpdateLoginAsync(Provider.Twitter, document);
         }
 
-        private async Task NewTumblPrivacyConsent()
+        private async Task TwitterPrivacyConsent()
         {
             await Task.CompletedTask;
         }
 
-        private async Task NewTumblLogout()
+        private async Task TwitterLogout()
         {
             try
             {
-                await LoginService.PerformLogoutAsync(Provider.newTumbl);
-                await UpdateLoginAsync(Provider.newTumbl);
+                await LoginService.PerformLogoutAsync(Provider.Twitter);
+                await UpdateLoginAsync(Provider.Twitter);
             }
             catch (Exception e)
             {
-                Logger.Error("SettingsViewModel.NewTumblLogout: {0}", e);
+                Logger.Error("SettingsViewModel.TwitterLogout: {0}", e);
             }
         }
 
@@ -1205,7 +1204,7 @@ namespace TumblThree.Applications.ViewModels
         {
             LoadSettings();
             await UpdateLoginAsync(Provider.Tumblr);
-            await UpdateLoginAsync(Provider.newTumbl);
+            await UpdateLoginAsync(Provider.Twitter);
         }
 
         private void LoadSettings()

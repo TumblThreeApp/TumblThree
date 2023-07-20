@@ -948,11 +948,11 @@ La copia se realiza en cierre de la aplicación, si la colección está disponib
   <data name="Description" xml:space="preserve">
     <value>Descripción</value>
   </data>
-  <data name="ToolTipAuthenticateBrowserNT" xml:space="preserve">
-    <value>Autenticarse en la red newtumbl.com</value>
+  <data name="ToolTipAuthenticateBrowserTwitter" xml:space="preserve">
+    <value>Autenticarse en la red twitter.com</value>
   </data>
-  <data name="ToolTipAuthenticateBrowserNTDescription" xml:space="preserve">
-    <value>Abre una ventana del navegador para autenticarse en el sitio newtumbl.com.
+  <data name="ToolTipAuthenticateBrowserTwitterDescription" xml:space="preserve">
+    <value>Abre una ventana del navegador para autenticarse en el sitio twitter.com.
 Las cookies utilizadas para la autenticación se guardan y el proceso de autenticación debe realizarse solo una vez.</value>
   </data>
   <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">

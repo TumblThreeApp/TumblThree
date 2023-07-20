@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web;
 using TumblThree.Applications.Extensions;
+using TumblThree.Applications.ViewModels;
 using TumblThree.Domain;
 
 namespace TumblThree.Applications.Services
@@ -16,8 +15,7 @@ namespace TumblThree.Applications.Services
     public enum Provider
     {
         Tumblr,
-        Twitter,
-        newTumbl
+        Twitter
     }
 
     [Export]
@@ -27,16 +25,19 @@ namespace TumblThree.Applications.Services
         private readonly IShellService shellService;
         private readonly ISharedCookieService cookieService;
         private readonly IWebRequestFactory webRequestFactory;
+        private readonly ExportFactory<AuthenticateViewModel> authenticateViewModelFactory;
         private string tumblrKey = string.Empty;
         private bool tfaNeeded;
         private string tumblrTFAKey = string.Empty;
 
         [ImportingConstructor]
-        public LoginService(IShellService shellService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService)
+        public LoginService(IShellService shellService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
+            ExportFactory<AuthenticateViewModel> authenticateViewModelFactory)
         {
             this.shellService = shellService;
             this.webRequestFactory = webRequestFactory;
             this.cookieService = cookieService;
+            this.authenticateViewModelFactory = authenticateViewModelFactory;
         }
 
         public async Task PerformTumblrLoginAsync(string login, string password)
@@ -76,20 +77,9 @@ namespace TumblThree.Applications.Services
                     }
                     break;
                 case Provider.Twitter:
-                    break;
-                case Provider.newTumbl:
-                    const string url2 = "https://api-rw.newtumbl.com/sp/NewTumbl/set_User_Logout";
-                    var request2 = webRequestFactory.CreatePostRequest(url2, "https://newtumbl.com/");
-                    cookieService.GetUriCookie(request2.CookieContainer, new Uri("https://newtumbl.com/"));
-
-                    request2.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                    var cookie = cookieService.GetAllCookies().FirstOrDefault(c => c.Name == "LoginToken");
-                    var data = cookie?.Value ?? "";
-                    data = "{\"Params\":[\"[{IPADDRESS}]\",\"" + data + "\"]}";
-                    var p = new Dictionary<string, string>() { { "json", data } };
-
-                    await webRequestFactory.PerformPostRequestAsync(request2, p);
-                    var document2 = await webRequestFactory.ReadRequestToEndAsync(request2);
+                    cookieService.RemoveUriCookie(new Uri("https://twitter.com"));
+                    AuthenticateViewModel authenticateViewModel = authenticateViewModelFactory.CreateExport().Value;
+                    await authenticateViewModel.DeleteCookies("https://twitter.com");
                     break;
             }
         }
@@ -267,7 +257,7 @@ namespace TumblThree.Applications.Services
             return request.CookieContainer.GetCookieHeader(new Uri("https://www.tumblr.com/")).Contains("pfs");
         }
 
-        public async Task<string> GetUsernameAsync(Provider provider)
+        public async Task<string> GetUsernameAsync(Provider provider, string document = null)
         {
             try
             {
@@ -277,24 +267,15 @@ namespace TumblThree.Applications.Services
                         const string tumblrAccountSettingsUrl = "https://www.tumblr.com/settings/account";
                         var request = webRequestFactory.CreateGetRequest(tumblrAccountSettingsUrl);
                         cookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
-                        var document = await webRequestFactory.ReadRequestToEndAsync(request).ConfigureAwait(false);
+                        document = await webRequestFactory.ReadRequestToEndAsync(request).ConfigureAwait(false);
                         return ExtractUsername(provider, document);
                     case Provider.Twitter:
-                        return ExtractUsername(provider, "");
-                    case Provider.newTumbl:
-                        const string newTumblAccountSettingsUrl = "https://api-rw.newtumbl.com/sp/NewTumbl/get_User_Settings";
-                        var request2 = webRequestFactory.CreatePostRequest(newTumblAccountSettingsUrl, "https://newtumbl.com/");
-                        cookieService.GetUriCookie(request2.CookieContainer, new Uri("https://newtumbl.com/"));
-
-                        request2.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                        var cookie = cookieService.GetAllCookies().FirstOrDefault(c => c.Name == "LoginToken");
-                        var data = cookie?.Value ?? "";
-                        data = "{\"Params\":[\"[{IPADDRESS}]\",\"" + data + "\"]}";
-                        var p = new Dictionary<string, string>() { { "json", data } };
-
-                        await webRequestFactory.PerformPostRequestAsync(request2, p);
-                        var document2 = await webRequestFactory.ReadRequestToEndAsync(request2).ConfigureAwait(false);
-                        return ExtractUsername(provider, document2);
+                        if (document is null)
+                        {
+                            AuthenticateViewModel authenticateViewModel = authenticateViewModelFactory.CreateExport().Value;
+                            document = await authenticateViewModel.GetDocument();
+                        }
+                        return ExtractUsername(provider, document);
                     default:
                         return "";
                 }
@@ -322,7 +303,7 @@ namespace TumblThree.Applications.Services
                 {
                     case Provider.Tumblr:
                         var regex = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
-                        var json = regex.Match(document).Groups[1].Value;
+                        var json = regex.Match(document ?? "").Groups[1].Value;
                         var obj = JObject.Parse(json.Replace(":undefined", ":null"));
                         var value = obj["Settings"];
                         if (value == null) return null;
@@ -330,11 +311,13 @@ namespace TumblThree.Applications.Services
                         if (value == null) value = obj["Settings"]["settings"]["email"];
                         return value.ToString();
                     case Provider.Twitter:
-                        break;
-                    case Provider.newTumbl:
-                        var obj2 = JObject.Parse(document);
-                        var value2 = obj2["aResultSet"][0]["aRow"][0]["szEmailId"];
-                        return value2?.ToString();
+                        var regex2 = new Regex("window\\.__INITIAL_STATE__=({.*});window\\.__META_DATA__");
+                        var json2 = regex2.Match(document ?? "").Groups[1].Value;
+                        if (string.IsNullOrEmpty(json2)) return null;
+                        var obj2 = JObject.Parse(json2.Replace(":undefined", ":null"));
+                        var value2 = obj2["settings"]?["remote"]?["settings"]?["screen_name"];
+                        if (value2 == null) return null;
+                        return value2.ToString();
                 }
             }
             catch (Exception ex)

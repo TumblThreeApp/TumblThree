@@ -41,9 +41,13 @@ namespace TumblThree.Applications.ViewModels
         {
         }
 
-        public Task<CookieCollection> GetCookies(String url) => ViewCore.GetCookies(url);
+        public Task<CookieCollection> GetCookies(string url) => ViewCore.GetCookies(url);
+
+        public Task DeleteCookies(string url) => ViewCore.DeleteCookies(url);
 
         public string GetUrl() => ViewCore.GetUrl();
+
+        public Task<string> GetDocument() => ViewCore.GetDocument();
 
         public string AppSettingsPath => EnvironmentService.AppSettingsPath;
     }

@@ -15,7 +15,7 @@ namespace TumblThree.Applications.Services
 
         Task<bool> CheckIfLoggedInAsync();
 
-        Task<string> GetUsernameAsync(Provider provider);
+        Task<string> GetUsernameAsync(Provider provider, string document = null);
 
         void AddCookies(CookieCollection cookies);
     }

@@ -1122,67 +1122,67 @@
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                Content="{x:Static p:Resources.LoginNewTumbl}" />
+                                Content="{x:Static p:Resources.LoginTwitter}" />
                             <Button
-                                x:Name="buttonAuthenticateNT"
+                                x:Name="buttonAuthenticateTwitter"
                                 Grid.Column="1"
                                 MinWidth="90"
                                 Margin="10"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                Command="{Binding NewTumblAuthenticateCommand}"
+                                Command="{Binding TwitterAuthenticateCommand}"
                                 Content="{x:Static p:Resources.Authenticate}"
                                 IsEnabled="True">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipAuthenticateBrowserNT}" />
-                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipAuthenticateBrowserNTDescription}" />
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipAuthenticateBrowserTwitter}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipAuthenticateBrowserTwitterDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Button.ToolTip>
                             </Button>
                             <Button
-                                x:Name="buttonPrivacyConsentNT"
+                                x:Name="buttonPrivacyConsentTwitter"
                                 Grid.Column="2"
                                 MinWidth="90"
                                 Margin="10"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                Command="{Binding NewTumblPrivacyConsentCommand}"
+                                Command="{Binding TwitterPrivacyConsentCommand}"
                                 Content="{x:Static p:Resources.PrivacyConsent}"
                                 IsEnabled="False">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipPrivacyConsentBrowserNT}" />
-                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipPrivacyConsentBrowserNTDescription}" />
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipPrivacyConsentBrowserTwitter}" />
+                                            <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipPrivacyConsentBrowserTwitterDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Button.ToolTip>
                             </Button>
                             <Button
-                                x:Name="newTumblLogout"
+                                x:Name="TwitterLogout"
                                 Grid.Column="7"
                                 MinWidth="90"
                                 Margin="10"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                Command="{Binding NewTumblLogoutCommand}"
+                                Command="{Binding TwitterLogoutCommand}"
                                 Content="{x:Static p:Resources.Logout}"
                                 IsEnabled="True"
-                                Visibility="{Binding NewTumblLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}">
+                                Visibility="{Binding TwitterLoggedIn, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Button.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLogoutNT}" />
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLogoutTwitter}" />
                                             <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipLogoutDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </Button.ToolTip>
                             </Button>
                             <Label
-                                x:Name="LoggedInLabelNT"
+                                x:Name="LoggedInLabelTwitter"
                                 Grid.Column="8"
                                 Margin="10,0,0,0"
                                 HorizontalAlignment="Left"
@@ -1191,7 +1191,7 @@
                                     <Style TargetType="{x:Type Label}">
                                         <Setter Property="Content" Value="{x:Static p:Resources.LoggedOut}" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding NewTumblLoggedIn}" Value="True">
+                                            <DataTrigger Binding="{Binding TwitterLoggedIn}" Value="True">
                                                 <Setter Property="Content" Value="{x:Static p:Resources.LoggedIn}" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -1199,7 +1199,7 @@
                                 </Label.Style>
                             </Label>
                             <Label
-                                x:Name="UsernameLabelNT"
+                                x:Name="UsernameLabelTwitter"
                                 Grid.Column="9"
                                 Margin="-5,0,0,0"
                                 HorizontalAlignment="Left"
@@ -1208,8 +1208,8 @@
                                     <Style TargetType="{x:Type Label}">
                                         <Setter Property="Label.Content" Value="" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding NewTumblLoggedIn}" Value="True">
-                                                <Setter Property="Label.Content" Value="{Binding NewTumblEmail}" />
+                                            <DataTrigger Binding="{Binding TwitterLoggedIn}" Value="True">
+                                                <Setter Property="Label.Content" Value="{Binding TwitterEmail}" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>

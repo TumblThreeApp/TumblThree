@@ -951,11 +951,11 @@ Herunterfahren der Anwendung, falls die Sammlung verfügbar ist.</value>
   <data name="Description" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
-  <data name="ToolTipAuthenticateBrowserNT" xml:space="preserve">
+  <data name="ToolTipAuthenticateBrowserTwitter" xml:space="preserve">
     <value>Authentifizieren Sie sich beim tumblr.com-Netzwerk</value>
   </data>
-  <data name="ToolTipAuthenticateBrowserNTDescription" xml:space="preserve">
-    <value>Öffnet ein Browserfenster, in dem Sie sich bei der Website newtumbl.com authentifizieren können.
+  <data name="ToolTipAuthenticateBrowserTwitterDescription" xml:space="preserve">
+    <value>Öffnet ein Browserfenster, in dem Sie sich bei der Website twitter.com authentifizieren können.
 Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authentifizierungsprozess muss nur einmal durchgeführt werden.</value>
   </data>
   <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">

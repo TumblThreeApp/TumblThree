@@ -1198,20 +1198,20 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to newTumbl.
-        /// </summary>
-        public static string LoginNewTumbl {
-            get {
-                return ResourceManager.GetString("LoginNewTumbl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Tumblr.
         /// </summary>
         public static string LoginTumblr {
             get {
                 return ResourceManager.GetString("LoginTumblr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Twitter.
+        /// </summary>
+        public static string LoginTwitter {
+            get {
+                return ResourceManager.GetString("LoginTwitter", resourceCulture);
             }
         }
         
@@ -1857,21 +1857,21 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Authenticate to the newtumbl.com network.
+        ///   Looks up a localized string similar to Authenticate to the twitter.com network.
         /// </summary>
-        public static string ToolTipAuthenticateBrowserNT {
+        public static string ToolTipAuthenticateBrowserTwitter {
             get {
-                return ResourceManager.GetString("ToolTipAuthenticateBrowserNT", resourceCulture);
+                return ResourceManager.GetString("ToolTipAuthenticateBrowserTwitter", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Opens a browser window to authenticate yourself to the newtumbl.com site.
+        ///   Looks up a localized string similar to Opens a browser window to authenticate yourself to the twitter.com site.
         ///The cookies used for authentication are saved and the authentication process needs to be done only once..
         /// </summary>
-        public static string ToolTipAuthenticateBrowserNTDescription {
+        public static string ToolTipAuthenticateBrowserTwitterDescription {
             get {
-                return ResourceManager.GetString("ToolTipAuthenticateBrowserNTDescription", resourceCulture);
+                return ResourceManager.GetString("ToolTipAuthenticateBrowserTwitterDescription", resourceCulture);
             }
         }
         
@@ -2663,11 +2663,11 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logout from newTumbl.com.
+        ///   Looks up a localized string similar to Logout from Twitter.com.
         /// </summary>
-        public static string ToolTipLogoutNT {
+        public static string ToolTipLogoutTwitter {
             get {
-                return ResourceManager.GetString("ToolTipLogoutNT", resourceCulture);
+                return ResourceManager.GetString("ToolTipLogoutTwitter", resourceCulture);
             }
         }
         
@@ -2823,21 +2823,21 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accept the newtumbl.com privacy consent.
+        ///   Looks up a localized string similar to Accept the Twitter.com privacy consent.
         /// </summary>
-        public static string ToolTipPrivacyConsentBrowserNT {
+        public static string ToolTipPrivacyConsentBrowserTwitter {
             get {
-                return ResourceManager.GetString("ToolTipPrivacyConsentBrowserNT", resourceCulture);
+                return ResourceManager.GetString("ToolTipPrivacyConsentBrowserTwitter", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Opens a browser window to accept the newtumbl.com privacy consent.
+        ///   Looks up a localized string similar to Opens a browser window to accept the Twitter.com privacy consent.
         ///The cookies for the privacy consent are saved and the process needs to be done only once in a while..
         /// </summary>
-        public static string ToolTipPrivacyConsentBrowserNTDescription {
+        public static string ToolTipPrivacyConsentBrowserTwitterDescription {
             get {
-                return ResourceManager.GetString("ToolTipPrivacyConsentBrowserNTDescription", resourceCulture);
+                return ResourceManager.GetString("ToolTipPrivacyConsentBrowserTwitterDescription", resourceCulture);
             }
         }
         
