@@ -9,7 +9,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
         public Data Data { get; set; }
 
         [JsonProperty("errors")]
-        public List<Error> Errors { get; set; }
+        public List<Error> Errors { get; }
     }
 
     public class Location
@@ -51,10 +51,10 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
         public string Message { get; set; }
 
         [JsonProperty("path")]
-        public List<string> Path { get; set; }
+        public List<string> Path { get; }
 
         [JsonProperty("locations")]
-        public List<Location> Locations { get; set; }
+        public List<Location> Locations { get; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -82,7 +82,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
     public class Description
     {
         [JsonProperty("urls")]
-        public List<Url2> Urls { get; set; }
+        public List<Url2> Urls { get; }
     }
 
     public class Entities
@@ -97,7 +97,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
     public class Url
     {
         [JsonProperty("urls")]
-        public List<Url2> Urls { get; set; }
+        public List<Url2> Urls { get; }
     }
 
     public class Url2
@@ -112,7 +112,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
         public string Url { get; set; }
 
         [JsonProperty("indices")]
-        public List<int> Indices { get; set; }
+        public List<int> Indices { get; }
     }
 
     public class Rgb
@@ -139,7 +139,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
     public class Ok
     {
         [JsonProperty("palette")]
-        public List<Palette> Palette { get; set; }
+        public List<Palette> Palette { get; }
     }
 
     public class R
@@ -238,7 +238,10 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
         public bool Notifications { get; set; }
 
         [JsonProperty("pinned_tweet_ids_str")]
-        public List<string> PinnedTweetIdsStr { get; set; }
+        public List<string> PinnedTweetIdsStr { get; }
+
+        [JsonProperty("possibly_sensitive")]
+        public bool PossiblySensitive { get; set; }
 
         [JsonProperty("profile_image_extensions")]
         public ProfileImageExtensions ProfileImageExtensions { get; set; }
@@ -268,14 +271,31 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
         public bool WantRetweets { get; set; }
 
         [JsonProperty("withheld_in_countries")]
-        public List<string> WithheldInCountries { get; set; }
+        public List<string> WithheldInCountries { get; }
     }
 
     public class LegacyExtendedProfile
     {
     }
 
-    public class User
+    public class VerificationInfo
+    {
+    }
+
+    public class BusinessAccount
+    {
+    }
+
+    public class HighlightsInfo
+    {
+        [JsonProperty("can_highlight_tweets")]
+        public bool CanHighlightTweets { get; set; }
+
+        [JsonProperty("highlighted_tweets")]
+        public string HighlightedTweets { get; set; }
+    }
+
+    public class Result
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -286,19 +306,54 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
         [JsonProperty("affiliates_highlighted_label")]
         public AffiliatesHighlightedLabel AffiliatesHighlightedLabel { get; set; }
 
+        [JsonProperty("has_graduated_access")]
+        public bool HasGraduatedAccess { get; set; }
+
+        [JsonProperty("is_blue_verified")]
+        public bool IsBlueVerified { get; set; }
+
+        [JsonProperty("profile_image_shape")]
+        public string ProfileImageShape { get; set; }
+
         [JsonProperty("legacy")]
         public Legacy Legacy { get; set; }
+
+        [JsonProperty("smart_blocked_by")]
+        public bool SmartBlockedBy { get; set; }
+
+        [JsonProperty("smart_blocking")]
+        public bool SmartBlocking { get; set; }
 
         [JsonProperty("legacy_extended_profile")]
         public LegacyExtendedProfile LegacyExtendedProfile { get; set; }
 
         [JsonProperty("is_profile_translatable")]
         public bool IsProfileTranslatable { get; set; }
+
+        [JsonProperty("verification_info")]
+        public VerificationInfo VerificationInfo { get; set; }
+
+        [JsonProperty("highlights_info")]
+        public HighlightsInfo HighlightsInfo { get; set; }
+
+        [JsonProperty("business_account")]
+        public BusinessAccount BusinessAccount { get; set; }
+
+        [JsonProperty("creator_subscriptions_count")]
+        public int CreatorSubscriptionsCount { get; set; }
     }
 
     public class Data
     {
         [JsonProperty("user")]
-        public User User { get; set; }
+        private User data { get; set; }
+
+        public Result User => data.Result;
+    }
+
+    public class User
+    {
+        [JsonProperty("result")]
+        public Result Result { get; set; }
     }
 }

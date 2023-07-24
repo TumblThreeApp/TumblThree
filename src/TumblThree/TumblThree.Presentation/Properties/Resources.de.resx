@@ -578,7 +578,7 @@ Kann die Geschwindigkeit beeinflussen bei vielen Dateien.</value>
     <value>Beiträge pro Seite</value>
   </data>
   <data name="ToolTipPageSizeDescription" xml:space="preserve">
-    <value>Setzt die Anzahl der Beiträge pro Seite (Zahl zwischen 1-50, sSandard 50).</value>
+    <value>Setzt die Anzahl der Beiträge pro Seite (Zahl zwischen 1-50, Standard 50).</value>
   </data>
   <data name="Export" xml:space="preserve">
     <value>Exportiere Blogs</value>

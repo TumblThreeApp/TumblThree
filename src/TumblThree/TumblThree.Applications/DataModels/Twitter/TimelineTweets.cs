@@ -1,108 +1,268 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 {
     public class TimelineTweets
     {
-        [JsonProperty("globalObjects")]
-        public GlobalObjects GlobalObjects { get; set; }
+        [JsonProperty("data")]
+        public Data Data { get; set; }
 
-        [JsonProperty("timeline")]
-        public Timeline Timeline { get; set; }
+        [JsonProperty("errors")]
+        public List<Error> Errors { get; }
+
+        public Timeline Timeline => Data.User.Result.TimelineV2.Timeline;
     }
 
-    public class Tweet
+    public class AdditionalMediaInfo
     {
-        [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
+        [JsonProperty("monetizable")]
+        public bool Monetizable { get; set; }
 
-        [JsonProperty("id_str")]
-        public string IdStr { get; set; }
+        [JsonProperty("source_user")]
+        public SourceUser SourceUser { get; set; }
+    }
 
-        [JsonProperty("full_text")]
-        public string FullText { get; set; }
+    public class AffiliatesHighlightedLabel
+    {
+    }
 
-        [JsonProperty("truncated")]
-        public bool Truncated { get; set; }
+    public class ClientEventInfo
+    {
+        [JsonProperty("component")]
+        public string Component { get; set; }
 
-        [JsonProperty("display_text_range")]
-        public List<int> DisplayTextRange { get; set; }
+        [JsonProperty("element", NullValueHandling = NullValueHandling.Ignore)]
+        public string Element { get; set; }
 
-        [JsonProperty("entities")]
-        public Entities Entities { get; set; }
+        [JsonProperty("details")]
+        public Details Details { get; set; }
+    }
 
-        [JsonProperty("extended_entities")]
-        public ExtendedEntities ExtendedEntities { get; set; }
+    public class Content
+    {
+        [JsonProperty("entryType")]
+        public string EntryType { get; set; }
 
-        [JsonProperty("source")]
-        public string Source { get; set; }
+        [JsonProperty("__typename")]
+        public string Typename { get; set; }
 
-        [JsonProperty("in_reply_to_status_id_str")]
-        public string InReplyToStatusIdStr { get; set; }
+        // TimelineTimelineItem
 
-        [JsonProperty("in_reply_to_user_id_str")]
-        public string InReplyToUserIdStr { get; set; }
+        [JsonProperty("itemContent", NullValueHandling = NullValueHandling.Ignore)]
+        public ItemContent ItemContent { get; set; }
 
-        [JsonProperty("in_reply_to_screen_name")]
-        public string InReplyToScreenName { get; set; }
+        [JsonProperty("clientEventInfo", NullValueHandling = NullValueHandling.Ignore)]
+        public ClientEventInfo ClientEventInfo { get; set; }
 
-        [JsonProperty("user_id_str")]
-        public string UserIdStr { get; set; }
+        // TimelineTimelineModule
 
+        [JsonProperty("items", NullValueHandling = NullValueHandling.Ignore)]
+        public List<ContentItem> Items { get; } = new List<ContentItem>();
+
+        [JsonProperty("displayType", NullValueHandling = NullValueHandling.Ignore)]
+        public string DisplayType { get; set; }
+
+        [JsonProperty("header", NullValueHandling = NullValueHandling.Ignore)]
+        public Header Header { get; set; }
+
+        [JsonProperty("footer", NullValueHandling = NullValueHandling.Ignore)]
+        public Footer Footer { get; set; }
+
+        //public ClientEventInfo ClientEventInfo { get; set; }
+
+        // TimelineTimelineCursor
+
+        [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
+        public string Value { get; set; }
+
+        [JsonProperty("cursorType", NullValueHandling = NullValueHandling.Ignore)]
+        public string CursorType { get; set; }
+    }
+
+    public class ContentItem
+    {
+        [JsonProperty("entryId")]
+        public string EntryId { get; set; }
+
+        [JsonProperty("item")]
+        public Item Item { get; set; }
+    }
+
+    public class ConversationDetails
+    {
+        [JsonProperty("conversationSection")]
+        public string ConversationSection { get; set; }
+    }
+
+    public class Core
+    {
+        [JsonProperty("user_results")]
+        public UserResults UserResults { get; set; }
+    }
+
+    public class Data
+    {
         [JsonProperty("user")]
-        public User User { get; set; }
+        public DataUser User { get; set; }
 
-        [JsonProperty("is_quote_status")]
-        public bool IsQuoteStatus { get; set; }
+        // ... replies
 
-        [JsonProperty("retweeted_status_id_str")]
-        public string RetweetedStatusIdStr { get; set; }
+        [JsonProperty("threaded_conversation_with_injections_v2", NullValueHandling = NullValueHandling.Ignore)]
+        public ThreadedConversationWithInjectionsV2 ThreadedConversationWithInjectionsV2 { get; set; }
+    }
 
-        [JsonProperty("retweet_count")]
-        public int RetweetCount { get; set; }
+    public class DataUser
+    {
+        [JsonProperty("result")]
+        public UserResult Result { get; set; }
+    }
 
-        [JsonProperty("favorite_count")]
-        public int FavoriteCount { get; set; }
+    public class Description
+    {
+        [JsonProperty("urls")]
+        public List<object> Urls { get; } = new List<object>();
+    }
 
-        [JsonProperty("reply_count")]
-        public int ReplyCount { get; set; }
+    public class Details
+    {
+        [JsonProperty("conversationDetails", NullValueHandling = NullValueHandling.Ignore)]
+        public ConversationDetails ConversationDetails { get; set; }
 
-        [JsonProperty("quote_count")]
-        public int QuoteCount { get; set; }
+        [JsonProperty("timelinesDetails", NullValueHandling = NullValueHandling.Ignore)]
+        public TimelinesDetails TimelinesDetails { get; set; }
+    }
 
-        [JsonProperty("conversation_id")]
-        public long ConversationId { get; set; }
+    public class EditControl
+    {
+        [JsonProperty("edit_tweet_ids")]
+        public List<string> EditTweetIds { get; } = new List<string>();
 
-        [JsonProperty("conversation_id_str")]
-        public string ConversationIdStr { get; set; }
+        [JsonProperty("editable_until_msecs")]
+        public string EditableUntilMsecs { get; set; }
 
+        [JsonProperty("is_edit_eligible")]
+        public bool IsEditEligible { get; set; }
+
+        [JsonProperty("edits_remaining")]
+        public string EditsRemaining { get; set; }
+    }
+
+    public class EditPerspective
+    {
         [JsonProperty("favorited")]
         public bool Favorited { get; set; }
 
         [JsonProperty("retweeted")]
         public bool Retweeted { get; set; }
-
-        [JsonProperty("possibly_sensitive")]
-        public bool PossiblySensitive { get; set; }
-
-        [JsonProperty("possibly_sensitive_editable")]
-        public bool PossiblySensitiveEditable { get; set; }
-
-        [JsonProperty("lang")]
-        public string Lang { get; set; }
-
-        [JsonProperty("supplemental_language")]
-        public string SupplementalLanguage { get; set; }
-
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
     }
 
-    public class FocusRect
+    public class Entities
+    {
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
+        public Description Description { get; set; }
+
+        [JsonProperty("media", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Media> Media { get; } = new List<Media>();
+
+        [JsonProperty("user_mentions", NullValueHandling = NullValueHandling.Ignore)]
+        public List<UserMention> UserMentions { get; } = new List<UserMention>();
+
+        [JsonProperty("urls", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Url2> Urls { get; } = new List<Url2>();
+
+        [JsonProperty("hashtags", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Hashtag> Hashtags { get; } = new List<Hashtag>();
+
+        [JsonProperty("symbols", NullValueHandling = NullValueHandling.Ignore)]
+        public List<object> Symbols { get; } = new List<object>();
+
+        [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
+        public Url Url { get; set; }
+    }
+
+    public class Hashtag
+    {
+        [JsonProperty("indices")]
+        public List<int> Indices { get; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+    }
+
+    public class Entry
+    {
+        [JsonProperty("entryId")]
+        public string EntryId { get; set; }
+
+        [JsonProperty("sortIndex")]
+        public string SortIndex { get; set; }
+
+        [JsonProperty("content")]
+        public Content Content { get; set; }
+    }
+
+    public class Error
+    {
+        [JsonProperty("message")]
+        public string Message { get; set; }
+
+        [JsonProperty("path")]
+        public List<string> Path { get; }
+
+        [JsonProperty("locations")]
+        public List<Location> Locations { get; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("source")]
+        public string Source { get; set; }
+
+        [JsonProperty("code")]
+        public int Code { get; set; }
+
+        [JsonProperty("kind")]
+        public string Kind { get; set; }
+
+        [JsonProperty("tracing")]
+        public Tracing Tracing { get; set; }
+
+        [JsonProperty("extensions")]
+        public Extensions Extensions { get; set; }
+    }
+
+    public class ExtendedEntities
+    {
+        [JsonProperty("media")]
+        public List<Media> Media { get; } = new List<Media>();
+    }
+
+    public class Extensions
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("source")]
+        public string Source { get; set; }
+
+        [JsonProperty("code")]
+        public int Code { get; set; }
+
+        [JsonProperty("kind")]
+        public string Kind { get; set; }
+
+        [JsonProperty("tracing")]
+        public Tracing Tracing { get; set; }
+    }
+
+    public class ExtMediaAvailability
+    {
+        [JsonProperty("status")]
+        public string Status { get; set; }
+    }
+
+    public class Face
     {
         [JsonProperty("x")]
         public int X { get; set; }
@@ -117,172 +277,169 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public int W { get; set; }
     }
 
-    public class OriginalInfo
+    public class FeatureLarge
     {
-        [JsonProperty("width")]
-        public int Width { get; set; }
-
-        [JsonProperty("height")]
-        public int Height { get; set; }
-
-        [JsonProperty("focus_rects")]
-        public List<FocusRect> FocusRects { get; set; }
+        [JsonProperty("faces")]
+        public List<Face> Faces { get; } = new List<Face>();
     }
 
-    public class Thumb
+    public class FeatureMedium
     {
-        [JsonProperty("w")]
-        public int W { get; set; }
-
-        [JsonProperty("h")]
-        public int H { get; set; }
-
-        [JsonProperty("resize")]
-        public string Resize { get; set; }
+        [JsonProperty("faces")]
+        public List<Face> Faces { get; } = new List<Face>();
     }
 
-    public class Medium
+    public class Features
     {
-        [JsonProperty("w")]
-        public int W { get; set; }
-
-        [JsonProperty("h")]
-        public int H { get; set; }
-
-        [JsonProperty("resize")]
-        public string Resize { get; set; }
-    }
-
-    public class Large
-    {
-        [JsonProperty("w")]
-        public int W { get; set; }
-
-        [JsonProperty("h")]
-        public int H { get; set; }
-
-        [JsonProperty("resize")]
-        public string Resize { get; set; }
-    }
-
-    public class Small
-    {
-        [JsonProperty("w")]
-        public int W { get; set; }
-
-        [JsonProperty("h")]
-        public int H { get; set; }
-
-        [JsonProperty("resize")]
-        public string Resize { get; set; }
-    }
-
-    public class Sizes
-    {
-        [JsonProperty("thumb")]
-        public Thumb Thumb { get; set; }
+        [JsonProperty("large")]
+        public FeatureLarge Large { get; set; }
 
         [JsonProperty("medium")]
-        public Medium Medium { get; set; }
-
-        [JsonProperty("large")]
-        public Large Large { get; set; }
+        public FeatureMedium Medium { get; set; }
 
         [JsonProperty("small")]
-        public Small Small { get; set; }
+        public FeatureSmall Small { get; set; }
+
+        [JsonProperty("orig")]
+        public Orig Orig { get; set; }
     }
 
-    public class Media
+    public class FeatureSmall
     {
-        [JsonProperty("id_str")]
-        public string IdStr { get; set; }
+        [JsonProperty("faces")]
+        public List<Face> Faces { get; } = new List<Face>();
+    }
 
-        [JsonProperty("indices")]
-        public List<int> Indices { get; set; }
+    public class FocusRect
+    {
+        [JsonProperty("x")]
+        public int X { get; set; }
 
-        [JsonProperty("media_url")]
-        public string MediaUrl { get; set; }
+        [JsonProperty("y")]
+        public int Y { get; set; }
 
-        [JsonProperty("media_url_https")]
-        public string MediaUrlHttps { get; set; }
+        [JsonProperty("w")]
+        public int W { get; set; }
 
-        [JsonProperty("url")]
-        public string Url { get; set; }
+        [JsonProperty("h")]
+        public int H { get; set; }
+    }
 
-        [JsonProperty("display_url")]
-        public string DisplayUrl { get; set; }
+    public class Footer
+    {
+        [JsonProperty("displayType")]
+        public string DisplayType { get; set; }
 
-        [JsonProperty("expanded_url")]
-        public string ExpandedUrl { get; set; }
+        [JsonProperty("text")]
+        public string Text { get; set; }
 
+        [JsonProperty("landingUrl")]
+        public LandingUrl LandingUrl { get; set; }
+    }
+
+    public class Header
+    {
+        [JsonProperty("displayType")]
+        public string DisplayType { get; set; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("sticky")]
+        public bool Sticky { get; set; }
+    }
+
+    public class Headline
+    {
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("entities")]
+        public List<object> Entities { get; } = new List<object>();
+    }
+
+    public class Instruction
+    {
         [JsonProperty("type")]
         public string Type { get; set; }
 
-        [JsonProperty("original_info")]
-        public OriginalInfo OriginalInfo { get; set; }
+        [JsonProperty("entries", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Entry> Entries { get; } = new List<Entry>();
 
-        [JsonProperty("sizes")]
-        public Sizes Sizes { get; set; }
-
-        [JsonProperty("source_status_id_str")]
-        public string SourceStatusIdStr { get; set; }
-
-        [JsonProperty("source_user_id_str")]
-        public string SourceUserIdStr { get; set; }
-
-        [JsonProperty("video_info")]
-        public VideoInfo VideoInfo { get; set; }
-
-        [JsonProperty("media_key")]
-        public string MediaKey { get; set; }
-
-        [JsonProperty("ext_alt_text")]
-        public object ExtAltText { get; set; }
-
-        [JsonProperty("ext_media_availability")]
-        public ExtMediaAvailability ExtMediaAvailability { get; set; }
-
-        [JsonProperty("ext_media_color")]
-        public ExtMediaColor ExtMediaColor { get; set; }
-
-        [JsonProperty("ext")]
-        public Ext Ext { get; set; }
-
-        [JsonProperty("additional_media_info")]
-        public AdditionalMediaInfo AdditionalMediaInfo { get; set; }
+        [JsonProperty("direction", NullValueHandling = NullValueHandling.Ignore)]
+        public string Direction { get; set; }
     }
 
-    public class ProfileImageExtensions
+    public class Item
     {
-        [JsonProperty("mediaStats")]
-        public MediaStats MediaStats { get; set; }
+        [JsonProperty("itemContent")]
+        public ItemContent ItemContent { get; set; }
+
+        [JsonProperty("clientEventInfo")]
+        public ClientEventInfo ClientEventInfo { get; set; }
     }
 
-    public class ProfileBannerExtensionsMediaColor
+    public class ItemContent
     {
-        [JsonProperty("palette")]
-        public List<Palette> Palette { get; set; }
+        [JsonProperty("itemType")]
+        public string ItemType { get; set; }
+
+        [JsonProperty("__typename")]
+        public string Typename { get; set; }
+
+        // TimelineTweet
+
+        [JsonProperty("tweet_results", NullValueHandling = NullValueHandling.Ignore)]
+        public TweetResults TweetResults { get; set; }
+
+        [JsonProperty("tweetDisplayType", NullValueHandling = NullValueHandling.Ignore)]
+        public string TweetDisplayType { get; set; }
+
+        // ... replies
+
+        [JsonProperty("hasModeratedReplies", NullValueHandling = NullValueHandling.Ignore)]
+        public bool HasModeratedReplies { get; set; }
+
+        // TimelineUser
+
+        [JsonProperty("user_results", NullValueHandling = NullValueHandling.Ignore)]
+        public UserResults UserResults { get; set; }
+
+        [JsonProperty("userDisplayType", NullValueHandling = NullValueHandling.Ignore)]
+        public string UserDisplayType { get; set; }
+
+        [JsonProperty("socialContext", NullValueHandling = NullValueHandling.Ignore)]
+        public SocialContext SocialContext { get; set; }
     }
 
-    public class ProfileBannerExtensions
+    public class LandingUrl
     {
-        [JsonProperty("mediaStats")]
-        public MediaStats MediaStats { get; set; }
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [JsonProperty("urlType")]
+        public string UrlType { get; set; }
     }
 
-    public class SourceUser
+    public class Legacy
     {
-        [JsonProperty("id_str")]
-        public string IdStr { get; set; }
+        [JsonProperty("following")]
+        public bool Following { get; set; }
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("can_dm")]
+        public bool CanDm { get; set; }
 
-        [JsonProperty("screen_name")]
-        public string ScreenName { get; set; }
+        [JsonProperty("can_media_tag")]
+        public bool CanMediaTag { get; set; }
 
-        [JsonProperty("location")]
-        public string Location { get; set; }
+        [JsonProperty("created_at")]
+        public string CreatedAt { get; set; }
+
+        [JsonProperty("default_profile")]
+        public bool DefaultProfile { get; set; }
+
+        [JsonProperty("default_profile_image")]
+        public bool DefaultProfileImage { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }
@@ -290,288 +447,633 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("entities")]
         public Entities Entities { get; set; }
 
-        [JsonProperty("followers_count")]
-        public int FollowersCount { get; set; }
-
         [JsonProperty("fast_followers_count")]
         public int FastFollowersCount { get; set; }
-
-        [JsonProperty("normal_followers_count")]
-        public int NormalFollowersCount { get; set; }
-
-        [JsonProperty("friends_count")]
-        public int FriendsCount { get; set; }
-
-        [JsonProperty("listed_count")]
-        public int ListedCount { get; set; }
-
-        [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
 
         [JsonProperty("favourites_count")]
         public int FavouritesCount { get; set; }
 
-        [JsonProperty("statuses_count")]
-        public int StatusesCount { get; set; }
+        [JsonProperty("followers_count")]
+        public int FollowersCount { get; set; }
+
+        [JsonProperty("friends_count")]
+        public int FriendsCount { get; set; }
+
+        [JsonProperty("has_custom_timelines")]
+        public bool HasCustomTimelines { get; set; }
+
+        [JsonProperty("is_translator")]
+        public bool IsTranslator { get; set; }
+
+        [JsonProperty("listed_count")]
+        public int ListedCount { get; set; }
+
+        [JsonProperty("location")]
+        public string Location { get; set; }
 
         [JsonProperty("media_count")]
         public int MediaCount { get; set; }
 
-        [JsonProperty("profile_image_url_https")]
-        public string ProfileImageUrlHttps { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("normal_followers_count")]
+        public int NormalFollowersCount { get; set; }
+
+        [JsonProperty("pinned_tweet_ids_str")]
+        public List<object> PinnedTweetIdsStr { get; } = new List<object>();
+
+        [JsonProperty("possibly_sensitive")]
+        public bool PossiblySensitive { get; set; }
 
         [JsonProperty("profile_banner_url")]
         public string ProfileBannerUrl { get; set; }
 
-        [JsonProperty("profile_image_extensions_alt_text")]
-        public object ProfileImageExtensionsAltText { get; set; }
 
-        [JsonProperty("profile_image_extensions_media_availability")]
-        public object ProfileImageExtensionsMediaAvailability { get; set; }
-
-        [JsonProperty("profile_image_extensions_media_color")]
-        public ProfileImageExtensionsMediaColor ProfileImageExtensionsMediaColor { get; set; }
-
-        [JsonProperty("profile_image_extensions")]
-        public ProfileImageExtensions ProfileImageExtensions { get; set; }
-
-        [JsonProperty("profile_banner_extensions_media_color")]
-        public ProfileBannerExtensionsMediaColor ProfileBannerExtensionsMediaColor { get; set; }
-
-        [JsonProperty("profile_banner_extensions_alt_text")]
-        public object ProfileBannerExtensionsAltText { get; set; }
-
-        [JsonProperty("profile_banner_extensions_media_availability")]
-        public object ProfileBannerExtensionsMediaAvailability { get; set; }
-
-        [JsonProperty("profile_banner_extensions")]
-        public ProfileBannerExtensions ProfileBannerExtensions { get; set; }
-
-        [JsonProperty("profile_link_color")]
-        public string ProfileLinkColor { get; set; }
-
-        [JsonProperty("default_profile")]
-        public bool DefaultProfile { get; set; }
-
-        [JsonProperty("pinned_tweet_ids")]
-        public List<object> PinnedTweetIds { get; set; }
-
-        [JsonProperty("pinned_tweet_ids_str")]
-        public List<object> PinnedTweetIdsStr { get; set; }
-
-        [JsonProperty("advertiser_account_type")]
-        public string AdvertiserAccountType { get; set; }
-
-        [JsonProperty("advertiser_account_service_levels")]
-        public List<string> AdvertiserAccountServiceLevels { get; set; }
+        [JsonProperty("profile_image_url_https")]
+        public string ProfileImageUrlHttps { get; set; }
 
         [JsonProperty("profile_interstitial_type")]
         public string ProfileInterstitialType { get; set; }
 
-        [JsonProperty("business_profile_state")]
-        public string BusinessProfileState { get; set; }
+        [JsonProperty("screen_name")]
+        public string ScreenName { get; set; }
+
+        [JsonProperty("statuses_count")]
+        public int StatusesCount { get; set; }
 
         [JsonProperty("translator_type")]
         public string TranslatorType { get; set; }
 
+        [JsonProperty("verified")]
+        public bool Verified { get; set; }
+
+        [JsonProperty("want_retweets")]
+        public bool WantRetweets { get; set; }
+
         [JsonProperty("withheld_in_countries")]
-        public List<object> WithheldInCountries { get; set; }
+        public List<object> WithheldInCountries { get; } = new List<object>();
 
-        [JsonProperty("ext")]
-        public Ext Ext { get; set; }
-    }
 
-    public class VisitSite
-    {
+
+        [JsonProperty("bookmark_count")]
+        public int BookmarkCount { get; set; }
+
+        [JsonProperty("bookmarked")]
+        public bool Bookmarked { get; set; }
+
+        [JsonProperty("conversation_id_str")]
+        public string ConversationIdStr { get; set; }
+
+        [JsonProperty("display_text_range")]
+        public List<int> DisplayTextRange { get; } = new List<int>();
+
+        [JsonProperty("extended_entities")]
+        public ExtendedEntities ExtendedEntities { get; set; }
+
+        [JsonProperty("favorite_count")]
+        public int FavoriteCount { get; set; }
+
+        [JsonProperty("favorited")]
+        public bool Favorited { get; set; }
+
+        [JsonProperty("full_text")]
+        public string FullText { get; set; }
+
+        [JsonProperty("is_quote_status")]
+        public bool IsQuoteStatus { get; set; }
+
+        [JsonProperty("lang")]
+        public string Lang { get; set; }
+
+        [JsonProperty("possibly_sensitive_editable")]
+        public bool PossiblySensitiveEditable { get; set; }
+
+        [JsonProperty("quote_count")]
+        public int QuoteCount { get; set; }
+
+        [JsonProperty("reply_count")]
+        public int ReplyCount { get; set; }
+
+        [JsonProperty("retweet_count")]
+        public int RetweetCount { get; set; }
+
+        [JsonProperty("retweeted")]
+        public bool Retweeted { get; set; }
+
+        [JsonProperty("user_id_str")]
+        public string UserIdStr { get; set; }
+
+        [JsonProperty("id_str")]
+        public string IdStr { get; set; }
+
+        [JsonProperty("in_reply_to_screen_name")]
+        public string InReplyToScreenName { get; set; }
+
+        [JsonProperty("in_reply_to_status_id_str")]
+        public string InReplyToStatusIdStr { get; set; }
+
+        [JsonProperty("in_reply_to_user_id_str")]
+        public string InReplyToUserIdStr { get; set; }
+
+        [JsonProperty("retweeted_status_result")]
+        public RetweetedStatusResult RetweetedStatusResult { get; set; }
+
         [JsonProperty("url")]
         public string Url { get; set; }
     }
 
-    public class CallToActions
+    public class LimitedAction
     {
-        [JsonProperty("visit_site")]
-        public VisitSite VisitSite { get; set; }
+        [JsonProperty("action")]
+        public string Action { get; set; }
+
+        [JsonProperty("prompt")]
+        public Prompt Prompt { get; set; }
     }
 
-    public class AdditionalMediaInfo
+    public class LimitedActionResults
     {
-        [JsonProperty("title")]
-        public string Title { get; set; }
-
-        [JsonProperty("description")]
-        public string Description { get; set; }
-
-        [JsonProperty("call_to_actions")]
-        public CallToActions CallToActions { get; set; }
-
-        [JsonProperty("embeddable")]
-        public bool Embeddable { get; set; }
-
-        [JsonProperty("monetizable")]
-        public bool Monetizable { get; set; }
-
-        [JsonProperty("source_user")]
-        public SourceUser SourceUser { get; set; }
+        [JsonProperty("limited_actions")]
+        public List<LimitedAction> LimitedActions { get; } = new List<LimitedAction>();
     }
 
-    public class Entities
+    public class Location
     {
-        [JsonProperty("hashtags")]
-        public List<Hashtag> Hashtags { get; set; }
+        [JsonProperty("line")]
+        public int Line { get; set; }
 
-        [JsonProperty("symbols")]
-        public List<Symbol> Symbols { get; set; }
-
-        [JsonProperty("user_mentions")]
-        public List<UserMention> UserMentions { get; set; }
-
-        [JsonProperty("urls")]
-        public List<Url2> Urls { get; set; }
-
-        [JsonProperty("media")]
-        public List<Media> Media { get; set; }
+        [JsonProperty("column")]
+        public int Column { get; set; }
     }
 
-    public class Symbol
+    public class MediaStats
     {
-        [JsonProperty("text")]
-        public string Text { get; set; }
-
-        [JsonProperty("indices")]
-        public List<int> Indices { get; set; }
+        [JsonProperty("viewCount")]
+        public int ViewCount { get; set; }
     }
 
-    public class Url2
+    public class Media
     {
-        [JsonProperty("url")]
-        public string Url { get; set; }
-
-        [JsonProperty("expanded_url")]
-        public string ExpandedUrl { get; set; }
-
         [JsonProperty("display_url")]
         public string DisplayUrl { get; set; }
 
-        [JsonProperty("indices")]
-        public List<int> Indices { get; set; }
-    }
-
-    public class UserMention
-    {
-        [JsonProperty("screen_name")]
-        public string ScreenName { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("id")]
-        public long Id { get; set; }
+        [JsonProperty("expanded_url")]
+        public string ExpandedUrl { get; set; }
 
         [JsonProperty("id_str")]
         public string IdStr { get; set; }
 
         [JsonProperty("indices")]
-        public List<int> Indices { get; set; }
-    }
+        public List<int> Indices { get; } = new List<int>();
 
-    public class UserEntities
-    {
-        [JsonProperty("description")]
-        public Description Description { get; set; }
-    }
+        [JsonProperty("media_url_https")]
+        public string MediaUrlHttps { get; set; }
 
-    public class ExtMediaAvailability
-    {
-        [JsonProperty("status")]
-        public string Status { get; set; }
-    }
+        [JsonProperty("source_status_id_str")]
+        public string SourceStatusIdStr { get; set; }
 
-    public class Rgb
-    {
-        [JsonProperty("red")]
-        public int Red { get; set; }
+        [JsonProperty("source_user_id_str")]
+        public string SourceUserIdStr { get; set; }
 
-        [JsonProperty("green")]
-        public int Green { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
-        [JsonProperty("blue")]
-        public int Blue { get; set; }
-    }
+        [JsonProperty("url")]
+        public string Url { get; set; }
 
-    public class Palette
-    {
-        [JsonProperty("rgb")]
-        public Rgb Rgb { get; set; }
+        [JsonProperty("features")]
+        public Features Features { get; set; }
 
-        [JsonProperty("percentage")]
-        public double Percentage { get; set; }
-    }
+        [JsonProperty("sizes")]
+        public Sizes Sizes { get; set; }
 
-    public class ExtMediaColor
-    {
-        [JsonProperty("palette")]
-        public List<Palette> Palette { get; set; }
-    }
+        [JsonProperty("original_info")]
+        public OriginalInfo OriginalInfo { get; set; }
 
-    public class MediaStats
-    {
-        [JsonProperty("r")]
-        public object R { get; set; }
+        [JsonProperty("media_key")]
+        public string MediaKey { get; set; }
 
-        [JsonProperty("ttl")]
-        public int Ttl { get; set; }
-    }
+        [JsonProperty("additional_media_info")]
+        public AdditionalMediaInfo AdditionalMediaInfo { get; set; }
 
-    public class MediaStatsR
-    {
-        [JsonProperty("missing")]
-        public string Missing { get; set; }
-    }
-
-    public class Ext
-    {
         [JsonProperty("mediaStats")]
         public MediaStats MediaStats { get; set; }
 
-        [JsonProperty("highlightedLabel")]
-        public HighlightedLabel HighlightedLabel { get; set; }
+        [JsonProperty("ext_media_availability")]
+        public ExtMediaAvailability ExtMediaAvailability { get; set; }
+
+        [JsonProperty("video_info")]
+        public VideoInfo VideoInfo { get; set; }
     }
 
-    public class ExtendedEntities
+    public class Metadata
     {
-        [JsonProperty("media")]
-        public List<Media> Media { get; set; }
+        [JsonProperty("scribeConfig")]
+        public ScribeConfig ScribeConfig { get; set; }
     }
 
-    public class Description
+    public class Orig
     {
+        [JsonProperty("faces")]
+        public List<Face> Faces { get; } = new List<Face>();
     }
 
-    public class ProfileImageExtensionsMediaColor
+    public class OriginalInfo
     {
-        [JsonProperty("palette")]
-        public List<Palette> Palette { get; set; }
+        [JsonProperty("height")]
+        public int Height { get; set; }
+
+        [JsonProperty("width")]
+        public int Width { get; set; }
+
+        [JsonProperty("focus_rects")]
+        public List<FocusRect> FocusRects { get; } = new List<FocusRect>();
     }
 
-    public class R
+    public class Prompt
     {
-        [JsonProperty("missing")]
-        public object Missing { get; set; }
+        [JsonProperty("__typename")]
+        public string Typename { get; set; }
 
-        [JsonProperty("ok")]
-        public Ok Ok { get; set; }
+        [JsonProperty("cta_type")]
+        public string CtaType { get; set; }
+
+        [JsonProperty("headline")]
+        public Headline Headline { get; set; }
+
+        [JsonProperty("subtext")]
+        public Subtext Subtext { get; set; }
     }
 
-    public class VideoInfo
+    public class QuickPromoteEligibility
     {
-        [JsonProperty("aspect_ratio")]
-        public List<int> AspectRatio { get; set; }
+        [JsonProperty("eligibility")]
+        public string Eligibility { get; set; }
+    }
 
-        [JsonProperty("duration_millis")]
-        public int DurationMillis { get; set; }
+    public class RetweetedStatusResult
+    {
+        [JsonProperty("result")]
+        public Tweet Result { get; set; }
+    }
 
-        [JsonProperty("variants")]
-        public List<Variant> Variants { get; set; }
+    public class ScribeConfig
+    {
+        [JsonProperty("page")]
+        public string Page { get; set; }
+    }
+
+    public class SizeLarge
+    {
+        [JsonProperty("h")]
+        public int H { get; set; }
+
+        [JsonProperty("w")]
+        public int W { get; set; }
+
+        [JsonProperty("resize")]
+        public string Resize { get; set; }
+    }
+
+    public class SizeMedium
+    {
+        [JsonProperty("h")]
+        public int H { get; set; }
+
+        [JsonProperty("w")]
+        public int W { get; set; }
+
+        [JsonProperty("resize")]
+        public string Resize { get; set; }
+    }
+
+    public class Sizes
+    {
+        [JsonProperty("large")]
+        public SizeLarge Large { get; set; }
+
+        [JsonProperty("medium")]
+        public SizeMedium Medium { get; set; }
+
+        [JsonProperty("small")]
+        public SizeSmall Small { get; set; }
+
+        [JsonProperty("thumb")]
+        public Thumb Thumb { get; set; }
+    }
+
+    public class SizeSmall
+    {
+        [JsonProperty("h")]
+        public int H { get; set; }
+
+        [JsonProperty("w")]
+        public int W { get; set; }
+
+        [JsonProperty("resize")]
+        public string Resize { get; set; }
+    }
+
+    public class SocialContext
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("contextType")]
+        public string ContextType { get; set; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+    }
+
+    public class SourceUser
+    {
+        [JsonProperty("user_results")]
+        public UserResults UserResults { get; set; }
+    }
+
+    public class Subtext
+    {
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("entities")]
+        public List<object> Entities { get; } = new List<object>();
+    }
+
+    public class ThreadedConversationWithInjectionsV2
+    {
+        [JsonProperty("instructions")]
+        public List<Instruction> Instructions { get; } = new List<Instruction>();
+    }
+
+    public class Thumb
+    {
+        [JsonProperty("h")]
+        public int H { get; set; }
+
+        [JsonProperty("w")]
+        public int W { get; set; }
+
+        [JsonProperty("resize")]
+        public string Resize { get; set; }
+    }
+
+    public class Timeline
+    {
+        [JsonProperty("instructions")]
+        public List<Instruction> Instructions { get; } = new List<Instruction>();
+
+        [JsonProperty("metadata")]
+        public Metadata Metadata { get; set; }
+    }
+
+    public class TimelinesDetails
+    {
+        [JsonProperty("injectionType")]
+        public string InjectionType { get; set; }
+
+        [JsonProperty("controllerData")]
+        public string ControllerData { get; set; }
+
+        [JsonProperty("sourceData", NullValueHandling = NullValueHandling.Ignore)]
+        public string SourceData { get; set; }
+    }
+
+    public class TimelineV2
+    {
+        [JsonProperty("timeline")]
+        public Timeline Timeline { get; set; }
+    }
+
+    public class Tracing
+    {
+        [JsonProperty("trace_id")]
+        public string TraceId { get; set; }
+    }
+
+    public class Tweet
+    {
+        [JsonProperty("__typename")]
+        public string Typename { get; set; }
+
+        [JsonProperty("rest_id")]
+        public string RestId { get; set; }
+
+        [JsonProperty("has_birdwatch_notes", NullValueHandling = NullValueHandling.Ignore)]
+        public bool HasBirdwatchNotes { get; set; }
+
+        [JsonProperty("core")]
+        public Core Core { get; set; }
+
+        [JsonProperty("edit_control")]
+        public EditControl EditControl { get; set; }
+
+        [JsonProperty("edit_perspective")]
+        public EditPerspective EditPerspective { get; set; }
+
+        [JsonProperty("is_translatable")]
+        public bool IsTranslatable { get; set; }
+
+        [JsonProperty("views")]
+        public Views Views { get; set; }
+
+        [JsonProperty("source")]
+        public string Source { get; set; }
+
+        [JsonProperty("legacy")]
+        public Legacy Legacy { get; set; }
+
+        [JsonProperty("quick_promote_eligibility")]
+        public QuickPromoteEligibility QuickPromoteEligibility { get; set; }
+
+        // TweetWithVisibilityResults
+
+        [JsonProperty("tweet", NullValueHandling = NullValueHandling.Ignore)]
+        public Tweet TweetWithVisibilityResults { get; set; }
+
+        [JsonProperty("limitedActionResults", NullValueHandling = NullValueHandling.Ignore)]
+        public LimitedActionResults LimitedActionResults { get; set; }
+
+        public User User => Core.UserResults.Result;
+    }
+
+    public class TweetResults
+    {
+        [JsonProperty("result")]
+        public Tweet Result { get; set; }   //TweetResult
+    }
+
+    public class Url
+    {
+        [JsonProperty("urls")]
+        public List<Url2> Urls { get; } = new List<Url2>();
+    }
+
+    public class Url2
+    {
+        [JsonProperty("display_url")]
+        public string DisplayUrl { get; set; }
+
+        [JsonProperty("expanded_url")]
+        public string ExpandedUrl { get; set; }
+
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [JsonProperty("indices")]
+        public List<int> Indices { get; } = new List<int>();
+    }
+
+    public class User
+    {
+        [JsonProperty("__typename")]
+        public string Typename { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("rest_id")]
+        public string RestId { get; set; }
+
+        [JsonProperty("affiliates_highlighted_label")]
+        public AffiliatesHighlightedLabel AffiliatesHighlightedLabel { get; set; }
+
+        [JsonProperty("has_graduated_access")]
+        public bool HasGraduatedAccess { get; set; }
+
+        [JsonProperty("is_blue_verified")]
+        public bool IsBlueVerified { get; set; }
+
+        [JsonProperty("profile_image_shape")]
+        public string ProfileImageShape { get; set; }
+
+        [JsonProperty("legacy")]
+        public UserLegacy Legacy { get; set; }
+    }
+
+    public class UserLegacy
+    {
+        [JsonProperty("following")]
+        public bool Following { get; set; }
+
+        [JsonProperty("can_dm")]
+        public bool CanDm { get; set; }
+
+        [JsonProperty("can_media_tag")]
+        public bool CanMediaTag { get; set; }
+
+        [JsonProperty("created_at")]
+        public string CreatedAt { get; set; }
+
+        [JsonProperty("default_profile")]
+        public bool DefaultProfile { get; set; }
+
+        [JsonProperty("default_profile_image")]
+        public bool DefaultProfileImage { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        [JsonProperty("entities")]
+        public Entities Entities { get; set; }
+
+        [JsonProperty("fast_followers_count")]
+        public int FastFollowersCount { get; set; }
+
+        [JsonProperty("favourites_count")]
+        public int FavouritesCount { get; set; }
+
+        [JsonProperty("followers_count")]
+        public int FollowersCount { get; set; }
+
+        [JsonProperty("friends_count")]
+        public int FriendsCount { get; set; }
+
+        [JsonProperty("has_custom_timelines")]
+        public bool HasCustomTimelines { get; set; }
+
+        [JsonProperty("is_translator")]
+        public bool IsTranslator { get; set; }
+
+        [JsonProperty("listed_count")]
+        public int ListedCount { get; set; }
+
+        [JsonProperty("location")]
+        public string Location { get; set; }
+
+        [JsonProperty("media_count")]
+        public int MediaCount { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("normal_followers_count")]
+        public int NormalFollowersCount { get; set; }
+
+        [JsonProperty("pinned_tweet_ids_str")]
+        public List<object> PinnedTweetIdsStr { get; } = new List<object>();
+
+        [JsonProperty("possibly_sensitive")]
+        public bool PossiblySensitive { get; set; }
+
+        [JsonProperty("profile_banner_url")]
+        public string ProfileBannerUrl { get; set; }
+
+        [JsonProperty("profile_image_url_https")]
+        public string ProfileImageUrlHttps { get; set; }
+
+        [JsonProperty("profile_interstitial_type")]
+        public string ProfileInterstitialType { get; set; }
+
+        [JsonProperty("screen_name")]
+        public string ScreenName { get; set; }
+
+        [JsonProperty("statuses_count")]
+        public int StatusesCount { get; set; }
+
+        [JsonProperty("translator_type")]
+        public string TranslatorType { get; set; }
+
+        [JsonProperty("verified")]
+        public bool Verified { get; set; }
+
+        [JsonProperty("want_retweets")]
+        public bool WantRetweets { get; set; }
+
+        [JsonProperty("withheld_in_countries")]
+        public List<object> WithheldInCountries { get; } = new List<object>();
+    }
+
+    public class UserMention
+    {
+        [JsonProperty("id_str")]
+        public string IdStr { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("screen_name")]
+        public string ScreenName { get; set; }
+
+        [JsonProperty("indices")]
+        public List<int> Indices { get; } = new List<int>();
+    }
+
+    public class UserResult
+    {
+        [JsonProperty("__typename")]
+        public string Typename { get; set; }
+
+        [JsonProperty("timeline_v2")]
+        public TimelineV2 TimelineV2 { get; set; }
+    }
+
+    public class UserResults
+    {
+        [JsonProperty("result")]
+        public User Result { get; set; }    //UserResult
     }
 
     public class Variant
@@ -586,360 +1088,24 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public int? Bitrate { get; set; }
     }
 
-    public class Ok
+    public class VideoInfo
     {
+        [JsonProperty("aspect_ratio")]
+        public List<int> AspectRatio { get; } = new List<int>();
+
+        [JsonProperty("duration_millis")]
+        public int DurationMillis { get; set; }
+
+        [JsonProperty("variants")]
+        public List<Variant> Variants { get; } = new List<Variant>();
     }
 
-    public class HighlightedLabel
+    public class Views
     {
-        [JsonProperty("r")]
-        public R R { get; set; }
-
-        [JsonProperty("ttl")]
-        public int Ttl { get; set; }
-    }
-
-    public class User
-    {
-        [JsonProperty("id_str")]
-        public string IdStr { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("screen_name")]
-        public string ScreenName { get; set; }
-
-        [JsonProperty("location")]
-        public string Location { get; set; }
-
-        [JsonProperty("description")]
-        public string Description { get; set; }
-
-        [JsonProperty("entities")]
-        public UserEntities Entities { get; set; }
-
-        [JsonProperty("followers_count")]
-        public int FollowersCount { get; set; }
-
-        [JsonProperty("fast_followers_count")]
-        public int FastFollowersCount { get; set; }
-
-        [JsonProperty("normal_followers_count")]
-        public int NormalFollowersCount { get; set; }
-
-        [JsonProperty("friends_count")]
-        public int FriendsCount { get; set; }
-
-        [JsonProperty("listed_count")]
-        public int ListedCount { get; set; }
-
-        [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
-
-        [JsonProperty("favourites_count")]
-        public int FavouritesCount { get; set; }
-
-        [JsonProperty("statuses_count")]
-        public int StatusesCount { get; set; }
-
-        [JsonProperty("media_count")]
-        public int MediaCount { get; set; }
-
-        [JsonProperty("profile_image_url_https")]
-        public string ProfileImageUrlHttps { get; set; }
-
-        [JsonProperty("profile_image_extensions_alt_text")]
-        public object ProfileImageExtensionsAltText { get; set; }
-
-        [JsonProperty("profile_image_extensions_media_availability")]
-        public object ProfileImageExtensionsMediaAvailability { get; set; }
-
-        [JsonProperty("profile_image_extensions_media_color")]
-        public ProfileImageExtensionsMediaColor ProfileImageExtensionsMediaColor { get; set; }
-
-        [JsonProperty("profile_image_extensions")]
-        public ProfileImageExtensions ProfileImageExtensions { get; set; }
-
-        [JsonProperty("profile_link_color")]
-        public string ProfileLinkColor { get; set; }
-
-        [JsonProperty("has_extended_profile")]
-        public bool HasExtendedProfile { get; set; }
-
-        [JsonProperty("default_profile")]
-        public bool DefaultProfile { get; set; }
-
-        [JsonProperty("pinned_tweet_ids")]
-        public List<long> PinnedTweetIds { get; set; }
-
-        [JsonProperty("pinned_tweet_ids_str")]
-        public List<string> PinnedTweetIdsStr { get; set; }
-
-        [JsonProperty("advertiser_account_type")]
-        public string AdvertiserAccountType { get; set; }
-
-        [JsonProperty("advertiser_account_service_levels")]
-        public List<object> AdvertiserAccountServiceLevels { get; set; }
-
-        [JsonProperty("profile_interstitial_type")]
-        public string ProfileInterstitialType { get; set; }
-
-        [JsonProperty("business_profile_state")]
-        public string BusinessProfileState { get; set; }
-
-        [JsonProperty("translator_type")]
-        public string TranslatorType { get; set; }
-
-        [JsonProperty("withheld_in_countries")]
-        public List<object> WithheldInCountries { get; set; }
-
-        [JsonProperty("ext")]
-        public Ext Ext { get; set; }
-    }
-
-    public class Moments
-    {
-    }
-
-    public class Cards
-    {
-    }
-
-    public class Places
-    {
-    }
-
-    public class Broadcasts
-    {
-    }
-
-    public class Topics
-    {
-    }
-
-    public class Lists
-    {
-    }
-
-    public class GlobalObjects
-    {
-        [JsonProperty("tweets")]
-        public Dictionary<string, Tweet> Tweets { get; set; }
-
-        [JsonProperty("users")]
-        public Dictionary<string, User> Users { get; set; }
-
-        [JsonProperty("moments")]
-        public Moments Moments { get; set; }
-
-        [JsonProperty("cards")]
-        public Cards Cards { get; set; }
-
-        [JsonProperty("places")]
-        public Places Places { get; set; }
-
-        [JsonProperty("media")]
-        public Media2 Media { get; set; }
-
-        [JsonProperty("broadcasts")]
-        public Broadcasts Broadcasts { get; set; }
-
-        [JsonProperty("topics")]
-        public Topics Topics { get; set; }
-
-        [JsonProperty("lists")]
-        public Lists Lists { get; set; }
-    }
-
-    public class Media2
-    { 
-    }
-
-    public class ContentTweet
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        [JsonProperty("displayType")]
-        public string DisplayType { get; set; }
-
-        [JsonProperty("socialContext", NullValueHandling = NullValueHandling.Ignore)]
-        public SocialContext SocialContext { get; set; }
-    }
-
-    public class ItemContent
-    {
-        [JsonProperty("tweet")]
-        public ContentTweet Tweet { get; set; }
-    }
-
-    public class Item
-    {
-        [JsonProperty("content")]
-        public ItemContent Content { get; set; }
-
-        [JsonProperty("clientEventInfo", NullValueHandling = NullValueHandling.Ignore)]
-        public ClientEventInfo ClientEventInfo { get; set; }
-    }
-
-    public class Cursor
-    {
-        [JsonProperty("value")]
-        public string Value { get; set; }
-
-        [JsonProperty("cursorType")]
-        public string CursorType { get; set; }
-
-        [JsonProperty("stopOnEmptyResponse")]
-        public bool? StopOnEmptyResponse { get; set; }
-    }
-
-    public class Operation
-    {
-        [JsonProperty("cursor")]
-        public Cursor Cursor { get; set; }
-    }
-
-    public class EntryContent
-    {
-        [JsonProperty("item")]
-        public Item Item { get; set; }
-
-        [JsonProperty("operation")]
-        public Operation Operation { get; set; }
-    }
-
-    public class Entry
-    {
-        [JsonProperty("entryId")]
-        public string EntryId { get; set; }
-
-        [JsonProperty("sortIndex")]
-        public string SortIndex { get; set; }
-
-        [JsonProperty("content")]
-        public EntryContent Content { get; set; }
-    }
-
-    public class AddEntries
-    {
-        [JsonProperty("entries")]
-        public List<Entry> Entries { get; set; }
-    }
-
-    public class GeneralContext
-    {
-        [JsonProperty("contextType")]
-        public string ContextType { get; set; }
-
-        [JsonProperty("text")]
-        public string Text { get; set; }
-    }
-
-    public class SocialContext
-    {
-        [JsonProperty("generalContext")]
-        public GeneralContext GeneralContext { get; set; }
-    }
-
-    public class TimelinesDetails
-    {
-        [JsonProperty("injectionType")]
-        public string InjectionType { get; set; }
-    }
-
-    public class Details
-    {
-        [JsonProperty("timelinesDetails")]
-        public TimelinesDetails TimelinesDetails { get; set; }
-    }
-
-    public class ClientEventInfo
-    {
-        [JsonProperty("component")]
-        public string Component { get; set; }
-
-        [JsonProperty("details")]
-        public Details Details { get; set; }
-    }
-
-    public class PinEntryContent
-    {
-        [JsonProperty("item")]
-        public Item Item { get; set; }
-    }
-
-    public class PinEntryEntry
-    {
-        [JsonProperty("entryId")]
-        public string EntryId { get; set; }
-
-        [JsonProperty("sortIndex")]
-        public string SortIndex { get; set; }
-
-        [JsonProperty("content")]
-        public PinEntryContent Content { get; set; }
-    }
-
-    public class PinEntry
-    {
-        [JsonProperty("entry")]
-        public PinEntryEntry Entry { get; set; }
-    }
-
-    public class Instruction
-    {
-        [JsonProperty("clearCache")]
-        public object ClearCache { get; set; }
-
-        [JsonProperty("addEntries")]
-        public AddEntries AddEntries { get; set; }
-
-        [JsonProperty("pinEntry")]
-        public PinEntry PinEntry { get; set; }
-
-        [JsonProperty("replaceEntry")]
-        public ReplaceEntry ReplaceEntry { get; set; }
-    }
-
-    public class ReplaceEntry
-    {
-        [JsonProperty("entryIdToReplace")]
-        public string EntryIdToReplace { get; set; }
-
-        [JsonProperty("entry")]
-        public Entry Entry { get; set; }
-    }
-
-    public class FeedbackActions
-    {
-    }
-
-    public class ResponseObjects
-    {
-        [JsonProperty("feedbackActions")]
-        public FeedbackActions FeedbackActions { get; set; }
-    }
-
-    public class Timeline
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        [JsonProperty("instructions")]
-        public List<Instruction> Instructions { get; set; }
-
-        [JsonProperty("responseObjects")]
-        public ResponseObjects ResponseObjects { get; set; }
-    }
-
-    public class Hashtag
-    {
-        [JsonProperty("text")]
-        public string Text { get; set; }
-
-        [JsonProperty("indices")]
-        public List<int> Indices { get; set; }
+        [JsonProperty("state")]
+        public string State { get; set; }
+
+        [JsonProperty("count")]
+        public string Count { get; set; }
     }
 }

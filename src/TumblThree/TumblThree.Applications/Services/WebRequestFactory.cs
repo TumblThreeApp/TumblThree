@@ -188,7 +188,7 @@ namespace TumblThree.Applications.Services
                 sb.AppendFormat("{0}={1}&", val.Key, HttpUtility.UrlEncode(val.Value));
             }
 
-            sb.Remove(sb.Length - 1, 1); // remove last '&'
+            if (sb.Length > 0) sb.Remove(sb.Length - 1, 1); // remove last '&'
             return sb.ToString();
         }
 

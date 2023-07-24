@@ -21,6 +21,7 @@ using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.Runtime.Serialization.Json;
 
 namespace TumblThree.Applications.Crawler
 {
@@ -30,8 +31,9 @@ namespace TumblThree.Applications.Crawler
     public class TwitterCrawler : AbstractCrawler, ICrawler, IDisposable
     {
         private const string twitterDateTemplate = "ddd MMM dd HH:mm:ss +ffff yyyy";
-        private const string graphQlTokenUserByScreenName = "esn6mjj-y68fNAj45x5IYA";
-        private const string BearerToken = "AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw";
+        private const string graphQlTokenUserByScreenName = "xc8f1g7BYqr6VTzTbvNlGw";
+        private const string graphQlTokenUserTweets = "2GIWTr7XwadIixZDtyXd4A";
+        private const string BearerToken = "AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA";
 
         private readonly IDownloader downloader;
         private readonly IPostQueue<CrawlerData<Tweet>> jsonQueue;
@@ -47,8 +49,8 @@ namespace TumblThree.Applications.Crawler
 
         private int numberOfPostsCrawled;
 
-        private Dictionary<string, DataModels.Twitter.TimelineTweets.User> Users;
         private TwitterUser twUser;
+        private SemaphoreSlim twUserMutex = new SemaphoreSlim(1);
         private string guestToken;
         private ulong highestId;
         private string cursor;
@@ -213,26 +215,26 @@ namespace TumblThree.Applications.Crawler
         {
             switch (type)
             {
-                case 0:
-                    url = "https://api.twitter.com/1.1/guest/activate.json";
-                    break;
+                //case 0:
+                //    url = "https://api.twitter.com/1.1/guest/activate.json";
+                //    break;
                 case 1:
-                    url = string.Format("https://api.twitter.com/graphql/{0}/UserByScreenName" +
-                         "?variables=%7B%22screen_name%22%3A%22{1}%22%2C%22withHighlightedLabel%22%3Atrue%7D",
+                    url = string.Format("https://twitter.com/i/api/graphql/{0}/UserByScreenName" +
+                         "?variables=%7B%22screen_name%22%3A%22{1}%22%2C%22withSafetyModeUserFields%22%3Atrue%7D&features=%7B%22hidden_profile_likes_enabled%22%3Afalse%2C%22hidden_profile_subscriptions_enabled%22%3Afalse%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22subscriptions_verification_info_verified_since_enabled%22%3Atrue%2C%22highlights_tweets_tab_ui_enabled%22%3Atrue%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%7D&fieldToggles=%7B%22withAuxiliaryUserLabels%22%3Afalse%7D",
                          graphQlTokenUserByScreenName, url.Split('/').Last());
                     break;
                 case 2:
-                    if (!string.IsNullOrEmpty(cursor)) cursor = string.Format("&cursor={0}", cursor.Replace("+", "%2B"));    //HttpUtility.UrlEncode(cursor)
+                    if (!string.IsNullOrEmpty(cursor)) cursor = string.Format("%2C%22cursor%22%3A%22{0}%22", cursor.Replace("+", "%2B"));    //HttpUtility.UrlEncode(cursor)
                     var restId = (await GetTwUser()).Data.User.RestId;
                     var includeReplies = BlogDownloadReplies.ToString().ToLower();
-                    url = string.Format("https://api.twitter.com/2/timeline/profile/{0}.json" +
-                        "?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&send_error_codes=true&simple_quoted_tweets=true&include_tweet_replies={3}&userId={0}&count={1}{2}&ext=mediaStats%2ChighlightedLabel%2CcameraMoment",
-                        restId, pageSize, cursor, includeReplies);
+                    url = string.Format("https://twitter.com/i/api/graphql/{0}/UserTweets" +
+                        "?variables=%7B%22userId%22%3A%22{1}%22%2C%22count%22%3A{2}{3}%2C%22includePromotedContent%22%3Atrue%2C%22withQuickPromoteEligibilityTweetFields%22%3Atrue%2C%22withVoice%22%3Atrue%2C%22withV2Timeline%22%3Atrue%7D&features=%7B%22rweb_lists_timeline_redesign_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22responsive_web_twitter_article_tweet_consumption_enabled%22%3Afalse%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Atrue%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Atrue%2C%22longform_notetweets_rich_text_read_enabled%22%3Atrue%2C%22longform_notetweets_inline_media_enabled%22%3Atrue%2C%22responsive_web_media_download_video_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D&fieldToggles=%7B%22withAuxiliaryUserLabels%22%3Afalse%2C%22withArticleRichContentState%22%3Afalse%7D",
+                        graphQlTokenUserTweets, restId, pageSize, cursor);
                     break;
-                case 3:
-                    if (!string.IsNullOrEmpty(cursor)) cursor = string.Format("&cursor={0}", cursor.Replace("+", "%2B"));
-                    url = string.Format("https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&send_error_codes=true&simple_quoted_tweet=true&q=(from%3A{0})%20until%3A{1}%20since%3A2006-01-01&tweet_search_mode=live&count={2}&query_source=typed_query{3}&pc=1&spelling_corrections=1&ext=mediaStats%2ChighlightedLabel", Blog.Name, oldestApiPost, pageSize, cursor);
-                    break;
+                //case 3:
+                //    if (!string.IsNullOrEmpty(cursor)) cursor = string.Format("&cursor={0}", cursor.Replace("+", "%2B"));
+                //    url = string.Format("https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&send_error_codes=true&simple_quoted_tweet=true&q=(from%3A{0})%20until%3A{1}%20since%3A2006-01-01&tweet_search_mode=live&count={2}&query_source=typed_query{3}&pc=1&spelling_corrections=1&ext=mediaStats%2ChighlightedLabel", Blog.Name, oldestApiPost, pageSize, cursor);
+                //    break;
             }
             return url;
         }
@@ -273,15 +275,24 @@ namespace TumblThree.Applications.Crawler
         {
             if (twUser == null)
             {
-                var data = await GetUserByScreenNameAsync();
+                await twUserMutex.WaitAsync().ConfigureAwait(false);
+                if (twUser != null) return twUser;
                 try
                 {
-                    twUser = JsonConvert.DeserializeObject<TwitterUser>(data);
+                    var data = await GetUserByScreenNameAsync();
+                    try
+                    {
+                        twUser = JsonConvert.DeserializeObject<TwitterUser>(data);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("TwitterCrawler.GetTwUser: {0}", e);
+                        throw;
+                    }
                 }
-                catch (Exception e)
+                finally
                 {
-                    Logger.Error("TwitterCrawler.GetTwUser: {0}", e);
-                    throw;
+                    twUserMutex.Release();
                 }
             }
             return twUser;
@@ -322,7 +333,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetApiPageAsync(byte type, string cursor)
         {
-            string url = await GetApiUrl(Blog.Url, type, cursor, Blog.PageSize == 0 ? 50 : Blog.PageSize);
+            string url = await GetApiUrl(Blog.Url, type, cursor, Blog.PageSize == 0 ? 20 : Blog.PageSize);
 
             if (ShellService.Settings.LimitConnectionsApi)
             {
@@ -335,8 +346,8 @@ namespace TumblThree.Applications.Crawler
             headers.Add("Origin", "https://twitter.com");
             if (type > 0)
             {
-                var token = await GetGuestToken();
-                headers.Add("x-guest-token", token);
+                //var token = await GetGuestToken();
+                //headers.Add("x-guest-token", token);
                 headers.Add("x-twitter-active-user", "yes");
                 headers.Add("x-twitter-client-language", "en");
                 var cookie = CookieService.GetAllCookies().FirstOrDefault(c => c.Name == "ct0");
@@ -381,9 +392,9 @@ namespace TumblThree.Applications.Crawler
             if (string.IsNullOrEmpty(Blog.DownloadPages))
             {
                 int totalPosts = Blog.Posts;
-                if (!TestRange(Blog.PageSize, 1, 50))
+                if (!TestRange(Blog.PageSize, 1, 20))
                 {
-                    Blog.PageSize = 50;
+                    Blog.PageSize = 20;
                 }
 
                 int totalPages = (totalPosts / Blog.PageSize) + 1;
@@ -410,10 +421,10 @@ namespace TumblThree.Applications.Crawler
             }
 
             Blog.Posts = twUser.Data.User.Legacy.StatusesCount;
-            if (Blog.PageSize == 0) Blog.PageSize = 50;
+            if (!TestRange(Blog.PageSize, 1, 20)) Blog.PageSize = 20;
 
             int currentPage = (Blog.Posts > 3200) ? (Blog.Posts - 3200) / 20 + 3200 / Blog.PageSize + 1 : Blog.Posts / Blog.PageSize + 1;
-            if (Blog.Posts > 3200) currentPage += 50;
+            if (Blog.Posts > 3200) currentPage += 20;
             int pageNo = 1;
 
             while (true)
@@ -453,11 +464,19 @@ namespace TumblThree.Applications.Crawler
 
         private static List<Entry> GetEntries(TimelineTweets response)
         {
-            if (response.Timeline.Instructions[0].ClearCache != null && response.Timeline.Instructions.Count > 1)
+            List<Entry> entries;
+            int index = (response.Timeline.Instructions[0].Type == "TimelineClearCache" && response.Timeline.Instructions.Count > 1) ? 1 : 0;
+            entries = response.Timeline.Instructions[index].Entries;
+
+            foreach (var entry in entries)
             {
-                return response.Timeline.Instructions[1].AddEntries.Entries;
-            }
-            return response.Timeline.Instructions[0].AddEntries.Entries;
+                if (entry.Content.ItemContent?.TweetResults?.Result?.Typename == "TweetWithVisibilityResults")
+                {
+                    entry.Content.ItemContent.TweetResults.Result = entry.Content.ItemContent.TweetResults.Result.TweetWithVisibilityResults;
+                }
+            } 
+
+            return entries;
         }
 
         private async Task CrawlPageAsync(int pageNo)
@@ -470,43 +489,44 @@ namespace TumblThree.Applications.Crawler
                 try
                 {
                     string document = await GetUserTweetsAsync((byte)(oldestApiPost == null ? 2 : 3), cursor);
-                    if (string.IsNullOrEmpty(document)) Debug.WriteLine("");
-
                     var response = ConvertJsonToClassNew<TimelineTweets>(document);
-
                     var entries = GetEntries(response);
 
                     if (highestId == 0)
                     {
-                        highestId = ulong.Parse(entries.Where(w => response.GlobalObjects.Tweets.ContainsKey(w.Content?.Item?.Content.Tweet.Id ?? ""))
-                            .Max(x => x.Content?.Item.Content.Tweet.Id) ?? "0");
+                        highestId = ulong.Parse(entries.Where(w => w.Content?.EntryType == "TimelineTimelineItem")
+                            .Max(x => x.Content?.ItemContent.TweetResults.Result.Legacy.IdStr) ?? "0");
                         if (highestId > 0)
-                            Blog.LatestPost = DateTime.ParseExact(response.GlobalObjects.Tweets[highestId.ToString()].CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
+                            Blog.LatestPost = DateTime.ParseExact(
+                                entries.Find(f => f.EntryId == $"tweet-{highestId}").Content.ItemContent.TweetResults.Result.Legacy.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
                     }
 
                     bool noNewCursor = false;
-                    if (response.GlobalObjects.Tweets.Count == 1 ||
-                        (oldestApiPost == null && pageNo * Blog.PageSize >= 3200 && response.GlobalObjects.Tweets.Count < Blog.PageSize + 2))
-                    {
-                        DateTime createdAt = response.GlobalObjects.Tweets.Count > 1
-                            ? DateTime.ParseExact(response.GlobalObjects.Tweets.OrderBy(x => x.Key).First().Value.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"))
-                            : DateTime.Today;
-                        oldestApiPost = createdAt.ToString("yyyy-MM-dd", new CultureInfo("en-US"));
-                        cursor = null;
-                        noNewCursor = response.GlobalObjects.Tweets.Count > 1;
-                        if (response.GlobalObjects.Tweets.Count <= 1)
-                        {
-                            document = await GetUserTweetsAsync(3, cursor);
-                            response = ConvertJsonToClassNew<TimelineTweets>(document);
-                            entries = GetEntries(response);
-                        }
-                    }
+                    //if (response.GlobalObjects.Tweets.Count == 1 ||
+                    //    (oldestApiPost == null && pageNo * Blog.PageSize >= 3200 && response.GlobalObjects.Tweets.Count < Blog.PageSize + 2))
+                    //{
+                    //    DateTime createdAt = response.GlobalObjects.Tweets.Count > 1
+                    //        ? DateTime.ParseExact(response.GlobalObjects.Tweets.OrderBy(x => x.Key).First().Value.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"))
+                    //        : DateTime.Today;
+                    //    oldestApiPost = createdAt.ToString("yyyy-MM-dd", new CultureInfo("en-US"));
+                    //    cursor = null;
+                    //    noNewCursor = response.GlobalObjects.Tweets.Count > 1;
+                    //    if (response.GlobalObjects.Tweets.Count <= 1)
+                    //    {
+                    //        document = await GetUserTweetsAsync(3, cursor);
+                    //        response = ConvertJsonToClassNew<TimelineTweets>(document);
+                    //        entries = GetEntries(response);
+                    //    }
+                    //}
 
                     completeGrab = CheckPostAge(response);
 
-                    Entry entry = (response.Timeline.Instructions.Last().ReplaceEntry != null) ? response.Timeline.Instructions.Last().ReplaceEntry.Entry : entries.Last();
-                    var cursorNew = entry.Content.Operation.Cursor.Value;
-                    if (cursor == cursorNew || response.GlobalObjects.Tweets.Count == 0) completeGrab = false;
+                    if (response.Timeline.Instructions.Last().Type == "TimelineReplaceEntries") Debug.WriteLine("");
+
+                    //Entry entry = (response.Timeline.Instructions.Last().Type == "TimelineReplaceEntries") ? response.Timeline.Instructions.Last().ReplaceEntry.Entry : entries.Last();
+                    Entry entry = (response.Timeline.Instructions.Last().Type == "TimelineReplaceEntries") ? null : entries.Last();
+                    var cursorNew = entry.Content.Value;
+                    if (cursor == cursorNew) completeGrab = false;
                     if (!noNewCursor) cursor = cursorNew;
 
                     await AddUrlsToDownloadListAsync(response);
@@ -593,7 +613,7 @@ namespace TumblThree.Applications.Crawler
                 downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
             }
 
-            DateTime createdAt = DateTime.ParseExact(post.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
+            DateTime createdAt = DateTime.ParseExact(post.Legacy.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
             long postTime = ((DateTimeOffset)createdAt).ToUnixTimeSeconds();
             return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
         }
@@ -635,25 +655,21 @@ namespace TumblThree.Applications.Crawler
 
         private async Task AddUrlsToDownloadListAsync(TimelineTweets document)
         {
-            Users = document.GlobalObjects.Users;
             var lastPostId = GetLastPostId();
-            foreach (Entry entry in GetEntries(document))
+            var entries = GetEntries(document);
+            foreach (Entry entry in entries)
             {
-                var cursorType = entry.Content.Operation?.Cursor.CursorType;
+                var cursorType = entry.Content.CursorType;
                 if (cursorType != null) continue;
                 if (!entry.EntryId.ToLower().StartsWith("tweet-", StringComparison.InvariantCultureIgnoreCase) &&
                     !entry.EntryId.ToLower().StartsWith("sq-i-t-", StringComparison.InvariantCultureIgnoreCase)) continue;
-                if (!document.GlobalObjects.Tweets.ContainsKey(entry.Content.Item.Content.Tweet.Id))
-                {
-                    Logger.Warning("tweet-id {0} of blog {1} not found", entry.Content.Item.Content.Tweet.Id, twUser.Data.User.Id);
-                    continue;
-                }
-                Tweet post = document.GlobalObjects.Tweets[entry.Content.Item.Content.Tweet.Id];
+
+                Tweet post = entry.Content.ItemContent.TweetResults.Result;
                 try
                 {
                     if (CheckIfShouldStop()) { break; }
                     CheckIfShouldPause();
-                    if (lastPostId > 0 && ulong.TryParse(post.IdStr, out var postId) && postId < lastPostId) { continue; }
+                    if (lastPostId > 0 && ulong.TryParse(post.Legacy.IdStr, out var postId) && postId < lastPostId) { continue; }
                     if (!PostWithinTimeSpan(post)) { continue; }
                     if (!CheckIfContainsTaggedPost(post)) { continue; }
                     if (!CheckIfDownloadRebloggedPosts(post)) { continue; }
@@ -681,13 +697,13 @@ namespace TumblThree.Applications.Crawler
 
         private bool CheckIfDownloadRebloggedPosts(Tweet post)
         {
-            var rsis = post.RetweetedStatusIdStr;
-            return Blog.DownloadRebloggedPosts || rsis == null || rsis == post.IdStr;
+            var rsr = post.Legacy.RetweetedStatusResult;
+            return Blog.DownloadRebloggedPosts || rsr == null || rsr.Result.Core.UserResults.Result.RestId == post.Core.UserResults.Result.RestId;
         }
 
         private bool CheckIfContainsTaggedPost(Tweet post)
         {
-            return Tags.Count == 0 || post.Entities.Hashtags.Any(x => Tags.Contains(x.Text));
+            return Tags.Count == 0 || post.Legacy.Entities.Hashtags.Any(x => Tags.Contains(x.Text));
         }
 
         private string ImageSizeForSearching()
@@ -709,26 +725,26 @@ namespace TumblThree.Applications.Crawler
 
         private static List<Media> GetMedia(Tweet post)
         {
-            if (post.ExtendedEntities != null)
+            if (post.Legacy.ExtendedEntities != null)
             {
-                foreach (var item in post.ExtendedEntities.Media)
+                foreach (var item in post.Legacy.ExtendedEntities.Media)
                 {
                     if (!(item.Type == "photo" || item.Type == "video" || item.Type == "animated_gif"))
                         throw new Exception("unknown new media type: " + item.Type);
                 }
-                return post.ExtendedEntities.Media;
+                return post.Legacy.ExtendedEntities.Media;
             }
-            return post.Entities.Media;
+            return post.Legacy.Entities.Media;
         }
 
         private void AddPhotoUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadPhoto) return;
-            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.InReplyToStatusIdStr)) return;
+            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
 
             var media = GetMedia(post);
 
-            if (media?[0].Type == "photo")
+            if (media?.FirstOrDefault()?.Type == "photo")
             {
                 AddPhotoUrl(post, media);
             }
@@ -737,44 +753,47 @@ namespace TumblThree.Applications.Crawler
         private void AddVideoUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail) return;
-            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.InReplyToStatusIdStr)) return;
+            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
 
             var media = GetMedia(post);
 
-            if (media?[0].Type == "video")
+            if (media?.FirstOrDefault()?.Type == "video")
             {
                 AddVideoUrl(post, media);
             }
         }
 
-        private Tweet TweetToSave(Tweet post)
-        {
-            Tweet postCopy = (Tweet)post.Clone();
-            if (Users.ContainsKey(postCopy.UserIdStr))
-            {
-                postCopy.User = Users[postCopy.UserIdStr];
-            }
-            return postCopy;
-        }
-
         private void AddTextUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadText) return;
-            if (!(post.Entities == null || post.Entities.Media == null || post.Entities.Media.Count == 0)) return;
-            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.InReplyToStatusIdStr)) return;
+            if (!(post.Legacy.Entities == null || post.Legacy.Entities.Media == null || post.Legacy.Entities.Media.Count == 0)) return;
+            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
 
-            AddToDownloadList(new TextPost(post.FullText, post.IdStr));
-            AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(post.IdStr, ".json"), TweetToSave(post)));
+            var body = GetTweetText(post);
+            AddToDownloadList(new TextPost(body, post.Legacy.IdStr));
+            AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(post.Legacy.IdStr, ".json"), post));
+        }
+
+        private static string GetTweetText(Tweet post)
+        {
+            var dict = new Dictionary<string, string>()
+            {
+                {"id", post.RestId },
+                { "text", post.Legacy.FullText },
+                { "url", post.Legacy.Url }
+            };
+            var json = JsonConvert.SerializeObject(dict);
+            return json;
         }
 
         private void AddGifUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadPhoto || Blog.SkipGif) return;
-            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.InReplyToStatusIdStr)) return;
+            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
 
             var media = GetMedia(post);
 
-            if (media?[0].Type == "animated_gif")
+            if (media?.FirstOrDefault()?.Type == "animated_gif")
             {
                 AddGifUrl(post, media[0]);
             }
@@ -784,8 +803,8 @@ namespace TumblThree.Applications.Crawler
         {
             var item = media.VideoInfo.Variants[0];
             var urlPrepared = item.Url.IndexOf('?') > 0 ? item.Url.Substring(0, item.Url.IndexOf('?')) : item.Url;
-            AddToDownloadList(new VideoPost(item.Url, post.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "gif", -1)));
-            AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), TweetToSave(post)));
+            AddToDownloadList(new VideoPost(item.Url, post.Legacy.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "gif", -1)));
+            AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), post));
         }
 
         private static int UnixTimestamp(Tweet post)
@@ -796,7 +815,7 @@ namespace TumblThree.Applications.Crawler
 
         private static DateTime GetDate(Tweet post)
         {
-            return DateTime.ParseExact(post.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
+            return DateTime.ParseExact(post.Legacy.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
         }
 
         private void AddPhotoUrl(Tweet post, List<Media> media)
@@ -807,10 +826,10 @@ namespace TumblThree.Applications.Crawler
                 var imageUrlConverted = GetUrlForPreferredImageSize(imageUrl);
                 var index = media.Count > 1 ? i + 1 : -1;
                 var filename = BuildFileName(imageUrl, post, "photo", index);
-                AddToDownloadList(new PhotoPost(imageUrlConverted, "", post.IdStr, UnixTimestamp(post).ToString(), filename));
+                AddToDownloadList(new PhotoPost(imageUrlConverted, "", post.Legacy.IdStr, UnixTimestamp(post).ToString(), filename));
             }
             var imageUrl2 = media[0].MediaUrlHttps;
-            AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(imageUrl2.Split('/').Last(), ".json"), TweetToSave(post)));
+            AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(imageUrl2.Split('/').Last(), ".json"), post));
         }
 
         private void AddVideoUrl(Tweet post, List<Media> media)
@@ -823,8 +842,8 @@ namespace TumblThree.Applications.Crawler
 
             if (Blog.DownloadVideo)
             {
-                AddToDownloadList(new VideoPost(item.Url, post.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "video", -1)));
-                AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), TweetToSave(post)));
+                AddToDownloadList(new VideoPost(item.Url, post.Legacy.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "video", -1)));
+                AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), post));
             }
 
             if (Blog.DownloadVideoThumbnail)
@@ -836,50 +855,43 @@ namespace TumblThree.Applications.Crawler
                     filename = Path.GetFileNameWithoutExtension(FileName(urlPrepared)) + "_" + filename;
                 }
                 filename = BuildFileName(filename, post, "photo", -1);
-                AddToDownloadList(new PhotoPost(imageUrl, "", post.IdStr, UnixTimestamp(post).ToString(), filename));
+                AddToDownloadList(new PhotoPost(imageUrl, "", post.Legacy.IdStr, UnixTimestamp(post).ToString(), filename));
                 if (!Blog.DownloadVideo)
                 {
-                    AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), TweetToSave(post)));
+                    AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), post));
                 }
             }
         }
 
-        private string GetUserOfPost(string userId)
-        {
-            DataModels.Twitter.TimelineTweets.User usr;
-            if (Users.TryGetValue(userId, out usr))
-                return usr.ScreenName;
-            return "";
-        }
-
         private static List<string> GetTags(Tweet post)
         {
-            var ht = post.Entities.Hashtags;
+            var ht = post.Legacy.Entities.Hashtags;
             return ht == null ? new List<string>() : ht.Select(h => h.Text).ToList();
         }
 
         private string BuildFileName(string url, Tweet post, string type, int index)
         {
-            var reblogged = !string.IsNullOrEmpty(post.RetweetedStatusIdStr) && post.RetweetedStatusIdStr != post.IdStr;
-            var userId = post.Entities.Media[0].SourceUserIdStr;
+            var reblogged = post.Legacy.RetweetedStatusResult != null && post.Legacy.RetweetedStatusResult.Result.Core.UserResults.Result.RestId != post.Legacy.UserIdStr;
+            //var userId = post.Legacy.Entities.Media[0].SourceUserIdStr;
             var reblogName = "";
             var reblogId = "";
-            if (reblogged && !Users.ContainsKey(userId))
+            //if (reblogged && !Users.ContainsKey(userId))
+            //{
+            //    if (post.FullText.StartsWith("RT @", StringComparison.InvariantCulture) && post.FullText.Contains(':'))
+            //    {
+            //        reblogName = post.FullText.Substring(4, post.FullText.IndexOf(':', 4) - 4);
+            //    }
+            //    reblogId = "123";
+            //}
+            //else 
+            if (reblogged)
             {
-                if (post.FullText.StartsWith("RT @", StringComparison.InvariantCulture) && post.FullText.Contains(':'))
-                {
-                    reblogName = post.FullText.Substring(4, post.FullText.IndexOf(':', 4) - 4);
-                }
-                reblogId = "123";
-            }
-            else if (reblogged)
-            {
-                reblogName = Users[userId].ScreenName;
-                reblogId = Users[userId].IdStr;
+                reblogName = post.Legacy.RetweetedStatusResult.Result.Core.UserResults.Result.Legacy.Name;
+                reblogId = post.Legacy.RetweetedStatusResult.Result.Legacy.IdStr;
             }
             var tags = GetTags(post);
-            return BuildFileNameCore(url, GetUserOfPost(post.UserIdStr), GetDate(post), UnixTimestamp(post), index, type, post.IdStr,
-                tags, "", GetTitle(post.FullText, tags), reblogName, "", reblogId);
+            return BuildFileNameCore(url, post.Legacy.UserIdStr, GetDate(post), UnixTimestamp(post), index, type, post.Legacy.IdStr,
+                tags, "", GetTitle(post.Legacy.FullText, tags), reblogName, "", reblogId);
         }
 
         private static string GetTitle(string text, List<string> tags)

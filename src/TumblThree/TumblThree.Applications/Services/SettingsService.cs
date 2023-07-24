@@ -34,7 +34,7 @@ namespace TumblThree.Applications.Services
             blog.CheckDirectoryForFiles = shellService.Settings.CheckDirectoryForFiles;
             blog.DownloadUrlList = shellService.Settings.DownloadUrlList;
             blog.DownloadPages = shellService.Settings.DownloadPages;
-            blog.PageSize = shellService.Settings.PageSize;
+            blog.PageSize = blog.BlogType == Domain.Models.BlogTypes.twitter ? 20 : shellService.Settings.PageSize;
             blog.DownloadFrom = shellService.Settings.DownloadFrom;
             blog.DownloadTo = shellService.Settings.DownloadTo;
             blog.Tags = shellService.Settings.Tags;
