@@ -61,6 +61,8 @@ namespace TumblThree.Applications.Services
 
         RateLimiter TimeconstraintSvc { get; set; }
 
+        RateLimiter TimeconstraintTwitterApi { get; set; }
+
         Timer Timer { get; set; }
 
         TaskCompletionSource<bool> LibraryLoaded { get; set; }

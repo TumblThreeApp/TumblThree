@@ -490,4 +490,7 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="ImageSizeNotRetrievable" xml:space="preserve">
     <value>La taille de l'image n'a pas pu être récupérée pour un message dans '{0}' ({1}).</value>
   </data>
+  <data name="LimitExceededWaitPeriod" xml:space="preserve">
+    <value>Limite dépassée: {0}. Il se poursuivra automatiquement après la période d'attente requise.</value>
+  </data>
 </root>

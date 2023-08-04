@@ -768,6 +768,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Limit exceeded: {0}. It will automatically continue after the required wait period..
+        /// </summary>
+        public static string LimitExceededWaitPeriod {
+            get {
+                return ResourceManager.GetString("LimitExceededWaitPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Link: {0}.
         /// </summary>
         public static string Link {

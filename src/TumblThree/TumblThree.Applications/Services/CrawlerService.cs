@@ -49,6 +49,7 @@ namespace TumblThree.Applications.Services
         private RateLimiter _timeconstraintApi;
         private RateLimiter _timeconstraintSearchApi;
         private RateLimiter _timeconstraintSvc;
+        private RateLimiter _timeconstraintTwitterApi;
         private Timer _timer;
 
         [ImportingConstructor]
@@ -66,6 +67,10 @@ namespace TumblThree.Applications.Services
             _timeconstraintSvc =
                 RateLimiter.Create(_shellService.Settings.MaxConnectionsSvc /
                        (double)_shellService.Settings.ConnectionTimeIntervalSvc);
+
+            _timeconstraintTwitterApi =
+                RateLimiter.Create(_shellService.Settings.MaxConnectionsTwitterApi /
+                       (double)_shellService.Settings.ConnectionTimeIntervalTwitterApi);
 
             _activeItems = new ObservableCollection<QueueListItem>();
             _readonlyActiveItems = new ReadOnlyObservableList<QueueListItem>(_activeItems);
@@ -264,6 +269,12 @@ namespace TumblThree.Applications.Services
         {
             get => _timeconstraintSvc;
             set => SetProperty(ref _timeconstraintSvc, value);
+        }
+
+        public RateLimiter TimeconstraintTwitterApi
+        {
+            get => _timeconstraintTwitterApi;
+            set => SetProperty(ref _timeconstraintTwitterApi, value);
         }
 
         public void AddActiveItems(QueueListItem itemToAdd) => _activeItems.Add(itemToAdd);

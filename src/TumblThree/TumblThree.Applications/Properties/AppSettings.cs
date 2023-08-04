@@ -156,6 +156,15 @@ namespace TumblThree.Applications.Properties
         public int ConnectionTimeIntervalSvc { get; set; }
 
         [DataMember]
+        public bool LimitConnectionsTwitterApi { get; set; }
+
+        [DataMember]
+        public int MaxConnectionsTwitterApi { get; set; }
+
+        [DataMember]
+        public int ConnectionTimeIntervalTwitterApi { get; set; }
+
+        [DataMember]
         public int MaxNumberOfRetries { get; set; }
 
         [DataMember]
@@ -558,6 +567,9 @@ namespace TumblThree.Applications.Properties
             LimitConnectionsSvc = true;
             MaxConnectionsSvc = 90;
             ConnectionTimeIntervalSvc = 60;
+            LimitConnectionsTwitterApi = true;
+            MaxConnectionsTwitterApi = 5;
+            ConnectionTimeIntervalTwitterApi = 60;
             MaxNumberOfRetries = 3;
             ProgressUpdateInterval = 100;
             Bandwidth = 0;

@@ -582,7 +582,13 @@ namespace TumblThree.Applications.Crawler
             return true;
         }
 
-        protected bool HandleLimitExceededWebException(WebException webException)
+        protected enum LimitExceededSource
+        {
+            tumblr,
+            twitter
+        }
+
+        protected bool HandleLimitExceededWebException(WebException webException, LimitExceededSource source = LimitExceededSource.tumblr)
         {
             var resp = (HttpWebResponse)webException?.Response;
             if (resp == null || (int)resp.StatusCode != 429)
@@ -590,8 +596,9 @@ namespace TumblThree.Applications.Crawler
                 return false;
             }
 
-            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.LimitExceeded, Blog.Name), webException.Message);
-            ShellService.ShowError(webException, Resources.LimitExceeded, Blog.Name);
+            var resource = source == LimitExceededSource.tumblr ? Resources.LimitExceeded : Resources.LimitExceededWaitPeriod;
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, resource, Blog.Name), webException.Message);
+            ShellService.ShowError(webException, resource, Blog.Name);
             return true;
         }
 

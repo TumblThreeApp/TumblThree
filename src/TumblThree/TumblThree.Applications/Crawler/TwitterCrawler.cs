@@ -98,7 +98,7 @@ namespace TumblThree.Applications.Crawler
                 {
                     Blog.Online = true;
                 }
-                else if (HandleLimitExceededWebException(webException))
+                else if (HandleLimitExceededWebException(webException, LimitExceededSource.twitter))
                 {
                     Blog.Online = true;
                 }
@@ -129,7 +129,7 @@ namespace TumblThree.Applications.Crawler
                     return;
                 }
 
-                HandleLimitExceededWebException(webException);
+                HandleLimitExceededWebException(webException, LimitExceededSource.twitter);
             }
         }
 
@@ -306,9 +306,9 @@ namespace TumblThree.Applications.Crawler
                 try
                 {
                     string url = await GetApiUrl(Blog.Url, 0, "", 0);
-                    if (ShellService.Settings.LimitConnectionsApi)
+                    if (ShellService.Settings.LimitConnectionsTwitterApi)
                     {
-                        CrawlerService.TimeconstraintApi.Acquire();
+                        CrawlerService.TimeconstraintTwitterApi.Acquire();
                     }
                     var headers = new Dictionary<string, string>();
                     headers.Add("Origin", "https://twitter.com");
@@ -335,9 +335,9 @@ namespace TumblThree.Applications.Crawler
         {
             string url = await GetApiUrl(Blog.Url, type, cursor, Blog.PageSize == 0 ? 20 : Blog.PageSize);
 
-            if (ShellService.Settings.LimitConnectionsApi)
+            if (ShellService.Settings.LimitConnectionsTwitterApi)
             {
-                CrawlerService.TimeconstraintApi.Acquire();
+                CrawlerService.TimeconstraintTwitterApi.Acquire();
             }
 
             var referer = Blog.Url;
@@ -537,7 +537,7 @@ namespace TumblThree.Applications.Crawler
                 }
                 catch (WebException webException) when (webException.Response != null)
                 {
-                    if (HandleLimitExceededWebException(webException))
+                    if (HandleLimitExceededWebException(webException, LimitExceededSource.twitter))
                     {
                         //incompleteCrawl = true;
                         retries++;

@@ -94,6 +94,8 @@ namespace TumblThree.Presentation.DesignData
 
         public Guava.RateLimiter.RateLimiter TimeconstraintSvc { get; set; }
 
+        public Guava.RateLimiter.RateLimiter TimeconstraintTwitterApi { get; set; }
+
         public Timer Timer { get; set; }
 
         public TaskCompletionSource<bool> LibraryLoaded { get; set; }

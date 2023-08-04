@@ -509,4 +509,7 @@ To view more content on this blog, you will need to increase your comfort zone f
   <data name="ImageSizeNotRetrievable" xml:space="preserve">
     <value>Image size couldn't be retrieved for a post in '{0}' ({1}).</value>
   </data>
+  <data name="LimitExceededWaitPeriod" xml:space="preserve">
+    <value>Limit exceeded: {0}. It will automatically continue after the required wait period.</value>
+  </data>
 </root>
