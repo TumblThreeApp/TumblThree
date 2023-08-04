@@ -6,10 +6,21 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
     public class TwitterUser
     {
         [JsonProperty("data")]
-        public Data Data { get; set; }
+        public Data2 Data { get; set; }
 
-        [JsonProperty("errors")]
-        public List<Error> Errors { get; }
+        [JsonProperty("errors", NullValueHandling = NullValueHandling.Ignore)]
+        private List<Error> _errors { get; set; }
+
+        [JsonProperty("errors_", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Error> Errors {
+            get {
+                if (_errors is null && Data?.User is null)
+                {
+                    _errors = new List<Error>() { new Error() { Code = 63, Message = "This account doesn’t exist" } };
+                }
+                return _errors;
+            }
+        }
     }
 
     public class Location
@@ -92,6 +103,30 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
 
         [JsonProperty("url")]
         public Url Url { get; set; }
+    }
+
+    public class Entity
+    {
+        [JsonProperty("fromIndex")]
+        public int FromIndex { get; set; }
+
+        [JsonProperty("toIndex")]
+        public int ToIndex { get; set; }
+
+        [JsonProperty("ref")]
+        public Ref Ref { get; set; }
+    }
+
+    public class Ref
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [JsonProperty("urlType")]
+        public string UrlType { get; set; }
     }
 
     public class Url
@@ -297,6 +332,9 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
 
     public class Result
     {
+        [JsonProperty("__typename")]
+        public string Typename { get; set; }
+
         [JsonProperty("id")]
         public string Id { get; set; }
 
@@ -341,14 +379,35 @@ namespace TumblThree.Applications.DataModels.Twitter.TwitterUser
 
         [JsonProperty("creator_subscriptions_count")]
         public int CreatorSubscriptionsCount { get; set; }
+
+        // UnavailableMessage
+
+        [JsonProperty("unavailable_message")]
+        public UnavailableMessage UnavailableMessage { get; set; }
+
+        [JsonProperty("reason")]
+        public string Reason { get; set; }
     }
 
-    public class Data
+    public class UnavailableMessage
+    {
+        [JsonProperty("rtl")]
+        public bool Rtl { get; set; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("entities")]
+        public List<Entity> Entities { get; } = new List<Entity>();
+    }
+
+    public class Data2
     {
         [JsonProperty("user")]
-        private User data { get; set; }
+        private User Data { get; set; }
 
-        public Result User => data.Result;
+        [JsonIgnore]
+        public Result User => Data?.Result;
     }
 
     public class User

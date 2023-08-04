@@ -8,10 +8,11 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("data")]
         public Data Data { get; set; }
 
-        [JsonProperty("errors")]
+        [JsonProperty("errors", NullValueHandling = NullValueHandling.Ignore)]
         public List<Error> Errors { get; }
 
-        public Timeline Timeline => Data.User.Result.TimelineV2.Timeline;
+        [JsonIgnore]
+        public Timeline Timeline => Data.User?.Result.TimelineV2.Timeline ?? Data.SearchByRawQuery.SearchTimeline.Timeline;
     }
 
     public class AdditionalMediaInfo
@@ -23,8 +24,68 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public SourceUser SourceUser { get; set; }
     }
 
+    public class AdvertiserResults
+    {
+        [JsonProperty("result")]
+        public User Result { get; set; }
+    }
+
     public class AffiliatesHighlightedLabel
     {
+    }
+
+    public class Audience
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+    }
+
+    public class BindingValue
+    {
+        [JsonProperty("key")]
+        public string Key { get; set; }
+
+        [JsonProperty("value")]
+        public Value Value { get; set; }
+    }
+
+    public class Card
+    {
+        [JsonProperty("rest_id")]
+        public string RestId { get; set; }
+
+        [JsonProperty("legacy")]
+        public CardLegacy Legacy { get; set; }
+    }
+
+    public class CardLegacy
+    {
+        [JsonProperty("binding_values")]
+        public List<BindingValue> BindingValues { get; } = new List<BindingValue>();
+
+        [JsonProperty("card_platform")]
+        public CardPlatform CardPlatform { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [JsonProperty("user_refs_results")]
+        public List<object> UserRefsResults { get; } = new List<object>();
+    }
+
+    public class CardPlatform
+    {
+        [JsonProperty("platform")]
+        public Platform Platform { get; set; }
+    }
+
+    public class ClickTrackingInfo
+    {
+        [JsonProperty("urlParams")]
+        public List<UrlParam> UrlParams { get; } = new List<UrlParam>();
     }
 
     public class ClientEventInfo
@@ -35,7 +96,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("element", NullValueHandling = NullValueHandling.Ignore)]
         public string Element { get; set; }
 
-        [JsonProperty("details")]
+        [JsonProperty("details", NullValueHandling = NullValueHandling.Ignore)]
         public Details Details { get; set; }
     }
 
@@ -89,10 +150,40 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public Item Item { get; set; }
     }
 
+    public class ConversationControl
+    {
+        [JsonProperty("policy")]
+        public string Policy { get; set; }
+
+        [JsonProperty("conversation_owner_results")]
+        public ConversationOwnerResults ConversationOwnerResults { get; set; }
+    }
+
     public class ConversationDetails
     {
         [JsonProperty("conversationSection")]
         public string ConversationSection { get; set; }
+    }
+
+    public class ConversationOwnerResult
+    {
+        [JsonProperty("__typename")]
+        public string Typename { get; set; }
+
+        [JsonProperty("legacy")]
+        public ConversationOwnerUserLegacy Legacy { get; set; }
+    }
+
+    public class ConversationOwnerResults
+    {
+        [JsonProperty("result")]
+        public ConversationOwnerResult Result { get; set; }
+    }
+
+    public class ConversationOwnerUserLegacy
+    {
+        [JsonProperty("screen_name")]
+        public string ScreenName { get; set; }
     }
 
     public class Core
@@ -110,6 +201,11 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
         [JsonProperty("threaded_conversation_with_injections_v2", NullValueHandling = NullValueHandling.Ignore)]
         public ThreadedConversationWithInjectionsV2 ThreadedConversationWithInjectionsV2 { get; set; }
+
+        // extended search
+
+        [JsonProperty("search_by_raw_query", NullValueHandling = NullValueHandling.Ignore)]
+        public SearchByRawQuery SearchByRawQuery { get; set; }
     }
 
     public class DataUser
@@ -131,6 +227,15 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
         [JsonProperty("timelinesDetails", NullValueHandling = NullValueHandling.Ignore)]
         public TimelinesDetails TimelinesDetails { get; set; }
+    }
+
+    public class Device
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("version")]
+        public string Version { get; set; }
     }
 
     public class EditControl
@@ -181,15 +286,6 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public Url Url { get; set; }
     }
 
-    public class Hashtag
-    {
-        [JsonProperty("indices")]
-        public List<int> Indices { get; }
-
-        [JsonProperty("text")]
-        public string Text { get; set; }
-    }
-
     public class Entry
     {
         [JsonProperty("entryId")]
@@ -230,6 +326,15 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
         [JsonProperty("extensions")]
         public Extensions Extensions { get; set; }
+    }
+
+    public class ExperimentValue
+    {
+        [JsonProperty("key")]
+        public string Key { get; set; }
+
+        [JsonProperty("value")]
+        public string Value { get; set; }
     }
 
     public class ExtendedEntities
@@ -337,6 +442,15 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public LandingUrl LandingUrl { get; set; }
     }
 
+    public class Hashtag
+    {
+        [JsonProperty("indices")]
+        public List<int> Indices { get; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+    }
+
     public class Header
     {
         [JsonProperty("displayType")]
@@ -368,6 +482,11 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
         [JsonProperty("direction", NullValueHandling = NullValueHandling.Ignore)]
         public string Direction { get; set; }
+
+        // TimelinePinEntry
+
+        [JsonProperty("entry", NullValueHandling = NullValueHandling.Ignore)]
+        public Entry Entry { get; set; }
     }
 
     public class Item
@@ -387,7 +506,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("__typename")]
         public string Typename { get; set; }
 
-        // TimelineTweet
+        // TimelineTweet / EmphasizedPromotedTweet
 
         [JsonProperty("tweet_results", NullValueHandling = NullValueHandling.Ignore)]
         public TweetResults TweetResults { get; set; }
@@ -408,8 +527,15 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("userDisplayType", NullValueHandling = NullValueHandling.Ignore)]
         public string UserDisplayType { get; set; }
 
+        // TimelineUser + TimelinePinEntry
+
         [JsonProperty("socialContext", NullValueHandling = NullValueHandling.Ignore)]
         public SocialContext SocialContext { get; set; }
+
+        // EmphasizedPromotedTweet
+
+        [JsonProperty("promotedMetadata", NullValueHandling = NullValueHandling.Ignore)]
+        public PromotedMetadata PromotedMetadata { get; set; }
     }
 
     public class LandingUrl
@@ -423,110 +549,23 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
     public class Legacy
     {
-        [JsonProperty("following")]
-        public bool Following { get; set; }
-
-        [JsonProperty("can_dm")]
-        public bool CanDm { get; set; }
-
-        [JsonProperty("can_media_tag")]
-        public bool CanMediaTag { get; set; }
-
-        [JsonProperty("created_at")]
-        public string CreatedAt { get; set; }
-
-        [JsonProperty("default_profile")]
-        public bool DefaultProfile { get; set; }
-
-        [JsonProperty("default_profile_image")]
-        public bool DefaultProfileImage { get; set; }
-
-        [JsonProperty("description")]
-        public string Description { get; set; }
-
-        [JsonProperty("entities")]
-        public Entities Entities { get; set; }
-
-        [JsonProperty("fast_followers_count")]
-        public int FastFollowersCount { get; set; }
-
-        [JsonProperty("favourites_count")]
-        public int FavouritesCount { get; set; }
-
-        [JsonProperty("followers_count")]
-        public int FollowersCount { get; set; }
-
-        [JsonProperty("friends_count")]
-        public int FriendsCount { get; set; }
-
-        [JsonProperty("has_custom_timelines")]
-        public bool HasCustomTimelines { get; set; }
-
-        [JsonProperty("is_translator")]
-        public bool IsTranslator { get; set; }
-
-        [JsonProperty("listed_count")]
-        public int ListedCount { get; set; }
-
-        [JsonProperty("location")]
-        public string Location { get; set; }
-
-        [JsonProperty("media_count")]
-        public int MediaCount { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("normal_followers_count")]
-        public int NormalFollowersCount { get; set; }
-
-        [JsonProperty("pinned_tweet_ids_str")]
-        public List<object> PinnedTweetIdsStr { get; } = new List<object>();
-
-        [JsonProperty("possibly_sensitive")]
-        public bool PossiblySensitive { get; set; }
-
-        [JsonProperty("profile_banner_url")]
-        public string ProfileBannerUrl { get; set; }
-
-
-        [JsonProperty("profile_image_url_https")]
-        public string ProfileImageUrlHttps { get; set; }
-
-        [JsonProperty("profile_interstitial_type")]
-        public string ProfileInterstitialType { get; set; }
-
-        [JsonProperty("screen_name")]
-        public string ScreenName { get; set; }
-
-        [JsonProperty("statuses_count")]
-        public int StatusesCount { get; set; }
-
-        [JsonProperty("translator_type")]
-        public string TranslatorType { get; set; }
-
-        [JsonProperty("verified")]
-        public bool Verified { get; set; }
-
-        [JsonProperty("want_retweets")]
-        public bool WantRetweets { get; set; }
-
-        [JsonProperty("withheld_in_countries")]
-        public List<object> WithheldInCountries { get; } = new List<object>();
-
-
-
         [JsonProperty("bookmark_count")]
         public int BookmarkCount { get; set; }
 
         [JsonProperty("bookmarked")]
         public bool Bookmarked { get; set; }
 
+        [JsonProperty("created_at")]
+        public string CreatedAt { get; set; }
+
         [JsonProperty("conversation_id_str")]
         public string ConversationIdStr { get; set; }
 
         [JsonProperty("display_text_range")]
         public List<int> DisplayTextRange { get; } = new List<int>();
+
+        [JsonProperty("entities")]
+        public Entities Entities { get; set; }
 
         [JsonProperty("extended_entities")]
         public ExtendedEntities ExtendedEntities { get; set; }
@@ -545,6 +584,9 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
         [JsonProperty("lang")]
         public string Lang { get; set; }
+
+        [JsonProperty("possibly_sensitive")]
+        public bool PossiblySensitive { get; set; }
 
         [JsonProperty("possibly_sensitive_editable")]
         public bool PossiblySensitiveEditable { get; set; }
@@ -567,20 +609,35 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("id_str")]
         public string IdStr { get; set; }
 
-        [JsonProperty("in_reply_to_screen_name")]
+        // with replies
+
+        [JsonProperty("in_reply_to_screen_name", NullValueHandling = NullValueHandling.Ignore)]
         public string InReplyToScreenName { get; set; }
 
-        [JsonProperty("in_reply_to_status_id_str")]
+        [JsonProperty("in_reply_to_status_id_str", NullValueHandling = NullValueHandling.Ignore)]
         public string InReplyToStatusIdStr { get; set; }
 
-        [JsonProperty("in_reply_to_user_id_str")]
+        [JsonProperty("in_reply_to_user_id_str", NullValueHandling = NullValueHandling.Ignore)]
         public string InReplyToUserIdStr { get; set; }
 
-        [JsonProperty("retweeted_status_result")]
+        // retweets
+
+        [JsonProperty("retweeted_status_result", NullValueHandling = NullValueHandling.Ignore)]
         public RetweetedStatusResult RetweetedStatusResult { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        // EmphasizedPromotedTweet
+
+        [JsonProperty("conversation_control", NullValueHandling = NullValueHandling.Ignore)]
+        public ConversationControl ConversationControl { get; set; }
+
+        [JsonProperty("limited_actions", NullValueHandling = NullValueHandling.Ignore)]
+        public string LimitedActions { get; set; }
+
+        [JsonProperty("scopes", NullValueHandling = NullValueHandling.Ignore)]
+        public Scopes Scopes { get; set; }
     }
 
     public class LimitedAction
@@ -691,6 +748,48 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public List<FocusRect> FocusRects { get; } = new List<FocusRect>();
     }
 
+    public class Platform
+    {
+        [JsonProperty("audience")]
+        public Audience Audience { get; set; }
+
+        [JsonProperty("device")]
+        public Device Device { get; set; }
+    }
+
+    public class Professional
+    {
+        [JsonProperty("rest_id")]
+        public string RestId { get; set; }
+
+        [JsonProperty("professional_type")]
+        public string ProfessionalType { get; set; }
+
+        [JsonProperty("category")]
+        public List<object> Category { get; } = new List<object>();
+    }
+
+    public class PromotedMetadata
+    {
+        [JsonProperty("advertiser_results")]
+        public AdvertiserResults AdvertiserResults { get; set; }
+
+        [JsonProperty("disclosureType")]
+        public string DisclosureType { get; set; }
+
+        [JsonProperty("experimentValues")]
+        public List<ExperimentValue> ExperimentValues { get; } = new List<ExperimentValue>();
+
+        [JsonProperty("impressionId")]
+        public string ImpressionId { get; set; }
+
+        [JsonProperty("impressionString")]
+        public string ImpressionString { get; set; }
+
+        [JsonProperty("clickTrackingInfo")]
+        public ClickTrackingInfo ClickTrackingInfo { get; set; }
+    }
+
     public class Prompt
     {
         [JsonProperty("__typename")]
@@ -718,10 +817,22 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public Tweet Result { get; set; }
     }
 
+    public class Scopes
+    {
+        [JsonProperty("followers")]
+        public bool Followers { get; set; }
+    }
+
     public class ScribeConfig
     {
         [JsonProperty("page")]
         public string Page { get; set; }
+    }
+
+    public class SearchByRawQuery
+    {
+        [JsonProperty("search_timeline", NullValueHandling = NullValueHandling.Ignore)]
+        public TimelineV2 SearchTimeline { get; set; }
     }
 
     public class SizeLarge
@@ -825,7 +936,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("instructions")]
         public List<Instruction> Instructions { get; } = new List<Instruction>();
 
-        [JsonProperty("metadata")]
+        [JsonProperty("metadata", NullValueHandling = NullValueHandling.Ignore)]
         public Metadata Metadata { get; set; }
     }
 
@@ -867,6 +978,12 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("core")]
         public Core Core { get; set; }
 
+        [JsonProperty("card", NullValueHandling = NullValueHandling.Ignore)]
+        public Card Card { get; set; }
+
+        [JsonProperty("unified_card", NullValueHandling = NullValueHandling.Ignore)]
+        public UnifiedCard UnifiedCard { get; set; }
+
         [JsonProperty("edit_control")]
         public EditControl EditControl { get; set; }
 
@@ -896,13 +1013,20 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         [JsonProperty("limitedActionResults", NullValueHandling = NullValueHandling.Ignore)]
         public LimitedActionResults LimitedActionResults { get; set; }
 
-        public User User => Core.UserResults.Result;
+        [JsonIgnore]
+        public User User => Core?.UserResults.Result ?? TweetWithVisibilityResults.Core.UserResults.Result;
     }
 
     public class TweetResults
     {
         [JsonProperty("result")]
         public Tweet Result { get; set; }   //TweetResult
+    }
+
+    public class UnifiedCard
+    {
+        [JsonProperty("card_fetch_state")]
+        public string CardFetchState { get; set; }
     }
 
     public class Url
@@ -924,6 +1048,15 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
         [JsonProperty("indices")]
         public List<int> Indices { get; } = new List<int>();
+    }
+
+    public class UrlParam
+    {
+        [JsonProperty("key")]
+        public string Key { get; set; }
+
+        [JsonProperty("value")]
+        public string Value { get; set; }
     }
 
     public class User
@@ -951,6 +1084,9 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
         [JsonProperty("legacy")]
         public UserLegacy Legacy { get; set; }
+
+        [JsonProperty("professional", NullValueHandling = NullValueHandling.Ignore)]
+        public Professional Professional { get; set; }
     }
 
     public class UserLegacy
@@ -1074,6 +1210,18 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
     {
         [JsonProperty("result")]
         public User Result { get; set; }    //UserResult
+    }
+
+    public class Value
+    {
+        [JsonProperty("string_value")]
+        public string StringValue { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("scribe_key")]
+        public string ScribeKey { get; set; }
     }
 
     public class Variant
