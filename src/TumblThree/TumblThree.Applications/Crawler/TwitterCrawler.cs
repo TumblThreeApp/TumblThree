@@ -527,9 +527,6 @@ namespace TumblThree.Applications.Crawler
                 {
                     string document = await GetUserTweetsAsync((byte)(oldestApiPost == null ? 2 : 3), cursor);
 
-                    var path = Path.Combine(Blog.DownloadLocation(), $"page_{pageNo}.txt");
-                    File.WriteAllText(path, document);
-
                     var response = ConvertJsonToClassNew<TimelineTweets>(document);
                     var entries = GetEntries(response, pageNo == 1);
 
