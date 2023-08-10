@@ -107,7 +107,7 @@ namespace TumblThree.Applications.Parser
                    string.Format(CultureInfo.CurrentCulture, Resources.ReblogName, post.RebloggedFromName) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Quote,
-                       post.Conversation.Select(dialogue => new { name = dialogue.Name, phrase = dialogue.Phrase })) +
+                       post.Conversation?.Select(dialogue => new { name = dialogue.Name, phrase = dialogue.Phrase })) +
                    Environment.NewLine +
                    string.Format(CultureInfo.CurrentCulture, Resources.Body, post.RegularBody) +
                    Environment.NewLine +
