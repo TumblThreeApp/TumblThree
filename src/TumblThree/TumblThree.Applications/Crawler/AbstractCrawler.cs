@@ -19,6 +19,7 @@ using TumblThree.Applications.Downloader;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
+using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Applications.Crawler
@@ -286,6 +287,11 @@ namespace TumblThree.Applications.Crawler
                 ShellService.ShowError(serializationException, Resources.PostNotParsable, Blog.Name);
                 return new T();
             }
+        }
+
+        protected string GetCollectionName(IBlog blog)
+        {
+            return ShellService.Settings.GetCollection(blog.CollectionId)?.Name ?? "";
         }
 
         protected static string UrlEncode(IDictionary<string, string> parameters)

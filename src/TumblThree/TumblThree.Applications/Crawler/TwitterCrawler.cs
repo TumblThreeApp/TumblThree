@@ -78,8 +78,8 @@ namespace TumblThree.Applications.Crawler
                 twUser = await GetTwUser();
                 if (!string.IsNullOrEmpty(twUser.Errors?.FirstOrDefault()?.Message))
                 {
-                    Logger.Warning("TwitterCrawler.IsBlogOnlineAsync: {0}: {1}", Blog.Name, twUser.Errors?[0]?.Message);
-                    ShellService.ShowError(null, (twUser.Errors?[0]?.Code == 63 ? Blog.Name + ": " : "") + twUser.Errors?[0]?.Message);
+                    Logger.Warning("TwitterCrawler.IsBlogOnlineAsync: {0} ({1}): {2}", Blog.Name, GetCollectionName(Blog), twUser.Errors?[0]?.Message);
+                    ShellService.ShowError(null, (twUser.Errors?[0]?.Code == 63 ? $"{Blog.Name} ({GetCollectionName(Blog)}): " : "") + twUser.Errors?[0]?.Message);
                     Blog.Online = false;
                 }
                 else if (twUser.Data.User.Typename != "User")
@@ -580,8 +580,8 @@ namespace TumblThree.Applications.Crawler
                     }
                     if (((HttpWebResponse)webException?.Response).StatusCode == HttpStatusCode.Forbidden)
                     {
-                        Logger.Error("TwitterCrawler.CrawlPageAsync: {0}", string.Format(CultureInfo.CurrentCulture, Resources.ProtectedBlog, Blog.Name));
-                        ShellService.ShowError(webException, Resources.ProtectedBlog, Blog.Name);
+                        Logger.Error("TwitterCrawler.CrawlPageAsync: {0}", string.Format(CultureInfo.CurrentCulture, Resources.ProtectedBlog, $"{Blog.Name} ({GetCollectionName(Blog)})"));
+                        ShellService.ShowError(webException, Resources.ProtectedBlog, $"{Blog.Name} ({GetCollectionName(Blog)})");
                         if (pageNo > 1 && retries + 1 < maxRetries)
                         {
                             retries++;
