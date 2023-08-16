@@ -86,7 +86,7 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
   </details>
 * <details><summary><b>Twitter Blogs</b></summary>
 
-  * Download of photo, video and text posts of (public) blogs
+  * Download of photo, video and text posts of blogs
   * Download meta information for photo and video posts
   * Allows to download only original content of the blog and skip reblogged posts
   * Can download only tagged posts
