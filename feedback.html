@@ -10,6 +10,7 @@
        $('#submit').click(function() {
           if (!checkRequiredFields() || $("#text").text().length > 0) return false;
           
+          $("#text").html("Sending feedback...");
           $.ajax({
              type: "POST",
              url: "https://enu6gwapic5ijy5.m.pipedream.net",
