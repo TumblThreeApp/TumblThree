@@ -386,6 +386,17 @@ namespace TumblThree.Applications.Crawler
             {
                 url = url.Replace("/tagged/", "/tagged/%23");
             }
+            // no longer supported /chrono
+            if (url.EndsWith("/chrono"))
+            {
+                url = url.Substring(0, url.Length - 7);
+                Blog.Url = url;
+            }
+            // the default sort order is now TOP
+            if (!url.Contains("sort="))
+            {
+                url = url.Split(new char[] { '?' }, 2)[0] + "?sort=recent";
+            }
             return await GetRequestAsync(url);
         }
 
