@@ -475,4 +475,7 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="LimitExceededWaitPeriod" xml:space="preserve">
     <value>Límite excedido: {0}. Continuará automáticamente después del período de espera requerido.</value>
   </data>
+  <data name="AuthErrorRetrying" xml:space="preserve">
+    <value>Error de autenticación (intentando continuar): {0}</value>
+  </data>
 </root>

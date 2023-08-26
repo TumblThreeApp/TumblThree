@@ -1,6 +1,7 @@
 ﻿using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -148,19 +149,19 @@ namespace TumblThree.Presentation.Views
             var cookies = await cookieManager.GetCookiesAsync(url);
 
             CookieCollection cookieCollection;
-            if (url.Contains("tumblr.com"))
-            {
-                // don't ask why, but one cookieCollection works and the other not
-                var cookieHeader = GetCookieHeader(cookies);
-                CookieContainer cookieCon = new CookieContainer();
-                cookieCon.SetCookies(new Uri("https://" + _domain + "/"), cookieHeader);
-                cookieCollection = FixCookieDates(cookieCon.GetCookies(new Uri("https://" + _domain + "/")));
-            }
-            else
-            {
-                cookieCollection = AuthenticateView.GetCookies(cookies);
-            }
-      
+            //if (url.Contains("tumblr.com"))
+            //{
+            //    // don't ask why, but one cookieCollection works and the other not
+            //    var cookieHeader = GetCookieHeader(cookies);
+            //    CookieContainer cookieCon = new CookieContainer();
+            //    cookieCon.SetCookies(new Uri("https://" + _domain + "/"), cookieHeader);
+            //    cookieCollection = FixCookieDates(cookieCon.GetCookies(new Uri("https://" + _domain + "/")));
+            //}
+            //else
+            //{
+            cookieCollection = AuthenticateView.GetCookies(cookies);
+            //}
+
             return cookieCollection;
         }
 

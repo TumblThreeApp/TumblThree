@@ -53,7 +53,8 @@ namespace TumblThree.Applications.Crawler
             IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Post>> jsonQueue, IBlog blog,
             IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader, progress, pt, ct)
+                webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader,
+                progress, null, null, pt, ct)
         {
             this.downloader = downloader;
             this.downloader.ChangeCancellationToken(Ct);

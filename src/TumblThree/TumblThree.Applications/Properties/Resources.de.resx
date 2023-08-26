@@ -481,4 +481,7 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="LimitExceededWaitPeriod" xml:space="preserve">
     <value>Limit überschritten: {0}. Nach Ablauf der erforderlichen Wartezeit wird der Vorgang automatisch fortgesetzt.</value>
   </data>
+  <data name="AuthErrorRetrying" xml:space="preserve">
+    <value>Authentifizierungsfehler (versuche fortzufahren): {0}</value>
+  </data>
 </root>

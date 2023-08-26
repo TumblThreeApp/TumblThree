@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -7,6 +8,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.Wpf;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.DataModels.TumblrApiJson;
 using TumblrSvcJson = TumblThree.Applications.DataModels.TumblrSvcJson;
@@ -16,10 +21,7 @@ using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
-using System.IO;
 using TumblThree.Applications.Downloader;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using TumblThree.Domain.Models;
 
 namespace TumblThree.Applications.Crawler
@@ -31,6 +33,8 @@ namespace TumblThree.Applications.Crawler
         private static readonly Regex extractImageSize = new Regex("/s(\\d+?)x(\\d+?)[^/]*?/");
 
         protected readonly ICrawlerDataDownloader crawlerDataDownloader;
+        protected readonly IEnvironmentService environmentService;
+        protected readonly ILoginService loginService;
 
         public ITumblrParser TumblrParser { get; }
 
@@ -47,7 +51,7 @@ namespace TumblThree.Applications.Crawler
         protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
             ITumblrParser tumblrParser, IImgurParser imgurParser, IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser,
             ICatBoxParser catboxParser, IPostQueue<AbstractPost> postQueue, IBlog blog, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
-            IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            IProgress<DownloadProgress> progress, IEnvironmentService environmentService, ILoginService loginService, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, progress, webRequestFactory, cookieService, postQueue, blog, downloader, pt, ct)
         {
             this.crawlerDataDownloader = crawlerDataDownloader;
@@ -58,6 +62,8 @@ namespace TumblThree.Applications.Crawler
             this.WebmshareParser = webmshareParser;
             this.UguuParser = uguuParser;
             this.CatboxParser = catboxParser;
+            this.environmentService = environmentService;
+            this.loginService = loginService;
         }
 
         protected async Task<string> GetRequestAsync(string url)
@@ -568,6 +574,37 @@ namespace TumblThree.Applications.Crawler
             if (post == null) throw new ArgumentNullException(nameof(post));
             post.DownloadedFilenames.Add(filename);
             post.DownloadedUrls.Add(url);
+        }
+
+        protected async Task<bool> FetchCookiesAgainAsync()
+        {
+            var appSettingsPath = Path.GetFullPath(Path.Combine(environmentService.AppSettingsPath, ".."));
+            CoreWebView2Environment env = await CoreWebView2Environment.CreateAsync(null, appSettingsPath);
+            using (WebView2 browser = new WebView2())
+            {
+                await browser.EnsureCoreWebView2Async(env);
+                var cookieManager = browser.CoreWebView2.CookieManager;
+                var cookies = await cookieManager.GetCookiesAsync("https://www.tumblr.com/");
+                CookieCollection cookieCollection = GetCookies(cookies);
+                loginService.AddCookies(cookieCollection);
+            }
+            Logger.Warning("Reloaded Tumblr cookies");
+            ShellService.ShowError(null, "Warning: Reloaded Tumblr cookies");
+            return true;
+        }
+
+        private static CookieCollection GetCookies(List<CoreWebView2Cookie> cookies)
+        {
+            CookieCollection cookieCollection = new CookieCollection();
+            foreach (var cookie in cookies)
+            {
+                var transferCookie = new System.Net.Cookie(cookie.Name, WebUtility.UrlEncode(cookie.Value), cookie.Path, cookie.Domain);
+                transferCookie.Expires = cookie.Expires;
+                transferCookie.HttpOnly = cookie.IsHttpOnly;
+                transferCookie.Secure = cookie.IsSecure;
+                cookieCollection.Add(transferCookie);
+            }
+            return cookieCollection;
         }
 
         private static DateTime GetDate(Post post)

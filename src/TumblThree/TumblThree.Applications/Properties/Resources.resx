@@ -512,4 +512,7 @@ To view more content on this blog, you will need to increase your comfort zone f
   <data name="LimitExceededWaitPeriod" xml:space="preserve">
     <value>Limit exceeded: {0}. It will automatically continue after the required wait period.</value>
   </data>
+  <data name="AuthErrorRetrying" xml:space="preserve">
+    <value>Auth error (trying to continue): {0}</value>
+  </data>
 </root>

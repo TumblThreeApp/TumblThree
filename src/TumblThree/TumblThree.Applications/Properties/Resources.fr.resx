@@ -493,4 +493,7 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="LimitExceededWaitPeriod" xml:space="preserve">
     <value>Limite dépassée: {0}. Il se poursuivra automatiquement après la période d'attente requise.</value>
   </data>
+  <data name="AuthErrorRetrying" xml:space="preserve">
+    <value>Erreur d'authentification (essai de continuer) : {0}</value>
+  </data>
 </root>

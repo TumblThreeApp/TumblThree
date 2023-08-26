@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -7,7 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Waf.Applications.Services;
@@ -20,8 +19,6 @@ using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain;
 using TumblThree.Domain.Queue;
-using TumblThree.Applications.Extensions;
-using System.Reflection;
 
 namespace TumblThree.Applications.Controllers
 {
@@ -150,7 +147,7 @@ namespace TumblThree.Applications.Controllers
             QueueController.Initialize();
             DetailsController.Initialize();
             CrawlerController.Initialize();
-            _cookieService.SetUriCookie(_cookieList);
+            _cookieService.SetUriCookie(CleanOldTumblrCookies(_cookieList));
         }
 
         public async void Run()
@@ -474,6 +471,15 @@ namespace TumblThree.Applications.Controllers
                 CultureInfo.CurrentCulture = ci;
                 CultureInfo.CurrentUICulture = ci;
             }
+        }
+
+        private static List<Cookie> CleanOldTumblrCookies(List<Cookie> cookies)
+        {
+            if (cookies.Exists(x => x.Name == "sid" && x.Domain == "www.tumblr.com"))
+            {
+                cookies = cookies.Where(x => x.Domain != "www.tumblr.com").ToList();
+            }
+            return cookies;
         }
     }
 }

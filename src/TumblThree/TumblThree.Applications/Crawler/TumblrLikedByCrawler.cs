@@ -48,10 +48,11 @@ namespace TumblThree.Applications.Crawler
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader, 
             ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser,
-            IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<DataModels.TumblrSearchJson.Data>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<DataModels.TumblrSearchJson.Data>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress,
+            IEnvironmentService environmentService, ILoginService loginService, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
                 webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader,
-                progress, pt, ct)
+                progress, environmentService, loginService, pt, ct)
         {
             this.downloader = downloader;
             this.tumblrJsonParser = tumblrJsonParser;
@@ -160,7 +161,22 @@ namespace TumblThree.Applications.Crawler
                     string document = "";
                     try
                     {
-                        document = await GetRequestAsync(url);
+                        try
+                        {
+                            document = await GetRequestAsync(url);
+                        }
+                        catch (WebException webEx)
+                        {
+                            if (HandleUnauthorizedWebException(webEx))
+                            {
+                                await FetchCookiesAgainAsync();
+                                document = await GetRequestAsync(url);
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
                         if (!isLikesUrl)
                         {
                             document = Regex.Unescape(document);
@@ -322,6 +338,10 @@ namespace TumblThree.Applications.Crawler
         private static List<DataModels.TumblrSearchJson.Data> ExtractPosts(string document)
         {
             var extracted = extractJsonFromLikes.Match(document).Groups[1].Value;
+            if (string.IsNullOrEmpty(extracted))
+            {
+                Logger.Verbose("TumblrLikedByCrawler:ExtractPosts: data not found inside: \n{0}", document);
+            }
             dynamic obj = JsonConvert.DeserializeObject(extracted);
             var likedPosts = obj.Likes.likedPosts;
             extracted = JsonConvert.SerializeObject(likedPosts);
@@ -337,6 +357,7 @@ namespace TumblThree.Applications.Crawler
                 CheckIfShouldPause();
                 if (!PostWithinTimespan(post)) { continue; }
 
+                Logger.Verbose("TumblrLikedByCrawler.DownloadPage: {0}", post.PostUrl);
                 try
                 {
                     Post data = null;
@@ -648,9 +669,17 @@ namespace TumblThree.Applications.Crawler
             {
                 var url = Blog.Url + (TumblrLikedByBlog.IsLikesUrl(Blog.Url) ? "" : "/page/1");
                 string document = await GetRequestAsync(url);
+                if (string.IsNullOrEmpty(document))
+                {
+                    Logger.Verbose("TumblrLikedByCrawler:CheckIfLoggedInAsync: empty response!");
+                }
                 if (document.Contains("___INITIAL_STATE___"))
                 {
                     var extracted = extractJsonFromLikes.Match(document).Groups[1].Value;
+                    if (string.IsNullOrEmpty(extracted))
+                    {
+                        Logger.Verbose("TumblrLikedByCrawler:CheckIfLoggedInAsync: data not found inside: \n{0}", document);
+                    }
                     dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(extracted);
                     var loggedIn = obj?.isLoggedIn?.isLoggedIn ?? false;
                     return loggedIn;

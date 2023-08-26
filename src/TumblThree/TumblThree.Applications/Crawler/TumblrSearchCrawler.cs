@@ -48,8 +48,8 @@ namespace TumblThree.Applications.Crawler
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser, IPostQueue<AbstractPost> postQueue,
             IPostQueue<CrawlerData<string>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader, progress, pt,
-                ct)
+                webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader,
+                progress, null, null, pt, ct)
         {
             this.shellService = shellService;
             this.downloader = downloader;

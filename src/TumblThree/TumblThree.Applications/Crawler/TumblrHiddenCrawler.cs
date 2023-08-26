@@ -45,10 +45,11 @@ namespace TumblThree.Applications.Crawler
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
             ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser,
-            IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Post>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
+            IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Post>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress,
+            IEnvironmentService environmentService, ILoginService loginService, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
-                webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader, progress, pt,
-                ct)
+                  webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader,
+                  progress, environmentService, loginService, pt, ct)
         {
             this.downloader = downloader;
             this.tumblrJsonParser = tumblrJsonParser;
@@ -211,13 +212,30 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                string document = await GetSvcPageAsync(Blog.PageSize.ToString(), (Blog.PageSize * pageNumber).ToString());
+                string document = null;
+                try
+                {
+                    document = await GetSvcPageAsync(Blog.PageSize.ToString(), (Blog.PageSize * pageNumber).ToString());
+                }
+                catch (WebException webEx)
+                {
+                    if (HandleUnauthorizedWebExceptionRetry(webEx))
+                    {
+                        await FetchCookiesAgainAsync();
+                        document = await GetSvcPageAsync(Blog.PageSize.ToString(), (Blog.PageSize * pageNumber).ToString());
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 var response = ConvertJsonToClass<TumblrJson>(document);
                 await AddUrlsToDownloadListAsync(response, pageNumber);
             }
             catch (WebException webException)
             {
-                if (HandleLimitExceededWebException(webException))
+                if (HandleLimitExceededWebException(webException) ||
+                    HandleUnauthorizedWebExceptionRetry(webException))
                 {
                     incompleteCrawl = true;
                 }
@@ -252,6 +270,16 @@ namespace TumblThree.Applications.Crawler
                 }
 
                 HandleLimitExceededWebException(webException);
+                if (HandleUnauthorizedWebExceptionRetry(webException))
+                {
+                    await FetchCookiesAgainAsync();
+                    try
+                    {
+                        return await GetHighestPostIdCoreAsync();
+                    }
+                    catch (WebException)
+                    { }
+                }
                 return lastId;
             }
             catch (TimeoutException timeoutException)
@@ -349,7 +377,8 @@ namespace TumblThree.Applications.Crawler
                 CookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
                 CookieService.GetUriCookie(request.CookieContainer, new Uri("https://" + Blog.Name.Replace("+", "-") + ".tumblr.com"));
                 requestRegistration = Ct.Register(() => request.Abort());
-                return await WebRequestFactory.ReadRequestToEndAsync(request, true);
+                string response = await WebRequestFactory.ReadRequestToEndAsync(request, true);
+                return response;
             }
             finally
             {

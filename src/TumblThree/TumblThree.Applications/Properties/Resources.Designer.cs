@@ -97,6 +97,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auth error (trying to continue): {0}.
+        /// </summary>
+        public static string AuthErrorRetrying {
+            get {
+                return ResourceManager.GetString("AuthErrorRetrying", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The blog already exist:  {0}.
         /// </summary>
         public static string BlogAlreadyExist {
