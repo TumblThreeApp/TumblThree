@@ -9,7 +9,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public Data Data { get; set; }
 
         [JsonProperty("errors", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Error> Errors { get; }
+        public List<Error> Errors { get; } = new List<Error>();
 
         [JsonIgnore]
         public Timeline Timeline => Data.User?.Result.TimelineV2.Timeline ?? Data.SearchByRawQuery.SearchTimeline.Timeline;
@@ -304,10 +304,10 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public string Message { get; set; }
 
         [JsonProperty("path")]
-        public List<string> Path { get; }
+        public List<object> Path { get; } = new List<object>();
 
         [JsonProperty("locations")]
-        public List<Location> Locations { get; }
+        public List<Location> Locations { get; } = new List<Location>();
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -320,6 +320,9 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
         [JsonProperty("kind")]
         public string Kind { get; set; }
+
+        [JsonProperty("retry_after")]
+        public int RetryAfter { get; set; }
 
         [JsonProperty("tracing")]
         public Tracing Tracing { get; set; }
@@ -350,6 +353,9 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
 
         [JsonProperty("source")]
         public string Source { get; set; }
+
+        [JsonProperty("retry_after")]
+        public int RetryAfter { get; set; }
 
         [JsonProperty("code")]
         public int Code { get; set; }
@@ -1021,6 +1027,9 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
     {
         [JsonProperty("result")]
         public Tweet Result { get; set; }   //TweetResult
+
+        [JsonIgnore]
+        public Tweet Tweet => Result.TweetWithVisibilityResults ?? Result;
     }
 
     public class UnifiedCard

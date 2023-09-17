@@ -485,6 +485,7 @@ namespace TumblThree.Applications.Crawler
 
         private static List<Entry> GetEntries(TimelineTweets response, bool includePinEntry = false, bool includeCursors = false)
         {
+            if (response.Data.User?.Result == null && response.Data.SearchByRawQuery == null) throw new Exception("NoPostsYet");
             if (response.Data.User?.Result?.Typename == "UserUnavailable") throw new Exception("UserUnavailable");
             if (!string.IsNullOrEmpty(response.Errors?.FirstOrDefault()?.Message))
                 throw new Exception($"{response.Errors[0].Name}: {response.Errors[0].Message}") { Source = "TwitterError" };
@@ -500,20 +501,15 @@ namespace TumblThree.Applications.Crawler
             }
             entries = entries.Where(x => x.Content.EntryType == "TimelineTimelineItem" || x.Content.EntryType == "TimelineTimelineModule" ||
                     includeCursors && x.Content.EntryType == "TimelineTimelineCursor")
-                .Where(x => x.Content.EntryType == "TimelineTimelineCursor" || x.Content.EntryType == "TimelineTimelineItem" && x.Content.ItemContent.TweetDisplayType == "Tweet" ||
-                    x.Content.EntryType == "TimelineTimelineModule" && x.Content.DisplayType.EndsWith("Conversation")).ToList();
+                .Where(x => x.Content.EntryType == "TimelineTimelineCursor" ||
+                    x.Content.EntryType == "TimelineTimelineItem" && x.Content.ItemContent.TweetDisplayType == "Tweet" && x.Content.ItemContent.TweetResults.Tweet.Legacy != null ||
+                    x.Content.EntryType == "TimelineTimelineModule" && x.Content.DisplayType.EndsWith("Conversation") &&
+                        x.Content.Items.Any(a => a.Item.ItemContent.TweetResults.Tweet.Legacy != null)
+                ).ToList();
 
             List<Entry> replaceEntries = response.Timeline.Instructions.Where(x => x.Type == "TimelineReplaceEntry").Select(x => x.Entry).ToList();
             if (replaceEntries?.Count > 0)
                 entries.AddRange(replaceEntries);
-
-            foreach (var entry in entries)
-            {
-                if (entry.Content.ItemContent?.TweetResults?.Result?.Typename == "TweetWithVisibilityResults")
-                {
-                    entry.Content.ItemContent.TweetResults.Result = entry.Content.ItemContent.TweetResults.Result.TweetWithVisibilityResults;
-                }
-            } 
 
             return entries;
         }
@@ -529,7 +525,7 @@ namespace TumblThree.Applications.Crawler
             List<ItemContent> list = new List<ItemContent>();
             if (entry?.Content?.ItemContent != null) list.Add(entry.Content.ItemContent);
             if (entry?.Content?.Items != null) list.AddRange(entry.Content.Items.Select(s => s.Item.ItemContent));
-            return list.Select(s => s.TweetResults.Result).ToList();
+            return list.Select(s => s.TweetResults.Tweet).ToList();
         }
 
         private async Task CrawlPageAsync(int pageNo)
@@ -549,13 +545,13 @@ namespace TumblThree.Applications.Crawler
                     if (highestId == 0)
                     {
                         highestId = ulong.Parse(GetPostEntries(entries)
-                            .Max(x => x.Content?.ItemContent?.TweetResults.Result.Legacy.IdStr ?? x.Content?.Items?.LastOrDefault()?.Item.ItemContent.TweetResults.Result.Legacy.IdStr) ?? "0");
+                            .Max(x => x.Content?.ItemContent?.TweetResults.Tweet.Legacy.IdStr ?? x.Content?.Items?.LastOrDefault()?.Item.ItemContent.TweetResults.Tweet.Legacy.IdStr) ?? "0");
                         if (highestId > 0)
                         {
                             Entry entry = entries.Find(f => f.EntryId == $"tweet-{highestId}" || 
-                                f.EntryId == f.Content.Items.Where(w => w.EntryId.EndsWith($"tweet-{highestId}")).First().EntryId.Replace($"-tweet-{highestId}", ""));
+                                f.EntryId == f.Content.Items.Where(w => w.EntryId.EndsWith($"tweet-{highestId}")).FirstOrDefault()?.EntryId.Replace($"-tweet-{highestId}", ""));
                             Blog.LatestPost = DateTime.ParseExact(
-                                (entry.Content?.ItemContent ?? entry.Content?.Items?.LastOrDefault()?.Item.ItemContent)?.TweetResults.Result.Legacy.CreatedAt,
+                                (entry.Content?.ItemContent ?? entry.Content?.Items?.LastOrDefault()?.Item.ItemContent)?.TweetResults.Tweet.Legacy.CreatedAt,
                                 twitterDateTemplate, new CultureInfo("en-US"));
                         }
                     }
@@ -628,6 +624,12 @@ namespace TumblThree.Applications.Crawler
                     ShellService.ShowError(e, Resources.ProtectedBlog, Blog.Name);
                     completeGrab = false;
                     retries = 403;
+                }
+                catch (Exception e) when (e.Message == "NoPostsYet")
+                {
+                    Logger.Information("{0}: No posts yet.", Blog.Name);
+                    completeGrab = false;
+                    retries = 404;
                 }
                 catch (Exception e) when (e.Source == "TwitterError")
                 {
