@@ -148,6 +148,7 @@ namespace TumblThree.Applications.ViewModels
         private string _pnjDownloadFormat;
         private bool _twitterLoggedIn;
         private string _twitterEmail = string.Empty;
+        private bool _tumblrAuthErrorAutoRetry;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -525,6 +526,12 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _pnjDownloadFormat;
             set => SetProperty(ref _pnjDownloadFormat, value);
+        }
+
+        public bool TumblrAuthErrorAutoRetry
+        {
+            get => _tumblrAuthErrorAutoRetry;
+            set => SetProperty(ref _tumblrAuthErrorAutoRetry, value);
         }
 
         private static string Sanitize(string filename)
@@ -1301,6 +1308,7 @@ namespace TumblThree.Applications.ViewModels
                 FilenameTemplate = _settings.FilenameTemplate;
                 Language = _settings.Language;
                 PnjDownloadFormat = _settings.PnjDownloadFormat;
+                TumblrAuthErrorAutoRetry = _settings.TumblrAuthErrorAutoRetry;
             }
             else
             {
@@ -1393,6 +1401,7 @@ namespace TumblThree.Applications.ViewModels
                 GroupPhotoSets = false;
                 FilenameTemplate = "%f";
                 Language = "en-US";
+                TumblrAuthErrorAutoRetry = false;
             }
         }
 
@@ -1590,6 +1599,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.Collections = list;
             _settings.ActiveCollectionId = ActiveCollectionId;
             _settings.PnjDownloadFormat = PnjDownloadFormat;
+            _settings.TumblrAuthErrorAutoRetry = TumblrAuthErrorAutoRetry;
         }
     }
 }

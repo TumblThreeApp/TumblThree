@@ -971,4 +971,13 @@ Les cookies utilisés pour l'authentification sont enregistrés et le processus 
   <data name="DownloadReplies" xml:space="preserve">
     <value>Télécharger les réponses</value>
   </data>
+  <data name="TumblrAuthErrorAutoRetry" xml:space="preserve">
+    <value>Utiliser un nouveau mode de gestion des erreurs d'autorisation Tumblr</value>
+  </data>
+  <data name="ToolTipTumblrAuthErrorAutoRetry" xml:space="preserve">
+    <value>Utiliser un nouveau mode de gestion des erreurs d'autorisation/de connexion Tumblr</value>
+  </data>
+  <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
+    <value>Lorsqu'une erreur d'autorisation se produit, l'application essaie une nouvelle façon de la gérer afin de continuer.</value>
+  </data>
 </root>

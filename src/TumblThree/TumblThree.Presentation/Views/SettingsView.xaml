@@ -2427,6 +2427,23 @@
                                 </StackPanel>
                             </Grid>
                         </GroupBox>
+                        <GroupBox Header="Crawler" Grid.Row="1" Grid.ColumnSpan="4" Margin="5">
+                            <CheckBox x:Name="checkBoxTumblrAuthErrorAutoRetry"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="5"
+                                    Content="{x:Static p:Resources.TumblrAuthErrorAutoRetry}"
+                                    IsChecked="{Binding TumblrAuthErrorAutoRetry, Mode=TwoWay}">
+                                <CheckBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetry}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetryDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </CheckBox.ToolTip>
+                            </CheckBox>
+                        </GroupBox>
                     </Grid>
                 </TabItem>
             </TabControl>

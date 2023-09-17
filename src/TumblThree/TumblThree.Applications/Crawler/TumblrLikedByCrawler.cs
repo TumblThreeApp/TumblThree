@@ -167,7 +167,7 @@ namespace TumblThree.Applications.Crawler
                         }
                         catch (WebException webEx)
                         {
-                            if (HandleUnauthorizedWebException(webEx))
+                            if (HandleUnauthorizedWebExceptionRetry(webEx))
                             {
                                 await FetchCookiesAgainAsync();
                                 document = await GetRequestAsync(url);

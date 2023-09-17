@@ -384,6 +384,9 @@ namespace TumblThree.Applications.Properties
         public string PnjDownloadFormat { get; set; }
 
         [DataMember]
+        public bool TumblrAuthErrorAutoRetry { get; set; }
+
+        [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
         public static ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
@@ -630,6 +633,7 @@ namespace TumblThree.Applications.Properties
             Language = "en-US";
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
             PnjDownloadFormat = nameof(PnjDownloadType.jpg);
+            TumblrAuthErrorAutoRetry = false;
         }
 
         [OnDeserializing]

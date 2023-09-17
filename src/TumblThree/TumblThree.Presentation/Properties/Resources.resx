@@ -1219,4 +1219,13 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="DownloadReplies" xml:space="preserve">
     <value>Download replies</value>
   </data>
+  <data name="TumblrAuthErrorAutoRetry" xml:space="preserve">
+    <value>Use new mode of handling Tumblr authorization errors</value>
+  </data>
+  <data name="ToolTipTumblrAuthErrorAutoRetry" xml:space="preserve">
+    <value>Use new mode of handling Tumblr authorization/login errors</value>
+  </data>
+  <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
+    <value>When an authorization error occurs, the app tries a new way of handling it in order to continue.</value>
+  </data>
 </root>

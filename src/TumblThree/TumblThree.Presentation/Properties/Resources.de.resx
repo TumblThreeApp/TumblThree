@@ -970,4 +970,13 @@ Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authent
   <data name="DownloadReplies" xml:space="preserve">
     <value>Lade Antworten</value>
   </data>
+  <data name="TumblrAuthErrorAutoRetry" xml:space="preserve">
+    <value>Neuen Modus zur Behandlung von Tumblr-Autorisierungsfehlern verwenden</value>
+  </data>
+  <data name="ToolTipTumblrAuthErrorAutoRetry" xml:space="preserve">
+    <value>Neuen Modus zur Behandlung von Tumblr-Autorisierungs-/Anmeldefehlern verwenden</value>
+  </data>
+  <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
+    <value>Wenn ein Autorisierungsfehler auftritt, versucht die App eine neue Methode zur Behebung, um fortzufahren.</value>
+  </data>
 </root>

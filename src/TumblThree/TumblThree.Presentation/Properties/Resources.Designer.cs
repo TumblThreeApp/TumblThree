@@ -2976,6 +2976,24 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use new mode of handling Tumblr authorization/login errors.
+        /// </summary>
+        public static string ToolTipTumblrAuthErrorAutoRetry {
+            get {
+                return ResourceManager.GetString("ToolTipTumblrAuthErrorAutoRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When an authorization error occurs, the app tries a new way of handling it in order to continue..
+        /// </summary>
+        public static string ToolTipTumblrAuthErrorAutoRetryDescription {
+            get {
+                return ResourceManager.GetString("ToolTipTumblrAuthErrorAutoRetryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your tumblr login.
         /// </summary>
         public static string ToolTipTumblrLogin {
@@ -3082,6 +3100,15 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipWebmshareFiletypeDescription {
             get {
                 return ResourceManager.GetString("ToolTipWebmshareFiletypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use new mode of handling Tumblr authorization errors.
+        /// </summary>
+        public static string TumblrAuthErrorAutoRetry {
+            get {
+                return ResourceManager.GetString("TumblrAuthErrorAutoRetry", resourceCulture);
             }
         }
         

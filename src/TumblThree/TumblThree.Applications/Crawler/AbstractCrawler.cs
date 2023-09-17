@@ -623,6 +623,11 @@ namespace TumblThree.Applications.Crawler
 
         protected bool HandleUnauthorizedWebExceptionRetry(WebException webException)
         {
+            if (!ShellService.Settings.TumblrAuthErrorAutoRetry)
+            {
+                return false;
+            }
+
             var resp = (HttpWebResponse)webException?.Response;
             if (resp == null || resp.StatusCode != HttpStatusCode.Unauthorized)
             {

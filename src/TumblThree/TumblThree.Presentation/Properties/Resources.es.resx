@@ -967,4 +967,13 @@ Las cookies utilizadas para la autenticación se guardan y el proceso de autenti
   <data name="DownloadReplies" xml:space="preserve">
     <value>Descargar respuestas</value>
   </data>
+  <data name="TumblrAuthErrorAutoRetry" xml:space="preserve">
+    <value>Utilice un nuevo modo de manejar los errores de autorización de Tumblr</value>
+  </data>
+  <data name="ToolTipTumblrAuthErrorAutoRetry" xml:space="preserve">
+    <value>Utilice un nuevo modo para manejar los errores de autorización/inicio de sesión de Tumblr</value>
+  </data>
+  <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
+    <value>Cuando ocurre un error de autorización, la aplicación intenta una nueva forma de manejarlo para poder continuar.</value>
+  </data>
 </root>
