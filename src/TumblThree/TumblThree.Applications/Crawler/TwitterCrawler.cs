@@ -975,7 +975,7 @@ namespace TumblThree.Applications.Crawler
             //else 
             if (reblogged)
             {
-                reblogName = user.Legacy.Name;
+                reblogName = user.Legacy.ScreenName;
                 reblogId = (post.Legacy.RetweetedStatusResult.Result.Legacy ?? post.Legacy.RetweetedStatusResult.Result.TweetWithVisibilityResults.Legacy).IdStr;
             }
             var tags = GetTags(post);
