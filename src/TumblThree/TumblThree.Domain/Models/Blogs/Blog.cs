@@ -19,6 +19,7 @@ namespace TumblThree.Domain.Models.Blogs
         private bool createAudioMeta;
         private bool createPhotoMeta;
         private bool createVideoMeta;
+        private bool downloadReplies;
         private bool downloadAudio;
         private bool downloadConversation;
         private bool downloadLink;
@@ -307,6 +308,17 @@ namespace TumblThree.Domain.Models.Blogs
             set
             {
                 SetProperty(ref createAudioMeta, value);
+                Dirty = true;
+            }
+        }
+
+        [DataMember]
+        public bool DownloadReplies
+        {
+            get => downloadReplies;
+            set
+            {
+                SetProperty(ref downloadReplies, value);
                 Dirty = true;
             }
         }
@@ -1087,6 +1099,11 @@ namespace TumblThree.Domain.Models.Blogs
                 if (string.IsNullOrEmpty(blog.PnjDownloadFormat))
                 {
                     blog.PnjDownloadFormat = nameof(PnjDownloadType.png);
+                }
+                if (blog.BlogType == BlogTypes.twitter && blog.DownloadAnswer && !blog.DownloadReplies)
+                {
+                    blog.DownloadReplies = true;
+                    blog.DownloadAnswer = false;
                 }
 
                 return blog;

@@ -82,6 +82,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _downloadQuotes;
         private bool _downloadTexts;
         private bool _downloadAnswers;
+        private bool _downloadReplies;
         private bool _downloadUrlList;
         private bool _downloadVideos;
         private bool _enablePreview;
@@ -692,6 +693,12 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _createAudioMeta, value);
         }
 
+        public bool DownloadReplies
+        {
+            get => _downloadReplies;
+            set => SetProperty(ref _downloadReplies, value);
+        }
+
         public MetadataType MetadataFormat
         {
             get => _metadataFormat;
@@ -1260,6 +1267,7 @@ namespace TumblThree.Applications.ViewModels
                 DownloadVideos = _settings.DownloadVideos;
                 DownloadTexts = _settings.DownloadTexts;
                 DownloadAnswers = _settings.DownloadAnswers;
+                DownloadReplies = _settings.DownloadReplies;
                 DownloadAudios = _settings.DownloadAudios;
                 DownloadConversations = _settings.DownloadConversations;
                 DownloadLinks = _settings.DownloadLinks;
@@ -1361,6 +1369,7 @@ namespace TumblThree.Applications.ViewModels
                 CreateImageMeta = false;
                 CreateVideoMeta = false;
                 CreateAudioMeta = false;
+                DownloadReplies = false;
                 MetadataFormat = MetadataType.Text;
                 OverrideTumblrBlogCrawler = false;
                 TumblrBlogCrawlerType = TumblrBlogCrawlerTypes.TumblrSVC;
@@ -1530,6 +1539,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.DownloadVideos = DownloadVideos;
             _settings.DownloadTexts = DownloadTexts;
             _settings.DownloadAnswers = DownloadAnswers;
+            _settings.DownloadReplies = DownloadReplies;
             _settings.DownloadAudios = DownloadAudios;
             _settings.DownloadConversations = DownloadConversations;
             _settings.DownloadQuotes = DownloadQuotes;

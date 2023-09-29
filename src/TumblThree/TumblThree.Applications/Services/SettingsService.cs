@@ -18,13 +18,14 @@ namespace TumblThree.Applications.Services
             blog.DownloadPhoto = shellService.Settings.DownloadImages;
             blog.DownloadVideo = shellService.Settings.DownloadVideos;
             blog.DownloadText = shellService.Settings.DownloadTexts;
-            blog.DownloadAnswer = blog.BlogType == Domain.Models.BlogTypes.twitter ? false : shellService.Settings.DownloadAnswers;
+            blog.DownloadAnswer = shellService.Settings.DownloadAnswers;
             blog.DownloadQuote = shellService.Settings.DownloadQuotes;
             blog.DownloadConversation = shellService.Settings.DownloadConversations;
             blog.DownloadLink = shellService.Settings.DownloadLinks;
             blog.CreatePhotoMeta = shellService.Settings.CreateImageMeta;
             blog.CreateVideoMeta = shellService.Settings.CreateVideoMeta;
             blog.CreateAudioMeta = shellService.Settings.CreateAudioMeta;
+            blog.DownloadReplies = shellService.Settings.DownloadReplies;
             blog.MetadataFormat = shellService.Settings.MetadataFormat;
             blog.SkipGif = shellService.Settings.SkipGif;
             blog.DownloadVideoThumbnail = shellService.Settings.DownloadVideoThumbnails;

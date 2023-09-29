@@ -56,9 +56,6 @@ namespace TumblThree.Applications.Crawler
         private string oldestApiPost;
         private string oldestApiPostPrevious;
 
-        // instead of new field reuse DownloadAnswer for replies
-        private bool BlogDownloadReplies => Blog.DownloadAnswer;
-
         public TwitterCrawler(IShellService shellService, ICrawlerService crawlerService, IProgress<DownloadProgress> progress, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Tweet>> jsonQueue, IBlog blog, IDownloader downloader,
             ICrawlerDataDownloader crawlerDataDownloader, PauseToken pt, CancellationToken ct)
@@ -237,7 +234,7 @@ namespace TumblThree.Applications.Crawler
                 case 2:
                     if (!string.IsNullOrEmpty(cursor)) cursor = string.Format("%2C%22cursor%22%3A%22{0}%22", cursor.Replace("+", "%2B"));    //HttpUtility.UrlEncode(cursor)
                     var restId = (await GetTwUser()).Data.User.RestId;
-                    var includeReplies = BlogDownloadReplies.ToString().ToLower();
+                    var includeReplies = Blog.DownloadReplies.ToString().ToLower();
                     url = string.Format("https://twitter.com/i/api/graphql/{0}/UserTweets" +
                         "?variables=%7B%22userId%22%3A%22{1}%22%2C%22count%22%3A{2}{3}%2C%22includePromotedContent%22%3Atrue%2C%22withQuickPromoteEligibilityTweetFields%22%3Atrue%2C%22withVoice%22%3Atrue%2C%22withV2Timeline%22%3Atrue%7D&features=%7B%22rweb_lists_timeline_redesign_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22responsive_web_twitter_article_tweet_consumption_enabled%22%3Afalse%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Atrue%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Atrue%2C%22longform_notetweets_rich_text_read_enabled%22%3Atrue%2C%22longform_notetweets_inline_media_enabled%22%3Atrue%2C%22responsive_web_media_download_video_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D&fieldToggles=%7B%22withAuxiliaryUserLabels%22%3Afalse%2C%22withArticleRichContentState%22%3Afalse%7D",
                         graphQlTokenUserTweets, restId, pageSize, cursor);
@@ -823,7 +820,7 @@ namespace TumblThree.Applications.Crawler
         private void AddPhotoUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadPhoto) return;
-            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
+            if (!Blog.DownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
 
             var media = GetMedia(post);
 
@@ -836,7 +833,7 @@ namespace TumblThree.Applications.Crawler
         private void AddVideoUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail) return;
-            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
+            if (!Blog.DownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
 
             var media = GetMedia(post);
 
@@ -850,7 +847,7 @@ namespace TumblThree.Applications.Crawler
         {
             if (!Blog.DownloadText) return;
             if (!(post.Legacy.Entities == null || post.Legacy.Entities.Media == null || post.Legacy.Entities.Media.Count == 0)) return;
-            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
+            if (!Blog.DownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
 
             var body = GetTweetText(post);
             AddToDownloadList(new TextPost(body, post.Legacy.IdStr));
@@ -872,7 +869,7 @@ namespace TumblThree.Applications.Crawler
         private void AddGifUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadPhoto || Blog.SkipGif) return;
-            if (!BlogDownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
+            if (!Blog.DownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
 
             var media = GetMedia(post);
 

@@ -1439,6 +1439,14 @@
                             Content="{x:Static p:Resources.DownloadTexts}"
                             IsChecked="{Binding DownloadTexts, Mode=TwoWay}" />
                         <CheckBox
+                            x:Name="checkBoxDownloadReplies"
+                            Grid.Row="4"
+                            Grid.Column="4"
+                            Grid.ColumnSpan="3"
+                            Margin="10,9"
+                            Content="{x:Static p:Resources.DownloadReplies}"
+                            IsChecked="{Binding DownloadReplies, Mode=TwoWay}" />
+                        <CheckBox
                             x:Name="checkBoxDownloadQuotes"
                             Grid.Row="5"
                             Grid.Column="0"
