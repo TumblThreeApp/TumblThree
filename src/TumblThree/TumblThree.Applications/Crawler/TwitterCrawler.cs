@@ -979,7 +979,7 @@ namespace TumblThree.Applications.Crawler
                 reblogId = (post.Legacy.RetweetedStatusResult.Result.Legacy ?? post.Legacy.RetweetedStatusResult.Result.TweetWithVisibilityResults.Legacy).IdStr;
             }
             var tags = GetTags(post);
-            return BuildFileNameCore(url, post.Legacy.UserIdStr, GetDate(post), UnixTimestamp(post), index, type, post.Legacy.IdStr,
+            return BuildFileNameCore(url, post.User.Legacy.ScreenName, GetDate(post), UnixTimestamp(post), index, type, post.Legacy.IdStr,
                 tags, "", GetTitle(post.Legacy.FullText, tags), reblogName, "", reblogId);
         }
 
