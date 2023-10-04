@@ -485,7 +485,10 @@ namespace TumblThree.Applications.Crawler
             if (response.Data.User?.Result == null && response.Data.SearchByRawQuery == null) throw new Exception("NoPostsYet");
             if (response.Data.User?.Result?.Typename == "UserUnavailable") throw new Exception("UserUnavailable");
             if (!string.IsNullOrEmpty(response.Errors?.FirstOrDefault()?.Message))
-                throw new Exception($"{response.Errors[0].Name}: {response.Errors[0].Message}") { Source = "TwitterError" };
+            {
+                var twErrors = $"Twitter Errors:{Environment.NewLine}" + string.Join("," + Environment.NewLine, response.Errors.Select(s => $"{s.Name}: {s.Message}").ToHashSet<string>());
+                throw new Exception($"{response.Errors[0].Name}: {response.Errors[0].Message}", new Exception(twErrors)) { Source = "TwitterError" };
+            }
 
             List<Entry> entries = response.Timeline.Instructions.Where(x => x.Type == "TimelineAddEntries").FirstOrDefault()?.Entries ?? new List<Entry>();
             if (includePinEntry)
@@ -630,8 +633,8 @@ namespace TumblThree.Applications.Crawler
                 }
                 catch (Exception e) when (e.Source == "TwitterError")
                 {
-                    Logger.Error("TwitterCrawler.CrawlPageAsync: {0}: {1}", Blog.Name, e.Message);
-                    ShellService.ShowError(e, "{0}: {1}", Blog.Name, e.Message);
+                    Logger.Error("TwitterCrawler.CrawlPageAsync: {0}: {1}", Blog.Name, e.InnerException.Message);
+                    ShellService.ShowError(e, "{0}: Twitter Error: {1}", Blog.Name, e.Message);
                     retries++;
                     Thread.Sleep(2000);
                 }
