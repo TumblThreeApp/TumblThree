@@ -1228,4 +1228,13 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
     <value>When an authorization error occurs, the app tries a new way of handling it in order to continue.</value>
   </data>
+  <data name="HideToolBarButtonsText" xml:space="preserve">
+    <value>Hide toolbar button's text  *app restart required</value>
+  </data>
+  <data name="ToolTipHideToolBarButtonsText" xml:space="preserve">
+    <value>Hide toolbar button's text from main application window</value>
+  </data>
+  <data name="ToolTipHideToolBarButtonsTextDescription" xml:space="preserve">
+    <value>Hides(colapses) the text on buttons from main application windows and leaves tooltips on so the toolbars buttons have all the same footprint</value>
+  </data>
 </root>

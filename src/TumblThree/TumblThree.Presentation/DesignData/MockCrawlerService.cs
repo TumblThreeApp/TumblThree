@@ -23,6 +23,7 @@ namespace TumblThree.Presentation.DesignData
         {
             activeItems = new ObservableCollection<QueueListItem>();
             readonlyActiveItems = new ReadOnlyObservableList<QueueListItem>(activeItems);
+
         }
 
         public event EventHandler ActiveCollectionIdChanged;
@@ -83,6 +84,7 @@ namespace TumblThree.Presentation.DesignData
 
         public bool IsTimerSet { get; set; }
 
+        public string IsTextVis { get; set; }
 
         public string NewBlogUrl { get; set; }
 

@@ -2428,21 +2428,43 @@
                             </Grid>
                         </GroupBox>
                         <GroupBox Header="Crawler" Grid.Row="1" Grid.ColumnSpan="4" Margin="5">
-                            <CheckBox x:Name="checkBoxTumblrAuthErrorAutoRetry"
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <CheckBox x:Name="checkBoxTumblrAuthErrorAutoRetry"
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Margin="5"
                                     Content="{x:Static p:Resources.TumblrAuthErrorAutoRetry}"
                                     IsChecked="{Binding TumblrAuthErrorAutoRetry, Mode=TwoWay}">
-                                <CheckBox.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetry}" />
-                                            <TextBlock Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetryDescription}" />
-                                        </StackPanel>
-                                    </ToolTip>
-                                </CheckBox.ToolTip>
-                            </CheckBox>
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetry}" />
+                                                <TextBlock Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetryDescription}" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
+                                <CheckBox x:Name="checkBoxHideToolBarText"
+                                          Grid.Row="1"
+                                          Grid.Column="0"
+                                          Margin="5"
+                                          Content="{x:Static p:Resources.HideToolBarButtonsText}"
+                                          IsChecked="{Binding HideToolBarButtonsText, Mode=TwoWay}">
+                                    
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipHideToolBarButtonsText}" />
+                                                <TextBlock Text="{x:Static p:Resources.ToolTipHideToolBarButtonsTextDescription}" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
+                            </Grid>
                         </GroupBox>
                     </Grid>
                 </TabItem>

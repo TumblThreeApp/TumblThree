@@ -8,8 +8,10 @@ using System.Waf.Applications;
 
 using TumblThree.Applications.Crawler;
 using TumblThree.Applications.DataModels;
+using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
+using TumblThree.Applications.Views;
 using TumblThree.Domain;
 using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
@@ -26,7 +28,7 @@ namespace TumblThree.Applications.Controllers
         private readonly ITumblrBlogDetector _tumblrBlogDetector;
         private readonly IManagerService _managerService;
         private readonly IShellService _shellService;
-
+        private readonly AppSettings _settings;
         private readonly AsyncDelegateCommand _crawlCommand;
         private readonly DelegateCommand _pauseCommand;
         private readonly DelegateCommand _resumeCommand;
@@ -66,6 +68,12 @@ namespace TumblThree.Applications.Controllers
             _crawlerService.ResumeCommand = _resumeCommand;
             _crawlerService.StopCommand = _stopCommand;
             _shellService.CrawlerView = CrawlerViewModel.View;
+            if (_shellService.Settings.HideToolBarButtonsText)
+            {
+                _crawlerService.IsTextVis = "Collapsed";
+            }
+            
+
         }
 
         public void Shutdown()

@@ -135,5 +135,6 @@ namespace TumblThree.Applications.ViewModels
             imageViewerViewModel.ImageFolder = SelectedBlogFile.DownloadLocation();
             imageViewerViewModel.ShowDialog(ShellService.ShellView);
         }
+
+       }
     }
-}

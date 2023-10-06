@@ -51,6 +51,7 @@ namespace TumblThree.Applications.Services
         private RateLimiter _timeconstraintSvc;
         private RateLimiter _timeconstraintTwitterApi;
         private Timer _timer;
+        private string _isTextVis;
 
         [ImportingConstructor]
         public CrawlerService(IShellService shellService)
@@ -82,6 +83,7 @@ namespace TumblThree.Applications.Services
             _collections = new ObservableCollection<Collection>();
             Collections = CollectionViewSource.GetDefaultView(_collections);
             Collections.CurrentChanged += Collections_CurrentChanged;
+
         }
 
         private void Collections_CurrentChanged(object sender, EventArgs e)
@@ -94,6 +96,11 @@ namespace TumblThree.Applications.Services
 
         public event EventHandler ActiveCollectionIdChanged;
 
+        public string IsTextVis
+        {
+            get => _isTextVis;
+            set => SetProperty(ref _isTextVis, value);
+        }
         public bool IsTimerSet
         {
             get => _isTimerSet;

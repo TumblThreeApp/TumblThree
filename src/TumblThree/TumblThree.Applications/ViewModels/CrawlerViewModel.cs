@@ -17,10 +17,14 @@ namespace TumblThree.Applications.ViewModels
             ShellService = shellService;
 
             CrawlerService.UpdateCollectionsList(true);
+            // Access ICrawlerView through the View property        
         }
 
         public IShellService ShellService { get; }
 
         public ICrawlerService CrawlerService { get; }
+
+
     }
+
 }
