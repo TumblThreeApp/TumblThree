@@ -979,4 +979,7 @@ Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authent
   <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
     <value>Wenn ein Autorisierungsfehler auftritt, versucht die App eine neue Methode zur Behebung, um fortzufahren.</value>
   </data>
+  <data name="DownloadTexts2" xml:space="preserve">
+    <value>Lade Texte</value>
+  </data>
 </root>

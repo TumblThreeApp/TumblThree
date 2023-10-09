@@ -980,4 +980,7 @@ Les cookies utilisés pour l'authentification sont enregistrés et le processus 
   <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
     <value>Lorsqu'une erreur d'autorisation se produit, l'application essaie une nouvelle façon de la gérer afin de continuer.</value>
   </data>
+  <data name="DownloadTexts2" xml:space="preserve">
+    <value>Télécharger les textes</value>
+  </data>
 </root>
