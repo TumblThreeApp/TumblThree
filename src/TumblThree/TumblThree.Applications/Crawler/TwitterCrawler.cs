@@ -780,7 +780,7 @@ namespace TumblThree.Applications.Crawler
 
         private bool CheckIfDownloadReplyPost(Tweet post)
         {
-            return BlogDownloadReplies || string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr);
+            return Blog.DownloadReplies || string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr);
         }
 
         private bool CheckIfDownloadRebloggedPosts(Tweet post)
