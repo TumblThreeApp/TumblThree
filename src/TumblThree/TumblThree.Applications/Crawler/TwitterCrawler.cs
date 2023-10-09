@@ -857,13 +857,27 @@ namespace TumblThree.Applications.Crawler
             AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(post.Legacy.IdStr, ".json"), post));
         }
 
+        private static DataModels.Twitter.TimelineTweets.User GetRetweetedUser(Tweet post)
+        {
+            return (post.Legacy.RetweetedStatusResult.Result.Core ?? post.Legacy.RetweetedStatusResult.Result.TweetWithVisibilityResults.Core).UserResults.Result;
+        }
+
+        private static Tweet GetRetweetedTweet(Tweet post)
+        {
+            return post.Legacy.RetweetedStatusResult.Result.Legacy is null ? post.Legacy.RetweetedStatusResult.Result.TweetWithVisibilityResults : post.Legacy.RetweetedStatusResult.Result;
+        }
+
         private static string GetTweetText(Tweet post)
         {
+            var dateString = GetDate(post).ToString("u");
+            // shortened FullText can happen for foreign and own retweets
+            var reblogged = post.Legacy.RetweetedStatusResult != null; // && GetUser(post).RestId != post.Legacy.UserIdStr;
             var dict = new Dictionary<string, string>()
             {
-                {"id", post.RestId },
-                { "text", post.Legacy.FullText },
-                { "url", post.Legacy.Url }
+                { "id", post.RestId },
+                { "date", dateString },
+                { "text", reblogged ? $"RT @{GetRetweetedUser(post).Legacy.ScreenName}: " + GetRetweetedTweet(post).Legacy.FullText : post.Legacy.FullText },
+                { "url", post.Legacy.Url ?? $"https://twitter.com/{post.User.Legacy.ScreenName}/status/{post.RestId}" }
             };
             var json = JsonConvert.SerializeObject(dict);
             return json;
@@ -958,7 +972,7 @@ namespace TumblThree.Applications.Crawler
             DataModels.Twitter.TimelineTweets.User user = null;
             if (post.Legacy.RetweetedStatusResult != null)
             {
-                user = (post.Legacy.RetweetedStatusResult.Result.Core ?? post.Legacy.RetweetedStatusResult.Result.TweetWithVisibilityResults.Core).UserResults.Result;
+                user = GetRetweetedUser(post);
                 reblogged = user.RestId != post.Legacy.UserIdStr;
             }
             //var userId = post.Legacy.Entities.Media[0].SourceUserIdStr;
@@ -976,7 +990,7 @@ namespace TumblThree.Applications.Crawler
             if (reblogged)
             {
                 reblogName = user.Legacy.ScreenName;
-                reblogId = (post.Legacy.RetweetedStatusResult.Result.Legacy ?? post.Legacy.RetweetedStatusResult.Result.TweetWithVisibilityResults.Legacy).IdStr;
+                reblogId = GetRetweetedTweet(post).Legacy.IdStr;
             }
             var tags = GetTags(post);
             return BuildFileNameCore(url, post.User.Legacy.ScreenName, GetDate(post), UnixTimestamp(post), index, type, post.Legacy.IdStr,
