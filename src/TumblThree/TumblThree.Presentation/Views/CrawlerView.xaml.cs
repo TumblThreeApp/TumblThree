@@ -25,20 +25,5 @@ namespace TumblThree.Presentation.Views
         {
             get { return viewModel.Value; }
         }
-        public void HideText()
-        {
-            textAddBlog.Visibility = System.Windows.Visibility.Collapsed;
-            textRemoveBlog.Visibility = System.Windows.Visibility.Collapsed;
-            textImportFromBlogListFile.Visibility = System.Windows.Visibility.Collapsed;
-            textShowFiles.Visibility = System.Windows.Visibility.Collapsed;
-            textAddToQueue.Visibility = System.Windows.Visibility.Collapsed;
-            textRemoveFromQueue.Visibility = System.Windows.Visibility.Collapsed;
-            textDownload.Visibility = System.Windows.Visibility.Collapsed;
-            textResume.Visibility = System.Windows.Visibility.Collapsed;
-            textStop.Visibility = System.Windows.Visibility.Collapsed;
-            textClearMonitor.Visibility = System.Windows.Visibility.Collapsed;
-            textSettings.Visibility = System.Windows.Visibility.Collapsed;
-            textAbout.Visibility = System.Windows.Visibility.Collapsed;
-        }
     }
 }

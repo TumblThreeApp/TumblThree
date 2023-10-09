@@ -111,7 +111,7 @@
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="PlusCircle" Foreground="#0BB203" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock x:Name="textAddBlog" Text="{x:Static p:Resources.AddBlog}" x:FieldModifier="public" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.AddBlog}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
@@ -122,7 +122,7 @@
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="MinusCircle" Foreground="#E31500" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock x:Name="textRemoveBlog" Text="{x:Static p:Resources.RemoveBlog }" Visibility="{Binding CrawlerService.IsTextVis}" />
+                        <TextBlock Text="{x:Static p:Resources.RemoveBlog }" Visibility="{Binding CrawlerService.IsTextVis}" />
                     </StackPanel>
                 </Button>
 
@@ -133,7 +133,7 @@
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="PlusCircle" Foreground="#0BB203" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock x:Name="textImportFromBlogListFile" Text="{x:Static p:Resources.ImportFromBlogListFile}" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.ImportFromBlogListFile}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
@@ -142,7 +142,7 @@
                         <Grid>
                             <fa:ImageAwesome Icon="Folder" />
                         </Grid>
-                        <TextBlock x:Name="textShowFiles" Text="{x:Static p:Resources.ShowFiles}" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.ShowFiles}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
@@ -153,7 +153,7 @@
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="PlusCircle" Foreground="#0BB203" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock x:Name="textAddToQueue" Text="{x:Static p:Resources.AddToQueue}" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.AddToQueue}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
@@ -164,7 +164,7 @@
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="MinusCircle" Foreground="#E31500" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock x:Name="textRemoveFromQueue" Text="{x:Static p:Resources.RemoveFromQueue}" Visibility="{Binding CrawlerService.IsTextVis}" />
+                        <TextBlock Text="{x:Static p:Resources.RemoveFromQueue}" Visibility="{Binding CrawlerService.IsTextVis}" />
                     </StackPanel>
                 </Button>
 
@@ -173,7 +173,7 @@
                         <Grid>
                             <fa:ImageAwesome Icon="Download" />
                         </Grid>
-                        <TextBlock x:Name="textDownload" Text="{x:Static p:Resources.Download}" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.Download}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
@@ -182,7 +182,7 @@
                         <Grid>
                             <fa:ImageAwesome Icon="Pause" />
                         </Grid>
-                        <TextBlock x:Name="textPause" Text="{x:Static p:Resources.Pause}" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.Pause}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
@@ -191,7 +191,7 @@
                         <Grid>
                             <fa:ImageAwesome Icon="Refresh" />
                         </Grid>
-                        <TextBlock x:Name="textResume" Text="{x:Static p:Resources.Resume}" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.Resume}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
@@ -200,7 +200,7 @@
                         <Grid>
                             <fa:ImageAwesome Icon="Stop" />
                         </Grid>
-                        <TextBlock x:Name="textStop" Text="{x:Static p:Resources.Stop}" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.Stop}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
@@ -209,7 +209,7 @@
                         <Grid>
                             <fa:ImageAwesome Icon="Clipboard" />
                         </Grid>
-                        <TextBlock x:Name="textClearMonitor" Text="{x:Static p:Resources.ClipboardMonitor}" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.ClipboardMonitor}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </ToggleButton>
 
@@ -218,7 +218,7 @@
                         <Grid>
                             <fa:ImageAwesome Icon="Gear" />
                         </Grid>
-                        <TextBlock x:Name="textSettings" Text="{x:Static p:Resources.Settings}" Visibility="{Binding CrawlerService.IsTextVis}" />
+                        <TextBlock Text="{x:Static p:Resources.Settings}" Visibility="{Binding CrawlerService.IsTextVis}" />
                     </StackPanel>
                 </Button>
 
@@ -228,7 +228,7 @@
                             <fa:ImageAwesome Icon="Info" HorizontalAlignment="Left" />
                             <fa:ImageAwesome Icon="ThumbsOutlineUp" HorizontalAlignment="Right" />
                         </Grid>
-                        <TextBlock x:Name="textAbout" Text="{x:Static p:Resources.About}" Visibility="{Binding CrawlerService.IsTextVis}"/>
+                        <TextBlock Text="{x:Static p:Resources.About}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 

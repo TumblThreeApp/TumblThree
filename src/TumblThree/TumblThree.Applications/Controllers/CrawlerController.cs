@@ -68,13 +68,11 @@ namespace TumblThree.Applications.Controllers
             _crawlerService.ResumeCommand = _resumeCommand;
             _crawlerService.StopCommand = _stopCommand;
             _shellService.CrawlerView = CrawlerViewModel.View;
-            if (_shellService.Settings.HideToolBarButtonsText)
-            {
-                _crawlerService.IsTextVis = "Collapsed";
-            }
+            CheckTextVis();
             
 
         }
+       
 
         public void Shutdown()
         {
@@ -333,6 +331,18 @@ namespace TumblThree.Applications.Controllers
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        private void CheckTextVis()
+        {
+            if (_shellService.Settings.HideToolBarButtonsText)
+            {
+                _crawlerService.IsTextVis = "Collapsed";
+            }
+            else
+            {
+                _crawlerService.IsTextVis = "Visible";
+            }
         }
     }
 }

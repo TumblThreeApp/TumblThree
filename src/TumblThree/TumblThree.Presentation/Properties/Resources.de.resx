@@ -979,4 +979,13 @@ Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authent
   <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
     <value>Wenn ein Autorisierungsfehler auftritt, versucht die App eine neue Methode zur Behebung, um fortzufahren.</value>
   </data>
+  <data name="HideToolBarButtonsText" xml:space="preserve">
+    <value>Text der Symbolleiste ausblenden *Neustart der Anwendung erforderlich</value>
+  </data>
+  <data name="ToolTipHideToolBarButtonsText" xml:space="preserve">
+    <value>Text der Symbolleiste aus dem Hauptanwendungsfenster ausblenden.</value>
+  </data>
+  <data name="ToolTipHideToolBarButtonsTextDescription" xml:space="preserve">
+    <value>Verbirgt (kollabiert) den Text auf den Schaltflächen im Hauptanwendungsfenster und lässt Tooltips aktiviert, damit die Schaltflächen der Symbolleiste alle denselben Fußabdruck haben.</value>
+  </data>
 </root>
