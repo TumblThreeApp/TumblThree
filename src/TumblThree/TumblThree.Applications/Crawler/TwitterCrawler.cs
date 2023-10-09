@@ -778,6 +778,11 @@ namespace TumblThree.Applications.Crawler
             await Task.CompletedTask;
         }
 
+        private bool CheckIfDownloadReplyPost(Tweet post)
+        {
+            return BlogDownloadReplies || string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr);
+        }
+
         private bool CheckIfDownloadRebloggedPosts(Tweet post)
         {
             var rsr = post.Legacy.RetweetedStatusResult;
@@ -823,7 +828,7 @@ namespace TumblThree.Applications.Crawler
         private void AddPhotoUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadPhoto) return;
-            if (!Blog.DownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
+            if (!CheckIfDownloadReplyPost(post)) return;
 
             var media = GetMedia(post);
 
@@ -836,7 +841,7 @@ namespace TumblThree.Applications.Crawler
         private void AddVideoUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail) return;
-            if (!Blog.DownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
+            if (!CheckIfDownloadReplyPost(post)) return;
 
             var media = GetMedia(post);
 
@@ -849,12 +854,14 @@ namespace TumblThree.Applications.Crawler
         private void AddTextUrlToDownloadList(Tweet post)
         {
             if (!Blog.DownloadText) return;
-            if (!(post.Legacy.Entities == null || post.Legacy.Entities.Media == null || post.Legacy.Entities.Media.Count == 0)) return;
-            if (!Blog.DownloadReplies && !string.IsNullOrEmpty(post.Legacy.InReplyToStatusIdStr)) return;
+            if (!CheckIfDownloadReplyPost(post)) return;
 
             var body = GetTweetText(post);
             AddToDownloadList(new TextPost(body, post.Legacy.IdStr));
-            AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(post.Legacy.IdStr, ".json"), post));
+            if (post.Legacy.Entities?.Media?.Count == 0 || !(Blog.DownloadPhoto || Blog.DownloadVideo))
+            {
+                AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(post.Legacy.IdStr, ".json"), post));
+            }
         }
 
         private static DataModels.Twitter.TimelineTweets.User GetRetweetedUser(Tweet post)
