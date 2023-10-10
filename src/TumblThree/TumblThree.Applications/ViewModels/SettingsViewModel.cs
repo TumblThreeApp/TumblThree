@@ -8,8 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Waf.Applications.Services;
-using System.Waf.Foundation;
-using System.Windows;
 using System.Windows.Input;
 
 using TumblThree.Applications.Data;
