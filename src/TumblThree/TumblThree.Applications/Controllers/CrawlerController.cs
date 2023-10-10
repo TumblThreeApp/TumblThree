@@ -68,7 +68,6 @@ namespace TumblThree.Applications.Controllers
             _shellService.CrawlerView = CrawlerViewModel.View;
             CheckTextVis();
         }
-       
 
         public void Shutdown()
         {
