@@ -85,6 +85,8 @@ namespace TumblThree.Presentation.DesignData
 
         public string IsTextVis { get; set; }
 
+        public bool IsToolTipActive { get; set; }
+
         public string NewBlogUrl { get; set; }
 
         public int ActiveCollectionId { get; set; }

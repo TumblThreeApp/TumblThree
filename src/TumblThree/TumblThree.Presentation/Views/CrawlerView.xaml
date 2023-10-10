@@ -42,7 +42,7 @@
             <Setter Property="Width" Value="22" />
         </Style>
 
-        <Style TargetType="{x:Type Button}">
+        <Style TargetType="{x:Type Button}" >
             <Style.Resources>
                 <Style TargetType="{x:Type Grid}" BasedOn="{StaticResource ButtonGridStyle}" />
                 <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource ButtonTextStyle}" />
@@ -104,7 +104,7 @@
                     <!-- SelectedValue="{Binding CrawlerService.ActiveCollectionId, Mode=OneWay}" -->
                 </StackPanel>
 
-                <Button Command="{Binding CrawlerService.AddBlogCommand}" ToolTip="{x:Static p:Resources.AddBlog  }" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.AddBlogCommand}" ToolTip="{x:Static p:Resources.AddBlog  }" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="FileText" />
@@ -115,7 +115,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.RemoveBlogCommand}" ToolTip="{x:Static p:Resources.RemoveBlog}" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.RemoveBlogCommand}" ToolTip="{x:Static p:Resources.RemoveBlog}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="FileText" />
@@ -126,7 +126,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.ImportBlogsCommand}" ToolTip="{x:Static p:Resources.ImportFromBlogListFile}" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.ImportBlogsCommand}" ToolTip="{x:Static p:Resources.ImportFromBlogListFile}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Copy" />
@@ -137,7 +137,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.ShowFilesCommand}" ToolTip="{x:Static p:Resources.ShowFiles}" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.ShowFilesCommand}" ToolTip="{x:Static p:Resources.ShowFiles}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Folder" />
@@ -146,7 +146,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.EnqueueSelectedCommand}" ToolTip="{x:Static p:Resources.AddToQueue}" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.EnqueueSelectedCommand}" ToolTip="{x:Static p:Resources.AddToQueue}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="List" />
@@ -157,7 +157,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.RemoveBlogFromQueueCommand}" ToolTip="{x:Static p:Resources.RemoveFromQueue}" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.RemoveBlogFromQueueCommand}" ToolTip="{x:Static p:Resources.RemoveFromQueue}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="List" />
@@ -168,7 +168,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.CrawlCommand}" ToolTip="{x:Static p:Resources.Download}" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.CrawlCommand}" ToolTip="{x:Static p:Resources.Download}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Download" />
@@ -177,7 +177,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.PauseCommand}" ToolTip="{x:Static p:Resources.Pause}" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.PauseCommand}" ToolTip="{x:Static p:Resources.Pause}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Pause" />
@@ -186,7 +186,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.ResumeCommand}" ToolTip="{x:Static p:Resources.Resume}" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.ResumeCommand}" ToolTip="{x:Static p:Resources.Resume}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Refresh" />
@@ -195,7 +195,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.StopCommand}" ToolTip="{x:Static p:Resources.Stop}" MinWidth="70px">
+                <Button Command="{Binding CrawlerService.StopCommand}" ToolTip="{x:Static p:Resources.Stop}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Stop" />
@@ -204,7 +204,7 @@
                     </StackPanel>
                 </Button>
 
-                <ToggleButton Command="{Binding CrawlerService.ListenClipboardCommand}" IsChecked="{Binding ShellService.Settings.CheckClipboard, Mode=TwoWay}" ToolTip="{x:Static p:Resources.ClipboardMonitor}" MinWidth="70px">
+                <ToggleButton Command="{Binding CrawlerService.ListenClipboardCommand}" IsChecked="{Binding ShellService.Settings.CheckClipboard, Mode=TwoWay}" ToolTip="{x:Static p:Resources.ClipboardMonitor}" MinWidth="80" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Clipboard" />
@@ -213,7 +213,7 @@
                     </StackPanel>
                 </ToggleButton>
 
-                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ShowSettingsCommand}" ToolTip="{x:Static p:Resources.Settings}" MinWidth="70px">
+                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ShowSettingsCommand}" ToolTip="{x:Static p:Resources.Settings}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Gear" />
@@ -222,7 +222,7 @@
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ShowAboutCommand}" ToolTip="{x:Static p:Resources.About}" MinWidth="70px">
+                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ShowAboutCommand}" ToolTip="{x:Static p:Resources.About}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Info" HorizontalAlignment="Left" />

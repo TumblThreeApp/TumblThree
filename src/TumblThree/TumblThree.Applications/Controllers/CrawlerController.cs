@@ -332,10 +332,12 @@ namespace TumblThree.Applications.Controllers
             if (_shellService.Settings.HideToolBarButtonsText)
             {
                 _crawlerService.IsTextVis = "Collapsed";
+                _crawlerService.IsToolTipActive = true;
             }
             else
             {
                 _crawlerService.IsTextVis = "Visible";
+                _crawlerService.IsToolTipActive = false;
             }
         }
     }
