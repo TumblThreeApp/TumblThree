@@ -83,7 +83,6 @@ namespace TumblThree.Applications.Services
             _collections = new ObservableCollection<Collection>();
             Collections = CollectionViewSource.GetDefaultView(_collections);
             Collections.CurrentChanged += Collections_CurrentChanged;
-
         }
 
         private void Collections_CurrentChanged(object sender, EventArgs e)
