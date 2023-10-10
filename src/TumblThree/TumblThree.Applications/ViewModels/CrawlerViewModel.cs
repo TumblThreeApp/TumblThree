@@ -22,7 +22,5 @@ namespace TumblThree.Applications.ViewModels
         public IShellService ShellService { get; }
 
         public ICrawlerService CrawlerService { get; }
-
-
     }
 }
