@@ -23,7 +23,6 @@ namespace TumblThree.Presentation.DesignData
         {
             activeItems = new ObservableCollection<QueueListItem>();
             readonlyActiveItems = new ReadOnlyObservableList<QueueListItem>(activeItems);
-
         }
 
         public event EventHandler ActiveCollectionIdChanged;
