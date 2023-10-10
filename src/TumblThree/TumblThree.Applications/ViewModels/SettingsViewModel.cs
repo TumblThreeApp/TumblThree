@@ -1506,8 +1506,6 @@ namespace TumblThree.Applications.ViewModels
             return !_settings.LogLevel.Equals(LogLevel);
         }
 
-       
-       
         private void SaveSettings()
         {
             
