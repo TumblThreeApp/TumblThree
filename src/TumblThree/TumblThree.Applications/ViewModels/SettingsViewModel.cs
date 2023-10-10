@@ -543,8 +543,6 @@ namespace TumblThree.Applications.ViewModels
             get => _hideToolBarButtonsText;
             set => SetProperty(ref _hideToolBarButtonsText, value);
         }
-
-
         private static string Sanitize(string filename)
         {
             char[] invalids = Path.GetInvalidFileNameChars();
