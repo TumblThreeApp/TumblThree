@@ -101,6 +101,7 @@ namespace TumblThree.Applications.Services
             get => _isTextVis;
             set => SetProperty(ref _isTextVis, value);
         }
+
         public bool IsTimerSet
         {
             get => _isTimerSet;
