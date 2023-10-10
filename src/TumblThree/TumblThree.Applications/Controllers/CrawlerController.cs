@@ -10,7 +10,6 @@ using TumblThree.Applications.Crawler;
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
-using TumblThree.Applications.Views;
 using TumblThree.Domain;
 using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
