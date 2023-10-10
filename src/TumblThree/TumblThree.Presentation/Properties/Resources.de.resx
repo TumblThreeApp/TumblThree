@@ -986,6 +986,6 @@ Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authent
     <value>Text der Symbolleiste aus dem Hauptanwendungsfenster ausblenden.</value>
   </data>
   <data name="ToolTipHideToolBarButtonsTextDescription" xml:space="preserve">
-    <value>Verbirgt (kollabiert) den Text auf den Schaltflächen im Hauptanwendungsfenster und lässt Tooltips aktiviert, damit die Schaltflächen der Symbolleiste alle denselben Fußabdruck haben.</value>
+    <value>Blendet den Text auf den Schaltflächen im Hauptfenster der Anwendung aus und lässt die QuickInfos eingeschaltet, so dass alle Schaltflächen in der Symbolleiste die gleiche Breite haben.</value>
   </data>
 </root>
