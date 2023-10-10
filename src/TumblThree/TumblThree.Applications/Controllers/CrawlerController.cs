@@ -68,8 +68,6 @@ namespace TumblThree.Applications.Controllers
             _crawlerService.StopCommand = _stopCommand;
             _shellService.CrawlerView = CrawlerViewModel.View;
             CheckTextVis();
-            
-
         }
        
 
