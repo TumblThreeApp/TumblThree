@@ -1235,6 +1235,6 @@ The cookies for the privacy consent are saved and the process needs to be done o
     <value>Hide toolbar button's text from main application window</value>
   </data>
   <data name="ToolTipHideToolBarButtonsTextDescription" xml:space="preserve">
-    <value>Hides(colapses) the text on buttons from main application windows and leaves tooltips on so the toolbars buttons have all the same footprint</value>
+    <value>Hides the text on buttons from main application window and leaves tooltips on, so all the toolbar buttons have the same width</value>
   </data>
 </root>
