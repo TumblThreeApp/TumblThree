@@ -26,7 +26,6 @@ namespace TumblThree.Applications.Controllers
         private readonly ITumblrBlogDetector _tumblrBlogDetector;
         private readonly IManagerService _managerService;
         private readonly IShellService _shellService;
-        private readonly AppSettings _settings;
         private readonly AsyncDelegateCommand _crawlCommand;
         private readonly DelegateCommand _pauseCommand;
         private readonly DelegateCommand _resumeCommand;
