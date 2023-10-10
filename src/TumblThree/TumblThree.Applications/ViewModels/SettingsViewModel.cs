@@ -1504,7 +1504,7 @@ namespace TumblThree.Applications.ViewModels
         }
 
         private bool LogLevelChanged()
-        {         
+        {
             return !_settings.LogLevel.Equals(LogLevel);
         }
 
