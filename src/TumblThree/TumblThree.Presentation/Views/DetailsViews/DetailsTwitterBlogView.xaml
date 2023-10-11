@@ -293,7 +293,7 @@
                                 </Label.ToolTip>
                             </Label>
 
-                            <CheckBox Content="{x:Static p:Resources.DownloadTexts}"
+                            <CheckBox Content="{x:Static p:Resources.DownloadTexts2}"
                                   IsChecked="{Binding BlogFile.DownloadText, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Margin="3,0,0,0"
                                   Padding="3,0,0,0" Grid.Row="6">
                                 <CheckBox.ToolTip>
@@ -550,7 +550,7 @@
                                   Margin="3,0,0,0" Padding="3,0,0,0" />
 
                             <CheckBox Content="{x:Static p:Resources.DownloadReplies}"
-                                  IsChecked="{Binding BlogFile.DownloadAnswer, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="27"
+                                  IsChecked="{Binding BlogFile.DownloadReplies, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="27"
                                   Margin="3,0,0,0" Padding="3,0,0,0" />
 
                             <CheckBox Content="{x:Static p:Resources.DownloadVideoThumbnails}" IsChecked="{Binding BlogFile.DownloadVideoThumbnail, Mode=TwoWay}"

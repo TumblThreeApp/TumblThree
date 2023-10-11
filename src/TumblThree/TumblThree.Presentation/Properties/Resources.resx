@@ -1228,6 +1228,9 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
     <value>When an authorization error occurs, the app tries a new way of handling it in order to continue.</value>
   </data>
+  <data name="DownloadTexts2" xml:space="preserve">
+    <value>Download texts</value>
+  </data>
   <data name="HideToolBarButtonsText" xml:space="preserve">
     <value>Hide toolbar button's text  *app restart required</value>
   </data>

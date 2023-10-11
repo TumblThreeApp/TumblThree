@@ -101,6 +101,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         bool CreateAudioMeta { get; set; }
 
+        bool DownloadReplies { get; set; }
+
         MetadataType MetadataFormat { get; set; }
 
         bool DumpCrawlerData { get; set; }

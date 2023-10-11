@@ -745,6 +745,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download texts.
+        /// </summary>
+        public static string DownloadTexts2 {
+            get {
+                return ResourceManager.GetString("DownloadTexts2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To:.
         /// </summary>
         public static string DownloadTo {

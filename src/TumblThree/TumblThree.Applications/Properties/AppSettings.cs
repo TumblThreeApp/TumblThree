@@ -240,6 +240,9 @@ namespace TumblThree.Applications.Properties
         public bool DownloadAnswers { get; set; }
 
         [DataMember]
+        public bool DownloadReplies { get; set; }
+
+        [DataMember]
         public bool DownloadLinks { get; set; }
 
         [DataMember]
@@ -606,6 +609,7 @@ namespace TumblThree.Applications.Properties
             CreateImageMeta = false;
             CreateVideoMeta = false;
             CreateAudioMeta = false;
+            DownloadReplies = false;
             MetadataFormat = MetadataType.Text;
             OverrideTumblrBlogCrawler = false;
             TumblrBlogCrawlerType = TumblrBlogCrawlerTypes.TumblrSVC;

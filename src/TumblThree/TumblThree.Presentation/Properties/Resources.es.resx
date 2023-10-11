@@ -976,4 +976,7 @@ Las cookies utilizadas para la autenticación se guardan y el proceso de autenti
   <data name="ToolTipTumblrAuthErrorAutoRetryDescription" xml:space="preserve">
     <value>Cuando ocurre un error de autorización, la aplicación intenta una nueva forma de manejarlo para poder continuar.</value>
   </data>
+  <data name="DownloadTexts2" xml:space="preserve">
+    <value>Descargar textos</value>
+  </data>
 </root>
