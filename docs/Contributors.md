@@ -35,6 +35,7 @@ People are giving themselves and their free time to contribute to our project in
 * [T-prog3](https://github.com/T-prog3) 🐛
 * [Emmanuel Tanimowo](https://github.com/Mannuel25) 🛠️
 * [deege216](https://github.com/deege216) 💻
+* [rexius41](https://github.com/rexius41) 💻
 * Your Name?
 
 Did we forget someone? Please drop us a line.
