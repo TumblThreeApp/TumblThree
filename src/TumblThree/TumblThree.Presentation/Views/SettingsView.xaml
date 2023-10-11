@@ -103,6 +103,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Height="Auto">
                             <Grid.ColumnDefinitions>
@@ -294,8 +295,28 @@
                                 VerticalAlignment="Center"
                                 Content="{x:Static p:Resources.AutoDownloadBlogs}" />
                         </Grid>
+                        <Grid Grid.Row="11">
+                            <CheckBox x:Name="checkBoxHideToolBarText"
+                                          Grid.Row="1"
+                                          Grid.Column="0"
+                                          Margin="10"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Content="{x:Static p:Resources.HideToolBarButtonsText}"
+                                          IsChecked="{Binding HideToolBarButtonsText, Mode=TwoWay}">
+
+                                <CheckBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipHideToolBarButtonsText}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipHideToolBarButtonsTextDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </CheckBox.ToolTip>
+                            </CheckBox>
+                        </Grid>
                         <Grid
-                            Grid.Row="11"
+                            Grid.Row="12"
                             Height="Auto"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -337,7 +358,7 @@
                                 </TextBox.ToolTip>
                             </TextBox>
                         </Grid>
-                        <Grid Grid.Row="12" Grid.ColumnSpan="1"
+                        <Grid Grid.Row="13" Grid.ColumnSpan="1"
                             Height="Auto"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -380,7 +401,7 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                         </Grid>
-                        <Grid Grid.Row="13" Grid.ColumnSpan="3"
+                        <Grid Grid.Row="14" Grid.ColumnSpan="3"
                             Height="Auto"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -431,7 +452,7 @@
                                 Content="{x:Static p:Resources.LanguageHint}">
                             </Label>
                         </Grid>
-                        <Grid Grid.Row="14" Grid.ColumnSpan="2">
+                        <Grid Grid.Row="15" Grid.ColumnSpan="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -2436,21 +2457,27 @@
                             </Grid>
                         </GroupBox>
                         <GroupBox Header="Crawler" Grid.Row="1" Grid.ColumnSpan="4" Margin="5">
-                            <CheckBox x:Name="checkBoxTumblrAuthErrorAutoRetry"
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <CheckBox x:Name="checkBoxTumblrAuthErrorAutoRetry"
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Margin="5"
                                     Content="{x:Static p:Resources.TumblrAuthErrorAutoRetry}"
                                     IsChecked="{Binding TumblrAuthErrorAutoRetry, Mode=TwoWay}">
-                                <CheckBox.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetry}" />
-                                            <TextBlock Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetryDescription}" />
-                                        </StackPanel>
-                                    </ToolTip>
-                                </CheckBox.ToolTip>
-                            </CheckBox>
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetry}" />
+                                                <TextBlock Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetryDescription}" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
+                            </Grid>
                         </GroupBox>
                     </Grid>
                 </TabItem>

@@ -19,7 +19,7 @@ namespace TumblThree.Presentation.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1005,6 +1005,15 @@ namespace TumblThree.Presentation.Properties {
         public static string GroupPhotoSets {
             get {
                 return ResourceManager.GetString("GroupPhotoSets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide toolbar button&apos;s text  *app restart required.
+        /// </summary>
+        public static string HideToolBarButtonsText {
+            get {
+                return ResourceManager.GetString("HideToolBarButtonsText", resourceCulture);
             }
         }
         
@@ -2414,6 +2423,24 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipGroupPhotoSetsDescription {
             get {
                 return ResourceManager.GetString("ToolTipGroupPhotoSetsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide toolbar button&apos;s text from main application window.
+        /// </summary>
+        public static string ToolTipHideToolBarButtonsText {
+            get {
+                return ResourceManager.GetString("ToolTipHideToolBarButtonsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hides(colapses) the text on buttons from main application windows and leaves tooltips on so the toolbars buttons have all the same footprint.
+        /// </summary>
+        public static string ToolTipHideToolBarButtonsTextDescription {
+            get {
+                return ResourceManager.GetString("ToolTipHideToolBarButtonsTextDescription", resourceCulture);
             }
         }
         

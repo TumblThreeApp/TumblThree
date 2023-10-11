@@ -49,6 +49,9 @@ namespace TumblThree.Applications.Services
 
         bool IsTimerSet { get; set; }
 
+        string IsTextVis { get; set; }
+        bool IsToolTipActive { get; set; }
+
         string NewBlogUrl { get; set; }
 
         int ActiveCollectionId { get; set; }

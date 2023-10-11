@@ -51,6 +51,8 @@ namespace TumblThree.Applications.Services
         private RateLimiter _timeconstraintSvc;
         private RateLimiter _timeconstraintTwitterApi;
         private Timer _timer;
+        private string _isTextVis;
+        private bool _isToolTipActive;
 
         [ImportingConstructor]
         public CrawlerService(IShellService shellService)
@@ -93,6 +95,18 @@ namespace TumblThree.Applications.Services
         }
 
         public event EventHandler ActiveCollectionIdChanged;
+
+        public string IsTextVis
+        {
+            get => _isTextVis;
+            set => SetProperty(ref _isTextVis, value);
+        }
+
+        public bool IsToolTipActive
+        {
+            get => _isToolTipActive;
+            set => SetProperty(ref _isToolTipActive, value);
+        }
 
         public bool IsTimerSet
         {

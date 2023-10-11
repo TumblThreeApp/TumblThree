@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Waf.Applications.Services;
-using System.Windows;
 using System.Windows.Input;
 
 using TumblThree.Applications.Data;
@@ -150,6 +149,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _twitterLoggedIn;
         private string _twitterEmail = string.Empty;
         private bool _tumblrAuthErrorAutoRetry;
+        private bool _hideToolBarButtonsText;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -157,6 +157,7 @@ namespace TumblThree.Applications.ViewModels
             ExportFactory<AuthenticateViewModel> authenticateViewModelFactory, IDetailsService detailsService, IMessageService messageService)
             : base(view)
         {
+ 
             _folderBrowserDialog = folderBrowserDialog;
             _fileDialogService = fileDialogService;
             ShellService = shellService;
@@ -189,6 +190,7 @@ namespace TumblThree.Applications.ViewModels
             Task loadSettingsTask = Load();
             view.Closed += ViewClosed;
         }
+        
 
         public IShellService ShellService { get; }
 
@@ -535,6 +537,11 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _tumblrAuthErrorAutoRetry, value);
         }
 
+        public bool HideToolBarButtonsText
+        {
+            get => _hideToolBarButtonsText;
+            set => SetProperty(ref _hideToolBarButtonsText, value);
+        }
         private static string Sanitize(string filename)
         {
             char[] invalids = Path.GetInvalidFileNameChars();
@@ -1223,6 +1230,7 @@ namespace TumblThree.Applications.ViewModels
 
         private void LoadSettings()
         {
+           
             if (_settings != null)
             {
                 ApiKey = _settings.ApiKey;
@@ -1317,6 +1325,7 @@ namespace TumblThree.Applications.ViewModels
                 Language = _settings.Language;
                 PnjDownloadFormat = _settings.PnjDownloadFormat;
                 TumblrAuthErrorAutoRetry = _settings.TumblrAuthErrorAutoRetry;
+                HideToolBarButtonsText =  _settings.HideToolBarButtonsText;
             }
             else
             {
@@ -1411,6 +1420,7 @@ namespace TumblThree.Applications.ViewModels
                 FilenameTemplate = "%f";
                 Language = "en-US";
                 TumblrAuthErrorAutoRetry = false;
+                HideToolBarButtonsText = false;
             }
         }
 
@@ -1440,6 +1450,7 @@ namespace TumblThree.Applications.ViewModels
 
             if (loadAllDatabasesChanged && downloadLocationChanged)
             {
+                
                 CrawlerService.LibraryLoaded = new TaskCompletionSource<bool>();
                 CrawlerService.DatabasesLoaded = new TaskCompletionSource<bool>();
                 CrawlerService.ArchiveLoaded = new TaskCompletionSource<bool>();
@@ -1504,6 +1515,7 @@ namespace TumblThree.Applications.ViewModels
 
         private void SaveSettings()
         {
+            
             _settings.DownloadLocation = DownloadLocation;
             _settings.ExportLocation = ExportLocation;
             _settings.ConcurrentConnections = ConcurrentConnections;
@@ -1610,6 +1622,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.ActiveCollectionId = ActiveCollectionId;
             _settings.PnjDownloadFormat = PnjDownloadFormat;
             _settings.TumblrAuthErrorAutoRetry = TumblrAuthErrorAutoRetry;
+            _settings.HideToolBarButtonsText = HideToolBarButtonsText;
         }
     }
 }

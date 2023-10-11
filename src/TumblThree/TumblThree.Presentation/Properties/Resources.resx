@@ -1231,4 +1231,13 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="DownloadTexts2" xml:space="preserve">
     <value>Download texts</value>
   </data>
+  <data name="HideToolBarButtonsText" xml:space="preserve">
+    <value>Hide toolbar button's text  *app restart required</value>
+  </data>
+  <data name="ToolTipHideToolBarButtonsText" xml:space="preserve">
+    <value>Hide toolbar button's text from main application window</value>
+  </data>
+  <data name="ToolTipHideToolBarButtonsTextDescription" xml:space="preserve">
+    <value>Hides the text on buttons from main application window and leaves tooltips on, so all the toolbar buttons have the same width</value>
+  </data>
 </root>

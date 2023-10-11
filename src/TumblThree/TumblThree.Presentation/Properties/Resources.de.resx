@@ -982,4 +982,13 @@ Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authent
   <data name="DownloadTexts2" xml:space="preserve">
     <value>Lade Texte</value>
   </data>
+  <data name="HideToolBarButtonsText" xml:space="preserve">
+    <value>Text der Symbolleiste ausblenden *Neustart der Anwendung erforderlich</value>
+  </data>
+  <data name="ToolTipHideToolBarButtonsText" xml:space="preserve">
+    <value>Text der Symbolleiste aus dem Hauptanwendungsfenster ausblenden.</value>
+  </data>
+  <data name="ToolTipHideToolBarButtonsTextDescription" xml:space="preserve">
+    <value>Blendet den Text auf den Schaltflächen im Hauptfenster der Anwendung aus und lässt die QuickInfos eingeschaltet, so dass alle Schaltflächen in der Symbolleiste die gleiche Breite haben.</value>
+  </data>
 </root>

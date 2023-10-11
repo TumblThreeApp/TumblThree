@@ -83,6 +83,9 @@ namespace TumblThree.Presentation.DesignData
 
         public bool IsTimerSet { get; set; }
 
+        public string IsTextVis { get; set; }
+
+        public bool IsToolTipActive { get; set; }
 
         public string NewBlogUrl { get; set; }
 

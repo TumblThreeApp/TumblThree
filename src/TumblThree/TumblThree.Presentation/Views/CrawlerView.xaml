@@ -42,7 +42,7 @@
             <Setter Property="Width" Value="22" />
         </Style>
 
-        <Style TargetType="{x:Type Button}">
+        <Style TargetType="{x:Type Button}" >
             <Style.Resources>
                 <Style TargetType="{x:Type Grid}" BasedOn="{StaticResource ButtonGridStyle}" />
                 <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource ButtonTextStyle}" />
@@ -96,7 +96,7 @@
                 <TextBox x:Name="url" MinWidth="150px" Height="20px" Text="{Binding CrawlerService.NewBlogUrl, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" Grid.Column="1" >
                 <StackPanel VerticalAlignment="Center" Margin="5">
                     <Label x:Name="collectionsLabel" Content="{x:Static p:Resources.ActiveCollection}" />
                     <ComboBox x:Name="collectionsComboBox" MinWidth="100px" MaxWidth="100px" 
@@ -104,131 +104,131 @@
                     <!-- SelectedValue="{Binding CrawlerService.ActiveCollectionId, Mode=OneWay}" -->
                 </StackPanel>
 
-                <Button Command="{Binding CrawlerService.AddBlogCommand}">
+                <Button Command="{Binding CrawlerService.AddBlogCommand}" ToolTip="{x:Static p:Resources.AddBlog  }" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="FileText" />
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="PlusCircle" Foreground="#0BB203" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.AddBlog}" />
+                        <TextBlock Text="{x:Static p:Resources.AddBlog}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.RemoveBlogCommand}">
+                <Button Command="{Binding CrawlerService.RemoveBlogCommand}" ToolTip="{x:Static p:Resources.RemoveBlog}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="FileText" />
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="MinusCircle" Foreground="#E31500" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.RemoveBlog}" />
+                        <TextBlock Text="{x:Static p:Resources.RemoveBlog }" Visibility="{Binding CrawlerService.IsTextVis}" />
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.ImportBlogsCommand}">
+                <Button Command="{Binding CrawlerService.ImportBlogsCommand}" ToolTip="{x:Static p:Resources.ImportFromBlogListFile}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Copy" />
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="PlusCircle" Foreground="#0BB203" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.ImportFromBlogListFile}" />
+                        <TextBlock Text="{x:Static p:Resources.ImportFromBlogListFile}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.ShowFilesCommand}">
+                <Button Command="{Binding CrawlerService.ShowFilesCommand}" ToolTip="{x:Static p:Resources.ShowFiles}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Folder" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.ShowFiles}" />
+                        <TextBlock Text="{x:Static p:Resources.ShowFiles}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.EnqueueSelectedCommand}">
+                <Button Command="{Binding CrawlerService.EnqueueSelectedCommand}" ToolTip="{x:Static p:Resources.AddToQueue}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="List" />
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="PlusCircle" Foreground="#0BB203" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.AddToQueue}" />
+                        <TextBlock Text="{x:Static p:Resources.AddToQueue}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.RemoveBlogFromQueueCommand}">
+                <Button Command="{Binding CrawlerService.RemoveBlogFromQueueCommand}" ToolTip="{x:Static p:Resources.RemoveFromQueue}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="List" />
                             <fa:ImageAwesome Icon="Circle" Foreground="White" Style="{StaticResource ButtonSubIconDecalStyle}" />
                             <fa:ImageAwesome Icon="MinusCircle" Foreground="#E31500" Style="{StaticResource ButtonSubIconDecalStyle}" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.RemoveFromQueue}" />
+                        <TextBlock Text="{x:Static p:Resources.RemoveFromQueue}" Visibility="{Binding CrawlerService.IsTextVis}" />
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.CrawlCommand}">
+                <Button Command="{Binding CrawlerService.CrawlCommand}" ToolTip="{x:Static p:Resources.Download}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Download" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.Download}" />
+                        <TextBlock Text="{x:Static p:Resources.Download}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.PauseCommand}">
+                <Button Command="{Binding CrawlerService.PauseCommand}" ToolTip="{x:Static p:Resources.Pause}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Pause" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.Pause}" />
+                        <TextBlock Text="{x:Static p:Resources.Pause}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.ResumeCommand}">
+                <Button Command="{Binding CrawlerService.ResumeCommand}" ToolTip="{x:Static p:Resources.Resume}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Refresh" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.Resume}" />
+                        <TextBlock Text="{x:Static p:Resources.Resume}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding CrawlerService.StopCommand}">
+                <Button Command="{Binding CrawlerService.StopCommand}" ToolTip="{x:Static p:Resources.Stop}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Stop" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.Stop}" />
+                        <TextBlock Text="{x:Static p:Resources.Stop}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 
-                <ToggleButton Command="{Binding CrawlerService.ListenClipboardCommand}" IsChecked="{Binding ShellService.Settings.CheckClipboard, Mode=TwoWay}">
+                <ToggleButton Command="{Binding CrawlerService.ListenClipboardCommand}" IsChecked="{Binding ShellService.Settings.CheckClipboard, Mode=TwoWay}" ToolTip="{x:Static p:Resources.ClipboardMonitor}" MinWidth="80" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Clipboard" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.ClipboardMonitor}" />
+                        <TextBlock Text="{x:Static p:Resources.ClipboardMonitor}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </ToggleButton>
 
-                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ShowSettingsCommand}">
+                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ShowSettingsCommand}" ToolTip="{x:Static p:Resources.Settings}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Gear" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.Settings}" />
+                        <TextBlock Text="{x:Static p:Resources.Settings}" Visibility="{Binding CrawlerService.IsTextVis}" />
                     </StackPanel>
                 </Button>
 
-                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ShowAboutCommand}">
+                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ShowAboutCommand}" ToolTip="{x:Static p:Resources.About}" ToolTipService.ShowOnDisabled="True" ToolTipService.VerticalOffset="-60" ToolTipService.IsEnabled="{Binding CrawlerService.IsToolTipActive}" >
                     <StackPanel>
                         <Grid>
                             <fa:ImageAwesome Icon="Info" HorizontalAlignment="Left" />
                             <fa:ImageAwesome Icon="ThumbsOutlineUp" HorizontalAlignment="Right" />
                         </Grid>
-                        <TextBlock Text="{x:Static p:Resources.About}" />
+                        <TextBlock Text="{x:Static p:Resources.About}" Visibility="{Binding CrawlerService.IsTextVis}"/>
                     </StackPanel>
                 </Button>
 

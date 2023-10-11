@@ -26,7 +26,6 @@ namespace TumblThree.Applications.Controllers
         private readonly ITumblrBlogDetector _tumblrBlogDetector;
         private readonly IManagerService _managerService;
         private readonly IShellService _shellService;
-
         private readonly AsyncDelegateCommand _crawlCommand;
         private readonly DelegateCommand _pauseCommand;
         private readonly DelegateCommand _resumeCommand;
@@ -66,6 +65,7 @@ namespace TumblThree.Applications.Controllers
             _crawlerService.ResumeCommand = _resumeCommand;
             _crawlerService.StopCommand = _stopCommand;
             _shellService.CrawlerView = CrawlerViewModel.View;
+            CheckTextVis();
         }
 
         public void Shutdown()
@@ -325,6 +325,20 @@ namespace TumblThree.Applications.Controllers
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        private void CheckTextVis()
+        {
+            if (_shellService.Settings.HideToolBarButtonsText)
+            {
+                _crawlerService.IsTextVis = "Collapsed";
+                _crawlerService.IsToolTipActive = true;
+            }
+            else
+            {
+                _crawlerService.IsTextVis = "Visible";
+                _crawlerService.IsToolTipActive = false;
+            }
         }
     }
 }
