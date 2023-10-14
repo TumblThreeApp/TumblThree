@@ -357,6 +357,7 @@ namespace TumblThree.Domain.Models.Blogs
             }
         }
 
+        [DataMember]
         public int DownloadedItemsNew
         {
             get => downloadedItemsNew;
