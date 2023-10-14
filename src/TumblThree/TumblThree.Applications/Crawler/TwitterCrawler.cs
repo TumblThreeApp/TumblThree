@@ -885,12 +885,16 @@ namespace TumblThree.Applications.Crawler
             var dateString = GetDate(post).ToString("u");
             // shortened FullText can happen for foreign and own retweets
             var reblogged = post.Legacy.RetweetedStatusResult != null; // && GetUser(post).RestId != post.Legacy.UserIdStr;
-            var dict = new Dictionary<string, string>()
+            object url = post.Legacy.Url;
+            if (url is null) url = post.Legacy.Entities?.Urls?.Select(x => x.ExpandedUrl).ToList();
+            url = (post.Legacy.Entities?.Urls?.Count == 1) ? ((List<string>)url)[0] : url;
+            if (url is null) url = $"https://twitter.com/{post.User.Legacy.ScreenName}/status/{post.RestId}";
+            var dict = new Dictionary<string, object>()
             {
                 { "id", post.RestId },
                 { "date", dateString },
                 { "text", reblogged ? $"RT @{GetRetweetedUser(post).Legacy.ScreenName}: " + GetRetweetedTweet(post).Legacy.FullText : post.Legacy.FullText },
-                { "url", post.Legacy.Url ?? $"https://twitter.com/{post.User.Legacy.ScreenName}/status/{post.RestId}" }
+                { "url", url }
             };
             var json = JsonConvert.SerializeObject(dict);
             return json;
