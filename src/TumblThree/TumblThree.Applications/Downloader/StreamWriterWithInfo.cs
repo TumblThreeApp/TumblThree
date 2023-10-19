@@ -37,12 +37,13 @@ namespace TumblThree.Applications.Downloader
                 {
                     if (hasStartElement)
                     {
-                        _sw.BaseStream.Seek(-3, SeekOrigin.End);
+                        _sw.BaseStream.Seek(-5, SeekOrigin.End);
+                        _sw.WriteLine(",");
                     }
                     else
                     {
                         var content = File.ReadAllText(tmpPath);
-                        content = content.TrimEnd(',', '\r', '\n');
+                        content = content.TrimEnd(',', '\r', '\n') + ",";
                         _sw.WriteLine(content);
                         _sw.Flush();
                         File.Delete(tmpPath);
@@ -53,7 +54,7 @@ namespace TumblThree.Applications.Downloader
 
         public void WriteLine(string text)
         {
-            if (isJson && hasElements) text = $",\n{text}";
+            if (isJson) text = $"{text},";
             hasElements = true;
             _sw.WriteLine(text);
         }
@@ -62,7 +63,12 @@ namespace TumblThree.Applications.Downloader
         {
             if (isJson)
             {
-                _sw.WriteLine("]");
+                if (hasElements)
+                {
+                    _sw.Flush();
+                    _sw.BaseStream.Seek(-3, SeekOrigin.End);
+                }
+                _sw.WriteLine(hasElements ? "\n]" : "]");
             }
             _sw.Dispose();
         }

@@ -863,6 +863,7 @@ namespace TumblThree.Applications.Crawler
             if (!CheckIfDownloadReplyPost(post)) return;
 
             var body = GetTweetText(post);
+            if (string.IsNullOrEmpty(body)) return;
             AddToDownloadList(new TextPost(body, post.Legacy.IdStr));
             if (post.Legacy.Entities?.Media?.Count == 0 || !(Blog.DownloadPhoto || Blog.DownloadVideo))
             {
@@ -885,6 +886,8 @@ namespace TumblThree.Applications.Crawler
             var dateString = GetDate(post).ToString("u");
             // shortened FullText can happen for foreign and own retweets
             var reblogged = post.Legacy.RetweetedStatusResult != null; // && GetUser(post).RestId != post.Legacy.UserIdStr;
+            var text = reblogged ? $"RT @{GetRetweetedUser(post).Legacy.ScreenName}: " + GetRetweetedTweet(post).Legacy.FullText : post.Legacy.FullText;
+            if (post.Legacy.Entities?.Media?.Any(x => x.Url.Equals(text)) ?? false) return "";
             object url = post.Legacy.Url;
             if (url is null) url = post.Legacy.Entities?.Urls?.Select(x => x.ExpandedUrl).ToList();
             url = (post.Legacy.Entities?.Urls?.Count == 1) ? ((List<string>)url)[0] : url;
@@ -893,10 +896,10 @@ namespace TumblThree.Applications.Crawler
             {
                 { "id", post.RestId },
                 { "date", dateString },
-                { "text", reblogged ? $"RT @{GetRetweetedUser(post).Legacy.ScreenName}: " + GetRetweetedTweet(post).Legacy.FullText : post.Legacy.FullText },
+                { "text", text },
                 { "url", url }
             };
-            var json = JsonConvert.SerializeObject(dict);
+            var json = JsonConvert.SerializeObject(dict, Formatting.Indented);
             return json;
         }
 
