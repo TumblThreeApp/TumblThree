@@ -888,10 +888,20 @@ namespace TumblThree.Applications.Crawler
             var reblogged = post.Legacy.RetweetedStatusResult != null; // && GetUser(post).RestId != post.Legacy.UserIdStr;
             var text = reblogged ? $"RT @{GetRetweetedUser(post).Legacy.ScreenName}: " + GetRetweetedTweet(post).Legacy.FullText : post.Legacy.FullText;
             if (post.Legacy.Entities?.Media?.Any(x => x.Url.Equals(text)) ?? false) return "";
-            object url = post.Legacy.Url;
-            if (url is null) url = post.Legacy.Entities?.Urls?.Select(x => x.ExpandedUrl).ToList();
-            url = (post.Legacy.Entities?.Urls?.Count == 1) ? ((List<string>)url)[0] : url;
-            if (url is null) url = $"https://twitter.com/{post.User.Legacy.ScreenName}/status/{post.RestId}";
+            var links = new Dictionary<string, string>();
+            foreach (var item in post.Legacy.Entities?.Media ?? new List<Media>())
+            {
+                text = text.Replace(" " + item.Url, "").Replace(item.Url, "");
+            }
+            foreach (var item in post.Legacy.Entities?.Urls ?? new List<DataModels.Twitter.TimelineTweets.Url2>())
+            {
+                if (text.Contains(item.Url))
+                {
+                    text = text.Replace(item.Url, item.ExpandedUrl.EndsWith(item.DisplayUrl) ?  item.ExpandedUrl : item.DisplayUrl);
+                    if (!item.ExpandedUrl.EndsWith(item.DisplayUrl)) links.Add(item.DisplayUrl, item.ExpandedUrl);
+                }
+            }
+            var url = post.Legacy.Url ?? $"https://twitter.com/{post.User.Legacy.ScreenName}/status/{post.RestId}";
             var dict = new Dictionary<string, object>()
             {
                 { "id", post.RestId },
@@ -899,6 +909,7 @@ namespace TumblThree.Applications.Crawler
                 { "text", text },
                 { "url", url }
             };
+            if (links.Count > 0) dict.Add("links", links);
             var json = JsonConvert.SerializeObject(dict, Formatting.Indented);
             return json;
         }
