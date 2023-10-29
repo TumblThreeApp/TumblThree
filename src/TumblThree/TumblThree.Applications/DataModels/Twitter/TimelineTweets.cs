@@ -1029,7 +1029,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public Tweet Result { get; set; }   //TweetResult
 
         [JsonIgnore]
-        public Tweet Tweet => Result.TweetWithVisibilityResults ?? Result;
+        public Tweet Tweet => Result?.TweetWithVisibilityResults ?? Result;
     }
 
     public class UnifiedCard

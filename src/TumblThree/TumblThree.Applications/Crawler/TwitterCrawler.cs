@@ -502,9 +502,9 @@ namespace TumblThree.Applications.Crawler
             entries = entries.Where(x => x.Content.EntryType == "TimelineTimelineItem" || x.Content.EntryType == "TimelineTimelineModule" ||
                     includeCursors && x.Content.EntryType == "TimelineTimelineCursor")
                 .Where(x => x.Content.EntryType == "TimelineTimelineCursor" ||
-                    x.Content.EntryType == "TimelineTimelineItem" && x.Content.ItemContent.TweetDisplayType == "Tweet" && x.Content.ItemContent.TweetResults.Tweet.Legacy != null ||
+                    x.Content.EntryType == "TimelineTimelineItem" && x.Content.ItemContent.TweetDisplayType == "Tweet" && x.Content.ItemContent.TweetResults?.Tweet?.Legacy != null ||
                     x.Content.EntryType == "TimelineTimelineModule" && x.Content.DisplayType.EndsWith("Conversation") &&
-                        x.Content.Items.Any(a => a.Item.ItemContent.TweetResults.Tweet.Legacy != null)
+                        x.Content.Items.Any(a => a.Item.ItemContent.TweetResults?.Tweet?.Legacy != null)
                 ).ToList();
 
             List<Entry> replaceEntries = response.Timeline.Instructions.Where(x => x.Type == "TimelineReplaceEntry").Select(x => x.Entry).ToList();
