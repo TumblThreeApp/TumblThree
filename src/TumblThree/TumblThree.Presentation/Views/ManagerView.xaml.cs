@@ -102,7 +102,7 @@ namespace TumblThree.Presentation.Views
                 return;
             }
 
-            if (collectionView.IsEditingItem)
+            if (collectionView.IsEditingItem && collectionView.CanCancelEdit)
             {
                 collectionView.CancelEdit();
             }
