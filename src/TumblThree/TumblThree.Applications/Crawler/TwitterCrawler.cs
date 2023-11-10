@@ -652,9 +652,13 @@ namespace TumblThree.Applications.Crawler
                     try
                     {
                         DateTimeOffset dto = DateTimeOffset.FromUnixTimeSeconds(long.Parse(handle429));
-                        Progress.Report(new DownloadProgress() { Progress = string.Format("waiting until {0}", dto.ToLocalTime().ToString()) });
-                        var cancelled = Ct.WaitHandle.WaitOne((int)dto.Subtract(DateTime.Now).TotalMilliseconds);
-                        if (cancelled) retries = 400;
+                        var waitTime = (int)dto.Subtract(DateTime.Now).TotalMilliseconds;
+                        if (waitTime > 0)
+                        {
+                            Progress.Report(new DownloadProgress() { Progress = string.Format("waiting until {0}", dto.ToLocalTime().ToString()) });
+                            var cancelled = Ct.WaitHandle.WaitOne(waitTime);
+                            if (cancelled) retries = 400;
+                        }
                     }
                     catch (Exception e)
                     {
