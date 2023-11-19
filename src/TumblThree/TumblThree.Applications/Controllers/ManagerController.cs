@@ -14,6 +14,7 @@ using System.Waf.Applications;
 using System.Waf.Applications.Services;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Xml;
 using TumblThree.Applications.Crawler;
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.Properties;
@@ -332,7 +333,7 @@ namespace TumblThree.Applications.Controllers
                         blogs.Add(blog);
                     }
                 }
-                catch (SerializationException ex)
+                catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException || ex is XmlException)
                 {
                     if (blog != null) { blog.LoadError = ex; }
                     failedToLoadBlogs.Add(ex.Data["Filename"].ToString());
@@ -457,7 +458,7 @@ namespace TumblThree.Applications.Controllers
                         databases.Add(database);
                     }
                 }
-                catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException || ex is IOException)
+                catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException || ex is IOException || ex is XmlException)
                 {
                     failedToLoadDatabases.Add(ex.Data["Filename"].ToString());
                 }

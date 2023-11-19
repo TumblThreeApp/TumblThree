@@ -154,8 +154,15 @@ namespace TumblThree.Domain.Models.Files
                 if (!isArchive && file.IsDirty) file.Save();
                 return file;
             }
+            catch (Exception ex) when (ex is XmlException)
+            {
+                Logger.Error("Error loading file '{0}' (modified with text editor?): {1}", fileLocation, ex.Message);
+                ex.Data.Add("Filename", fileLocation);
+                throw;
+            }
             catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException || ex is IOException)
             {
+                Logger.Error("Error loading file '{0}': {1}", fileLocation, ex.Message);
                 ex.Data.Add("Filename", fileLocation);
                 throw;
             }

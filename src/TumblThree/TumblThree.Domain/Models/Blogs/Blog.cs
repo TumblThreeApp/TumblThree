@@ -1064,8 +1064,15 @@ namespace TumblThree.Domain.Models.Blogs
             {
                 return LoadCore(fileLocation);
             }
+            catch (Exception ex) when (ex is XmlException)
+            {
+                Logger.Error("Error loading file '{0}' (modified with text editor?): {1}", fileLocation, ex.Message);
+                ex.Data.Add("Filename", fileLocation);
+                throw;
+            }
             catch (Exception ex) when (ex is SerializationException || ex is FileNotFoundException)
             {
+                Logger.Error("Error loading file '{0}': {1}", fileLocation, ex.Message);
                 ex.Data.Add("Filename", fileLocation);
                 throw;
             }
