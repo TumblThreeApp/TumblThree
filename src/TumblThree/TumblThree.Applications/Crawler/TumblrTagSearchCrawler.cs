@@ -165,10 +165,7 @@ namespace TumblThree.Applications.Crawler
 
         protected async Task<string> GetRequestAsync(string url, string bearerToken)
         {
-            if (ShellService.Settings.LimitConnectionsSearchApi)
-            {
-                CrawlerService.TimeconstraintSearchApi.Acquire();
-            }
+            AcquireTimeconstraintSearchApi();
             string[] cookieHosts = { "https://www.tumblr.com/" };
             return await RequestApiDataAsync(url, bearerToken, null, cookieHosts);
         }
@@ -377,10 +374,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetTaggedSearchPageAsync(bool secondTry = false)
         {
-            if (ShellService.Settings.LimitConnectionsSearchApi)
-            {
-                CrawlerService.TimeconstraintSearchApi.Acquire();
-            }
+            AcquireTimeconstraintSearchApi();
 
             var url = Blog.Url;
             if (secondTry)

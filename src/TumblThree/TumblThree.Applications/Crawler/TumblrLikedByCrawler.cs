@@ -163,6 +163,7 @@ namespace TumblThree.Applications.Crawler
                     {
                         try
                         {
+                            AcquireTimeconstraintSvc();
                             document = await GetRequestAsync(url);
                         }
                         catch (WebException webEx)
@@ -170,6 +171,7 @@ namespace TumblThree.Applications.Crawler
                             if (HandleUnauthorizedWebExceptionRetry(webEx))
                             {
                                 await FetchCookiesAgainAsync();
+                                AcquireTimeconstraintSvc();
                                 document = await GetRequestAsync(url);
                             }
                             else
@@ -618,6 +620,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
+                AcquireTimeconstraintSvc();
                 await GetRequestAsync(Blog.Url);
                 Blog.Online = true;
             }
@@ -668,6 +671,7 @@ namespace TumblThree.Applications.Crawler
             try
             {
                 var url = Blog.Url + (TumblrLikedByBlog.IsLikesUrl(Blog.Url) ? "" : "/page/1");
+                AcquireTimeconstraintSvc();
                 string document = await GetRequestAsync(url);
                 if (string.IsNullOrEmpty(document))
                 {

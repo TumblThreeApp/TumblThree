@@ -218,10 +218,7 @@ namespace TumblThree.Applications.Crawler
         {
             string url = GetApiUrl(Blog.Url, (Blog.PageSize == 0 ? 1 : Blog.PageSize), pageId * Blog.PageSize);
 
-            if (ShellService.Settings.LimitConnectionsApi)
-            {
-                CrawlerService.TimeconstraintApi.Acquire();
-            }
+            AcquireTimeconstraintApi();
 
             return await GetRequestAsync(url);
         }
@@ -311,6 +308,7 @@ namespace TumblThree.Applications.Crawler
             var response = ConvertJsonToClass<TumblrApiJson>(document);
             string pinnedId = "";
             var url = "https://www.tumblr.com/" + (Blog.Url.Contains(".tumblr.com") ? Domain.Models.Blogs.Blog.ExtractName(Blog.Url) : response.TumbleLog.Name);
+            AcquireTimeconstraintApi();
             document = await GetRequestAsync(url);
             if (document.Contains("___INITIAL_STATE___"))
             {

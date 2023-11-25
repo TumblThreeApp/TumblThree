@@ -81,6 +81,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
+                AcquireTimeconstraintSvc();
                 string document = await GetRequestAsync(url);
                 return ExtractTumblrKey(document);
             }
@@ -430,6 +431,7 @@ namespace TumblThree.Applications.Crawler
             {
                 try
                 {
+                    Thread.Sleep(700);
                     HttpWebRequest request = WebRequestFactory.CreateGetRequest(url, "",
                         new Dictionary<string, string>() { { "Accept-Language", "en-US" }, { "Accept-Encoding", "gzip, deflate" } }, false);
                     request.Accept = "text/html, application/xhtml+xml, */*";
@@ -605,6 +607,30 @@ namespace TumblThree.Applications.Crawler
                 cookieCollection.Add(transferCookie);
             }
             return cookieCollection;
+        }
+
+        protected void AcquireTimeconstraintApi()
+        {
+            if (ShellService.Settings.LimitConnectionsApi)
+            {
+                CrawlerService.TimeconstraintApi.Acquire();
+            }
+        }
+
+        protected void AcquireTimeconstraintSvc()
+        {
+            if (ShellService.Settings.LimitConnectionsSvc)
+            {
+                CrawlerService.TimeconstraintSvc.Acquire();
+            }
+        }
+
+        protected void AcquireTimeconstraintSearchApi()
+        {
+            if (ShellService.Settings.LimitConnectionsSearchApi)
+            {
+                CrawlerService.TimeconstraintSearchApi.Acquire();
+            }
         }
 
         private static DateTime GetDate(Post post)

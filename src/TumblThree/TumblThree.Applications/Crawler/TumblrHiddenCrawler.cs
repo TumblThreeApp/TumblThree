@@ -356,10 +356,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetSvcPageAsync(string limit, string offset)
         {
-            if (ShellService.Settings.LimitConnectionsSvc)
-            {
-                CrawlerService.TimeconstraintSvc.Acquire();
-            }
+            AcquireTimeconstraintSvc();
 
             return await RequestDataAsync(limit, offset);
         }
