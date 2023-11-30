@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -151,187 +152,119 @@ namespace TumblThree.Domain.Models.Blogs
         public bool DownloadText
         {
             get => downloadText;
-            set
-            {
-                SetProperty(ref downloadText, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadText, value);
         }
 
         [DataMember]
         public bool DownloadQuote
         {
             get => downloadQuote;
-            set
-            {
-                SetProperty(ref downloadQuote, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadQuote, value);
         }
 
         [DataMember]
         public bool DownloadPhoto
         {
             get => downloadPhoto;
-            set
-            {
-                SetProperty(ref downloadPhoto, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadPhoto, value);
         }
 
         [DataMember]
         public bool DownloadLink
         {
             get => downloadLink;
-            set
-            {
-                SetProperty(ref downloadLink, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadLink, value);
         }
 
         [DataMember]
         public bool DownloadAnswer
         {
             get => downloadAnswer;
-            set
-            {
-                SetProperty(ref downloadAnswer, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadAnswer, value);
         }
 
         [DataMember]
         public bool DownloadConversation
         {
             get => downloadConversation;
-            set
-            {
-                SetProperty(ref downloadConversation, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadConversation, value);
         }
 
         [DataMember]
         public bool DownloadVideo
         {
             get => downloadVideo;
-            set
-            {
-                SetProperty(ref downloadVideo, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadVideo, value);
         }
 
         [DataMember]
         public bool DumpCrawlerData
         {
             get => dumpCrawlerData;
-            set
-            {
-                SetProperty(ref dumpCrawlerData, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref dumpCrawlerData, value);
         }
 
         [DataMember]
         public bool RegExPhotos
         {
             get => regExPhotos;
-            set
-            {
-                SetProperty(ref regExPhotos, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref regExPhotos, value);
         }
 
         [DataMember]
         public bool RegExVideos
         {
             get => regExVideos;
-            set
-            {
-                SetProperty(ref regExVideos, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref regExVideos, value);
         }
 
         [DataMember]
         public string FileDownloadLocation
         {
             get => fileDownloadLocation;
-            set
-            {
-                SetProperty(ref fileDownloadLocation, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref fileDownloadLocation, value);
         }
 
         [DataMember]
         public bool DownloadAudio
         {
             get => downloadAudio;
-            set
-            {
-                SetProperty(ref downloadAudio, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadAudio, value);
         }
 
         [DataMember]
         public bool CreatePhotoMeta
         {
             get => createPhotoMeta;
-            set
-            {
-                SetProperty(ref createPhotoMeta, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref createPhotoMeta, value);
         }
 
         [DataMember]
         public bool CreateVideoMeta
         {
             get => createVideoMeta;
-            set
-            {
-                SetProperty(ref createVideoMeta, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref createVideoMeta, value);
         }
 
         [DataMember]
         public bool CreateAudioMeta
         {
             get => createAudioMeta;
-            set
-            {
-                SetProperty(ref createAudioMeta, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref createAudioMeta, value);
         }
 
         [DataMember]
         public bool DownloadReplies
         {
             get => downloadReplies;
-            set
-            {
-                SetProperty(ref downloadReplies, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadReplies, value);
         }
 
         [DataMember]
         public bool DownloadRebloggedPosts
         {
             get => downloadRebloggedPosts;
-            set
-            {
-                SetProperty(ref downloadRebloggedPosts, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadRebloggedPosts, value);
         }
 
         [DataMember]
@@ -350,11 +283,7 @@ namespace TumblThree.Domain.Models.Blogs
         public BlogTypes BlogType
         {
             get => blogType;
-            set
-            {
-                SetProperty(ref blogType, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref blogType, value);
         }
 
         [DataMember]
@@ -390,22 +319,14 @@ namespace TumblThree.Domain.Models.Blogs
         public string Tags
         {
             get => tags;
-            set
-            {
-                SetProperty(ref tags, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref tags, value);
         }
 
         [DataMember]
         public int Rating
         {
             get => rating;
-            set
-            {
-                SetProperty(ref rating, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref rating, value);
         }
 
         [DataMember]
@@ -709,55 +630,35 @@ namespace TumblThree.Domain.Models.Blogs
         public string DownloadPages
         {
             get => downloadPages;
-            set
-            {
-                SetProperty(ref downloadPages, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadPages, value);
         }
 
         [DataMember]
         public int PageSize
         {
             get => pageSize;
-            set
-            {
-                SetProperty(ref pageSize, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref pageSize, value);
         }
 
         [DataMember]
         public string DownloadFrom
         {
             get => downloadFrom;
-            set
-            {
-                SetProperty(ref downloadFrom, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadFrom, value);
         }
 
         [DataMember]
         public string DownloadTo
         {
             get => downloadTo;
-            set
-            {
-                SetProperty(ref downloadTo, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadTo, value);
         }
 
         [DataMember]
         public string Password
         {
             get => password;
-            set
-            {
-                SetProperty(ref password, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref password, value);
         }
 
         [DataMember]
@@ -816,33 +717,21 @@ namespace TumblThree.Domain.Models.Blogs
         public string Notes
         {
             get => notes;
-            set
-            {
-                SetProperty(ref notes, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref notes, value);
         }
 
         [DataMember]
         public bool CheckDirectoryForFiles
         {
             get => checkDirectoryForFiles;
-            set
-            {
-                SetProperty(ref checkDirectoryForFiles, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref checkDirectoryForFiles, value);
         }
 
         [DataMember]
         public bool DownloadUrlList
         {
             get => downloadUrlList;
-            set
-            {
-                SetProperty(ref downloadUrlList, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadUrlList, value);
         }
 
         // no DataMember
@@ -886,81 +775,63 @@ namespace TumblThree.Domain.Models.Blogs
         public bool SkipGif
         {
             get => skipGif;
-            set
-            {
-                SetProperty(ref skipGif, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref skipGif, value);
         }
 
         [DataMember]
         public bool DownloadVideoThumbnail
         {
             get => downloadVideoThumbnail;
-            set
-            {
-                SetProperty(ref downloadVideoThumbnail, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref downloadVideoThumbnail, value);
         }
 
         [DataMember]
         public bool ForceSize
         {
             get => forceSize;
-            set
-            {
-                SetProperty(ref forceSize, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref forceSize, value);
         }
 
         [DataMember]
         public bool ForceRescan
         {
             get => forceRescan;
-            set
-            {
-                SetProperty(ref forceRescan, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref forceRescan, value);
         }
 
         [DataMember]
         public bool GroupPhotoSets
         {
             get => groupPhotoSets;
-            set
-            {
-                SetProperty(ref groupPhotoSets, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref groupPhotoSets, value);
         }
 
         [DataMember]
         public int CollectionId
         {
             get => collectionId;
-            set
-            {
-                SetProperty(ref collectionId, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref collectionId, value);
         }
 
         [DataMember]
         public string PnjDownloadFormat
         {
             get => pnjDownloadFormat;
-            set
-            {
-                SetProperty(ref pnjDownloadFormat, value);
-                Dirty = true;
-            }
+            set => SetProperty(ref pnjDownloadFormat, value);
         }
 
         [IgnoreDataMember]
         public long LastPreviewShown { get; set; }
+
+        private new bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (base.SetProperty(ref field, value, propertyName))
+            {
+                Dirty = true;
+                return true;
+            }
+            return false;
+        }
 
         public void UpdateProgress(bool doCount)
         {
