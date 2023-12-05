@@ -308,8 +308,16 @@ namespace TumblThree.Applications.Crawler
             var response = ConvertJsonToClass<TumblrApiJson>(document);
             string pinnedId = "";
             var url = "https://www.tumblr.com/" + (Blog.Url.Contains(".tumblr.com") ? Domain.Models.Blogs.Blog.ExtractName(Blog.Url) : response.TumbleLog.Name);
-            AcquireTimeconstraintApi();
-            document = await GetRequestAsync(url);
+            try
+            {
+                AcquireTimeconstraintApi();
+                document = await GetRequestAsync(url);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("TumblrBlogCrawler.GetHighestPostIdCoreAsync: {0}", e);
+                document = "Error";
+            }
             if (document.Contains("___INITIAL_STATE___"))
             {
                 var extracted = extractJsonFromPage.Match(document).Groups[1].Value;
@@ -318,7 +326,7 @@ namespace TumblThree.Applications.Crawler
             }
 
             Blog.Posts = response.PostsTotal;
-            Post post = response.Posts?.FirstOrDefault(x => x.Id != pinnedId);
+            Post post = response.Posts?.Skip(document == "Error" ? 1 : 0).FirstOrDefault(x => x.Id != pinnedId);
             if (DateTime.TryParse(post?.DateGmt, out var latestPost)) Blog.LatestPost = latestPost;
             _ = ulong.TryParse(post?.Id, out var highestId);
             return highestId;
