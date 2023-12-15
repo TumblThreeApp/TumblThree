@@ -44,6 +44,10 @@ namespace TumblThree.Presentation.Views
         {
             ViewModel.SelectionService.RemoveRange(e.RemovedItems.Cast<IBlog>());
             ViewModel.SelectionService.AddRange(e.AddedItems.Cast<IBlog>());
+            if (e.RemovedItems.Count == 1)
+            {
+                ViewModel.CrawlerService.LastDeselectedPreview = (IBlog)e.RemovedItems[0];
+            }
         }
 
         private ManagerViewModel ViewModel

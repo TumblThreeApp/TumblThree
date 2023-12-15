@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Foundation;
 using System.Windows.Input;
+using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
 
 namespace TumblThree.Applications.Services
@@ -53,6 +54,8 @@ namespace TumblThree.Applications.Services
         bool IsToolTipActive { get; set; }
 
         string NewBlogUrl { get; set; }
+
+        IBlog LastDeselectedPreview { get; set; }
 
         int ActiveCollectionId { get; set; }
 

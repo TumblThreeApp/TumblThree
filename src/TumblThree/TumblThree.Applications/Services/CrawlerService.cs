@@ -11,6 +11,7 @@ using System.Waf.Foundation;
 using System.Windows.Data;
 using System.Windows.Input;
 using TumblThree.Domain.Models;
+using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
 
 namespace TumblThree.Applications.Services
@@ -53,6 +54,7 @@ namespace TumblThree.Applications.Services
         private Timer _timer;
         private string _isTextVis;
         private bool _isToolTipActive;
+        private IBlog _lastDeselectedPreview;
 
         [ImportingConstructor]
         public CrawlerService(IShellService shellService)
@@ -252,6 +254,12 @@ namespace TumblThree.Applications.Services
         {
             get => _newBlogUrl;
             set => SetProperty(ref _newBlogUrl, value);
+        }
+
+        public IBlog LastDeselectedPreview
+        {
+            get => _lastDeselectedPreview;
+            set => SetProperty(ref _lastDeselectedPreview, value);
         }
 
         public int ActiveCollectionId

@@ -89,6 +89,8 @@ namespace TumblThree.Presentation.DesignData
 
         public string NewBlogUrl { get; set; }
 
+        public IBlog LastDeselectedPreview { get; set; }
+
         public int ActiveCollectionId { get; set; }
 
         public Guava.RateLimiter.RateLimiter TimeconstraintApi { get; set; }

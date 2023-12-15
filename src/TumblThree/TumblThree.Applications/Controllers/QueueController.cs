@@ -228,7 +228,9 @@ namespace TumblThree.Applications.Controllers
         {
             if (_crawlerService.ActiveItems.Count > 0)
             {
-                _detailsService.UpdateBlogPreview(_crawlerService.ActiveItems.OrderByDescending(x => x.Blog.LastPreviewShown).Take(1).Select(x => x.Blog).ToArray());
+                IBlog[] blogs = _crawlerService.ActiveItems.OrderByDescending(x => x.Blog.LastPreviewShown)
+                    .SkipWhile(x => _crawlerService.ActiveItems.Count > 1 && x.Blog == _crawlerService.LastDeselectedPreview).Take(1).Select(x => x.Blog).ToArray();
+                _detailsService.UpdateBlogPreview(blogs);
             }
         }
 
