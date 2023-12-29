@@ -11,6 +11,78 @@ changing over time.
 
 <br>
 
+##  2.12.0 (2023-12-15)
+
+#### Added
+- Remember a deselected blog in preview
+
+#### Fixed
+- Error on grid sorting
+- Error while handling 429 (issue #488)
+- Unhandled errors loading files
+- Fix the rate limiting
+- Number of Downloadable Items is not being saved (issue #497)
+- Latest Post date no longer updated
+<br>
+
+##  2.11.4 (2023-11-01)
+
+#### Changed
+- Possibility to hide toolbar button captions (issue #237)
+- Persist newly downloaded items count until next download (issue #404)
+
+#### Fixed
+- Use Twitter ScreenName instead of changeable blog name (issue #473)
+- Use user name instead of id for the token (issue #471)
+- New global setting for 'Download replies' (issue #471)
+- Show Twitter generated errors as such
+- Some texts are cut off mid sentence (issue #475)
+- Always download text (issue #475)
+- Download all media types in a post (issue #475)
+- Show links correctly in downloaded texts (issue #475)
+<br>
+
+##  2.11.3 (2023-09-19)
+
+#### Changed
+- Make the new Tumblr authorization error handling optional (advanced settings)
+
+#### Fixed
+- Some Twitter blogs cannot be downloaded
+- Some Twitter blogs failed to finish downloading
+<br>
+
+##  2.11.2 (2023-08-26)
+
+#### Fixed
+- Likes crawler not downloading
+- Show blog's collection name in messages
+- Feedback dialog no longer working
+- Tag Search's search order
+- Refresh the cookies on auth error and try to continue (issues #404/#374)
+<br>
+
+##  2.11.1 (2023-08-06)
+
+#### Fixed
+- Occasional error downloading video thumbnail in Tag Search crawler
+- Follow Twitter's new rate limits
+- Changes for Twitter's new data structures
+- Few issues introduced by last data structure changes
+<br>
+
+##  2.11.0 (2023-07-25)
+
+#### Added
+- Login for Twitter (issue #442)
+
+#### Changed
+- More log output
+
+#### Fixed
+- Adjustment to new Twitter data structures
+<br>
+
 ##  2.10.3 (2023-06-20)
 
 #### Fixed
