@@ -17,7 +17,10 @@
                             Grid.Row="0"
                             Content="{TemplateBinding Title}"
                             FontWeight="SemiBold" />
-                        <Label Grid.Row="1" Content="{TemplateBinding Description}" />
+                        <Label Grid.Row="1" Height="Auto" Width="Auto" MaxWidth="420">
+                            <AccessText TextWrapping="Wrap" Text="{TemplateBinding Description}">
+                            </AccessText>
+                        </Label>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
