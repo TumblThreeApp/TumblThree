@@ -53,9 +53,13 @@ namespace TumblThree.Presentation.DesignData
 
         public ICommand RemoveBlogFromQueueCommand { get; set; }
 
+        public ICommand RemoveBlogSelectionFromQueueCommand { get; set; }
+
         public ICommand ShowFilesCommand { get; set; }
 
         public ICommand EnqueueSelectedCommand { get; set; }
+        
+        public ICommand DequeueSelectedCommand { get; set; }
 
         public ICommand LoadLibraryCommand { get; set; }
 

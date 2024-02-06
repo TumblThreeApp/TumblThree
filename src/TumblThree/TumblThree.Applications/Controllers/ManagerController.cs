@@ -52,6 +52,7 @@ namespace TumblThree.Applications.Controllers
         private readonly AsyncDelegateCommand _addBlogCommand;
         private readonly DelegateCommand _autoDownloadCommand;
         private readonly DelegateCommand _enqueueSelectedCommand;
+        private readonly DelegateCommand _dequeueSelectedCommand;
         private readonly DelegateCommand _listenClipboardCommand;
         private readonly AsyncDelegateCommand _loadLibraryCommand;
         private readonly AsyncDelegateCommand _loadAllDatabasesCommand;
@@ -97,6 +98,7 @@ namespace TumblThree.Applications.Controllers
             _visitBlogCommand = new DelegateCommand(VisitBlog, CanVisitBlog);
             _visitBlogOnTumbexCommand = new DelegateCommand(VisitBlogOnTumbex, CanVisitBlog);
             _enqueueSelectedCommand = new DelegateCommand(EnqueueSelected, CanEnqueueSelected);
+            _dequeueSelectedCommand = new DelegateCommand(DequeueSelected, CanDequeueSelected);
             _loadLibraryCommand = new AsyncDelegateCommand(LoadLibraryAsync, CanLoadLibrary);
             _loadAllDatabasesCommand = new AsyncDelegateCommand(LoadAllDatabasesAsync, CanLoadAllDatbases);
             _loadArchiveCommand = new AsyncDelegateCommand(LoadArchiveAsync, CanLoadArchive);
@@ -129,6 +131,7 @@ namespace TumblThree.Applications.Controllers
             _crawlerService.RemoveBlogCommand = _removeBlogCommand;
             _crawlerService.ShowFilesCommand = _showFilesCommand;
             _crawlerService.EnqueueSelectedCommand = _enqueueSelectedCommand;
+            _crawlerService.DequeueSelectedCommand = _dequeueSelectedCommand;
             _crawlerService.LoadLibraryCommand = _loadLibraryCommand;
             _crawlerService.LoadAllDatabasesCommand = _loadAllDatabasesCommand;
             _crawlerService.LoadArchiveCommand = _loadArchiveCommand;
@@ -571,9 +574,23 @@ namespace TumblThree.Applications.Controllers
 
         private bool CanEnqueueSelected() => ManagerViewModel.SelectedBlogFile != null && ManagerViewModel.SelectedBlogFile.Online;
 
+        private bool CanDequeueSelected() => ManagerViewModel.SelectedBlogFile != null && true;
+
         private void EnqueueSelected() => Enqueue(_selectionService.SelectedBlogFiles.Where(blog => blog.Online).ToArray());
 
+        private void DequeueSelected() => Dequeue(_selectionService.SelectedBlogFiles.ToArray());
+
         private void Enqueue(IEnumerable<IBlog> blogFiles) => QueueManager.AddItems(blogFiles.Select(x => new QueueListItem(x)));
+
+        private void Dequeue(IEnumerable<IBlog> blogFiles)
+        {
+            List<QueueListItem> toBeRemoved = new List<QueueListItem>();
+            foreach (var blog in blogFiles)
+            {
+                toBeRemoved.AddRange(QueueManager.Items.Where(x => x.Blog.Name == blog.Name && x.Blog.BlogType == blog.BlogType).ToArray());
+            }
+            _crawlerService.RemoveBlogSelectionFromQueueCommand.Execute(toBeRemoved);
+        }
 
         private bool CanEnqueueAutoDownload() => _managerService.BlogFiles.Any();
 
@@ -1070,6 +1087,7 @@ namespace TumblThree.Applications.Controllers
         private void UpdateCommands()
         {
             _enqueueSelectedCommand.RaiseCanExecuteChanged();
+            _dequeueSelectedCommand.RaiseCanExecuteChanged();
             _removeBlogCommand.RaiseCanExecuteChanged();
             _showFilesCommand.RaiseCanExecuteChanged();
         }

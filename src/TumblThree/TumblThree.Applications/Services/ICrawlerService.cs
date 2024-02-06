@@ -22,6 +22,8 @@ namespace TumblThree.Applications.Services
 
         ICommand EnqueueSelectedCommand { get; set; }
 
+        ICommand DequeueSelectedCommand { get; set; }
+
         ICommand LoadLibraryCommand { get; set; }
 
         ICommand LoadAllDatabasesCommand { get; set; }
@@ -31,6 +33,8 @@ namespace TumblThree.Applications.Services
         ICommand CheckIfDatabasesCompleteCommand { get; set; }
 
         ICommand RemoveBlogFromQueueCommand { get; set; }
+
+        ICommand RemoveBlogSelectionFromQueueCommand { get; set; }
 
         ICommand ListenClipboardCommand { get; set; }
 

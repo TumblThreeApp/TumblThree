@@ -57,34 +57,74 @@
             </DataGrid.InputBindings>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu>
-                                <MenuItem Command="{Binding CrawlerService.EnqueueSelectedCommand}"
-                                          Header="{x:Static p:Resources.EnqueueSelection}"
-                                          InputGestureText="{x:Static p:Resources.ShiftReturn}" />
-                                <Separator />
-                                <MenuItem Command="{Binding CheckStatusCommand}"
-                                          Header="{x:Static p:Resources.CheckStatus}" />
-                                <MenuItem Command="{Binding CopyUrlCommand}"
-                                          Header="{x:Static p:Resources.CopyUrl}" />
-                                <MenuItem Command="{Binding VisitBlogCommand}"
-                                          Header="{x:Static p:Resources.VisitBlog}" />
-                                <MenuItem Command="{Binding VisitBlogOnTumbexCommand}"
-                                          Header="{x:Static p:Resources.VisitBlogOnTumbex}" />
-                                <MenuItem Command="{Binding ShowDetailsCommand}"
-                                          Header="{x:Static p:Resources.ShowDetails}" />
-                                <MenuItem Command="{Binding ShowFilesCommand}"
-                                          Header="{x:Static p:Resources.ShowFiles}" />
-                                <MenuItem Command="{Binding ViewImagesCommand}"
-                                          Header="{x:Static p:Resources.ViewImages}" />
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
                     <EventSetter Event="ContextMenuOpening" Handler="DataGridRowContextMenuOpening" />
                     <EventSetter Event="MouseDoubleClick" Handler="DataGridRowMouseDoubleClick" />
                     <EventSetter Event="MouseMove" Handler="DataGridRowMouseMove" />
                     <Style.Triggers>
+                        <DataTrigger Value="True">
+                            <DataTrigger.Binding>
+                                <Binding Path="DataContext.CrawlerService.DequeueSelectedCommandVisible" ElementName="blogFilesGrid" />
+                            </DataTrigger.Binding>
+                            <DataTrigger.Setters>
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu>
+                                            <MenuItem Command="{Binding CrawlerService.EnqueueSelectedCommand}"
+                                                    Header="{x:Static p:Resources.EnqueueSelection}"
+                                                    InputGestureText="{x:Static p:Resources.ShiftReturn}" />
+                                            <MenuItem Command="{Binding CrawlerService.DequeueSelectedCommand}"
+                                                    Header="Dequeue Selection" />
+                                            <Separator />
+                                            <MenuItem Command="{Binding CheckStatusCommand}"
+                                                    Header="{x:Static p:Resources.CheckStatus}" />
+                                            <MenuItem Command="{Binding CopyUrlCommand}"
+                                                    Header="{x:Static p:Resources.CopyUrl}" />
+                                            <MenuItem Command="{Binding VisitBlogCommand}"
+                                                    Header="{x:Static p:Resources.VisitBlog}" />
+                                            <MenuItem Command="{Binding VisitBlogOnTumbexCommand}"
+                                                    Header="{x:Static p:Resources.VisitBlogOnTumbex}" />
+                                            <MenuItem Command="{Binding ShowDetailsCommand}"
+                                                    Header="{x:Static p:Resources.ShowDetails}" />
+                                            <MenuItem Command="{Binding ShowFilesCommand}"
+                                                    Header="{x:Static p:Resources.ShowFiles}" />
+                                            <MenuItem Command="{Binding ViewImagesCommand}"
+                                                    Header="{x:Static p:Resources.ViewImages}" />
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                        <DataTrigger Value="False">
+                            <DataTrigger.Binding>
+                                <Binding Path="DataContext.CrawlerService.DequeueSelectedCommandVisible" ElementName="blogFilesGrid" />
+                            </DataTrigger.Binding>
+                            <DataTrigger.Setters>
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu>
+                                            <MenuItem Command="{Binding CrawlerService.EnqueueSelectedCommand}"
+                                                    Header="{x:Static p:Resources.EnqueueSelection}"
+                                                    InputGestureText="{x:Static p:Resources.ShiftReturn}" />
+                                            <Separator />
+                                            <MenuItem Command="{Binding CheckStatusCommand}"
+                                                    Header="{x:Static p:Resources.CheckStatus}" />
+                                            <MenuItem Command="{Binding CopyUrlCommand}"
+                                                    Header="{x:Static p:Resources.CopyUrl}" />
+                                            <MenuItem Command="{Binding VisitBlogCommand}"
+                                                    Header="{x:Static p:Resources.VisitBlog}" />
+                                            <MenuItem Command="{Binding VisitBlogOnTumbexCommand}"
+                                                    Header="{x:Static p:Resources.VisitBlogOnTumbex}" />
+                                            <MenuItem Command="{Binding ShowDetailsCommand}"
+                                                    Header="{x:Static p:Resources.ShowDetails}" />
+                                            <MenuItem Command="{Binding ShowFilesCommand}"
+                                                    Header="{x:Static p:Resources.ShowFiles}" />
+                                            <MenuItem Command="{Binding ViewImagesCommand}"
+                                                    Header="{x:Static p:Resources.ViewImages}" />
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
                         <DataTrigger Value="True">
                             <DataTrigger.Binding>
                                 <MultiBinding Converter="{StaticResource IsBlogInQueueMultiConverter}">

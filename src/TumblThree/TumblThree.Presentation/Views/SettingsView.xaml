@@ -2479,6 +2479,29 @@
                                 </CheckBox>
                             </Grid>
                         </GroupBox>
+                        <GroupBox Header="UI" Grid.Row="2" Grid.ColumnSpan="4" Margin="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <CheckBox x:Name="checkBoxDequeueSelectedCommandVisible"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="5"
+                                    Content="Show 'Dequeue selection'"
+                                    IsChecked="{Binding DequeueSelectedCommandVisible, Mode=TwoWay}">
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="" />
+                                                <TextBlock Text="" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
+                            </Grid>
+                        </GroupBox>
                     </Grid>
                 </TabItem>
             </TabControl>

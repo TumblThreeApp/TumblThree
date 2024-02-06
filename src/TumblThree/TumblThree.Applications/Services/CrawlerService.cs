@@ -29,6 +29,7 @@ namespace TumblThree.Applications.Services
         private ICommand _autoDownloadCommand;
         private ICommand _crawlCommand;
         private ICommand _enqueueSelectedCommand;
+        private ICommand _dequeueSelectedCommand;
         private ICommand _loadLibraryCommand;
         private ICommand _loadAllDatabasesCommand;
         private ICommand _loadArchiveCommand;
@@ -44,6 +45,7 @@ namespace TumblThree.Applications.Services
         private ICommand _pauseCommand;
         private ICommand _removeBlogCommand;
         private ICommand _removeBlogFromQueueCommand;
+        private ICommand _removeBlogSelectionFromQueueCommand;
         private ICommand _resumeCommand;
         private ICommand _showFilesCommand;
         private ICommand _stopCommand;
@@ -172,6 +174,12 @@ namespace TumblThree.Applications.Services
             set => SetProperty(ref _enqueueSelectedCommand, value);
         }
 
+        public ICommand DequeueSelectedCommand
+        {
+            get => _dequeueSelectedCommand;
+            set => SetProperty(ref _dequeueSelectedCommand, value);
+        }
+
         public ICommand LoadLibraryCommand
         {
             get => _loadLibraryCommand;
@@ -200,6 +208,12 @@ namespace TumblThree.Applications.Services
         {
             get => _removeBlogFromQueueCommand;
             set => SetProperty(ref _removeBlogFromQueueCommand, value);
+        }
+
+        public ICommand RemoveBlogSelectionFromQueueCommand
+        {
+            get => _removeBlogSelectionFromQueueCommand;
+            set => SetProperty(ref _removeBlogSelectionFromQueueCommand, value);
         }
 
         public ICommand ListenClipboardCommand
@@ -236,6 +250,11 @@ namespace TumblThree.Applications.Services
         {
             get => _autoDownloadCommand;
             set => SetProperty(ref _autoDownloadCommand, value);
+        }
+
+        public bool DequeueSelectedCommandVisible
+        {
+            get => _shellService.Settings.DequeueSelectedCommandVisible;
         }
 
         public bool IsCrawl

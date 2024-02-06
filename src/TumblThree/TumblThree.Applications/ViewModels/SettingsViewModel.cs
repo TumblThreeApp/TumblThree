@@ -150,6 +150,7 @@ namespace TumblThree.Applications.ViewModels
         private string _twitterEmail = string.Empty;
         private bool _tumblrAuthErrorAutoRetry;
         private bool _hideToolBarButtonsText;
+        private bool _dequeueSelectedCommandVisible;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -962,6 +963,12 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _twitterEmail, value);
         }
 
+        public bool DequeueSelectedCommandVisible
+        {
+            get => _dequeueSelectedCommandVisible;
+            set => SetProperty(ref _dequeueSelectedCommandVisible, value);
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -1326,6 +1333,7 @@ namespace TumblThree.Applications.ViewModels
                 PnjDownloadFormat = _settings.PnjDownloadFormat;
                 TumblrAuthErrorAutoRetry = _settings.TumblrAuthErrorAutoRetry;
                 HideToolBarButtonsText =  _settings.HideToolBarButtonsText;
+                DequeueSelectedCommandVisible = _settings.DequeueSelectedCommandVisible;
             }
             else
             {
@@ -1421,6 +1429,7 @@ namespace TumblThree.Applications.ViewModels
                 Language = "en-US";
                 TumblrAuthErrorAutoRetry = false;
                 HideToolBarButtonsText = false;
+                DequeueSelectedCommandVisible = false;
             }
         }
 
@@ -1623,6 +1632,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.PnjDownloadFormat = PnjDownloadFormat;
             _settings.TumblrAuthErrorAutoRetry = TumblrAuthErrorAutoRetry;
             _settings.HideToolBarButtonsText = HideToolBarButtonsText;
+            _settings.DequeueSelectedCommandVisible = DequeueSelectedCommandVisible;
         }
     }
 }

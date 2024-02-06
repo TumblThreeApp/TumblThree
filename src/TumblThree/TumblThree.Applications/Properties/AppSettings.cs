@@ -393,6 +393,9 @@ namespace TumblThree.Applications.Properties
         public bool HideToolBarButtonsText { get; set; }
 
         [DataMember]
+        public bool DequeueSelectedCommandVisible { get; set; }
+
+        [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
         public static ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
@@ -642,6 +645,7 @@ namespace TumblThree.Applications.Properties
             PnjDownloadFormat = nameof(PnjDownloadType.jpg);
             TumblrAuthErrorAutoRetry = false;
             HideToolBarButtonsText = false;
+            DequeueSelectedCommandVisible = false;
         }
 
         [OnDeserializing]

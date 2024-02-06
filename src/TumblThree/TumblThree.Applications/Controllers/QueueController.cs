@@ -35,6 +35,7 @@ namespace TumblThree.Applications.Controllers
         private readonly DelegateCommand _clearQueueCommand;
         private readonly DelegateCommand _openQueueCommand;
         private readonly DelegateCommand _removeSelectedCommand;
+        private readonly DelegateCommand _removeSelectionCommand;
         private readonly DelegateCommand _saveQueueCommand;
         private readonly DelegateCommand _showBlogDetailsCommand;
 
@@ -55,6 +56,7 @@ namespace TumblThree.Applications.Controllers
             _crawlerService = crawlerService;
             _detailsService = detailsService;
             _removeSelectedCommand = new DelegateCommand(RemoveSelected, CanRemoveSelected);
+            _removeSelectionCommand = new DelegateCommand(RemoveSelection);
             _showBlogDetailsCommand = new DelegateCommand(ShowBlogDetails);
             _openQueueCommand = new DelegateCommand(OpenList);
             _saveQueueCommand = new DelegateCommand(SaveList);
@@ -80,6 +82,8 @@ namespace TumblThree.Applications.Controllers
             QueueViewModel.InsertBlogFilesAction = InsertBlogFiles;
 
             _crawlerService.RemoveBlogFromQueueCommand = _removeSelectedCommand;
+            _crawlerService.RemoveBlogSelectionFromQueueCommand = _removeSelectionCommand;
+
             _crawlerService.ActiveItems.CollectionChanged += CrawlerServiceActiveItemsCollectionChanged;
 
             QueueViewModel.PropertyChanged += QueueViewModelPropertyChanged;
@@ -106,15 +110,22 @@ namespace TumblThree.Applications.Controllers
 
         private void RemoveSelected()
         {
-            QueueListItem[] queueItemsToExclude = QueueViewModel.SelectedQueueItems.Except(new[] { QueueViewModel.SelectedQueueItem }).ToArray();
-            QueueListItem nextQueueItem = CollectionHelper.GetNextElementOrDefault(QueueManager.Items.Except(queueItemsToExclude).ToArray(), QueueViewModel.SelectedQueueItem);
+            RemoveSelection(QueueViewModel.SelectedQueueItems);
+        }
 
-            foreach (var item in QueueViewModel.SelectedQueueItems)
+        private void RemoveSelection(object list)
+        {
+            IEnumerable<QueueListItem> listItems = (IEnumerable<QueueListItem>)list;
+            QueueListItem[] queueItemsToExclude = listItems.Except(new[] { QueueViewModel.SelectedQueueItem }).ToArray();
+            QueueListItem nextQueueItem = QueueViewModel.SelectedQueueItem == null ? null :
+                CollectionHelper.GetNextElementOrDefault(QueueManager.Items.Except(queueItemsToExclude).ToArray(), QueueViewModel.SelectedQueueItem);
+
+            foreach (var item in listItems)
             {
                 item.RequestInterruption();
             }
 
-            QueueManager.RemoveItems(QueueViewModel.SelectedQueueItems);
+            QueueManager.RemoveItems(listItems);
             QueueViewModel.SelectedQueueItem = nextQueueItem ?? QueueManager.Items.LastOrDefault();
         }
 
