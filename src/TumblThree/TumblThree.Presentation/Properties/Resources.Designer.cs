@@ -502,6 +502,24 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show &apos;Dequeue selection&apos; menu entry.
+        /// </summary>
+        public static string DequeueSelectedCommandVisible {
+            get {
+                return ResourceManager.GetString("DequeueSelectedCommandVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dequeue selection.
+        /// </summary>
+        public static string DequeueSelection {
+            get {
+                return ResourceManager.GetString("DequeueSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -2035,6 +2053,24 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipDefaultSettingsForBlogsDescription {
             get {
                 return ResourceManager.GetString("ToolTipDefaultSettingsForBlogsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shows the &apos;Dequeue selection&apos; menu entry in the blog list&apos;s context menu.
+        /// </summary>
+        public static string ToolTipDequeueSelectedCommandVisible {
+            get {
+                return ResourceManager.GetString("ToolTipDequeueSelectedCommandVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This command searches the selected blogs in the queue list and removes them from the queue, if found..
+        /// </summary>
+        public static string ToolTipDequeueSelectedCommandVisibleDescription {
+            get {
+                return ResourceManager.GetString("ToolTipDequeueSelectedCommandVisibleDescription", resourceCulture);
             }
         }
         

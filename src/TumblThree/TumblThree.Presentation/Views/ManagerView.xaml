@@ -73,7 +73,7 @@
                                                     Header="{x:Static p:Resources.EnqueueSelection}"
                                                     InputGestureText="{x:Static p:Resources.ShiftReturn}" />
                                             <MenuItem Command="{Binding CrawlerService.DequeueSelectedCommand}"
-                                                    Header="Dequeue Selection" />
+                                                    Header="{x:Static p:Resources.DequeueSelection}" />
                                             <Separator />
                                             <MenuItem Command="{Binding CheckStatusCommand}"
                                                     Header="{x:Static p:Resources.CheckStatus}" />

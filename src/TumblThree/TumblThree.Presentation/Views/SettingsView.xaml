@@ -2489,13 +2489,13 @@
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Margin="5"
-                                    Content="Show 'Dequeue selection'"
+                                    Content="{x:Static p:Resources.DequeueSelectedCommandVisible}"
                                     IsChecked="{Binding DequeueSelectedCommandVisible, Mode=TwoWay}">
                                     <CheckBox.ToolTip>
                                         <ToolTip>
                                             <StackPanel>
-                                                <TextBlock FontWeight="Bold" Text="" />
-                                                <TextBlock Text="" />
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDequeueSelectedCommandVisible}" />
+                                                <TextBlock Text="{x:Static p:Resources.ToolTipDequeueSelectedCommandVisibleDescription}" />
                                             </StackPanel>
                                         </ToolTip>
                                     </CheckBox.ToolTip>

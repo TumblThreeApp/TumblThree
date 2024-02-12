@@ -1240,4 +1240,16 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="ToolTipHideToolBarButtonsTextDescription" xml:space="preserve">
     <value>Hides the text on buttons from main application window and leaves tooltips on, so all the toolbar buttons have the same width</value>
   </data>
+  <data name="DequeueSelection" xml:space="preserve">
+    <value>Dequeue selection</value>
+  </data>
+  <data name="DequeueSelectedCommandVisible" xml:space="preserve">
+    <value>Show 'Dequeue selection' menu entry</value>
+  </data>
+  <data name="ToolTipDequeueSelectedCommandVisible" xml:space="preserve">
+    <value>Shows the 'Dequeue selection' menu entry in the blog list's context menu</value>
+  </data>
+  <data name="ToolTipDequeueSelectedCommandVisibleDescription" xml:space="preserve">
+    <value>This command searches the selected blogs in the queue list and removes them from the queue, if found.</value>
+  </data>
 </root>

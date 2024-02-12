@@ -991,4 +991,16 @@ Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authent
   <data name="ToolTipHideToolBarButtonsTextDescription" xml:space="preserve">
     <value>Blendet den Text auf den Schaltflächen im Hauptfenster der Anwendung aus und lässt die QuickInfos eingeschaltet, so dass alle Schaltflächen in der Symbolleiste die gleiche Breite haben.</value>
   </data>
+  <data name="DequeueSelection" xml:space="preserve">
+    <value>Auswahl aus Warteschlange entfernen</value>
+  </data>
+  <data name="DequeueSelectedCommandVisible" xml:space="preserve">
+    <value>Zeige Menüeintrag "Auswahl entfernen" an</value>
+  </data>
+  <data name="ToolTipDequeueSelectedCommandVisibleDescription" xml:space="preserve">
+    <value>Dieser Befehl sucht die ausgewählten Blogs in der Warteschlangenliste und entfernt sie aus der Warteschlange, falls sie gefunden werden.</value>
+  </data>
+  <data name="ToolTipDequeueSelectedCommandVisible" xml:space="preserve">
+    <value>Zeigt den Menüeintrag "Auswahl aus Warteschlange entfernen" im Kontextmenü der Blogliste an</value>
+  </data>
 </root>

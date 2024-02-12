@@ -983,4 +983,16 @@ Les cookies utilisés pour l'authentification sont enregistrés et le processus 
   <data name="DownloadTexts2" xml:space="preserve">
     <value>Télécharger les textes</value>
   </data>
+  <data name="DequeueSelection" xml:space="preserve">
+    <value>Supprimer de la queue</value>
+  </data>
+  <data name="DequeueSelectedCommandVisible" xml:space="preserve">
+    <value>Afficher l'entrée de menu «Supprimer de la queue»</value>
+  </data>
+  <data name="ToolTipDequeueSelectedCommandVisibleDescription" xml:space="preserve">
+    <value>Cette commande recherche les blogs sélectionnés dans la liste de file d'attente et les supprime de la file d'attente, s'ils sont trouvés.</value>
+  </data>
+  <data name="ToolTipDequeueSelectedCommandVisible" xml:space="preserve">
+    <value>Affiche l'entrée de menu « Supprimer de la queue » dans le menu contextuel de la liste de blogs</value>
+  </data>
 </root>

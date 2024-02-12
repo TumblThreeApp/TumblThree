@@ -979,4 +979,16 @@ Las cookies utilizadas para la autenticación se guardan y el proceso de autenti
   <data name="DownloadTexts2" xml:space="preserve">
     <value>Descargar textos</value>
   </data>
+  <data name="DequeueSelection" xml:space="preserve">
+    <value>Selección de cola</value>
+  </data>
+  <data name="DequeueSelectedCommandVisible" xml:space="preserve">
+    <value>Mostrar entrada de menú "Selección de cola"</value>
+  </data>
+  <data name="ToolTipDequeueSelectedCommandVisibleDescription" xml:space="preserve">
+    <value>Este comando busca los blogs seleccionados en la lista de cola y los elimina de la cola, si los encuentra.</value>
+  </data>
+  <data name="ToolTipDequeueSelectedCommandVisible" xml:space="preserve">
+    <value>Muestra la entrada del menú 'Selección de cola' en el menú contextual de la lista de blogs</value>
+  </data>
 </root>
