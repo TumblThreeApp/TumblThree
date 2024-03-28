@@ -398,6 +398,11 @@ namespace TumblThree.Applications.Crawler
                 {
                     Logger.Verbose("TumblrLikedByCrawler.DownloadPage: {0}", e);
                 }
+                catch (Exception e)
+                {
+                    Logger.Error("TumblrLikedByCrawler.DownloadPage: {0}", e);
+                    ShellService.ShowError(e, "{0}: Error parsing post!", Blog.Name);
+                }
             }
         }
 
