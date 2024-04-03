@@ -1027,6 +1027,11 @@ namespace TumblThree.Applications.Controllers
                 IEnumerable<Task> tasks = urls.Select(async url => await AddBlogsAsync(semaphoreSlim, url, fromClipboard));
                 await Task.WhenAll(tasks);
             }
+            catch (Exception ex)
+            {
+                Logger.Error($"ManagerController:AddBlogBatchedAsync: {ex}");
+                _shellService.ShowError(new ClipboardContentException(ex), "error getting clipboard content");
+            }
             finally
             {
                 _addBlogSemaphoreSlim.Release();
