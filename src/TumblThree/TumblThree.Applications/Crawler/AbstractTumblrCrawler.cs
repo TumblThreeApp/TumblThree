@@ -29,6 +29,7 @@ namespace TumblThree.Applications.Crawler
     public abstract class AbstractTumblrCrawler : AbstractCrawler
     {
         private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
+        private static readonly Regex extractJsonFromPage2 = new Regex("id=\"___INITIAL_STATE___\">\\s*?({.*})\\s*?</script>", RegexOptions.Singleline);
         private static readonly Regex extractImageLink = new Regex("<img class=\"\\w+?\" src=\"([^\"]+?)\" alt=\"[^\"]+?\"/>");
         private static readonly Regex extractImageSize = new Regex("/s(\\d+?)x(\\d+?)[^/]*?/");
 
@@ -475,6 +476,10 @@ namespace TumblThree.Applications.Crawler
             {
                 var extracted = extractJsonFromPage.Match(pageContent).Groups[1].Value;
                 extracted = new Regex("/.*/").Replace(extracted, "\"\"");
+                if (string.IsNullOrEmpty(extracted))
+                {
+                    extracted = extractJsonFromPage2.Match(pageContent).Groups[1].Value;
+                }
                 ImageResponse imgRsp = DeserializeImageResponse(extracted);
                 int maxWidth = imgRsp.Images.Max(x => x.Width);
                 Image img = imgRsp.Images.FirstOrDefault(x => x.Width == maxWidth);
