@@ -31,6 +31,7 @@ namespace TumblThree.Applications.Crawler
     public class TumblrSearchCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
         private static readonly Regex extractJsonFromSearch = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);");
+        private static readonly Regex extractJsonFromSearch2 = new Regex("id=\"___INITIAL_STATE___\">\\s*?({.*})\\s*?</script>", RegexOptions.Singleline);
 
         private readonly IShellService shellService;
         private readonly IDownloader downloader;
@@ -117,6 +118,7 @@ namespace TumblThree.Applications.Crawler
             {
                 string document = await GetSearchPageAsync();
                 string json = extractJsonFromSearch.Match(document).Groups[1].Value;
+                if (string.IsNullOrEmpty(json)) json = extractJsonFromSearch2.Match(document).Groups[1].Value;
                 dynamic result = JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
                 string nextUrl = "";
                 string bearerToken = "";

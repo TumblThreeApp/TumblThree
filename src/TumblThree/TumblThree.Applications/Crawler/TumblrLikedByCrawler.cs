@@ -31,6 +31,7 @@ namespace TumblThree.Applications.Crawler
     public class TumblrLikedByCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
         private static readonly Regex extractJsonFromLikes = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);[\\s]*?</script>", RegexOptions.Singleline);
+        private static readonly Regex extractJsonFromLikes2 = new Regex("id=\"___INITIAL_STATE___\">\\s*?({.*})\\s*?</script>", RegexOptions.Singleline);
 
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
@@ -340,6 +341,7 @@ namespace TumblThree.Applications.Crawler
         private static List<DataModels.TumblrSearchJson.Data> ExtractPosts(string document)
         {
             var extracted = extractJsonFromLikes.Match(document).Groups[1].Value;
+            if (string.IsNullOrEmpty(extracted)) extracted = extractJsonFromLikes2.Match(document).Groups[1].Value;
             if (string.IsNullOrEmpty(extracted))
             {
                 Logger.Verbose("TumblrLikedByCrawler:ExtractPosts: data not found inside: \n{0}", document);
@@ -685,6 +687,7 @@ namespace TumblThree.Applications.Crawler
                 if (document.Contains("___INITIAL_STATE___"))
                 {
                     var extracted = extractJsonFromLikes.Match(document).Groups[1].Value;
+                    if (string.IsNullOrEmpty(extracted)) extracted = extractJsonFromLikes2.Match(document).Groups[1].Value;
                     if (string.IsNullOrEmpty(extracted))
                     {
                         Logger.Verbose("TumblrLikedByCrawler:CheckIfLoggedInAsync: data not found inside: \n{0}", document);

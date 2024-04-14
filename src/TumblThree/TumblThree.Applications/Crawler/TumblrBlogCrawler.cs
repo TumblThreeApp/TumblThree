@@ -31,6 +31,7 @@ namespace TumblThree.Applications.Crawler
     public class TumblrBlogCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
         private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
+        private static readonly Regex extractJsonFromPage2 = new Regex("id=\"___INITIAL_STATE___\">\\s*?({.*})\\s*?</script>", RegexOptions.Singleline);
 
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
@@ -321,6 +322,7 @@ namespace TumblThree.Applications.Crawler
             if (document.Contains("___INITIAL_STATE___"))
             {
                 var extracted = extractJsonFromPage.Match(document).Groups[1].Value;
+                if (string.IsNullOrEmpty(extracted)) extracted = extractJsonFromPage2.Match(document).Groups[1].Value;
                 dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(extracted);
                 pinnedId = obj?.PeeprRoute?.initialTimeline?.objects?[0]?.id ?? "";
             }

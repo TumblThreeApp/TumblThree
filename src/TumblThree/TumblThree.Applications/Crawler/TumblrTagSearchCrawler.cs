@@ -29,6 +29,7 @@ namespace TumblThree.Applications.Crawler
     public class TumblrTagSearchCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
         private static readonly Regex extractJsonFromSearch = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);");
+        private static readonly Regex extractJsonFromSearch2 = new Regex("id=\"___INITIAL_STATE___\">\\s*?({.*})\\s*?</script>", RegexOptions.Singleline);
 
         private readonly IDownloader downloader;
         private readonly IPostQueue<CrawlerData<Datum>> jsonQueue;
@@ -119,12 +120,14 @@ namespace TumblThree.Applications.Crawler
             {
                 string document = await GetTaggedSearchPageAsync();
                 string json = extractJsonFromSearch.Match(document).Groups[1].Value;
+                if (string.IsNullOrEmpty(json)) json = extractJsonFromSearch2.Match(document).Groups[1].Value;
                 TagSearch result = ConvertJsonToClass<TagSearch>(json);
 
                 if (result.Tagged.ShouldRedirect)
                 {
                     document = await GetTaggedSearchPageAsync(true);
                     json = extractJsonFromSearch.Match(document).Groups[1].Value;
+                    if (string.IsNullOrEmpty(json)) json = extractJsonFromSearch2.Match(document).Groups[1].Value;
                     result = ConvertJsonToClass<TagSearch>(json);
                 }
 
