@@ -304,6 +304,11 @@ namespace TumblThree.Applications.Services
                     case Provider.Tumblr:
                         var regex = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
                         var json = regex.Match(document ?? "").Groups[1].Value;
+                        if (string.IsNullOrEmpty(json))
+                        {
+                            regex = new Regex("id=\"___INITIAL_STATE___\">\\s*?({.*})\\s*?</script>", RegexOptions.Singleline);
+                            json = regex.Match(document ?? "").Groups[1].Value;
+                        }
                         var obj = JObject.Parse(json.Replace(":undefined", ":null"));
                         var value = obj["Settings"];
                         if (value == null) return null;
