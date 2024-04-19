@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TumblThree")]
-[assembly: AssemblyCopyright("Copyright (C) 2016-2023 Johannes Meyer zum Alten Borgloh and others")]
+[assembly: AssemblyCopyright("Copyright (C) 2016-2024 Johannes Meyer zum Alten Borgloh and others")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(false)] // The WinRT API is not CLS-compliant (e.g. usage of uint)
 
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.MainAssembly)]
-[assembly: AssemblyVersion("2.12.0.0")]
-[assembly: AssemblyFileVersion("2.12.0.0")]
+[assembly: AssemblyVersion("2.13.0.0")]
+[assembly: AssemblyFileVersion("2.13.0.0")]
