@@ -98,13 +98,11 @@ namespace TumblThree.Applications.Controllers
         public void LoadQueue()
         {
             ClearList();
-            IReadOnlyList<string> blogNamesToLoad = QueueSettings.Names;
-            IReadOnlyList<BlogTypes> blogTypesToLoad = QueueSettings.Types;
-            InsertFilesCore(0, blogNamesToLoad, blogTypesToLoad);
+            InsertFilesCore(0, QueueSettings.Names.ToArray(), QueueSettings.Types.ToArray());
         }
 
-        public void Shutdown() => QueueSettings.ReplaceAll(QueueManager.Items.Select(x => x.Blog.Name),
-            QueueManager.Items.Select(x => x.Blog.BlogType));
+        public void Shutdown() => QueueSettings.ReplaceAll(QueueManager.Items.Select(x => x.Blog.Name).ToArray(),
+            QueueManager.Items.Select(x => x.Blog.BlogType).ToArray());
 
         private bool CanRemoveSelected() => QueueViewModel.SelectedQueueItem != null;
 
