@@ -1,0 +1,29 @@
+name: Adjust announcement
+on:
+  discussion:
+    types: created
+jobs:
+  adjust_discussion:
+    if: github.event.discussion.category.name == 'Announcements'
+    runs-on: ubuntu-latest
+    permissions:
+      discussions: write
+    steps:
+      - name: Set new title
+        run: |
+          TITLE=${{github.event.discussion.title}}
+          TITLE_NEW=${TITLE/\-/ }
+          echo "TITLE_NEW=${TITLE_NEW} released!" >> $GITHUB_ENV
+      - name: Adjust title and lock
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUMBER: ${{ github.event.discussion.node_id }}
+        run: |
+          gh api graphql -f query='mutation {
+            updateDiscussion(input: {discussionId: "${{env.NUMBER}}", title: "${{env.TITLE_NEW}}"})
+            { discussion { id } }
+          }'
+          gh api graphql -f query='mutation {
+            lockLockable(input: {lockableId: "${{env.NUMBER}}"})
+            { lockedRecord { locked } }
+          }'
