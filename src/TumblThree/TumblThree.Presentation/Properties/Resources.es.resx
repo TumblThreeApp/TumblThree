@@ -742,12 +742,14 @@ plantilla: {ID de publicación} _ {Índice de fotos} _ {Nombre de archivo origin
   <data name="ToolTipFilenameTemplateDescription" xml:space="preserve">
     <value>Los siguientes tokens se pueden utilizar en la plantilla de nombre de archivo:
    %f  nombre de archivo original (predeterminado)
+   %b nombre del blog
    %d fecha de publicación (aaaaMMdd)
    %e fecha y hora de publicación (aaaaMMddHHmmss)
    %g fecha de publicación en GMT (aaaaMMdd)
    %h fecha y hora de publicación en GMT (aaaaMMddHHmmss)
    %u marca de tiempo de publicación (número)
    %o nombre del blog de origen reblog
+   %q nombre de origen del blog (ya sea origen del reblog o blog)
    %p título de la publicación
    %i  publico id
    %n índice de imágenes (de conjuntos de fotos, de lo contrario se omitieron)

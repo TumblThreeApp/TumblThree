@@ -2372,6 +2372,7 @@ namespace TumblThree.Presentation.Properties {
         ///  %h  post date and time in GMT (yyyyMMddHHmmss)
         ///  %u  post timestamp (number)
         ///  %o  blog name of reblog origin
+        ///  %q  blog name of origin (either reblog origin or blog)
         ///  %p  post title
         ///  %i   post id
         ///  %n  image index (of photo sets, else skipped)

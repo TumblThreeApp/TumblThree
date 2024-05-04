@@ -745,12 +745,14 @@ modèle: {Post Id} _ {Index des photos} _ {Nom de fichier d'origine}</value>
   <data name="ToolTipFilenameTemplateDescription" xml:space="preserve">
     <value>Les jetons suivants peuvent être utilisés dans le modèle de nom de fichier:
    %f  nom de fichier d'origine (par défaut)
+   %b nom du blog
    %d date de publication (aaaaMMjj)
    %e date et heure de publication (aaaaMMjjHHmmss)
    %g date de publication en GMT (aaaaMMjj)
    %h date et heure de publication en GMT (aaaaMMjjHHmmss)
    %u horodatage de la publication (nombre)
    %o nom de blog d'origine du reblog
+   %q nom d'origine du blog (soit l'origine du reblog, soit le blog)
    %p titre du message
    %i  identifiant de publication
    %n index d'image (des ensembles de photos, sinon ignoré)

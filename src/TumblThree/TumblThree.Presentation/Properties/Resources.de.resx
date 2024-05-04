@@ -876,12 +876,14 @@ Sie können die alten Mediendateien bei Bedarf manuell verschieben.</value>
   <data name="ToolTipFilenameTemplateDescription" xml:space="preserve">
     <value>Die folgenden Token können in der Dateinamenvorlage verwendet werden:
    %f  ursprünglicher Dateiname (Standard)
+   %b Blogname
    %d Postdatum (jjjjMMtt)
    %e Postdatum und Uhrzeit (jjjjMMttHHmmss)
    %g Postdatum in GMT (jjjjMMtt)
    %h Postdatum und Uhrzeit in GMT (jjjjMMttHHmmss)
-   %u post timestamp (number)
+   %u Post Zeitstempel (Nummer)
    %o Blog-Name des Reblog-Ursprungs
+   %q Blog-Name des Ursprungs (entweder Reblog-Ursprung oder Blog)
    %p Post-Titel
    %i  Post ID
    %n Bildindex (von Fotosets, sonst übersprungen)

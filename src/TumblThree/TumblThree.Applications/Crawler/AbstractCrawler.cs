@@ -405,6 +405,7 @@ namespace TumblThree.Applications.Crawler
                 %h  post date and time in GMT (yyyyMMddHHmmss)
                 %u  post timestamp (number)
                 %o  blog name of reblog origin
+                %q  blog name of origin (either reblog origin or blog)
                 %p  post title (shorted if needed…)
                 %i  post id
                 %n  image index (of photo sets)
@@ -473,6 +474,11 @@ namespace TumblThree.Applications.Crawler
             if (ContainsCI(filename, "%o"))
             {
                 filename = ReplaceCI(filename, "%o", string.IsNullOrEmpty(rebloggedRootName) ? rebloggedFromName : rebloggedRootName);
+            }
+            if (ContainsCI(filename, "%q"))
+            {
+                var reblogOrigin = string.IsNullOrEmpty(rebloggedRootName) ? rebloggedFromName : rebloggedRootName;
+                filename = ReplaceCI(filename, "%q", string.IsNullOrEmpty(reblogOrigin) ? blogName : reblogOrigin);
             }
             if (ContainsCI(filename, "%s")) filename = ReplaceCI(filename, "%s", slug);
             if (ContainsCI(filename, "%k")) filename = ReplaceCI(filename, "%k", reblogKey);
