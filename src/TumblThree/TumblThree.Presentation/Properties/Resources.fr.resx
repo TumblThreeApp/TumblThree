@@ -997,4 +997,25 @@ Les cookies utilisés pour l'authentification sont enregistrés et le processus 
   <data name="ToolTipDequeueSelectedCommandVisible" xml:space="preserve">
     <value>Affiche l'entrée de menu « Supprimer de la queue » dans le menu contextuel de la liste de blogs</value>
   </data>
+  <data name="FreeDiskSpaceMonitorEnabled" xml:space="preserve">
+    <value>Activer le moniteur d'espace disque libre</value>
+  </data>
+  <data name="FreeDiskSpaceMonitorInterval" xml:space="preserve">
+    <value>Intervalle:</value>
+  </data>
+  <data name="FreeDiskSpaceMonitorLevel" xml:space="preserve">
+    <value>Au seuil:</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorLevelDescription" xml:space="preserve">
+    <value>Niveau d'espace disque disponible (en Mo) auquel le téléchargement s'interrompt automatiquement.</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorLevel" xml:space="preserve">
+    <value>Niveau d'espace disque libre</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorIntervalDescription" xml:space="preserve">
+    <value>Vérifiez l'espace disque libre toutes les x minutes.</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorInterval" xml:space="preserve">
+    <value>Intervalle de vérification de l'espace disque disponible</value>
+  </data>
 </root>

@@ -478,4 +478,10 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="AuthErrorRetrying" xml:space="preserve">
     <value>Error de autenticación (intentando continuar): {0}</value>
   </data>
+  <data name="LowDiskSpaceError" xml:space="preserve">
+    <value>Poco espacio en disco en la ubicación '{0}'.</value>
+  </data>
+  <data name="LowDiskSpaceMsg" xml:space="preserve">
+    <value>Poco espacio en disco en la ubicación '{0}'. La descarga ha sido pausada.</value>
+  </data>
 </root>

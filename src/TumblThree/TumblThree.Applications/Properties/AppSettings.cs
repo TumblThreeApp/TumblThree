@@ -396,6 +396,15 @@ namespace TumblThree.Applications.Properties
         public bool DequeueSelectedCommandVisible { get; set; }
 
         [DataMember]
+        public bool FreeDiskSpaceMonitorEnabled { get; set; }
+
+        [DataMember]
+        public int FreeDiskSpaceMonitorInterval { get; set; }
+
+        [DataMember]
+        public int FreeDiskSpaceMonitorLevel { get; set; }
+
+        [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
         public static ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
@@ -646,6 +655,9 @@ namespace TumblThree.Applications.Properties
             TumblrAuthErrorAutoRetry = false;
             HideToolBarButtonsText = false;
             DequeueSelectedCommandVisible = false;
+            FreeDiskSpaceMonitorEnabled = true;
+            FreeDiskSpaceMonitorInterval = 5;
+            FreeDiskSpaceMonitorLevel = 1024;
         }
 
         [OnDeserializing]

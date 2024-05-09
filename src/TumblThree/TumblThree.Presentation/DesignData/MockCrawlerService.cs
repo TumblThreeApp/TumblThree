@@ -118,5 +118,15 @@ namespace TumblThree.Presentation.DesignData
             activeItems.Clear();
             blogFilesToAdd.ToList().ForEach(x => activeItems.Add(new QueueListItem(x)));
         }
+
+        public void StartFreeDiskSpaceMonitor()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StopFreeDiskSpaceMonitor()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

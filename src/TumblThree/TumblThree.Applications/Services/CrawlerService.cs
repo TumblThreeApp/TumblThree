@@ -1,5 +1,6 @@
 ﻿using Guava.RateLimiter;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 using System.Waf.Foundation;
 using System.Windows.Data;
 using System.Windows.Input;
+using TumblThree.Applications.Extensions;
+using TumblThree.Applications.Properties;
 using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
@@ -20,6 +23,9 @@ namespace TumblThree.Applications.Services
     [Export]
     public class CrawlerService : Model, ICrawlerService
     {
+        private const int MILLISECONDS_PER_MINUTE = 60 * 1000;
+        private const int BYTES_PER_MB = 1024 * 1024;
+
         private readonly ObservableCollection<Collection> _collections;
         private readonly ObservableCollection<QueueListItem> _activeItems;
         private readonly ReadOnlyObservableList<QueueListItem> _readonlyActiveItems;
@@ -57,6 +63,7 @@ namespace TumblThree.Applications.Services
         private string _isTextVis;
         private bool _isToolTipActive;
         private IBlog _lastDeselectedPreview;
+        private Timer _diskSpaceTimer;
 
         [ImportingConstructor]
         public CrawlerService(IShellService shellService)
@@ -340,6 +347,44 @@ namespace TumblThree.Applications.Services
             //Collections.Refresh();
             Collection current = _collections.FirstOrDefault(x => x.Id == _shellService.Settings.ActiveCollectionId) ?? _collections.FirstOrDefault(x => x.Id == 0);
             Collections.MoveCurrentTo(current);
+        }
+
+        public void StartFreeDiskSpaceMonitor()
+        {
+            if (!_shellService.Settings.FreeDiskSpaceMonitorEnabled) return;
+
+            _diskSpaceTimer = new Timer(x => { OnTimedEvent(); }, null, 2 * 1000, _shellService.Settings.FreeDiskSpaceMonitorInterval * MILLISECONDS_PER_MINUTE);
+        }
+
+        public void StopFreeDiskSpaceMonitor()
+        {
+            if (_diskSpaceTimer != null)
+            {
+                _diskSpaceTimer.Dispose();
+                _diskSpaceTimer = null;
+            }
+        }
+
+        private void OnTimedEvent()
+        {
+            List<string> checkedLocations = new List<string>();
+            foreach (var item in ActiveItems)
+            {
+                var location = _shellService.Settings.GetCollection(item.Blog.CollectionId).DownloadLocation;
+
+                if (checkedLocations.Contains(location)) continue;
+                checkedLocations.Add(location);
+
+                ulong freeBytesAvailable = 0, totalNumberOfBytes = 0, totalNumberOfFreeBytes = 0;
+                var success = NativeMethods.GetDiskFreeSpaceEx(location, out freeBytesAvailable, out totalNumberOfBytes, out totalNumberOfFreeBytes);
+                if (success && (long)freeBytesAvailable <= _shellService.Settings.FreeDiskSpaceMonitorLevel * BYTES_PER_MB)
+                {
+                    StopFreeDiskSpaceMonitor();
+                    _shellService.ShowError(new Exception(string.Format(Resources.LowDiskSpaceError, location)), Resources.LowDiskSpaceMsg, location);
+                    QueueOnDispatcher.CheckBeginInvokeOnUI(() => _pauseCommand.Execute(null));
+                    return;
+                }
+            }
         }
 
         private void ActiveItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

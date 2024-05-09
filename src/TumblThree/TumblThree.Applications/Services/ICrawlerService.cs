@@ -90,5 +90,9 @@ namespace TumblThree.Applications.Services
         ICollectionView Collections { get; }
 
         void UpdateCollectionsList(bool isInit);
+
+        void StartFreeDiskSpaceMonitor();
+
+        void StopFreeDiskSpaceMonitor();
     }
 }

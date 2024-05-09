@@ -99,6 +99,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -322,6 +323,96 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <CheckBox
+                                x:Name="freeDiskSpaceMonitorEnableCheckBox"
+                                Grid.Column="0"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.FreeDiskSpaceMonitorEnabled}"
+                                IsChecked="{Binding FreeDiskSpaceMonitorEnabled}"
+                                IsEnabled="True" />
+                            <Label
+                                x:Name="freeDiskSpaceMonitorIntervalLabel"
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.FreeDiskSpaceMonitorInterval}">
+                                <Label.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipFreeDiskSpaceMonitorInterval}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipFreeDiskSpaceMonitorIntervalDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Label.ToolTip>
+                            </Label>
+                            <TextBox
+                                x:Name="freeDiskSpaceMonitorIntervalTextBox"
+                                Grid.Column="2"
+                                IsEnabled="{Binding ElementName=freeDiskSpaceMonitorEnableCheckBox, Path=IsChecked}"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                                <TextBox.Text>
+                                    <Binding Path="FreeDiskSpaceMonitorInterval" UpdateSourceTrigger="PropertyChanged" />
+                                </TextBox.Text>
+                                <TextBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipFreeDiskSpaceMonitorInterval}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipFreeDiskSpaceMonitorIntervalDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                            <Label
+                                x:Name="freeDiskSpaceMonitorLevelLabel"
+                                Grid.Column="3"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{x:Static p:Resources.FreeDiskSpaceMonitorLevel}">
+                                <Label.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipFreeDiskSpaceMonitorLevel}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipFreeDiskSpaceMonitorLevelDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Label.ToolTip>
+                            </Label>
+                            <TextBox
+                                x:Name="freeDiskSpaceMonitorLevelTextBox"
+                                Grid.Column="4"
+                                IsEnabled="{Binding ElementName=freeDiskSpaceMonitorEnableCheckBox, Path=IsChecked}"
+                                MinWidth="40"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                                <TextBox.Text>
+                                    <Binding Path="FreeDiskSpaceMonitorLevel" UpdateSourceTrigger="PropertyChanged" />
+                                </TextBox.Text>
+                                <TextBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipFreeDiskSpaceMonitorLevel}" />
+                                            <TextBlock Text="{x:Static p:Resources.ToolTipFreeDiskSpaceMonitorLevelDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                        </Grid>
+                        <Grid
+                            Grid.Row="13"
+                            Height="Auto"
+                            HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Label
                                 x:Name="ProgressUpdateIntervalLabel"
@@ -358,7 +449,7 @@
                                 </TextBox.ToolTip>
                             </TextBox>
                         </Grid>
-                        <Grid Grid.Row="13" Grid.ColumnSpan="1"
+                        <Grid Grid.Row="14" Grid.ColumnSpan="1"
                             Height="Auto"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -401,7 +492,7 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                         </Grid>
-                        <Grid Grid.Row="14" Grid.ColumnSpan="3"
+                        <Grid Grid.Row="15" Grid.ColumnSpan="3"
                             Height="Auto"
                             HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
@@ -452,7 +543,7 @@
                                 Content="{x:Static p:Resources.LanguageHint}">
                             </Label>
                         </Grid>
-                        <Grid Grid.Row="15" Grid.ColumnSpan="2">
+                        <Grid Grid.Row="16" Grid.ColumnSpan="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />

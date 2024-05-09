@@ -496,4 +496,10 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="AuthErrorRetrying" xml:space="preserve">
     <value>Erreur d'authentification (essai de continuer) : {0}</value>
   </data>
+  <data name="LowDiskSpaceError" xml:space="preserve">
+    <value>Espace disque insuffisant à l'emplacement '{0}'.</value>
+  </data>
+  <data name="LowDiskSpaceMsg" xml:space="preserve">
+    <value>Espace disque insuffisant à l'emplacement '{0}'. Le téléchargement a été suspendu.</value>
+  </data>
 </root>

@@ -151,6 +151,9 @@ namespace TumblThree.Applications.ViewModels
         private bool _tumblrAuthErrorAutoRetry;
         private bool _hideToolBarButtonsText;
         private bool _dequeueSelectedCommandVisible;
+        private bool _freeDiskSpaceMonitorEnabled;
+        private int _freeDiskSpaceMonitorInterval;
+        private int _freeDiskSpaceMonitorLevel;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -969,6 +972,31 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _dequeueSelectedCommandVisible, value);
         }
 
+        public bool FreeDiskSpaceMonitorEnabled
+        {
+            get => _freeDiskSpaceMonitorEnabled;
+            set => SetProperty(ref _freeDiskSpaceMonitorEnabled, value);
+        }
+
+        public int FreeDiskSpaceMonitorInterval
+        {
+            get => _freeDiskSpaceMonitorInterval;
+            set
+            {
+                if (value == 0 && _freeDiskSpaceMonitorEnabled)
+                {
+                    value = 1;
+                }
+                SetProperty(ref _freeDiskSpaceMonitorInterval, value);
+            }
+        }
+
+        public int FreeDiskSpaceMonitorLevel
+        {
+            get => _freeDiskSpaceMonitorLevel;
+            set => SetProperty(ref _freeDiskSpaceMonitorLevel, value);
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -1334,6 +1362,9 @@ namespace TumblThree.Applications.ViewModels
                 TumblrAuthErrorAutoRetry = _settings.TumblrAuthErrorAutoRetry;
                 HideToolBarButtonsText =  _settings.HideToolBarButtonsText;
                 DequeueSelectedCommandVisible = _settings.DequeueSelectedCommandVisible;
+                FreeDiskSpaceMonitorEnabled = _settings.FreeDiskSpaceMonitorEnabled;
+                FreeDiskSpaceMonitorInterval = _settings.FreeDiskSpaceMonitorInterval;
+                FreeDiskSpaceMonitorLevel = _settings.FreeDiskSpaceMonitorLevel;
             }
             else
             {
@@ -1430,6 +1461,9 @@ namespace TumblThree.Applications.ViewModels
                 TumblrAuthErrorAutoRetry = false;
                 HideToolBarButtonsText = false;
                 DequeueSelectedCommandVisible = false;
+                FreeDiskSpaceMonitorEnabled = true;
+                FreeDiskSpaceMonitorInterval = 5;
+                FreeDiskSpaceMonitorLevel = 1024;
             }
         }
 
@@ -1633,6 +1667,9 @@ namespace TumblThree.Applications.ViewModels
             _settings.TumblrAuthErrorAutoRetry = TumblrAuthErrorAutoRetry;
             _settings.HideToolBarButtonsText = HideToolBarButtonsText;
             _settings.DequeueSelectedCommandVisible = DequeueSelectedCommandVisible;
+            _settings.FreeDiskSpaceMonitorEnabled = FreeDiskSpaceMonitorEnabled;
+            _settings.FreeDiskSpaceMonitorInterval = FreeDiskSpaceMonitorInterval;
+            _settings.FreeDiskSpaceMonitorLevel = FreeDiskSpaceMonitorLevel;
         }
     }
 }

@@ -993,4 +993,25 @@ Las cookies utilizadas para la autenticación se guardan y el proceso de autenti
   <data name="ToolTipDequeueSelectedCommandVisible" xml:space="preserve">
     <value>Muestra la entrada del menú 'Selección de cola' en el menú contextual de la lista de blogs</value>
   </data>
+  <data name="FreeDiskSpaceMonitorEnabled" xml:space="preserve">
+    <value>Habilitar monitor de espacio libre en disco</value>
+  </data>
+  <data name="FreeDiskSpaceMonitorInterval" xml:space="preserve">
+    <value>Intervalo:</value>
+  </data>
+  <data name="FreeDiskSpaceMonitorLevel" xml:space="preserve">
+    <value>Límite:</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorInterval" xml:space="preserve">
+    <value>Intervalo de comprobación de espacio libre en disco</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorIntervalDescription" xml:space="preserve">
+    <value>Compruebe el espacio libre en disco cada x minutos.</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorLevel" xml:space="preserve">
+    <value>Nivel de espacio libre en disco</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorLevelDescription" xml:space="preserve">
+    <value>Nivel de espacio libre en disco (en MB) en el que la descarga se detiene automáticamente.</value>
+  </data>
 </root>

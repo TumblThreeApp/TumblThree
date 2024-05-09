@@ -484,4 +484,10 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="AuthErrorRetrying" xml:space="preserve">
     <value>Authentifizierungsfehler (versuche fortzufahren): {0}</value>
   </data>
+  <data name="LowDiskSpaceError" xml:space="preserve">
+    <value>Wenig Speicherplatz am Speicherort „{0}“.</value>
+  </data>
+  <data name="LowDiskSpaceMsg" xml:space="preserve">
+    <value>Wenig Speicherplatz am Speicherort „{0}“. Der Download wurde angehalten.</value>
+  </data>
 </root>

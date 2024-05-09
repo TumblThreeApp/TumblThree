@@ -1253,4 +1253,25 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="ToolTipDequeueSelectedCommandVisibleDescription" xml:space="preserve">
     <value>This command searches the selected blogs in the queue list and removes them from the queue, if found.</value>
   </data>
+  <data name="FreeDiskSpaceMonitorEnabled" xml:space="preserve">
+    <value>Enable free disk space monitor</value>
+  </data>
+  <data name="FreeDiskSpaceMonitorInterval" xml:space="preserve">
+    <value>Interval:</value>
+  </data>
+  <data name="FreeDiskSpaceMonitorLevel" xml:space="preserve">
+    <value>Level:</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorIntervalDescription" xml:space="preserve">
+    <value>Check free disk space every x minutes.</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorLevelDescription" xml:space="preserve">
+    <value>Free disk space level (in MB) at which the download automatically pauses.</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorLevel" xml:space="preserve">
+    <value>Free disk space level</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorInterval" xml:space="preserve">
+    <value>Free disk space check interval</value>
+  </data>
 </root>

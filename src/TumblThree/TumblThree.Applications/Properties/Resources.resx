@@ -515,4 +515,10 @@ To view more content on this blog, you will need to increase your comfort zone f
   <data name="AuthErrorRetrying" xml:space="preserve">
     <value>Auth error (trying to continue): {0}</value>
   </data>
+  <data name="LowDiskSpaceError" xml:space="preserve">
+    <value>Low disk space on location '{0}'.</value>
+  </data>
+  <data name="LowDiskSpaceMsg" xml:space="preserve">
+    <value>Low disk space on location '{0}'. Download has been paused.</value>
+  </data>
 </root>

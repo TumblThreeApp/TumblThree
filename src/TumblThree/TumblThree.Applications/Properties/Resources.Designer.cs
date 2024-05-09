@@ -795,6 +795,24 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Low disk space on location &apos;{0}&apos;..
+        /// </summary>
+        public static string LowDiskSpaceError {
+            get {
+                return ResourceManager.GetString("LowDiskSpaceError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low disk space on location &apos;{0}&apos;. Download has been paused..
+        /// </summary>
+        public static string LowDiskSpaceMsg {
+            get {
+                return ResourceManager.GetString("LowDiskSpaceMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MaxBytesPerSecond has to be non-negative.
         /// </summary>
         public static string MaxBytePerSecond {

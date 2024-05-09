@@ -1005,4 +1005,25 @@ Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authent
   <data name="ToolTipDequeueSelectedCommandVisible" xml:space="preserve">
     <value>Zeigt den Menüeintrag "Auswahl aus Warteschlange entfernen" im Kontextmenü der Blogliste an</value>
   </data>
+  <data name="FreeDiskSpaceMonitorEnabled" xml:space="preserve">
+    <value>Aktiviere Überwachung des freien Speicherplatzes</value>
+  </data>
+  <data name="FreeDiskSpaceMonitorInterval" xml:space="preserve">
+    <value>Interval:</value>
+  </data>
+  <data name="FreeDiskSpaceMonitorLevel" xml:space="preserve">
+    <value>Schwellwert:</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorLevelDescription" xml:space="preserve">
+    <value>Freier Speicherplatz (in MB), bei dem der Download automatisch angehalten wird.</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorLevel" xml:space="preserve">
+    <value>Schwelle des freien Speicherplatzes</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorIntervalDescription" xml:space="preserve">
+    <value>Überprüfe den freien Speicherplatz alle x Minuten.</value>
+  </data>
+  <data name="ToolTipFreeDiskSpaceMonitorInterval" xml:space="preserve">
+    <value>Intervall für die Überprüfung des freien Speicherplatzes</value>
+  </data>
 </root>

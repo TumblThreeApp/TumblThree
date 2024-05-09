@@ -119,6 +119,7 @@ namespace TumblThree.Applications.Controllers
             _pauseCommand.RaiseCanExecuteChanged();
             _resumeCommand.RaiseCanExecuteChanged();
             _stopCommand.RaiseCanExecuteChanged();
+            _crawlerService.StopFreeDiskSpaceMonitor();
         }
 
         private bool CanPause() => _crawlerService.IsCrawl && !_crawlerService.IsPaused;
@@ -129,6 +130,7 @@ namespace TumblThree.Applications.Controllers
             _crawlerService.IsPaused = true;
             _pauseCommand.RaiseCanExecuteChanged();
             _resumeCommand.RaiseCanExecuteChanged();
+            _crawlerService.StopFreeDiskSpaceMonitor();
         }
 
         private bool CanResume() => _crawlerService.IsCrawl && _crawlerService.IsPaused;
@@ -139,6 +141,7 @@ namespace TumblThree.Applications.Controllers
             _crawlerService.IsPaused = false;
             _pauseCommand.RaiseCanExecuteChanged();
             _resumeCommand.RaiseCanExecuteChanged();
+            _crawlerService.StartFreeDiskSpaceMonitor();
         }
 
         private bool CanCrawl() => !_crawlerService.IsCrawl;
@@ -156,6 +159,8 @@ namespace TumblThree.Applications.Controllers
 
             await Task.WhenAll(_crawlerService.LibraryLoaded.Task, _crawlerService.DatabasesLoaded.Task, _crawlerService.ArchiveLoaded.Task);
 
+            _crawlerService.StartFreeDiskSpaceMonitor();
+
             for (var i = 0; i < _shellService.Settings.ConcurrentBlogs; i++)
             {
                 _runningTasks.Add(Task.Run(() =>
@@ -163,6 +168,8 @@ namespace TumblThree.Applications.Controllers
             }
 
             await CrawlAsync();
+
+            _crawlerService.StopFreeDiskSpaceMonitor();
         }
 
         private async Task CrawlAsync()

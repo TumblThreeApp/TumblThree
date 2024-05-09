@@ -991,6 +991,33 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable free disk space monitor.
+        /// </summary>
+        public static string FreeDiskSpaceMonitorEnabled {
+            get {
+                return ResourceManager.GetString("FreeDiskSpaceMonitorEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interval:.
+        /// </summary>
+        public static string FreeDiskSpaceMonitorInterval {
+            get {
+                return ResourceManager.GetString("FreeDiskSpaceMonitorInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Level:.
+        /// </summary>
+        public static string FreeDiskSpaceMonitorLevel {
+            get {
+                return ResourceManager.GetString("FreeDiskSpaceMonitorLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FullScreenView.
         /// </summary>
         public static string FullScreenMedia {
@@ -2421,6 +2448,42 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipForceSizeDescription {
             get {
                 return ResourceManager.GetString("ToolTipForceSizeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Free disk space check interval.
+        /// </summary>
+        public static string ToolTipFreeDiskSpaceMonitorInterval {
+            get {
+                return ResourceManager.GetString("ToolTipFreeDiskSpaceMonitorInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check free disk space every x minutes..
+        /// </summary>
+        public static string ToolTipFreeDiskSpaceMonitorIntervalDescription {
+            get {
+                return ResourceManager.GetString("ToolTipFreeDiskSpaceMonitorIntervalDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Free disk space level.
+        /// </summary>
+        public static string ToolTipFreeDiskSpaceMonitorLevel {
+            get {
+                return ResourceManager.GetString("ToolTipFreeDiskSpaceMonitorLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Free disk space level (in MB) at which the download automatically pauses..
+        /// </summary>
+        public static string ToolTipFreeDiskSpaceMonitorLevelDescription {
+            get {
+                return ResourceManager.GetString("ToolTipFreeDiskSpaceMonitorLevelDescription", resourceCulture);
             }
         }
         
