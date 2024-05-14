@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using TumblThree.Applications.Extensions;
 using TumblThree.Applications.Properties;
+using TumblThree.Domain;
 using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
@@ -367,23 +368,31 @@ namespace TumblThree.Applications.Services
 
         private void OnTimedEvent()
         {
-            List<string> checkedLocations = new List<string>();
-            foreach (var item in ActiveItems)
+            try
             {
-                var location = _shellService.Settings.GetCollection(item.Blog.CollectionId).DownloadLocation;
-
-                if (checkedLocations.Contains(location)) continue;
-                checkedLocations.Add(location);
-
-                ulong freeBytesAvailable = 0, totalNumberOfBytes = 0, totalNumberOfFreeBytes = 0;
-                var success = NativeMethods.GetDiskFreeSpaceEx(location, out freeBytesAvailable, out totalNumberOfBytes, out totalNumberOfFreeBytes);
-                if (success && (long)freeBytesAvailable <= _shellService.Settings.FreeDiskSpaceMonitorLevel * BYTES_PER_MB)
+                List<string> checkedLocations = new List<string>();
+                foreach (var item in ActiveItems.ToArray())
                 {
-                    StopFreeDiskSpaceMonitor();
-                    _shellService.ShowError(new Exception(string.Format(Resources.LowDiskSpaceError, location)), Resources.LowDiskSpaceMsg, location);
-                    QueueOnDispatcher.CheckBeginInvokeOnUI(() => _pauseCommand.Execute(null));
-                    return;
+                    if (!ActiveItems.Contains(item)) continue;
+                    var location = _shellService.Settings.GetCollection(item.Blog.CollectionId).DownloadLocation;
+
+                    if (checkedLocations.Contains(location)) continue;
+                    checkedLocations.Add(location);
+
+                    ulong freeBytesAvailable = 0, totalNumberOfBytes = 0, totalNumberOfFreeBytes = 0;
+                    var success = NativeMethods.GetDiskFreeSpaceEx(location, out freeBytesAvailable, out totalNumberOfBytes, out totalNumberOfFreeBytes);
+                    if (success && (long)freeBytesAvailable <= _shellService.Settings.FreeDiskSpaceMonitorLevel * BYTES_PER_MB)
+                    {
+                        StopFreeDiskSpaceMonitor();
+                        _shellService.ShowError(new Exception(string.Format(Resources.LowDiskSpaceError, location)), Resources.LowDiskSpaceMsg, location);
+                        QueueOnDispatcher.CheckBeginInvokeOnUI(() => _pauseCommand.Execute(null));
+                        return;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("CrawlerService.OnTimedEvent: {0}", ex);
             }
         }
 
