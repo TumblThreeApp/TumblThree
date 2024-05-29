@@ -490,4 +490,10 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="LowDiskSpaceMsg" xml:space="preserve">
     <value>Wenig Speicherplatz am Speicherort „{0}“. Der Download wurde angehalten.</value>
   </data>
+  <data name="SavingBlogFileFailed" xml:space="preserve">
+    <value>Speichern der Blog-Datei „{0}“ fehlgeschlagen: {1}</value>
+  </data>
+  <data name="CannotSaveChangedBlogFile" xml:space="preserve">
+    <value>Die geänderte Blog-Datei „{0}“ kann nicht gespeichert werden, da ihr Sammlungsort ({1}) nicht verfügbar ist.</value>
+  </data>
 </root>

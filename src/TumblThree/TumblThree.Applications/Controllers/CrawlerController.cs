@@ -8,6 +8,7 @@ using System.Waf.Applications;
 
 using TumblThree.Applications.Crawler;
 using TumblThree.Applications.DataModels;
+using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
 using TumblThree.Domain;
@@ -89,7 +90,24 @@ namespace TumblThree.Applications.Controllers
                 {
                     if (blog.Dirty)
                     {
-                        blog.Save();
+                        try
+                        {
+                            var collection = _shellService.Settings.GetCollection(blog.CollectionId);
+                            if (collection.IsOnline.Value)
+                            {
+                                blog.Save();
+                            }
+                            else
+                            {
+                                Logger.Warning(Resources.CannotSaveChangedBlogFile, blog.Name, collection.DownloadLocation);
+                                _shellService.ShowError(null, Resources.CannotSaveChangedBlogFile, blog.Name, collection.DownloadLocation);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error("CrawlerController.Shutdown: {0}", ex);
+                            _shellService.ShowError(ex, Resources.SavingBlogFileFailed, blog.Name, ex.Message);
+                        }
                     }
                 }
 

@@ -484,4 +484,10 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="LowDiskSpaceMsg" xml:space="preserve">
     <value>Poco espacio en disco en la ubicación '{0}'. La descarga ha sido pausada.</value>
   </data>
+  <data name="SavingBlogFileFailed" xml:space="preserve">
+    <value>Error al guardar el archivo de blog '{0}': {1}</value>
+  </data>
+  <data name="CannotSaveChangedBlogFile" xml:space="preserve">
+    <value>No se puede guardar el archivo de blog modificado '{0}' porque su ubicación de recopilación ({1}) no está disponible.</value>
+  </data>
 </root>

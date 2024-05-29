@@ -502,4 +502,10 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="LowDiskSpaceMsg" xml:space="preserve">
     <value>Espace disque insuffisant à l'emplacement '{0}'. Le téléchargement a été suspendu.</value>
   </data>
+  <data name="SavingBlogFileFailed" xml:space="preserve">
+    <value>L'enregistrement du fichier de blog '{0}' a échoué : {1}</value>
+  </data>
+  <data name="CannotSaveChangedBlogFile" xml:space="preserve">
+    <value>Impossible d'enregistrer le fichier de blog modifié « {0} », car son emplacement de collecte ({1}) n'est pas disponible !</value>
+  </data>
 </root>

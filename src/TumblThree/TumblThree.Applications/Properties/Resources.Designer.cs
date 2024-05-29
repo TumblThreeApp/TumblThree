@@ -19,7 +19,7 @@ namespace TumblThree.Applications.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -202,6 +202,15 @@ namespace TumblThree.Applications.Properties {
         public static string CannotDeleteUsedCollection {
             get {
                 return ResourceManager.GetString("CannotDeleteUsedCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot save changed blog file &apos;{0}&apos;, because its collection location ({1}) is unavailable!.
+        /// </summary>
+        public static string CannotSaveChangedBlogFile {
+            get {
+                return ResourceManager.GetString("CannotSaveChangedBlogFile", resourceCulture);
             }
         }
         
@@ -1061,6 +1070,15 @@ namespace TumblThree.Applications.Properties {
         public static string ReblogUrl {
             get {
                 return ResourceManager.GetString("ReblogUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving blog file &apos;{0}&apos; failed: {1}.
+        /// </summary>
+        public static string SavingBlogFileFailed {
+            get {
+                return ResourceManager.GetString("SavingBlogFileFailed", resourceCulture);
             }
         }
         

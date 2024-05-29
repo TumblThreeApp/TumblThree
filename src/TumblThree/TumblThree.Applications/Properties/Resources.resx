@@ -521,4 +521,10 @@ To view more content on this blog, you will need to increase your comfort zone f
   <data name="LowDiskSpaceMsg" xml:space="preserve">
     <value>Low disk space on location '{0}'. Download has been paused.</value>
   </data>
+  <data name="SavingBlogFileFailed" xml:space="preserve">
+    <value>Saving blog file '{0}' failed: {1}</value>
+  </data>
+  <data name="CannotSaveChangedBlogFile" xml:space="preserve">
+    <value>Cannot save changed blog file '{0}', because its collection location ({1}) is unavailable!</value>
+  </data>
 </root>
