@@ -79,6 +79,26 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The cached collection &apos;{0}&apos; cannot be updated, because it is no longer online.
+        ///Continue close anyway?.
+        /// </summary>
+        public static string AskCachedCollectionOfflineContinueShutdownAnyway {
+            get {
+                return ResourceManager.GetString("AskCachedCollectionOfflineContinueShutdownAnyway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not all modified blog files could be saved, because collection &apos;{0}&apos; is offline.
+        ///Continue close anyway?.
+        /// </summary>
+        public static string AskModifiedBlogContinueShutdownAnyway {
+            get {
+                return ResourceManager.GetString("AskModifiedBlogContinueShutdownAnyway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Audio caption: {0}.
         /// </summary>
         public static string AudioCaption {

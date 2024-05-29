@@ -496,4 +496,12 @@ Möchten Sie es jetzt herunterladen?</value>
   <data name="CannotSaveChangedBlogFile" xml:space="preserve">
     <value>Die geänderte Blog-Datei „{0}“ kann nicht gespeichert werden, da ihr Sammlungsort ({1}) nicht verfügbar ist.</value>
   </data>
+  <data name="AskModifiedBlogContinueShutdownAnyway" xml:space="preserve">
+    <value>Nicht alle geänderten Blogdateien können gespeichert werden, da die Sammlung „{0}“ offline ist.
+Trotzdem fortfahren und schließen?</value>
+  </data>
+  <data name="AskCachedCollectionOfflineContinueShutdownAnyway" xml:space="preserve">
+    <value>Die zwischengespeicherte Sammlung „{0}“ kann nicht aktualisiert werden, da sie nicht mehr online ist.
+Trotzdem fortfahren und schließen?</value>
+  </data>
 </root>

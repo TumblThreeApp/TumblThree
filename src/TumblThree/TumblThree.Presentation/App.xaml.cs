@@ -44,7 +44,7 @@ namespace TumblThree.Presentation
         {
             Task.Run(() => QueueOnDispatcher.CheckBeginInvokeOnUI(() =>
             {
-                DoShutdown();
+                if (!DoShutdown()) return;
                 Shutdown();
             })).GetAwaiter().GetResult();
         }
@@ -99,14 +99,24 @@ namespace TumblThree.Presentation
         {
             if (!shutdownExecuted)
             {
-                DoShutdown();
+                if (!DoShutdown()) return;
             }
             base.OnExit(e);
         }
 
-        private void DoShutdown()
+        private bool DoShutdown()
         {
             shutdownExecuted = true;
+
+            // Query the module controllers in reverse order whether shutdown should be executed
+            foreach (IModuleController moduleController in moduleControllers.Reverse())
+            {
+                if (!moduleController.QueryShutdown())
+                {
+                    shutdownExecuted = false;
+                    return false;
+                }
+            }
 
             // Shutdown the module controllers in reverse order
             foreach (IModuleController moduleController in moduleControllers.Reverse())
@@ -125,6 +135,8 @@ namespace TumblThree.Presentation
             // Dispose
             container.Dispose();
             catalog.Dispose();
+
+            return true;
         }
 
         private void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

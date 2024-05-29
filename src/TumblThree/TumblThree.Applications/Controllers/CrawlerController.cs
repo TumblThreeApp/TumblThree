@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Applications;
-
+using System.Waf.Applications.Services;
 using TumblThree.Applications.Crawler;
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.Properties;
@@ -27,6 +27,7 @@ namespace TumblThree.Applications.Controllers
         private readonly ITumblrBlogDetector _tumblrBlogDetector;
         private readonly IManagerService _managerService;
         private readonly IShellService _shellService;
+        private readonly IMessageService _messageService;
         private readonly AsyncDelegateCommand _crawlCommand;
         private readonly DelegateCommand _pauseCommand;
         private readonly DelegateCommand _resumeCommand;
@@ -38,11 +39,12 @@ namespace TumblThree.Applications.Controllers
         private PauseTokenSource _crawlerPauseTokenSource;
 
         [ImportingConstructor]
-        public CrawlerController(IShellService shellService, IManagerService managerService, ICrawlerService crawlerService,
+        public CrawlerController(IShellService shellService, IManagerService managerService, IMessageService messageService, ICrawlerService crawlerService,
             ICrawlerFactory crawlerFactory, Lazy<CrawlerViewModel> crawlerViewModel, ITumblrBlogDetector tumblrBlogDetector)
         {
             _shellService = shellService;
             _managerService = managerService;
+            _messageService = messageService;
             _crawlerService = crawlerService;
             _crawlerViewModel = crawlerViewModel;
             _tumblrBlogDetector = tumblrBlogDetector;
@@ -67,6 +69,34 @@ namespace TumblThree.Applications.Controllers
             _crawlerService.StopCommand = _stopCommand;
             _shellService.CrawlerView = CrawlerViewModel.View;
             CheckTextVis();
+        }
+
+        /// <summary>
+        /// Ask the controller if a shutdown can be executed.
+        /// </summary>
+        /// <returns>
+        /// true  - can be executed,
+        /// false - shall be postponed
+        /// </returns>
+        public bool QueryShutdown()
+        {
+            if (!_managerService.UpdateCollectionOnlineStatuses(true))
+            {
+                return false;
+            }
+            foreach (IBlog blog in _managerService.BlogFiles)
+            {
+                if (blog.Dirty)
+                {
+                    var collection = _shellService.Settings.GetCollection(blog.CollectionId);
+                    if (!collection.IsOnline.Value)
+                    {
+                        if (_messageService.ShowYesNoQuestion(string.Format(Resources.AskModifiedBlogContinueShutdownAnyway, collection.Name))) { break; }
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         public void Shutdown()

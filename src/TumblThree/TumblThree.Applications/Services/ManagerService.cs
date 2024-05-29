@@ -10,6 +10,7 @@ using System.Waf.Applications.Services;
 using System.Waf.Foundation;
 using System.Windows;
 using System.Windows.Data;
+using TumblThree.Applications.Properties;
 using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Models.Files;
@@ -211,6 +212,32 @@ namespace TumblThree.Applications.Services
                 if (blog.CollectionId == id) return true;
             }
             return false;
+        }
+
+        public bool UpdateCollectionOnlineStatuses(bool askFirstTime = false)
+        {
+            try
+            {
+                bool? ok = null;
+                foreach (var item in shellService.Settings.Collections)
+                {
+                    var stillOnline = Directory.Exists(item.DownloadLocation) || Directory.Exists(Directory.GetParent(item.DownloadLocation).FullName);
+                    if (item.IsOnline.Value && !stillOnline)
+                    {
+                        if (askFirstTime && ok == null)
+                            ok = messageService.ShowYesNoQuestion(string.Format(Resources.AskCachedCollectionOfflineContinueShutdownAnyway, item.Name));
+                        if (ok == false) return false;
+                        item.IsOnline = stillOnline;
+                    }
+                }
+                return ok ?? true;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("ManagerService.UpdateCollectionOnlineStates: {0}", e);
+                messageService.ShowError(e.Message);
+                return false;
+            }
         }
 
         public void CacheLibraries()

@@ -508,4 +508,12 @@ Voulez-vous le télécharger maintenant?</value>
   <data name="CannotSaveChangedBlogFile" xml:space="preserve">
     <value>Impossible d'enregistrer le fichier de blog modifié « {0} », car son emplacement de collecte ({1}) n'est pas disponible !</value>
   </data>
+  <data name="AskModifiedBlogContinueShutdownAnyway" xml:space="preserve">
+    <value>Tous les fichiers de blog modifiés n'ont pas pu être enregistrés, car la collection « {0} » est hors ligne.
+Continuer à fermer quand même ?</value>
+  </data>
+  <data name="AskCachedCollectionOfflineContinueShutdownAnyway" xml:space="preserve">
+    <value>La collection mise en cache « {0} » ne peut pas être mise à jour, car elle n'est plus en ligne.
+Continuer à fermer quand même ?</value>
+  </data>
 </root>

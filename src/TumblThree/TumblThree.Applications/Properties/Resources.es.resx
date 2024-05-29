@@ -490,4 +490,12 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="CannotSaveChangedBlogFile" xml:space="preserve">
     <value>No se puede guardar el archivo de blog modificado '{0}' porque su ubicación de recopilación ({1}) no está disponible.</value>
   </data>
+  <data name="AskModifiedBlogContinueShutdownAnyway" xml:space="preserve">
+    <value>No se pudieron guardar todos los archivos de blog modificados porque la colección '{0}' está fuera de línea.
+¿Continuar cerca de todos modos?</value>
+  </data>
+  <data name="AskCachedCollectionOfflineContinueShutdownAnyway" xml:space="preserve">
+    <value>La colección almacenada en caché '{0}' no se puede actualizar porque ya no está en línea.
+¿Continuar cerca de todos modos?</value>
+  </data>
 </root>

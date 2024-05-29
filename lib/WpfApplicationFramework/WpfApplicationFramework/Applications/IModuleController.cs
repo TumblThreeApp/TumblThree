@@ -21,6 +21,15 @@ namespace System.Waf.Applications
         void Run();
 
         /// <summary>
+        /// Ask the module controller if a shutdown can be executed.
+        /// </summary>
+        /// <returns>
+        /// true  - can be executed,
+        /// false - shall be postponed
+        /// </returns>
+        bool QueryShutdown();
+
+        /// <summary>
         /// Shutdown the module controller.
         /// </summary>
         void Shutdown();

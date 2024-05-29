@@ -232,6 +232,18 @@ namespace TumblThree.Applications.Controllers
             _shellService.DetailsView = DetailsViewModel.View;
         }
 
+        /// <summary>
+        /// Ask the controller if a shutdown can be executed.
+        /// </summary>
+        /// <returns>
+        /// true  - can be executed,
+        /// false - shall be postponed
+        /// </returns>
+        public bool QueryShutdown()
+        {
+            return true;
+        }
+
         public void Shutdown()
         {
         }

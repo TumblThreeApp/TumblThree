@@ -52,5 +52,7 @@ namespace TumblThree.Presentation.DesignData
         public bool IsCollectionIdUsed(int id) => throw new NotImplementedException();
 
         public void CacheLibraries() => throw new NotImplementedException();
+
+        bool IManagerService.UpdateCollectionOnlineStatuses(bool askFirstTime = false) => throw new NotImplementedException();
     }
 }

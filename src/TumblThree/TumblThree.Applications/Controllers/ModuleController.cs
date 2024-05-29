@@ -188,6 +188,19 @@ namespace TumblThree.Applications.Controllers
             ShellService.CheckForWebView2Runtime();
         }
 
+        /// <summary>
+        /// Ask the controller if a shutdown can be executed.
+        /// </summary>
+        /// <returns>
+        /// true  - can be executed,
+        /// false - shall be postponed
+        /// </returns>
+        public bool QueryShutdown()
+        {
+            var canShutdown = DetailsController.QueryShutdown() && QueueController.QueryShutdown() && ManagerController.QueryShutdown() && CrawlerController.QueryShutdown();
+            return canShutdown;
+        }
+
         public void Shutdown()
         {
             DetailsController.Shutdown();

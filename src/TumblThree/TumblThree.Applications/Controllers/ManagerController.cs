@@ -185,6 +185,18 @@ namespace TumblThree.Applications.Controllers
             }
         }
 
+        /// <summary>
+        /// Ask the controller if a shutdown can be executed.
+        /// </summary>
+        /// <returns>
+        /// true  - can be executed,
+        /// false - shall be postponed
+        /// </returns>
+        public bool QueryShutdown()
+        {
+            return true;
+        }
+
         public void Shutdown()
         {
         }

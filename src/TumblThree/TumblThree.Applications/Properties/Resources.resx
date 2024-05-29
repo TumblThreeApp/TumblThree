@@ -527,4 +527,12 @@ To view more content on this blog, you will need to increase your comfort zone f
   <data name="CannotSaveChangedBlogFile" xml:space="preserve">
     <value>Cannot save changed blog file '{0}', because its collection location ({1}) is unavailable!</value>
   </data>
+  <data name="AskModifiedBlogContinueShutdownAnyway" xml:space="preserve">
+    <value>Not all modified blog files could be saved, because collection '{0}' is offline.
+Continue close anyway?</value>
+  </data>
+  <data name="AskCachedCollectionOfflineContinueShutdownAnyway" xml:space="preserve">
+    <value>The cached collection '{0}' cannot be updated, because it is no longer online.
+Continue close anyway?</value>
+  </data>
 </root>

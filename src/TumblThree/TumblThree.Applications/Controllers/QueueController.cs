@@ -101,6 +101,18 @@ namespace TumblThree.Applications.Controllers
             InsertFilesCore(0, QueueSettings.Names.ToArray(), QueueSettings.Types.ToArray());
         }
 
+        /// <summary>
+        /// Ask the controller if a shutdown can be executed.
+        /// </summary>
+        /// <returns>
+        /// true  - can be executed,
+        /// false - shall be postponed
+        /// </returns>
+        public bool QueryShutdown()
+        {
+            return true;
+        }
+
         public void Shutdown() => QueueSettings.ReplaceAll(QueueManager.Items.Select(x => x.Blog.Name).ToArray(),
             QueueManager.Items.Select(x => x.Blog.BlogType).ToArray());
 

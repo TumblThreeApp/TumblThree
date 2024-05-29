@@ -30,6 +30,8 @@ namespace TumblThree.Applications.Services
 
         bool IsCollectionIdUsed(int id);
 
+        bool UpdateCollectionOnlineStatuses(bool askFirstTime = false);
+
         void CacheLibraries();
 
         bool IsDragOperationActive { get; set; }
