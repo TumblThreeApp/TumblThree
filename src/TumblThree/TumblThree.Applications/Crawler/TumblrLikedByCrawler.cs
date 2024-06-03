@@ -348,6 +348,16 @@ namespace TumblThree.Applications.Crawler
             }
             dynamic obj = JsonConvert.DeserializeObject(extracted);
             var likedPosts = obj.Likes.likedPosts;
+            if (likedPosts is null)
+            {
+                foreach (var query in obj.queries.queries)
+                {
+                    if (query?.queryKey?[0] == "likes")
+                    {
+                        likedPosts = query.state.data.pages[0].items;
+                    }
+                }
+            }
             extracted = JsonConvert.SerializeObject(likedPosts);
             var posts = JsonConvert.DeserializeObject<List<DataModels.TumblrSearchJson.Data>>(extracted);
             return posts;
@@ -726,13 +736,19 @@ namespace TumblThree.Applications.Crawler
 
             const string htmlPagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
             const string jsonPagination = "&before=([0-9]*)";
+            const string jsonPagination2 = "\\?before=([0-9]*)";
 
-            long.TryParse(Regex.Match(document, htmlPagination).Groups[3].Value, out var unixTime);
-            
-            if(unixTime == 0)
+            _ = long.TryParse(Regex.Match(document, htmlPagination).Groups[3].Value, out var unixTime);
+
+            if (unixTime == 0)
             {
                 var r = Regex.Match(document, jsonPagination);
-                long.TryParse(r.Groups[1].Value, out unixTime);
+                _ = long.TryParse(r.Groups[1].Value, out unixTime);
+
+                if (unixTime == 0)
+                {
+                    _ = long.TryParse(Regex.Match(document, jsonPagination2).Groups[1].Value, out unixTime);
+                }
             }
 
             return unixTime;
