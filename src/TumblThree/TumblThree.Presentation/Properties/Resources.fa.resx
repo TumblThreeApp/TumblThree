@@ -307,7 +307,7 @@
     <value>تصاویر را دانلود کنید</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>دانلود فیلم (tumblr/twitter خود میزبان)</value>
+    <value>دانلود فیلم (Tumblr/X خود میزبان)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>اندازه ویدئو (پیکسل)</value>

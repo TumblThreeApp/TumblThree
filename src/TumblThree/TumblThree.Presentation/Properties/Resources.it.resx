@@ -307,7 +307,7 @@
     <value>Scarica le immagini</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Scarica i video (tumblr/twitter self hosted)</value>
+    <value>Scarica i video (Tumblr/X self hosted)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Dimensione video (px)</value>
@@ -734,7 +734,7 @@ In alternativa puoi usare la sezione {Issues} sul sito del nostro progetto per m
     <value>Scarica le miniature dei video</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>Descargar miniaturas de video (Twitter)</value>
+    <value>Descargar miniaturas de video (Twitter/X)</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Scarica le miniature dei video disponibili. Questa impostazione è indipendente da "Scarica immagini" e "Scarica video".</value>

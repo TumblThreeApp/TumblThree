@@ -307,7 +307,7 @@
     <value>画像をダウンロードする</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>ダウンロードビデオ（tumblr/twitter self hosted）</value>
+    <value>ダウンロードビデオ（Tumblr/X self hosted）</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>動画サイズ（px）</value>
@@ -679,7 +679,7 @@ Emptyはブログ全体を意味します。</value>
     <value>Tumblrのタグ検索</value>
   </data>
   <data name="BlogtypeTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="AutoDownloadBlogs" xml:space="preserve">
     <value>ブログをキューに入れる。</value>

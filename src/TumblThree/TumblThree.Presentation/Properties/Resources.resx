@@ -307,7 +307,7 @@
     <value>Download images</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Download videos (tumblr/twitter self hosted)</value>
+    <value>Download videos (Tumblr/X self hosted)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Video size (px)</value>
@@ -676,7 +676,7 @@ E.g.  great big car, bears searches for great big cars and bears.</value>
     <value>Tumblr Tag Search</value>
   </data>
   <data name="BlogtypeTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="AutoDownloadBlogs" xml:space="preserve">
     <value>blogs to the queue.</value>
@@ -1062,13 +1062,13 @@ All index files inside this subfolder can be used for the global check for file 
 Possible categories: large, medium, small, thumb</value>
   </data>
   <data name="ToolTipImageSizeCategory" xml:space="preserve">
-    <value>Photo size to download (Twitter)</value>
+    <value>Photo size to download (Twitter/X)</value>
   </data>
   <data name="VideoSizeCategory" xml:space="preserve">
     <value>Video size (category)</value>
   </data>
   <data name="ToolTipVideoSizeCategory" xml:space="preserve">
-    <value>Video size to download (Twitter)</value>
+    <value>Video size to download (Twitter/X)</value>
   </data>
   <data name="ToolTipVideoSizeCategoryDescription" xml:space="preserve">
     <value>Video size category to download.
@@ -1130,7 +1130,7 @@ old media files manually, if necessary.</value>
     <value>Download video thumbnails</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>Download video thumbnails (Twitter)</value>
+    <value>Download video thumbnails (Twitter/X)</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Downloads available video thumbnails. This setting is independent of 'Download images' and 'Download videos'.</value>
@@ -1189,24 +1189,24 @@ shutdown of the application, if the collection is available.</value>
     <value>Tumblr</value>
   </data>
   <data name="LoginTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="ToolTipAuthenticateBrowserTwitter" xml:space="preserve">
-    <value>Authenticate to the twitter.com network</value>
+    <value>Authenticate to the x.com network</value>
   </data>
   <data name="ToolTipAuthenticateBrowserTwitterDescription" xml:space="preserve">
-    <value>Opens a browser window to authenticate yourself to the twitter.com site.
+    <value>Opens a browser window to authenticate yourself to the x.com site.
 The cookies used for authentication are saved and the authentication process needs to be done only once.</value>
   </data>
   <data name="ToolTipPrivacyConsentBrowserTwitter" xml:space="preserve">
-    <value>Accept the Twitter.com privacy consent</value>
+    <value>Accept the X.com privacy consent</value>
   </data>
   <data name="ToolTipPrivacyConsentBrowserTwitterDescription" xml:space="preserve">
-    <value>Opens a browser window to accept the Twitter.com privacy consent.
+    <value>Opens a browser window to accept the X.com privacy consent.
 The cookies for the privacy consent are saved and the process needs to be done only once in a while.</value>
   </data>
   <data name="ToolTipLogoutTwitter" xml:space="preserve">
-    <value>Logout from Twitter.com</value>
+    <value>Logout from X.com</value>
   </data>
   <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">
     <value>Must be in YYYYMMDD format. Empty means from the beginning of the likes.</value>

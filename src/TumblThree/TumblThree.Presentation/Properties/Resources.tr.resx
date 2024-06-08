@@ -307,7 +307,7 @@
     <value>Resimleri indirin</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Videoları indir (tumblr/twitter kendine barındırılan)</value>
+    <value>Videoları indir (Tumblr/X kendine barındırılan)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Video boyutu (px)</value>

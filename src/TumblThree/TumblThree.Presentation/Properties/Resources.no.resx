@@ -307,7 +307,7 @@
     <value>Last ned bilder</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Last ned videoer (tumblr/twitter self hosted)</value>
+    <value>Last ned videoer (Tumblr/X self hosted)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Videostørrelse (px)</value>
@@ -681,7 +681,7 @@ F.eks stor stor bil, bjørn søker etter store store biler og bjørner.</value>
     <value>Tumblr Tag Search</value>
   </data>
   <data name="BlogtypeTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="AutoDownloadBlogs" xml:space="preserve">
     <value>blogger til køen.</value>

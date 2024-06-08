@@ -172,7 +172,7 @@
     <value>Speicherort</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Lade Videos (tumblr/twitter gehostet)</value>
+    <value>Lade Videos (Tumblr/X gehostet)</value>
   </data>
   <data name="EnqueueSelection" xml:space="preserve">
     <value>Auswahl hinzufügen</value>
@@ -670,7 +670,7 @@ Z.B. großes großes Auto, Bären sucht nach großen großen Autos und Bären.</
     <value>Tumblr Tag Search</value>
   </data>
   <data name="BlogtypeTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="AutoDownloadBlogs" xml:space="preserve">
     <value>blogs to the queue.</value>
@@ -868,7 +868,7 @@ Sie können die alten Mediendateien bei Bedarf manuell verschieben.</value>
     <value>Video-Thumbnails herunterladen</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>Video-Thumbnails herunterladen (Twitter)</value>
+    <value>Video-Thumbnails herunterladen (Twitter/X)</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Lädt verfügbare Video-Thumbnails herunter. Diese Einstellung ist unabhängig von „Bilder herunterladen“ und „Videos herunterladen“.</value>
@@ -957,7 +957,7 @@ Herunterfahren der Anwendung, falls die Sammlung verfügbar ist.</value>
     <value>Authentifizieren Sie sich beim tumblr.com-Netzwerk</value>
   </data>
   <data name="ToolTipAuthenticateBrowserTwitterDescription" xml:space="preserve">
-    <value>Öffnet ein Browserfenster, in dem Sie sich bei der Website twitter.com authentifizieren können.
+    <value>Öffnet ein Browserfenster, in dem Sie sich bei der Website x.com authentifizieren können.
 Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authentifizierungsprozess muss nur einmal durchgeführt werden.</value>
   </data>
   <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">

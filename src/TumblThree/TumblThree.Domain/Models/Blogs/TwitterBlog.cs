@@ -37,6 +37,6 @@ namespace TumblThree.Domain.Models.Blogs
 
         protected static new string ExtractName(string url) => url.Split('/')[3];
 
-        protected static new string ExtractUrl(string url) => "https://twitter.com/" + ExtractName(url);
+        protected static new string ExtractUrl(string url) => "https://x.com/" + ExtractName(url);
     }
 }

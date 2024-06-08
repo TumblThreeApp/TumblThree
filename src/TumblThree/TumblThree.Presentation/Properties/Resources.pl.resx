@@ -307,7 +307,7 @@
     <value>Pobierz zdjęcia</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Pobierz filmy wideo (tumblr/twitter self hosted)</value>
+    <value>Pobierz filmy wideo (Tumblr/X self hosted)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Rozmiar wideo (px)</value>

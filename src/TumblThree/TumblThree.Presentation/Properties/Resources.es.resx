@@ -307,7 +307,7 @@
     <value>Descargar imágenes</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Descargar videos (tumblr/twitter self hosted)</value>
+    <value>Descargar videos (Tumblr/X self hosted)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Tamaño del vídeo (px)</value>
@@ -897,7 +897,7 @@ Puede mover los archivos multimedia antiguos manualmente, si es necesario.</valu
     <value>Descargar miniaturas de video</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>Scarica le miniature dei video (Twitter)</value>
+    <value>Scarica le miniature dei video (Twitter/X)</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Descarga miniaturas de video disponibles. Esta configuración es independiente de 'Descargar imágenes' y 'Descargar videos'.</value>
@@ -951,10 +951,10 @@ La copia se realiza en cierre de la aplicación, si la colección está disponib
     <value>Descripción</value>
   </data>
   <data name="ToolTipAuthenticateBrowserTwitter" xml:space="preserve">
-    <value>Autenticarse en la red twitter.com</value>
+    <value>Autenticarse en la red x.com</value>
   </data>
   <data name="ToolTipAuthenticateBrowserTwitterDescription" xml:space="preserve">
-    <value>Abre una ventana del navegador para autenticarse en el sitio twitter.com.
+    <value>Abre una ventana del navegador para autenticarse en el sitio x.com.
 Las cookies utilizadas para la autenticación se guardan y el proceso de autenticación debe realizarse solo una vez.</value>
   </data>
   <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">

@@ -307,7 +307,7 @@
     <value>Lataa kuvia</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Lataa videoita (tumblr/twitter itsenäinen)</value>
+    <value>Lataa videoita (Tumblr/X itsenäinen)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Videon koko (px)</value>

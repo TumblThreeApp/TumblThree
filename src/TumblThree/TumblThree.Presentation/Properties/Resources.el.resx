@@ -307,7 +307,7 @@
     <value>Λήψη εικόνων</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Λήψη βίντεο (tumblr/twitter που φιλοξενείται από μόνη της)</value>
+    <value>Λήψη βίντεο (Tumblr/X που φιλοξενείται από μόνη της)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Μέγεθος βίντεο (px)</value>

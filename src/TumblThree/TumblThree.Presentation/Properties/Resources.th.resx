@@ -307,7 +307,7 @@
     <value>ดาวน์โหลดภาพ</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>ดาวน์โหลดวิดีโอ (self-hosted tumblr/twitter)</value>
+    <value>ดาวน์โหลดวิดีโอ (self-hosted Tumblr/X)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>ขนาดวิดีโอ (px)</value>

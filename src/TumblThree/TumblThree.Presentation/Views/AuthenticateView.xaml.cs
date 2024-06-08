@@ -136,7 +136,7 @@ namespace TumblThree.Presentation.Views
             CoreWebView2 webview = await GetWebviewAsync();
             webview.NavigationCompleted -= CoreWebView2_NavigationCompleted;
             webview.NavigationCompleted += CoreWebView2_NavigationCompleted;
-            webview.Navigate("https://twitter.com/settings");
+            webview.Navigate("https://x.com/settings");
             await Task.Run(() => { WaitForPageLoad(); });
             string document = await webview.ExecuteScriptAsync("document.documentElement.outerHTML");
             document = System.Text.RegularExpressions.Regex.Unescape(document.Substring(1, document.Length - 2));

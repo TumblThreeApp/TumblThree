@@ -224,10 +224,10 @@ namespace TumblThree.Applications.Crawler
             switch (type)
             {
                 //case 0:
-                //    url = "https://api.twitter.com/1.1/guest/activate.json";
+                //    url = "https://api.x.com/1.1/guest/activate.json";
                 //    break;
                 case 1:
-                    url = string.Format("https://twitter.com/i/api/graphql/{0}/UserByScreenName" +
+                    url = string.Format("https://x.com/i/api/graphql/{0}/UserByScreenName" +
                          "?variables=%7B%22screen_name%22%3A%22{1}%22%2C%22withSafetyModeUserFields%22%3Atrue%7D&features=%7B%22hidden_profile_likes_enabled%22%3Afalse%2C%22hidden_profile_subscriptions_enabled%22%3Afalse%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22subscriptions_verification_info_verified_since_enabled%22%3Atrue%2C%22highlights_tweets_tab_ui_enabled%22%3Atrue%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%7D&fieldToggles=%7B%22withAuxiliaryUserLabels%22%3Afalse%7D",
                          graphQlTokenUserByScreenName, url.Split('/').Last());
                     break;
@@ -235,13 +235,13 @@ namespace TumblThree.Applications.Crawler
                     if (!string.IsNullOrEmpty(cursor)) cursor = string.Format("%2C%22cursor%22%3A%22{0}%22", cursor.Replace("+", "%2B"));    //HttpUtility.UrlEncode(cursor)
                     var restId = (await GetTwUser()).Data.User.RestId;
                     var includeReplies = Blog.DownloadReplies.ToString().ToLower();
-                    url = string.Format("https://twitter.com/i/api/graphql/{0}/UserTweets" +
+                    url = string.Format("https://x.com/i/api/graphql/{0}/UserTweets" +
                         "?variables=%7B%22userId%22%3A%22{1}%22%2C%22count%22%3A{2}{3}%2C%22includePromotedContent%22%3Atrue%2C%22withQuickPromoteEligibilityTweetFields%22%3Atrue%2C%22withVoice%22%3Atrue%2C%22withV2Timeline%22%3Atrue%7D&features=%7B%22rweb_lists_timeline_redesign_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22responsive_web_twitter_article_tweet_consumption_enabled%22%3Afalse%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Atrue%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Atrue%2C%22longform_notetweets_rich_text_read_enabled%22%3Atrue%2C%22longform_notetweets_inline_media_enabled%22%3Atrue%2C%22responsive_web_media_download_video_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D&fieldToggles=%7B%22withAuxiliaryUserLabels%22%3Afalse%2C%22withArticleRichContentState%22%3Afalse%7D",
                         graphQlTokenUserTweets, restId, pageSize, cursor);
                     break;
                 case 3:
                     if (!string.IsNullOrEmpty(cursor)) cursor = string.Format("%2C%22cursor%22%3A%22{0}%22", cursor.Replace("+", "%2B"));
-                    url = string.Format("https://twitter.com/i/api/graphql/{0}/SearchTimeline" +
+                    url = string.Format("https://x.com/i/api/graphql/{0}/SearchTimeline" +
                         "?variables=%7B%22rawQuery%22%3A%22from%3A{1}%20until%3A{2}%22%2C%22count%22%3A{3}{4}%2C%22product%22%3A%22Latest%22%7D&features=%7B%22rweb_lists_timeline_redesign_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22responsive_web_twitter_article_tweet_consumption_enabled%22%3Afalse%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Atrue%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Atrue%2C%22longform_notetweets_rich_text_read_enabled%22%3Atrue%2C%22longform_notetweets_inline_media_enabled%22%3Atrue%2C%22responsive_web_media_download_video_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D&fieldToggles=%7B%22withAuxiliaryUserLabels%22%3Afalse%2C%22withArticleRichContentState%22%3Afalse%7D",
                         graphQlTokenSearchTimeline, Blog.Name, oldestApiPost, pageSize, cursor);
                     break;
@@ -251,7 +251,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetRequestAsync(string url, string referer = "", Dictionary<string, string> headers = null)
         {
-            string[] cookieHosts = { "https://twitter.com/" };
+            string[] cookieHosts = { "https://x.com/" };
             return await RequestApiDataAsync(url, BearerToken, referer, headers, cookieHosts);
         }
 
@@ -321,11 +321,11 @@ namespace TumblThree.Applications.Crawler
                         CrawlerService.TimeconstraintTwitterApi.Acquire();
                     }
                     var headers = new Dictionary<string, string>();
-                    headers.Add("Origin", "https://twitter.com");
+                    headers.Add("Origin", "https://x.com");
                     headers.Add("Authorization", "Bearer " + BearerToken);
                     headers.Add("Accept-Language", "en-US,en;q=0.5");
-                    HttpWebRequest request = WebRequestFactory.CreatePostRequest(url, "https://twitter.com", headers);
-                    CookieService.GetUriCookie(request.CookieContainer, new Uri("https://twitter.com"));
+                    HttpWebRequest request = WebRequestFactory.CreatePostRequest(url, "https://x.com", headers);
+                    CookieService.GetUriCookie(request.CookieContainer, new Uri("https://x.com"));
                     requestRegistration = Ct.Register(() => request.Abort());
                     var content = await WebRequestFactory.ReadRequestToEndAsync(request);
                     guestToken = ((JValue)((JObject)JsonConvert.DeserializeObject(content))["guest_token"]).Value<string>();
@@ -351,10 +351,10 @@ namespace TumblThree.Applications.Crawler
                 CrawlerService.TimeconstraintTwitterApi.Acquire();
             }
 
-            var referer = type < 3 ? Blog.Url : $"https://twitter.com/search?q=from%3A{Blog.Name}%20until%3A{oldestApiPost}&src=typed_query&f=latest";
+            var referer = type < 3 ? Blog.Url : $"https://x.com/search?q=from%3A{Blog.Name}%20until%3A{oldestApiPost}&src=typed_query&f=latest";
 
             var headers = new Dictionary<string, string>();
-            headers.Add("Origin", "https://twitter.com");
+            headers.Add("Origin", "https://x.com");
             if (type > 0)
             {
                 //var token = await GetGuestToken();
@@ -905,7 +905,7 @@ namespace TumblThree.Applications.Crawler
                     if (!item.ExpandedUrl.EndsWith(item.DisplayUrl)) links.Add(item.DisplayUrl, item.ExpandedUrl);
                 }
             }
-            var url = post.Legacy.Url ?? $"https://twitter.com/{post.User.Legacy.ScreenName}/status/{post.RestId}";
+            var url = post.Legacy.Url ?? $"https://x.com/{post.User.Legacy.ScreenName}/status/{post.RestId}";
             var dict = new Dictionary<string, object>()
             {
                 { "id", post.RestId },

@@ -20,6 +20,7 @@ namespace TumblThree.Domain.Models
         public bool IsValidBlogUrl(string blogUrl)
         {
             blogUrl = _urlValidator.AddHttpsProtocol(blogUrl);
+            blogUrl = UrlValidator.CorrectTwitterkUrl(blogUrl);
             return _urlValidator.IsValidTumblrUrl(blogUrl)
                    || _urlValidator.IsValidTumblrHiddenUrl(blogUrl)
                    || _urlValidator.IsValidTumblrLikedByUrl(blogUrl)
@@ -40,6 +41,7 @@ namespace TumblThree.Domain.Models
         public IBlog GetBlog(string blogUrl, string path, string filenameTemplate)
         {
             blogUrl = _urlValidator.AddHttpsProtocol(blogUrl);
+            blogUrl = UrlValidator.CorrectTwitterkUrl(blogUrl);
 
             if (_urlValidator.IsValidTumblrLikesUrl(blogUrl))
             {

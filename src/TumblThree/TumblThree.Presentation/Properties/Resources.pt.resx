@@ -307,7 +307,7 @@
     <value>Baixe imagens</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Baixe vídeos (tumblr/twitter auto-hospedado)</value>
+    <value>Baixe vídeos (Tumblr/X auto-hospedado)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Tamanho do vídeo (px)</value>
@@ -683,7 +683,7 @@ Por exemplo. Grande carro grande, pesquisas de ursos para grandes carros grandes
     <value>Tumblr Tag Search</value>
   </data>
   <data name="BlogtypeTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="AutoDownloadBlogs" xml:space="preserve">
     <value>blogs para a fila.</value>

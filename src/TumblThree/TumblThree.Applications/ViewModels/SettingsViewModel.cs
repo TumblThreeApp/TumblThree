@@ -1225,13 +1225,13 @@ namespace TumblThree.Applications.ViewModels
         {
             if (!ShellService.CheckForWebView2Runtime()) { return; }
 
-            const string url = @"https://twitter.com/settings";
-            ShellService.Settings.OAuthCallbackUrl = "https://twitter.com";
+            const string url = @"https://x.com/settings";
+            ShellService.Settings.OAuthCallbackUrl = "https://x.com";
 
             AuthenticateViewModel authenticateViewModel = _authenticateViewModelFactory.CreateExport().Value;
-            authenticateViewModel.ShowDialog(ShellService.ShellView, url, "twitter.com");
+            authenticateViewModel.ShowDialog(ShellService.ShellView, url, "x.com");
 
-            var cookies = await authenticateViewModel.GetCookies("https://twitter.com/");
+            var cookies = await authenticateViewModel.GetCookies("https://x.com/");
             var document = await authenticateViewModel.GetDocument();
             
             LoginService.AddCookies(cookies);

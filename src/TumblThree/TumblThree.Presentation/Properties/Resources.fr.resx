@@ -307,7 +307,7 @@
     <value>Télécharger les images</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Télécharger les vidéos (tumblr/twitter)</value>
+    <value>Télécharger les vidéos (Tumblr/X)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Taille de la vidéo (px)</value>
@@ -677,7 +677,7 @@ Par exemple. grande voiture, les ours recherchent de grandes grosses voitures et
     <value>Tumblr Tag Search</value>
   </data>
   <data name="BlogtypeTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="AutoDownloadBlogs" xml:space="preserve">
     <value>blogs to the queue.</value>
@@ -901,7 +901,7 @@ multimédias manuellement, si nécessaire.</value>
     <value>Télécharger les vignettes vidéo</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>Télécharger les vignettes vidéo (Twitter)</value>
+    <value>Télécharger les vignettes vidéo (Twitter/X)</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Télécharge les vignettes vidéo disponibles. Ce paramètre est indépendant de 'Télécharger des images' et 'Télécharger des vidéos'.</value>
@@ -958,7 +958,7 @@ se fait sur arrêt de l'application, si la collection est disponible.</value>
     <value>Authentifiez-vous sur le réseau tumblr.com</value>
   </data>
   <data name="ToolTipAuthenticateBrowserTwitterDescription" xml:space="preserve">
-    <value>Ouvre une fenêtre de navigateur pour vous authentifier sur le site twitter.com.
+    <value>Ouvre une fenêtre de navigateur pour vous authentifier sur le site x.com.
 Les cookies utilisés pour l'authentification sont enregistrés et le processus d'authentification ne doit être effectué qu'une seule fois.</value>
   </data>
   <data name="ToolTipDownloadLikesFromDescription" xml:space="preserve">

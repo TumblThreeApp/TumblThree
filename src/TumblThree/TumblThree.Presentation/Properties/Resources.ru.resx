@@ -681,7 +681,7 @@
     <value>Tumblr: Результаты поиска по тегам</value>
   </data>
   <data name="BlogtypeTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="AutoDownloadBlogs" xml:space="preserve">
     <value>блоги в очередь.</value>

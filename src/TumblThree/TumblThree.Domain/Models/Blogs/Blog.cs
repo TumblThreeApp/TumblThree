@@ -984,6 +984,11 @@ namespace TumblThree.Domain.Models.Blogs
                     blog.DownloadReplies = true;
                     blog.DownloadAnswer = false;
                 }
+                if (blog.BlogType == BlogTypes.twitter && blog.Url.Contains("twitter.com"))
+                {
+                    blog.Url = blog.Url.Replace("twitter.com", "x.com");
+                    Dirty = true;
+                }
 
                 return blog;
             }

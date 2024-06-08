@@ -307,7 +307,7 @@
     <value>Tải hình ảnh</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>Tải xuống video (tumblr/twitter tự tổ chức)</value>
+    <value>Tải xuống video (Tumblr/X tự tổ chức)</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>Kích thước video (px)</value>
@@ -681,7 +681,7 @@ Ví dụ. chiếc xe to lớn, tìm kiếm những chiếc xe lớn và gấu.</
     <value>Tìm kiếm Tag Tumblr</value>
   </data>
   <data name="BlogtypeTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="AutoDownloadBlogs" xml:space="preserve">
     <value>blog đến hàng đợi.</value>

@@ -277,7 +277,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Twitter.
+        ///   Looks up a localized string similar to Twitter/X.
         /// </summary>
         public static string BlogtypeTwitter {
             get {
@@ -817,7 +817,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download videos (tumblr/twitter self hosted).
+        ///   Looks up a localized string similar to Download videos (Tumblr/X self hosted).
         /// </summary>
         public static string DownloadVideos {
             get {
@@ -1270,7 +1270,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Twitter.
+        ///   Looks up a localized string similar to Twitter/X.
         /// </summary>
         public static string LoginTwitter {
             get {
@@ -1920,7 +1920,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Authenticate to the twitter.com network.
+        ///   Looks up a localized string similar to Authenticate to the x.com network.
         /// </summary>
         public static string ToolTipAuthenticateBrowserTwitter {
             get {
@@ -1929,7 +1929,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Opens a browser window to authenticate yourself to the twitter.com site.
+        ///   Looks up a localized string similar to Opens a browser window to authenticate yourself to the x.com site.
         ///The cookies used for authentication are saved and the authentication process needs to be done only once..
         /// </summary>
         public static string ToolTipAuthenticateBrowserTwitterDescription {
@@ -2291,7 +2291,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download video thumbnails (Twitter).
+        ///   Looks up a localized string similar to Download video thumbnails (Twitter/X).
         /// </summary>
         public static string ToolTipDownloadVideoThumbnails {
             get {
@@ -2554,7 +2554,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Photo size to download (Twitter).
+        ///   Looks up a localized string similar to Photo size to download (Twitter/X).
         /// </summary>
         public static string ToolTipImageSizeCategory {
             get {
@@ -2799,7 +2799,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logout from Twitter.com.
+        ///   Looks up a localized string similar to Logout from X.com.
         /// </summary>
         public static string ToolTipLogoutTwitter {
             get {
@@ -2959,7 +2959,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accept the Twitter.com privacy consent.
+        ///   Looks up a localized string similar to Accept the X.com privacy consent.
         /// </summary>
         public static string ToolTipPrivacyConsentBrowserTwitter {
             get {
@@ -2968,7 +2968,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Opens a browser window to accept the Twitter.com privacy consent.
+        ///   Looks up a localized string similar to Opens a browser window to accept the X.com privacy consent.
         ///The cookies for the privacy consent are saved and the process needs to be done only once in a while..
         /// </summary>
         public static string ToolTipPrivacyConsentBrowserTwitterDescription {
@@ -3202,7 +3202,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Video size to download (Twitter).
+        ///   Looks up a localized string similar to Video size to download (Twitter/X).
         /// </summary>
         public static string ToolTipVideoSizeCategory {
             get {

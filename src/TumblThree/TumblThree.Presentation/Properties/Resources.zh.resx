@@ -319,7 +319,7 @@
     <value>下载图片帖子</value>
   </data>
   <data name="DownloadVideos" xml:space="preserve">
-    <value>下载视频（仅限由 tumblr/twitter 托管）</value>
+    <value>下载视频（仅限由 Tumblr/X 托管）</value>
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>视频分辨率 (px)</value>
@@ -697,7 +697,7 @@
     <value>Tumblr 标签搜索</value>
   </data>
   <data name="BlogtypeTwitter" xml:space="preserve">
-    <value>Twitter</value>
+    <value>Twitter/X</value>
   </data>
   <data name="ExternalSettings" xml:space="preserve">
     <value>外链</value>
@@ -997,7 +997,7 @@
     <value>如果您更改这个博客的分组，这个博客的数据库文件会复制到新位置，但博客的下载文件夹留在旧位置。将在该分组的根目录下新建一个文件夹来存储新下载的文件。您可以手动转移原有的媒体文件夹。</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>下载视频缩略图（Twitter）</value>
+    <value>下载视频缩略图（Twitter/X）</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>下载可用的视频缩略图。此设置独立于“下载图像”和“下载视频”选项。</value>
@@ -1043,7 +1043,7 @@
 模板：{Post Id}_{Photo Index}_{Original Filename}</value>
   </data>
   <data name="ToolTipImageSizeCategory" xml:space="preserve">
-    <value>下载的图像分辨率（Twitter）</value>
+    <value>下载的图像分辨率（Twitter/X）</value>
   </data>
   <data name="ToolTipImageSizeCategoryDescription" xml:space="preserve">
     <value>下载的图像分辨率类别。
@@ -1101,7 +1101,7 @@ best（最佳） - 尽可能下载图像的最大分辨率版本（SVC，API 仅
 同意隐私条款的 Cookie 将被保存。该过程只需要偶尔完成一次。</value>
   </data>
   <data name="ToolTipVideoSizeCategory" xml:space="preserve">
-    <value>要下载的视频分辨率（Twitter）</value>
+    <value>要下载的视频分辨率（Twitter/X）</value>
   </data>
   <data name="ToolTipVideoSizeCategoryDescription" xml:space="preserve">
     <value>要下载的视频分辨率类别。

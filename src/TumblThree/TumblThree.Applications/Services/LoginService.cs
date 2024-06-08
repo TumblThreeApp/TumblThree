@@ -77,9 +77,9 @@ namespace TumblThree.Applications.Services
                     }
                     break;
                 case Provider.Twitter:
-                    cookieService.RemoveUriCookie(new Uri("https://twitter.com"));
+                    cookieService.RemoveUriCookie(new Uri("https://x.com"));
                     AuthenticateViewModel authenticateViewModel = authenticateViewModelFactory.CreateExport().Value;
-                    await authenticateViewModel.DeleteCookies("https://twitter.com");
+                    await authenticateViewModel.DeleteCookies("https://x.com");
                     break;
             }
         }
