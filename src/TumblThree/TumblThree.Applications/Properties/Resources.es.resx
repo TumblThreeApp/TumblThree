@@ -498,4 +498,7 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
     <value>La colección almacenada en caché '{0}' no se puede actualizar porque ya no está en línea.
 ¿Continuar cerca de todos modos?</value>
   </data>
+  <data name="NotLoggedInX" xml:space="preserve">
+    <value>Debes iniciar sesión en x.com para descargar {0}. Vaya a Configuración-&gt; Autenticar.</value>
+  </data>
 </root>

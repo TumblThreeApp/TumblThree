@@ -516,4 +516,7 @@ Continuer à fermer quand même ?</value>
     <value>La collection mise en cache « {0} » ne peut pas être mise à jour, car elle n'est plus en ligne.
 Continuer à fermer quand même ?</value>
   </data>
+  <data name="NotLoggedInX" xml:space="preserve">
+    <value>Vous devez vous connecter à x.com pour télécharger {0}. Accédez aux Paramètres-&gt; Authentification.</value>
+  </data>
 </root>

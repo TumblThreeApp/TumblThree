@@ -504,4 +504,7 @@ Trotzdem fortfahren und schließen?</value>
     <value>Die zwischengespeicherte Sammlung „{0}“ kann nicht aktualisiert werden, da sie nicht mehr online ist.
 Trotzdem fortfahren und schließen?</value>
   </data>
+  <data name="NotLoggedInX" xml:space="preserve">
+    <value>Sie müssen sich bei x.com anmelden zum Laden von {0}. Dazu in den Einstellungen-&gt;Authentifizieren klicken.</value>
+  </data>
 </root>

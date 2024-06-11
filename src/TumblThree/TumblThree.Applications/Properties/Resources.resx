@@ -535,4 +535,7 @@ Continue close anyway?</value>
     <value>The cached collection '{0}' cannot be updated, because it is no longer online.
 Continue close anyway?</value>
   </data>
+  <data name="NotLoggedInX" xml:space="preserve">
+    <value>You need to login to x.com for downloading {0}. Go to the Settings-&gt;Connection-&gt;Authenticate.</value>
+  </data>
 </root>

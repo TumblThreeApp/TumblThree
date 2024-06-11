@@ -627,6 +627,19 @@ namespace TumblThree.Applications.Crawler
             return true;
         }
 
+        protected bool HandleUnauthorizedWebException2(WebException webException)
+        {
+            var resp = (HttpWebResponse)webException?.Response;
+            if (resp == null || resp.StatusCode != HttpStatusCode.Unauthorized)
+            {
+                return false;
+            }
+
+            Logger.Error("{0}, {1}", string.Format(CultureInfo.CurrentCulture, Resources.NotLoggedInX, Blog.Name), webException.Message);
+            ShellService.ShowError(webException, Resources.NotLoggedInX, Blog.Name);
+            return true;
+        }
+
         protected bool HandleUnauthorizedWebExceptionRetry(WebException webException)
         {
             if (!ShellService.Settings.TumblrAuthErrorAutoRetry)

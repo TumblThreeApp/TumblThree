@@ -878,6 +878,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You need to login to x.com for downloading {0}. Go to the Settings-&gt;Connection-&gt;Authenticate..
+        /// </summary>
+        public static string NotLoggedInX {
+            get {
+                return ResourceManager.GetString("NotLoggedInX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to online checking.
         /// </summary>
         public static string OnlineChecking {

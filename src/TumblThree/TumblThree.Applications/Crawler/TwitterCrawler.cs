@@ -97,7 +97,7 @@ namespace TumblThree.Applications.Crawler
                     return;
                 }
 
-                if (HandleUnauthorizedWebException(webException))
+                if (HandleUnauthorizedWebException2(webException))
                 {
                     Blog.Online = true;
                 }

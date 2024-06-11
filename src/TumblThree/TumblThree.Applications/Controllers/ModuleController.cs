@@ -147,7 +147,7 @@ namespace TumblThree.Applications.Controllers
             QueueController.Initialize();
             DetailsController.Initialize();
             CrawlerController.Initialize();
-            _cookieService.SetUriCookie(CleanOldTumblrCookies(_cookieList));
+            _cookieService.SetUriCookie(CleanOldTwitterCookies(CleanOldTumblrCookies(_cookieList)));
         }
 
         public async void Run()
@@ -492,6 +492,13 @@ namespace TumblThree.Applications.Controllers
             {
                 cookies = cookies.Where(x => x.Domain != "www.tumblr.com").ToList();
             }
+            return cookies;
+        }
+
+        private static List<Cookie> CleanOldTwitterCookies(List<Cookie> cookies)
+        {
+            cookies.RemoveAll(x => x.Name == "_twitter_sess");
+            cookies.ForEach(x => x.Domain = x.Domain.Replace("twitter.com", "x.com"));
             return cookies;
         }
     }
