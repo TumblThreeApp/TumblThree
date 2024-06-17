@@ -98,6 +98,11 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 
 Latest versions can be found [here](https://github.com/TumblThreeApp/TumblThree/releases).
 
+TumblThree can also be installed using Chocolatey:
+```
+choco install tumblthree
+```
+
 Please keep in mind that probably only the latest version is functioning properly since the platforms evolve and from time to time change their data structures which makes changes in TumblThree necessary again. So update your application regularly.
 
 ## Application Usage and Getting Started
