@@ -527,6 +527,10 @@ namespace TumblThree.Applications.Downloader
         public virtual bool CheckIfPostedUrlIsDownloaded(string url)
         {
             var filenameUrl = url.Split('/').Last();
+            if (shellService.Settings.LoadAllDatabases)
+            {
+                return managerService.CheckIfFileExistsInDB(filenameUrl, true, shellService.Settings.LoadArchive);
+            }
             return files.CheckIfFileExistsInDB(filenameUrl, true);
         }
 
