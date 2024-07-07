@@ -245,6 +245,11 @@ namespace TumblThree.Applications.Crawler
                 incompleteCrawl = true;
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
+            catch (FormatException formatException)
+            {
+                Logger.Error("TumblrHiddenCrawler.CrawlPageAsync: {0}", formatException);
+                ShellService.ShowError(formatException, "{0}: {1}", Blog.Name, formatException.Message);
+            }
             catch (Exception ex)
             {
                 Logger.Error("TumblrHiddenCrawler.CrawlPageAsync: {0}", ex);
@@ -307,24 +312,31 @@ namespace TumblThree.Applications.Crawler
                 return true;
             }
 
-            long downloadFromUnixTime = 0;
-            long downloadToUnixTime = long.MaxValue;
-            if (!string.IsNullOrEmpty(Blog.DownloadFrom))
+            try
             {
-                DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None);
-                downloadFromUnixTime = new DateTimeOffset(downloadFrom).ToUnixTimeSeconds();
-            }
+                long downloadFromUnixTime = 0;
+                long downloadToUnixTime = long.MaxValue;
+                if (!string.IsNullOrEmpty(Blog.DownloadFrom))
+                {
+                    DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
+                        DateTimeStyles.None);
+                    downloadFromUnixTime = new DateTimeOffset(downloadFrom).ToUnixTimeSeconds();
+                }
 
-            if (!string.IsNullOrEmpty(Blog.DownloadTo))
+                if (!string.IsNullOrEmpty(Blog.DownloadTo))
+                {
+                    DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
+                        DateTimeStyles.None).AddDays(1);
+                    downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
+                }
+
+                long postTime = Convert.ToInt64(post.Timestamp);
+                return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
+            }
+            catch (System.FormatException)
             {
-                DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None).AddDays(1);
-                downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
+                throw new FormatException(Resources.BlogValueHasWrongFormat);
             }
-
-            long postTime = Convert.ToInt64(post.Timestamp);
-            return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
         }
 
         private async Task<bool> CheckIfLoggedInAsync()
@@ -426,7 +438,7 @@ namespace TumblThree.Applications.Crawler
                             Logger.Verbose("TumblrHiddenCrawler.AddUrlsToDownloadListAsync: {0}", e);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception e) when (!(e is FormatException))
                     {
                         Logger.Error("TumblrHiddenCrawler.AddUrlsToDownloadListAsync: {0}", e);
                         ShellService.ShowError(e, "{0}: Error parsing post!", Blog.Name);

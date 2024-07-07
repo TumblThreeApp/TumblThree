@@ -507,4 +507,7 @@ Trotzdem fortfahren und schließen?</value>
   <data name="NotLoggedInX" xml:space="preserve">
     <value>Sie müssen sich bei x.com anmelden zum Laden von {0}. Dazu in den Einstellungen-&gt;Authentifizieren klicken.</value>
   </data>
+  <data name="BlogValueHasWrongFormat" xml:space="preserve">
+    <value>Ein auf der Detailseite eingegebener Wert hat das falsche Format.</value>
+  </data>
 </root>

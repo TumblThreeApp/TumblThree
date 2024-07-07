@@ -190,6 +190,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A value entered on the details page has the wrong format..
+        /// </summary>
+        public static string BlogValueHasWrongFormat {
+            get {
+                return ResourceManager.GetString("BlogValueHasWrongFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Body: {0}.
         /// </summary>
         public static string Body {

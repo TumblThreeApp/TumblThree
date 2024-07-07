@@ -501,4 +501,7 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="NotLoggedInX" xml:space="preserve">
     <value>Debes iniciar sesión en x.com para descargar {0}. Vaya a Configuración-&gt; Autenticar.</value>
   </data>
+  <data name="BlogValueHasWrongFormat" xml:space="preserve">
+    <value>Un valor ingresado en la página de detalles tiene el formato incorrecto.</value>
+  </data>
 </root>

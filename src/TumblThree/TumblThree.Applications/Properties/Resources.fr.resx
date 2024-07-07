@@ -519,4 +519,7 @@ Continuer à fermer quand même ?</value>
   <data name="NotLoggedInX" xml:space="preserve">
     <value>Vous devez vous connecter à x.com pour télécharger {0}. Accédez aux Paramètres-&gt; Authentification.</value>
   </data>
+  <data name="BlogValueHasWrongFormat" xml:space="preserve">
+    <value>Une valeur saisie sur la page de détails a un format incorrect.</value>
+  </data>
 </root>

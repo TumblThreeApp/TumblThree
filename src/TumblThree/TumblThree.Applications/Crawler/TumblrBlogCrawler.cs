@@ -418,6 +418,11 @@ namespace TumblThree.Applications.Crawler
                 incompleteCrawl = true;
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
+            catch (FormatException formatException)
+            {
+                Logger.Error("TumblrBlogCrawler:CrawlPageAsync: {0}", formatException);
+                ShellService.ShowError(formatException, "{0}: {1}", Blog.Name, formatException.Message);
+            }
             catch (Exception e)
             {
                 Logger.Error("TumblrBlogCrawler.CrawlPageAsync: {0}", e);
@@ -436,24 +441,31 @@ namespace TumblThree.Applications.Crawler
                 return true;
             }
 
-            long downloadFromUnixTime = 0;
-            long downloadToUnixTime = long.MaxValue;
-            if (!string.IsNullOrEmpty(Blog.DownloadFrom))
+            try
             {
-                DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None);
-                downloadFromUnixTime = new DateTimeOffset(downloadFrom).ToUnixTimeSeconds();
-            }
+                long downloadFromUnixTime = 0;
+                long downloadToUnixTime = long.MaxValue;
+                if (!string.IsNullOrEmpty(Blog.DownloadFrom))
+                {
+                    DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
+                        DateTimeStyles.None);
+                    downloadFromUnixTime = new DateTimeOffset(downloadFrom).ToUnixTimeSeconds();
+                }
 
-            if (!string.IsNullOrEmpty(Blog.DownloadTo))
+                if (!string.IsNullOrEmpty(Blog.DownloadTo))
+                {
+                    DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
+                        DateTimeStyles.None).AddDays(1);
+                    downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
+                }
+
+                long postTime = post.UnixTimestamp;
+                return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
+            }
+            catch (System.FormatException)
             {
-                DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None).AddDays(1);
-                downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
+                throw new FormatException(Resources.BlogValueHasWrongFormat);
             }
-
-            long postTime = post.UnixTimestamp;
-            return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
         }
 
         private bool CheckPostAge(TumblrApiJson response)

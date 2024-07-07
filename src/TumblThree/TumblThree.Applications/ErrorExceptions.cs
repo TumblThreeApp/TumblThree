@@ -115,4 +115,18 @@ namespace TumblThree.Applications
 
         protected APIException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+
+    [Serializable]
+    public class FormatException : Exception
+    {
+        public FormatException(Exception innerException) : base(innerException?.Message, innerException) { }
+
+        public FormatException() { }
+
+        public FormatException(string message) : base(message) { }
+
+        public FormatException(string message, Exception innerException) : base(message, innerException) { }
+
+        protected FormatException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
 }

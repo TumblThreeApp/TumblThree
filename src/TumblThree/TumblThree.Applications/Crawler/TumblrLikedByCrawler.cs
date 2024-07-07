@@ -245,6 +245,11 @@ namespace TumblThree.Applications.Crawler
                     ShellService.ShowError(limitExceededException, "{0}: {1}", Blog.Name, limitExceededException.Message);
                 }
             }
+            catch (FormatException formatException)
+            {
+                Logger.Error("TumblrLikedByCrawler:CrawlPageAsync: {0}", formatException);
+                ShellService.ShowError(formatException, "{0}: {1}", Blog.Name, formatException.Message);
+            }
             catch (Exception e)
             {
                 Logger.Error("TumblrLikedByCrawler:CrawlPageAsync: {0}", e);
@@ -761,10 +766,16 @@ namespace TumblThree.Applications.Crawler
                 return true;
             }
 
-            DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
-                DateTimeStyles.None);
-            var dateTimeOffset = new DateTimeOffset(downloadFrom);
-            return pagination >= dateTimeOffset.ToUnixTimeSeconds();
+            try
+            {
+                DateTime downloadFrom =  DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                var dateTimeOffset = new DateTimeOffset(downloadFrom);
+                return pagination >= dateTimeOffset.ToUnixTimeSeconds();
+            }
+            catch (System.FormatException)
+            {
+                throw new FormatException(Resources.BlogValueHasWrongFormat);
+            }
         }
 
         private async Task GetAlreadyExistingCrawlerDataFilesAsync()

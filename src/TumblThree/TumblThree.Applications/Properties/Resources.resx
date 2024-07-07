@@ -538,4 +538,7 @@ Continue close anyway?</value>
   <data name="NotLoggedInX" xml:space="preserve">
     <value>You need to login to x.com for downloading {0}. Go to the Settings-&gt;Connection-&gt;Authenticate.</value>
   </data>
+  <data name="BlogValueHasWrongFormat" xml:space="preserve">
+    <value>A value entered on the details page has the wrong format.</value>
+  </data>
 </root>

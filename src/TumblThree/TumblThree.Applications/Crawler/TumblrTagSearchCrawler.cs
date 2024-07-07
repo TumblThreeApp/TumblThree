@@ -159,9 +159,14 @@ namespace TumblThree.Applications.Crawler
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
+            catch (FormatException formatException)
+            {
+                Logger.Error("TumblrTagSearchCrawler.CrawlPageAsync: {0}", formatException);
+                ShellService.ShowError(formatException, "{0}: {1}", Blog.Name, formatException.Message);
+            }
             catch (Exception e)
             {
-                Logger.Error("CrawlPageAsync: {0}", e);
+                Logger.Error("TumblrTagSearchCrawler.CrawlPageAsync: {0}", e);
             }
             finally
             {
@@ -222,7 +227,7 @@ namespace TumblThree.Applications.Crawler
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception e) when (!(e is FormatException))
             {
                 Logger.Error("DownloadMedia: {0}", e);
             }
@@ -273,7 +278,7 @@ namespace TumblThree.Applications.Crawler
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception e) when (!(e is FormatException))
             {
                 Logger.Error("DownloadMedia: {0}", e);
             }
@@ -286,10 +291,16 @@ namespace TumblThree.Applications.Crawler
                 return true;
             }
 
-            DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
-                DateTimeStyles.None);
-            var dateTimeOffset = new DateTimeOffset(downloadFrom);
-            return pagination >= dateTimeOffset.ToUnixTimeSeconds();
+            try
+            {
+                DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                var dateTimeOffset = new DateTimeOffset(downloadFrom);
+                return pagination >= dateTimeOffset.ToUnixTimeSeconds();
+            }
+            catch (System.FormatException)
+            {
+                throw new FormatException(Resources.BlogValueHasWrongFormat);
+            }
         }
 
         private void DownloadMedia(Content content, Post post, int index)  //String id, long timestamp, IList<string> tags

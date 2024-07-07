@@ -638,6 +638,12 @@ namespace TumblThree.Applications.Crawler
                     retries++;
                     Thread.Sleep(2000);
                 }
+                catch (Exception e) when (e is FormatException)
+                {
+                    Logger.Error("TwitterCrawler.CrawlPageAsync: {0}", e);
+                    ShellService.ShowError(e, "{0}: {1}", Blog.Name, e.Message);
+                    retries = 450;
+                }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.ToString());
@@ -681,25 +687,32 @@ namespace TumblThree.Applications.Crawler
                 return true;
             }
 
-            long downloadFromUnixTime = 0;
-            long downloadToUnixTime = long.MaxValue;
-            if (!string.IsNullOrEmpty(Blog.DownloadFrom))
+            try
             {
-                DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None);
-                downloadFromUnixTime = new DateTimeOffset(downloadFrom).ToUnixTimeSeconds();
-            }
+                long downloadFromUnixTime = 0;
+                long downloadToUnixTime = long.MaxValue;
+                if (!string.IsNullOrEmpty(Blog.DownloadFrom))
+                {
+                    DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
+                        DateTimeStyles.None);
+                    downloadFromUnixTime = new DateTimeOffset(downloadFrom).ToUnixTimeSeconds();
+                }
 
-            if (!string.IsNullOrEmpty(Blog.DownloadTo))
+                if (!string.IsNullOrEmpty(Blog.DownloadTo))
+                {
+                    DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
+                        DateTimeStyles.None).AddDays(1);
+                    downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
+                }
+
+                DateTime createdAt = DateTime.ParseExact(post.Legacy.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
+                long postTime = ((DateTimeOffset)createdAt).ToUnixTimeSeconds();
+                return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
+            }
+            catch (System.FormatException)
             {
-                DateTime downloadTo = DateTime.ParseExact(Blog.DownloadTo, "yyyyMMdd", CultureInfo.InvariantCulture,
-                    DateTimeStyles.None).AddDays(1);
-                downloadToUnixTime = new DateTimeOffset(downloadTo).ToUnixTimeSeconds();
+                throw new FormatException(Resources.BlogValueHasWrongFormat);
             }
-
-            DateTime createdAt = DateTime.ParseExact(post.Legacy.CreatedAt, twitterDateTemplate, new CultureInfo("en-US"));
-            long postTime = ((DateTimeOffset)createdAt).ToUnixTimeSeconds();
-            return downloadFromUnixTime <= postTime && postTime < downloadToUnixTime;
         }
 
         private bool CheckPostAge(TimelineTweets response)
@@ -772,7 +785,7 @@ namespace TumblThree.Applications.Crawler
                             Logger.Verbose("TwitterCrawler.AddUrlsToDownloadListAsync: {0}", e);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception e) when (!(e is FormatException))
                     {
                         Logger.Error("TwitterCrawler.AddUrlsToDownloadListAsync: {0}", e);
                         ShellService.ShowError(e, "{0}: Error parsing tweet!", Blog.Name);

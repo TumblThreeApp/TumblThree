@@ -187,6 +187,11 @@ namespace TumblThree.Applications.Crawler
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
+            catch (FormatException formatException)
+            {
+                Logger.Error("TumblrSearchCrawler.CrawlPageAsync: {0}", formatException);
+                ShellService.ShowError(formatException, "{0}: {1}", Blog.Name, formatException.Message);
+            }
             catch (Exception e)
             {
                 Logger.Error("TumblrSearchCrawler.CrawlPageAsync: {0}", e);
@@ -288,7 +293,7 @@ namespace TumblThree.Applications.Crawler
                             Logger.Verbose("TumblrSearchCrawler.DownloadPage: {0}", e);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception ex) when (!(ex is FormatException))
                     {
                         Logger.Error("TumblrSearchCrawler.DownloadMedia: {0}", ex);
                         ShellService.ShowError(ex, "{0}: Error parsing post!", Blog.Name);
@@ -299,7 +304,7 @@ namespace TumblThree.Applications.Crawler
             {
                 HandleTimeoutException(timeoutException, Resources.Crawling);
             }
-            catch (Exception e)
+            catch (Exception e) when (!(e is FormatException))
             {
                 Logger.Error("TumblrSearchCrawler.DownloadPage: {0}", e);
             }
@@ -366,10 +371,17 @@ namespace TumblThree.Applications.Crawler
                 return true;
             }
 
-            DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
-                DateTimeStyles.None);
-            var dateTimeOffset = new DateTimeOffset(downloadFrom);
-            return pagination >= dateTimeOffset.ToUnixTimeSeconds();
+            try
+            {
+                DateTime downloadFrom = DateTime.ParseExact(Blog.DownloadFrom, "yyyyMMdd", CultureInfo.InvariantCulture,
+                    DateTimeStyles.None);
+                var dateTimeOffset = new DateTimeOffset(downloadFrom);
+                return pagination >= dateTimeOffset.ToUnixTimeSeconds();
+            }
+            catch (System.FormatException)
+            {
+                throw new FormatException(Resources.BlogValueHasWrongFormat);
+            }
         }
 
         private void DownloadText(dynamic dynPost, Post post)
