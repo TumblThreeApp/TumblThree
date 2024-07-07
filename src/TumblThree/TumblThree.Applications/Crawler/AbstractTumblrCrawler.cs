@@ -30,7 +30,8 @@ namespace TumblThree.Applications.Crawler
     {
         private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'] = ({.*});");
         private static readonly Regex extractJsonFromPage2 = new Regex("id=\"___INITIAL_STATE___\">\\s*?({.*})\\s*?</script>", RegexOptions.Singleline);
-        private static readonly Regex extractImageLink = new Regex("<img class=\"\\w+?\" src=\"([^\"]+?)\" alt=\"[^\"]+?\"/>");
+        private static readonly Regex extractImageLink1 = new Regex("<img[ ]+?(class|src|alt)=\"[^\"]+?\"[ ]+?(class|src|alt)=\"[^\"]+?\"[ ]+?(class|src|alt)=\"[^\"]+?\"[ ]*?/>");
+        private static readonly Regex extractImageLink2 = new Regex("src=\"([^\"]+?)\"");
         private static readonly Regex extractImageSize = new Regex("/s(\\d+?)x(\\d+?)[^/]*?/");
 
         protected readonly ICrawlerDataDownloader crawlerDataDownloader;
@@ -494,7 +495,7 @@ namespace TumblThree.Applications.Crawler
 
                     if (sizesImgUrl.Item1 >= 2048) { return img.Url; }
 
-                    var parsedImgLink = extractImageLink.Match(pageContent).Groups[1].Value;
+                    var parsedImgLink = extractImageLink2.Match(extractImageLink1.Match(pageContent).Value).Groups[1].Value;
                     var matchSizesParsedImgLink = extractImageSize.Match(parsedImgLink);
                     var sizesParsedImgLink = (int.Parse(matchSizesParsedImgLink.Groups[1].Value), int.Parse(matchSizesParsedImgLink.Groups[2].Value));
 
