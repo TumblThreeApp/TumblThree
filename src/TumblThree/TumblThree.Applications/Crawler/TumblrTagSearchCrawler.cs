@@ -131,10 +131,13 @@ namespace TumblThree.Applications.Crawler
                     result = ConvertJsonToClass<TagSearch>(json);
                 }
 
-                string nextUrl = result.ApiUrl + result.Tagged.Timeline.Links.Next.Href;
+                string nextUrl = result.ApiUrl + (result.Tagged.Timeline?.Links?.Next?.Href ??
+                    result.Queries.Queries.Where(x => x.QueryHash.Contains("hubsTimeline")).FirstOrDefault().State.Data.Pages.FirstOrDefault().NextLink);
                 string bearerToken = result.ApiFetchStore.APITOKEN;
 
-                DownloadMedia(result);
+                var posts = result.Tagged.Timeline?.Elements ??
+                    result.Queries.Queries.Where(x => x.QueryHash.Contains("hubsTimeline")).FirstOrDefault().State.Data.Pages.FirstOrDefault().Items;
+                DownloadMedia(posts);
                 while (true)
                 {
                     if (CheckIfShouldStop())
@@ -225,11 +228,11 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        private void DownloadMedia(TagSearch page)
+        private void DownloadMedia(IList<TaggedPost> elements)
         {
             try
             {
-                foreach (var data in page.Tagged.Timeline.Elements)
+                foreach (var data in elements)
                 {
                     if (!string.Equals(data.ObjectType, "Post", StringComparison.InvariantCultureIgnoreCase)) continue;
                     if (!CheckIfWithinTimespan(data.Timestamp))

@@ -127,7 +127,84 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
         public List<object> Mutations { get; set; }
 
         [DataMember(Name = "queries", EmitDefaultValue = false)]
-        public List<object> Queries { get; set; }
+        public List<Query> Queries { get; set; }
+    }
+
+    [DataContract]
+    public class Query
+    {
+        [DataMember(Name = "state", EmitDefaultValue = false)]
+        public State State { get; set; }
+
+        [DataMember(Name = "queryKey", EmitDefaultValue = false)]
+        public List<string> QueryKey { get; set; }
+
+        [DataMember(Name = "queryHash", EmitDefaultValue = false)]
+        public string QueryHash { get; set; }
+    }
+
+    [DataContract]
+    public class State
+    {
+        [DataMember(Name = "data", EmitDefaultValue = false)]
+        public DataType Data { get; set; }
+
+        [DataMember(Name = "dataUpdateCount", EmitDefaultValue = false)]
+        public int DataUpdateCount { get; set; }
+
+        [DataMember(Name = "dataUpdatedAt", EmitDefaultValue = false)]
+        public object DataUpdatedAt { get; set; }
+
+        [DataMember(Name = "error", EmitDefaultValue = false)]
+        public object Error { get; set; }
+
+        [DataMember(Name = "errorUpdateCount", EmitDefaultValue = false)]
+        public int ErrorUpdateCount { get; set; }
+
+        [DataMember(Name = "errorUpdatedAt", EmitDefaultValue = false)]
+        public int ErrorUpdatedAt { get; set; }
+
+        [DataMember(Name = "fetchFailureCount", EmitDefaultValue = false)]
+        public int FetchFailureCount { get; set; }
+
+        [DataMember(Name = "fetchFailureReason", EmitDefaultValue = false)]
+        public object FetchFailureReason { get; set; }
+
+        [DataMember(Name = "fetchMeta", EmitDefaultValue = false)]
+        public object FetchMeta { get; set; }
+
+        [DataMember(Name = "isInvalidated", EmitDefaultValue = false)]
+        public bool IsInvalidated { get; set; }
+
+        [DataMember(Name = "status", EmitDefaultValue = false)]
+        public string Status { get; set; }
+
+        [DataMember(Name = "fetchStatus", EmitDefaultValue = false)]
+        public string FetchStatus { get; set; }
+    }
+
+    [DataContract]
+    public class DataType
+    {
+        [DataMember(Name = "pages", EmitDefaultValue = false)]
+        public List<Page> Pages { get; set; }
+
+        [DataMember(Name = "pageParams", EmitDefaultValue = false)]
+        public List<object> PageParams { get; set; }
+    }
+
+
+    [DataContract]
+    public class Page
+    {
+        [DataMember(Name = "items")]
+        public List<TaggedPost> Items { get; set; }
+
+        [DataMember(Name = "link")]
+        public string Link { get; set; }
+
+        [DataMember(Name = "nextLink")]
+        public string NextLink { get; set; }
     }
 
     [DataContract]
