@@ -586,8 +586,8 @@ namespace TumblThree.Applications.Crawler
 
         protected async Task<bool> FetchCookiesAgainAsync()
         {
-            var appSettingsPath = Path.GetFullPath(Path.Combine(environmentService.AppSettingsPath, ".."));
-            CoreWebView2Environment env = await CoreWebView2Environment.CreateAsync(null, appSettingsPath);
+            var webviewPath = Path.GetFullPath(Path.Combine(environmentService.AppSettingsPath, ShellService.Settings.PortableMode ? "" : ".."));
+            CoreWebView2Environment env = await CoreWebView2Environment.CreateAsync(null, webviewPath);
             using (WebView2 browser = new WebView2())
             {
                 await browser.EnsureCoreWebView2Async(env);

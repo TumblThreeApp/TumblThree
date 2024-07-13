@@ -1,7 +1,6 @@
 ﻿using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -25,17 +24,17 @@ namespace TumblThree.Presentation.Views
     public partial class AuthenticateView : IAuthenticateView, IDisposable
     {
         private readonly Lazy<AuthenticateViewModel> viewModel;
-        private readonly string _appSettingsPath;
+        private readonly string _webviewPath;
         private string _url;
         private string _domain;
         private static IntPtr HWND_MESSAGE = new IntPtr(-3);
         private readonly CountdownEvent _pageLoad = new CountdownEvent(1);
 
         [ImportingConstructor]
-        public AuthenticateView(IEnvironmentService environmentService)
+        public AuthenticateView(IEnvironmentService environmentService, IShellService shellService)
         {
             InitializeComponent();
-            _appSettingsPath = Path.GetFullPath(Path.Combine(environmentService.AppSettingsPath, ".."));
+            _webviewPath = Path.GetFullPath(Path.Combine(environmentService.AppSettingsPath, shellService.Settings.PortableMode ? "" : ".."));
             viewModel = new Lazy<AuthenticateViewModel>(() => ViewHelper.GetViewModel<AuthenticateViewModel>(this));
             Configure();
             InitializeAsync();
@@ -100,7 +99,7 @@ namespace TumblThree.Presentation.Views
 
         private async void InitializeAsync()
         {
-            CoreWebView2Environment env = await CoreWebView2Environment.CreateAsync(null, _appSettingsPath);
+            CoreWebView2Environment env = await CoreWebView2Environment.CreateAsync(null, _webviewPath);
             await browser.EnsureCoreWebView2Async(env);
         }
 
@@ -181,7 +180,7 @@ namespace TumblThree.Presentation.Views
             CoreWebView2 webview = browser.CoreWebView2;
             if (webview is null)
             {
-                CoreWebView2Environment env = await CoreWebView2Environment.CreateAsync(null, _appSettingsPath);
+                CoreWebView2Environment env = await CoreWebView2Environment.CreateAsync(null, _webviewPath);
                 var browserController = await env.CreateCoreWebView2ControllerAsync(HWND_MESSAGE);
                 webview = browserController.CoreWebView2;
             }
