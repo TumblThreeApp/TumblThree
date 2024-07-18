@@ -522,4 +522,7 @@ Continuer à fermer quand même ?</value>
   <data name="BlogValueHasWrongFormat" xml:space="preserve">
     <value>Une valeur saisie sur la page de détails a un format incorrect.</value>
   </data>
+  <data name="InstanceAlreadyRunning" xml:space="preserve">
+    <value>Une instance pour cet emplacement de téléchargement est déjà en cours d'exécution!</value>
+  </data>
 </root>

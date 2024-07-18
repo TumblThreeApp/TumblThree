@@ -504,4 +504,7 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="BlogValueHasWrongFormat" xml:space="preserve">
     <value>Un valor ingresado en la página de detalles tiene el formato incorrecto.</value>
   </data>
+  <data name="InstanceAlreadyRunning" xml:space="preserve">
+    <value>¡Ya se está ejecutando una instancia para esta ubicación de descarga!</value>
+  </data>
 </root>

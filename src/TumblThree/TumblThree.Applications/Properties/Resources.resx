@@ -541,4 +541,7 @@ Continue close anyway?</value>
   <data name="BlogValueHasWrongFormat" xml:space="preserve">
     <value>A value entered on the details page has the wrong format.</value>
   </data>
+  <data name="InstanceAlreadyRunning" xml:space="preserve">
+    <value>An instance for this download location is already running!</value>
+  </data>
 </root>

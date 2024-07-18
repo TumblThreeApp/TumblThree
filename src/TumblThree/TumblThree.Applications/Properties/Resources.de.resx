@@ -510,4 +510,7 @@ Trotzdem fortfahren und schließen?</value>
   <data name="BlogValueHasWrongFormat" xml:space="preserve">
     <value>Ein auf der Detailseite eingegebener Wert hat das falsche Format.</value>
   </data>
+  <data name="InstanceAlreadyRunning" xml:space="preserve">
+    <value>Eine Instanz für diesen Download-Speicherort wird bereits ausgeführt!</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Globalization;
@@ -29,6 +30,7 @@ namespace TumblThree.Presentation
         private readonly WindowExceptionHandler _exceptionHandler;
 #pragma warning restore IDE0052 // Remove unread private members
         private bool shutdownExecuted;
+        private bool isAlreadyRunning;
 
         public App()
         {
@@ -86,7 +88,16 @@ namespace TumblThree.Presentation
             moduleControllers = container.GetExportedValues<IModuleController>();
             foreach (IModuleController moduleController in moduleControllers)
             {
-                moduleController.Initialize();
+                try
+                {
+                    moduleController.Initialize();
+                }
+                catch (ApplicationException ex) when (ex.Message == "AlreadyRunning")
+                {
+                    isAlreadyRunning = true;
+                    Shutdown();
+                    return;
+                }
             }
 
             foreach (IModuleController moduleController in moduleControllers)
@@ -108,20 +119,23 @@ namespace TumblThree.Presentation
         {
             shutdownExecuted = true;
 
-            // Query the module controllers in reverse order whether shutdown should be executed
-            foreach (IModuleController moduleController in moduleControllers.Reverse())
+            if (!isAlreadyRunning)
             {
-                if (!moduleController.QueryShutdown())
+                // Query the module controllers in reverse order whether shutdown should be executed
+                foreach (IModuleController moduleController in moduleControllers.Reverse())
                 {
-                    shutdownExecuted = false;
-                    return false;
+                    if (!moduleController.QueryShutdown())
+                    {
+                        shutdownExecuted = false;
+                        return false;
+                    }
                 }
-            }
 
-            // Shutdown the module controllers in reverse order
-            foreach (IModuleController moduleController in moduleControllers.Reverse())
-            {
-                moduleController.Shutdown();
+                // Shutdown the module controllers in reverse order
+                foreach (IModuleController moduleController in moduleControllers.Reverse())
+                {
+                    moduleController.Shutdown();
+                }
             }
 
             // Wait until all registered tasks are finished

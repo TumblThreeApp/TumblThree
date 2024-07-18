@@ -806,6 +806,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An instance for this download location is already running!.
+        /// </summary>
+        public static string InstanceAlreadyRunning {
+            get {
+                return ResourceManager.GetString("InstanceAlreadyRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Limit exceeded: {0}. You should lower the connections to the tumblr api in the Settings-&gt;Connection pane..
         /// </summary>
         public static string LimitExceeded {

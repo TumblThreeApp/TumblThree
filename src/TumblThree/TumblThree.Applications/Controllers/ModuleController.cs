@@ -53,6 +53,8 @@ namespace TumblThree.Applications.Controllers
         private QueueSettings _queueSettings;
         private List<Cookie> _cookieList;
 
+        private FileStream _instanceLock;
+
         [ImportingConstructor]
         public ModuleController(
             Lazy<ShellService> shellService,
@@ -83,6 +85,14 @@ namespace TumblThree.Applications.Controllers
             _messageService = messageService;
         }
 
+        ~ModuleController()
+        {
+            if (_instanceLock == null) return;
+            _instanceLock.Close();
+            var path = Path.Combine(_shellService.Value.Settings.DownloadLocation, "running.lock");
+            File.Delete(path);
+        }
+
         private ShellService ShellService => _shellService.Value;
 
         private IMessageService MessageService => _messageService.Value;
@@ -111,6 +121,7 @@ namespace TumblThree.Applications.Controllers
 
             _appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, AppSettingsFileName));
             InitializeCultures(_appSettings);
+            if (IsInstanceAlreadyRunning(_appSettings)) { throw new ApplicationException("AlreadyRunning"); }
             if (AppSettings.Upgrade(_appSettings)) { SaveSettings(Path.Combine(GetAppDataPath(), AppSettingsFileName), _appSettings); }
 
             Logger.ChangeLogLevel((TraceLevel)Enum.Parse(typeof(TraceLevel), _appSettings.LogLevel));
@@ -211,6 +222,22 @@ namespace TumblThree.Applications.Controllers
             ShellViewModel.CloseForced();
 
             SaveSettings();
+        }
+
+        private bool IsInstanceAlreadyRunning(AppSettings settings)
+        {
+            var path = Path.Combine(settings.DownloadLocation, "running.lock");
+            try
+            {
+                _instanceLock = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+            }
+            catch (IOException ex) when (ex.HResult == -2147024864)
+            {
+                Logger.Error("ModuleController.IsInstanceAlreadyRunning: An instance of TumblThree is already running!");
+                _messageService.Value.ShowError(Resources.InstanceAlreadyRunning);
+                return true;
+            }
+            return false;
         }
 
         private string GetAppDataPath()
