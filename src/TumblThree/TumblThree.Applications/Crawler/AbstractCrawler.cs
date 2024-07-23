@@ -417,6 +417,14 @@ namespace TumblThree.Applications.Crawler
                 %x  "_{number}" ({number}: 2..n)
                 %y  " ({number})" ({number}: 2..n)
              */
+            url = url ?? "";
+            blogName = blogName ?? "";
+            id = id ?? "";
+            slug = slug ?? "";
+            title = title ?? "";
+            rebloggedFromName = rebloggedFromName ?? "";
+            reblogKey = reblogKey ?? "";
+
             url = url.IndexOf('?') > 0 ? url.Substring(0, url.IndexOf('?')) : url;
 
             string extension = Path.GetExtension(FileName(url));
