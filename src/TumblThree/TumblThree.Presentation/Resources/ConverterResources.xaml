@@ -22,6 +22,8 @@
 
     <c:BlogQueueProgressConverter x:Key="BlogQueueProgressConverter" />
 
+    <c:BlogQueueIndicatorConverter x:Key="BlogQueueIndicatorConverter" />
+
     <c:StatusToBoolConverter x:Key="StatusToBoolConverter" />
 
     <c:TotalImageConverter x:Key="TotalImageConverter" />

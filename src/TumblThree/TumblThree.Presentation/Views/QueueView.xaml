@@ -54,6 +54,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="15" />
                             <ColumnDefinition Width="65" />
                             <ColumnDefinition Width="3" />
                         </Grid.ColumnDefinitions>
@@ -131,9 +132,18 @@
                             </ctrl:SearchableTextBlock.Text>
                         </ctrl:SearchableTextBlock>
 
+                        <TextBlock FontWeight="SemiBold" Grid.Row="1" Grid.Column="2">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource BlogQueueIndicatorConverter}">
+                                    <Binding Path="Blog.ForceRescan" />
+                                    <Binding Path="Blog.LastId" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+
                         <ctrl:Rating Value="{Binding Blog.Rating, Converter={StaticResource RatingToStarsConverter}}"
                                      Height="11"
-                                     HorizontalAlignment="Right" Grid.Row="1" Grid.Column="2" />
+                                     HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

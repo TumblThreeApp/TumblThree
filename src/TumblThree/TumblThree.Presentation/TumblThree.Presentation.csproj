@@ -251,6 +251,7 @@
     <Compile Include="Controls\InsertMarkerAdorner.cs" />
     <Compile Include="Controls\ListBoxDragDropHelper.cs" />
     <Compile Include="Controls\SelectableTextBlock.cs" />
+    <Compile Include="Converters\BlogQueueIndicatorConverter.cs" />
     <Compile Include="Converters\BlogQueueInfoConverter.cs" />
     <Compile Include="Converters\BlogQueueProgressConverter.cs" />
     <Compile Include="Converters\BlogTitleConverter.cs" />
