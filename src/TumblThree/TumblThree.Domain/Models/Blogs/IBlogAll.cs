@@ -29,6 +29,7 @@
         new bool? DownloadAudio { get; set; }
         new bool? DownloadConversation { get; set; }
         new bool? DownloadLink { get; set; }
+        new bool? DownloadReplies { get; set; }
 
         bool DownloadPhotoDiff { get; set; }
         bool DownloadQuoteDiff { get; set; }
@@ -57,6 +58,7 @@
         bool DownloadAudioDiff { get; set; }
         bool DownloadConversationDiff { get; set; }
         bool DownloadLinkDiff { get; set; }
+        bool DownloadRepliesDiff { get; set; }
 
         bool DownloadPagesEnabled { get; set; }
         bool PageSizeEnabled { get; set; }
@@ -69,5 +71,7 @@
         bool MetadataFormatEnabled { get; set; }
         bool BlogTypeEnabled { get; set; }
         bool CollectionIdEnabled { get; set; }
+        bool SelectionContainsTumblrBlogs { get; set; }
+        bool SelectionContainsTwitterBlogs { get; set; }
     }
 }

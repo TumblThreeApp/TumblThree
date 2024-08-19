@@ -22,6 +22,7 @@
                 <x:Type TypeName="Models:TumblrBlogCrawlerTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <sys:Double x:Key="RowSpace">4</sys:Double>
     </UserControl.Resources>
 
     <Grid>
@@ -173,7 +174,31 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
@@ -181,39 +206,17 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}"/>
                                 <RowDefinition Height="Auto" />
@@ -270,6 +273,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.DownloadAudios}"
                                   IsChecked="{Binding BlogAll.DownloadAudio, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadAudioDiff, Mode=OneWay, IsAsync=True}" 
+                                  Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}" 
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -282,7 +286,8 @@
                                 </CheckBox.ToolTip>
                             </CheckBox>
 
-                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="4" Padding="0" Margin="3,0,0,0" >
+                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="4" Padding="0" Margin="3,0,0,0" 
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
                                         <Binding Path="BlogAll.DownloadedAudios" />
@@ -300,6 +305,9 @@
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
+
+                            <StackPanel Grid.Column="0" Grid.Row="5" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
 
                             <CheckBox Content="{x:Static p:Resources.DownloadVideosShort}"
                                   IsChecked="{Binding BlogAll.DownloadVideo, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadVideoDiff, Mode=OneWay, IsAsync=True}"
@@ -369,6 +377,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.DownloadConversations}"
                                   IsChecked="{Binding BlogAll.DownloadConversation, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadConversationDiff, Mode=OneWay}"
+                                  Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -381,7 +390,8 @@
                                 </CheckBox.ToolTip>
                             </CheckBox>
 
-                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="10" Padding="0" Margin="3,0,0,0" >
+                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="10" Padding="0" Margin="3,0,0,0" 
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
                                         <Binding Path="BlogAll.DownloadedConversations" />
@@ -400,8 +410,12 @@
                                 </Label.ToolTip>
                             </Label>
 
+                            <StackPanel Grid.Column="0" Grid.Row="11" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
+
                             <CheckBox Content="{x:Static p:Resources.DownloadQuotes}"
                                   IsChecked="{Binding BlogAll.DownloadQuote, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadQuoteDiff, Mode=OneWay}"
+                                  Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="12" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -414,7 +428,8 @@
                                 </CheckBox.ToolTip>
                             </CheckBox>
 
-                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="12" Padding="0" Margin="3,0,0,0" >
+                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="12" Padding="0" Margin="3,0,0,0" 
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
                                         <Binding Path="BlogAll.DownloadedQuotes" />
@@ -433,8 +448,12 @@
                                 </Label.ToolTip>
                             </Label>
 
+                            <StackPanel Grid.Column="0" Grid.Row="13" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
+
                             <CheckBox Content="{x:Static p:Resources.DownloadLinks}"
                                   IsChecked="{Binding BlogAll.DownloadLink, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadLinkDiff, Mode=OneWay}"
+                                  Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="14" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -447,7 +466,8 @@
                                 </CheckBox.ToolTip>
                             </CheckBox>
 
-                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="14" Padding="0" Margin="3,0,0,0" >
+                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="14" Padding="0" Margin="3,0,0,0" 
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
                                         <Binding Path="BlogAll.DownloadedLinks" />
@@ -466,8 +486,12 @@
                                 </Label.ToolTip>
                             </Label>
 
+                            <StackPanel Grid.Column="0" Grid.Row="15" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
+
                             <CheckBox Content="{x:Static p:Resources.DownloadAnswers}"
                                   IsChecked="{Binding BlogAll.DownloadAnswer, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadAnswerDiff, Mode=OneWay}"
+                                  Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="16" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -480,7 +504,8 @@
                                 </CheckBox.ToolTip>
                             </CheckBox>
 
-                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="16" Padding="0" Margin="3,0,0,0" >
+                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="16" Padding="0" Margin="3,0,0,0" 
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
                                         <Binding Path="BlogAll.DownloadedAnswers" />
@@ -499,8 +524,12 @@
                                 </Label.ToolTip>
                             </Label>
 
+                            <StackPanel Grid.Column="0" Grid.Row="17" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
+
                             <CheckBox Content="{x:Static p:Resources.DownloadImageMeta}"
                                   IsChecked="{Binding BlogAll.CreatePhotoMeta, Mode=TwoWay}" IsThreeState="{Binding BlogAll.CreatePhotoMetaDiff, Mode=OneWay}"
+                                  Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="18" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -513,7 +542,8 @@
                                 </CheckBox.ToolTip>
                             </CheckBox>
 
-                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="18" Padding="0" Margin="3,0,0,0" >
+                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="18" Padding="0" Margin="3,0,0,0" 
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
                                         <Binding Path="BlogAll.DownloadedPhotoMetas" />
@@ -532,8 +562,12 @@
                                 </Label.ToolTip>
                             </Label>
 
+                            <StackPanel Grid.Column="0" Grid.Row="19" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
+
                             <CheckBox Content="{x:Static p:Resources.DownloadVideoMeta}"
                                   IsChecked="{Binding BlogAll.CreateVideoMeta, Mode=TwoWay}" IsThreeState="{Binding BlogAll.CreateVideoMetaDiff, Mode=OneWay}"
+                                  Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="20" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -546,7 +580,8 @@
                                 </CheckBox.ToolTip>
                             </CheckBox>
 
-                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="20" Padding="0" Margin="3,0,0,0" >
+                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="20" Padding="0" Margin="3,0,0,0" 
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
                                         <Binding Path="BlogAll.DownloadedVideoMetas" />
@@ -565,8 +600,12 @@
                                 </Label.ToolTip>
                             </Label>
 
+                            <StackPanel Grid.Column="0" Grid.Row="21" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
+
                             <CheckBox Content="{x:Static p:Resources.DownloadAudioMeta}"
                                   IsChecked="{Binding BlogAll.CreateAudioMeta, Mode=TwoWay}" IsThreeState="{Binding BlogAll.CreateAudioMetaDiff, Mode=OneWay}"
+                                  Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="22" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -579,7 +618,8 @@
                                 </CheckBox.ToolTip>
                             </CheckBox>
 
-                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="22" Padding="0" Margin="3,0,0,0" >
+                            <Label Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="22" Padding="0" Margin="3,0,0,0" 
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.Content>
                                     <MultiBinding Converter="{StaticResource DetailsProgressConverter}">
                                         <Binding Path="BlogAll.DownloadedAudioMetas" />
@@ -597,6 +637,9 @@
                                     </ToolTip>
                                 </Label.ToolTip>
                             </Label>
+
+                            <StackPanel Grid.Column="0" Grid.Row="23" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
 
                             <Label Content="{x:Static p:Resources.DownloadPages}" Grid.Column="0" Grid.Row="24" Margin="3,0,3,0" Padding="3,0,3,0">
                                 <Label.ToolTip>
@@ -694,7 +737,8 @@
                                 </TextBox.ToolTip>
                             </TextBox>
 
-                            <Label Content="{x:Static p:Resources.Password}" Grid.Column="0" Grid.Row="28" Margin="3,0,3,0" Padding="3,0,3,0">
+                            <Label Content="{x:Static p:Resources.Password}" Grid.Column="0" Grid.Row="28" Margin="3,0,3,0" Padding="3,0,3,0"
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -706,7 +750,8 @@
                             </Label>
 
                             <TextBox Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="28" Padding="0" IsEnabled="{Binding BlogAll.PasswordEnabled, Mode=OneWay}"
-                                 Text="{Binding BlogAll.Password, Mode=TwoWay, ValidatesOnDataErrors=True}">
+                                 Text="{Binding BlogAll.Password, Mode=TwoWay, ValidatesOnDataErrors=True}"
+                                 Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -717,6 +762,9 @@
                                     </ToolTip>
                                 </TextBox.ToolTip>
                             </TextBox>
+
+                            <StackPanel Grid.Column="0" Grid.Row="29" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
 
                             <Label Content="{x:Static p:Resources.Tags}" Grid.Column="0" Grid.Row="30" Margin="3,0,3,0" Padding="3,0,3,0">
                                 <Label.ToolTip>
@@ -806,8 +854,8 @@
                                 </TextBox.ToolTip>
                             </TextBox>
 
-                            <Label Content="{x:Static p:Resources.BlogtypeCrawler}" Grid.Column="0" Grid.Row="36"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
+                            <Label Content="{x:Static p:Resources.BlogtypeCrawler}" Grid.Column="0" Grid.Row="36" Margin="3,0,0,0" Padding="3,0,0,0"
+                                   Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Label.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -819,11 +867,11 @@
                                 </Label.ToolTip>
                             </Label>
 
-
                             <ComboBox Grid.Column="1" Grid.Row="36" Padding="5,0,5,0" IsEnabled="{Binding BlogAll.BlogTypeEnabled, Mode=OneWay}"
                                 ItemsSource="{Binding Source={StaticResource TumblrBlogCrawlerTypes}}" SelectedValuePath="."
                                 SelectedValue="{Binding BlogAll.BlogType, Converter={StaticResource TumblrBlogCrawlerTypesConverter}}"
-                                SelectedItem="{Binding BlogAll.BlogType, Converter={StaticResource TumblrBlogCrawlerTypesConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                SelectedItem="{Binding BlogAll.BlogType, Converter={StaticResource TumblrBlogCrawlerTypesConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}">
                                 <ComboBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -835,13 +883,20 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
 
-                            <Label Content="{x:Static p:Resources.MetadataFormat}" Grid.Column="0" Grid.Row="38"
-                                  Margin="3,0,0,0" Padding="3,0,0,0" />
+                            <StackPanel Grid.Column="0" Grid.Row="37" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                            <Label Content="{x:Static p:Resources.MetadataFormat}" Grid.Column="0" Grid.Row="38" Margin="3,0,0,0" Padding="3,0,0,0" 
+                                  Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                             <ComboBox Grid.Column="1" Grid.Row="38" Padding="5,0,5,0" IsEnabled="{Binding BlogAll.MetadataFormatEnabled, Mode=OneWay}"
                                 ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:MetadataType}}}" SelectedValuePath="."
                                 SelectedValue="{Binding BlogAll.MetadataFormat}"
-                                SelectedItem="{Binding BlogAll.MetadataFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                SelectedItem="{Binding BlogAll.MetadataFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                            <StackPanel Grid.Column="0" Grid.Row="39" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
 
                             <CheckBox Content="{x:Static p:Resources.SkipGif}" IsChecked="{Binding BlogAll.SkipGif, Mode=TwoWay}"
                                   IsThreeState="{Binding BlogAll.SkipGifDiff, Mode=OneWay}"
@@ -855,9 +910,17 @@
                                   IsChecked="{Binding BlogAll.DownloadRebloggedPosts, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadRebloggedPostsDiff, Mode=OneWay}"
                                   Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="44" Margin="3,0,0,0" Padding="3,0,0,0" />
 
+                            <CheckBox Content="{x:Static p:Resources.DownloadReplies}"
+                                  IsChecked="{Binding BlogAll.DownloadReplies, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadRepliesDiff, Mode=OneWay}"
+                                  Visibility="{Binding BlogAll.SelectionContainsTwitterBlogs, Converter={StaticResource BoolToVisibilityConverter}}"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="46" Margin="3,0,0,0" Padding="3,0,0,0" />
+
+                            <StackPanel Grid.Column="0" Grid.Row="47" Height="{StaticResource RowSpace}"
+                                Visibility="{Binding BlogAll.SelectionContainsTwitterBlogs,Converter={StaticResource BoolToVisibilityConverter}}" />
+
                             <CheckBox Content="{x:Static p:Resources.DownloadVideoThumbnails}" IsChecked="{Binding BlogAll.DownloadVideoThumbnail, Mode=TwoWay}"
                                   IsThreeState="{Binding BlogAll.DownloadVideoThumbnailDiff, Mode=OneWay}"
-                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="46" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="48" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -868,7 +931,7 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            
+
                             <!--<CheckBox Content="{x:Static p:Resources.CheckDirectoryForFiles}"
                                   IsChecked="{Binding BlogAll.CheckDirectoryForFiles, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
                                   Grid.Row="38" Margin="3,0,0,0" Padding="3,0,0,0">
@@ -886,7 +949,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.DownloadUrlList2}"
                                   IsChecked="{Binding BlogAll.DownloadUrlList, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DownloadUrlListDiff, Mode=OneWay}"
-                                  Grid.Column="0" Grid.Row="48" Grid.ColumnSpan="5" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Column="0" Grid.Row="50" Grid.ColumnSpan="5" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -900,7 +963,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.ForceSize}"
                                   IsChecked="{Binding BlogAll.ForceSize, Mode=TwoWay}" IsThreeState="{Binding BlogAll.ForceSizeDiff, Mode=OneWay}"
-                                  Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="50" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="52" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -914,7 +977,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.RegExPhotos}"
                                       IsChecked="{Binding BlogAll.RegExPhotos, Mode=TwoWay}" IsThreeState="{Binding BlogAll.RegExPhotosDiff, Mode=OneWay}"
-                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="52" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="54" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -928,7 +991,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.RegExVideos}"
                                       IsChecked="{Binding BlogAll.RegExVideos, Mode=TwoWay}" IsThreeState="{Binding BlogAll.RegExVideosDiff, Mode=OneWay}"
-                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="54" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="56" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -942,7 +1005,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.DumpCrawlerData}"
                                       IsChecked="{Binding BlogAll.DumpCrawlerData, Mode=TwoWay}" IsThreeState="{Binding BlogAll.DumpCrawlerDataDiff, Mode=OneWay}"
-                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="56" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="58" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -956,7 +1019,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.ForceRescan}"
                                       IsChecked="{Binding BlogAll.ForceRescan, Mode=TwoWay}" IsThreeState="{Binding BlogAll.ForceRescanDiff, Mode=OneWay}"
-                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="58" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="60" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -969,7 +1032,8 @@
                             </CheckBox>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="{x:Static p:Resources.ExternalSettings}">
+                    <TabItem Header="{x:Static p:Resources.ExternalSettings}"
+                             Visibility="{Binding BlogAll.SelectionContainsTumblrBlogs, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Grid Margin="0">
                             <Grid.Resources>
                                 <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">

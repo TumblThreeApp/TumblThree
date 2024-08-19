@@ -35,6 +35,7 @@
         private bool? downloadAudio;
         private bool? downloadConversation;
         private bool? downloadLink;
+        private bool? downloadReplies;
 
         private bool downloadPhotoDiff;
         private bool downloadQuoteDiff;
@@ -63,6 +64,7 @@
         private bool downloadAudioDiff;
         private bool downloadConversationDiff;
         private bool downloadLinkDiff;
+        private bool downloadRepliesDiff;
 
         private bool downloadPagesEnabled;
         private bool pageSizeEnabled;
@@ -75,6 +77,8 @@
         private bool metadataFormatEnabled;
         private bool blogTypeEnabled;
         private bool collectionIdEnabled;
+        private bool selectionContainsTumblrBlogs;
+        private bool selectionContainsTwitterBlogs;
 
         public new bool? DownloadPhoto
         {
@@ -589,6 +593,25 @@
             }
         }
 
+        public new bool? DownloadReplies
+        {
+            get { return downloadReplies; }
+            set
+            {
+                DownloadRepliesDiff = !value.HasValue;
+                SetProperty(ref downloadReplies, value);
+            }
+        }
+
+        public bool DownloadRepliesDiff
+        {
+            get { return downloadRepliesDiff; }
+            set
+            {
+                SetProperty(ref downloadRepliesDiff, value);
+            }
+        }
+
         public bool DownloadPagesEnabled
         {
             get { return downloadPagesEnabled; }
@@ -685,6 +708,24 @@
             set
             {
                 SetProperty(ref collectionIdEnabled, value);
+            }
+        }
+
+        public bool SelectionContainsTumblrBlogs
+        {
+            get { return selectionContainsTumblrBlogs; }
+            set
+            {
+                SetProperty(ref selectionContainsTumblrBlogs, value);
+            }
+        }
+
+        public bool SelectionContainsTwitterBlogs
+        {
+            get { return selectionContainsTwitterBlogs; }
+            set
+            {
+                SetProperty(ref selectionContainsTwitterBlogs, value);
             }
         }
     }

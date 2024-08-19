@@ -221,6 +221,8 @@ namespace TumblThree.Applications.Controllers
                 PropertyInfo propertySet = typeof(IBlog).GetProperty(e.PropertyName);
                 if (propertySet == null)
                     continue;
+                if (blog.BlogType == BlogTypes.twitter && e.PropertyName == "SettingsTabIndex" && (int)value > 1)
+                    value = 1;
                 propertySet.SetValue(blog, value);
             }
         }
@@ -302,6 +304,7 @@ namespace TumblThree.Applications.Controllers
                 CreateVideoMeta = SetCheckBox(sharedBlogFiles, "CreateVideoMeta"),
                 CreateAudioMeta = SetCheckBox(sharedBlogFiles, "CreateAudioMeta"),
                 DownloadRebloggedPosts = SetCheckBox(sharedBlogFiles, "DownloadRebloggedPosts"),
+                DownloadReplies = SetCheckBox(sharedBlogFiles, "DownloadReplies"),
                 DownloadVideoThumbnail = SetCheckBox(sharedBlogFiles, "DownloadVideoThumbnail"),
                 SkipGif = SetCheckBox(sharedBlogFiles, "SkipGif"),
                 GroupPhotoSets = SetCheckBox(sharedBlogFiles, "GroupPhotoSets"),
@@ -326,18 +329,22 @@ namespace TumblThree.Applications.Controllers
             ba.Tags = SetProperty<string>(sharedBlogFiles, "Tags", (outval) => ba.TagsEnabled = outval);
             ba.Password = SetProperty<string>(sharedBlogFiles, "Password", (outval) => ba.PasswordEnabled = outval);
             ba.CollectionId = SetProperty<int>(sharedBlogFiles, "CollectionId", (outval) => ba.CollectionIdEnabled = outval);
-            bool dummy = false;
-            ba.GfycatType = SetProperty<GfycatTypes>(sharedBlogFiles, "GfycatType", (outval) => dummy = outval);
-            ba.WebmshareType = SetProperty<WebmshareTypes>(sharedBlogFiles, "WebmshareType", (outval) => dummy = outval);
-            ba.UguuType = SetProperty<UguuTypes>(sharedBlogFiles, "UguuType", (outval) => dummy = outval);
-            ba.CatBoxType = SetProperty<CatBoxTypes>(sharedBlogFiles, "CatBoxType", (outval) => dummy = outval);
+            bool allEqual = false;
+            ba.GfycatType = SetProperty<GfycatTypes>(sharedBlogFiles, "GfycatType", (outval) => allEqual = outval);
+            ba.WebmshareType = SetProperty<WebmshareTypes>(sharedBlogFiles, "WebmshareType", (outval) => allEqual = outval);
+            ba.UguuType = SetProperty<UguuTypes>(sharedBlogFiles, "UguuType", (outval) => allEqual = outval);
+            ba.CatBoxType = SetProperty<CatBoxTypes>(sharedBlogFiles, "CatBoxType", (outval) => allEqual = outval);
             ba.MetadataFormat = SetProperty<MetadataType>(sharedBlogFiles, "MetadataFormat", (outval) => ba.MetadataFormatEnabled = outval);
-            ba.BlogType = SetProperty<BlogTypes>(sharedBlogFiles, "BlogType", (outval) => dummy = outval);
+            ba.BlogType = SetProperty<BlogTypes>(sharedBlogFiles, "BlogType", (outval) => allEqual = outval);
             ba.BlogTypeEnabled = false;
-            ba.FileDownloadLocation = SetProperty<string>(sharedBlogFiles, "FileDownloadLocation", (outval) => dummy = outval);
+            ba.FileDownloadLocation = SetProperty<string>(sharedBlogFiles, "FileDownloadLocation", (outval) => allEqual = outval);
             ba.FileDownloadLocationEnabled = false;
             ba.FilenameTemplate = SetProperty<string>(sharedBlogFiles, "FilenameTemplate", (outval) => ba.FilenameTemplateEnabled = outval);
-            ba.SettingsTabIndex = SetProperty<int>(sharedBlogFiles, "SettingsTabIndex", (outval) => dummy = outval);
+            ba.SelectionContainsTumblrBlogs = sharedBlogFiles.Any(x => x.BlogType == BlogTypes.tumblr || x.BlogType == BlogTypes.tmblrpriv ||
+                x.BlogType == BlogTypes.tlb || x.BlogType == BlogTypes.tumblrsearch || x.BlogType == BlogTypes.tumblrtagsearch);
+            ba.SelectionContainsTwitterBlogs = sharedBlogFiles.Any(x => x.BlogType == BlogTypes.twitter);
+            ba.SettingsTabIndex = SetProperty<int>(sharedBlogFiles, "SettingsTabIndex", (outval) => allEqual = outval);
+            if (allEqual && ba.SettingsTabIndex > 0 && !sharedBlogFiles.Any(x => x.BlogType != BlogTypes.twitter)) ba.SettingsTabIndex = 2;
 
             ba.Dirty = false;
 
