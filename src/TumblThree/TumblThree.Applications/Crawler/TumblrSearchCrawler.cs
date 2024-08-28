@@ -31,7 +31,7 @@ namespace TumblThree.Applications.Crawler
     public class TumblrSearchCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
         private static readonly Regex extractJsonFromSearch = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);");
-        private static readonly Regex extractJsonFromSearch2 = new Regex("id=\"___INITIAL_STATE___\">\\s*?({.*})\\s*?</script>", RegexOptions.Singleline);
+        private static readonly Regex extractJsonFromSearch2 = new Regex(@"id=""___INITIAL_STATE___"">\s*?({.*})\s*?</script>", RegexOptions.Singleline);
 
         private readonly IShellService shellService;
         private readonly IDownloader downloader;
@@ -122,7 +122,27 @@ namespace TumblThree.Applications.Crawler
                 dynamic result = JsonConvert.DeserializeObject<ExpandoObject>(json, new ExpandoObjectConverter());
                 string nextUrl = "";
                 string bearerToken = "";
-                if (!HasProperty(result.SearchRoute, "timelines"))
+                if (HasProperty(result.SearchRoute, "timelines"))
+                {
+                    if (result.SearchRoute.timelines.post.meta.status != 200)
+                    {
+                        Logger.Error(Resources.ErrorDownloadingBlog, Blog.Name, (string)result.SearchRoute.timelines.post.meta.msg, (long)result.SearchRoute.timelines.post.meta.status);
+                        shellService.ShowError(new Exception(), string.Format(Resources.ErrorDownloadingBlog, Blog.Name, (string)result.SearchRoute.timelines.post.meta.msg, (long)result.SearchRoute.timelines.post.meta.status));
+                        return;
+                    }
+                    if (!HasProperty(result.SearchRoute.timelines.post.response.timeline, "links"))
+                    {
+                        Logger.Error(Resources.SearchTermNotFound, (string)result.SearchRoute.searchParams.searchTerm);
+                        shellService.ShowError(new Exception(), Resources.SearchTermNotFound, (string)result.SearchRoute.searchParams.searchTerm);
+                        return;
+                    }
+
+                    nextUrl = result.apiUrl + result.SearchRoute.timelines.post.response.timeline.links.next.href;
+                    bearerToken = result.apiFetchStore.API_TOKEN;
+
+                    DownloadPage(result.SearchRoute.timelines.post);
+                }
+                else if (HasProperty(result.SearchRoute, "searchApiResponse"))
                 {
                     if (result.SearchRoute.searchApiResponse.meta.status != 200)
                     {
@@ -144,23 +164,19 @@ namespace TumblThree.Applications.Crawler
                 }
                 else
                 {
-                    if (result.SearchRoute.timelines.post.meta.status != 200)
+                    DataModels.TumblrTaggedSearchJson.TagSearch result2 = JsonConvert.DeserializeObject<DataModels.TumblrTaggedSearchJson.TagSearch>(json);
+
+                    if (string.Compare(result2.Queries.Queries.Where(x => x.QueryHash.Contains("searchTimeline-post")).First().State.Status, "success", true) != 0)
                     {
-                        Logger.Error(Resources.ErrorDownloadingBlog, Blog.Name, (string)result.SearchRoute.timelines.post.meta.msg, (long)result.SearchRoute.timelines.post.meta.status);
-                        shellService.ShowError(new Exception(), string.Format(Resources.ErrorDownloadingBlog, Blog.Name, (string)result.SearchRoute.timelines.post.meta.msg, (long)result.SearchRoute.timelines.post.meta.status));
-                        return;
-                    }
-                    if (!HasProperty(result.SearchRoute.timelines.post.response.timeline, "links"))
-                    {
-                        Logger.Error(Resources.SearchTermNotFound, (string)result.SearchRoute.searchParams.searchTerm);
-                        shellService.ShowError(new Exception(), Resources.SearchTermNotFound, (string)result.SearchRoute.searchParams.searchTerm);
+                        Logger.Error(Resources.ErrorDownloadingBlog, Blog.Name, result2.Queries.Queries.Where(x => x.QueryHash.Contains("searchTimeline-post")).First().State.Error, GetCollectionName(Blog));
+                        shellService.ShowError(new Exception(), string.Format(Resources.ErrorDownloadingBlog, Blog.Name, result2.Queries.Queries.Where(x => x.QueryHash.Contains("searchTimeline-post")).First().State.Error, GetCollectionName(Blog)));
                         return;
                     }
 
-                    nextUrl = result.apiUrl + result.SearchRoute.timelines.post.response.timeline.links.next.href;
+                    nextUrl = result2.ApiUrl + result2.Queries.Queries.Where(x => x.QueryHash.Contains("searchTimeline-post")).First().State.Data.Pages.First().NextLink;
                     bearerToken = result.apiFetchStore.API_TOKEN;
 
-                    DownloadPage(result.SearchRoute.timelines.post);
+                   // DownloadPage(result.SearchRoute.searchApiResponse);
                 }
                 while (true)
                 {
@@ -195,6 +211,7 @@ namespace TumblThree.Applications.Crawler
             catch (Exception e)
             {
                 Logger.Error("TumblrSearchCrawler.CrawlPageAsync: {0}", e);
+                ShellService.ShowError(e, "{0}: {1}", Blog.Name, e.Message);
             }
             finally
             {

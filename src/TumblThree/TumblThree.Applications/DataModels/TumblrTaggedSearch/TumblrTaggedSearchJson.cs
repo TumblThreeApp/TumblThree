@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using TumblThree.Applications.Converter;
 
 namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
 {
@@ -64,6 +66,7 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
         public AdPlacementConfiguration AdPlacementConfiguration { get; set; }
 
         [DataMember(Name = "privacy")]
+        [JsonConverter(typeof(EmptyArrayOrDictionaryConverter))]
         public Privacy Privacy { get; set; }
 
         [DataMember(Name = "endlessScrollingDisabled")]
@@ -147,6 +150,7 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
     public class State
     {
         [DataMember(Name = "data", EmitDefaultValue = false)]
+        [JsonConverter(typeof(EmptyArrayOrDictionaryConverter))]
         public DataType Data { get; set; }
 
         [DataMember(Name = "dataUpdateCount", EmitDefaultValue = false)]
@@ -1829,6 +1833,4 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
         [DataMember(Name = "next")]
         public NextRequest Next { get; set; }
     }
-
-
 }
