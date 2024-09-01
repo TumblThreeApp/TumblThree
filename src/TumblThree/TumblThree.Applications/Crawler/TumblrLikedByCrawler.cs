@@ -201,6 +201,16 @@ namespace TumblThree.Applications.Crawler
                         return;
                     }
 
+                    if (isLikesUrl)
+                    {
+                        var posts = ExtractPosts(document);
+                        await DownloadPage(posts);
+                    }
+                    else
+                    {
+                        await AddUrlsToDownloadListAsync(document);
+                    }
+
                     pagination = ExtractNextPageLink(document);
                     pageNumber++;
                     var notWithinTimespan = !CheckIfWithinTimespan(pagination);
@@ -214,16 +224,6 @@ namespace TumblThree.Applications.Crawler
                         prevPagination = pagination;
                     }
                     nextPage.Add(Blog.Url + (isLikesUrl ? "?before=" : "/page/" + pageNumber + "/") + pagination);
-
-                    if (isLikesUrl)
-                    {
-                        var posts = ExtractPosts(document);
-                        await DownloadPage(posts);
-                    }
-                    else
-                    {
-                        await AddUrlsToDownloadListAsync(document);
-                    }
 
                     Interlocked.Increment(ref numberOfPagesCrawled);
                     UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
@@ -537,7 +537,7 @@ namespace TumblThree.Applications.Crawler
                     if (content.Provider == "tumblr" || url.Contains("tumblr.com") || Blog.RegExVideos)
                     {
                         string thumbnailUrl = content.Poster[0].Url;
-                        AddToDownloadList(new PhotoPost(thumbnailUrl, data.Id, data.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, data, index)));
+                        AddToDownloadList(new PhotoPost(thumbnailUrl, thumbnailUrl, data.Id, data.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, data, index)));
                     }
                 }
                 // can only download preview image for non-tumblr (embedded) video posts
@@ -556,12 +556,13 @@ namespace TumblThree.Applications.Crawler
             {
                 if (Blog.DownloadPhoto)
                 {
+                    var postedUrl = url;
                     if (url.Contains("tumblr.com/"))
                     {
                         url = RetrieveOriginalImageUrl(url, 2000, 3000, false);
                         url = CheckPnjUrl(url);
                     }
-                    AddToDownloadList(new PhotoPost(url, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+                    AddToDownloadList(new PhotoPost(url, postedUrl, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
                 }
             }
         }
@@ -740,20 +741,14 @@ namespace TumblThree.Applications.Crawler
             // <a id="next_page_link" href="/liked/by/wallpaperfx/page/5/1457139681" class="next button chrome blue">Next</a></div></div>
 
             const string htmlPagination = "(id=\"next_page_link\" href=\"[A-Za-z0-9_/:.-]+/([0-9]+)/([A-Za-z0-9]+))\"";
-            const string jsonPagination = "&before=([0-9]*)";
-            const string jsonPagination2 = "\\?before=([0-9]*)";
+            const string jsonPagination = @"(&|\\?|\\u0026)before=([0-9]*)";
 
             _ = long.TryParse(Regex.Match(document, htmlPagination).Groups[3].Value, out var unixTime);
 
             if (unixTime == 0)
             {
-                var r = Regex.Match(document, jsonPagination);
-                _ = long.TryParse(r.Groups[1].Value, out unixTime);
-
-                if (unixTime == 0)
-                {
-                    _ = long.TryParse(Regex.Match(document, jsonPagination2).Groups[1].Value, out unixTime);
-                }
+                var r = Regex.Matches(document, jsonPagination);
+                _ = long.TryParse(r[r.Count-1].Groups[2].Value, out unixTime);
             }
 
             return unixTime;
