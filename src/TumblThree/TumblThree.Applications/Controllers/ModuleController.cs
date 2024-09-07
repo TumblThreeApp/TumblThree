@@ -237,6 +237,10 @@ namespace TumblThree.Applications.Controllers
                 _messageService.Value.ShowError(Resources.InstanceAlreadyRunning);
                 return true;
             }
+            catch (DirectoryNotFoundException ex)
+            {
+                Logger.Error("ModuleController.IsInstanceAlreadyRunning: {0}", ex);
+            }
             return false;
         }
 
