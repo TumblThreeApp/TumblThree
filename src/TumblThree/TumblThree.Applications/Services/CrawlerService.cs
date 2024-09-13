@@ -385,7 +385,7 @@ namespace TumblThree.Applications.Services
                     {
                         StopFreeDiskSpaceMonitor();
                         _shellService.ShowError(new Exception(string.Format(Resources.LowDiskSpaceError, location)), Resources.LowDiskSpaceMsg, location);
-                        QueueOnDispatcher.CheckBeginInvokeOnUI(() => _pauseCommand.Execute(null));
+                        QueueOnDispatcher.CheckBeginInvokeOnUI(() => { if (_pauseCommand.CanExecute(null)) _pauseCommand.Execute(null); });
                         return;
                     }
                 }
