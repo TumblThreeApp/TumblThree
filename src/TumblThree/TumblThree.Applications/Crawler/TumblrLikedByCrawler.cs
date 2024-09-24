@@ -486,21 +486,24 @@ namespace TumblThree.Applications.Crawler
                         if (data.RegularTitle.Length != 0 || data.RegularBody.Length != 0)
                         {
                             text = tumblrJsonParser.ParseText(data);
-                            AddToDownloadList(new TextPost(text, data.Id, data.UnixTimestamp.ToString()));
+                            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "text", -1) : null;
+                            AddToDownloadList(new TextPost(text, data.Id, data.UnixTimestamp.ToString(), filename));
                         }
                         break;
                     case "quote":
                         data.QuoteText = post.Content?[0]?.Text;
                         data.QuoteSource = post.Content?[1]?.Text;
                         text = tumblrJsonParser.ParseQuote(data);
-                        AddToDownloadList(new QuotePost(text, data.Id, data.UnixTimestamp.ToString()));
+                        string filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "quote", -1) : null;
+                        AddToDownloadList(new QuotePost(text, data.Id, data.UnixTimestamp.ToString(), filename2));
                         break;
                     case "note":
                         data.Type = "answer";
                         data.Question = post.Content?[0]?.Text;
                         data.Answer = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
                         text = tumblrJsonParser.ParseAnswer(data);
-                        AddToDownloadList(new AnswerPost(text, data.Id, data.UnixTimestamp.ToString()));
+                        filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "answer", -1) : null;
+                        AddToDownloadList(new AnswerPost(text, data.Id, data.UnixTimestamp.ToString(), filename2));
                         break;
                     case "link":
                         var o = post.Content.FirstOrDefault(x => x.Type == "link") ?? new DataModels.TumblrSearchJson.Content();
@@ -508,14 +511,16 @@ namespace TumblThree.Applications.Crawler
                         data.LinkText = o.Title;
                         data.LinkUrl = o.Url;
                         text = tumblrJsonParser.ParseLink(data);
-                        AddToDownloadList(new LinkPost(text, data.Id, data.UnixTimestamp.ToString()));
+                        filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "link", -1) : null;
+                        AddToDownloadList(new LinkPost(text, data.Id, data.UnixTimestamp.ToString(), filename2));
                         break;
                     case "conversation":
                         data.Conversation = null;
                         data.ConversationTitle = post.Content?[0]?.Text;
                         data.ConversationText = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
                         text = tumblrJsonParser.ParseConversation(data);
-                        AddToDownloadList(new ConversationPost(text, data.Id, data.UnixTimestamp.ToString()));
+                        filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "conversation", -1) : null;
+                        AddToDownloadList(new ConversationPost(text, data.Id, data.UnixTimestamp.ToString(), filename2));
                         break;
                 }
             }

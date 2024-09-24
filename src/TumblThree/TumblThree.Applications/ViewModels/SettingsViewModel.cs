@@ -154,6 +154,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _freeDiskSpaceMonitorEnabled;
         private int _freeDiskSpaceMonitorInterval;
         private int _freeDiskSpaceMonitorLevel;
+        private bool _saveTextsIndividualFiles;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -997,6 +998,12 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _freeDiskSpaceMonitorLevel, value);
         }
 
+        public bool SaveTextsIndividualFiles
+        {
+            get => _saveTextsIndividualFiles;
+            set => SetProperty(ref _saveTextsIndividualFiles, value);
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -1265,7 +1272,6 @@ namespace TumblThree.Applications.ViewModels
 
         private void LoadSettings()
         {
-           
             if (_settings != null)
             {
                 ApiKey = _settings.ApiKey;
@@ -1365,6 +1371,7 @@ namespace TumblThree.Applications.ViewModels
                 FreeDiskSpaceMonitorEnabled = _settings.FreeDiskSpaceMonitorEnabled;
                 FreeDiskSpaceMonitorInterval = _settings.FreeDiskSpaceMonitorInterval;
                 FreeDiskSpaceMonitorLevel = _settings.FreeDiskSpaceMonitorLevel;
+                SaveTextsIndividualFiles = _settings.SaveTextsIndividualFiles;
             }
             else
             {
@@ -1464,6 +1471,7 @@ namespace TumblThree.Applications.ViewModels
                 FreeDiskSpaceMonitorEnabled = true;
                 FreeDiskSpaceMonitorInterval = 5;
                 FreeDiskSpaceMonitorLevel = 1024;
+                SaveTextsIndividualFiles = false;
             }
         }
 
@@ -1558,7 +1566,6 @@ namespace TumblThree.Applications.ViewModels
 
         private void SaveSettings()
         {
-            
             _settings.DownloadLocation = DownloadLocation;
             _settings.ExportLocation = ExportLocation;
             _settings.ConcurrentConnections = ConcurrentConnections;
@@ -1670,6 +1677,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.FreeDiskSpaceMonitorEnabled = FreeDiskSpaceMonitorEnabled;
             _settings.FreeDiskSpaceMonitorInterval = FreeDiskSpaceMonitorInterval;
             _settings.FreeDiskSpaceMonitorLevel = FreeDiskSpaceMonitorLevel;
+            _settings.SaveTextsIndividualFiles = SaveTextsIndividualFiles;
         }
     }
 }

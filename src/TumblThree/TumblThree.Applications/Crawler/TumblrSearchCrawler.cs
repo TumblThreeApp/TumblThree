@@ -415,7 +415,8 @@ namespace TumblThree.Applications.Crawler
                 }
                 post.RegularBody = text;
                 string textBody = tumblrJsonParser.ParseText(post);
-                AddToDownloadList(new TextPost(textBody, post.Id, post.UnixTimestamp.ToString()));
+                string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "text", -1) : null;
+                AddToDownloadList(new TextPost(textBody, post.Id, post.UnixTimestamp.ToString(), filename));
             }
         }
 

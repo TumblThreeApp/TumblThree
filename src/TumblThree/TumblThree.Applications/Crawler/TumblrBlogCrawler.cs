@@ -618,7 +618,8 @@ namespace TumblThree.Applications.Crawler
             }
 
             string textBody = tumblrJsonParser.ParseText(post);
-            AddToDownloadList(new TextPost(textBody, post.Id));
+            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "text", -1) : null;
+            AddToDownloadList(new TextPost(textBody, post.Id, filename));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
@@ -630,7 +631,8 @@ namespace TumblThree.Applications.Crawler
             }
 
             string textBody = tumblrJsonParser.ParseQuote(post);
-            AddToDownloadList(new QuotePost(textBody, post.Id));
+            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "quote", -1) : null;
+            AddToDownloadList(new QuotePost(textBody, post.Id, filename));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
@@ -642,7 +644,8 @@ namespace TumblThree.Applications.Crawler
             }
 
             string textBody = tumblrJsonParser.ParseLink(post);
-            AddToDownloadList(new LinkPost(textBody, post.Id));
+            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "link", -1) : null;
+            AddToDownloadList(new LinkPost(textBody, post.Id, filename));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
@@ -654,7 +657,8 @@ namespace TumblThree.Applications.Crawler
             }
 
             string textBody = tumblrJsonParser.ParseConversation(post);
-            AddToDownloadList(new ConversationPost(textBody, post.Id));
+            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "conversation", -1) : null;
+            AddToDownloadList(new ConversationPost(textBody, post.Id, filename));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 
@@ -666,7 +670,8 @@ namespace TumblThree.Applications.Crawler
             }
 
             string textBody = tumblrJsonParser.ParseAnswer(post);
-            AddToDownloadList(new AnswerPost(textBody, post.Id));
+            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "answer", -1) : null;
+            AddToDownloadList(new AnswerPost(textBody, post.Id, filename));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
         }
 

@@ -311,6 +311,7 @@ namespace TumblThree.Applications.Controllers
                 ForceSize = SetCheckBox(sharedBlogFiles, "ForceSize"),
                 ForceRescan = SetCheckBox(sharedBlogFiles, "ForceRescan"),
                 CheckDirectoryForFiles = SetCheckBox(sharedBlogFiles, "CheckDirectoryForFiles"),
+                SaveTextsIndividualFiles = SetCheckBox(sharedBlogFiles, "SaveTextsIndividualFiles"),
                 DownloadUrlList = SetCheckBox(sharedBlogFiles, "DownloadUrlList"),
                 DownloadImgur = SetCheckBox(sharedBlogFiles, "DownloadImgur"),
                 DownloadGfycat = SetCheckBox(sharedBlogFiles, "DownloadGfycat"),

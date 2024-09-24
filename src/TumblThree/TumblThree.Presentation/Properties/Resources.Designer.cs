@@ -19,7 +19,7 @@ namespace TumblThree.Presentation.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -1702,6 +1702,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save texts in individual files.
+        /// </summary>
+        public static string SaveTextsIndividualFiles {
+            get {
+                return ResourceManager.GetString("SaveTextsIndividualFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scan connections.
         /// </summary>
         public static string ScanConnections {
@@ -2403,9 +2412,7 @@ namespace TumblThree.Presentation.Properties {
         ///  %p  post title
         ///  %i   post id
         ///  %n  image index (of photo sets, else skipped)
-        ///  %t   for all tags (cute+cats,big+dogs)
-        ///  %r   for reblog
-        ///  %s   slug (last part of a post&apos;s [rest of string was truncated]&quot;;.
+        ///  %t   for all tags (cute+cats,big+do [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ToolTipFilenameTemplateDescription {
             get {
@@ -2536,7 +2543,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hides(colapses) the text on buttons from main application windows and leaves tooltips on so the toolbars buttons have all the same footprint.
+        ///   Looks up a localized string similar to Hides the text on buttons from main application window and leaves tooltips on, so all the toolbar buttons have the same width.
         /// </summary>
         public static string ToolTipHideToolBarButtonsTextDescription {
             get {
@@ -3051,6 +3058,25 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipRegExVideosDescription {
             get {
                 return ResourceManager.GetString("ToolTipRegExVideosDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save texts in individual files instead of one.
+        /// </summary>
+        public static string ToolTipSaveTextsIndividualFiles {
+            get {
+                return ResourceManager.GetString("ToolTipSaveTextsIndividualFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saves the downloaded texts in individual files instead of in one file (e.g. texts.txt).
+        ///This option complements the &quot;Download texts&quot; option(s) and doesn&apos;t work independently..
+        /// </summary>
+        public static string ToolTipSaveTextsIndividualFilesDescription {
+            get {
+                return ResourceManager.GetString("ToolTipSaveTextsIndividualFilesDescription", resourceCulture);
             }
         }
         

@@ -881,7 +881,8 @@ namespace TumblThree.Applications.Crawler
 
             var body = GetTweetText(post);
             if (string.IsNullOrEmpty(body)) return;
-            AddToDownloadList(new TextPost(body, post.Legacy.IdStr));
+            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Legacy.IdStr}.txt", post, "text", -1) : null;
+            AddToDownloadList(new TextPost(body, post.Legacy.IdStr, filename));
             if (post.Legacy.Entities?.Media?.Count == 0 || !(Blog.DownloadPhoto || Blog.DownloadVideo))
             {
                 AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(post.Legacy.IdStr, ".json"), post));

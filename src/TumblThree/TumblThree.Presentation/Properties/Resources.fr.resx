@@ -1018,4 +1018,14 @@ Les cookies utilisés pour l'authentification sont enregistrés et le processus 
   <data name="ToolTipFreeDiskSpaceMonitorInterval" xml:space="preserve">
     <value>Intervalle de vérification de l'espace disque disponible</value>
   </data>
+  <data name="SaveTextsIndividualFiles" xml:space="preserve">
+    <value>Enregistrer les textes dans des fichiers individuels</value>
+  </data>
+  <data name="ToolTipSaveTextsIndividualFiles" xml:space="preserve">
+    <value>Enregistrez les textes dans des fichiers individuels au lieu d'un seul</value>
+  </data>
+  <data name="ToolTipSaveTextsIndividualFilesDescription" xml:space="preserve">
+    <value>Enregistre les textes téléchargés dans des fichiers individuels plutôt que dans un seul fichier (par exemple texts.txt).
+Cette option complète la ou les options "Télécharger les textes" et ne fonctionne pas de manière indépendante.</value>
+  </data>
 </root>

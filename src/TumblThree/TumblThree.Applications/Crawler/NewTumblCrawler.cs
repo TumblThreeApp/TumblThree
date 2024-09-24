@@ -512,7 +512,7 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            AddToDownloadList(new TextPost(data, GetPostId(post)));
+            AddToDownloadList(new TextPost(data, GetPostId(post), null));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(GetPostId(post), ".json"), post));
         }
 
@@ -528,7 +528,7 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            AddToDownloadList(new QuotePost(data, GetPostId(post)));
+            AddToDownloadList(new QuotePost(data, GetPostId(post), null));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(GetPostId(post), ".json"), post));
         }
 
@@ -544,7 +544,7 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            AddToDownloadList(new LinkPost(data, GetPostId(post)));
+            AddToDownloadList(new LinkPost(data, GetPostId(post), null));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(GetPostId(post), ".json"), post));
         }
 
@@ -560,7 +560,7 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            AddToDownloadList(new AnswerPost(data, GetPostId(post)));
+            AddToDownloadList(new AnswerPost(data, GetPostId(post), null));
             AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(GetPostId(post), ".json"), post));
         }
 

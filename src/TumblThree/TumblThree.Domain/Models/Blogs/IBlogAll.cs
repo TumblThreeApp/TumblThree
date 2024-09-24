@@ -30,6 +30,7 @@
         new bool? DownloadConversation { get; set; }
         new bool? DownloadLink { get; set; }
         new bool? DownloadReplies { get; set; }
+        new bool? SaveTextsIndividualFiles { get; set; }
 
         bool DownloadPhotoDiff { get; set; }
         bool DownloadQuoteDiff { get; set; }
@@ -59,6 +60,7 @@
         bool DownloadConversationDiff { get; set; }
         bool DownloadLinkDiff { get; set; }
         bool DownloadRepliesDiff { get; set; }
+        bool SaveTextsIndividualFilesDiff { get; set; }
 
         bool DownloadPagesEnabled { get; set; }
         bool PageSizeEnabled { get; set; }

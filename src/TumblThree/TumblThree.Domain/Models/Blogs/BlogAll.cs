@@ -36,6 +36,7 @@
         private bool? downloadConversation;
         private bool? downloadLink;
         private bool? downloadReplies;
+        private bool? saveTextsIndividualFiles;
 
         private bool downloadPhotoDiff;
         private bool downloadQuoteDiff;
@@ -65,6 +66,7 @@
         private bool downloadConversationDiff;
         private bool downloadLinkDiff;
         private bool downloadRepliesDiff;
+        private bool saveTextsIndividualFilesDiff;
 
         private bool downloadPagesEnabled;
         private bool pageSizeEnabled;
@@ -610,6 +612,22 @@
             {
                 SetProperty(ref downloadRepliesDiff, value);
             }
+        }
+
+        public new bool? SaveTextsIndividualFiles
+        {
+            get => saveTextsIndividualFiles;
+            set
+            {
+                SaveTextsIndividualFilesDiff = !value.HasValue;
+                SetProperty(ref saveTextsIndividualFiles, value);
+            }
+        }
+
+        public bool SaveTextsIndividualFilesDiff
+        {
+            get => saveTextsIndividualFilesDiff;
+            set => SetProperty(ref saveTextsIndividualFilesDiff, value);
         }
 
         public bool DownloadPagesEnabled

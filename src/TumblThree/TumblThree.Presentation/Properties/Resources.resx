@@ -1274,4 +1274,14 @@ The cookies for the privacy consent are saved and the process needs to be done o
   <data name="ToolTipFreeDiskSpaceMonitorInterval" xml:space="preserve">
     <value>Free disk space check interval</value>
   </data>
+  <data name="SaveTextsIndividualFiles" xml:space="preserve">
+    <value>Save texts in individual files</value>
+  </data>
+  <data name="ToolTipSaveTextsIndividualFiles" xml:space="preserve">
+    <value>Save texts in individual files instead of one</value>
+  </data>
+  <data name="ToolTipSaveTextsIndividualFilesDescription" xml:space="preserve">
+    <value>Saves the downloaded texts in individual files instead of in one file (e.g. texts.txt).
+This option complements the "Download texts" option(s) and doesn't work independently.</value>
+  </data>
 </root>

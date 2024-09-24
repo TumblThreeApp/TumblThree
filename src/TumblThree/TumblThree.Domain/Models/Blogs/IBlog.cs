@@ -201,6 +201,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         string PnjDownloadFormat { get; set; }
 
+        bool SaveTextsIndividualFiles { get; set; }
+
         void UpdateProgress(bool doCount);
 
         void UpdatePostCount(string propertyName);

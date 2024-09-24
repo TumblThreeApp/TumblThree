@@ -111,7 +111,7 @@ namespace TumblThree.Applications.Downloader
             }
             catch (TimeoutException timeoutException)
             {
-                Logger.Error("AbstractDownloader:DownloadBinaryFile {0}", timeoutException);
+                Logger.Error("AbstractDownloader:DownloadBinaryFileAsync: {0}", timeoutException);
                 shellService.ShowError(timeoutException, Resources.TimeoutReached, Resources.Downloading, blog.Name);
                 throw;
             }
@@ -140,13 +140,14 @@ namespace TumblThree.Applications.Downloader
             }
             catch (IOException ex) when ((ex.HResult & 0xFFFF) == 0x27 || (ex.HResult & 0xFFFF) == 0x70)
             {
-                Logger.Error("Downloader:AppendToTextFile: {0}", ex);
+                Logger.Error("AbstractDownloader:AppendToTextFile: {0}", ex);
                 shellService.ShowError(ex, Resources.DiskFull);
                 crawlerService.StopCommand.Execute(null);
                 return false;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("AbstractDownloader:AppendToTextFile: {0}", ex);
                 return false;
             }
         }
@@ -161,6 +162,30 @@ namespace TumblThree.Applications.Downloader
             streamWriters.Add(key, sw);
 
             return sw;
+        }
+
+        private bool WriteToTextFile(string fileLocation, string text, bool isJson)
+        {
+            try
+            {
+                using (StreamWriterWithInfo sw = new StreamWriterWithInfo(fileLocation, false, isJson))
+                {
+                    sw.WriteLine(text);
+                }
+                return true;
+            }
+            catch (IOException ex) when ((ex.HResult & 0xFFFF) == 0x27 || (ex.HResult & 0xFFFF) == 0x70)
+            {
+                Logger.Error("AbstractDownloader:WriteToTextFile: {0}", ex);
+                shellService.ShowError(ex, Resources.DiskFull);
+                crawlerService.StopCommand.Execute(null);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("AbstractDownloader:WriteToTextFile: {0}", ex);
+                return false;
+            }
         }
 
         public virtual async Task<bool> DownloadBlogAsync()
@@ -302,7 +327,7 @@ namespace TumblThree.Applications.Downloader
                 string blogDownloadLocation = blog.DownloadLocation();
                 string fileName = AddFileToDb(downloadItem);
                 string fileLocation = FileLocation(blogDownloadLocation, fileName);
-                string fileLocationUrlList = FileLocationLocalized(blogDownloadLocation, downloadItem.TextFileLocation);
+                string fileLocationUrlList = FileLocation(blogDownloadLocation, downloadItem.TextFileLocation);
                 DateTime postDate = PostDate(downloadItem);
                 UpdateProgressQueueInformation(Resources.ProgressDownloadImage, fileName);
                 bool result;
@@ -393,6 +418,8 @@ namespace TumblThree.Applications.Downloader
             }
         }
 
+        private delegate bool OutputToTextFileDel(string fileLocation, string text, bool isJson);
+
         private void DownloadTextPost(TumblrPost downloadItem)
         {
             string postId = PostId(downloadItem);
@@ -403,10 +430,11 @@ namespace TumblThree.Applications.Downloader
             else
             {
                 string blogDownloadLocation = blog.DownloadLocation();
-                string url = Url(downloadItem);
-                string fileLocation = FileLocationLocalized(blogDownloadLocation, downloadItem.TextFileLocation);
+                string text = Url(downloadItem);
+                string fileLocation = FileLocation(blogDownloadLocation, string.IsNullOrEmpty(downloadItem.Filename) ? downloadItem.TextFileLocation : downloadItem.Filename);
+                OutputToTextFileDel outputToTextFile = string.IsNullOrEmpty(downloadItem.Filename) ? new OutputToTextFileDel(AppendToTextFile) : new OutputToTextFileDel(WriteToTextFile);
                 UpdateProgressQueueInformation(Resources.ProgressDownloadImage, postId);
-                if (AppendToTextFile(fileLocation, url, blog.MetadataFormat == Domain.Models.MetadataType.Json))
+                if (outputToTextFile(fileLocation, text, blog.MetadataFormat == Domain.Models.MetadataType.Json))
                 {
                     UpdateBlogDB(downloadItem.DbType);
                     AddTextToDb(downloadItem);
@@ -463,11 +491,6 @@ namespace TumblThree.Applications.Downloader
         protected static string FileLocation(string blogDownloadLocation, string fileName)
         {
             return Path.Combine(blogDownloadLocation, fileName);
-        }
-
-        protected static string FileLocationLocalized(string blogDownloadLocation, string fileName)
-        {
-            return Path.Combine(blogDownloadLocation, string.Format(CultureInfo.CurrentCulture, fileName));
         }
 
         private static string PostId(TumblrPost downloadItem)

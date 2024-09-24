@@ -1014,4 +1014,14 @@ Las cookies utilizadas para la autenticación se guardan y el proceso de autenti
   <data name="ToolTipFreeDiskSpaceMonitorLevelDescription" xml:space="preserve">
     <value>Nivel de espacio libre en disco (en MB) en el que la descarga se detiene automáticamente.</value>
   </data>
+  <data name="SaveTextsIndividualFiles" xml:space="preserve">
+    <value>Guardar textos en archivos individuales</value>
+  </data>
+  <data name="ToolTipSaveTextsIndividualFiles" xml:space="preserve">
+    <value>Guarde los textos en archivos individuales en lugar de uno</value>
+  </data>
+  <data name="ToolTipSaveTextsIndividualFilesDescription" xml:space="preserve">
+    <value>Guarda los textos descargados en archivos individuales en lugar de en un solo archivo (por ejemplo, texts.txt).
+Esta opción complementa la(s) opción(es) "Descargar textos" y no funciona de forma independiente.</value>
+  </data>
 </root>
