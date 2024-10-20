@@ -1089,7 +1089,7 @@ namespace TumblThree.Applications.Controllers
         {
             if (e.PropertyName == nameof(_crawlerService.NewBlogUrl))
             {
-                _addBlogCommand.RaiseCanExecuteChanged();
+                QueueOnDispatcher.CheckBeginInvokeOnUI(() => { _addBlogCommand.RaiseCanExecuteChanged(); });
             }
         }
 
