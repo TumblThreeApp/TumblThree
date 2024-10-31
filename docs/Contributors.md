@@ -37,6 +37,7 @@ People are giving themselves and their free time to contribute to our project in
 * [deege216](https://github.com/deege216) 💻
 * [rexius41](https://github.com/rexius41) 💻
 * [targed](https://github.com/targed) 🛠️
+* [mjharwood](https://github.com/mjharwood) 💻
 * Your Name?
 
 Did we forget someone? Please drop us a line.
