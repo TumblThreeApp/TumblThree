@@ -362,6 +362,7 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
         public string Type { get; set; }
 
         [DataMember(Name = "media", EmitDefaultValue = false)]
+        [JsonConverter(typeof(SingleOrArrayConverter<Medium>))]
         public IList<Medium> Media { get; set; }
 
         [DataMember(Name = "colors", EmitDefaultValue = false)]
@@ -389,6 +390,7 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
         public Metadata Metadata { get; set; }
 
         [DataMember(Name = "attribution", EmitDefaultValue = false)]
+        [JsonConverter(typeof(SingleOrArrayConverter<Attribution>))]
         public Attribution Attribution { get; set; }
     }
 
