@@ -544,4 +544,10 @@ Continue close anyway?</value>
   <data name="InstanceAlreadyRunning" xml:space="preserve">
     <value>An instance for this download location is already running!</value>
   </data>
+  <data name="CompressExistingCrawlerDataFiles" xml:space="preserve">
+    <value>Compressing existing crawler data files...</value>
+  </data>
+  <data name="LoadExistingCrawlerDataFiles" xml:space="preserve">
+    <value>Load existing crawler data files...</value>
+  </data>
 </root>

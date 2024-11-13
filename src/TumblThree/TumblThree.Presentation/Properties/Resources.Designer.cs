@@ -3266,6 +3266,44 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Archive crawler data files in ZIP file..
+        /// </summary>
+        public static string ToolTipZipCrawlerData {
+            get {
+                return ResourceManager.GetString("ToolTipZipCrawlerData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Archives the crawler data files in a ZIP file. The setting affects newly 
+        ///created files. Existing files are not archived or unarchived..
+        /// </summary>
+        public static string ToolTipZipCrawlerDataDescription {
+            get {
+                return ResourceManager.GetString("ToolTipZipCrawlerDataDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Archive already existing crawler data files..
+        /// </summary>
+        public static string ToolTipZipExistingCrawlerData {
+            get {
+                return ResourceManager.GetString("ToolTipZipExistingCrawlerData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Archive also already existing dump files. When the blog is crawled the next time, the already 
+        ///existing dump files are also archived, if the option &apos;Archive in ZIP file&apos; is enabled..
+        /// </summary>
+        public static string ToolTipZipExistingCrawlerDataDescription {
+            get {
+                return ResourceManager.GetString("ToolTipZipExistingCrawlerDataDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use new mode of handling Tumblr authorization errors.
         /// </summary>
         public static string TumblrAuthErrorAutoRetry {
@@ -3379,6 +3417,24 @@ namespace TumblThree.Presentation.Properties {
         public static string Website {
             get {
                 return ResourceManager.GetString("Website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Archive in ZIP file.
+        /// </summary>
+        public static string ZipCrawlerData {
+            get {
+                return ResourceManager.GetString("ZipCrawlerData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Archive already existing crawler data files.
+        /// </summary>
+        public static string ZipExistingCrawlerData {
+            get {
+                return ResourceManager.GetString("ZipExistingCrawlerData", resourceCulture);
             }
         }
     }

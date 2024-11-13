@@ -56,6 +56,7 @@ namespace TumblThree.Applications.Services
             blog.CollectionId = shellService.Settings.ActiveCollectionId;
             blog.PnjDownloadFormat = shellService.Settings.PnjDownloadFormat;
             blog.SaveTextsIndividualFiles = shellService.Settings.SaveTextsIndividualFiles;
+            blog.ZipCrawlerData = shellService.Settings.ZipCrawlerData;
             return blog;
         }
     }

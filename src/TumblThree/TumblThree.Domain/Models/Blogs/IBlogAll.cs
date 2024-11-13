@@ -24,6 +24,7 @@
         new bool? DownloadUguu { get; set; }
         new bool? DownloadCatBox { get; set; }
         new bool? DumpCrawlerData { get; set; }
+        new bool? ZipCrawlerData { get; set; }
         new bool? RegExPhotos { get; set; }
         new bool? RegExVideos { get; set; }
         new bool? DownloadAudio { get; set; }
@@ -54,6 +55,7 @@
         bool DownloadUguuDiff { get; set; }
         bool DownloadCatBoxDiff { get; set; }
         bool DumpCrawlerDataDiff { get; set; }
+        bool ZipCrawlerDataDiff { get; set; }
         bool RegExPhotosDiff { get; set; }
         bool RegExVideosDiff { get; set; }
         bool DownloadAudioDiff { get; set; }

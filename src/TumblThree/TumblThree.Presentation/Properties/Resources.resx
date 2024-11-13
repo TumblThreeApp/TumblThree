@@ -1284,4 +1284,24 @@ The cookies for the privacy consent are saved and the process needs to be done o
     <value>Saves the downloaded texts in individual files instead of in one file (e.g. texts.txt).
 This option complements the "Download texts" option(s) and doesn't work independently.</value>
   </data>
+  <data name="ZipCrawlerData" xml:space="preserve">
+    <value>Archive in ZIP file</value>
+  </data>
+  <data name="ToolTipZipCrawlerData" xml:space="preserve">
+    <value>Archive crawler data files in ZIP file.</value>
+  </data>
+  <data name="ToolTipZipCrawlerDataDescription" xml:space="preserve">
+    <value>Archives the crawler data files in a ZIP file. The setting affects newly 
+created files. Existing files are not archived or unarchived.</value>
+  </data>
+  <data name="ZipExistingCrawlerData" xml:space="preserve">
+    <value>Archive already existing crawler data files</value>
+  </data>
+  <data name="ToolTipZipExistingCrawlerData" xml:space="preserve">
+    <value>Archive already existing crawler data files.</value>
+  </data>
+  <data name="ToolTipZipExistingCrawlerDataDescription" xml:space="preserve">
+    <value>Archive also already existing crawler data files. When the blog is crawled the next time, the already 
+existing crawler data files are also archived, if the option 'Archive in ZIP file' is enabled.</value>
+  </data>
 </root>

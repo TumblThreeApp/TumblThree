@@ -1028,4 +1028,24 @@ Les cookies utilisés pour l'authentification sont enregistrés et le processus 
     <value>Enregistre les textes téléchargés dans des fichiers individuels plutôt que dans un seul fichier (par exemple texts.txt).
 Cette option complète la ou les options "Télécharger les textes" et ne fonctionne pas de manière indépendante.</value>
   </data>
+  <data name="ToolTipZipCrawlerDataDescription" xml:space="preserve">
+    <value>Archive les fichiers de données du robot dans un fichier ZIP. Le paramètre affecte nouvellement
+fichiers créés. Les fichiers existants ne sont ni archivés ni désarchivés.</value>
+  </data>
+  <data name="ToolTipZipCrawlerData" xml:space="preserve">
+    <value>Archive les fichiers de données du robot dans un fichier ZIP.</value>
+  </data>
+  <data name="ToolTipZipExistingCrawlerData" xml:space="preserve">
+    <value>Archive les fichiers de données du robot déjà existants.</value>
+  </data>
+  <data name="ToolTipZipExistingCrawlerDataDescription" xml:space="preserve">
+    <value>Archivez également les fichiers de dump déjà existants. Lors de la prochaine exploration du blog, les fichiers 
+de données du robot déjà existants seront également archivés, si l'option « Archiver dans un fichier ZIP » est activée.</value>
+  </data>
+  <data name="ZipCrawlerData" xml:space="preserve">
+    <value>Archive dans un fichier ZIP</value>
+  </data>
+  <data name="ZipExistingCrawlerData" xml:space="preserve">
+    <value>Archiver les fichiers de données du robot déjà existants</value>
+  </data>
 </root>

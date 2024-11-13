@@ -1024,4 +1024,24 @@ Las cookies utilizadas para la autenticación se guardan y el proceso de autenti
     <value>Guarda los textos descargados en archivos individuales en lugar de en un solo archivo (por ejemplo, texts.txt).
 Esta opción complementa la(s) opción(es) "Descargar textos" y no funciona de forma independiente.</value>
   </data>
+  <data name="ToolTipZipCrawlerData" xml:space="preserve">
+    <value>Archive los archivos de datos del rastreador en un archivo ZIP.</value>
+  </data>
+  <data name="ToolTipZipCrawlerDataDescription" xml:space="preserve">
+    <value>Archive los archivos de datos del rastreador en un archivo ZIP. La configuración afecta recientemente
+archivos creados. Los archivos existentes no se archivan ni se desarchivan.</value>
+  </data>
+  <data name="ToolTipZipExistingCrawlerData" xml:space="preserve">
+    <value>Archive archivos de datos de rastreadores ya existentes.</value>
+  </data>
+  <data name="ToolTipZipExistingCrawlerDataDescription" xml:space="preserve">
+    <value>Archive también los archivos de volcado del rastreador ya existentes. La próxima vez que se rastree el blog, los archivos 
+de volcado ya existentes también se archivarán, si la opción 'Archivar archivos de volcado' está habilitada.</value>
+  </data>
+  <data name="ZipCrawlerData" xml:space="preserve">
+    <value>Archivar en archivo ZIP</value>
+  </data>
+  <data name="ZipExistingCrawlerData" xml:space="preserve">
+    <value>Archive archivos de datos de rastreadores ya existentes</value>
+  </data>
 </root>

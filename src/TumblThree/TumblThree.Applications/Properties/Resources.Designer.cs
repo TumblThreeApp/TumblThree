@@ -271,6 +271,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Compressing existing crawler data files....
+        /// </summary>
+        public static string CompressExistingCrawlerDataFiles {
+            get {
+                return ResourceManager.GetString("CompressExistingCrawlerDataFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tumblr Privacy Consent needs to be accepted in the settings!.
         /// </summary>
         public static string ConfirmationTumblrPrivacyConsentNeeded {
@@ -838,6 +847,15 @@ namespace TumblThree.Applications.Properties {
         public static string Link {
             get {
                 return ResourceManager.GetString("Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load existing crawler data files....
+        /// </summary>
+        public static string LoadExistingCrawlerDataFiles {
+            get {
+                return ResourceManager.GetString("LoadExistingCrawlerDataFiles", resourceCulture);
             }
         }
         

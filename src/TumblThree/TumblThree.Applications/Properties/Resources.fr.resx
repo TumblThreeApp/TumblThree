@@ -525,4 +525,10 @@ Continuer à fermer quand même ?</value>
   <data name="InstanceAlreadyRunning" xml:space="preserve">
     <value>Une instance pour cet emplacement de téléchargement est déjà en cours d'exécution!</value>
   </data>
+  <data name="CompressExistingCrawlerDataFiles" xml:space="preserve">
+    <value>Compression des fichiers de données du robot d'exploration existants...</value>
+  </data>
+  <data name="LoadExistingCrawlerDataFiles" xml:space="preserve">
+    <value>Charger les fichiers de données du robot d'exploration existants...</value>
+  </data>
 </root>

@@ -203,6 +203,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         bool SaveTextsIndividualFiles { get; set; }
 
+        bool ZipCrawlerData { get; set; }
+
         void UpdateProgress(bool doCount);
 
         void UpdatePostCount(string propertyName);

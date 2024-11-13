@@ -132,5 +132,15 @@ namespace TumblThree.Applications.Downloader
         {
             return Path.Combine(blogDownloadLocation, fileName);
         }
+
+        bool ICrawlerDataDownloader.ExistingCrawlerDataContainsOrAdd(string filename)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task ICrawlerDataDownloader.GetAlreadyExistingCrawlerDataFilesAsync(IProgress<DownloadProgress> progress)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

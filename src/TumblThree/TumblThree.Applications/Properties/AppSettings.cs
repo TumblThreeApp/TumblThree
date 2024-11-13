@@ -408,6 +408,12 @@ namespace TumblThree.Applications.Properties
         public bool SaveTextsIndividualFiles { get; set; }
 
         [DataMember]
+        public bool ZipCrawlerData { get; set; }
+
+        [DataMember]
+        public bool ZipExistingCrawlerData { get; set; }
+
+        [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
         public static ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
@@ -662,6 +668,8 @@ namespace TumblThree.Applications.Properties
             FreeDiskSpaceMonitorInterval = 5;
             FreeDiskSpaceMonitorLevel = 1024;
             SaveTextsIndividualFiles = false;
+            ZipCrawlerData = false;
+            ZipExistingCrawlerData = false;
         }
 
         [OnDeserializing]

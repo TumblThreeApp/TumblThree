@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
@@ -17,7 +19,7 @@ using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Applications.Downloader
 {
-    public class JsonDownloader<T> : ICrawlerDataDownloader
+    public class JsonDownloader<T> : ICrawlerDataDownloader, IDisposable
     {
         private readonly IBlog blog;
         private readonly ICrawlerService crawlerService;
@@ -25,6 +27,10 @@ namespace TumblThree.Applications.Downloader
         private readonly IShellService shellService;
         private CancellationToken ct;
         private readonly PauseToken pt;
+        private readonly IList<string> existingCrawlerData = new List<string>();
+        private readonly SemaphoreSlim existingCrawlerDataLock = new SemaphoreSlim(1);
+        private ZipArchive archive;
+        private bool disposed;
 
         public JsonDownloader(IShellService shellService, PauseToken pt, IPostQueue<CrawlerData<T>> jsonQueue,
             ICrawlerService crawlerService, IBlog blog, CancellationToken ct)
@@ -67,6 +73,82 @@ namespace TumblThree.Applications.Downloader
             }
 
             await Task.WhenAll(trackedTasks);
+
+            CloseArchive();
+        }
+
+        public async Task GetAlreadyExistingCrawlerDataFilesAsync(IProgress<DownloadProgress> progress)
+        {
+            await existingCrawlerDataLock.WaitAsync();
+            try
+            {
+                if (blog.ZipCrawlerData)
+                {
+                    var zipPath = Path.Combine(blog.DownloadLocation(), "CrawlerData.zip");
+                    if (shellService.Settings.ZipExistingCrawlerData &&
+                        Directory.EnumerateFiles(blog.DownloadLocation(), "*.json").Any())
+                    {
+                        progress?.Report(new DownloadProgress { Progress = Resources.CompressExistingCrawlerDataFiles });
+                        var fs = new FileStream(zipPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
+                        archive = new ZipArchive(fs, ZipArchiveMode.Update);
+                        foreach (var filepath in Directory.EnumerateFiles(blog.DownloadLocation(), "*.json"))
+                        {
+                            var fi = new FileInfo(filepath);
+                            var entry = archive.GetEntry(fi.Name) ?? archive.CreateEntry(fi.Name, CompressionLevel.Optimal);
+                            entry.LastWriteTime = fi.LastWriteTime;
+                            using (var stream = entry.Open())
+                            using (var fileStream = fi.OpenRead())
+                            {
+                                await fileStream.CopyToAsync(stream);
+                            }
+                            fi.Delete();
+                        }
+                    }
+                    if (!File.Exists(zipPath)) return;
+                    progress?.Report(new DownloadProgress { Progress = Resources.LoadExistingCrawlerDataFiles });
+                    if (archive is null)
+                    {
+                        var fs = new FileStream(zipPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
+                        archive = new ZipArchive(fs, ZipArchiveMode.Update);
+                    }
+                    foreach (var entry in archive.Entries)
+                    {
+                        existingCrawlerData.Add(entry.Name);
+                    }
+                }
+                else
+                {
+                    progress?.Report(new DownloadProgress { Progress = Resources.LoadExistingCrawlerDataFiles });
+                    foreach (var filepath in Directory.GetFiles(blog.DownloadLocation(), "*.json"))
+                    {
+                        existingCrawlerData.Add(Path.GetFileName(filepath));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("JsonDownloader.DownloadPostAsync(): {0}", ex);
+            }
+            finally
+            {
+                existingCrawlerDataLock.Release();
+            }
+            await Task.CompletedTask;
+        }
+
+        public bool ExistingCrawlerDataContainsOrAdd(string filename)
+        {
+            existingCrawlerDataLock.Wait();
+            try
+            {
+                if (existingCrawlerData.Contains(filename)) return true;
+                existingCrawlerData.Add(filename);
+                return false;
+            }
+            finally
+            {
+                existingCrawlerDataLock.Release();
+            }
         }
 
         public void ChangeCancellationToken(CancellationToken ct)
@@ -80,43 +162,63 @@ namespace TumblThree.Applications.Downloader
             {
                 await DownloadTextPostAsync(downloadItem);
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error("JsonDownloader.DownloadPostAsync(): {0}", ex.ToString());
             }
         }
 
         private async Task DownloadTextPostAsync(CrawlerData<T> crawlerData)
         {
             string blogDownloadLocation = blog.DownloadLocation();
-            string fileLocation = FileLocation(blogDownloadLocation, crawlerData.Filename);
-            await AppendToTextFileAsync(fileLocation, crawlerData.Data);
+            await WriteDataAsync(blogDownloadLocation, crawlerData.Filename, crawlerData.Data);
         }
 
-        private async Task AppendToTextFileAsync(string fileLocation, T data)
+        private async Task WriteDataAsync(string downloadLocation, string filename, T data)
         {
             try
             {
-                if (typeof(T) == typeof(DataModels.TumblrSearchJson.Datum) ||
-                    typeof(T) == typeof(DataModels.Twitter.TimelineTweets.Tweet) ||
-                    typeof(T) == typeof(DataModels.NewTumbl.Post))
+                using (var ms = new MemoryStream())
                 {
-                    var serializer = new JsonSerializer();
-                    using (StreamWriter sw = new StreamWriter(fileLocation, false))
-                    using (JsonWriter writer = new JsonTextWriter(sw) { Formatting = Newtonsoft.Json.Formatting.Indented })
+                    if (typeof(T) == typeof(DataModels.TumblrSearchJson.Datum) ||
+                        typeof(T) == typeof(DataModels.Twitter.TimelineTweets.Tweet) ||
+                        typeof(T) == typeof(DataModels.NewTumbl.Post))
                     {
-                        serializer.Serialize(writer, data);
+                        var serializer = new JsonSerializer();
+                        using (StreamWriter sw = new StreamWriter(ms, Encoding.UTF8, 1024, true))
+                        using (JsonWriter writer = new JsonTextWriter(sw) { Formatting = Newtonsoft.Json.Formatting.Indented })
+                        {
+                            serializer.Serialize(writer, data);
+                        }
                     }
-                }
-                else
-                {
-                    using (var stream = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
+                    else
                     {
                         using (XmlDictionaryWriter writer = JsonReaderWriterFactory.CreateJsonWriter(
-                            stream, Encoding.UTF8, true, true, "  "))
+                            ms, Encoding.UTF8, false, true, "  "))
                         {
                             var serializer = new DataContractJsonSerializer(data.GetType());
                             serializer.WriteObject(writer, data);
                             writer.Flush();
+                        }
+                    }
+                    if (blog.ZipCrawlerData)
+                    {
+                        if (archive is null)
+                        {
+                            var fs = new FileStream(Path.Combine(downloadLocation, "CrawlerData.zip"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
+                            archive = new ZipArchive(fs, ZipArchiveMode.Update);
+                        }
+                        var entry = archive.GetEntry(filename) ?? archive.CreateEntry(filename, CompressionLevel.Optimal);
+                        using (var stream = entry.Open())
+                        {
+                            ms.WriteTo(stream);
+                        }
+                    }
+                    else
+                    {
+                        using (var fs = new FileStream(Path.Combine(downloadLocation, filename), FileMode.Create))
+                        {
+                            ms.WriteTo(fs);
                         }
                     }
                 }
@@ -124,18 +226,39 @@ namespace TumblThree.Applications.Downloader
             }
             catch (IOException ex) when ((ex.HResult & 0xFFFF) == 0x27 || (ex.HResult & 0xFFFF) == 0x70)
             {
-                Logger.Error("TumblrJsonDownloader:AppendToTextFile: {0}", ex);
+                Logger.Error("JsonDownloader:WriteDataAsync: {0}", ex);
                 shellService.ShowError(ex, Resources.DiskFull);
                 crawlerService.StopCommand.Execute(null);
             }
-            catch
+            catch (Exception ex2)
             {
+                Logger.Error("JsonDownloader:WriteDataAsync: {0}", ex2);
             }
         }
 
-        private static string FileLocation(string blogDownloadLocation, string fileName)
+        private void CloseArchive()
         {
-            return Path.Combine(blogDownloadLocation, fileName);
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    archive?.Dispose();
+                    existingCrawlerDataLock?.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }

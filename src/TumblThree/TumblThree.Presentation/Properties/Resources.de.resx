@@ -1036,4 +1036,24 @@ Die zur Authentifizierung verwendeten Cookies werden gespeichert und der Authent
     <value>Speichert die heruntergeladenen Texte in einzelnen Dateien statt in einer Datei (z. B. texts.txt).
 Diese Option ergänzt die Option(en) „Texte herunterladen“ und funktioniert nicht unabhängig.</value>
   </data>
+  <data name="ToolTipZipCrawlerData" xml:space="preserve">
+    <value>Archiviere Crawler-Datendateien in einer ZIP-Datei.</value>
+  </data>
+  <data name="ToolTipZipCrawlerDataDescription" xml:space="preserve">
+    <value>Archiviert die Crawler-Datendateien in einer ZIP-Datei. Die Einstellung wirkt sich auf neu 
+erstellte Dateien aus. Vorhandene Dateien werden nicht archiviert oder dearchiviert.</value>
+  </data>
+  <data name="ToolTipZipExistingCrawlerData" xml:space="preserve">
+    <value>Archiviere bereits vorhandene Crawler-Datendateien.</value>
+  </data>
+  <data name="ToolTipZipExistingCrawlerDataDescription" xml:space="preserve">
+    <value>Auch bereits vorhandene Crawler-Datendateien archivieren. Wenn die Option „Archiviere in ZIP-Dateien“ aktiviert 
+ist, werden beim nächsten Crawlen des Blogs auch die bereits vorhandenen Crawler-Datendateien archiviert.</value>
+  </data>
+  <data name="ZipCrawlerData" xml:space="preserve">
+    <value>Archiviere in einer ZIP-Datei</value>
+  </data>
+  <data name="ZipExistingCrawlerData" xml:space="preserve">
+    <value>Bereits vorhandene Crawler-Datendateien archivieren</value>
+  </data>
 </root>

@@ -29,8 +29,6 @@ namespace TumblThree.Applications.Crawler
         private readonly IDownloader downloader;
         private readonly ITumblrToTextParser<Post> tumblrJsonParser;
         private readonly IPostQueue<CrawlerData<Post>> jsonQueue;
-        private readonly IList<string> existingCrawlerData = new List<string>();
-        private readonly object existingCrawlerDataLock = new object();
 
         private string tumblrKey = string.Empty;
 
@@ -139,15 +137,16 @@ namespace TumblThree.Applications.Crawler
             Logger.Verbose("TumblrHiddenCrawler.Crawl:Start");
 
             ulong highestId = await GetHighestPostIdAsync();
-            Task<bool> grabber = GetUrlsAsync();
-            Task<bool> download = downloader.DownloadBlogAsync();
 
             Task crawlerDownloader = Task.CompletedTask;
             if (Blog.DumpCrawlerData)
             {
-                await GetAlreadyExistingCrawlerDataFilesAsync();
+                await crawlerDataDownloader.GetAlreadyExistingCrawlerDataFilesAsync(Progress);
                 crawlerDownloader = crawlerDataDownloader.DownloadCrawlerDataAsync();
             }
+
+            Task<bool> grabber = GetUrlsAsync();
+            Task<bool> download = downloader.DownloadBlogAsync();
 
             bool apiLimitHit = await grabber;
 
@@ -470,26 +469,13 @@ namespace TumblThree.Applications.Crawler
             return Blog.DownloadRebloggedPosts || string.IsNullOrEmpty(post.RebloggedFromName) || post.RebloggedFromName == Blog.Name;
         }
 
-        private async Task GetAlreadyExistingCrawlerDataFilesAsync()
-        {
-            foreach (var filepath in Directory.GetFiles(Blog.DownloadLocation(), "*.json"))
-            {
-                existingCrawlerData.Add(Path.GetFileName(filepath));
-            }
-            await Task.CompletedTask;
-        }
-
         private void AddToJsonQueue(CrawlerData<Post> addToList)
         {
             if (!Blog.DumpCrawlerData) { return; }
 
-            lock (existingCrawlerDataLock)
+            if (Blog.ForceRescan || !crawlerDataDownloader.ExistingCrawlerDataContainsOrAdd(addToList.Filename))
             {
-                if (Blog.ForceRescan || !existingCrawlerData.Contains(addToList.Filename))
-                {
-                    jsonQueue.Add(addToList);
-                    existingCrawlerData.Add(addToList.Filename);
-                }
+                jsonQueue.Add(addToList);
             }
         }
 

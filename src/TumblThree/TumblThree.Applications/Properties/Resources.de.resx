@@ -513,4 +513,10 @@ Trotzdem fortfahren und schließen?</value>
   <data name="InstanceAlreadyRunning" xml:space="preserve">
     <value>Eine Instanz für diesen Download-Speicherort wird bereits ausgeführt!</value>
   </data>
+  <data name="CompressExistingCrawlerDataFiles" xml:space="preserve">
+    <value>Komprimiere vorhandene Crawler-Datendateien...</value>
+  </data>
+  <data name="LoadExistingCrawlerDataFiles" xml:space="preserve">
+    <value>Lade vorhandene Crawler-Datendateien...</value>
+  </data>
 </root>

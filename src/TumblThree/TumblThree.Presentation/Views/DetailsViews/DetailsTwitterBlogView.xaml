@@ -569,7 +569,7 @@
                             </CheckBox>
 
                             <CheckBox Content="{x:Static p:Resources.SaveTextsIndividualFiles}"
-                                  IsChecked="{Binding BlogFile.SaveTextsIndividualFiles, Mode=TwoWay}" IsThreeState="{Binding BlogAll.SaveTextsIndividualFilesDiff, Mode=OneWay, IsAsync=True}"
+                                  IsChecked="{Binding BlogFile.SaveTextsIndividualFiles, Mode=TwoWay}" 
                                   Grid.Column="0" Grid.ColumnSpan="6" Margin="3,0,0,0" Padding="3,0,0,0" Grid.Row="31">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -654,7 +654,7 @@
                             </CheckBox>
 
                             <CheckBox Content="{x:Static p:Resources.DumpCrawlerData}"
-                                  IsChecked="{Binding BlogFile.DumpCrawlerData, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
+                                  IsChecked="{Binding BlogFile.DumpCrawlerData, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
                                   Grid.Row="41" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -662,6 +662,21 @@
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDumpCrawlerData}" />
                                             <TextBlock xml:space="preserve"
                                                    Text="{x:Static p:Resources.ToolTipDumpCrawlerDataDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </CheckBox.ToolTip>
+                            </CheckBox>
+
+                            <CheckBox Content="{x:Static p:Resources.ZipCrawlerData}"
+                                  IsEnabled="{Binding BlogFile.DumpCrawlerData}"
+                                  IsChecked="{Binding BlogFile.ZipCrawlerData, Mode=TwoWay}" Grid.Column="3" Grid.ColumnSpan="2"
+                                  Grid.Row="41" Margin="3,0,0,0" Padding="3,0,0,0">
+                                <CheckBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipZipCrawlerData}" />
+                                            <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipZipCrawlerDataDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </CheckBox.ToolTip>

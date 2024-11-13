@@ -507,4 +507,10 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="InstanceAlreadyRunning" xml:space="preserve">
     <value>¡Ya se está ejecutando una instancia para esta ubicación de descarga!</value>
   </data>
+  <data name="CompressExistingCrawlerDataFiles" xml:space="preserve">
+    <value>Comprimiendo archivos de datos de rastreadores existentes...</value>
+  </data>
+  <data name="LoadExistingCrawlerDataFiles" xml:space="preserve">
+    <value>Cargar archivos de datos del rastreador existentes...</value>
+  </data>
 </root>

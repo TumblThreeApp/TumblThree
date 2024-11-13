@@ -319,6 +319,7 @@ namespace TumblThree.Applications.Controllers
                 DownloadUguu = SetCheckBox(sharedBlogFiles, "DownloadUguu"),
                 DownloadCatBox = SetCheckBox(sharedBlogFiles, "DownloadCatBox"),
                 DumpCrawlerData = SetCheckBox(sharedBlogFiles, "DumpCrawlerData"),
+                ZipCrawlerData = SetCheckBox(sharedBlogFiles, "ZipCrawlerData"),
                 RegExPhotos = SetCheckBox(sharedBlogFiles, "RegExPhotos"),
                 RegExVideos = SetCheckBox(sharedBlogFiles, "RegExVideos")
             };

@@ -62,6 +62,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _createImageMeta;
         private bool _createVideoMeta;
         private bool _dumpCrawlerData;
+        private bool _zipCrawlerData;
         private bool _regExPhotos;
         private bool _regExVideos;
         private string _downloadPages;
@@ -155,6 +156,7 @@ namespace TumblThree.Applications.ViewModels
         private int _freeDiskSpaceMonitorInterval;
         private int _freeDiskSpaceMonitorLevel;
         private bool _saveTextsIndividualFiles;
+        private bool _zipExistingCrawlerData;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -735,6 +737,12 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _dumpCrawlerData, value);
         }
 
+        public bool ZipCrawlerData
+        {
+            get => _zipCrawlerData;
+            set => SetProperty(ref _zipCrawlerData, value);
+        }
+
         public bool RegExPhotos
         {
             get => _regExPhotos;
@@ -1002,6 +1010,12 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _saveTextsIndividualFiles;
             set => SetProperty(ref _saveTextsIndividualFiles, value);
+        }
+
+        public bool ZipExistingCrawlerData
+        {
+            get => _zipExistingCrawlerData;
+            set => SetProperty(ref _zipExistingCrawlerData, value);
         }
 
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
@@ -1326,6 +1340,7 @@ namespace TumblThree.Applications.ViewModels
                 CreateAudioMeta = _settings.CreateAudioMeta;
                 MetadataFormat = _settings.MetadataFormat;
                 DumpCrawlerData = _settings.DumpCrawlerData;
+                ZipCrawlerData = _settings.ZipCrawlerData;
                 RegExPhotos = _settings.RegExPhotos;
                 RegExVideos = _settings.RegExVideos;
                 DownloadPages = _settings.DownloadPages;
@@ -1372,6 +1387,7 @@ namespace TumblThree.Applications.ViewModels
                 FreeDiskSpaceMonitorInterval = _settings.FreeDiskSpaceMonitorInterval;
                 FreeDiskSpaceMonitorLevel = _settings.FreeDiskSpaceMonitorLevel;
                 SaveTextsIndividualFiles = _settings.SaveTextsIndividualFiles;
+                ZipExistingCrawlerData = _settings.ZipExistingCrawlerData;
             }
             else
             {
@@ -1429,6 +1445,7 @@ namespace TumblThree.Applications.ViewModels
                 OverrideTumblrBlogCrawler = false;
                 TumblrBlogCrawlerType = TumblrBlogCrawlerTypes.TumblrSVC;
                 DumpCrawlerData = false;
+                ZipCrawlerData = false;
                 RegExPhotos = false;
                 RegExVideos = false;
                 DownloadPages = string.Empty;
@@ -1472,6 +1489,7 @@ namespace TumblThree.Applications.ViewModels
                 FreeDiskSpaceMonitorInterval = 5;
                 FreeDiskSpaceMonitorLevel = 1024;
                 SaveTextsIndividualFiles = false;
+                ZipExistingCrawlerData = false;
             }
         }
 
@@ -1613,6 +1631,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.OverrideTumblrBlogCrawler = OverrideTumblrBlogCrawler;
             _settings.TumblrBlogCrawlerType = TumblrBlogCrawlerType;
             _settings.DumpCrawlerData = DumpCrawlerData;
+            _settings.ZipCrawlerData = ZipCrawlerData;
             _settings.RegExPhotos = RegExPhotos;
             _settings.RegExVideos = RegExVideos;
             _settings.DownloadPages = DownloadPages;
@@ -1678,6 +1697,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.FreeDiskSpaceMonitorInterval = FreeDiskSpaceMonitorInterval;
             _settings.FreeDiskSpaceMonitorLevel = FreeDiskSpaceMonitorLevel;
             _settings.SaveTextsIndividualFiles = SaveTextsIndividualFiles;
+            _settings.ZipExistingCrawlerData = ZipExistingCrawlerData;
         }
     }
 }

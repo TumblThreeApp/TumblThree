@@ -30,6 +30,7 @@
         private bool? downloadUguu;
         private bool? downloadCatBox;
         private bool? dumpCrawlerData;
+        private bool? zipCrawlerData;
         private bool? regExPhotos;
         private bool? regExVideos;
         private bool? downloadAudio;
@@ -60,6 +61,7 @@
         private bool downloadUguuDiff;
         private bool downloadCatBoxDiff;
         private bool dumpCrawlerDataDiff;
+        private bool zipCrawlerDataDiff;
         private bool regExPhotosDiff;
         private bool regExVideosDiff;
         private bool downloadAudioDiff;
@@ -500,6 +502,24 @@
             }
         }
 
+        public new bool? ZipCrawlerData
+        {
+            get { return zipCrawlerData; }
+            set
+            {
+                ZipCrawlerDataDiff = !value.HasValue;
+                SetProperty(ref zipCrawlerData, value);
+            }
+        }
+
+        public bool ZipCrawlerDataDiff
+        {
+            get { return zipCrawlerDataDiff; }
+            set
+            {
+                SetProperty(ref zipCrawlerDataDiff, value);
+            }
+        }
         public new bool? RegExPhotos
         {
             get { return regExPhotos; }

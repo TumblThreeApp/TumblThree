@@ -629,7 +629,7 @@
                             <CheckBox
                                 Grid.Row="29"
                                 Grid.Column="0"
-                                Grid.ColumnSpan="5"
+                                Grid.ColumnSpan="2"
                                 Margin="3,0,0,0"
                                 Padding="3,0,0,0"
                                 Content="{x:Static p:Resources.DumpCrawlerData}"
@@ -639,6 +639,21 @@
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDumpCrawlerData}" />
                                             <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDumpCrawlerDataDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </CheckBox.ToolTip>
+                            </CheckBox>
+
+                            <CheckBox Content="{x:Static p:Resources.ZipCrawlerData}"
+                                  IsEnabled="{Binding BlogFile.DumpCrawlerData}"
+                                  IsChecked="{Binding BlogFile.ZipCrawlerData, Mode=TwoWay}" Grid.Column="3" Grid.ColumnSpan="2"
+                                  Grid.Row="29" Margin="3,0,0,0" Padding="3,0,0,0">
+                                <CheckBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipZipCrawlerData}" />
+                                            <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipZipCrawlerDataDescription}" />
                                         </StackPanel>
                                     </ToolTip>
                                 </CheckBox.ToolTip>

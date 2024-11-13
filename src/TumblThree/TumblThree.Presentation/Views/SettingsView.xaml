@@ -2121,23 +2121,50 @@
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <CheckBox
-                            x:Name="checkBoxDumpCrawlerData"
-                            Grid.Row="18"
-                            Grid.Column="4"
-                            Grid.ColumnSpan="3"
-                            Margin="10,9"
-                            Content="{x:Static p:Resources.DumpCrawlerData}"
-                            IsChecked="{Binding DumpCrawlerData, Mode=TwoWay}">
-                            <CheckBox.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDumpCrawlerData}" />
-                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDumpCrawlerDataDescription}" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </CheckBox.ToolTip>
-                        </CheckBox>
+                        <StackPanel HorizontalAlignment="Stretch" Grid.Column="4" Grid.Row="18" Grid.ColumnSpan="3">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox
+                                    x:Name="checkBoxDumpCrawlerData"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="1"
+                                    Margin="10,9"
+                                    Content="{x:Static p:Resources.DumpCrawlerData}"
+                                    IsChecked="{Binding DumpCrawlerData, Mode=TwoWay}">
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDumpCrawlerData}" />
+                                                <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDumpCrawlerDataDescription}" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
+                                <CheckBox Content="{x:Static p:Resources.ZipCrawlerData}"
+                                  IsEnabled="{Binding DumpCrawlerData}"
+                                  IsChecked="{Binding ZipCrawlerData, Mode=TwoWay}" Grid.Column="1" Grid.ColumnSpan="1"
+                                  Grid.Row="0" Margin="10,9" Padding="3,0,0,0">
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipZipCrawlerData}" />
+                                                <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipZipCrawlerDataDescription}" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
+                            </Grid>
+                        </StackPanel>
+
                         <CheckBox
                             x:Name="checkBoxRegExVideo"
                             Grid.Row="18"
@@ -2564,6 +2591,21 @@
                                             <StackPanel>
                                                 <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetry}" />
                                                 <TextBlock Text="{x:Static p:Resources.ToolTipTumblrAuthErrorAutoRetryDescription}" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
+                                <CheckBox x:Name="checkBoxZipExistingCrawlerData"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="5"
+                                    Content="{x:Static p:Resources.ZipExistingCrawlerData}"
+                                    IsChecked="{Binding ZipExistingCrawlerData, Mode=TwoWay}">
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipZipExistingCrawlerData}" />
+                                                <TextBlock Text="{x:Static p:Resources.ToolTipZipExistingCrawlerDataDescription}" />
                                             </StackPanel>
                                         </ToolTip>
                                     </CheckBox.ToolTip>

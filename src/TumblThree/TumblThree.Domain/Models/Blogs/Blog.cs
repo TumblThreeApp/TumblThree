@@ -100,6 +100,7 @@ namespace TumblThree.Domain.Models.Blogs
         private int downloadedItemsNew;
         private string pnjDownloadFormat;
         private bool saveTextsIndividualFiles;
+        private bool zipCrawlerData;
 
         [DataMember(Name = "Links")]
         private List<string> links;
@@ -826,6 +827,13 @@ namespace TumblThree.Domain.Models.Blogs
         {
             get => saveTextsIndividualFiles;
             set => SetProperty(ref saveTextsIndividualFiles, value);
+        }
+
+        [DataMember]
+        public bool ZipCrawlerData
+        {
+            get => zipCrawlerData;
+            set => SetProperty(ref zipCrawlerData, value);
         }
 
         [IgnoreDataMember]
