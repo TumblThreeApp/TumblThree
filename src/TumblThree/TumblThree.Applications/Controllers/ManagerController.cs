@@ -297,7 +297,7 @@ namespace TumblThree.Applications.Controllers
 
             int[] validCollectionIds = _shellService.Settings.Collections.Select(s => s.Id).ToArray();
 
-            foreach (string filename in Directory.GetFiles(directory, "*").Where(
+            foreach (string filename in Directory.EnumerateFiles(directory, "*").Where(
                 fileName => supportedFileTypes.Any(fileName.Contains) &&
                             !fileName.Contains("_files")))
             {
@@ -406,24 +406,29 @@ namespace TumblThree.Applications.Controllers
                     path = Path.Combine(path, "Archive");
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
-                    List<string> folders = new List<string>(Directory.GetDirectories(path, "*", SearchOption.AllDirectories));
-                    folders.Insert(0, path);
+                    await ProcessFolder(collection.Id, path);
 
-                    foreach (var folder in folders)
+                    foreach (var folder in Directory.EnumerateDirectories(path, "*", SearchOption.AllDirectories))
                     {
-                        if (SkipFolder(collection.Id, folder, _shellService.Settings.LoadArchive)) continue;
-
-                        IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(folder, true);
-                        foreach (IFiles archiveDB in archiveDatabases)
-                        {
-                            _managerService.AddArchive(archiveDB);
-                        }
+                        if (!await ProcessFolder(collection.Id, folder)) continue;
                     }
                 }
             }
 
             BlogManagerFinishedLoadingArchive?.Invoke(this, EventArgs.Empty);
             Logger.Verbose("ManagerController.LoadArchiveAsync:End");
+        }
+
+        async Task<bool> ProcessFolder(int collectionId, string folder)
+        {
+            if (SkipFolder(collectionId, folder, _shellService.Settings.LoadArchive)) return false;
+
+            IReadOnlyList<IFiles> archiveDatabases = await GetIFilesAsync(folder, true);
+            foreach (IFiles archiveDB in archiveDatabases)
+            {
+                _managerService.AddArchive(archiveDB);
+            }
+            return true;
         }
 
         private bool SkipFolder(int currentCollectionId, string folder, bool loadArchives)
@@ -460,7 +465,7 @@ namespace TumblThree.Applications.Controllers
 
             string[] supportedFileTypes = Enum.GetNames(typeof(BlogTypes)).ToArray();
 
-            foreach (string filename in Directory.GetFiles(directory, "*").Where(
+            foreach (string filename in Directory.EnumerateFiles(directory, "*").Where(
                 fileName => supportedFileTypes.Any(fileName.Contains) &&
                             fileName.Contains("_files")))
             {

@@ -320,13 +320,13 @@ namespace TumblThree.Applications.Services
             }
 
             // Copy each file into it's new directory.
-            foreach (FileInfo fi in source.GetFiles())
+            foreach (FileInfo fi in source.EnumerateFiles())
             {
                 fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
             }
 
             // Copy each subdirectory using recursion.
-            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            foreach (DirectoryInfo diSourceSubDir in source.EnumerateDirectories())
             {
                 DirectoryInfo nextTargetSubDir = target.CreateSubdirectory(diSourceSubDir.Name);
                 CopyAll(diSourceSubDir.FullName, nextTargetSubDir.FullName);

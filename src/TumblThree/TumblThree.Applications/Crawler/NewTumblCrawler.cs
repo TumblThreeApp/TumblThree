@@ -365,7 +365,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task GetAlreadyExistingCrawlerDataFilesAsync()
         {
-            foreach (var filepath in Directory.GetFiles(Blog.DownloadLocation(), "*.json"))
+            foreach (var filepath in Directory.EnumerateFiles(Blog.DownloadLocation(), "*.json"))
             {
                 existingCrawlerData.Add(Path.GetFileName(filepath));
             }
