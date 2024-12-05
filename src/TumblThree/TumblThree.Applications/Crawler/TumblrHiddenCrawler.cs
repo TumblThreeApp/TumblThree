@@ -295,7 +295,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<ulong> GetHighestPostIdCoreAsync()
         {
-            string document = await GetSvcPageAsync("1", "0");
+            string document = await GetSvcPageAsync("2", "0");
             var response = ConvertJsonToClass<TumblrJson>(document);
 
             Post post = response.Response?.Posts?.FirstOrDefault(x => !x.IsPinned);
