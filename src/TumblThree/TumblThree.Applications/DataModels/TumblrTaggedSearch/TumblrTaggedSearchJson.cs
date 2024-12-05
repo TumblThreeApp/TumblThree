@@ -390,7 +390,7 @@ namespace TumblThree.Applications.DataModels.TumblrTaggedSearchJson
         public Metadata Metadata { get; set; }
 
         [DataMember(Name = "attribution", EmitDefaultValue = false)]
-        [JsonConverter(typeof(SingleOrArrayConverter<Attribution>))]
+        [JsonConverter(typeof(EmptyArrayOrDictionaryConverter))]
         public Attribution Attribution { get; set; }
     }
 
