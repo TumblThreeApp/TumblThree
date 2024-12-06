@@ -751,7 +751,10 @@ namespace TumblThree.Applications.Crawler
             if (unixTime == 0)
             {
                 var r = Regex.Matches(document, jsonPagination);
-                _ = long.TryParse(r[r.Count-1].Groups[2].Value, out unixTime);
+                if (r.Count > 0)
+                {
+                    _ = long.TryParse(r[r.Count-1].Groups[2].Value, out unixTime);
+                }
             }
 
             return unixTime;
