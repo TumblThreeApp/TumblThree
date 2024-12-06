@@ -150,7 +150,10 @@ namespace TumblThree.Applications.Crawler
                     string url;
                     try
                     {
-                        url = nextPage.Take(Ct);
+                        if (!nextPage.TryTake(out url))
+                        {
+                            return;
+                        }
                     }
                     catch (Exception e) when (e is OperationCanceledException || e is InvalidOperationException)
                     {
@@ -210,6 +213,11 @@ namespace TumblThree.Applications.Crawler
                     }
 
                     pagination = ExtractNextPageLink(document);
+                    if (pagination == 0)
+                    {
+                        nextPage.CompleteAdding();
+                        return;
+                    }
                     pageNumber++;
                     var notWithinTimespan = !CheckIfWithinTimespan(pagination);
                     if (isLikesUrl)
