@@ -38,6 +38,7 @@ People are giving themselves and their free time to contribute to our project in
 * [rexius41](https://github.com/rexius41) 💻
 * [targed](https://github.com/targed) 🛠️
 * [mjharwood](https://github.com/mjharwood) 💻
+* [Vadim Pakhnushev](https://github.com/valepakh) 💻
 * Your Name?
 
 Did we forget someone? Please drop us a line.
