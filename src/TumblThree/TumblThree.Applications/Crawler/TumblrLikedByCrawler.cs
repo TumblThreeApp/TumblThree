@@ -150,10 +150,7 @@ namespace TumblThree.Applications.Crawler
                     string url;
                     try
                     {
-                        if (!nextPage.TryTake(out url))
-                        {
-                            return;
-                        }
+                        url = nextPage.Take(Ct);
                     }
                     catch (Exception e) when (e is OperationCanceledException || e is InvalidOperationException)
                     {
