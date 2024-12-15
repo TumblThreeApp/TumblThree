@@ -295,7 +295,9 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<ulong> GetHighestPostIdCoreAsync()
         {
-            string document = await GetSvcPageAsync("2", "0");
+            // normally 2 posts, where the 1st one could be a pinned one, should be enough, but strangely enough
+            // for some blogs up to 4 very old posts can be returned. So just read 5 or 10 posts!?
+            string document = await GetSvcPageAsync("10", "0");
             var response = ConvertJsonToClass<TumblrJson>(document);
 
             Post post = response.Response?.Posts?.FirstOrDefault(x => !x.IsPinned);
