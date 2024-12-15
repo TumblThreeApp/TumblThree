@@ -390,7 +390,7 @@ namespace TumblThree.Applications.Crawler
             }
             var tags = GetTags(post);
             return BuildFileNameCore(url, GetBlogName(), post.dtActive.Value, UnixTimestamp(post), index, type, GetPostId(post),
-                tags, "", GetTitle(post), reblogName, "", reblogId);
+                tags, "", GetTitle(post), reblogName, "", reblogId, 0);
         }
 
         private static string RemoveHtmlFromString(string text)

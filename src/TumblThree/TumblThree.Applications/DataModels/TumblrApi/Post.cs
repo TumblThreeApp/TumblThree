@@ -59,7 +59,7 @@ namespace TumblThree.Applications.DataModels.TumblrApiJson
         public string ReblogButton { get; set; }
 
         [DataMember(Name = "note-count", EmitDefaultValue = false)]
-        public string NoteCount { get; set; }
+        public int NoteCount { get; set; }
 
         [DataMember(Name = "reblogged-from-url", EmitDefaultValue = false)]
         public string RebloggedFromUrl { get; set; }
@@ -290,7 +290,7 @@ namespace TumblThree.Applications.DataModels.TumblrApiJson
             IsSubmission = false;
             LikeButton = string.Empty;
             ReblogButton = string.Empty;
-            NoteCount = string.Empty;
+            NoteCount = 0;
             RebloggedFromUrl = string.Empty;
             RebloggedFromName = string.Empty;
             RebloggedFromTitle = string.Empty;

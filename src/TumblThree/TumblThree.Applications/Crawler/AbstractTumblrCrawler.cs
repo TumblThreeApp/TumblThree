@@ -545,7 +545,7 @@ namespace TumblThree.Applications.Crawler
                 post = new Post() { Date = DateTime.MinValue.ToString("R"), DateGmt = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
                     Slug = "", RegularTitle = "", RebloggedFromName = "", RebloggedRootName = "", ReblogKey = "", Tumblelog = new TumbleLog2() { Name = "" } };
             }
-            return BuildFileNameCore(url, post.Tumblelog.Name, GetDate(post), post.UnixTimestamp, index, type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey);
+            return BuildFileNameCore(url, post.Tumblelog.Name, GetDate(post), post.UnixTimestamp, index, type, post.Id, post.Tags, post.Slug, post.RegularTitle, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey, post.NoteCount);
         }
 
         protected string BuildFileName(string url, Post post, int index)
@@ -561,7 +561,7 @@ namespace TumblThree.Applications.Crawler
                 post = new TumblrSvcJson.Post() { Date = DateTime.MinValue.ToString("R"), Type = "", Id = "", Tags = new List<string>(),
                     Slug = "", Title = "", RebloggedFromName = "", RebloggedRootName = "", ReblogKey = "", Tumblelog = "" };
             }
-            return BuildFileNameCore(url, post.Tumblelog, GetDate(post), post.Timestamp, index, type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey);
+            return BuildFileNameCore(url, post.Tumblelog, GetDate(post), post.Timestamp, index, type, post.Id, post.Tags, post.Slug, post.Title, post.RebloggedFromName, post.RebloggedRootName, post.ReblogKey, post.NoteCount);
         }
 
         protected string BuildFileName(string url, TumblrSvcJson.Post post, int index)

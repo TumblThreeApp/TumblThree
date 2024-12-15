@@ -393,7 +393,7 @@ namespace TumblThree.Applications.Crawler
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         protected virtual string BuildFileNameCore(string url, string blogName, DateTime date, int timestamp, int index, string type, string id,
-            List<string> tags, string slug, string title, string rebloggedFromName, string rebloggedRootName, string reblogKey)
+            List<string> tags, string slug, string title, string rebloggedFromName, string rebloggedRootName, string reblogKey, int noteCount)
         {
             /*
              * Replaced are:
@@ -413,6 +413,7 @@ namespace TumblThree.Applications.Crawler
                 %r  for reblog ("" / "reblog")
                 %s  slug (last part of a post's url)
                 %k  reblog-key
+                %l  likes/note count
                Tokens to make filenames unique:
                 %x  "_{number}" ({number}: 2..n)
                 %y  " ({number})" ({number}: 2..n)
@@ -490,6 +491,7 @@ namespace TumblThree.Applications.Crawler
             }
             if (ContainsCI(filename, "%s")) filename = ReplaceCI(filename, "%s", slug);
             if (ContainsCI(filename, "%k")) filename = ReplaceCI(filename, "%k", reblogKey);
+            if (ContainsCI(filename, "%l")) filename = ReplaceCI(filename, "%l", noteCount.ToString());
             int neededCharactersForNumbering = 0;
             if (ContainsCI(filename, "%x"))
             {

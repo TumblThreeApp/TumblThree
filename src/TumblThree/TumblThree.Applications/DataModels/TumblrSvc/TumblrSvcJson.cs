@@ -579,6 +579,12 @@ namespace TumblThree.Applications.DataModels.TumblrSvcJson
         [DataMember(Name = "like_count", EmitDefaultValue = false)]
         public int LikeCount { get; set; }
 
+        public int NoteCount
+        {
+            get => LikeCount;
+            set => LikeCount = value;
+        }
+
         [DataMember(Name = "reblog_count", EmitDefaultValue = false)]
         public int ReblogCount { get; set; }
 

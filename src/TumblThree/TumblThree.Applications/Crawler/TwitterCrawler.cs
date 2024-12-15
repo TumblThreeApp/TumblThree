@@ -1036,7 +1036,7 @@ namespace TumblThree.Applications.Crawler
             }
             var tags = GetTags(post);
             return BuildFileNameCore(url, post.User.Legacy.ScreenName, GetDate(post), UnixTimestamp(post), index, type, post.Legacy.IdStr,
-                tags, "", GetTitle(post.Legacy.FullText, tags), reblogName, "", reblogId);
+                tags, "", GetTitle(post.Legacy.FullText, tags), reblogName, "", reblogId, post.Legacy.FavoriteCount);
         }
 
         private static string GetTitle(string text, List<string> tags)
