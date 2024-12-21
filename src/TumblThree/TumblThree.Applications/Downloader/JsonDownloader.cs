@@ -119,7 +119,7 @@ namespace TumblThree.Applications.Downloader
                 else
                 {
                     progress?.Report(new DownloadProgress { Progress = Resources.LoadExistingCrawlerDataFiles });
-                    foreach (var filepath in Directory.GetFiles(blog.DownloadLocation(), "*.json"))
+                    foreach (var filepath in Directory.EnumerateFiles(blog.DownloadLocation(), "*.json"))
                     {
                         existingCrawlerData.Add(Path.GetFileName(filepath));
                     }
