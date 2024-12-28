@@ -137,7 +137,7 @@ namespace TumblThree.Applications.Crawler
                 return files;
             }
 
-            return Files.Load(blog.ChildId);
+            return Files.Load(blog.ChildId, settings.BufferSizeIO);
         }
 
         private IWebRequestFactory GetWebRequestFactory()

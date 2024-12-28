@@ -110,6 +110,8 @@ namespace TumblThree.Domain.Models.Blogs
         private object lockObjectDb = new object();
         private object lockObjectDirectory = new object();
 
+        private int bufferSizeKB = 4;
+
         public enum PostType
         {
             Photo,
@@ -945,10 +947,11 @@ namespace TumblThree.Domain.Models.Blogs
             return FileDownloadLocation;
         }
 
-        public IBlog Load(string fileLocation)
+        public IBlog Load(string fileLocation, int bufferSizeKB)
         {
             try
             {
+                this.bufferSizeKB = bufferSizeKB;
                 return LoadCore(fileLocation);
             }
             catch (Exception ex) when (ex is XmlException)
@@ -967,10 +970,11 @@ namespace TumblThree.Domain.Models.Blogs
 
         private IBlog LoadCore(string fileLocation)
         {
-            using (var stream = new FileStream(fileLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var stream = new FileStream(fileLocation, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSizeKB * 1024))
             {
                 var serializer = new DataContractJsonSerializer(GetType());
                 var blog = (Blog)serializer.ReadObject(stream);
+                blog.bufferSizeKB = bufferSizeKB;
 
                 if (blog.Version == "3")
                 {
@@ -1046,7 +1050,7 @@ namespace TumblThree.Domain.Models.Blogs
 
         private void SaveCore(string path)
         {
-            using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSizeKB * 1024))
             {
                 using (XmlDictionaryWriter writer = JsonReaderWriterFactory.CreateJsonWriter(
                     stream, Encoding.UTF8, true, true, "  "))

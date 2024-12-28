@@ -305,39 +305,40 @@ namespace TumblThree.Applications.Controllers
                 IBlog blog = null;
                 try
                 {
+                    var bufferSize = _shellService.Settings.BufferSizeIO;
                     if (filename.EndsWith(BlogTypes.tumblr.ToString()))
                     {
-                        blog = new TumblrBlog().Load(filename);
+                        blog = new TumblrBlog().Load(filename, bufferSize);
                     }
 
                     if (filename.EndsWith(BlogTypes.tmblrpriv.ToString()))
                     {
-                        blog = new TumblrHiddenBlog().Load(filename);
+                        blog = new TumblrHiddenBlog().Load(filename, bufferSize);
                     }
 
                     if (filename.EndsWith(BlogTypes.tlb.ToString()))
                     {
-                        blog = new TumblrLikedByBlog().Load(filename);
+                        blog = new TumblrLikedByBlog().Load(filename, bufferSize);
                     }
 
                     if (filename.EndsWith(BlogTypes.tumblrsearch.ToString()))
                     {
-                        blog = new TumblrSearchBlog().Load(filename);
+                        blog = new TumblrSearchBlog().Load(filename, bufferSize);
                     }
 
                     if (filename.EndsWith(BlogTypes.tumblrtagsearch.ToString()))
                     {
-                        blog = new TumblrTagSearchBlog().Load(filename);
+                        blog = new TumblrTagSearchBlog().Load(filename, bufferSize);
                     }
 
                     if (filename.EndsWith(BlogTypes.twitter.ToString()))
                     {
-                        blog = new TwitterBlog().Load(filename);
+                        blog = new TwitterBlog().Load(filename, bufferSize);
                     }
 
                     if (filename.EndsWith(BlogTypes.newtumbl.ToString()))
                     {
-                        blog = new NewTumblBlog().Load(filename);
+                        blog = new NewTumblBlog().Load(filename, bufferSize);
                     }
 
                     if (blog != null)
@@ -472,7 +473,7 @@ namespace TumblThree.Applications.Controllers
                 //TODO: Refactor
                 try
                 {
-                    IFiles database = Files.Load(filename, isArchive);
+                    IFiles database = Files.Load(filename, _shellService.Settings.BufferSizeIO, isArchive);
                     if (_shellService.Settings.LoadAllDatabases)
                     {
                         databases.Add(database);
@@ -994,7 +995,7 @@ namespace TumblThree.Applications.Controllers
             QueueOnDispatcher.CheckBeginInvokeOnUI(() => _managerService.BlogFiles.Add(blog));
             if (_shellService.Settings.LoadAllDatabases)
             {
-                _managerService.AddDatabase(Files.Load(blog.ChildId));
+                _managerService.AddDatabase(Files.Load(blog.ChildId, _shellService.Settings.BufferSizeIO));
             }
         }
 

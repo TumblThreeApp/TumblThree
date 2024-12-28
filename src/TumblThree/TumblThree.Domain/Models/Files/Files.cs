@@ -26,6 +26,7 @@ namespace TumblThree.Domain.Models.Files
         private HashSet<string> originalLinks;
 
         protected bool isDirty;
+        protected int bufferSizeKB = 4;
 
         private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
@@ -146,11 +147,11 @@ namespace TumblThree.Domain.Models.Files
             }
         }
 
-        public static IFiles Load(string fileLocation, bool isArchive = false)
+        public static IFiles Load(string fileLocation, int bufferSizeKB, bool isArchive = false)
         {
             try
             {
-                IFiles file = LoadCore(fileLocation, isArchive);
+                IFiles file = LoadCore(fileLocation, isArchive, bufferSizeKB);
                 if (!isArchive && file.IsDirty) file.Save();
                 return file;
             }
@@ -168,12 +169,13 @@ namespace TumblThree.Domain.Models.Files
             }
         }
 
-        private static IFiles LoadCore(string fileLocation, bool isArchive)
+        private static IFiles LoadCore(string fileLocation, bool isArchive, int bufferSizeKB)
         {
-            using (var stream = new FileStream(fileLocation, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var stream = new FileStream(fileLocation, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSizeKB * 1024))
             {
                 var serializer = new DataContractJsonSerializer(typeof(Files));
                 var file = (Files)serializer.ReadObject(stream);
+                file.bufferSizeKB = bufferSizeKB;
                 file.entries = file.entries is null ? new HashSet<FileEntry>(new FileEntryComparer()) : new HashSet<FileEntry>(file.entries, new FileEntryComparer());
 
                 if (!isArchive) DoUpdates(file);
@@ -361,7 +363,7 @@ namespace TumblThree.Domain.Models.Files
 
         private void Save(string path)
         {
-            using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSizeKB * 1024))
             {
                 using (XmlDictionaryWriter writer = JsonReaderWriterFactory.CreateJsonWriter(
                     stream, Encoding.UTF8, true, true, "  "))

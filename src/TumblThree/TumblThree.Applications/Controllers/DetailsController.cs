@@ -185,7 +185,7 @@ namespace TumblThree.Applications.Controllers
             _managerService.BlogFiles.Add(blog);
             if (_shellService.Settings.LoadAllDatabases)
             {
-                _managerService.AddDatabase(Files.Load(blog.ChildId));
+                _managerService.AddDatabase(Files.Load(blog.ChildId, _shellService.Settings.BufferSizeIO));
             }
 
             return true;

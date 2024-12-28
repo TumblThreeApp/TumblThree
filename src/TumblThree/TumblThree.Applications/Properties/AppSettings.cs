@@ -174,6 +174,9 @@ namespace TumblThree.Applications.Properties
         public int BufferSize { get; set; }
 
         [DataMember]
+        public int BufferSizeIO { get; set; }
+
+        [DataMember]
         public string ImageSize { get; set; }
 
         [DataMember]
@@ -604,6 +607,7 @@ namespace TumblThree.Applications.Properties
             ProgressUpdateInterval = 100;
             Bandwidth = 0;
             BufferSize = 512;
+            BufferSizeIO = 64;
             ImageSize = "best";
             VideoSize = 1080;
             ImageSizeCategory = "";

@@ -221,7 +221,7 @@ namespace TumblThree.Domain.Models.Blogs
 
         bool Save();
 
-        IBlog Load(string fileLocation);
+        IBlog Load(string fileLocation, int bufferSizeKB);
 
         string DownloadLocation();
     }
