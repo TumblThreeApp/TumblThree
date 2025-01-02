@@ -264,7 +264,7 @@ namespace TumblThree.Applications.Crawler
             ulong lastId = Blog.LastId;
             try
             {
-                return await GetHighestPostIdCoreAsync();
+                return Math.Max(await GetHighestPostIdCoreAsync(), lastId);
             }
             catch (WebException webException)
             {
@@ -279,7 +279,7 @@ namespace TumblThree.Applications.Crawler
                     await FetchCookiesAgainAsync();
                     try
                     {
-                        return await GetHighestPostIdCoreAsync();
+                        return Math.Max(await GetHighestPostIdCoreAsync(), lastId);
                     }
                     catch (WebException)
                     { }

@@ -281,7 +281,7 @@ namespace TumblThree.Applications.Crawler
             ulong lastId = Blog.LastId;
             try
             {
-                return await GetHighestPostIdCoreAsync();
+                return Math.Max(await GetHighestPostIdCoreAsync(), lastId);
             }
             catch (WebException webException)
             {
@@ -325,7 +325,7 @@ namespace TumblThree.Applications.Crawler
             }
 
             Blog.Posts = response.PostsTotal;
-            Post post = response.Posts?.Skip(document == "Error" ? 1 : 0).FirstOrDefault(x => x.Id != pinnedId);
+            Post post = response.Posts?.Skip(document == "Error" && response.Posts?.Count > 1 ? 1 : 0).FirstOrDefault(x => x.Id != pinnedId);
             if (DateTime.TryParse(post?.DateGmt, out var latestPost)) Blog.LatestPost = latestPost;
             _ = ulong.TryParse(post?.Id, out var highestId);
             return highestId;
