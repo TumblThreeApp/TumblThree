@@ -29,7 +29,7 @@ namespace TumblThree.Applications.Downloader
         private readonly PauseToken pt;
         private readonly IList<string> existingCrawlerData = new List<string>();
         private readonly SemaphoreSlim existingCrawlerDataLock = new SemaphoreSlim(1);
-        private ZipArchive archive;
+        private ZipStorer archive;
         private bool disposed;
 
         public JsonDownloader(IShellService shellService, PauseToken pt, IPostQueue<CrawlerData<T>> jsonQueue,
@@ -85,35 +85,41 @@ namespace TumblThree.Applications.Downloader
                 if (blog.ZipCrawlerData)
                 {
                     var zipPath = Path.Combine(blog.DownloadLocation(), "CrawlerData.zip");
+                    List<ZipStorer.ZipFileEntry> archiveEntries;
                     if (shellService.Settings.ZipExistingCrawlerData &&
                         Directory.EnumerateFiles(blog.DownloadLocation(), "*.json").Any())
                     {
                         progress?.Report(new DownloadProgress { Progress = Resources.CompressExistingCrawlerDataFiles });
+                        var zipExists = File.Exists(zipPath);
                         var fs = new FileStream(zipPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
-                        archive = new ZipArchive(fs, ZipArchiveMode.Update);
+                        archive = zipExists ? ZipStorer.Open(fs, FileAccess.ReadWrite) : ZipStorer.Create(fs);
+                        archiveEntries = archive.ReadCentralDir();
                         foreach (var filepath in Directory.EnumerateFiles(blog.DownloadLocation(), "*.json"))
                         {
+                            var filename = Path.GetFileName(filepath);
+                            var foundEntries = archiveEntries.Where(x => x.FilenameInZip == filename).ToList();
+                            foundEntries.ForEach(x => x.FilenameInZip = "<DELETE>");
                             var fi = new FileInfo(filepath);
-                            var entry = archive.GetEntry(fi.Name) ?? archive.CreateEntry(fi.Name, CompressionLevel.Optimal);
-                            entry.LastWriteTime = fi.LastWriteTime;
-                            using (var stream = entry.Open())
                             using (var fileStream = fi.OpenRead())
                             {
-                                await fileStream.CopyToAsync(stream);
+                                await archive.AddStreamAsync(ZipStorer.Compression.Deflate, fi.Name, fileStream, fi.LastWriteTime);
                             }
                             fi.Delete();
                         }
+                        List<ZipStorer.ZipFileEntry> entriesToRemove = archiveEntries.Where(x => x.FilenameInZip == "<DELETE>").ToList();
+                        ZipStorer.RemoveEntries(ref archive, entriesToRemove);
                     }
                     if (!File.Exists(zipPath)) return;
                     progress?.Report(new DownloadProgress { Progress = Resources.LoadExistingCrawlerDataFiles });
                     if (archive is null)
                     {
                         var fs = new FileStream(zipPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
-                        archive = new ZipArchive(fs, ZipArchiveMode.Update);
+                        archive = ZipStorer.Open(fs, FileAccess.Read);
                     }
-                    foreach (var entry in archive.Entries)
+                    archiveEntries = archive.ReadCentralDir();
+                    foreach (var entry in archiveEntries)
                     {
-                        existingCrawlerData.Add(entry.Name);
+                        existingCrawlerData.Add(entry.FilenameInZip);
                     }
                 }
                 else
@@ -205,14 +211,15 @@ namespace TumblThree.Applications.Downloader
                     {
                         if (archive is null)
                         {
-                            var fs = new FileStream(Path.Combine(downloadLocation, "CrawlerData.zip"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
-                            archive = new ZipArchive(fs, ZipArchiveMode.Update);
+                            var zipPath = Path.Combine(downloadLocation, "CrawlerData.zip");
+                            var zipExists = File.Exists(zipPath);
+                            var fs = new FileStream(zipPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
+                            archive = zipExists ? ZipStorer.Open(fs, FileAccess.ReadWrite) : ZipStorer.Create(fs);
                         }
-                        var entry = archive.GetEntry(filename) ?? archive.CreateEntry(filename, CompressionLevel.Optimal);
-                        using (var stream = entry.Open())
-                        {
-                            ms.WriteTo(stream);
-                        }
+                        var entry = archive.GetEntry(filename);
+                        if (entry != null) ZipStorer.RemoveEntries(ref archive, new List<ZipStorer.ZipFileEntry>() { entry });
+                        ms.Position = 0;
+                        archive.AddStream(ZipStorer.Compression.Deflate, filename, ms, DateTime.Now);
                     }
                     else
                     {
