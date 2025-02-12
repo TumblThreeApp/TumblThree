@@ -114,7 +114,7 @@ namespace TumblThree.Applications.Downloader
                     if (archive is null)
                     {
                         var fs = new FileStream(zipPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
-                        archive = ZipStorer.Open(fs, FileAccess.Read);
+                        archive = ZipStorer.Open(fs, FileAccess.ReadWrite);
                     }
                     archiveEntries = archive.ReadCentralDir();
                     foreach (var entry in archiveEntries)
@@ -209,17 +209,25 @@ namespace TumblThree.Applications.Downloader
                     }
                     if (blog.ZipCrawlerData)
                     {
-                        if (archive is null)
+                        await existingCrawlerDataLock.WaitAsync();
+                        try
                         {
-                            var zipPath = Path.Combine(downloadLocation, "CrawlerData.zip");
-                            var zipExists = File.Exists(zipPath);
-                            var fs = new FileStream(zipPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
-                            archive = zipExists ? ZipStorer.Open(fs, FileAccess.ReadWrite) : ZipStorer.Create(fs);
+                            if (archive is null)
+                            {
+                                var zipPath = Path.Combine(downloadLocation, "CrawlerData.zip");
+                                var zipExists = File.Exists(zipPath);
+                                var fs = new FileStream(zipPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
+                                archive = zipExists ? ZipStorer.Open(fs, FileAccess.ReadWrite) : ZipStorer.Create(fs);
+                            }
+                            var entry = archive.GetEntry(filename);
+                            if (entry != null) ZipStorer.RemoveEntries(ref archive, new List<ZipStorer.ZipFileEntry>() { entry });
+                            ms.Position = 0;
+                            archive.AddStream(ZipStorer.Compression.Deflate, filename, ms, DateTime.Now);
                         }
-                        var entry = archive.GetEntry(filename);
-                        if (entry != null) ZipStorer.RemoveEntries(ref archive, new List<ZipStorer.ZipFileEntry>() { entry });
-                        ms.Position = 0;
-                        archive.AddStream(ZipStorer.Compression.Deflate, filename, ms, DateTime.Now);
+                        finally
+                        {
+                            existingCrawlerDataLock.Release();
+                        }
                     }
                     else
                     {

@@ -658,7 +658,7 @@ namespace System.IO.Compression
             }
             catch (Exception ex)
             {
-                return false;
+                throw;
             }
             finally
             {
