@@ -387,6 +387,8 @@ namespace System.IO.Compression
         /// This results in better performance, if only a few files are extracted.</remarks>
         public List<ZipFileEntry> ReadCentralDir(bool skipFileOffsetCalculation = false)
         {
+            var lastPos = ZipFileStream.Position;
+
             if (this.CentralDirImage == null)
                 throw new InvalidOperationException("Central directory currently does not exist");
 
@@ -443,6 +445,8 @@ namespace System.IO.Compression
                 CentralDirectoryFiles.Add(zfe);
                 pointer += 46 + filenameSize + extraSize + commentSize;
             }
+
+            ZipFileStream.Position = lastPos;
 
             return CentralDirectoryFiles;
         }
@@ -605,6 +609,7 @@ namespace System.IO.Compression
                     for (int index = 0; index < list.Count; index++)
                     {
                         var zfe = list[index];
+                        if (zfe.FileOffset == 0) zfe.FileOffset = zip.GetFileOffset(zfe.HeaderOffset);
                         if (!zfes.Contains(zfe))
                         {
                             // copy to new zip
@@ -633,7 +638,6 @@ namespace System.IO.Compression
                             tempZip.ZipFileStream.Flush();
 
                             // Adjust offsets
-                            if (zfe.FileOffset == 0) zfe.FileOffset = zip.GetFileOffset(zfe.HeaderOffset);
                             zfe.HeaderOffset += offset;
                             zfe.FileOffset += offset;
 
@@ -643,7 +647,7 @@ namespace System.IO.Compression
                         else
                         {
                             // offset correction
-                            offset -= zfe.HeaderSize + zfe.CompressedSize;
+                            offset -= (zfe.FileOffset - zfe.HeaderOffset) + zfe.CompressedSize;
                         }
                     }
                 }
