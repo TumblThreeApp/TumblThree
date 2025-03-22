@@ -1304,4 +1304,14 @@ created files. Existing files are not archived or unarchived.</value>
     <value>Archive also already existing crawler data files. When the blog is crawled the next time, the already 
 existing crawler data files are also archived, if the option 'Archive in ZIP file' is enabled.</value>
   </data>
+  <data name="NoCrawlerDataUpdate" xml:space="preserve">
+    <value>Don't update existing crawler data files on rescan</value>
+  </data>
+  <data name="ToolTipNoCrawlerDataUpdate" xml:space="preserve">
+    <value>Don't update existing crawler data files on rescan.</value>
+  </data>
+  <data name="ToolTipNoCrawlerDataUpdateDescription" xml:space="preserve">
+    <value>If this option is enabled existing crawler data for which a dump file already exists is ignored.
+Normally on rescan all crawler data files are overwritten with the currently downloaded version.</value>
+  </data>
 </root>

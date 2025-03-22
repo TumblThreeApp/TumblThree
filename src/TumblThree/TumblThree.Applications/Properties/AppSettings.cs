@@ -417,6 +417,9 @@ namespace TumblThree.Applications.Properties
         public bool ZipExistingCrawlerData { get; set; }
 
         [DataMember]
+        public bool NoCrawlerDataUpdate { get; set; }
+
+        [DataMember]
         public Dictionary<object, Tuple<int, double, Visibility>> ColumnSettings { get; set; }
 
         public static ObservableCollection<string> ImageSizes => new ObservableCollection<string>(imageSizes);
@@ -674,6 +677,7 @@ namespace TumblThree.Applications.Properties
             SaveTextsIndividualFiles = false;
             ZipCrawlerData = false;
             ZipExistingCrawlerData = false;
+            NoCrawlerDataUpdate = false;
         }
 
         [OnDeserializing]

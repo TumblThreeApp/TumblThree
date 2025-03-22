@@ -1044,4 +1044,14 @@ de volcado ya existentes también se archivarán, si la opción 'Archivar archiv
   <data name="ZipExistingCrawlerData" xml:space="preserve">
     <value>Archive archivos de datos de rastreadores ya existentes</value>
   </data>
+  <data name="NoCrawlerDataUpdate" xml:space="preserve">
+    <value>No actualice los archivos de datos del rastreador existentes al volver a escanear</value>
+  </data>
+  <data name="ToolTipNoCrawlerDataUpdate" xml:space="preserve">
+    <value>No actualice los archivos de datos del rastreador existentes al volver a escanear.</value>
+  </data>
+  <data name="ToolTipNoCrawlerDataUpdateDescription" xml:space="preserve">
+    <value>Si esta opción está habilitada, se ignoran los datos del rastreador existentes para los que ya existe un archivo de volcado.
+Normalmente, al volver a escanear, todos los archivos de datos del rastreador se sobrescriben con la versión descargada actualmente.</value>
+  </data>
 </root>

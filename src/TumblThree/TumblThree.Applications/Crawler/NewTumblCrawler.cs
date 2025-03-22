@@ -426,7 +426,7 @@ namespace TumblThree.Applications.Crawler
 
             lock (existingCrawlerDataLock)
             {
-                if (Blog.ForceRescan || !existingCrawlerData.Contains(addToList.Filename))
+                if ((Blog.ForceRescan && !ShellService.Settings.NoCrawlerDataUpdate) || !existingCrawlerData.Contains(addToList.Filename))
                 {
                     jsonQueue.Add(addToList);
                     existingCrawlerData.Add(addToList.Filename);

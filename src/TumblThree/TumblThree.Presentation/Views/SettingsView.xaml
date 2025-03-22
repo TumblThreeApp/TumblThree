@@ -2579,6 +2579,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <CheckBox x:Name="checkBoxTumblrAuthErrorAutoRetry"
                                     Grid.Row="0"
@@ -2595,8 +2596,23 @@
                                         </ToolTip>
                                     </CheckBox.ToolTip>
                                 </CheckBox>
+                                <CheckBox x:Name="checkBoxNoCrawlerDataUpdate"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="5"
+                                        Content="{x:Static p:Resources.NoCrawlerDataUpdate}"
+                                        IsChecked="{Binding NoCrawlerDataUpdate, Mode=TwoWay}">
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipNoCrawlerDataUpdate}" />
+                                                <TextBlock Text="{x:Static p:Resources.ToolTipNoCrawlerDataUpdateDescription}" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
                                 <CheckBox x:Name="checkBoxZipExistingCrawlerData"
-                                    Grid.Row="1"
+                                    Grid.Row="2"
                                     Grid.Column="0"
                                     Margin="5"
                                     Content="{x:Static p:Resources.ZipExistingCrawlerData}"

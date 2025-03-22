@@ -157,6 +157,7 @@ namespace TumblThree.Applications.ViewModels
         private int _freeDiskSpaceMonitorLevel;
         private bool _saveTextsIndividualFiles;
         private bool _zipExistingCrawlerData;
+        private bool _noCrawlerDataUpdate;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -549,6 +550,12 @@ namespace TumblThree.Applications.ViewModels
             get => _hideToolBarButtonsText;
             set => SetProperty(ref _hideToolBarButtonsText, value);
         }
+        public bool NoCrawlerDataUpdate
+        {
+            get => _noCrawlerDataUpdate;
+            set => SetProperty(ref _noCrawlerDataUpdate, value);
+        }
+
         private static string Sanitize(string filename)
         {
             char[] invalids = Path.GetInvalidFileNameChars();
@@ -1388,6 +1395,7 @@ namespace TumblThree.Applications.ViewModels
                 FreeDiskSpaceMonitorLevel = _settings.FreeDiskSpaceMonitorLevel;
                 SaveTextsIndividualFiles = _settings.SaveTextsIndividualFiles;
                 ZipExistingCrawlerData = _settings.ZipExistingCrawlerData;
+                NoCrawlerDataUpdate = _settings.NoCrawlerDataUpdate;
             }
             else
             {
@@ -1490,6 +1498,7 @@ namespace TumblThree.Applications.ViewModels
                 FreeDiskSpaceMonitorLevel = 1024;
                 SaveTextsIndividualFiles = false;
                 ZipExistingCrawlerData = false;
+                NoCrawlerDataUpdate = false;
             }
         }
 
@@ -1698,6 +1707,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.FreeDiskSpaceMonitorLevel = FreeDiskSpaceMonitorLevel;
             _settings.SaveTextsIndividualFiles = SaveTextsIndividualFiles;
             _settings.ZipExistingCrawlerData = ZipExistingCrawlerData;
+            _settings.NoCrawlerDataUpdate = NoCrawlerDataUpdate;
         }
     }
 }

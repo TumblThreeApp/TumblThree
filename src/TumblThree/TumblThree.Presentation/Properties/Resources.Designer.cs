@@ -1342,6 +1342,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don't update existing crawler data files on rescan.
+        /// </summary>
+        public static string NoCrawlerDataUpdate {
+            get {
+                return ResourceManager.GetString("NoCrawlerDataUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Personal Notes.
         /// </summary>
         public static string Notes {
@@ -2811,6 +2820,25 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipLogoutTwitter {
             get {
                 return ResourceManager.GetString("ToolTipLogoutTwitter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Don't update existing crawler data files on rescan..
+        /// </summary>
+        public static string ToolTipNoCrawlerDataUpdate {
+            get {
+                return ResourceManager.GetString("ToolTipNoCrawlerDataUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If this option is enabled existing crawler data for which a dump file already exists is ignored.
+        ///Normally on rescan all crawler data files are overwritten with the currently downloaded version..
+        /// </summary>
+        public static string ToolTipNoCrawlerDataUpdateDescription {
+            get {
+                return ResourceManager.GetString("ToolTipNoCrawlerDataUpdateDescription", resourceCulture);
             }
         }
         

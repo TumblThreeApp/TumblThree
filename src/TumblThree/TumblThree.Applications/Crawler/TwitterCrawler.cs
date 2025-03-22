@@ -732,7 +732,7 @@ namespace TumblThree.Applications.Crawler
         {
             if (!Blog.DumpCrawlerData) { return; }
 
-            if (Blog.ForceRescan || !crawlerDataDownloader.ExistingCrawlerDataContainsOrAdd(addToList.Filename))
+            if ((Blog.ForceRescan && !ShellService.Settings.NoCrawlerDataUpdate) || !crawlerDataDownloader.ExistingCrawlerDataContainsOrAdd(addToList.Filename))
             {
                 jsonQueue.Add(addToList);
             }

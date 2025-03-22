@@ -1056,4 +1056,14 @@ ist, werden beim nächsten Crawlen des Blogs auch die bereits vorhandenen Crawle
   <data name="ZipExistingCrawlerData" xml:space="preserve">
     <value>Bereits vorhandene Crawler-Datendateien archivieren</value>
   </data>
+  <data name="NoCrawlerDataUpdate" xml:space="preserve">
+    <value>Vorhandene Crawler-Datendateien beim erneuten Scannen nicht aktualisieren</value>
+  </data>
+  <data name="ToolTipNoCrawlerDataUpdate" xml:space="preserve">
+    <value>Vorhandene Crawler-Datendateien beim erneuten Scannen nicht aktualisieren.</value>
+  </data>
+  <data name="ToolTipNoCrawlerDataUpdateDescription" xml:space="preserve">
+    <value>Wenn diese Option aktiviert ist, werden vorhandene Crawler-Daten, für die bereits eine Dump-Datei existiert, ignoriert.
+Normalerweise werden beim erneuten Scannen alle Crawler-Datendateien mit der aktuell heruntergeladenen Version überschrieben.</value>
+  </data>
 </root>
