@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TumblThree.Applications.Extensions;
@@ -182,6 +183,24 @@ namespace TumblThree.Applications.Downloader
                 {
                     var responseStream = response.GetResponseStream();
                     return GetStreamForDownload(responseStream);
+                }
+
+                return null;
+            }
+        }
+
+        public async Task<string> ReadFromUrlAsStringAsync(string url)
+        {
+            var request = webRequestFactory.CreateGetRequest(url);
+
+            using (var response = await request.GetResponseAsync() as HttpWebResponse)
+            {
+                if (response?.StatusCode == HttpStatusCode.OK)
+                {
+                    using (var streamReader = new StreamReader(response.GetResponseStream(), true))
+                    {
+                        return await streamReader.ReadToEndAsync();
+                    }
                 }
 
                 return null;

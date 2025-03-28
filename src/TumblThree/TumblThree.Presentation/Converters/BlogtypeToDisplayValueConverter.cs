@@ -30,6 +30,8 @@ namespace TumblThree.Presentation.Converters
                     return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeTwitter);
                 case BlogTypes.newtumbl:
                     return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeNewTumbl);
+                case BlogTypes.bluesky:
+                    return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeBluesky);
                 case BlogTypes.all:
                     return string.Empty;
                 default:

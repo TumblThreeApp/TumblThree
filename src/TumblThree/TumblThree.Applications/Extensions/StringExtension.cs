@@ -15,5 +15,10 @@ namespace TumblThree.Applications.Extensions
                 return BitConverter.ToString(hash).Replace("-", string.Empty);
             }
         }
+
+        public static bool ContainsCI(this string input, string search)
+        {
+            return input.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
     }
 }

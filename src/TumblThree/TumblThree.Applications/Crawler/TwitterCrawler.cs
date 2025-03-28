@@ -938,7 +938,7 @@ namespace TumblThree.Applications.Crawler
 
                 var item = media[i].VideoInfo.Variants[0];
                 var urlPrepared = item.Url.IndexOf('?') > 0 ? item.Url.Substring(0, item.Url.IndexOf('?')) : item.Url;
-                AddToDownloadList(new VideoPost(item.Url, post.Legacy.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "gif", -1)));
+                AddToDownloadList(new VideoPost(item.Url, null, post.Legacy.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "gif", -1)));
                 if (i == 0)
                 {
                     AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), post));
@@ -979,7 +979,7 @@ namespace TumblThree.Applications.Crawler
 
                 if (Blog.DownloadVideo)
                 {
-                    AddToDownloadList(new VideoPost(item.Url, post.Legacy.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "video", -1)));
+                    AddToDownloadList(new VideoPost(item.Url, null, post.Legacy.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "video", -1)));
                     if (i == 0)
                         AddToJsonQueue(new CrawlerData<Tweet>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), post));
                 }

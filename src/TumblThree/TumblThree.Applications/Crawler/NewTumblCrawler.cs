@@ -752,11 +752,11 @@ namespace TumblThree.Applications.Crawler
                     if (firstVideoUrl == null) firstVideoUrl = videoUrl;
                     var filename = BuildFileName(videoUrl, post, "video", -1);
                     AddDownloadedMedia(videoUrl, filename, post);
-                    AddToDownloadList(new VideoPost(videoUrl, GetPostId(part), UnixTimestamp(post).ToString(), filename));
+                    AddToDownloadList(new VideoPost(videoUrl, null, GetPostId(part), UnixTimestamp(post).ToString(), filename));
                 }
                 else
                 {
-                    StatisticsBag.Add(new VideoPost(videoUrl, null, null));
+                    StatisticsBag.Add(new VideoPost(videoUrl, null, null, null));
                 }
 
                 var imageUrl = GetMediaUrl(blogIx, post.qwPostIx, part.nPartIz, part.qwPartIx, media.bMediaTypeIx, media.nWidth, media.nHeight, 300);

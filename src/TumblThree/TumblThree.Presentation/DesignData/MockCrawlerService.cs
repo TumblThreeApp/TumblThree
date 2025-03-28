@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Foundation;
 using System.Windows.Input;
-
+using Guava.RateLimiter;
 using TumblThree.Applications.Services;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
@@ -105,6 +105,8 @@ namespace TumblThree.Presentation.DesignData
 
         public Guava.RateLimiter.RateLimiter TimeconstraintTwitterApi { get; set; }
 
+        public Guava.RateLimiter.RateLimiter TimeconstraintBlueskyApi { get; set; }
+
         public Timer Timer { get; set; }
 
         public TaskCompletionSource<bool> LibraryLoaded { get; set; }
@@ -112,7 +114,7 @@ namespace TumblThree.Presentation.DesignData
         public TaskCompletionSource<bool> DatabasesLoaded { get; set; }
 
         public TaskCompletionSource<bool> ArchiveLoaded { get; set; }
-
+        
         public void SetActiveBlogFiles(IEnumerable<IBlog> blogFilesToAdd)
         {
             activeItems.Clear();

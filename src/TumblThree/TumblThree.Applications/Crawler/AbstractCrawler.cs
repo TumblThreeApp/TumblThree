@@ -265,7 +265,7 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        public virtual T ConvertJsonToClassNew<T>(string json) where T : new()
+        public virtual T ConvertJsonToClassNew<T>(string json, bool ignoreMetadata = false) where T : new()
         {
             try
             {
@@ -273,6 +273,7 @@ namespace TumblThree.Applications.Crawler
                 using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(json)))
                 {
                     var deserializer = new Newtonsoft.Json.JsonSerializer();
+                    deserializer.MetadataPropertyHandling = ignoreMetadata ? Newtonsoft.Json.MetadataPropertyHandling.Ignore : Newtonsoft.Json.MetadataPropertyHandling.Default;
                     deserializer.Converters.Add(new SingleOrArrayConverter<T>());
                     using (StreamReader sr = new StreamReader(ms))
                     using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(sr))
@@ -393,7 +394,8 @@ namespace TumblThree.Applications.Crawler
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         protected virtual string BuildFileNameCore(string url, string blogName, DateTime date, int timestamp, int index, string type, string id,
-            List<string> tags, string slug, string title, string rebloggedFromName, string rebloggedRootName, string reblogKey, int noteCount)
+            List<string> tags, string slug, string title, string rebloggedFromName, string rebloggedRootName, string reblogKey, int noteCount,
+            bool extraReserve = false)
         {
             /*
              * Replaced are:
@@ -507,7 +509,7 @@ namespace TumblThree.Applications.Crawler
             }
 
             int tokenLength = ContainsCI(filename, "%p") ? 2 : 0;
-            int maxCharacters = ShellService.IsLongPathSupported ? MaximumComponentLength : MAX_PATH - 1;
+            int maxCharacters = (ShellService.IsLongPathSupported ? MaximumComponentLength : MAX_PATH - 1) - (extraReserve ? 4 : 0);
             int intendedLength = ShellService.IsLongPathSupported ? filename.Length : Path.Combine(Blog.DownloadLocation(), filename).Length;
             // without long path support: 259 (max path minus NULL) - current filename length + 2 chars (%p) - chars for numbering
             int charactersLeft = maxCharacters - intendedLength + tokenLength - neededCharactersForNumbering;
@@ -568,7 +570,7 @@ namespace TumblThree.Applications.Crawler
         {
             if (Pt.IsPaused)
             {
-                Pt.WaitWhilePausedWithResponseAsyc().Wait();
+                Pt.WaitWhilePausedWithResponseAsync().Wait();
             }
         }
 
@@ -607,7 +609,8 @@ namespace TumblThree.Applications.Crawler
         protected enum LimitExceededSource
         {
             tumblr,
-            twitter
+            twitter,
+            bluesky
         }
 
         protected bool HandleLimitExceededWebException(WebException webException, LimitExceededSource source = LimitExceededSource.tumblr)

@@ -23,5 +23,7 @@
         bool IsValidTwitterUrl(string url);
 
         bool IsValidNewTumblUrl(string url);
+
+        bool IsValidBlueskyUrl(string url);
     }
 }

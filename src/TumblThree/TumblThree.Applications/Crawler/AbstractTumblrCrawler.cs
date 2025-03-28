@@ -275,7 +275,7 @@ namespace TumblThree.Applications.Crawler
                 url = "https://vtt.tumblr.com/" + url + ".mp4";
                 var filename = BuildFileName(url, post, -1);
                 AddDownloadedMedia(url, filename, post);
-                AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), filename));
+                AddToDownloadList(new VideoPost(url, null, post.Id, post.UnixTimestamp.ToString(), filename));
                 list.Add(url);
             }
 
@@ -295,7 +295,7 @@ namespace TumblThree.Applications.Crawler
                         videoUrl += "_480";
                     }
 
-                    AddToDownloadList(new VideoPost(videoUrl + ".mp4", Guid.NewGuid().ToString("N"), FileName(videoUrl + ".mp4")));
+                    AddToDownloadList(new VideoPost(videoUrl + ".mp4", null, Guid.NewGuid().ToString("N"), FileName(videoUrl + ".mp4")));
                 }
             }
 
@@ -304,7 +304,7 @@ namespace TumblThree.Applications.Crawler
                 foreach (Match match in regexThumbnail.Matches(post))
                 {
                     string thumbnailUrl = match.Groups[1].Value;
-                    AddToDownloadList(new VideoPost(thumbnailUrl, Guid.NewGuid().ToString("N"), FileName(thumbnailUrl)));
+                    AddToDownloadList(new VideoPost(thumbnailUrl, null, Guid.NewGuid().ToString("N"), FileName(thumbnailUrl)));
                 }
             }
         }
@@ -326,7 +326,7 @@ namespace TumblThree.Applications.Crawler
                     url += ".mp4";
                     var filename = BuildFileName(url, post, -1);
                     AddDownloadedMedia(url, filename, post);
-                    AddToDownloadList(new VideoPost(url, post.Id, post.UnixTimestamp.ToString(), filename));
+                    AddToDownloadList(new VideoPost(url, null, post.Id, post.UnixTimestamp.ToString(), filename));
                     list.Add(url);
                 }
             }
@@ -361,7 +361,7 @@ namespace TumblThree.Applications.Crawler
             {
                 if (TumblrParser.IsTumblrUrl(videoUrl)) { continue; }
 
-                AddToDownloadList(new VideoPost(videoUrl, post.Id, post.UnixTimestamp.ToString(), FileName(videoUrl)));
+                AddToDownloadList(new VideoPost(videoUrl, null, post.Id, post.UnixTimestamp.ToString(), FileName(videoUrl)));
             }
         }
 

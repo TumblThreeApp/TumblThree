@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -78,7 +80,14 @@ namespace TumblThree.Applications.Downloader
         {
             try
             {
-                return await fileDownloader.DownloadFileWithResumeAsync(url, fileLocation).ConfigureAwait(false);
+                if (url.EndsWith("playlist.m3u8"))
+                {
+                    return await DownloadVideoPlaylist(url, fileLocation);
+                }
+                else
+                {
+                    return await fileDownloader.DownloadFileWithResumeAsync(url, fileLocation).ConfigureAwait(false);
+                }
             }
             catch (IOException ex) when ((ex.HResult & 0xFFFF) == 0x27 || (ex.HResult & 0xFFFF) == 0x70)
             {
@@ -150,6 +159,52 @@ namespace TumblThree.Applications.Downloader
                 Logger.Error("AbstractDownloader:AppendToTextFile: {0}", ex);
                 return false;
             }
+        }
+
+        private async Task<(bool result, string fileLocation)> DownloadVideoPlaylist(string url, string fileLocation)
+        {
+            var playlist = await DownloadPageAsync(url);
+
+            // extract different video sizes from playlist
+            playlist = Regex.Replace(playlist, @"\r\n?|\n", Environment.NewLine);
+            var lines = playlist.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            var videoUrlsList = new SortedList<long, string>();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].StartsWith("#EXT-X-STREAM-INF", StringComparison.InvariantCultureIgnoreCase) && i + 1 < lines.Length)
+                {
+                    var m = Regex.Match(lines[i], "BANDWIDTH=([0-9]+),");
+                    var bandwidth = m.Success ? int.Parse(m.Groups[1].Value) : i;
+                    var newUrl = string.Join("/", url.Split('/').Take(url.Split('/').Length - 1)) + "/" + lines[i + 1];
+                    videoUrlsList.Add(bandwidth, newUrl);
+                }
+            }
+
+            // download playlist with video parts
+            var partsPlaylistUrl = videoUrlsList.Last().Value;
+            var partsPlaylist = await DownloadPageAsync(partsPlaylistUrl);
+            partsPlaylist = Regex.Replace(partsPlaylist, @"\r\n?|\n", Environment.NewLine);
+            lines = partsPlaylist.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            
+            // download all video parts and concat them
+            using (var fs = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
+            {
+                foreach (var line in lines)
+                {
+                    if (line.StartsWith("#") || string.IsNullOrWhiteSpace(line)) continue;
+                    var newUrl = string.Join("/", partsPlaylistUrl.Split('/').Take(partsPlaylistUrl.Split('/').Length - 1)) + "/" + line;
+                    if (File.Exists(fileLocation + ".tmp")) File.Delete(fileLocation + ".tmp");
+                    var result = await fileDownloader.DownloadFileWithResumeAsync(newUrl, fileLocation + ".tmp");
+                    if (!result.result) return (false, result.destinationPath);
+                    using (var fs2 = File.OpenRead(fileLocation + ".tmp"))
+                    {
+                        await fs2.CopyToAsync(fs);
+                    }
+                    File.Delete(fileLocation + ".tmp");
+                }
+            }
+
+            return (true, fileLocation);
         }
 
         private StreamWriterWithInfo GetTextAppenderStreamWriter(string key, bool isJson)
@@ -277,12 +332,7 @@ namespace TumblThree.Applications.Downloader
 
         public virtual async Task<string> DownloadPageAsync(string url)
         {
-            using (Stream s = await fileDownloader.ReadFromUrlIntoStreamAsync(url))
-            using (StreamReader sr = new StreamReader(s))
-            {
-                string content = sr.ReadToEnd();
-                return content;
-            }
+            return await fileDownloader.ReadFromUrlAsStringAsync(url);
         }
 
         protected bool CheckIfLinkRestored(TumblrPost downloadItem)
@@ -367,7 +417,7 @@ namespace TumblThree.Applications.Downloader
             files.AddFileToDb(PostId(downloadItem), null, downloadItem.Filename);
         }
 
-        protected string AddFileToDb(TumblrPost downloadItem)
+        protected virtual string AddFileToDb(TumblrPost downloadItem)
         {
             if (AppendTemplate == null)
             {
@@ -519,7 +569,7 @@ namespace TumblThree.Applications.Downloader
         {
             if (pt.IsPaused)
             {
-                pt.WaitWhilePausedWithResponseAsyc().Wait();
+                pt.WaitWhilePausedWithResponseAsync().Wait();
             }
         }
 

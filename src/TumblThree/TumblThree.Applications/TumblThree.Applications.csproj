@@ -121,13 +121,18 @@
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\QueueController.cs" />
     <Compile Include="Converter\EmptyArrayOrDictionaryConverter.cs" />
+    <Compile Include="Converter\ObjectOrStringConverter.cs" />
     <Compile Include="Converter\PropertyCopier.cs" />
     <Compile Include="Converter\SingleOrArrayConverter.cs" />
     <Compile Include="CookieParser.cs" />
     <Compile Include="Crawler\AbstractTumblrCrawler.cs" />
+    <Compile Include="Crawler\BlueskyCrawler.cs" />
     <Compile Include="Crawler\NewTumblCrawler.cs" />
     <Compile Include="Crawler\TumblrPhotoLookup.cs" />
     <Compile Include="Crawler\TwitterCrawler.cs" />
+    <Compile Include="DataModels\Bluesky\AuthorFeed.cs" />
+    <Compile Include="DataModels\Bluesky\Posts.cs" />
+    <Compile Include="DataModels\Bluesky\Profile.cs" />
     <Compile Include="DataModels\ImageResponse.cs" />
     <Compile Include="DataModels\LogData.cs" />
     <Compile Include="DataModels\LogException.cs" />
@@ -149,6 +154,7 @@
     <Compile Include="DataModels\Twitter\TwitterPost.cs" />
     <Compile Include="DataModels\Twitter\TwitterUser.cs" />
     <Compile Include="DataModels\Twitter\TimelineTweets.cs" />
+    <Compile Include="Downloader\BlueskyDownloader.cs" />
     <Compile Include="Downloader\JsonDownloader.cs" />
     <Compile Include="Downloader\NewTumblDownloader.cs" />
     <Compile Include="Downloader\StreamWriterWithInfo.cs" />
@@ -261,6 +267,7 @@
     <Compile Include="Services\WindowsFormsFolderBrowserDialog.cs" />
     <Compile Include="Services\ZipStorer.cs" />
     <Compile Include="ThrottledStream.cs" />
+    <Compile Include="ViewModels\DetailsViewModels\DetailsBlueskyBlogViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsNewTumblBlogViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrHiddenBlogViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrBlogViewModel.cs" />

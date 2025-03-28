@@ -116,6 +116,11 @@ namespace TumblThree.Applications.Crawler
                     return new NewTumblCrawler(shellService, crawlerService, progress, webRequestFactory,
                         cookieService, postQueue, jsonNewTumblQueue, blog, GetNewTumblDownloader(progress, blog, files, postQueue, pt, ct),
                         GetJsonDownloader(jsonNewTumblQueue, blog, pt, ct), GetNewTumblParser(), pt, ct);
+                case BlogTypes.bluesky:
+                    IPostQueue<CrawlerData<DataModels.Bluesky.FeedEntry>> jsonBlueskyQueue = GetJsonQueue<DataModels.Bluesky.FeedEntry>();
+                    return new BlueskyCrawler(shellService, crawlerService, progress, webRequestFactory,
+                        cookieService, postQueue, jsonBlueskyQueue, blog, GeBlueskyDownloader(progress, blog, files, postQueue, pt, ct),
+                        GetJsonDownloader(jsonBlueskyQueue, blog, pt, ct), pt, ct);
 
                 default:
                     throw new ArgumentException("Website is not supported!", nameof(blog));
@@ -201,6 +206,13 @@ namespace TumblThree.Applications.Crawler
             IPostQueue<AbstractPost> postQueue, PauseToken pt, CancellationToken ct)
         {
             return new NewTumblDownloader(shellService, managerService, ct, pt, progress, postQueue, GetFileDownloader(ct),
+                crawlerService, blog, files);
+        }
+
+        private BlueskyDownloader GeBlueskyDownloader(IProgress<DownloadProgress> progress, IBlog blog, IFiles files,
+            IPostQueue<AbstractPost> postQueue, PauseToken pt, CancellationToken ct)
+        {
+            return new BlueskyDownloader(shellService, managerService, ct, pt, progress, postQueue, GetFileDownloader(ct),
                 crawlerService, blog, files);
         }
 

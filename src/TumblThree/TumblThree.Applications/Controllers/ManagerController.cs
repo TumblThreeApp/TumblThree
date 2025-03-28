@@ -341,6 +341,11 @@ namespace TumblThree.Applications.Controllers
                         blog = new NewTumblBlog().Load(filename, bufferSize);
                     }
 
+                    if (filename.EndsWith(BlogTypes.bluesky.ToString()))
+                    {
+                        blog = new BlueskyBlog().Load(filename, bufferSize);
+                    }
+
                     if (blog != null)
                     {
                         if (!validCollectionIds.Contains(blog.CollectionId))

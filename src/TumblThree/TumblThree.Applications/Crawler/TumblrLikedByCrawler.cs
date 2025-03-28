@@ -550,7 +550,7 @@ namespace TumblThree.Applications.Crawler
                 }
                 // can only download preview image for non-tumblr (embedded) video posts
                 if (Blog.DownloadVideo && content.Provider == "tumblr")
-                    AddToDownloadList(new VideoPost(url, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+                    AddToDownloadList(new VideoPost(url, null, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
             }
             else if (type == "audio")
             {

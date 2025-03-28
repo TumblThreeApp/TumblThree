@@ -107,6 +107,7 @@
     <Compile Include="Converter\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Models\Blogs\BlogAll.cs" />
+    <Compile Include="Models\Blogs\BlueskyBlog.cs" />
     <Compile Include="Models\Blogs\IBlogAll.cs" />
     <Compile Include="Models\Blogs\NewTumblBlog.cs" />
     <Compile Include="Models\Blogs\TwitterBlog.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Models\Blogs\Blog.cs" />
     <Compile Include="Models\BlogFactory.cs" />
     <Compile Include="Models\BlogTypes.cs" />
+    <Compile Include="Models\Files\BlueskyBlogFiles.cs" />
     <Compile Include="Models\Files\FileEntry.cs" />
     <Compile Include="Models\Files\FileEntryComparer.cs" />
     <Compile Include="Models\Files\NewTumblBlogFiles.cs" />

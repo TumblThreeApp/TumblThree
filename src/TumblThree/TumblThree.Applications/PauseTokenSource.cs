@@ -86,7 +86,7 @@ namespace TumblThree.Applications
             return responseTask;
         }
 
-        public Task WaitWhilePausedWithResponseAsyc()
+        public Task WaitWhilePausedWithResponseAsync()
         {
             Task resumeTask = null;
             TaskCompletionSource<bool> response = null;
@@ -115,8 +115,8 @@ namespace TumblThree.Applications
 
         public bool IsPaused => m_source != null && m_source.IsPaused;
 
-        public Task WaitWhilePausedWithResponseAsyc() => IsPaused
-                ? m_source.WaitWhilePausedWithResponseAsyc()
+        public Task WaitWhilePausedWithResponseAsync() => IsPaused
+                ? m_source.WaitWhilePausedWithResponseAsync()
                 : PauseTokenSource.s_completedTcs.Task;
     }
 }

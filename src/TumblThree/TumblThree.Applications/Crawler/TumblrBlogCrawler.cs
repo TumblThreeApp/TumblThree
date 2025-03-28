@@ -791,7 +791,7 @@ namespace TumblThree.Applications.Crawler
 
                     var filename = BuildFileName("https://vtt.tumblr.com/" + videoUrl + ".mp4", post, -1);
                     AddDownloadedMedia("https://vtt.tumblr.com/" + videoUrl + ".mp4", filename, post);
-                    AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + videoUrl + ".mp4", post.Id, post.UnixTimestamp.ToString(), filename));
+                    AddToDownloadList(new VideoPost("https://vtt.tumblr.com/" + videoUrl + ".mp4", null, post.Id, post.UnixTimestamp.ToString(), filename));
                     AddToJsonQueue(new CrawlerData<Post>(videoUrl + ".json", post));
                 }
             }

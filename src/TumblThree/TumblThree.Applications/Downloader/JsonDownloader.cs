@@ -61,7 +61,7 @@ namespace TumblThree.Applications.Downloader
 
                     if (pt.IsPaused)
                     {
-                        pt.WaitWhilePausedWithResponseAsyc().Wait();
+                        pt.WaitWhilePausedWithResponseAsync().Wait();
                     }
 
                     trackedTasks.Add(DownloadPostAsync(downloadItem));

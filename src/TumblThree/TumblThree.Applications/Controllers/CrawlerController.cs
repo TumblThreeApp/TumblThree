@@ -248,7 +248,7 @@ namespace TumblThree.Applications.Controllers
 
                 if (pt.IsPaused)
                 {
-                    pt.WaitWhilePausedWithResponseAsyc().Wait();
+                    pt.WaitWhilePausedWithResponseAsync().Wait();
                 }
 
                 bool lockTaken = false;

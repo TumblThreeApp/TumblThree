@@ -60,6 +60,7 @@ namespace TumblThree.Applications.Services
         private RateLimiter _timeconstraintSearchApi;
         private RateLimiter _timeconstraintSvc;
         private RateLimiter _timeconstraintTwitterApi;
+        private RateLimiter _timeconstraintBlueskyApi;
         private Timer _timer;
         private string _isTextVis;
         private bool _isToolTipActive;
@@ -324,6 +325,12 @@ namespace TumblThree.Applications.Services
         {
             get => _timeconstraintTwitterApi;
             set => SetProperty(ref _timeconstraintTwitterApi, value);
+        }
+
+        public RateLimiter TimeconstraintBlueskyApi
+        {
+            get => _timeconstraintBlueskyApi;
+            set => SetProperty(ref _timeconstraintBlueskyApi, value);
         }
 
         public void AddActiveItems(QueueListItem itemToAdd) => _activeItems.Add(itemToAdd);

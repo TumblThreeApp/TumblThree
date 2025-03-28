@@ -205,6 +205,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bluesky.
+        /// </summary>
+        public static string BlogtypeBluesky {
+            get {
+                return ResourceManager.GetString("BlogtypeBluesky", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Crawler.
         /// </summary>
         public static string BlogtypeCrawler {
@@ -3322,8 +3331,8 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Archive also already existing dump files. When the blog is crawled the next time, the already 
-        ///existing dump files are also archived, if the option &apos;Archive in ZIP file&apos; is enabled..
+        ///   Looks up a localized string similar to Archive also already existing crawler data files. When the blog is crawled the next time, the already 
+        ///existing crawler data files are also archived, if the option &apos;Archive in ZIP file&apos; is enabled..
         /// </summary>
         public static string ToolTipZipExistingCrawlerDataDescription {
             get {

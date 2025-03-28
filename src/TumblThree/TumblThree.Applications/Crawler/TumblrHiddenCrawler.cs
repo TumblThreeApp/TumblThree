@@ -597,7 +597,7 @@ namespace TumblThree.Applications.Crawler
             {
                 var filename = BuildFileName(videoUrl, post, -1);
                 AddDownloadedMedia(videoUrl, filename, post);
-                AddToDownloadList(new VideoPost(videoUrl, postId, post.Timestamp.ToString(), filename));
+                AddToDownloadList(new VideoPost(videoUrl, null, postId, post.Timestamp.ToString(), filename));
                 AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(videoUrl.Split('/').Last(), ".json"), post));
             }
 
