@@ -26,11 +26,12 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * Preview of photos & videos
 * Download of Gif instead of WebP/Gifv images from Tumblr
 * File rename functionality
-* :star: Download of Twitter blogs
-* Image viewer with slideshow mode 🆕
-* Automated update process 🆕
-* Group blogs into collections 🆕
-* Choice of download format for .pnj links 🆕
+* Download of Twitter blogs
+* Image viewer with slideshow mode
+* Automated update process
+* Group blogs into collections
+* Choice of download format for .pnj links
+* :star: Download of Bluesky (user feed) blogs 🆕
 <details>
   <summary>click for more</summary><br/>
 
@@ -85,6 +86,15 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 
   </details>
 * <details><summary><b>Twitter Blogs</b></summary>
+
+  * Download of photo, video and text posts of blogs
+  * Download meta information for photo and video posts
+  * Allows to download only original content of the blog and skip reblogged posts
+  * Can download only tagged posts
+  * Allows to download blog posts in a defined time span
+
+  </details>
+* <details><summary><b>Bluesky Blogs</b></summary>
 
   * Download of photo, video and text posts of blogs
   * Download meta information for photo and video posts
