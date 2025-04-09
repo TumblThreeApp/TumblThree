@@ -15,7 +15,7 @@ namespace TumblThree.Domain.Models
         private static readonly Regex newTumblRegex = new Regex(@"(^(?:https?://)?(?:(?!.+like$)(?:[\w-]+\.{1})|.{0})newtumbl.com[/]??(?:like|.{0})$)");
         private static readonly Regex tumblrUrl = new Regex(@"^(?:http(?:s)?:\/\/)(?!www)[\w-]+.tumblr.com[/]??");
         private static readonly Regex tumblrUrlNew = new Regex(@"^(?:http(?:s)?:\/\/)www.tumblr.com\/((?!dashboard|like(s|d)|search|tagged)[^/]+)");
-        private static readonly Regex blueskyRegex = new Regex(@"^(?:http(?:s)?:\/\/)bsky.app/profile/[A-Za-z0-9_.]+$");
+        private static readonly Regex blueskyRegex = new Regex(@"^(?:http(?:s)?:\/\/)bsky.app/profile/[A-Za-z0-9_.-]+$");
 
         private static bool CheckNullLengthProtocolAndWhiteSpace(string url, int minLength)
         {
