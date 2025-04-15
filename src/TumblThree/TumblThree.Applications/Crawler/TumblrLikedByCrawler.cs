@@ -585,6 +585,7 @@ namespace TumblThree.Applications.Crawler
             {
                 AddPhotoUrlToDownloadList(document);
                 AddVideoUrlToDownloadList(document);
+                AddTextUrlToDownloadList(document);
                 await Task.CompletedTask;
             }
             catch (NullReferenceException e)
@@ -600,7 +601,18 @@ namespace TumblThree.Applications.Crawler
                 return;
             }
 
-            var post = new Post()
+            var post = GetDummyPost();
+            AddTumblrPhotoUrl(document, post);
+
+            if (Blog.RegExPhotos)
+            {
+                AddGenericPhotoUrl(document, post);
+            }
+        }
+
+        private static Post GetDummyPost()
+        {
+            return new Post()
             {
                 Date = DateTime.Now.ToString("R"),
                 DateGmt = DateTime.Now.ToString("R"),
@@ -615,12 +627,6 @@ namespace TumblThree.Applications.Crawler
                 ReblogKey = "",
                 Tumblelog = new TumbleLog2() { Name = "" }
             };
-            AddTumblrPhotoUrl(document, post);
-
-            if (Blog.RegExPhotos)
-            {
-                AddGenericPhotoUrl(document, post);
-            }
         }
 
         private void AddVideoUrlToDownloadList(string document)
@@ -642,6 +648,44 @@ namespace TumblThree.Applications.Crawler
             if (Blog.DownloadVideo && Blog.RegExVideos)
             {
                 AddGenericVideoUrl(document, post);
+            }
+        }
+
+        private void AddTextUrlToDownloadList(string document)
+        {
+            if (!Blog.DownloadText)
+            {
+                return;
+            }
+
+            AddTextUrl(document);
+        }
+
+        private void AddTextUrl(string text)
+        {
+            if (!Blog.DownloadText) return;
+
+            var regex = @"<li class=""post_container"".+?data-id='([0-9]+)'.+?class=""post_body"">(.+?)<\/div>";
+            var matches = Regex.Matches(text, regex, RegexOptions.Singleline);
+
+            for (int i = 0; i < matches.Count; i++)
+            {
+                try
+                {
+                    var post = GetDummyPost();
+                    post.Id = matches[i].Groups[1].Value;
+                    post.RegularBody = matches[i].Groups[2].Value;
+                    post.RegularBody = tumblrJsonParser.ParseText(post);
+
+                    string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "text", -1) : null;
+                    AddToDownloadList(new TextPost(post.RegularBody, post.Id, filename));
+                    //AddToJsonQueue(new CrawlerData<DataModels.TumblrSearchJson.Data>(Path.ChangeExtension(post.Id, ".json"), post));
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error("TumblrLikedByCrawler:AddTextUrl: {0}", ex);
+                    ShellService.ShowError(ex, "{0}: Error parsing post!", Blog.Name);
+                }
             }
         }
 
