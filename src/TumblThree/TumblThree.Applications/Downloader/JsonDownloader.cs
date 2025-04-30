@@ -182,6 +182,7 @@ namespace TumblThree.Applications.Downloader
 
         private async Task WriteDataAsync(string downloadLocation, string filename, T data)
         {
+            var filePath = Path.Combine(downloadLocation, filename);
             try
             {
                 using (var ms = new MemoryStream())
@@ -212,9 +213,10 @@ namespace TumblThree.Applications.Downloader
                         await existingCrawlerDataLock.WaitAsync();
                         try
                         {
+                            filePath = Path.Combine(downloadLocation, "CrawlerData.zip");
                             if (archive is null)
                             {
-                                var zipPath = Path.Combine(downloadLocation, "CrawlerData.zip");
+                                var zipPath = filePath;
                                 var zipExists = File.Exists(zipPath);
                                 var fs = new FileStream(zipPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1048576, FileOptions.SequentialScan);
                                 archive = zipExists ? ZipStorer.Open(fs, FileAccess.ReadWrite) : ZipStorer.Create(fs);
@@ -231,7 +233,7 @@ namespace TumblThree.Applications.Downloader
                     }
                     else
                     {
-                        using (var fs = new FileStream(Path.Combine(downloadLocation, filename), FileMode.Create))
+                        using (var fs = new FileStream(filePath, FileMode.Create))
                         {
                             ms.WriteTo(fs);
                         }
@@ -247,7 +249,7 @@ namespace TumblThree.Applications.Downloader
             }
             catch (Exception ex2)
             {
-                Logger.Error("JsonDownloader:WriteDataAsync: {0}", ex2);
+                Logger.Error("JsonDownloader:WriteDataAsync: {0}, {1}", filePath, ex2);
             }
         }
 
