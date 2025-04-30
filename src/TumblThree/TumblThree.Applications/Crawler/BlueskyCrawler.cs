@@ -203,6 +203,7 @@ namespace TumblThree.Applications.Crawler
                 if (finishedDownloading && !apiLimitHit)
                 {
                     Blog.LastId = highestId;
+                    if (highestId != 0) Blog.LatestPost = DateTime.FromBinary((long)highestId);
                 }
             }
 
@@ -483,7 +484,7 @@ namespace TumblThree.Applications.Crawler
                     if (highestId == 0)
                     {
                         var pinnedPost = await GetPinnedPost();
-                        Post post = pinnedPost ?? feed.FeedEntries.FirstOrDefault()?.Post;
+                        Post post = feed.FeedEntries.FirstOrDefault(x => (pinnedPost?.Cid ?? "") != x.Post.Cid)?.Post;
                         if (post != null)
                         {
                             highestId = (ulong)post.IndexedAt.ToBinary();
