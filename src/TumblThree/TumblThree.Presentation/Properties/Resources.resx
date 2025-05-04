@@ -699,17 +699,8 @@ E.g.  great big car, bears searches for great big cars and bears.</value>
   <data name="ExternalSettings" xml:space="preserve">
     <value>External</value>
   </data>
-  <data name="DownloadGfycat" xml:space="preserve">
-    <value>Download gfycat</value>
-  </data>
   <data name="DownloadWebmshare" xml:space="preserve">
     <value>Download webmshare</value>
-  </data>
-  <data name="ToolTipDownloadGfycat" xml:space="preserve">
-    <value>Download linked gfycat.com files</value>
-  </data>
-  <data name="ToolTipDownloadGfycatDescription" xml:space="preserve">
-    <value>Download externally hosted gfycat.com files</value>
   </data>
   <data name="ToolTipDownloadWebmshare" xml:space="preserve">
     <value>Download linked webmshare.com files</value>
@@ -725,12 +716,6 @@ E.g.  great big car, bears searches for great big cars and bears.</value>
   </data>
   <data name="ToolTipDownloadImgurDescription" xml:space="preserve">
     <value>Download externally hosted imgur.com files</value>
-  </data>
-  <data name="ToolTipGfycatFiletype" xml:space="preserve">
-    <value>File type to download</value>
-  </data>
-  <data name="ToolTipGfycatFiletypeDescription" xml:space="preserve">
-    <value>Chose which file type you want to download</value>
   </data>
   <data name="ToolTipWebmshareFiletype" xml:space="preserve">
     <value>File type to download</value>

@@ -19,7 +19,6 @@
         new bool? CheckDirectoryForFiles { get; set; }
         new bool? DownloadUrlList { get; set; }
         new bool? DownloadImgur { get; set; }
-        new bool? DownloadGfycat { get; set; }
         new bool? DownloadWebmshare { get; set; }
         new bool? DownloadUguu { get; set; }
         new bool? DownloadCatBox { get; set; }
@@ -50,7 +49,6 @@
         bool CheckDirectoryForFilesDiff { get; set; }
         bool DownloadUrlListDiff { get; set; }
         bool DownloadImgurDiff { get; set; }
-        bool DownloadGfycatDiff { get; set; }
         bool DownloadWebmshareDiff { get; set; }
         bool DownloadUguuDiff { get; set; }
         bool DownloadCatBoxDiff { get; set; }

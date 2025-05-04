@@ -131,7 +131,6 @@
     <Compile Include="Models\PnjDownloadType.cs" />
     <Compile Include="Models\TumblrBlogCrawlerTypes.cs" />
     <Compile Include="Models\MetadataType.cs" />
-    <Compile Include="Models\GfycatType.cs" />
     <Compile Include="Models\Blogs\IBlog.cs" />
     <Compile Include="Models\IBlogFactory.cs" />
     <Compile Include="Models\ICrawlerData.cs" />

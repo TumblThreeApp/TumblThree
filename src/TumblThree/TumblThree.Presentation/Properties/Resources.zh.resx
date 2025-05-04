@@ -702,15 +702,6 @@
   <data name="ExternalSettings" xml:space="preserve">
     <value>外链</value>
   </data>
-  <data name="DownloadGfycat" xml:space="preserve">
-    <value>下载 Gfycat</value>
-  </data>
-  <data name="ToolTipDownloadGfycat" xml:space="preserve">
-    <value>下载外链 Gfycat 的文件</value>
-  </data>
-  <data name="ToolTipDownloadGfycatDescription" xml:space="preserve">
-    <value>下载由站外的 Gfycat 托管的文件</value>
-  </data>
   <data name="DownloadWebmshare" xml:space="preserve">
     <value>下载 webmshare</value>
   </data>
@@ -728,12 +719,6 @@
   </data>
   <data name="ToolTipDownloadImgurDescription" xml:space="preserve">
     <value>下载由站外的 Imgur 托管的的文件</value>
-  </data>
-  <data name="ToolTipGfycatFiletype" xml:space="preserve">
-    <value>要下载的文件类型</value>
-  </data>
-  <data name="ToolTipGfycatFiletypeDescription" xml:space="preserve">
-    <value>选择你想要下载的文件类型</value>
   </data>
   <data name="ToolTipWebmshareFiletype" xml:space="preserve">
     <value>要下载的文件类型</value>

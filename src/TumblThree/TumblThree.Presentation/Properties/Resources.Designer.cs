@@ -664,15 +664,6 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download gfycat.
-        /// </summary>
-        public static string DownloadGfycat {
-            get {
-                return ResourceManager.GetString("DownloadGfycat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Download image meta.
         /// </summary>
         public static string DownloadImageMeta {
@@ -1351,7 +1342,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Don't update existing crawler data files on rescan.
+        ///   Looks up a localized string similar to Don&apos;t update existing crawler data files on rescan.
         /// </summary>
         public static string NoCrawlerDataUpdate {
             get {
@@ -2183,24 +2174,6 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download linked gfycat.com files.
-        /// </summary>
-        public static string ToolTipDownloadGfycat {
-            get {
-                return ResourceManager.GetString("ToolTipDownloadGfycat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Download externally hosted gfycat.com files.
-        /// </summary>
-        public static string ToolTipDownloadGfycatDescription {
-            get {
-                return ResourceManager.GetString("ToolTipDownloadGfycatDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Download linked imgur.com files.
         /// </summary>
         public static string ToolTipDownloadImgur {
@@ -2513,24 +2486,6 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File type to download.
-        /// </summary>
-        public static string ToolTipGfycatFiletype {
-            get {
-                return ResourceManager.GetString("ToolTipGfycatFiletype", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Chose which file type you want to download.
-        /// </summary>
-        public static string ToolTipGfycatFiletypeDescription {
-            get {
-                return ResourceManager.GetString("ToolTipGfycatFiletypeDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Group photo sets together.
         /// </summary>
         public static string ToolTipGroupPhotoSets {
@@ -2833,7 +2788,7 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Don't update existing crawler data files on rescan..
+        ///   Looks up a localized string similar to Don&apos;t update existing crawler data files on rescan..
         /// </summary>
         public static string ToolTipNoCrawlerDataUpdate {
             get {

@@ -165,9 +165,7 @@
     <Compile Include="Extensions\PathExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Parser\CatBoxParser.cs" />
-    <Compile Include="Parser\GfycatParser.cs" />
     <Compile Include="Parser\ICatBoxParser.cs" />
-    <Compile Include="Parser\IGfycatParser.cs" />
     <Compile Include="Parser\IImgurParser.cs" />
     <Compile Include="Parser\ImgurParser.cs" />
     <Compile Include="Crawler\ITumblrBlogDetector.cs" />

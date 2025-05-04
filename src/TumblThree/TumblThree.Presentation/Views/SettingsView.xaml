@@ -30,15 +30,6 @@
         </ObjectDataProvider>
 
         <ObjectDataProvider
-            x:Key="GfycatTypes"
-            MethodName="GetValues"
-            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Models:GfycatTypes" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-        <ObjectDataProvider
             x:Key="WebmshareTypes"
             MethodName="GetValues"
             ObjectType="{x:Type sys:Enum}">
@@ -2236,7 +2227,6 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Label
                             x:Name="perBlogLabelExternal"
@@ -2273,40 +2263,6 @@
                             Grid.Row="2"
                             Grid.Column="0"
                             Margin="10"
-                            Content="{x:Static p:Resources.DownloadGfycat}"
-                            IsChecked="{Binding DownloadGfycat, Mode=TwoWay}">
-                            <CheckBox.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadGfycat}" />
-                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadGfycatDescription}" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </CheckBox.ToolTip>
-                        </CheckBox>
-
-                        <ComboBox
-                            Grid.Row="2"
-                            Grid.Column="2"
-                            Margin="5"
-                            ItemsSource="{Binding Source={StaticResource GfycatTypes}}"
-                            SelectedItem="{Binding GfycatType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            SelectedValue="{Binding GfycatType}"
-                            SelectedValuePath=".">
-                            <ComboBox.ToolTip>
-                                <ToolTip>
-                                    <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipGfycatFiletype}" />
-                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipGfycatFiletypeDescription}" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </ComboBox.ToolTip>
-                        </ComboBox>
-
-                        <CheckBox
-                            Grid.Row="3"
-                            Grid.Column="0"
-                            Margin="10"
                             Content="{x:Static p:Resources.DownloadWebmshare}"
                             IsChecked="{Binding DownloadWebmshare, Mode=TwoWay}">
                             <CheckBox.ToolTip>
@@ -2320,7 +2276,7 @@
                         </CheckBox>
 
                         <ComboBox
-                            Grid.Row="3"
+                            Grid.Row="2"
                             Grid.Column="2"
                             Margin="5"
                             ItemsSource="{Binding Source={StaticResource WebmshareTypes}}"
@@ -2338,7 +2294,7 @@
                         </ComboBox>
 
                         <CheckBox
-                            Grid.Row="5"
+                            Grid.Row="4"
                             Grid.Column="0"
                             Margin="10"
                             Content="{x:Static p:Resources.DownloadUguu}"
@@ -2353,7 +2309,7 @@
                             </CheckBox.ToolTip>
                         </CheckBox>
                         <ComboBox
-                            Grid.Row="5"
+                            Grid.Row="4"
                             Grid.Column="2"
                             Margin="5"
                             ItemsSource="{Binding Source={StaticResource UguuTypes}}"
@@ -2371,7 +2327,7 @@
                         </ComboBox>
 
                         <CheckBox
-                            Grid.Row="8"
+                            Grid.Row="7"
                             Grid.Column="0"
                             Margin="10"
                             Content="{x:Static p:Resources.DownloadCatBox}"
@@ -2387,7 +2343,7 @@
                         </CheckBox>
 
                         <ComboBox
-                            Grid.Row="8"
+                            Grid.Row="7"
                             Grid.Column="2"
                             Margin="5"
                             ItemsSource="{Binding Source={StaticResource CatBoxTypes}}"

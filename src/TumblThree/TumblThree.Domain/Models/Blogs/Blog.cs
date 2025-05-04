@@ -70,12 +70,10 @@ namespace TumblThree.Domain.Models.Blogs
         private int downloadedVideoMetas;
         private int downloadedAudioMetas;
         private MetadataType metadataFormat;
-        private bool downloadGfycat;
         private bool downloadImgur;
         private bool downloadWebmshare;
         private bool downloadUguu;
         private bool downloadCatBox;
-        private GfycatTypes gfycatType;
         private WebmshareTypes webmshareType;
         private UguuTypes uguuType;
         private CatBoxTypes catboxType;
@@ -565,20 +563,6 @@ namespace TumblThree.Domain.Models.Blogs
         {
             get => metadataFormat;
             set => SetProperty(ref metadataFormat, value);
-        }
-
-        [DataMember]
-        public bool DownloadGfycat
-        {
-            get => downloadGfycat;
-            set => SetProperty(ref downloadGfycat, value);
-        }
-
-        [DataMember]
-        public GfycatTypes GfycatType
-        {
-            get => gfycatType;
-            set => SetProperty(ref gfycatType, value);
         }
 
         [DataMember]

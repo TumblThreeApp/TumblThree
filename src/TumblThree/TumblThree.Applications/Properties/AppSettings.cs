@@ -297,12 +297,6 @@ namespace TumblThree.Applications.Properties
         public bool DownloadRebloggedPosts { get; set; }
 
         [DataMember]
-        public bool DownloadGfycat { get; set; }
-
-        [DataMember]
-        public GfycatTypes GfycatType { get; set; }
-
-        [DataMember]
         public bool DownloadImgur { get; set; }
 
         [DataMember]

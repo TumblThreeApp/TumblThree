@@ -1057,8 +1057,6 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{StaticResource Layout.RowSpace}" />
-                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
@@ -1080,37 +1078,8 @@
                                 </CheckBox.ToolTip>
                             </CheckBox>
 
-                            <CheckBox Content="{x:Static p:Resources.DownloadGfycat}"
-                                  IsChecked="{Binding BlogFile.DownloadGfycat, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"
-                                  Margin="3,0,0,0" Padding="3,0,0,0">
-                                <CheckBox.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadGfycat}" />
-                                            <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipDownloadGfycatDescription}" />
-                                        </StackPanel>
-                                    </ToolTip>
-                                </CheckBox.ToolTip>
-                            </CheckBox>
-
-                            <ComboBox Grid.Column="3" Grid.Row="2" Padding="5,0,5,0"
-                                ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:GfycatTypes}}}" SelectedValuePath="."
-                                SelectedValue="{Binding BlogFile.GfycatType}"
-                                SelectedItem="{Binding BlogFile.GfycatType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                                <ComboBox.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel>
-                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipGfycatFiletype}" />
-                                            <TextBlock xml:space="preserve"
-                                                   Text="{x:Static p:Resources.ToolTipGfycatFiletypeDescription}" />
-                                        </StackPanel>
-                                    </ToolTip>
-                                </ComboBox.ToolTip>
-                            </ComboBox>
-
                             <CheckBox Content="{x:Static p:Resources.DownloadWebmshare}"
-                                  IsChecked="{Binding BlogFile.DownloadWebmshare, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"
+                                  IsChecked="{Binding BlogFile.DownloadWebmshare, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"
                                   Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -1122,7 +1091,7 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <ComboBox Grid.Column="3" Grid.Row="4" Padding="5,0,5,0" 
+                            <ComboBox Grid.Column="3" Grid.Row="2" Padding="5,0,5,0" 
                               ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:WebmshareTypes}}}" SelectedValuePath="."
                               SelectedValue="{Binding BlogFile.WebmshareType}"
                               SelectedItem="{Binding BlogFile.WebmshareType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -1137,7 +1106,7 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                             <CheckBox Content="{x:Static p:Resources.DownloadUguu}"
-                                      IsChecked="{Binding BlogFile.DownloadUguu, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7"
+                                      IsChecked="{Binding BlogFile.DownloadUguu, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5"
                                       Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -1149,7 +1118,7 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <ComboBox Grid.Column="3" Grid.Row="7" Padding="5,0,5,0" 
+                            <ComboBox Grid.Column="3" Grid.Row="5" Padding="5,0,5,0" 
                                       ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:UguuTypes}}}" SelectedValuePath="."
                                       SelectedValue="{Binding BlogFile.UguuType}"
                                       SelectedItem="{Binding BlogFile.UguuType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -1164,7 +1133,7 @@
                                 </ComboBox.ToolTip>
                             </ComboBox>
                             <CheckBox Content="{x:Static p:Resources.DownloadCatBox}"
-                                      IsChecked="{Binding BlogFile.DownloadCatBox, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="11"
+                                      IsChecked="{Binding BlogFile.DownloadCatBox, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="9"
                                       Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -1176,7 +1145,7 @@
                                     </ToolTip>
                                 </CheckBox.ToolTip>
                             </CheckBox>
-                            <ComboBox Grid.Column="3" Grid.Row="11" Padding="5,0,5,0" 
+                            <ComboBox Grid.Column="3" Grid.Row="9" Padding="5,0,5,0" 
                                       ItemsSource="{Binding Source={Extensions:EnumBindingSource {x:Type Models:CatBoxTypes}}}" SelectedValuePath="."
                                       SelectedValue="{Binding BlogFile.CatBoxType}"
                                       SelectedItem="{Binding BlogFile.CatBoxType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">

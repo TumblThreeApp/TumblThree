@@ -147,10 +147,6 @@ namespace TumblThree.Domain.Models.Blogs
 
         string LastDownloadedVideo { get; set; }
 
-        bool DownloadGfycat { get; set; }
-
-        GfycatTypes GfycatType { get; set; }
-
         bool DownloadImgur { get; set; }
 
         bool DownloadWebmshare { get; set; }

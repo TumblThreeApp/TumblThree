@@ -48,10 +48,10 @@ namespace TumblThree.Applications.Crawler
         public TumblrBlogCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
             ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
-            IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser,
+            IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser,
             IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Post>> jsonQueue, IBlog blog,
             IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
-            : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
+            : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser,
                 webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader,
                 progress, null, null, pt, ct)
         {
@@ -837,11 +837,6 @@ namespace TumblThree.Applications.Crawler
             {
                 AddImgurUrl(searchableText, timestamp);
                 await AddImgurAlbumUrlAsync(searchableText, timestamp);
-            }
-
-            if (Blog.DownloadGfycat)
-            {
-                await AddGfycatUrlAsync(searchableText, timestamp);
             }
 
             if (Blog.DownloadWebmshare)

@@ -314,7 +314,6 @@ namespace TumblThree.Applications.Controllers
                 SaveTextsIndividualFiles = SetCheckBox(sharedBlogFiles, "SaveTextsIndividualFiles"),
                 DownloadUrlList = SetCheckBox(sharedBlogFiles, "DownloadUrlList"),
                 DownloadImgur = SetCheckBox(sharedBlogFiles, "DownloadImgur"),
-                DownloadGfycat = SetCheckBox(sharedBlogFiles, "DownloadGfycat"),
                 DownloadWebmshare = SetCheckBox(sharedBlogFiles, "DownloadWebmshare"),
                 DownloadUguu = SetCheckBox(sharedBlogFiles, "DownloadUguu"),
                 DownloadCatBox = SetCheckBox(sharedBlogFiles, "DownloadCatBox"),
@@ -332,7 +331,6 @@ namespace TumblThree.Applications.Controllers
             ba.Password = SetProperty<string>(sharedBlogFiles, "Password", (outval) => ba.PasswordEnabled = outval);
             ba.CollectionId = SetProperty<int>(sharedBlogFiles, "CollectionId", (outval) => ba.CollectionIdEnabled = outval);
             bool allEqual = false;
-            ba.GfycatType = SetProperty<GfycatTypes>(sharedBlogFiles, "GfycatType", (outval) => allEqual = outval);
             ba.WebmshareType = SetProperty<WebmshareTypes>(sharedBlogFiles, "WebmshareType", (outval) => allEqual = outval);
             ba.UguuType = SetProperty<UguuTypes>(sharedBlogFiles, "UguuType", (outval) => allEqual = outval);
             ba.CatBoxType = SetProperty<CatBoxTypes>(sharedBlogFiles, "CatBoxType", (outval) => allEqual = outval);

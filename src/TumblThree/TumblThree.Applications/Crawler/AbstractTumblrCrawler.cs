@@ -42,8 +42,6 @@ namespace TumblThree.Applications.Crawler
 
         public IImgurParser ImgurParser { get; }
 
-        public IGfycatParser GfycatParser { get; }
-
         public IWebmshareParser WebmshareParser { get; }
 
         public IUguuParser UguuParser { get; }
@@ -51,7 +49,7 @@ namespace TumblThree.Applications.Crawler
         public ICatBoxParser CatboxParser { get; }
 
         protected AbstractTumblrCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory, ISharedCookieService cookieService,
-            ITumblrParser tumblrParser, IImgurParser imgurParser, IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser,
+            ITumblrParser tumblrParser, IImgurParser imgurParser, IWebmshareParser webmshareParser, IUguuParser uguuParser,
             ICatBoxParser catboxParser, IPostQueue<AbstractPost> postQueue, IBlog blog, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
             IProgress<DownloadProgress> progress, IEnvironmentService environmentService, ILoginService loginService, PauseToken pt, CancellationToken ct)
             : base(shellService, crawlerService, progress, webRequestFactory, cookieService, postQueue, blog, downloader, pt, ct)
@@ -60,7 +58,6 @@ namespace TumblThree.Applications.Crawler
             this.crawlerDataDownloader?.ChangeCancellationToken(Ct);
             this.TumblrParser = tumblrParser;
             this.ImgurParser = imgurParser;
-            this.GfycatParser = gfycatParser;
             this.WebmshareParser = webmshareParser;
             this.UguuParser = uguuParser;
             this.CatboxParser = catboxParser;
@@ -163,16 +160,6 @@ namespace TumblThree.Applications.Crawler
                 if (CheckIfSkipGif(imageUrl)) { continue; }
 
                 AddToDownloadList(new ExternalVideoPost(imageUrl, CatboxParser.GetCatBoxId(imageUrl), timestamp));
-            }
-        }
-
-        protected async Task AddGfycatUrlAsync(string post, string timestamp)
-        {
-            foreach (string videoUrl in await GfycatParser.SearchForGfycatUrlAsync(post, Blog.GfycatType))
-            {
-                if (CheckIfSkipGif(videoUrl)) { continue; }
-
-                AddToDownloadList(new ExternalVideoPost(videoUrl, GfycatParser.GetGfycatId(videoUrl), timestamp));
             }
         }
 

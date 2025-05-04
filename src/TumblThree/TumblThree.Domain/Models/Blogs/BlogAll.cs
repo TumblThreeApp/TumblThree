@@ -25,7 +25,6 @@
         private bool? checkDirectoryForFiles;
         private bool? downloadUrlList;
         private bool? downloadImgur;
-        private bool? downloadGfycat;
         private bool? downloadWebmshare;
         private bool? downloadUguu;
         private bool? downloadCatBox;
@@ -56,7 +55,6 @@
         private bool checkDirectoryForFilesDiff;
         private bool downloadUrlListDiff;
         private bool downloadImgurDiff;
-        private bool downloadGfycatDiff;
         private bool downloadWebmshareDiff;
         private bool downloadUguuDiff;
         private bool downloadCatBoxDiff;
@@ -404,25 +402,6 @@
             set
             {
                 SetProperty(ref downloadImgurDiff, value);
-            }
-        }
-
-        public new bool? DownloadGfycat
-        {
-            get { return downloadGfycat; }
-            set
-            {
-                DownloadGfycatDiff = !value.HasValue;
-                SetProperty(ref downloadGfycat, value);
-            }
-        }
-
-        public bool DownloadGfycatDiff
-        {
-            get { return downloadGfycatDiff; }
-            set
-            {
-                SetProperty(ref downloadGfycatDiff, value);
             }
         }
 

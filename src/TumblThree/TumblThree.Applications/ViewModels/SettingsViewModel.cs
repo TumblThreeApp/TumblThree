@@ -109,7 +109,6 @@ namespace TumblThree.Applications.ViewModels
         private string _proxyPort;
         private string _proxyUsername;
         private string _proxyPassword;
-        private bool _downloadGfycat;
         private bool _downloadImgur;
         private bool _downloadWebmshare;
         private bool _downloadUguu;
@@ -117,7 +116,6 @@ namespace TumblThree.Applications.ViewModels
         private MetadataType _metadataFormat;
         private bool _overrideTumblrBlogCrawler;
         private TumblrBlogCrawlerTypes _tumblrBlogCrawlerType;
-        private GfycatTypes _gfycatType;
         private WebmshareTypes _webmshareType;
         private UguuTypes _uguuType;
         private CatBoxTypes _catBoxType;
@@ -786,18 +784,6 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _downloadTo, value);
         }
 
-        public bool DownloadGfycat
-        {
-            get => _downloadGfycat;
-            set => SetProperty(ref _downloadGfycat, value);
-        }
-
-        public GfycatTypes GfycatType
-        {
-            get => _gfycatType;
-            set => SetProperty(ref _gfycatType, value);
-        }
-
         public bool DownloadImgur
         {
             get => _downloadImgur;
@@ -1356,11 +1342,9 @@ namespace TumblThree.Applications.ViewModels
                 DownloadTo = _settings.DownloadTo;
                 Tags = _settings.Tags;
                 DownloadImgur = _settings.DownloadImgur;
-                DownloadGfycat = _settings.DownloadGfycat;
                 DownloadWebmshare = _settings.DownloadWebmshare;
                 DownloadUguu = _settings.DownloadUguu;
                 DownloadCatBox = _settings.DownloadCatBox;
-                GfycatType = _settings.GfycatType;
                 WebmshareType = _settings.WebmshareType;
                 OverrideTumblrBlogCrawler = _settings.OverrideTumblrBlogCrawler;
                 TumblrBlogCrawlerType = _settings.TumblrBlogCrawlerType;
@@ -1462,11 +1446,9 @@ namespace TumblThree.Applications.ViewModels
                 DownloadTo = string.Empty;
                 Tags = string.Empty;
                 DownloadImgur = false;
-                DownloadGfycat = false;
                 DownloadWebmshare = false;
                 DownloadUguu = false;
                 DownloadCatBox = false;
-                GfycatType = GfycatTypes.Mp4;
                 WebmshareType = WebmshareTypes.Webm;
                 UguuType = UguuTypes.Any;
                 CatBoxType = CatBoxTypes.Any;
@@ -1658,11 +1640,9 @@ namespace TumblThree.Applications.ViewModels
             _settings.ForceSize = ForceSize;
             _settings.ForceRescan = ForceRescan;
             _settings.DownloadImgur = DownloadImgur;
-            _settings.DownloadGfycat = DownloadGfycat;
             _settings.DownloadWebmshare = DownloadWebmshare;
             _settings.DownloadUguu = DownloadUguu;
             _settings.DownloadCatBox = DownloadCatBox;
-            _settings.GfycatType = GfycatType;
             _settings.WebmshareType = WebmshareType;
             _settings.UguuType = UguuType;
             _settings.CatBoxType = CatBoxType;

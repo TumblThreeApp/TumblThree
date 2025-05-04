@@ -67,14 +67,13 @@ namespace TumblThree.Applications.Crawler
             IFiles files = LoadFiles(blog);
             IWebRequestFactory webRequestFactory = GetWebRequestFactory();
             IImgurParser imgurParser = GetImgurParser(webRequestFactory, ct);
-            IGfycatParser gfycatParser = GetGfycatParser(webRequestFactory, ct);
             switch (blog.BlogType)
             {
                 case BlogTypes.tumblr:
                     IPostQueue<CrawlerData<Post>> jsonApiQueue = GetJsonQueue<Post>();
                     return new TumblrBlogCrawler(shellService, crawlerService, webRequestFactory, cookieService,
                         GetTumblrDownloader(progress, blog, files, postQueue, pt, ct), GetJsonDownloader(jsonApiQueue, blog, pt, ct),
-                        GetTumblrApiJsonToTextParser(blog), GetTumblrParser(), imgurParser, gfycatParser, GetWebmshareParser(),
+                        GetTumblrApiJsonToTextParser(blog), GetTumblrParser(), imgurParser, GetWebmshareParser(),
                         GetUguuParser(), GetCatBoxParser(), postQueue,
                         jsonApiQueue, blog, progress, pt, ct);
                 case BlogTypes.tmblrpriv:
@@ -83,20 +82,20 @@ namespace TumblThree.Applications.Crawler
                     return new TumblrHiddenCrawler(shellService, crawlerService, webRequestFactory,
                         cookieService, GetTumblrDownloader(progress, blog, files, postQueue, pt, ct),
                         GetJsonDownloader(jsonSvcQueue, blog, pt, ct), GetTumblrSvcJsonToTextParser(blog), GetTumblrParser(),
-                        imgurParser, gfycatParser, GetWebmshareParser(), GetUguuParser(),
+                        imgurParser, GetWebmshareParser(), GetUguuParser(),
                         GetCatBoxParser(), postQueue, jsonSvcQueue, blog, progress, environmentService, loginService, pt, ct);
                 case BlogTypes.tlb:
                     IPostQueue<CrawlerData<DataModels.TumblrSearchJson.Data>> jsonDataQueue = GetJsonQueue<DataModels.TumblrSearchJson.Data>();
                     return new TumblrLikedByCrawler(shellService, crawlerService, webRequestFactory,
                         cookieService, GetTumblrDownloader(progress, blog, files, postQueue, pt, ct), GetJsonDownloader(jsonDataQueue, blog, pt, ct),
                         GetTumblrApiJsonToTextParser(blog), GetTumblrParser(),
-                        imgurParser, gfycatParser, GetWebmshareParser(), GetUguuParser(),
+                        imgurParser, GetWebmshareParser(), GetUguuParser(),
                         GetCatBoxParser(), postQueue, jsonDataQueue, blog, progress, environmentService, loginService, pt, ct);
                 case BlogTypes.tumblrsearch:
                     IPostQueue<CrawlerData<string>> jsonQueue = GetJsonQueue<string>();
                     return new TumblrSearchCrawler(shellService, crawlerService, webRequestFactory,
                         cookieService, GetTumblrDownloader(progress, blog, files, postQueue, pt, ct), GetJsonDownloader(jsonQueue, blog, pt, ct),
-                        GetTumblrApiJsonToTextParser(blog), GetTumblrParser(), imgurParser, gfycatParser, GetWebmshareParser(),
+                        GetTumblrApiJsonToTextParser(blog), GetTumblrParser(), imgurParser, GetWebmshareParser(),
                         GetUguuParser(), GetCatBoxParser(), postQueue, jsonQueue, blog, progress, pt, ct);
                 case BlogTypes.tumblrtagsearch:
                     IPostQueue<CrawlerData<DataModels.TumblrTaggedSearchJson.Datum>> jsonTagSearchQueue =
@@ -104,7 +103,7 @@ namespace TumblThree.Applications.Crawler
                     return new TumblrTagSearchCrawler(shellService, crawlerService, webRequestFactory,
                         cookieService, GetTumblrDownloader(progress, blog, files, postQueue, pt, ct),
                         GetJsonDownloader(jsonTagSearchQueue, blog, pt, ct), GetTumblrParser(),
-                        imgurParser, gfycatParser, GetWebmshareParser(), GetUguuParser(),
+                        imgurParser, GetWebmshareParser(), GetUguuParser(),
                         GetCatBoxParser(), postQueue, jsonTagSearchQueue, blog, progress, pt, ct);
                 case BlogTypes.twitter:
                     IPostQueue<CrawlerData<Tweet>> jsonTwitterQueue = GetJsonQueue<Tweet>();
@@ -163,11 +162,6 @@ namespace TumblThree.Applications.Crawler
         private IImgurParser GetImgurParser(IWebRequestFactory webRequestFactory, CancellationToken ct)
         {
             return new ImgurParser(settings, webRequestFactory, ct);
-        }
-
-        private IGfycatParser GetGfycatParser(IWebRequestFactory webRequestFactory, CancellationToken ct)
-        {
-            return new GfycatParser(settings, webRequestFactory, ct);
         }
 
         private IWebmshareParser GetWebmshareParser()

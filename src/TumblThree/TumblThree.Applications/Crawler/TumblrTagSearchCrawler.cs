@@ -39,9 +39,9 @@ namespace TumblThree.Applications.Crawler
 
         public TumblrTagSearchCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader, ITumblrParser tumblrParser, IImgurParser imgurParser,
-            IGfycatParser gfycatParser, IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser,
+            IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser,
             IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Datum>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress, PauseToken pt, CancellationToken ct)
-            : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser, gfycatParser,
+            : base(shellService, crawlerService, webRequestFactory, cookieService, tumblrParser, imgurParser,
                 webmshareParser, uguuParser, catboxParser, postQueue, blog, downloader, crawlerDataDownloader,
                 progress, null, null, pt, ct)
         {
