@@ -160,7 +160,8 @@ namespace System.IO.Compression
                 Comment = comment ?? string.Empty,
                 ZipFileStream = stream,
                 Access = FileAccess.Write,
-                LeaveOpen = leaveOpen
+                LeaveOpen = leaveOpen,
+                CentralDirImage = new byte[0]
             };
 
             return zip;
@@ -1158,9 +1159,9 @@ namespace System.IO.Compression
             var br = new BinaryReader(this.ZipFileStream);
             UInt32 headerSig = br.ReadUInt32();
 
-            if (headerSig != 0x04034b50)
+            if (headerSig != 0x04034b50 && headerSig != 0x06054b50)
             {
-                // not PK.. signature header
+                // not PK.. signature header and not 'end of central directory record' (empty ZIP files)
                 return false;
             }
 

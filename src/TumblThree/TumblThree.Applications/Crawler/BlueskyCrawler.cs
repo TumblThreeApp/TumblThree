@@ -175,16 +175,16 @@ namespace TumblThree.Applications.Crawler
         {
             Logger.Verbose("BlueskyCrawler.Crawl:Start");
 
-            Task<bool> grabber = GetUrlsAsync();
-
-            Task<bool> download = downloader.DownloadBlogAsync();
-
             Task crawlerDownloader = Task.CompletedTask;
             if (Blog.DumpCrawlerData)
             {
                 await crawlerDataDownloader.GetAlreadyExistingCrawlerDataFilesAsync(Progress);
                 crawlerDownloader = crawlerDataDownloader.DownloadCrawlerDataAsync();
             }
+
+            Task<bool> grabber = GetUrlsAsync();
+
+            Task<bool> download = downloader.DownloadBlogAsync();
 
             bool apiLimitHit = await grabber;
 

@@ -130,16 +130,16 @@ namespace TumblThree.Applications.Downloader
                         existingCrawlerData.Add(Path.GetFileName(filepath));
                     }
                 }
+                progress?.Report(new DownloadProgress { Progress = "" });
             }
             catch (Exception ex)
             {
-                Logger.Error("JsonDownloader.DownloadPostAsync(): {0}", ex);
+                Logger.Error("JsonDownloader.GetAlreadyExistingCrawlerDataFilesAsync(): {0}", ex);
             }
             finally
             {
                 existingCrawlerDataLock.Release();
             }
-            await Task.CompletedTask;
         }
 
         public bool ExistingCrawlerDataContainsOrAdd(string filename)
