@@ -79,6 +79,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjust to the rate limits of Twitter/X server.
+        /// </summary>
+        public static string AdaptToTwitterRateLimits {
+            get {
+                return ResourceManager.GetString("AdaptToTwitterRateLimits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Blog.
         /// </summary>
         public static string AddBlog {
@@ -1887,6 +1896,25 @@ namespace TumblThree.Presentation.Properties {
         public static string TimeSpanTypeError {
             get {
                 return ResourceManager.GetString("TimeSpanTypeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adjusts the speed to the rate limits of Twitter/X server.
+        /// </summary>
+        public static string ToolTipAdaptToTwitterRateLimits {
+            get {
+                return ResourceManager.GetString("ToolTipAdaptToTwitterRateLimits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If this option is disabled, the rate limits configured in the settings will be strictly maintained, 
+        ///which may result in rejection by the server. This is done at your own risk..
+        /// </summary>
+        public static string ToolTipAdaptToTwitterRateLimitsDescription {
+            get {
+                return ResourceManager.GetString("ToolTipAdaptToTwitterRateLimitsDescription", resourceCulture);
             }
         }
         

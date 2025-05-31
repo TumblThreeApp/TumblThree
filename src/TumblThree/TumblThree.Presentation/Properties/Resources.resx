@@ -1302,4 +1302,14 @@ Normally on rescan all crawler data files are overwritten with the currently dow
   <data name="BlogtypeBluesky" xml:space="preserve">
     <value>Bluesky</value>
   </data>
+  <data name="AdaptToTwitterRateLimits" xml:space="preserve">
+    <value>Adjust to the rate limits of Twitter/X server</value>
+  </data>
+  <data name="ToolTipAdaptToTwitterRateLimits" xml:space="preserve">
+    <value>Adjusts the speed to the rate limits of Twitter/X server</value>
+  </data>
+  <data name="ToolTipAdaptToTwitterRateLimitsDescription" xml:space="preserve">
+    <value>If this option is disabled, the rate limits configured in the settings will be strictly maintained, 
+which may result in rejection by the server. This is done at your own risk.</value>
+  </data>
 </root>

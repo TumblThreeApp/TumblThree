@@ -1054,4 +1054,14 @@ de volcado ya existentes también se archivarán, si la opción 'Archivar archiv
     <value>Si esta opción está habilitada, se ignoran los datos del rastreador existentes para los que ya existe un archivo de volcado.
 Normalmente, al volver a escanear, todos los archivos de datos del rastreador se sobrescriben con la versión descargada actualmente.</value>
   </data>
+  <data name="AdaptToTwitterRateLimits" xml:space="preserve">
+    <value>Adaptarse a los límites de velocidad del servidor Twitter/X</value>
+  </data>
+  <data name="ToolTipAdaptToTwitterRateLimitsDescription" xml:space="preserve">
+    <value>Si esta opción está desactivada, los límites de velocidad configurados en la configuración se mantendrán estrictamente, 
+lo que podría resultar en el rechazo por parte del servidor. Esto es bajo su propia responsabilidad.</value>
+  </data>
+  <data name="ToolTipAdaptToTwitterRateLimits" xml:space="preserve">
+    <value>Ajusta la velocidad a los límites de velocidad del servidor Twitter/X</value>
+  </data>
 </root>

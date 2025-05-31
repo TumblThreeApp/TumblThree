@@ -271,7 +271,16 @@ namespace TumblThree.Applications.Crawler
                 request.Accept = "application/json";
 
                 requestRegistration = Ct.Register(() => request.Abort());
-                return await WebRequestFactory.ReadRequestToEndAsync(request, true);
+                var content = await WebRequestFactory.ReadRequestToEndAsync(request, true);
+
+                if (ShellService.Settings.AdaptToTwitterRateLimits)
+                {
+                    ShellService.Settings.RateLimitTwitterLimit = WebRequestFactory.RateLimitHeaders["x-rate-limit-limit"];
+                    ShellService.Settings.RateLimitTwitterRemaining = WebRequestFactory.RateLimitHeaders["x-rate-limit-remaining"];
+                    ShellService.Settings.RateLimitTwitterReset = WebRequestFactory.RateLimitHeaders["x-rate-limit-reset"];
+                }
+
+                return content;
             }
             finally
             {
@@ -346,6 +355,11 @@ namespace TumblThree.Applications.Crawler
 
             if (ShellService.Settings.LimitConnectionsTwitterApi)
             {
+                if (ShellService.Settings.AdaptToTwitterRateLimits && ShellService.Settings.RateLimitTwitterRemaining < 5)
+                {
+                    double permitsPerSecond = (double)ShellService.Settings.RateLimitTwitterLimit / 15 / 60;
+                    if (permitsPerSecond != CrawlerService.TimeconstraintTwitterApi.GetRate()) { CrawlerService.TimeconstraintTwitterApi.SetRate(permitsPerSecond); }
+                }
                 CrawlerService.TimeconstraintTwitterApi.Acquire();
             }
 
@@ -523,7 +537,7 @@ namespace TumblThree.Applications.Crawler
             List<ItemContent> list = new List<ItemContent>();
             if (entry?.Content?.ItemContent != null) list.Add(entry.Content.ItemContent);
             if (entry?.Content?.Items != null) list.AddRange(entry.Content.Items.Select(s => s.Item.ItemContent));
-            return list.Select(s => s.TweetResults.Tweet).ToList();
+            return list.Select(s => s.TweetResults.Tweet).Where(x => x != null).ToList();
         }
 
         private async Task CrawlPageAsync(int pageNo)
@@ -607,6 +621,12 @@ namespace TumblThree.Applications.Crawler
                             completeGrab = false;
                             retries = 403;
                         }
+                    }
+                    if (((HttpWebResponse)webException?.Response).StatusCode == HttpStatusCode.NotFound)
+                    {
+                        Logger.Error("TwitterCrawler.CrawlPageAsync: {0}", $"{Blog.Name} ({GetCollectionName(Blog)}) {webException.Message}");
+                        completeGrab = false;
+                        retries = 404;
                     }
                 }
                 catch (TimeoutException timeoutException)
@@ -902,8 +922,8 @@ namespace TumblThree.Applications.Crawler
             {
                 if (text.Contains(item.Url))
                 {
-                    text = text.Replace(item.Url, item.ExpandedUrl.EndsWith(item.DisplayUrl) ?  item.ExpandedUrl : item.DisplayUrl);
-                    if (!item.ExpandedUrl.EndsWith(item.DisplayUrl)) links.Add(item.DisplayUrl, item.ExpandedUrl);
+                    text = text.Replace(item.Url, item.ExpandedUrl?.EndsWith(item.DisplayUrl) == true ?  item.ExpandedUrl : item.DisplayUrl);
+                    if (!links.ContainsKey(item.DisplayUrl) && item.ExpandedUrl?.EndsWith(item.DisplayUrl) == false) { links.Add(item.DisplayUrl, item.ExpandedUrl); }
                 }
             }
             var url = post.Legacy.Url ?? $"https://x.com/{post.User.Legacy.ScreenName}/status/{post.RestId}";

@@ -1066,4 +1066,14 @@ ist, werden beim nächsten Crawlen des Blogs auch die bereits vorhandenen Crawle
     <value>Wenn diese Option aktiviert ist, werden vorhandene Crawler-Daten, für die bereits eine Dump-Datei existiert, ignoriert.
 Normalerweise werden beim erneuten Scannen alle Crawler-Datendateien mit der aktuell heruntergeladenen Version überschrieben.</value>
   </data>
+  <data name="AdaptToTwitterRateLimits" xml:space="preserve">
+    <value>Anpassung an die Ratenbegrenzungen des Twitter/X Servers</value>
+  </data>
+  <data name="ToolTipAdaptToTwitterRateLimits" xml:space="preserve">
+    <value>Anpassung der Geschwindigkeit an die Ratenbegrenzungen des Twitter/X Servers</value>
+  </data>
+  <data name="ToolTipAdaptToTwitterRateLimitsDescription" xml:space="preserve">
+    <value>Wenn diese Option deaktiviert ist, werden die in den Einstellungen konfigurierten Ratenbegrenzungen strikt 
+eingehalten. Dies kann zu einer Ablehnung durch den Server führen. Dies geschieht auf eigene Verantwortung.</value>
+  </data>
 </root>

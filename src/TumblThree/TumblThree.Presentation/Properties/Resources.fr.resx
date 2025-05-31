@@ -1058,4 +1058,14 @@ de données du robot déjà existants seront également archivés, si l'option �
     <value>Si cette option est activée, les données de robot existantes pour lesquelles un fichier de vidage existe déjà sont ignorées.
 Normalement, lors de la nouvelle analyse, tous les fichiers de données du robot sont écrasés par la version actuellement téléchargée.</value>
   </data>
+  <data name="AdaptToTwitterRateLimits" xml:space="preserve">
+    <value>Adapter aux limites de débit du serveur Twitter/X</value>
+  </data>
+  <data name="ToolTipAdaptToTwitterRateLimits" xml:space="preserve">
+    <value>Ajuste la vitesse aux limites de débit du serveur Twitter/X</value>
+  </data>
+  <data name="ToolTipAdaptToTwitterRateLimitsDescription" xml:space="preserve">
+    <value>Si cette option est désactivée, les limites de débit configurées dans les paramètres seront strictement 
+respectées, ce qui peut entraîner un rejet par le serveur. Cette action est à vos risques et périls.</value>
+  </data>
 </root>

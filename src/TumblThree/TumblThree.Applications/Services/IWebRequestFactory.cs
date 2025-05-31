@@ -7,6 +7,8 @@ namespace TumblThree.Applications.Services
 {
     public interface IWebRequestFactory
     {
+        SortedList<string, int> RateLimitHeaders { get; }
+
         HttpWebRequest CreateGetRequest(string url, string referer = "", Dictionary<string, string> headers = null, bool allowAutoRedirect = true);
 
         HttpWebRequest CreateGetXhrRequest(string url, string referer = "", Dictionary<string, string> headers = null);

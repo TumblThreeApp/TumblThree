@@ -2536,6 +2536,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <CheckBox x:Name="checkBoxTumblrAuthErrorAutoRetry"
                                     Grid.Row="0"
@@ -2578,6 +2579,21 @@
                                             <StackPanel>
                                                 <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipZipExistingCrawlerData}" />
                                                 <TextBlock Text="{x:Static p:Resources.ToolTipZipExistingCrawlerDataDescription}" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
+                                <CheckBox x:Name="checkBoxAdaptToTwitterRateLimits"
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="5"
+                                    Content="{x:Static p:Resources.AdaptToTwitterRateLimits}"
+                                    IsChecked="{Binding AdaptToTwitterRateLimits, Mode=TwoWay}">
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipAdaptToTwitterRateLimits}" />
+                                                <TextBlock Text="{x:Static p:Resources.ToolTipAdaptToTwitterRateLimitsDescription}" />
                                             </StackPanel>
                                         </ToolTip>
                                     </CheckBox.ToolTip>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -9,6 +10,7 @@ using System.Web;
 
 using TumblThree.Applications.Extensions;
 using TumblThree.Applications.Properties;
+using TumblThree.Domain;
 
 namespace TumblThree.Applications.Services
 {
@@ -18,6 +20,7 @@ namespace TumblThree.Applications.Services
         private readonly IShellService shellService;
         private readonly ISharedCookieService cookieService;
         private readonly AppSettings settings;
+        private readonly SortedList<string, int> _rateLimitHeaders = new SortedList<string, int>();
 
         [ImportingConstructor]
         public WebRequestFactory(IShellService shellService, ISharedCookieService cookieService, AppSettings settings)
@@ -26,6 +29,8 @@ namespace TumblThree.Applications.Services
             this.cookieService = cookieService;
             this.settings = settings;
         }
+
+        public SortedList<string, int> RateLimitHeaders => _rateLimitHeaders;
 
         private HttpWebRequest CreateStubRequest(string url, string referer = "", Dictionary<string, string> headers = null, bool allowAutoRedirect = true)
         {
@@ -131,6 +136,13 @@ namespace TumblThree.Applications.Services
                 if (storeCookies)
                 {
                     cookieService.SetUriCookie(response.Cookies);
+                }
+                if (response.Headers.Get("x-rate-limit-limit") != null)
+                {
+                    if (int.TryParse(response.Headers.Get("x-rate-limit-limit"), out var value)) _rateLimitHeaders["x-rate-limit-limit"] = value;
+                    if (int.TryParse(response.Headers.Get("x-rate-limit-remaining"), out value)) _rateLimitHeaders["x-rate-limit-remaining"] = value;
+                    if (int.TryParse(response.Headers.Get("x-rate-limit-reset"), out value)) _rateLimitHeaders["x-rate-limit-reset"] = value;
+                    Logger.Verbose($"x-rate-limit limit: {_rateLimitHeaders["x-rate-limit-limit"]} remaining: {_rateLimitHeaders["x-rate-limit-remaining"]} reset: {DateTimeOffset.FromUnixTimeSeconds(_rateLimitHeaders["x-rate-limit-reset"]).ToLocalTime()}");
                 }
                 using (Stream stream = GetStreamForApiRequest(response.GetResponseStream()))
                 {

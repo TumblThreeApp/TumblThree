@@ -156,6 +156,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _saveTextsIndividualFiles;
         private bool _zipExistingCrawlerData;
         private bool _noCrawlerDataUpdate;
+        private bool _adaptToTwitterRateLimits;
 
         [ImportingConstructor]
         public SettingsViewModel(ISettingsView view, IShellService shellService, ICrawlerService crawlerService, IManagerService managerService,
@@ -1011,6 +1012,12 @@ namespace TumblThree.Applications.ViewModels
             set => SetProperty(ref _zipExistingCrawlerData, value);
         }
 
+        public bool AdaptToTwitterRateLimits
+        {
+            get => _adaptToTwitterRateLimits;
+            set => SetProperty(ref _adaptToTwitterRateLimits, value);
+        }
+
         public void ShowDialog(object owner) => ViewCore.ShowDialog(owner);
 
         private void ViewClosed(object sender, EventArgs e)
@@ -1380,6 +1387,7 @@ namespace TumblThree.Applications.ViewModels
                 SaveTextsIndividualFiles = _settings.SaveTextsIndividualFiles;
                 ZipExistingCrawlerData = _settings.ZipExistingCrawlerData;
                 NoCrawlerDataUpdate = _settings.NoCrawlerDataUpdate;
+                AdaptToTwitterRateLimits = _settings.AdaptToTwitterRateLimits;
             }
             else
             {
@@ -1481,6 +1489,7 @@ namespace TumblThree.Applications.ViewModels
                 SaveTextsIndividualFiles = false;
                 ZipExistingCrawlerData = false;
                 NoCrawlerDataUpdate = false;
+                AdaptToTwitterRateLimits = true;
             }
         }
 
