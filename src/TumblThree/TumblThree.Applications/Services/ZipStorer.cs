@@ -391,7 +391,10 @@ namespace System.IO.Compression
             var lastPos = ZipFileStream.Position;
 
             if (this.CentralDirImage == null)
+            {
+                if (ExistingFiles == 0) return CentralDirectoryFiles;
                 throw new InvalidOperationException("Central directory currently does not exist");
+            }
 
             CentralDirectoryFiles.Clear();
 
@@ -439,7 +442,7 @@ namespace System.IO.Compression
 
                 if (extraSize > 0)
                 {
-                    ReadExtraInfo(CentralDirImage, pointer + 46 + filenameSize, zfe);
+                    ReadExtraInfo(CentralDirImage, pointer + 46 + filenameSize, extraSize, zfe);
                     if (!skipFileOffsetCalculation && headerOffset == 0xFFFFFFFF) zfe.FileOffset = GetFileOffset(zfe.HeaderOffset);
                 }
 
@@ -1027,15 +1030,16 @@ namespace System.IO.Compression
             return buffer;
         }
 
-        private static void ReadExtraInfo(byte[] buffer, int offset, ZipFileEntry _zfe)
+        private static void ReadExtraInfo(byte[] buffer, int offset, int extraSize, ZipFileEntry _zfe)
         {
             if (buffer.Length < 4)
                 return;
 
+            int start = offset;
             int pos = offset;
             uint tag, size;
 
-            while (pos < buffer.Length - 4)
+            while (pos < buffer.Length - 4 && pos - start < extraSize)
             {
                 uint extraId = BitConverter.ToUInt16(buffer, pos);
                 uint length = BitConverter.ToUInt16(buffer, pos + 2);
