@@ -135,5 +135,16 @@ namespace TumblThree.Applications.ViewModels
             imageViewerViewModel.ImageFolder = SelectedBlogFile.DownloadLocation();
             imageViewerViewModel.ShowDialog(ShellService.ShellView);
         }
+
+        public string GetCollectionName(object item)
+        {
+            return ShellService.Settings.Collections.Find(x => x.Id == ((IBlog)item).CollectionId)?.Name;
+        }
+
+        public object GetProgressValue(object item)
+        {
+            _ = item ?? throw new ArgumentNullException(nameof(item));
+            return ((IBlog)item).Progress;
+        }
     }
 }

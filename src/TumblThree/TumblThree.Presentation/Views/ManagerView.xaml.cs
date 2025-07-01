@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +15,7 @@ using TumblThree.Applications.ViewModels;
 using TumblThree.Applications.Views;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Queue;
+using TumblThree.Presentation.Comparers;
 using TumblThree.Presentation.Controls;
 
 namespace TumblThree.Presentation.Views
@@ -115,9 +117,20 @@ namespace TumblThree.Presentation.Views
                 collectionView.CancelNew();
             }
 
-            //ListSortDirection newDirection = e.Column.SortDirection == ListSortDirection.Ascending
-            //    ? ListSortDirection.Descending
-            //    : ListSortDirection.Ascending;
+            if (e.Column.SortMemberPath == "__collection" || e.Column.SortMemberPath == "__progress")
+            {
+                e.Handled = true;
+
+                var direction = (e.Column.SortDirection != ListSortDirection.Ascending)
+                    ? ListSortDirection.Ascending
+                    : ListSortDirection.Descending;
+
+                e.Column.SortDirection = direction;
+
+                collectionView.CustomSort = e.Column.SortMemberPath == "__collection" ?
+                    new DelegateComparer(viewModel.Value.GetCollectionName, direction) :
+                    new DelegateComparer(viewModel.Value.GetProgressValue, direction);
+            }
         }
 
         private void FocusBlogFilesGrid()
