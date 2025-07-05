@@ -108,7 +108,7 @@
             <Grid Margin="11">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" MinWidth="30" />
                     <ColumnDefinition Width="{StaticResource Layout.ColumnSpace}" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
