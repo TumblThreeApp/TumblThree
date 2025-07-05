@@ -557,6 +557,7 @@ namespace TumblThree.Applications.Crawler
                     if (highestId == 0)
                     {
                         highestId = ulong.Parse(GetPostEntries(entries)
+                            .Where(x=> (x.Content?.ClientEventInfo?.Component ?? "") != "pinned_tweets")
                             .Max(x => x.Content?.ItemContent?.TweetResults.Tweet.Legacy.IdStr ?? x.Content?.Items?.LastOrDefault()?.Item.ItemContent.TweetResults.Tweet.Legacy.IdStr) ?? "0");
                         if (highestId > 0)
                         {
