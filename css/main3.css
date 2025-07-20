@@ -126,15 +126,26 @@ section h2{
   color: rgb(92, 81, 190);
 }
 
-section h4{
+section h3{
   color: rgb(92, 81, 190);
+  font-size: 1em;
+  margin-block-start: 1.33em;
+  margin-block-end: 1.33em;
 }
 .center{
   display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
   width:40%;
   height:40%;
+}
+.br2{
+  margin-top: 20px;
+}
+.br4{
+  margin-top: 40px;
 }
 /*
 .center:hover{
