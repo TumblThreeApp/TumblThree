@@ -1103,14 +1103,12 @@ namespace TumblThree.Applications.ViewModels
 
         private void BrowseExportLocation()
         {
-            FileDialogResult result =
-                _fileDialogService.ShowSaveFileDialog(ShellService.ShellView, _bloglistExportFileType, ExportLocation);
-            if (!result.IsValid)
+            var exportLocation = Path.GetFullPath(ExportLocation);
+            FileDialogResult result = _fileDialogService.ShowSaveFileDialog(ShellService.ShellView, _bloglistExportFileType, exportLocation);
+            if (result.IsValid)
             {
-                return;
+                ExportLocation = result.FileName;
             }
-
-            ExportLocation = result.FileName;
         }
 
         private void AdaptDefaultCollection()
