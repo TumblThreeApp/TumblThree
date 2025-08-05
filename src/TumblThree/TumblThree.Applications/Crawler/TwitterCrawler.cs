@@ -567,6 +567,14 @@ namespace TumblThree.Applications.Crawler
                                 (entry.Content?.ItemContent ?? entry.Content?.Items?.LastOrDefault()?.Item.ItemContent)?.TweetResults.Tweet.Legacy.CreatedAt,
                                 twitterDateTemplate, new CultureInfo("en-US"));
                         }
+                        highestId = Math.Max(highestId, GetLastPostId());
+                    }
+
+                    if (!GetPostEntries(entries).Any())
+                    {
+                        completeGrab = false;
+                        retries = 200;
+                        return;
                     }
 
                     bool noNewCursor = false;
