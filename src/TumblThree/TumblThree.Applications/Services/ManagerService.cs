@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Data;
 using TumblThree.Applications.Properties;
 using TumblThree.Domain;
+using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Models.Files;
 
@@ -29,11 +30,12 @@ namespace TumblThree.Applications.Services
         private static object blogFilesLock = new object();
         private readonly IShellService shellService;
         private readonly IMessageService messageService;
+        private readonly IGlobalDatabaseService globalDatabaseService;
         private readonly object isDragOperationActiveLock = new object();
         private bool isDragOperationActive;
 
         [ImportingConstructor]
-        public ManagerService(IShellService shellService, ICrawlerService crawlerService, IMessageService messageService)
+        public ManagerService(IShellService shellService, ICrawlerService crawlerService, IMessageService messageService, IGlobalDatabaseService globalDatabaseService)
         {
             BlogFiles = new ObservableCollection<IBlog>();
             Application.Current.Dispatcher.Invoke(new Action(() => BindingOperations.EnableCollectionSynchronization(BlogFiles, blogFilesLock)));
@@ -43,6 +45,7 @@ namespace TumblThree.Applications.Services
             archiveDatabases = new List<IFiles>();
             this.shellService = shellService;
             this.messageService = messageService;
+            this.globalDatabaseService = globalDatabaseService;
             crawlerService.ActiveCollectionIdChanged += CrawlerService_ActiveCollectionIdChanged;
         }
 
@@ -90,7 +93,10 @@ namespace TumblThree.Applications.Services
 
         public ICollectionView BlogFilesView => blogFilesView;
 
-        public IEnumerable<IFiles> Databases => databases;
+        public IFiles GetDatabase(string blogName, BlogTypes originalBlogType)
+        {
+            return databases.FirstOrDefault(file => file.Name.Equals(blogName) && file.BlogType.Equals(originalBlogType));
+        }
 
         public void EnsureUniqueFolder(IBlog blog)
         {
@@ -108,7 +114,7 @@ namespace TumblThree.Applications.Services
             Directory.CreateDirectory(blog.DownloadLocation());
         }
 
-        public bool CheckIfFileExistsInDB(string filename, bool checkOriginalLinkFirst, bool checkArchive)
+        private bool CheckIfFileExistsInDBInternal(string filename, bool checkOriginalLinkFirst, bool checkArchive)
         {
             databasesLock.EnterReadLock();
             try
@@ -140,7 +146,19 @@ namespace TumblThree.Applications.Services
             return false;
         }
 
-        public void RemoveDatabase(IFiles database)
+        public bool CheckIfFileExistsInDB(string filename, bool checkOriginalLinkFirst, bool checkArchive)
+        {
+            if (shellService.Settings.LoadAllDatabasesIntoDb)
+            {
+                return globalDatabaseService.CheckIfFileExistsAsync(filename, checkOriginalLinkFirst, checkArchive).GetAwaiter().GetResult();
+            }
+            else
+            {
+                return CheckIfFileExistsInDBInternal(filename, checkOriginalLinkFirst, checkArchive);
+            }
+        }
+
+        private void RemoveDatabaseInternal(IFiles database)
         {
             databasesLock.EnterWriteLock();
             try
@@ -153,7 +171,20 @@ namespace TumblThree.Applications.Services
             }
         }
 
-        public void AddDatabase(IFiles database)
+        public void RemoveDatabase(string name, int blogType)
+        {
+            if (shellService.Settings.LoadAllDatabasesIntoDb)
+            {
+                globalDatabaseService.RemoveFileEntriesAsync(name, blogType, false);
+            }
+            else
+            {
+                var database = databases.FirstOrDefault(db => db.Name.Equals(name) && db.BlogType.Equals(blogType));
+                RemoveDatabaseInternal(database);
+            }
+        }
+
+        private void AddDatabaseInternal(IFiles database)
         {
             databasesLock.EnterWriteLock();
             try
@@ -166,7 +197,19 @@ namespace TumblThree.Applications.Services
             }
         }
 
-        public void ClearDatabases()
+        public void AddDatabase(IFiles database)
+        {
+            if (shellService.Settings.LoadAllDatabasesIntoDb)
+            {
+                globalDatabaseService.AddFileEntriesAsync(database, false);
+            }
+            else
+            {
+                AddDatabaseInternal(database);
+            }
+        }
+
+        private void ClearDatabasesInternal()
         {
             databasesLock.EnterWriteLock();
             try
@@ -179,7 +222,19 @@ namespace TumblThree.Applications.Services
             }
         }
 
-        public void AddArchive(IFiles archiveDB)
+        public void ClearDatabases()
+        {
+            if (shellService.Settings.LoadAllDatabasesIntoDb)
+            {
+                globalDatabaseService.ClearFileEntries(false);
+            }
+            else
+            {
+                ClearDatabasesInternal();
+            }
+        }
+
+        private void AddArchiveInternal(IFiles archiveDB)
         {
             archivesLock.EnterWriteLock();
             try
@@ -192,7 +247,19 @@ namespace TumblThree.Applications.Services
             }
         }
 
-        public void ClearArchive()
+        public void AddArchive(IFiles archiveDB)
+        {
+            if (shellService.Settings.LoadAllDatabasesIntoDb)
+            {
+                globalDatabaseService.AddFileEntriesAsync(archiveDB, true);
+            }
+            else
+            {
+                AddArchiveInternal(archiveDB);
+            }
+        }
+
+        private void ClearArchivesInternal()
         {
             archivesLock.EnterWriteLock();
             try
@@ -202,6 +269,18 @@ namespace TumblThree.Applications.Services
             finally
             {
                 archivesLock.ExitWriteLock();
+            }
+        }
+
+        public void ClearArchives()
+        {
+            if (shellService.Settings.LoadAllDatabasesIntoDb)
+            {
+                globalDatabaseService.ClearFileEntries(true);
+            }
+            else
+            {
+                ClearArchivesInternal();
             }
         }
 

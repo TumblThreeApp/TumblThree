@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 
 using TumblThree.Applications.Services;
+using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Models.Files;
 
@@ -41,18 +42,20 @@ namespace TumblThree.Presentation.DesignData
 
         public void AddDatabase(IFiles database) => throw new NotImplementedException();
 
-        public void RemoveDatabase(IFiles database) => throw new NotImplementedException();
+        public void RemoveDatabase(string name, int blogType) => throw new NotImplementedException();
 
         public void ClearDatabases() => throw new NotImplementedException();
 
         public void AddArchive(IFiles archiveDB) => throw new NotImplementedException();
 
-        public void ClearArchive() => throw new NotImplementedException();
+        public void ClearArchives() => throw new NotImplementedException();
 
         public bool IsCollectionIdUsed(int id) => throw new NotImplementedException();
 
         public void CacheLibraries() => throw new NotImplementedException();
 
         bool IManagerService.UpdateCollectionOnlineStatuses(bool askFirstTime = false) => throw new NotImplementedException();
+
+        public IFiles GetDatabase(string blogName, BlogTypes originalBlogType) => throw new NotImplementedException();
     }
 }

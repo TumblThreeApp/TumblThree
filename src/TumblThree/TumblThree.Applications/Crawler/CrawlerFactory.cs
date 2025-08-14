@@ -30,10 +30,11 @@ namespace TumblThree.Applications.Crawler
         private readonly AppSettings settings;
         private readonly IEnvironmentService environmentService;
         private readonly ILoginService loginService;
+        private readonly IGlobalDatabaseService globalDatabaseService;
 
         [ImportingConstructor]
         internal CrawlerFactory(ICrawlerService crawlerService, IManagerService managerService, ShellService shellService,
-            ISharedCookieService cookieService, IEnvironmentService environmentService, ILoginService loginService)
+            ISharedCookieService cookieService, IEnvironmentService environmentService, ILoginService loginService, IGlobalDatabaseService globalDatabaseService)
         {
             this.crawlerService = crawlerService;
             this.managerService = managerService;
@@ -41,6 +42,7 @@ namespace TumblThree.Applications.Crawler
             this.cookieService = cookieService;
             this.environmentService = environmentService;
             this.loginService = loginService;
+            this.globalDatabaseService = globalDatabaseService;
             settings = shellService.Settings;
         }
 
@@ -64,7 +66,7 @@ namespace TumblThree.Applications.Crawler
         {
             blog.DownloadedItemsNew = 0;
             IPostQueue<AbstractPost> postQueue = GetProducerConsumerCollection();
-            IFiles files = LoadFiles(blog);
+            IFiles files = GetFilesDecorator(blog);
             IWebRequestFactory webRequestFactory = GetWebRequestFactory();
             IImgurParser imgurParser = GetImgurParser(webRequestFactory, ct);
             switch (blog.BlogType)
@@ -126,11 +128,17 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
+        private IFiles GetFilesDecorator(IBlog blog)
+        {
+            IFiles files = LoadFiles(blog);
+            return new FilesDecorator(files, globalDatabaseService, settings);
+        }
+
         private IFiles LoadFiles(IBlog blog)
         {
-            if (settings.LoadAllDatabases)
+            if (settings.LoadAllDatabases && !settings.LoadAllDatabasesIntoDb)
             {
-                var files = managerService.Databases.FirstOrDefault(file => file.Name.Equals(blog.Name) && file.BlogType.Equals(blog.OriginalBlogType));
+                var files = managerService.GetDatabase(blog.Name, blog.OriginalBlogType);
                 if (files == null)
                 {
                     var s = string.Format("{0} ({1})", blog.Name, blog.BlogType);

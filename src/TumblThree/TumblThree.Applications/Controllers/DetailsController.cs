@@ -178,8 +178,7 @@ namespace TumblThree.Applications.Controllers
             }
             if (_shellService.Settings.LoadAllDatabases)
             {
-                _managerService.RemoveDatabase(_managerService.Databases.FirstOrDefault(db => db.Name.Equals(blog.Name)
-                    && db.BlogType.Equals(blog.OriginalBlogType)));
+                _managerService.RemoveDatabase(blog.Name, (int)blog.OriginalBlogType);
             }
 
             _managerService.BlogFiles.Add(blog);

@@ -133,6 +133,7 @@
     <Compile Include="DataModels\Bluesky\AuthorFeed.cs" />
     <Compile Include="DataModels\Bluesky\Posts.cs" />
     <Compile Include="DataModels\Bluesky\Profile.cs" />
+    <Compile Include="DataModels\FilesDecorator.cs" />
     <Compile Include="DataModels\ImageResponse.cs" />
     <Compile Include="DataModels\LogData.cs" />
     <Compile Include="DataModels\LogException.cs" />
@@ -176,6 +177,8 @@
     <Compile Include="Parser\IWebmshareParser.cs" />
     <Compile Include="Parser\NewTumblParser.cs" />
     <Compile Include="ResponseDetails.cs" />
+    <Compile Include="Services\GlobalDatabaseService.cs" />
+    <Compile Include="Services\IGlobalDatabaseService.cs" />
     <Compile Include="Services\ILoginService.cs" />
     <Compile Include="Services\ILogService.cs" />
     <Compile Include="Services\IWebRequestFactory.cs" />
@@ -374,6 +377,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.SQLite.Core">
+      <Version>1.0.119</Version>
     </PackageReference>
     <PackageReference Include="System.Text.Encoding.CodePages">
       <Version>9.0.1</Version>

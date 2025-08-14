@@ -7,6 +7,8 @@ namespace TumblThree.Domain.Models.Files
     {
         string Name { get; }
 
+        string Location { get; }
+
         BlogTypes BlogType { get; }
 
         //IList<string> Links { get; }

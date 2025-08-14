@@ -398,7 +398,7 @@ namespace TumblThree.Applications.Controllers
         private async Task LoadArchiveAsync()
         {
             Logger.Verbose("ManagerController.LoadArchiveAsync:Start");
-            _managerService.ClearArchive();
+            _managerService.ClearArchives();
 
             if (_shellService.Settings.LoadArchive || _shellService.Settings.Collections.Any(x => x.OfflineDuplicateCheck && !x.IsOnline.Value))
             {
@@ -832,10 +832,7 @@ namespace TumblThree.Applications.Controllers
                 _managerService.BlogFiles.Remove(blog);
                 if (_shellService.Settings.LoadAllDatabases)
                 {
-                    _managerService.RemoveDatabase(_managerService.Databases
-                                                                .FirstOrDefault(db =>
-                                                                    db.Name.Equals(blog.Name) &&
-                                                                    db.BlogType.Equals(blog.OriginalBlogType)));
+                    _managerService.RemoveDatabase(blog.Name, (int)blog.OriginalBlogType);
                 }
 
                 QueueManager.RemoveItems(QueueManager.Items.Where(item => item.Blog.Equals(blog)));
