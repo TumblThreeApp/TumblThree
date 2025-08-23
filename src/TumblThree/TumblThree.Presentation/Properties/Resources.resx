@@ -1312,4 +1312,15 @@ Normally on rescan all crawler data files are overwritten with the currently dow
     <value>If this option is disabled, the rate limits configured in the settings will be strictly maintained, 
 which may result in rejection by the server. This is done at your own risk.</value>
   </data>
+  <data name="LoadAllDatabasesIntoDb" xml:space="preserve">
+    <value>load into global database instead of memory</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDb" xml:space="preserve">
+    <value>Load blog databases into a global database instead of memory</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDbDescription" xml:space="preserve">
+    <value>This option can only be enabled if the global check is enabled.
+It is useful if you are using the global check and have already downloaded a large number of files.
+Enabling this option reduces memory usage because not all blog databases are kept in memory.</value>
+  </data>
 </root>

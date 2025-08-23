@@ -105,6 +105,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _portableMode;
         private bool _loadAllDatabases;
         private bool _loadArchive;
+        private bool _loadAllDatabasesIntoDb;
         private string _proxyHost;
         private string _proxyPort;
         private string _proxyUsername;
@@ -606,8 +607,9 @@ namespace TumblThree.Applications.ViewModels
             {
                 if (SetProperty(ref _loadAllDatabases, value))
                 {
-                    if (!_loadAllDatabases) LoadArchive = false;
+                    if (!_loadAllDatabases) LoadArchive = LoadAllDatabasesIntoDb = false;
                     RaisePropertyChanged(nameof(LoadArchiveEnabled));
+                    RaisePropertyChanged(nameof(LoadAllDatabasesIntoDbEnabled));
                 }
             }
         }
@@ -619,6 +621,17 @@ namespace TumblThree.Applications.ViewModels
         }
 
         public bool LoadArchiveEnabled
+        {
+            get => _loadAllDatabases;
+        }
+
+        public bool LoadAllDatabasesIntoDb
+        {
+            get => _loadAllDatabasesIntoDb;
+            set => SetProperty(ref _loadAllDatabasesIntoDb, value);
+        }
+
+        public bool LoadAllDatabasesIntoDbEnabled
         {
             get => _loadAllDatabases;
         }
@@ -1364,6 +1377,7 @@ namespace TumblThree.Applications.ViewModels
                 PortableMode = _settings.PortableMode;
                 LoadAllDatabases = _settings.LoadAllDatabases;
                 LoadArchive = _settings.LoadArchive;
+                LoadAllDatabasesIntoDb = _settings.LoadAllDatabasesIntoDb;
                 ProxyHost = _settings.ProxyHost;
                 ProxyPort = _settings.ProxyPort;
                 ProxyUsername = _settings.ProxyUsername;
@@ -1658,6 +1672,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.PortableMode = PortableMode;
             _settings.LoadAllDatabases = LoadAllDatabases;
             _settings.LoadArchive = LoadArchive;
+            _settings.LoadAllDatabasesIntoDb = LoadAllDatabasesIntoDb;
             _settings.ProxyHost = ProxyHost;
             _settings.ProxyPort = ProxyPort;
             _settings.ProxyUsername = ProxyUsername;

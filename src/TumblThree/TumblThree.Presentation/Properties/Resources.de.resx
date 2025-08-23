@@ -1076,4 +1076,15 @@ Normalerweise werden beim erneuten Scannen alle Crawler-Datendateien mit der akt
     <value>Wenn diese Option deaktiviert ist, werden die in den Einstellungen konfigurierten Ratenbegrenzungen strikt 
 eingehalten. Dies kann zu einer Ablehnung durch den Server führen. Dies geschieht auf eigene Verantwortung.</value>
   </data>
+  <data name="LoadAllDatabasesIntoDb" xml:space="preserve">
+    <value>in globale Datenbank statt in den Speicher laden</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDbDescription" xml:space="preserve">
+    <value>Diese Option kann nur aktiviert werden, wenn die globale Prüfung aktiviert ist.
+Sie ist nützlich, wenn Sie die globale Prüfung verwenden und bereits eine große Anzahl von Dateien heruntergeladen haben.
+Die Aktivierung dieser Option reduziert den Speicherverbrauch, da nicht alle Blog-Datenbanken im Speicher gehalten werden.</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDb" xml:space="preserve">
+    <value>Lade Blogdatenbanken in eine globale Datenbank statt in den Speicher</value>
+  </data>
 </root>

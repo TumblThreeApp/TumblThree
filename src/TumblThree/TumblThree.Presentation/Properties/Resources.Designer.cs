@@ -1243,6 +1243,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to load into global database instead of memory.
+        /// </summary>
+        public static string LoadAllDatabasesIntoDb {
+            get {
+                return ResourceManager.GetString("LoadAllDatabasesIntoDb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to including archived blogs.
         /// </summary>
         public static string LoadArchive {
@@ -2747,6 +2756,26 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipLoadAllDatabasesDescription {
             get {
                 return ResourceManager.GetString("ToolTipLoadAllDatabasesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load blog databases into a global database instead of memory.
+        /// </summary>
+        public static string ToolTipLoadAllDatabasesIntoDb {
+            get {
+                return ResourceManager.GetString("ToolTipLoadAllDatabasesIntoDb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This option can only be enabled if the global check is enabled.
+        ///It is useful if you are using the global check and have already downloaded a large number of files.
+        ///Enabling this option reduces memory usage because not all blog databases are kept in memory..
+        /// </summary>
+        public static string ToolTipLoadAllDatabasesIntoDbDescription {
+            get {
+                return ResourceManager.GetString("ToolTipLoadAllDatabasesIntoDbDescription", resourceCulture);
             }
         }
         
