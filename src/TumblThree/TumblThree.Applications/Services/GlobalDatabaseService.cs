@@ -2,6 +2,8 @@
 using System.ComponentModel.Composition;
 using System.Data.SQLite;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TumblThree.Domain;
@@ -17,6 +19,8 @@ namespace TumblThree.Applications.Services
         IShellService _shellService;
 
         private SQLiteConnection _connection;
+        private MD5 _md5 = MD5.Create();
+        private bool _DbExisted;
         private bool _disposed;
 
         [ImportingConstructor]
@@ -28,65 +32,88 @@ namespace TumblThree.Applications.Services
 
         public async Task PrepareGlobalDatabaseAsync()
         {
-            var path = Path.Combine(_shellService.Settings.DownloadLocation, "globaldatabase.sqlite");
             try
             {
-                if (File.Exists(path)) File.Delete(path);
+                var path = Path.Combine(_shellService.Settings.DownloadLocation, "globaldatabase.sqlite");
+                //if (File.Exists(path)) File.Delete(path);
+                _DbExisted = File.Exists(path);
+                _md5 = MD5.Create();
+                _connection = new SQLiteConnection($@"Data Source={path}");
+                SQLiteFunction.RegisterFunction(typeof(RegExSQLiteFunction));
+                _connection.Open();
+                // use WAL Mode for concurrency
+                using (var command = new SQLiteCommand("PRAGMA journal_mode=WAL;", _connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+                string sql = "CREATE TABLE IF NOT EXISTS BlogFiles (BlogId INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, BlogType INT NOT NULL, Location TEXT NOT NULL, IsArchive INT NOT NULL);" +
+                    "CREATE UNIQUE INDEX IF NOT EXISTS idx_BlogFiles_NameBlogType ON BlogFiles (Name, BlogType)";
+                using (var command = new SQLiteCommand(sql, _connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+                sql = "CREATE TABLE IF NOT EXISTS FileEntries (BlogId INT, HashLink VARCHAR(32) NOT NULL, Link TEXT NOT NULL, Filename TEXT NULL, HashOriginalLink VARCHAR(32) NULL, OriginalLink TEXT NULL);" +
+                    "CREATE UNIQUE INDEX IF NOT EXISTS idx_FileEntries_HashLink ON FileEntries (HashLink);" +
+                    "CREATE INDEX IF NOT EXISTS idx_FileEntries_HashOriginalLink ON FileEntries (HashOriginalLink);" +
+                    "CREATE INDEX IF NOT EXISTS idx_FileEntries_BlogId ON FileEntries (BlogId)";
+                using (var command = new SQLiteCommand(sql, _connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
             }
             catch (Exception ex)
             {
                 throw;
             }
-            _connection = new SQLiteConnection($@"Data Source={path}");
-            SQLiteFunction.RegisterFunction(typeof(RegExSQLiteFunction));
-            _connection.Open();
-            string sql = "CREATE TABLE IF NOT EXISTS BlogFiles (BlogId INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT NOT NULL, BlogType INT NOT NULL, Location TEXT NOT NULL, IsArchive INT NOT NULL);" +
-                "CREATE UNIQUE INDEX idx_BlogFiles_NameBlogType ON BlogFiles (Name, BlogType)";
-            using (var command = new SQLiteCommand(sql, _connection))
-            {
-                await command.ExecuteNonQueryAsync();
-            }
-            sql = "CREATE TABLE IF NOT EXISTS FileEntries (BlogId INT, Link TEXT NOT NULL, Filename TEXT NULL, OriginalLink TEXT NULL);" +
-                "CREATE UNIQUE INDEX idx_FileEntries_Link ON FileEntries (Link);" +
-                "CREATE INDEX idx_FileEntries_OriginalLink ON FileEntries (OriginalLink)";
-            using (var command = new SQLiteCommand(sql, _connection))
-            {
-                await command.ExecuteNonQueryAsync();
-            }
         }
 
         public async Task AddFileToDb(string blogName, BlogTypes blogType, string fileNameUrl, string fileNameOriginalUrl, string fileName)
         {
-            var blogId = AddFileEntry_Blog(blogName, blogType, "", false);
-
-            string sql = "INSERT OR IGNORE INTO FileEntries(BlogId, Link, Filename, OriginalLink) VALUES (@BlogId, @Link, @Filename, @OriginalLink)";
-            using (var command = new SQLiteCommand(sql, _connection))
+            try
             {
-                SetParameterValues(command.Parameters, blogId, fileNameUrl, fileNameOriginalUrl, fileName, true);
-                await command.ExecuteNonQueryAsync();
+                var blogId = AddFileEntry_Blog(blogName, blogType, "", false);
+
+                string sql = "INSERT OR IGNORE INTO FileEntries(BlogId, HashLink, Link, Filename, HashOriginalLink, OriginalLink) VALUES (@BlogId, @HashLink, @Link, @Filename, @HashOriginalLink, @OriginalLink)";
+                using (var command = new SQLiteCommand(sql, _connection))
+                {
+                    SetParameterValues(command.Parameters, blogId, fileNameUrl, fileNameOriginalUrl, fileName, true);
+                    await command.ExecuteNonQueryAsync();
+                }
+                return;
             }
-            return;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<string> AddFileToDb(string blogName, BlogTypes blogType, string fileNameUrl, string fileNameOriginalUrl, string fileName, string appendTemplate)
         {
-            var blogId = AddFileEntry_Blog(blogName, blogType, "", false);
-
-            var pattern = Regex.Escape(Path.GetFileNameWithoutExtension(fileName) + appendTemplate).Replace("<0>", @"[\d]+") + Path.GetExtension(fileName);
-            var sql = $"select count(*) from FileEntries where BlogId = {blogId} AND Filename = '{fileName}' OR Filename REGEXP '{pattern}'";
-            using (var command = new SQLiteCommand(sql, _connection))
+            try
             {
-                long n = (long)await command.ExecuteScalarAsync();
-                if (n > 0) fileName = Path.GetFileNameWithoutExtension(fileName) + appendTemplate.Replace("<0>", (n + 1).ToString()) + Path.GetExtension(fileName);
-            }
+                var blogId = AddFileEntry_Blog(blogName, blogType, "", false);
 
-            sql = "INSERT OR IGNORE INTO FileEntries(BlogId, Link, Filename, OriginalLink) VALUES (@BlogId, @Link, @Filename, @OriginalLink)";
-            using (var command = new SQLiteCommand(sql, _connection))
-            {
-                SetParameterValues(command.Parameters, blogId, fileNameUrl, fileNameOriginalUrl, fileName, true);
-                await command.ExecuteNonQueryAsync();
+                var pattern = Regex.Escape(Path.GetFileNameWithoutExtension(fileName) + appendTemplate).Replace("<0>", @"[\d]+") + Path.GetExtension(fileName);
+                var sql = $"select count(*) from FileEntries where BlogId = {blogId} AND Filename = '{fileName}' OR Filename REGEXP '{pattern}'";
+                using (var command = new SQLiteCommand(sql, _connection))
+                {
+                    long n = (long)await command.ExecuteScalarAsync();
+                    if (n > 0) fileName = Path.GetFileNameWithoutExtension(fileName) + appendTemplate.Replace("<0>", (n + 1).ToString()) + Path.GetExtension(fileName);
+                }
+
+                sql = "INSERT OR IGNORE INTO FileEntries(BlogId, HashLink, Link, Filename, HashOriginalLink, OriginalLink) VALUES (@BlogId, @HashLink, @Link, @Filename, @HashOriginalLink, @OriginalLink)";
+                using (var command = new SQLiteCommand(sql, _connection))
+                {
+                    SetParameterValues(command.Parameters, blogId, fileNameUrl, fileNameOriginalUrl, fileName, true);
+                    await command.ExecuteNonQueryAsync();
+                }
+
+                return fileName;
             }
-            return fileName;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private static void SetParameter(SQLiteParameterCollection parameters, string name, object value)
@@ -97,59 +124,82 @@ namespace TumblThree.Applications.Services
                 parameters.AddWithValue(name, value);
         }
 
-        private static void SetParameterValues(SQLiteParameterCollection parameters, int blogId, string fileNameUrl, string fileNameOriginalUrl, string fileName, bool cleanup)
+        private void SetParameterValues(SQLiteParameterCollection parameters, int blogId, string fileNameUrl, string fileNameOriginalUrl, string fileName, bool cleanup)
         {
             if (cleanup)
             {
                 fileName = fileName == fileNameUrl ? null : fileName;
                 fileNameOriginalUrl = (string.IsNullOrEmpty(fileNameOriginalUrl) || fileNameOriginalUrl == fileNameUrl) ? null : fileNameOriginalUrl;
             }
+            var hashFileNameUrl = GetHash(fileNameUrl);
+            var hashFileNameOriginalUrl = GetHash(fileNameOriginalUrl);
             SetParameter(parameters, "@BlogId", blogId);
             SetParameter(parameters, "@Link", fileNameUrl);
+            SetParameter(parameters, "@HashLink", hashFileNameUrl);
             SetParameter(parameters, "@Filename", fileName);
             SetParameter(parameters, "@OriginalLink", fileNameOriginalUrl);
+            SetParameter(parameters, "@HashOriginalLink", hashFileNameOriginalUrl);
         }
 
         private int AddFileEntry_Blog(string name, BlogTypes blogType, string location, bool isArchiv)
         {
-            int blogId;
-
-            string sql = "INSERT OR IGNORE INTO BlogFiles(Name, BlogType, Location, IsArchive) VALUES (@Name, @BlogType, @Location, @IsArchive)";
-            using (var command = new SQLiteCommand(sql, _connection))
+            try
             {
-                command.Parameters.AddWithValue("@Name", name);
-                command.Parameters.AddWithValue("@BlogType", (int)blogType);
-                command.Parameters.AddWithValue("@Location", location);
-                command.Parameters.AddWithValue("@IsArchive", isArchiv ? 1 : 0);
-                int affected = command.ExecuteNonQuery();
-                if (affected > 0)
+                int blogId;
+
+                string sql = "INSERT OR IGNORE INTO BlogFiles(Name, BlogType, Location, IsArchive) VALUES (@Name, @BlogType, @Location, @IsArchive)";
+                using (var command = new SQLiteCommand(sql, _connection))
                 {
-                    blogId = (int)_connection.LastInsertRowId;
+                    command.Parameters.AddWithValue("@Name", name);
+                    command.Parameters.AddWithValue("@BlogType", (int)blogType);
+                    command.Parameters.AddWithValue("@Location", location);
+                    command.Parameters.AddWithValue("@IsArchive", isArchiv ? 1 : 0);
+                    int affected = command.ExecuteNonQuery();
+                    if (affected > 0)
+                    {
+                        blogId = (int)_connection.LastInsertRowId;
+                    }
+                    else
+                    {
+                        command.CommandText = "SELECT BlogId FROM BlogFiles WHERE Name = @Name AND BlogType = @BlogType";
+                        blogId = Convert.ToInt32(command.ExecuteScalar());
+                    }
                 }
-                else
-                {
-                    command.CommandText = "SELECT BlogId FROM BlogFiles WHERE Name = @Name AND BlogType = @BlogType";
-                    blogId = Convert.ToInt32(command.ExecuteScalar());
-                }
+                return blogId;
             }
-            return blogId;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private void AddFileEntry_File(int blogId, IFiles files)
         {
-            string sql = "INSERT OR IGNORE INTO FileEntries(BlogId, Link, Filename, OriginalLink) VALUES (@BlogId, @Link, @Filename, @OriginalLink)";
-            using (var command = new SQLiteCommand(sql, _connection))
+            try
             {
-                foreach (var entry in files.Entries)
+                string sql = "INSERT OR IGNORE INTO FileEntries(BlogId, HashLink, Link, Filename, HashOriginalLink, OriginalLink) VALUES (@BlogId, @HashLink, @Link, @Filename, @HashOriginalLink, @OriginalLink)";
+                using (var command = new SQLiteCommand(sql, _connection))
                 {
-                    SetParameterValues(command.Parameters, blogId, entry.Link, entry.OriginalLink, entry.Filename, false);
-                    command.ExecuteNonQuery();
+                    foreach (var entry in files.Entries)
+                    {
+                        SetParameterValues(command.Parameters, blogId, entry.Link, entry.OriginalLink, entry.Filename, false);
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
         public async Task AddFileEntriesAsync(IFiles files, bool isArchive)
         {
+            if (_DbExisted)
+            {
+                return;
+            }
+
             SQLiteTransaction transaction = null;
             try
             {
@@ -173,79 +223,115 @@ namespace TumblThree.Applications.Services
 
         public async Task<bool> CheckIfFileExistsAsync(string filenameUrl, bool checkOriginalLinkFirst, bool checkArchive)
         {
-            string query;
-            if (checkOriginalLinkFirst)
+            try
             {
+                string query;
+                var hashedFilenameUrl = GetHash(filenameUrl);
+                if (checkOriginalLinkFirst)
+                {
+                    query = checkArchive ?
+                        "SELECT EXISTS(SELECT 1 FROM FileEntries WHERE IFNULL(HashOriginalLink, HashLink) = @value);" :
+                        "SELECT EXISTS(SELECT 1 FROM FileEntries fe INNER JOIN BlogFiles bf ON fe.BlogId = bf.BlogId WHERE IFNULL(HashOriginalLink, HashLink) = @value AND IsArchive=0);";
+                    using (var command = new SQLiteCommand(query, _connection))
+                    {
+                        command.Parameters.AddWithValue("@value", hashedFilenameUrl);
+                        bool exists = Convert.ToInt32(await command.ExecuteScalarAsync()) == 1;
+                        if (exists) return exists;
+                    }
+                }
                 query = checkArchive ?
-                    "SELECT EXISTS(SELECT 1 FROM FileEntries WHERE IFNULL(OriginalLink, Link) = @value);" :
-                    "SELECT EXISTS(SELECT 1 FROM FileEntries fe INNER JOIN BlogFiles bf ON fe.BlogId = bf.BlogId WHERE IFNULL(OriginalLink, Link) = @value AND IsArchive=0);";
+                    "SELECT EXISTS(SELECT 1 FROM FileEntries WHERE HashLink = @value);" :
+                    "SELECT EXISTS(SELECT 1 FROM FileEntries fe INNER JOIN BlogFiles bf ON fe.BlogId=bf.BlogId WHERE HashLink = @value AND IsArchive=0);";
                 using (var command = new SQLiteCommand(query, _connection))
                 {
-                    command.Parameters.AddWithValue("@value", filenameUrl);
+                    command.Parameters.AddWithValue("@value", hashedFilenameUrl);
                     bool exists = Convert.ToInt32(await command.ExecuteScalarAsync()) == 1;
-                    if (exists) return exists;
+                    return exists;
                 }
             }
-            query = checkArchive ?
-                "SELECT EXISTS(SELECT 1 FROM FileEntries WHERE Link = @value);" :
-                "SELECT EXISTS(SELECT 1 FROM FileEntries fe INNER JOIN BlogFiles bf ON fe.BlogId=bf.BlogId WHERE Link = @value AND IsArchive=0);";
-            using (var command = new SQLiteCommand(query, _connection))
+            catch (Exception ex)
             {
-                command.Parameters.AddWithValue("@value", filenameUrl);
-                bool exists = Convert.ToInt32(await command.ExecuteScalarAsync()) == 1;
-                return exists;
+                throw;
             }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "<Pending>")]
         public async Task RemoveFileEntriesAsync(string name, int blogType, bool isArchive)
         {
-            var where = name != null && blogType != -1 ? $"Name = @name AND BlogType = {blogType} AND " : "";
-            var sql = $"DELETE FROM FileEntries WHERE BlogId IN (SELECT BlogId FROM BlogFiles WHERE {where}IsArchive = {(isArchive ? "1" : "0")})";
-            using (var cmd = new SQLiteCommand(sql, _connection))
+            try
             {
-                if (!string.IsNullOrEmpty(where)) cmd.Parameters.AddWithValue("@name", name);
-                await cmd.ExecuteNonQueryAsync();
+                var where = name != null && blogType != -1 ? $"Name = @name AND BlogType = {blogType} AND " : "";
+                var sql = $"DELETE FROM FileEntries WHERE BlogId IN (SELECT BlogId FROM BlogFiles WHERE {where}IsArchive = {(isArchive ? "1" : "0")})";
+                using (var cmd = new SQLiteCommand(sql, _connection))
+                {
+                    if (!string.IsNullOrEmpty(where)) cmd.Parameters.AddWithValue("@name", name);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                sql = $"DELETE FROM BlogFiles WHERE {where}IsArchive = {(isArchive ? "1" : "0")}";
+                using (var cmd = new SQLiteCommand(sql, _connection))
+                {
+                    if (!string.IsNullOrEmpty(where)) cmd.Parameters.AddWithValue("@name", name);
+                    await cmd.ExecuteNonQueryAsync();
+                }
             }
-            sql = $"DELETE FROM BlogFiles WHERE {where}IsArchive = {(isArchive ? "1" : "0")}";
-            using (var cmd = new SQLiteCommand(sql, _connection))
+            catch (Exception ex)
             {
-                if (!string.IsNullOrEmpty(where)) cmd.Parameters.AddWithValue("@name", name);
-                await cmd.ExecuteNonQueryAsync();
+                throw;
             }
         }
 
         public async Task ClearFileEntries(bool isArchive)
         {
-            await RemoveFileEntriesAsync(null, -1, isArchive);
+            //await RemoveFileEntriesAsync(null, -1, isArchive);
+            await Task.CompletedTask;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "<Pending>")]
         public async Task UpdateOriginalLink(string blogName, int blogType, string filenameUrl, string filenameOriginalUrl)
         {
-            string link;
-            var sql = $"SELECT Link FROM FileEntries WHERE Link = @link AND BlogId IN (SELECT BlogId FROM BlogFiles WHERE Name = @name AND BlogType = {blogType}) LIMIT 1";
-            using (var cmd = new SQLiteCommand(sql, _connection))
+            try
             {
-                cmd.Parameters.AddWithValue("@link", filenameUrl);
-                cmd.Parameters.AddWithValue("@name", blogName);
-                link = (string)await cmd.ExecuteScalarAsync();
-            }
-            if (link is null)
-            {
-                await AddFileToDb(blogName, (BlogTypes)blogType, filenameUrl, filenameOriginalUrl, null);
-            }
-            else
-            {
-                sql = $"UPDATE FileEntries SET OriginalLink = @originalLink WHERE Link = @link AND BlogId IN (SELECT BlogId FROM BlogFiles WHERE Name = @name AND BlogType = {blogType})";
+                string hash;
+                var sql = $"SELECT HashOriginalLink FROM FileEntries WHERE Link = @link AND BlogId IN (SELECT BlogId FROM BlogFiles WHERE Name = @name AND BlogType = {blogType}) LIMIT 1";
                 using (var cmd = new SQLiteCommand(sql, _connection))
                 {
                     cmd.Parameters.AddWithValue("@link", filenameUrl);
-                    cmd.Parameters.AddWithValue("@originalLink", filenameOriginalUrl);
                     cmd.Parameters.AddWithValue("@name", blogName);
-                    cmd.ExecuteNonQuery();
+                    hash = (string)await cmd.ExecuteScalarAsync();
+                }
+                if (hash is null)
+                {
+                    await AddFileToDb(blogName, (BlogTypes)blogType, filenameUrl, filenameOriginalUrl, null);
+                }
+                else
+                {
+                    sql = $"UPDATE FileEntries SET OriginalLink = @originalLink, HashOriginalLink = @hashOriginalLink " +
+                        $"WHERE Link = @link AND BlogId IN (SELECT BlogId FROM BlogFiles WHERE Name = @name AND BlogType = {blogType})";
+                    var hashFilenameOriginalUrl = GetHash(filenameOriginalUrl);
+                    using (var cmd = new SQLiteCommand(sql, _connection))
+                    {
+                        cmd.Parameters.AddWithValue("@link", filenameUrl);
+                        cmd.Parameters.AddWithValue("@originalLink", filenameOriginalUrl);
+                        cmd.Parameters.AddWithValue("@hashOriginalLink", hashFilenameOriginalUrl);
+                        cmd.Parameters.AddWithValue("@name", blogName);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        private string GetHash(string fileNameUrl)
+        {
+            if (fileNameUrl is null) return null;
+
+            //string normalized = Path.GetFullPath(fileNameUrl).ToUpperInvariant().Normalize(NormalizationForm.FormC);
+            string normalized = fileNameUrl.ToUpperInvariant().Normalize(NormalizationForm.FormC);
+
+            return BitConverter.ToString(_md5.ComputeHash(Encoding.UTF8.GetBytes(normalized))).Replace("-", "").ToLowerInvariant();
         }
 
         protected virtual void Dispose(bool disposing)
@@ -255,6 +341,7 @@ namespace TumblThree.Applications.Services
                 if (disposing)
                 {
                     _connection?.Dispose();
+                    _md5?.Dispose();
                 }
                 _disposed = true;
             }
