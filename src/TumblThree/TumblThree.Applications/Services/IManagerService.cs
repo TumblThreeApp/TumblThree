@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Domain.Models.Files;
@@ -35,5 +36,11 @@ namespace TumblThree.Applications.Services
         void CacheLibraries();
 
         bool IsDragOperationActive { get; set; }
+
+        bool GlobalDbExisted { get; }
+
+        Task BeforeDatabaseAdding();
+
+        Task AfterDatabaseAdding();
     }
 }

@@ -1071,12 +1071,13 @@ respectées, ce qui peut entraîner un rejet par le serveur. Cette action est à
   <data name="LoadAllDatabasesIntoDb" xml:space="preserve">
     <value>charger dans la base de données globale au lieu de la mémoire</value>
   </data>
+  <data name="ToolTipLoadAllDatabasesIntoDb" xml:space="preserve">
+    <value>Charger les bases de données de blog dans une base de données globale au lieu de la mémoire</value>
+  </data>
   <data name="ToolTipLoadAllDatabasesIntoDbDescription" xml:space="preserve">
     <value>Cette option ne peut être activée que si la vérification globale est activée.
 Elle est utile si vous utilisez la vérification globale et avez déjà téléchargé un grand nombre de fichiers.
-L'activation de cette option réduit l'utilisation de la mémoire, car toutes les bases de données de blog ne sont pas conservées en mémoire.</value>
-  </data>
-  <data name="ToolTipLoadAllDatabasesIntoDb" xml:space="preserve">
-    <value>Charger les bases de données de blog dans une base de données globale au lieu de la mémoire</value>
+L'activation de cette option réduit l'utilisation de la mémoire, car toutes les bases de données de blog ne sont pas conservées en mémoire.
+Cette option prendra effet après le redémarrage du programme. Le premier démarrage après l'activation peut être légèrement plus long que d'habitude.</value>
   </data>
 </root>

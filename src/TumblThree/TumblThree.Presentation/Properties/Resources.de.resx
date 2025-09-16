@@ -1079,12 +1079,13 @@ eingehalten. Dies kann zu einer Ablehnung durch den Server führen. Dies geschie
   <data name="LoadAllDatabasesIntoDb" xml:space="preserve">
     <value>in globale Datenbank statt in den Speicher laden</value>
   </data>
+  <data name="ToolTipLoadAllDatabasesIntoDb" xml:space="preserve">
+    <value>Lade Blogdatenbanken in eine globale Datenbank statt in den Speicher</value>
+  </data>
   <data name="ToolTipLoadAllDatabasesIntoDbDescription" xml:space="preserve">
     <value>Diese Option kann nur aktiviert werden, wenn die globale Prüfung aktiviert ist.
 Sie ist nützlich, wenn Sie die globale Prüfung verwenden und bereits eine große Anzahl von Dateien heruntergeladen haben.
-Die Aktivierung dieser Option reduziert den Speicherverbrauch, da nicht alle Blog-Datenbanken im Speicher gehalten werden.</value>
-  </data>
-  <data name="ToolTipLoadAllDatabasesIntoDb" xml:space="preserve">
-    <value>Lade Blogdatenbanken in eine globale Datenbank statt in den Speicher</value>
+Die Aktivierung dieser Option reduziert den Speicherverbrauch, da nicht alle Blog-Datenbanken im Speicher gehalten werden.
+Diese Option wird nach einem Neustart des Programms wirksam. Der erste Start nach der Aktivierung kann etwas länger dauern als üblich.</value>
   </data>
 </root>

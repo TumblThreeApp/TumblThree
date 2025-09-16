@@ -5,6 +5,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using TumblThree.Domain;
 using TumblThree.Domain.Models;
@@ -13,36 +14,54 @@ using TumblThree.Domain.Models.Files;
 namespace TumblThree.Applications.Services
 {
     [Export(typeof(IGlobalDatabaseService))]
-    [Export]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     internal class GlobalDatabaseService : IGlobalDatabaseService, IDisposable
     {
-        IShellService _shellService;
+        readonly IShellService _shellService;
+
+        [ThreadStatic]
+        private static MD5 _md5;
 
         private SQLiteConnection _connection;
-        private MD5 _md5 = MD5.Create();
-        private bool _DbExisted;
+        private bool? _DbExisted;
         private bool _disposed;
 
         [ImportingConstructor]
         public GlobalDatabaseService(ShellService shellService)
         {
             _shellService = shellService;
-            _ = PrepareGlobalDatabaseAsync();
         }
 
-        public async Task PrepareGlobalDatabaseAsync()
+        public bool DbExisted { get { return _DbExisted.Value; } }
+
+        private async Task PrepareGlobalDatabaseAsync(bool deleteOldDb = false)
         {
+            if (_DbExisted.HasValue && !deleteOldDb) { return; }
             try
             {
                 var path = Path.Combine(_shellService.Settings.DownloadLocation, "globaldatabase.sqlite");
-                //if (File.Exists(path)) File.Delete(path);
+                if (_DbExisted.GetValueOrDefault())
+                {
+                    _connection?.Close();
+                    _connection = null;
+                    Thread.Sleep(1000);
+                    File.Delete(path);
+                }
                 _DbExisted = File.Exists(path);
-                _md5 = MD5.Create();
                 _connection = new SQLiteConnection($@"Data Source={path}");
                 SQLiteFunction.RegisterFunction(typeof(RegExSQLiteFunction));
                 _connection.Open();
-                // use WAL Mode for concurrency
-                using (var command = new SQLiteCommand("PRAGMA journal_mode=WAL;", _connection))
+                // use WAL Mode for concurrency, no-journaling for initial copying
+                var pragmas = DbExisted ? "PRAGMA journal_mode=WAL; PRAGMA synchronous = NORMAL;" : "PRAGMA journal_mode=OFF; PRAGMA synchronous = OFF;";
+                using (var command = new SQLiteCommand(pragmas, _connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+                // optimize PRAGMA settings
+                using (var command = new SQLiteCommand("PRAGMA locking_mode = EXCLUSIVE;" +
+                    "PRAGMA cache_size = 10000;" +
+                    "PRAGMA page_size = 4096;" +
+                    "PRAGMA temp_store = MEMORY;", _connection))
                 {
                     await command.ExecuteNonQueryAsync();
                 }
@@ -53,9 +72,9 @@ namespace TumblThree.Applications.Services
                     await command.ExecuteNonQueryAsync();
                 }
                 sql = "CREATE TABLE IF NOT EXISTS FileEntries (BlogId INT, HashLink VARCHAR(32) NOT NULL, Link TEXT NOT NULL, Filename TEXT NULL, HashOriginalLink VARCHAR(32) NULL, OriginalLink TEXT NULL);" +
-                    "CREATE UNIQUE INDEX IF NOT EXISTS idx_FileEntries_HashLink ON FileEntries (HashLink);" +
+                    "CREATE UNIQUE INDEX IF NOT EXISTS idx_FileEntries_HashLink ON FileEntries (HashLink);" + (DbExisted ? 
                     "CREATE INDEX IF NOT EXISTS idx_FileEntries_HashOriginalLink ON FileEntries (HashOriginalLink);" +
-                    "CREATE INDEX IF NOT EXISTS idx_FileEntries_BlogId ON FileEntries (BlogId)";
+                    "CREATE INDEX IF NOT EXISTS idx_FileEntries_BlogId ON FileEntries (BlogId)" : "");
                 using (var command = new SQLiteCommand(sql, _connection))
                 {
                     await command.ExecuteNonQueryAsync();
@@ -64,6 +83,28 @@ namespace TumblThree.Applications.Services
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        public async Task Init(bool deleteOldDb = false)
+        {
+            await PrepareGlobalDatabaseAsync(deleteOldDb);
+        }
+
+        public async Task PostInit()
+        {
+            if (!DbExisted)
+            {
+                using (var command = new SQLiteCommand("PRAGMA journal_mode=WAL; PRAGMA synchronous = NORMAL;", _connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
+                var sql = "CREATE INDEX IF NOT EXISTS idx_FileEntries_HashOriginalLink ON FileEntries (HashOriginalLink);" +
+                    "CREATE INDEX IF NOT EXISTS idx_FileEntries_BlogId ON FileEntries (BlogId)";
+                using (var command = new SQLiteCommand(sql, _connection))
+                {
+                    await command.ExecuteNonQueryAsync();
+                }
             }
         }
 
@@ -195,7 +236,7 @@ namespace TumblThree.Applications.Services
 
         public async Task AddFileEntriesAsync(IFiles files, bool isArchive)
         {
-            if (_DbExisted)
+            if (DbExisted)
             {
                 return;
             }
@@ -230,8 +271,8 @@ namespace TumblThree.Applications.Services
                 if (checkOriginalLinkFirst)
                 {
                     query = checkArchive ?
-                        "SELECT EXISTS(SELECT 1 FROM FileEntries WHERE IFNULL(HashOriginalLink, HashLink) = @value);" :
-                        "SELECT EXISTS(SELECT 1 FROM FileEntries fe INNER JOIN BlogFiles bf ON fe.BlogId = bf.BlogId WHERE IFNULL(HashOriginalLink, HashLink) = @value AND IsArchive=0);";
+                        "SELECT EXISTS(SELECT 1 FROM FileEntries WHERE HashOriginalLink = @value LIMIT 1);" :
+                        "SELECT EXISTS(SELECT 1 FROM FileEntries fe INNER JOIN BlogFiles bf ON fe.BlogId = bf.BlogId WHERE HashOriginalLink = @value AND IsArchive=0 LIMIT 1);";
                     using (var command = new SQLiteCommand(query, _connection))
                     {
                         command.Parameters.AddWithValue("@value", hashedFilenameUrl);
@@ -324,13 +365,13 @@ namespace TumblThree.Applications.Services
             }
         }
 
-        private string GetHash(string fileNameUrl)
+        private static string GetHash(string fileNameUrl)
         {
             if (fileNameUrl is null) return null;
 
-            //string normalized = Path.GetFullPath(fileNameUrl).ToUpperInvariant().Normalize(NormalizationForm.FormC);
             string normalized = fileNameUrl.ToUpperInvariant().Normalize(NormalizationForm.FormC);
 
+            _md5 = _md5 ?? MD5.Create();
             return BitConverter.ToString(_md5.ComputeHash(Encoding.UTF8.GetBytes(normalized))).Replace("-", "").ToLowerInvariant();
         }
 
