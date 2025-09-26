@@ -121,6 +121,7 @@
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\QueueController.cs" />
     <Compile Include="Converter\EmptyArrayOrDictionaryConverter.cs" />
+    <Compile Include="Converter\FlexibleNamingConverter.cs" />
     <Compile Include="Converter\ObjectOrStringConverter.cs" />
     <Compile Include="Converter\PropertyCopier.cs" />
     <Compile Include="Converter\SingleOrArrayConverter.cs" />
@@ -149,7 +150,11 @@
     <Compile Include="DataModels\TumblrApi\TumblrApiJson.cs" />
     <Compile Include="DataModels\CrawlerData\CrawlerData.cs" />
     <Compile Include="DataModels\TumblrApi\MetaDataApi.cs" />
+    <Compile Include="DataModels\TumblrNPF\Common.cs" />
+    <Compile Include="DataModels\TumblrNPF\PostsResponse.cs" />
     <Compile Include="DataModels\TumblrSearch\TumblrSearchJson.cs" />
+    <Compile Include="DataModels\TumblrSvc\BlogInfo.cs" />
+    <Compile Include="DataModels\TumblrNPF\PeeprBlogTimeline.cs" />
     <Compile Include="DataModels\TumblrSvc\MetaDataSvc.cs" />
     <Compile Include="DataModels\TumblrTaggedSearch\TumblrTaggedSearchJson.cs" />
     <Compile Include="DataModels\Twitter\TwitterPost.cs" />
