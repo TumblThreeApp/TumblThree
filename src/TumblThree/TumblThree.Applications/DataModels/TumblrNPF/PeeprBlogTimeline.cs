@@ -592,7 +592,7 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         [JsonProperty("objects")]
         public List<Post> Objects { get; private set; } = new List<Post>();
 
-        [JsonProperty("nextLink")]
+        [JsonProperty("nextLink", NullValueHandling = NullValueHandling.Ignore)]
         public NextLink NextLink { get; set; }
     }
 

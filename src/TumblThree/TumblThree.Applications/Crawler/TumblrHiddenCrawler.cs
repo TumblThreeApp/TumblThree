@@ -232,17 +232,12 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                while (true)
+                foreach (var url in nextPage.GetConsumingEnumerable(Ct))
                 {
-                    string url;
                     try
                     {
-                        url = nextPage.Take(Ct);
-                    }
-                    catch (Exception e) when (e is OperationCanceledException || e is InvalidOperationException)
-                    {
-                        return;
-                    }
+                        if (string.IsNullOrEmpty(url))
+                            continue;
 
                     string document = null;
                     try
@@ -267,13 +262,20 @@ namespace TumblThree.Applications.Crawler
                     bearerToken = bearerToken ?? result.apiFetchStore.API_TOKEN;
                     apiUrl = apiUrl ?? result.apiUrl;
 
+                        if (!posts.Any())
+                        {
+                            nextPage.CompleteAdding();
+                            return;
+                        }
+
                     if (highestId == 0)
                     {
-                        highestId = Math.Max(Blog.LastId, posts.Max(x => ulong.Parse(x.Id)));
+                            highestId = Math.Max(Blog.LastId, posts.DefaultIfEmpty(new Post()).Max(x => ulong.Parse(x.Id)));
                         latestPost = DateTimeOffset.FromUnixTimeSeconds(posts.Where(x => !x.IsPinned).Select(s => s.Timestamp).FirstOrDefault()).UtcDateTime;
                     }
 
-                    if (HasProperty(result, "response") && !HasProperty(result.response, "_links"))
+                        if (HasProperty(result, "PeeprRoute") && !HasProperty(result.PeeprRoute.initialTimeline, "nextLink") ||
+                            HasProperty(result, "response") && !HasProperty(result.response, "_links"))
                     {
                         nextPage.CompleteAdding();
                     }
@@ -295,7 +297,6 @@ namespace TumblThree.Applications.Crawler
                     Interlocked.Increment(ref numberOfPagesCrawled);
                     UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
                 }
-            }
             catch (WebException webException)
             {
                 if (HandleLimitExceededWebException(webException) ||
@@ -303,20 +304,31 @@ namespace TumblThree.Applications.Crawler
                 {
                     incompleteCrawl = true;
                 }
+                        incompleteCrawl = true;
+                        nextPage.Add(url);
             }
             catch (TimeoutException timeoutException)
             {
+                        HandleTimeoutException(timeoutException, Resources.Crawling);
                 incompleteCrawl = true;
-                HandleTimeoutException(timeoutException, Resources.Crawling);
+                        nextPage.Add(url);
+            }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                incompleteCrawl = true;
             }
             catch (FormatException formatException)
             {
                 Logger.Error("TumblrHiddenCrawler.CrawlPageAsync: {0}", formatException);
                 ShellService.ShowError(formatException, "{0}: {1}", Blog.Name, formatException.Message);
+                incompleteCrawl = true;
             }
             catch (Exception ex)
             {
                 Logger.Error("TumblrHiddenCrawler.CrawlPageAsync: {0}", ex);
+                incompleteCrawl = true;
             }
             finally
             {
@@ -344,26 +356,45 @@ namespace TumblThree.Applications.Crawler
 
         private int i = 1;
 
-        private static List<Post> ExtractPosts(string document, out dynamic result)
+        private List<Post> ExtractPosts(string document, out dynamic result)
         {
             var json = ExtractJson(document);
+
+            //TODO: if (json is null) throw new Exception("");
 
             result = JsonConvert.DeserializeObject<ExpandoObject>(json, new JsonSerializerSettings() { Converters = { new ExpandoObjectConverter() } });
 
             var postsList = (HasProperty(result, "PeeprRoute") ? result.PeeprRoute.initialTimeline.objects : result.response.posts) as IEnumerable<dynamic>;
-            List<Post> posts = null;
-            try
+
+            var serializerSettings = new JsonSerializerSettings()
             {
-                posts = postsList.Select(p => JsonConvert.DeserializeObject<Post>((string)JsonConvert.SerializeObject(p), new JsonSerializerSettings()
-                {
                     MissingMemberHandling = MissingMemberHandling.Error,
                     Converters = { new ExpandoObjectConverter(), new FlexibleNamingConverter<Post>(), new FlexibleNamingConverter<DataModels.TumblrNPF.Blog>(),
                     new FlexibleNamingConverter<DataModels.TumblrNPF.Resources>(), new FlexibleNamingConverter<ClientSideAd>(), new FlexibleNamingConverter<Context>(),
                     new FlexibleNamingConverter<DataModels.TumblrNPF.Theme>(), new FlexibleNamingConverter<DataModels.TumblrNPF.Meta>(),
                     new FlexibleNamingConverter<CommunityLabels>(), new FlexibleNamingConverter<Badge>(), new FlexibleNamingConverter<TumblrmartAccessories>(),
                     new FlexibleNamingConverter<Poster>(), new FlexibleNamingConverter<Content>(), new FlexibleNamingConverter<Medium>(),
-                    new FlexibleNamingConverter<Attribution>()}
-                })).Where(x => !new string[] { "client_side_ad_waterfall", "backfill_ad" }.Contains(x.ObjectType)).ToList();
+                    new FlexibleNamingConverter<Attribution>(), new FlexibleNamingConverter<Trail>(), new FlexibleNamingConverter<Style>(),
+                    new FlexibleNamingConverter<Layout>() }
+            };
+
+            try
+            {
+                _ = postsList.Select(p => JsonConvert.DeserializeObject<Post>((string)JsonConvert.SerializeObject(p), serializerSettings))
+                    .Where(x => !new string[] { "client_side_ad_waterfall", "backfill_ad" }.Contains(x.ObjectType)).ToList();
+            }
+            catch (JsonSerializationException ex)
+            {
+                Logger.Verbose("TumblrHiddenCrawler.ExtractPosts: {0}", ex.Message);
+                ShellService.ShowError(ex, "{0}: Error parsing page!", Blog.Name);
+            }
+
+            List<Post> posts = null;
+            try
+            {
+                serializerSettings.MissingMemberHandling = MissingMemberHandling.Ignore;
+                posts = postsList.Select(p => JsonConvert.DeserializeObject<Post>((string)JsonConvert.SerializeObject(p), serializerSettings))
+                    .Where(x => !new string[] { "client_side_ad_waterfall", "backfill_ad" }.Contains(x.ObjectType)).ToList();
             }
             catch (Exception ex)
             {
@@ -450,7 +481,7 @@ namespace TumblThree.Applications.Crawler
                 {
                     foreach (var trail in post.Trail)
                     {
-                        text += Environment.NewLine + trail.Blog.Name + "/" + trail.Post.Id + ":" + Environment.NewLine + Environment.NewLine;
+                        text += Environment.NewLine + (trail.Blog ?? trail.BrokenBlog).Name + "/" + trail.Post.Id + ":" + Environment.NewLine + Environment.NewLine;
                         foreach (var content in trail.Content)
                         {
                             if (content.Type == "text")
@@ -481,7 +512,7 @@ namespace TumblThree.Applications.Crawler
                             data.RegularTitle = $"{post.BlogName} reblogged {post.RebloggedFromName}/{post.RebloggedFromId}";
                             foreach (var trail in post.Trail)
                             {
-                                text += Environment.NewLine + trail.Blog.Name + "/" + trail.Post.Id + ":" + Environment.NewLine + Environment.NewLine;
+                                text += Environment.NewLine + (trail.Blog ?? trail.BrokenBlog).Name + "/" + (trail.Post.Id ?? "") + ":" + Environment.NewLine + Environment.NewLine;
                                 foreach (var content in trail.Content)
                                 {
                                     if (content.Type == "text")
@@ -494,10 +525,10 @@ namespace TumblThree.Applications.Crawler
                         }
                         else
                         {
-                            data.RegularTitle = (post.Content?[0]?.Subtype ?? "") == "heading1" ? post.Content?[0]?.Text : "";
+                            data.RegularTitle = (post.Content?.FirstOrDefault()?.Subtype ?? "") == "heading1" ? post.Content?.FirstOrDefault()?.Text : "";
                             data.RegularBody = string.Join("", post.Content
                                 .Where(c => c.Type == "text")
-                                .Skip((post.Content?[0]?.Subtype ?? "") == "heading1" ? 1 : 0)
+                                .Skip((post.Content?.FirstOrDefault()?.Subtype ?? "") == "heading1" ? 1 : 0)
                                 .Select(s => s.Text + Environment.NewLine + (s.Subtype == "heading1" || s.Subtype == "heading2" ? "" : Environment.NewLine)))
                                 .Trim(Environment.NewLine.ToCharArray());
                         }
@@ -509,15 +540,15 @@ namespace TumblThree.Applications.Crawler
                         }
                         break;
                     case "quote":
-                        data.QuoteText = post.Content?[0]?.Text;
-                        data.QuoteSource = post.Content?[1]?.Text;
+                        data.QuoteText = post.Content?.FirstOrDefault()?.Text;
+                        data.QuoteSource = post.Content?.Skip(1).FirstOrDefault()?.Text;
                         text = tumblrJsonParser.ParseQuote(data);
                         string filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "quote", -1) : null;
                         AddToDownloadList(new QuotePost(text, data.Id, data.UnixTimestamp.ToString(), filename2));
                         break;
                     case "note":
                         data.Type = "answer";
-                        data.Question = post.Content?[0]?.Text;
+                        data.Question = post.Content?.FirstOrDefault()?.Text;
                         data.Answer = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
                         text = tumblrJsonParser.ParseAnswer(data);
                         filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "answer", -1) : null;
@@ -534,7 +565,7 @@ namespace TumblThree.Applications.Crawler
                         break;
                     case "conversation":
                         data.Conversation = null;
-                        data.ConversationTitle = post.Content?[0]?.Text;
+                        data.ConversationTitle = post.Content?.FirstOrDefault()?.Text;
                         data.ConversationText = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
                         text = tumblrJsonParser.ParseConversation(data);
                         filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "conversation", -1) : null;

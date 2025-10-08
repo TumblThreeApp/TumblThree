@@ -335,6 +335,10 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         [JsonProperty("text")]
         public string Text { get; set; }
 
+        [JsonProperty("subtype", NullValueHandling = NullValueHandling.Ignore)]
+        public string Subtype { get; set; }
+
+        [JsonProperty("formatting", NullValueHandling = NullValueHandling.Ignore)]
         public List<Format> Formatting { get; private set; } = new List<Format>();
     }
 
@@ -346,32 +350,35 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
 
     public class Exif
     {
-        [JsonProperty("Time")]
-        public int Time { get; set; }
+        [JsonProperty("Time", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public long Time { get; set; }
 
-        [JsonProperty("FocalLength")]
+        [JsonProperty("FocalLength", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int FocalLength { get; set; }
 
-        [JsonProperty("FocalLength35mmEquiv")]
+        [JsonProperty("FocalLength35mmEquiv", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int FocalLength35mmEquiv { get; set; }
 
-        [JsonProperty("Aperture")]
+        [JsonProperty("Aperture", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public double Aperture { get; set; }
 
-        [JsonProperty("ExposureTime")]
+        [JsonProperty("ExposureTime", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public double ExposureTime { get; set; }
 
-        [JsonProperty("ISO")]
+        [JsonProperty("ISO", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ISO { get; set; }
 
-        [JsonProperty("CameraMake")]
+        [JsonProperty("CameraMake", NullValueHandling = NullValueHandling.Ignore)]
         public string CameraMake { get; set; }
 
-        [JsonProperty("CameraModel")]
+        [JsonProperty("CameraModel", NullValueHandling = NullValueHandling.Ignore)]
         public string CameraModel { get; set; }
 
-        [JsonProperty("Lens")]
+        [JsonProperty("Lens", NullValueHandling = NullValueHandling.Ignore)]
         public string Lens { get; set; }
+
+        [JsonProperty("SensorWidthMM", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int SensorWidthMM { get; set; }
     }
 
     public class Fields
@@ -445,14 +452,17 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         [JsonProperty("type")]
         public string Type { get; set; }
 
+        [JsonProperty("display", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Display> Display { get; private set; } = new List<Display>();
+
+        [JsonProperty("truncateAfter", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int TruncateAfter { get; set; }
+
         [JsonProperty("blocks", NullValueHandling = NullValueHandling.Ignore)]
-        public List<int> Blocks { get; set; }
+        public List<int> Blocks { get; private set; } = new List<int>();
 
         [JsonProperty("attribution", NullValueHandling = NullValueHandling.Ignore)]
         public Attribution attribution { get; set; }
-
-        [JsonProperty("display", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Display> Display { get; set; }
     }
 
     public class Links
@@ -848,10 +858,25 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         public Context Context { get; set; }
     }
 
+    public class Style
+    {
+        [JsonProperty("iconKey")]
+        public string IconKey { get; set; }
+
+        [JsonProperty("colors", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> Colors { get; private set; } = new List<string>();
+    }
+
     public class TagsV2
     {
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+        public string Type { get; set; }
+
+        [JsonProperty("style", NullValueHandling = NullValueHandling.Ignore)]
+        public Style Style { get; set; }
     }
 
     public class Theme
