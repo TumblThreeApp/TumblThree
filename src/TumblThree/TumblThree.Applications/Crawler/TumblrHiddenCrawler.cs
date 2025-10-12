@@ -81,7 +81,7 @@ namespace TumblThree.Applications.Crawler
 
             try
             {
-                string document = await GetSvcPageAsync(Blog.Url);
+                string document = await GetSvcPageAsync(GetStartUrl());
                 Blog.Online = true;
             }
             catch (WebException webException)
@@ -210,7 +210,7 @@ namespace TumblThree.Applications.Crawler
 
             GenerateTags();
 
-            nextPage.Add(Blog.Url);
+            nextPage.Add(GetStartUrl());
 
             foreach (int crawlerNumber in Enumerable.Range(0, ShellService.Settings.ConcurrentScans))
             {
@@ -714,7 +714,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                string document = await GetSvcPageAsync(Blog.Url);
+                string document = await GetSvcPageAsync(GetStartUrl());
                 var json = ExtractJson(document);
                 dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(json);
                 var loggedIn = obj?.isLoggedIn?.isLoggedIn ?? false;
@@ -783,6 +783,12 @@ namespace TumblThree.Applications.Crawler
             return !Tags.Any() || post.Tags.Any(x => Tags.Contains(x, StringComparer.OrdinalIgnoreCase));
         }
 
+        private string GetStartUrl()
+        {
+            var blogName = Domain.Models.Blogs.Blog.ExtractName(Blog.Url);
+            var url = $"https://www.tumblr.com/dashboard/blog/{blogName}";
+            return url;
+        }
 
         /*
          * 
