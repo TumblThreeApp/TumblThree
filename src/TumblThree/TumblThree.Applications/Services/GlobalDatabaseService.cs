@@ -32,7 +32,7 @@ namespace TumblThree.Applications.Services
             _shellService = shellService;
         }
 
-        public bool DbExisted { get { return _DbExisted.Value; } }
+        public bool DbExisted { get { return _DbExisted.GetValueOrDefault(); } }
 
         private async Task PrepareGlobalDatabaseAsync(bool deleteOldDb = false)
         {
