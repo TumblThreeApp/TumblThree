@@ -29,7 +29,7 @@ namespace TumblThree.Presentation.Views
         private readonly Lazy<ManagerViewModel> viewModel;
         private List<IBlog> _selected = new List<IBlog>();
         private bool handledLeftMouseButton;
-        private List<SortDescription> _currentSortDescriptions = new List<SortDescription>();
+        private SortDescription? _currentSortDescription = null;
 
         public ManagerView()
         {
@@ -138,29 +138,20 @@ namespace TumblThree.Presentation.Views
             if (string.IsNullOrEmpty(propertyName))
                 return;
 
-            if (Keyboard.Modifiers == ModifierKeys.Control)
+            _currentSortDescription = new SortDescription(propertyName, direction);
+
+            foreach (var column in blogFilesGrid.Columns)
             {
-                _currentSortDescriptions.RemoveAll(sd => sd.PropertyName == propertyName);
-                _currentSortDescriptions.Add(new SortDescription(propertyName, direction));
-            }
-            else
-            {
-                _currentSortDescriptions.Clear();
-                _currentSortDescriptions.Add(new SortDescription(propertyName, direction));
-                
-                foreach (var column in blogFilesGrid.Columns)
-                {
-                    if (column != e.Column)
-                        column.SortDirection = null;
-                }
+                if (column != e.Column)
+                    column.SortDirection = null;
             }
 
             var stableComparer = new StableComparer(
-                collectionView.SourceCollection, 
-                _currentSortDescriptions,
+                collectionView.SourceCollection,
+                new[] { _currentSortDescription.Value },
                 viewModel.Value.GetCollectionName,
                 viewModel.Value.GetProgressValue);
-            
+
             collectionView.CustomSort = stableComparer;
         }
 
