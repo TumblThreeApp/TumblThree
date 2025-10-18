@@ -419,11 +419,15 @@ namespace TumblThree.Applications.Crawler
 
         private async Task DownloadPage(List<Post> posts)
         {
+            var lastPostId = GetLastPostId();
             foreach (var post in posts)
             {
                 if (CheckIfShouldStop()) { break; }
                 CheckIfShouldPause();
+                if (lastPostId > 0 && ulong.TryParse(post.Id, out var postId) && postId < lastPostId) { continue; }
                 if (!PostWithinTimespan(post)) { continue; }
+                if (!CheckIfContainsTaggedPost(post)) { continue; }
+                if (!CheckIfDownloadRebloggedPosts(post)) { continue; }
 
                 Logger.Verbose("TumblrHiddenCrawler.DownloadPage: {0}", post.PostUrl);
                 try
