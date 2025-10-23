@@ -147,7 +147,7 @@ namespace TumblThree.Presentation.Views
             }
 
             var stableComparer = new StableComparer(
-                collectionView.SourceCollection,
+                collectionView,
                 new[] { _currentSortDescription.Value },
                 viewModel.Value.GetCollectionName,
                 viewModel.Value.GetProgressValue);

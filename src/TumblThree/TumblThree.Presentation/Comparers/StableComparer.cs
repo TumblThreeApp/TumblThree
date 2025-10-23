@@ -9,7 +9,7 @@ namespace TumblThree.Presentation.Comparers
 {
     public class StableComparer : IComparer
     {
-        private readonly Dictionary<object, int> _originalOrder;
+        private readonly Dictionary<object, int> _currentOrder;
         private readonly List<SortDescription> _sortDescriptions;
         private readonly Func<object, string> _getCollectionName;
         private readonly Func<object, object> _getProgressValue;
@@ -17,11 +17,11 @@ namespace TumblThree.Presentation.Comparers
         public StableComparer(IEnumerable items, IEnumerable<SortDescription> sortDescriptions, 
             Func<object, string> getCollectionName = null, Func<object, object> getProgressValue = null)
         {
-            _originalOrder = new Dictionary<object, int>();
+            _currentOrder = new Dictionary<object, int>();
             int index = 0;
             foreach (var item in items)
             {
-                _originalOrder[item] = index++;
+                _currentOrder[item] = index++;
             }
             _sortDescriptions = new List<SortDescription>(sortDescriptions);
             _getCollectionName = getCollectionName;
@@ -37,9 +37,9 @@ namespace TumblThree.Presentation.Comparers
                     return result;
             }
 
-            var originalX = _originalOrder.TryGetValue(x, out int indexX) ? indexX : int.MaxValue;
-            var originalY = _originalOrder.TryGetValue(y, out int indexY) ? indexY : int.MaxValue;
-            return originalX.CompareTo(originalY);
+            var currentX = _currentOrder.TryGetValue(x, out int indexX) ? indexX : int.MaxValue;
+            var currentY = _currentOrder.TryGetValue(y, out int indexY) ? indexY : int.MaxValue;
+            return currentX.CompareTo(currentY);
         }
 
         private int CompareProperty(object x, object y, SortDescription sortDescription)
