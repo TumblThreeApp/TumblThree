@@ -27,6 +27,14 @@ foreach ($tf in $translationFolders) {
     Get-ChildItem -Path "$harvestPath\$tf\*" | Copy-Item -Destination "$tfTarget"
 }
 
+# Copy in some other Artifacts
+$otherFolders = @('x64', 'x86')
+foreach ($of in $otherFolders) {
+    $ofTarget = "$applicationArtifactsPath\$of"
+    New-Item -ItemType Directory -Force -Path "$ofTarget"
+    Get-ChildItem -Path "$harvestPath\$of\*" | Copy-Item -Destination "$ofTarget"
+}
+
 # Zip Application
 $applicationZipPath = "$artifactsPath\TumblThree-v$version-$env:PLATFORM-Application.zip"
 Compress-Archive -Path "$applicationArtifactsPath\*" -DestinationPath "$applicationZipPath"

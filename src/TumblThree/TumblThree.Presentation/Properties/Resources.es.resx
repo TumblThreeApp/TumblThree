@@ -1067,12 +1067,13 @@ lo que podría resultar en el rechazo por parte del servidor. Esto es bajo su pr
   <data name="LoadAllDatabasesIntoDb" xml:space="preserve">
     <value>cargar en la base de datos global en lugar de en la memoria</value>
   </data>
+  <data name="ToolTipLoadAllDatabasesIntoDb" xml:space="preserve">
+    <value>Cargue las bases de datos del blog en una base de datos global en lugar de en la memoria</value>
+  </data>
   <data name="ToolTipLoadAllDatabasesIntoDbDescription" xml:space="preserve">
     <value>Esta opción solo se puede habilitar si la comprobación global está habilitada.
 Resulta útil si se utiliza la comprobación global y ya se ha descargado una gran cantidad de archivos.
-Habilitar esta opción reduce el uso de memoria, ya que no todas las bases de datos del blog se almacenan en memoria.</value>
-  </data>
-  <data name="ToolTipLoadAllDatabasesIntoDb" xml:space="preserve">
-    <value>Cargue las bases de datos del blog en una base de datos global en lugar de en la memoria</value>
+Habilitar esta opción reduce el uso de memoria, ya que no todas las bases de datos del blog se almacenan en memoria.
+Esta opción se activará tras reiniciar el programa. El primer inicio tras la activación puede tardar un poco más de lo habitual.</value>
   </data>
 </root>

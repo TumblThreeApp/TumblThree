@@ -6,7 +6,9 @@ namespace TumblThree.Applications.Services
 {
     internal interface IGlobalDatabaseService
     {
-        Task PrepareGlobalDatabaseAsync();
+        bool DbExisted { get; }
+        Task Init(bool deleteOldDb = false);
+        Task PostInit();
         Task AddFileToDb(string blogName, BlogTypes blogType, string fileNameUrl, string fileNameOriginalUrl, string fileName);
         Task<string> AddFileToDb(string blogName, BlogTypes blogType, string fileNameUrl, string fileNameOriginalUrl, string fileName, string appendTemplate);
         Task AddFileEntriesAsync(IFiles files, bool isArchive);

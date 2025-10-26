@@ -229,9 +229,11 @@ namespace TumblThree.Applications.Controllers
             {
                 // TODO: Methods have side effects!
                 // They remove blogs from the blog manager.
+                await _managerService.BeforeDatabaseAdding();
                 await LoadLibraryAsync();
                 await LoadAllDatabasesAsync();
                 await LoadArchiveAsync();
+                await _managerService.AfterDatabaseAdding();
                 CheckIfDatabasesComplete();
                 _crawlerService.UpdateCollectionsList(false);
                 await CheckBlogsOnlineStatusAsync();
@@ -481,6 +483,14 @@ namespace TumblThree.Applications.Controllers
                     IFiles database = Files.Load(filename, _shellService.Settings.BufferSizeIO, isArchive);
                     if (_shellService.Settings.LoadAllDatabases)
                     {
+                        if (_shellService.Settings.LoadAllDatabasesIntoDb && _managerService.GlobalDbExisted)
+                        {
+                            database = new Files()
+                            {
+                                Name = database.Name,
+                                BlogType = database.BlogType
+                            };
+                        }
                         databases.Add(database);
                     }
                 }

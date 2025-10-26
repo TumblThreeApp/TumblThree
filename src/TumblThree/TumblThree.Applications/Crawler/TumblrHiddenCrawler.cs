@@ -1,23 +1,30 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Dynamic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-
+using System.Web;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using TumblThree.Applications.Converter;
 using TumblThree.Applications.DataModels;
 using TumblThree.Applications.DataModels.CrawlerData;
+using TumblThree.Applications.DataModels.TumblrNPF;
 using TumblThree.Applications.DataModels.TumblrPosts;
-using TumblThree.Applications.DataModels.TumblrSvcJson;
+using TumblThree.Applications.DataModels.TumblrSvcJson2.BlogInfo;
 using TumblThree.Applications.Downloader;
 using TumblThree.Applications.Parser;
-using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
+using Resources = TumblThree.Applications.Properties.Resources;
 
 namespace TumblThree.Applications.Crawler
 {
@@ -26,22 +33,29 @@ namespace TumblThree.Applications.Crawler
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class TumblrHiddenCrawler : AbstractTumblrCrawler, ICrawler, IDisposable
     {
+        private static readonly Regex extractJsonFromPage = new Regex("window\\['___INITIAL_STATE___'\\] = (.*);");
+        private static readonly Regex extractJsonFromPage2 = new Regex("id=\"___INITIAL_STATE___\">\\s*?({.*})\\s*?</script>", RegexOptions.Singleline);
+
         private readonly IDownloader downloader;
-        private readonly ITumblrToTextParser<Post> tumblrJsonParser;
+        private readonly ITumblrToTextParser<DataModels.TumblrApiJson.Post> tumblrJsonParser;
         private readonly IPostQueue<CrawlerData<Post>> jsonQueue;
 
-        private string tumblrKey = string.Empty;
+        private string apiUrl;
+        private string bearerToken;
 
         private bool incompleteCrawl;
 
         private SemaphoreSlim semaphoreSlim;
         private List<Task> trackedTasks;
+        private readonly BlockingCollection<string> nextPage = new BlockingCollection<string>();
+        private ulong highestId;
+        private DateTime latestPost;
 
         private int numberOfPagesCrawled;
 
         public TumblrHiddenCrawler(IShellService shellService, ICrawlerService crawlerService, IWebRequestFactory webRequestFactory,
             ISharedCookieService cookieService, IDownloader downloader, ICrawlerDataDownloader crawlerDataDownloader,
-            ITumblrToTextParser<Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
+            ITumblrToTextParser<DataModels.TumblrApiJson.Post> tumblrJsonParser, ITumblrParser tumblrParser, IImgurParser imgurParser,
             IWebmshareParser webmshareParser, IUguuParser uguuParser, ICatBoxParser catboxParser,
             IPostQueue<AbstractPost> postQueue, IPostQueue<CrawlerData<Post>> jsonQueue, IBlog blog, IProgress<DownloadProgress> progress,
             IEnvironmentService environmentService, ILoginService loginService, PauseToken pt, CancellationToken ct)
@@ -67,8 +81,7 @@ namespace TumblThree.Applications.Crawler
 
             try
             {
-                tumblrKey = await UpdateTumblrKeyAsync("https://www.tumblr.com/dashboard/blog/" + Blog.Name);
-                string document = await GetSvcPageAsync("1", "0");
+                string document = await GetSvcPageAsync(GetStartUrl());
                 Blog.Online = true;
             }
             catch (WebException webException)
@@ -108,17 +121,24 @@ namespace TumblThree.Applications.Crawler
             {
                 return;
             }
-
             try
             {
-                tumblrKey = await UpdateTumblrKeyAsync("https://www.tumblr.com/dashboard/blog/" + Blog.Name);
-                string document = await GetSvcPageAsync("1", "0");
-                var response = ConvertJsonToClass<TumblrJson>(document);
+                var document = await GetSvcPageAsync(Blog.Url);
+                _ = ExtractPosts(document, out var result);
 
-                if (response.Meta.Status == 200)
+                bearerToken = result.apiFetchStore.API_TOKEN;
+                apiUrl = result.apiUrl;
+
+                var blogName = Domain.Models.Blogs.Blog.ExtractName(Blog.Url);
+                var url = $"{apiUrl}/v2/blog/{blogName}/info";
+                document = await GetSvcPageAsync(url);
+                var obj = JsonConvert.DeserializeObject<BlogInfo>(document);
+
+                if (obj.Meta.Status == 200)
                 {
-                    Blog.Title = response.Response.Posts.FirstOrDefault().Blog.Title;
-                    Blog.Description = response.Response.Posts.FirstOrDefault().Blog.Description;
+                    Blog.Title = obj.Response.Blog.Title;
+                    Blog.Description = obj.Response.Blog.Description;
+                    Blog.Posts = obj.Response.Blog.Posts;
                 }
             }
             catch (WebException webException)
@@ -127,7 +147,6 @@ namespace TumblThree.Applications.Crawler
                 {
                     return;
                 }
-
                 HandleServiceUnavailableWebException(webException);
             }
         }
@@ -135,8 +154,6 @@ namespace TumblThree.Applications.Crawler
         public async Task CrawlAsync()
         {
             Logger.Verbose("TumblrHiddenCrawler.Crawl:Start");
-
-            ulong highestId = await GetHighestPostIdAsync();
 
             Task crawlerDownloader = Task.CompletedTask;
             if (Blog.DumpCrawlerData)
@@ -164,6 +181,8 @@ namespace TumblThree.Applications.Crawler
                 if (finishedDownloading && !apiLimitHit)
                 {
                     Blog.LastId = highestId;
+                    //            if (DateTime.TryParse(post?.Date, out var latestPost)) Blog.LatestPost = latestPost;
+                    if (highestId != 0) Blog.LatestPost = latestPost;
                 }
             }
 
@@ -191,10 +210,12 @@ namespace TumblThree.Applications.Crawler
 
             GenerateTags();
 
-            foreach (int pageNumber in GetPageNumbers())
+            nextPage.Add(GetStartUrl());
+
+            foreach (int crawlerNumber in Enumerable.Range(0, ShellService.Settings.ConcurrentScans))
             {
                 await semaphoreSlim.WaitAsync();
-                trackedTasks.Add(CrawlPageAsync(pageNumber));
+                trackedTasks.Add(CrawlPageAsync(crawlerNumber));
             }
 
             await Task.WhenAll(trackedTasks);
@@ -207,30 +228,75 @@ namespace TumblThree.Applications.Crawler
             return incompleteCrawl;
         }
 
-        private async Task CrawlPageAsync(int pageNumber)
+        private async Task CrawlPageAsync(int crawlerNumber)
         {
             try
             {
-                string document = null;
-                try
+                foreach (var url in nextPage.GetConsumingEnumerable(Ct))
                 {
-                    document = await GetSvcPageAsync(Blog.PageSize.ToString(), (Blog.PageSize * pageNumber).ToString());
-                }
-                catch (WebException webEx)
-                {
-                    if (HandleUnauthorizedWebExceptionRetry(webEx))
+                    try
                     {
-                        await FetchCookiesAgainAsync();
-                        document = await GetSvcPageAsync(Blog.PageSize.ToString(), (Blog.PageSize * pageNumber).ToString());
+                        if (string.IsNullOrEmpty(url))
+                            continue;
+
+                    string document = null;
+                    try
+                    {
+                        document = await GetSvcPageAsync(url);
+                    }
+                    catch (WebException webEx)
+                    {
+                        if (HandleUnauthorizedWebExceptionRetry(webEx))
+                        {
+                            await FetchCookiesAgainAsync();
+                            document = await GetSvcPageAsync(url);
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    var posts = ExtractPosts(document, out var result);
+
+                    bearerToken = bearerToken ?? result.apiFetchStore.API_TOKEN;
+                    apiUrl = apiUrl ?? result.apiUrl;
+
+                        if (!posts.Any())
+                        {
+                            nextPage.CompleteAdding();
+                            return;
+                        }
+
+                    if (highestId == 0)
+                    {
+                            highestId = Math.Max(Blog.LastId, posts.DefaultIfEmpty(new Post()).Max(x => ulong.Parse(x.Id)));
+                        latestPost = DateTimeOffset.FromUnixTimeSeconds(posts.Where(x => !x.IsPinned).Select(s => s.Timestamp).FirstOrDefault()).UtcDateTime;
+                    }
+
+                        if (HasProperty(result, "PeeprRoute") && !HasProperty(result.PeeprRoute.initialTimeline, "nextLink") ||
+                            HasProperty(result, "response") && !HasProperty(result.response, "_links"))
+                    {
+                        nextPage.CompleteAdding();
                     }
                     else
                     {
-                        throw;
+                        var nextLink = apiUrl + (string)(HasProperty(result, "PeeprRoute") ?
+                            result.PeeprRoute.initialTimeline.nextLink.href : result.response._links.next.href);
+                        nextPage.Add(nextLink);
                     }
+
+                    if (CheckIfShouldStop()) { return; }
+
+                    CheckIfShouldPause();
+
+                    if (!CheckPostAge(posts)) { return; }
+
+                    await DownloadPage(posts);
+
+                    Interlocked.Increment(ref numberOfPagesCrawled);
+                    UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
                 }
-                var response = ConvertJsonToClass<TumblrJson>(document);
-                await AddUrlsToDownloadListAsync(response, pageNumber);
-            }
             catch (WebException webException)
             {
                 if (HandleLimitExceededWebException(webException) ||
@@ -238,20 +304,31 @@ namespace TumblThree.Applications.Crawler
                 {
                     incompleteCrawl = true;
                 }
+                        incompleteCrawl = true;
+                        nextPage.Add(url);
             }
             catch (TimeoutException timeoutException)
             {
+                        HandleTimeoutException(timeoutException, Resources.Crawling);
                 incompleteCrawl = true;
-                HandleTimeoutException(timeoutException, Resources.Crawling);
+                        nextPage.Add(url);
+            }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                incompleteCrawl = true;
             }
             catch (FormatException formatException)
             {
                 Logger.Error("TumblrHiddenCrawler.CrawlPageAsync: {0}", formatException);
                 ShellService.ShowError(formatException, "{0}: {1}", Blog.Name, formatException.Message);
+                incompleteCrawl = true;
             }
             catch (Exception ex)
             {
                 Logger.Error("TumblrHiddenCrawler.CrawlPageAsync: {0}", ex);
+                incompleteCrawl = true;
             }
             finally
             {
@@ -259,54 +336,351 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        private async Task<ulong> GetHighestPostIdAsync()
+        protected async Task<string> GetRequestAsync(string url, string bearerToken)
         {
-            ulong lastId = Blog.LastId;
+            AcquireTimeconstraintSvc();
+            string[] cookieHosts = { "https://www.tumblr.com/" };
+            return await RequestApiDataAsync(url, bearerToken, null, cookieHosts);
+        }
+
+        private static string ExtractJson(string document)
+        {
+            string json = document;
+            if (!json.StartsWith("{"))
+            {
+                json = extractJsonFromPage.Match(document).Groups[1].Value;
+                if (string.IsNullOrEmpty(json)) json = extractJsonFromPage2.Match(document).Groups[1].Value;
+            }
+            return json;
+        }
+
+        private int i = 1;
+
+        private List<Post> ExtractPosts(string document, out dynamic result)
+        {
+            var json = ExtractJson(document);
+
+            //TODO: if (json is null) throw new Exception("");
+
+            result = JsonConvert.DeserializeObject<ExpandoObject>(json, new JsonSerializerSettings() { Converters = { new ExpandoObjectConverter() } });
+
+            var postsList = (HasProperty(result, "PeeprRoute") ? result.PeeprRoute.initialTimeline.objects : result.response.posts) as IEnumerable<dynamic>;
+
+            var serializerSettings = new JsonSerializerSettings()
+            {
+                    MissingMemberHandling = MissingMemberHandling.Error,
+                    Converters = { new ExpandoObjectConverter(), new FlexibleNamingConverter<Post>(), new FlexibleNamingConverter<DataModels.TumblrNPF.Blog>(),
+                    new FlexibleNamingConverter<DataModels.TumblrNPF.Resources>(), new FlexibleNamingConverter<ClientSideAd>(), new FlexibleNamingConverter<Context>(),
+                    new FlexibleNamingConverter<DataModels.TumblrNPF.Theme>(), new FlexibleNamingConverter<DataModels.TumblrNPF.Meta>(),
+                    new FlexibleNamingConverter<CommunityLabels>(), new FlexibleNamingConverter<Badge>(), new FlexibleNamingConverter<TumblrmartAccessories>(),
+                    new FlexibleNamingConverter<Poster>(), new FlexibleNamingConverter<Content>(), new FlexibleNamingConverter<Medium>(),
+                    new FlexibleNamingConverter<Attribution>(), new FlexibleNamingConverter<Trail>(), new FlexibleNamingConverter<Style>(),
+                    new FlexibleNamingConverter<Layout>() }
+            };
+
             try
             {
-                return Math.Max(await GetHighestPostIdCoreAsync(), lastId);
+                _ = postsList.Select(p => JsonConvert.DeserializeObject<Post>((string)JsonConvert.SerializeObject(p), serializerSettings))
+                    .Where(x => !new string[] { "client_side_ad_waterfall", "backfill_ad" }.Contains(x.ObjectType)).ToList();
             }
-            catch (WebException webException)
+            catch (JsonSerializationException ex)
             {
-                if (webException.Status == WebExceptionStatus.RequestCanceled)
-                {
-                    return lastId;
-                }
+                Logger.Verbose("TumblrHiddenCrawler.ExtractPosts: {0}", ex.Message);
+                ShellService.ShowError(ex, "{0}: Error parsing page!", Blog.Name);
+            }
 
-                HandleLimitExceededWebException(webException);
-                if (HandleUnauthorizedWebExceptionRetry(webException))
-                {
-                    await FetchCookiesAgainAsync();
-                    try
-                    {
-                        return Math.Max(await GetHighestPostIdCoreAsync(), lastId);
-                    }
-                    catch (WebException)
-                    { }
-                }
-                return lastId;
-            }
-            catch (TimeoutException timeoutException)
+            List<Post> posts = null;
+            try
             {
-                HandleTimeoutException(timeoutException, Resources.Crawling);
-                return lastId;
+                serializerSettings.MissingMemberHandling = MissingMemberHandling.Ignore;
+                posts = postsList.Select(p => JsonConvert.DeserializeObject<Post>((string)JsonConvert.SerializeObject(p), serializerSettings))
+                    .Where(x => !new string[] { "client_side_ad_waterfall", "backfill_ad" }.Contains(x.ObjectType)).ToList();
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Logger.Verbose("TumblrHiddenCrawler.ExtractPosts: {0}", ex.Message);
+            }
+        
+            return posts;
         }
 
-        private async Task<ulong> GetHighestPostIdCoreAsync()
+        private static bool HasProperty(dynamic obj, string name)
         {
-            // normally 2 posts, where the 1st one could be a pinned one, should be enough, but strangely enough
-            // for some blogs up to 4 very old posts can be returned. So just read 5 or 10 posts!?
-            string document = await GetSvcPageAsync("10", "0");
-            var response = ConvertJsonToClass<TumblrJson>(document);
+            Type objType = obj.GetType();
 
-            Post post = response.Response?.Posts?.FirstOrDefault(x => !x.IsPinned);
-            if (DateTime.TryParse(post?.Date, out var latestPost)) Blog.LatestPost = latestPost;
-            _ = ulong.TryParse(post?.Id, out var highestId);
-            return highestId;
+            if (objType == typeof(ExpandoObject))
+            {
+                return ((IDictionary<string, object>)obj).ContainsKey(name);
+            }
+
+            return objType.GetProperty(name) != null;
         }
 
-        private bool PostWithinTimeSpan(Post post)
+        private async Task DownloadPage(List<Post> posts)
+        {
+            var lastPostId = GetLastPostId();
+            foreach (var post in posts)
+            {
+                if (CheckIfShouldStop()) { break; }
+                CheckIfShouldPause();
+                if (lastPostId > 0 && ulong.TryParse(post.Id, out var postId) && postId < lastPostId) { continue; }
+                if (!PostWithinTimespan(post)) { continue; }
+                if (!CheckIfContainsTaggedPost(post)) { continue; }
+                if (!CheckIfDownloadRebloggedPosts(post)) { continue; }
+
+                Logger.Verbose("TumblrHiddenCrawler.DownloadPage: {0}", post.PostUrl);
+                try
+                {
+                    DataModels.TumblrApiJson.Post data = null;
+                    data = new DataModels.TumblrApiJson.Post()
+                    {
+                        Date = post.Date,
+                        DateGmt = post.Date,
+                        Type = "regular",
+                        Id = post.Id,
+                        Tags = post.Tags?.ToList(),
+                        Slug = post.Slug,
+                        RegularTitle = post.Summary,
+                        RebloggedFromName = "",
+                        RebloggedRootName = "",
+                        ReblogKey = post.ReblogKey,
+                        UnixTimestamp = post.Timestamp,
+                        Tumblelog = new DataModels.TumblrApiJson.TumbleLog2() { Name = post.BlogName },
+                        UrlWithSlug = post.PostUrl
+                    };
+                    var countImagesVideos = CountImagesAndVideos(post.Content);
+                    int index = -1;
+                    foreach (var content in post.Content)
+                    {
+                        data.Type = ConvertContentTypeToPostType(content.Type);
+                        index += (countImagesVideos > 1) ? 1 : 0;
+                        DownloadMedia(content, data, index);
+                        AddInlinePhotoUrl(post, content, data);
+                        AddInlineVideoUrl(post, content, data);
+                    }
+                    DownloadText(post, data);
+                    AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(post.Id, ".json"), post));
+
+                    await Task.CompletedTask;
+                }
+                catch (NullReferenceException e)
+                {
+                    Logger.Verbose("TumblrHiddenCrawler.DownloadPage: {0}", e);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("TumblrHiddenCrawler.DownloadPage: {0}", e);
+                    ShellService.ShowError(e, "{0}: Error parsing post!", Blog.Name);
+                }
+            }
+        }
+
+        private void DownloadText(Post post, DataModels.TumblrApiJson.Post data)
+        {
+            if (Blog.DownloadText && new string[] { "regular", "quote", "note", "link", "conversation" }.Contains(post.OriginalType))
+            {
+                string text = "";
+                if (post.Content.Count == 0)
+                {
+                    foreach (var trail in post.Trail)
+                    {
+                        text += Environment.NewLine + (trail.Blog ?? trail.BrokenBlog).Name + "/" + trail.Post.Id + ":" + Environment.NewLine + Environment.NewLine;
+                        foreach (var content in trail.Content)
+                        {
+                            if (content.Type == "text")
+                            {
+                                text += content.Text + Environment.NewLine + (content.Subtype == "heading1" || content.Subtype == "heading2" ? "" : Environment.NewLine);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var content in post.Content)
+                    {
+                        if (content.Type == "text")
+                        {
+                            text += content.Text + Environment.NewLine + (content.Subtype == "heading1" || content.Subtype == "heading2" ? "" : Environment.NewLine);
+                        }
+                    }
+                }
+                data.RegularBody = text.Trim(Environment.NewLine.ToCharArray());
+                data.Type = post.OriginalType;
+
+                switch (post.OriginalType)
+                {
+                    case "regular":
+                        if (post.Content.Count == 0)
+                        {
+                            data.RegularTitle = $"{post.BlogName} reblogged {post.RebloggedFromName}/{post.RebloggedFromId}";
+                            foreach (var trail in post.Trail)
+                            {
+                                text += Environment.NewLine + (trail.Blog ?? trail.BrokenBlog).Name + "/" + (trail.Post.Id ?? "") + ":" + Environment.NewLine + Environment.NewLine;
+                                foreach (var content in trail.Content)
+                                {
+                                    if (content.Type == "text")
+                                    {
+                                        text += content.Text + Environment.NewLine + (content.Subtype == "heading1" || content.Subtype == "heading2" ? "" : Environment.NewLine);
+                                    }
+                                }
+                            }
+                            data.RegularBody = text.Trim(Environment.NewLine.ToCharArray());
+                        }
+                        else
+                        {
+                            data.RegularTitle = (post.Content?.FirstOrDefault()?.Subtype ?? "") == "heading1" ? post.Content?.FirstOrDefault()?.Text : "";
+                            data.RegularBody = string.Join("", post.Content
+                                .Where(c => c.Type == "text")
+                                .Skip((post.Content?.FirstOrDefault()?.Subtype ?? "") == "heading1" ? 1 : 0)
+                                .Select(s => s.Text + Environment.NewLine + (s.Subtype == "heading1" || s.Subtype == "heading2" ? "" : Environment.NewLine)))
+                                .Trim(Environment.NewLine.ToCharArray());
+                        }
+                        if (data.RegularTitle.Length != 0 || data.RegularBody.Length != 0)
+                        {
+                            text = tumblrJsonParser.ParseText(data);
+                            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "text", -1) : null;
+                            AddToDownloadList(new TextPost(text, data.Id, data.UnixTimestamp.ToString(), filename));
+                        }
+                        break;
+                    case "quote":
+                        data.QuoteText = post.Content?.FirstOrDefault()?.Text;
+                        data.QuoteSource = post.Content?.Skip(1).FirstOrDefault()?.Text;
+                        text = tumblrJsonParser.ParseQuote(data);
+                        string filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "quote", -1) : null;
+                        AddToDownloadList(new QuotePost(text, data.Id, data.UnixTimestamp.ToString(), filename2));
+                        break;
+                    case "note":
+                        data.Type = "answer";
+                        data.Question = post.Content?.FirstOrDefault()?.Text;
+                        data.Answer = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
+                        text = tumblrJsonParser.ParseAnswer(data);
+                        filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "answer", -1) : null;
+                        AddToDownloadList(new AnswerPost(text, data.Id, data.UnixTimestamp.ToString(), filename2));
+                        break;
+                    case "link":
+                        var o = post.Content.FirstOrDefault(x => x.Type == "link") ?? new Content();
+                        data.LinkDescription = o.Description;
+                        data.LinkText = o.Title;
+                        data.LinkUrl = o.Url;
+                        text = tumblrJsonParser.ParseLink(data);
+                        filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "link", -1) : null;
+                        AddToDownloadList(new LinkPost(text, data.Id, data.UnixTimestamp.ToString(), filename2));
+                        break;
+                    case "conversation":
+                        data.Conversation = null;
+                        data.ConversationTitle = post.Content?.FirstOrDefault()?.Text;
+                        data.ConversationText = string.Join(Environment.NewLine, post.Content.Skip(1).Select(s => s.Text));
+                        text = tumblrJsonParser.ParseConversation(data);
+                        filename2 = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{data.Id}.txt", data, "conversation", -1) : null;
+                        AddToDownloadList(new ConversationPost(text, data.Id, data.UnixTimestamp.ToString(), filename2));
+                        break;
+                }
+            }
+        }
+
+        private void DownloadMedia(Content content, DataModels.TumblrApiJson.Post data, int index)
+        {
+            string type = content.Type;
+
+            string url = content.Media?.FirstOrDefault()?.Url;
+            if (url == null)
+                return;
+            if (CheckIfSkipGif(url))
+                return;
+            if (type == "video")
+            {
+                if (Blog.DownloadVideoThumbnail)
+                {
+                    if (content.Provider == "tumblr" || url.Contains("tumblr.com") || Blog.RegExVideos)
+                    {
+                        string thumbnailUrl = content.Poster[0].Url;
+                        AddToDownloadList(new PhotoPost(thumbnailUrl, thumbnailUrl, data.Id, data.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, data, index)));
+                    }
+                }
+                // can only download preview image for non-tumblr (embedded) video posts
+                if (Blog.DownloadVideo && content.Provider == "tumblr")
+                    AddToDownloadList(new VideoPost(url, null, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+            }
+            else if (type == "audio")
+            {
+                if (Blog.DownloadAudio && content.Provider == "tumblr")
+                {
+                    url = url.IndexOf("?") > -1 ? url.Substring(0, url.IndexOf("?")) : url;
+                    AddToDownloadList(new AudioPost(url, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+                }
+            }
+            else if (type == "image")
+            {
+                if (Blog.DownloadPhoto)
+                {
+                    var postedUrl = url;
+                    if (url.Contains("tumblr.com/"))
+                    {
+                        url = RetrieveOriginalImageUrl(url, 2000, 3000, false);
+                        url = CheckPnjUrl(url);
+                    }
+                    AddToDownloadList(new PhotoPost(url, postedUrl, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+                }
+            }
+        }
+
+
+        private static string InlineSearch(Post post, Content content)
+        {
+            string text = post.Summary;
+
+            if (content.Type == "video")
+            {
+                text += HttpUtility.UrlDecode(content.EmbedHtml);
+            }
+            else if (content.Type == "text")
+            {
+                text += content.Text;
+            }
+
+            return text;
+        }
+
+        private void AddInlinePhotoUrl(Post post, Content content, DataModels.TumblrApiJson.Post data)
+        {
+            if (!Blog.DownloadPhoto) return;
+
+            string text = InlineSearch(post, content);
+
+            AddTumblrPhotoUrl(text, data);
+
+            if (Blog.RegExPhotos)
+            {
+                AddGenericPhotoUrl(text, data);
+            }
+        }
+
+        private void AddInlineVideoUrl(Post post, Content content, DataModels.TumblrApiJson.Post data)
+        {
+            if (!Blog.DownloadVideo) return;
+
+            string text = InlineSearch(post, content);
+
+            AddTumblrVideoUrl(text, data);
+
+            if (Blog.RegExVideos)
+            {
+                AddGenericVideoUrl(text, data);
+            }
+        }
+
+        private static int CountImagesAndVideos(IList<Content> list)
+        {
+            var count = 0;
+            foreach (var content in list)
+            {
+                count += (content.Type == "image" || content.Type == "video") ? 1 : 0;
+            }
+            return count;
+        }
+
+        private bool PostWithinTimespan(Post post)
         {
             if (string.IsNullOrEmpty(Blog.DownloadFrom) && string.IsNullOrEmpty(Blog.DownloadTo))
             {
@@ -344,7 +718,11 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
-                string document = await GetSvcPageAsync(Blog.PageSize.ToString(), (Blog.PageSize * 1).ToString());
+                string document = await GetSvcPageAsync(GetStartUrl());
+                var json = ExtractJson(document);
+                dynamic obj = JsonConvert.DeserializeObject<ExpandoObject>(json);
+                var loggedIn = obj?.isLoggedIn?.isLoggedIn ?? false;
+                return loggedIn;
             }
             catch (WebException webException)
             {
@@ -367,100 +745,17 @@ namespace TumblThree.Applications.Crawler
             return true;
         }
 
-        private async Task<string> GetSvcPageAsync(string limit, string offset)
+        private async Task<string> GetSvcPageAsync(string url)
         {
             AcquireTimeconstraintSvc();
 
-            return await RequestDataAsync(limit, offset);
+            return await GetRequestAsync(url);
         }
 
-        protected virtual async Task<string> RequestDataAsync(string limit, string offset)
-        {
-            var requestRegistration = new CancellationTokenRegistration();
-            try
-            {
-                string url = @"https://www.tumblr.com/svc/indash_blog?tumblelog_name_or_id=" + Blog.Name +
-                             @"&post_id=&limit=" + limit + "&offset=" + offset + "&should_bypass_safemode=true";
-                string referer = @"https://www.tumblr.com/dashboard/blog/" + Blog.Name;
-                var headers = new Dictionary<string, string> { { "X-tumblr-form-key", tumblrKey } };
-                HttpWebRequest request = WebRequestFactory.CreateGetXhrRequest(url, referer, headers);
-                CookieService.GetUriCookie(request.CookieContainer, new Uri("https://www.tumblr.com/"));
-                CookieService.GetUriCookie(request.CookieContainer, new Uri("https://" + Blog.Name.Replace("+", "-") + ".tumblr.com"));
-                requestRegistration = Ct.Register(() => request.Abort());
-                //string response = await WebRequestFactory.ReadRequestToEndAsync(request, true);
-                string response = await WebRequestFactory.ReadRequestToEndAsync(request);
-                return response;
-            }
-            finally
-            {
-                requestRegistration.Dispose();
-            }
-        }
-
-        private async Task AddUrlsToDownloadListAsync(TumblrJson response, int crawlerNumber)
-        {
-            while (true)
-            {
-                if (CheckIfShouldStop()) { return; }
-
-                CheckIfShouldPause();
-
-                if (!CheckPostAge(response)) { return; }
-
-                var lastPostId = GetLastPostId();
-                foreach (Post post in response.Response.Posts)
-                {
-                    try
-                    {
-                        if (CheckIfShouldStop()) { break; }
-                        CheckIfShouldPause();
-                        if (lastPostId > 0 && ulong.TryParse(post.Id, out var postId) && postId < lastPostId) { continue; }
-                        if (!PostWithinTimeSpan(post)) { continue; }
-                        if (!CheckIfContainsTaggedPost(post)) { continue; }
-                        if (!CheckIfDownloadRebloggedPosts(post)) { continue; }
-
-                        try
-                        {
-                            AddPhotoUrlToDownloadList(post);
-                            AddVideoUrlToDownloadList(post);
-                            AddAudioUrlToDownloadList(post);
-                            AddTextUrlToDownloadList(post);
-                            AddQuoteUrlToDownloadList(post);
-                            AddLinkUrlToDownloadList(post);
-                            AddConversationUrlToDownloadList(post);
-                            AddAnswerUrlToDownloadList(post);
-                            AddPhotoMetaUrlToDownloadList(post);
-                            AddVideoMetaUrlToDownloadList(post);
-                            AddAudioMetaUrlToDownloadList(post);
-                            await AddExternalPhotoUrlToDownloadListAsync(post);
-                        }
-                        catch (NullReferenceException e)
-                        {
-                            Logger.Verbose("TumblrHiddenCrawler.AddUrlsToDownloadListAsync: {0}", e);
-                        }
-                    }
-                    catch (Exception e) when (!(e is FormatException))
-                    {
-                        Logger.Error("TumblrHiddenCrawler.AddUrlsToDownloadListAsync: {0}", e);
-                        ShellService.ShowError(e, "{0}: Error parsing post!", Blog.Name);
-                    }
-                }
-
-                Interlocked.Increment(ref numberOfPagesCrawled);
-                UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
-
-                string document = await GetSvcPageAsync(Blog.PageSize.ToString(), (Blog.PageSize * crawlerNumber).ToString());
-                response = ConvertJsonToClass<TumblrJson>(document);
-                if (!response.Response.Posts.Any() || !string.IsNullOrEmpty(Blog.DownloadPages)) { return; }
-
-                crawlerNumber += ShellService.Settings.ConcurrentScans;
-            }
-        }
-
-        private bool CheckPostAge(TumblrJson document)
+        private bool CheckPostAge(List<Post> posts)
         {
             ulong highestPostId = 0;
-            var post = document.Response.Posts.FirstOrDefault(x => !x.IsPinned);
+            var post = posts.FirstOrDefault(x => !x.IsPinned);
             if (post == null) return false;
             _ = ulong.TryParse(post.Id, out highestPostId);
             return highestPostId >= GetLastPostId();
@@ -492,273 +787,11 @@ namespace TumblThree.Applications.Crawler
             return !Tags.Any() || post.Tags.Any(x => Tags.Contains(x, StringComparer.OrdinalIgnoreCase));
         }
 
-        private void AddPhotoUrlToDownloadList(Post post)
+        private string GetStartUrl()
         {
-            if (!Blog.DownloadPhoto) { return; }
-
-            Post postCopy = post;
-            if (post.Type == "photo")
-            {
-                AddPhotoUrl(post);
-                postCopy = (Post)post.Clone();
-                postCopy.Photos.Clear();
-            }
-
-            AddInlinePhotoUrl(postCopy);
-
-            if (Blog.RegExPhotos)
-            {
-                AddGenericInlinePhotoUrl(post);
-            }
-        }
-
-        private void AddPhotoUrl(Post post)
-        {
-            string postId = post.Id;
-            bool jsonSaved = false;
-            int i = 1;
-            if (post.Photos.Count != 0 && post.Photos[0].AltSizes.FirstOrDefault().Url.Split('/').Last().StartsWith("tumblr_")) i = -1;
-            foreach (Photo photo in post.Photos)
-            {
-                string imageUrl = photo.AltSizes.Where(url => url.Width == int.Parse(ImageSizeForSearching())).Select(url => url.Url)
-                                       .FirstOrDefault() ??
-                                  photo.AltSizes.FirstOrDefault().Url;
-
-                if (ShellService.Settings.ImageSize == "best")
-                {
-                    imageUrl = photo.AltSizes.FirstOrDefault().Url;
-                }
-
-                if (CheckIfSkipGif(imageUrl)) { continue; }
-                imageUrl = CheckPnjUrl(imageUrl);
-
-                var filename = BuildFileName(imageUrl, post, i);
-                AddDownloadedMedia(imageUrl, filename, post);
-                AddToDownloadList(new PhotoPost(imageUrl, "", postId, post.Timestamp.ToString(), filename));
-                if (!jsonSaved || !Blog.GroupPhotoSets && !(string.Equals(Blog.FilenameTemplate, "%f", StringComparison.OrdinalIgnoreCase) && i == -1))
-                {
-                    jsonSaved = true;
-                    AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(imageUrl.Split('/').Last(), ".json"), post));
-                }
-                if (i != -1) i++;
-            }
-        }
-
-        private void AddInlinePhotoUrl(Post post)
-        {
-            AddTumblrPhotoUrl(InlineSearch(post), ConvertTumblrApiJson(post));
-        }
-
-        private void AddGenericInlinePhotoUrl(Post post)
-        {
-            AddTumblrPhotoUrl(InlineSearch(post), ConvertTumblrApiJson(post));
-        }
-
-        private void AddVideoUrlToDownloadList(Post post)
-        {
-            if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail) { return; }
-
-            Post postCopy = post;
-            if (post.Type == "video")
-            {
-                AddVideoUrl(post);
-
-                postCopy = (Post)post.Clone();
-                postCopy.VideoUrl = string.Empty;
-            }
-
-            var urls = AddTumblrVideoUrl(InlineSearch(postCopy), ConvertTumblrApiJson(post));
-            AddToJsonQueue(urls, post);
-            urls = AddInlineTumblrVideoUrl(InlineSearch(postCopy), ConvertTumblrApiJson(post));
-            AddToJsonQueue(urls, post);
-
-            if (Blog.DownloadVideo && Blog.RegExVideos)
-            {
-                AddGenericInlineVideoUrl(postCopy);
-            }
-        }
-
-        private void AddVideoUrl(Post post)
-        {
-            if (post.VideoUrl == null) { return; }
-
-            string postId = post.Id;
-            string videoUrl = post.VideoUrl;
-
-            if (ShellService.Settings.VideoSize == 480)
-            {
-                if (!videoUrl.Contains("_480"))
-                {
-                    videoUrl = videoUrl.Replace(".mp4", "_480.mp4");
-                }
-            }
-
-            if (Blog.DownloadVideo)
-            {
-                var filename = BuildFileName(videoUrl, post, -1);
-                AddDownloadedMedia(videoUrl, filename, post);
-                AddToDownloadList(new VideoPost(videoUrl, null, postId, post.Timestamp.ToString(), filename));
-                AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(videoUrl.Split('/').Last(), ".json"), post));
-            }
-
-            if (Blog.DownloadVideoThumbnail)
-            {
-                var filename = BuildFileName(post.ThumbnailUrl, post, "photo", -1);
-                AddDownloadedMedia(post.ThumbnailUrl, filename, post);
-                AddToDownloadList(new PhotoPost(post.ThumbnailUrl, "", postId, post.Timestamp.ToString(), filename));
-                if (!Blog.DownloadVideo)
-                {
-                    AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(videoUrl.Split('/').Last(), ".json"), post));
-                }
-            }
-        }
-
-        private void AddGenericInlineVideoUrl(Post post)
-        {
-            AddGenericVideoUrl(InlineSearch(post), ConvertTumblrApiJson(post));
-        }
-
-        private void AddAudioUrlToDownloadList(Post post)
-        {
-            if (!Blog.DownloadAudio) { return; }
-            if (post.Type != "audio") { return; }
-
-            string postId = post.Id;
-            string audioUrl = post.AudioUrl;
-            if (!audioUrl.EndsWith(".mp3"))
-            {
-                audioUrl = audioUrl + ".mp3";
-            }
-
-            var filename = BuildFileName(audioUrl, post, -1);
-            AddDownloadedMedia(audioUrl, filename, post);
-            AddToDownloadList(new AudioPost(audioUrl, postId, post.Timestamp.ToString(), filename));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(audioUrl.Split('/').Last(), ".json"), post));
-        }
-
-        private void AddTextUrlToDownloadList(Post post)
-        {
-            if (!Blog.DownloadText) { return; }
-            if (post.Type != "text") { return; }
-
-            string postId = post.Id;
-            string textBody = tumblrJsonParser.ParseText(post);
-            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{postId}.txt", post, "text", -1) : null;
-            AddToDownloadList(new TextPost(textBody, postId, post.Timestamp.ToString(), filename));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(postId, ".json"), post));
-        }
-
-        private void AddQuoteUrlToDownloadList(Post post)
-        {
-            if (!Blog.DownloadQuote) { return; }
-            if (post.Type != "quote") { return; }
-
-            string postId = post.Id;
-            string textBody = tumblrJsonParser.ParseQuote(post);
-            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "quote", -1) : null;
-            AddToDownloadList(new QuotePost(textBody, postId, post.Timestamp.ToString(), filename));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(postId, ".json"), post));
-        }
-
-        private void AddLinkUrlToDownloadList(Post post)
-        {
-            if (!Blog.DownloadLink) { return; }
-            if (post.Type != "link") { return; }
-
-            string postId = post.Id;
-            string textBody = tumblrJsonParser.ParseLink(post);
-            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "link", -1) : null;
-            AddToDownloadList(new LinkPost(textBody, postId, post.Timestamp.ToString(), filename));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(postId, ".json"), post));
-        }
-
-        private void AddConversationUrlToDownloadList(Post post)
-        {
-            if (!Blog.DownloadConversation) { return; }
-            if (post.Type != "chat") { return; }
-
-            string postId = post.Id;
-            string textBody = tumblrJsonParser.ParseConversation(post);
-            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "conversation", -1) : null;
-            AddToDownloadList(new ConversationPost(textBody, postId, post.Timestamp.ToString(), filename));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(postId, ".json"), post));
-        }
-
-        private void AddAnswerUrlToDownloadList(Post post)
-        {
-            if (!Blog.DownloadAnswer) { return; }
-            if (post.Type != "answer") { return; }
-
-            string postId = post.Id;
-            string textBody = tumblrJsonParser.ParseAnswer(post);
-            string filename = Blog.SaveTextsIndividualFiles ? BuildFileName($"/{post.Id}.txt", post, "answer", -1) : null;
-            AddToDownloadList(new AnswerPost(textBody, postId, post.Timestamp.ToString(), filename));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(postId, ".json"), post));
-        }
-
-        private void AddPhotoMetaUrlToDownloadList(Post post)
-        {
-            if (!Blog.CreatePhotoMeta) { return; }
-            if (post.Type != "photo") { return; }
-
-            string postId = post.Id;
-            string textBody = tumblrJsonParser.ParsePhotoMeta(post);
-            AddToDownloadList(new PhotoMetaPost(textBody, postId));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(postId, ".json"), post));
-        }
-
-        private void AddVideoMetaUrlToDownloadList(Post post)
-        {
-            if (!Blog.CreateVideoMeta) { return; }
-            if (post.Type != "video") { return; }
-
-            string postId = post.Id;
-            string textBody = tumblrJsonParser.ParseVideoMeta(post);
-            AddToDownloadList(new VideoMetaPost(textBody, postId));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(postId, ".json"), post));
-        }
-
-        private void AddAudioMetaUrlToDownloadList(Post post)
-        {
-            if (!Blog.CreateAudioMeta) { return; }
-            if (post.Type != "audio") { return; }
-
-            string postId = post.Id;
-            string textBody = tumblrJsonParser.ParseAudioMeta(post);
-            AddToDownloadList(new AudioMetaPost(textBody, postId));
-            AddToJsonQueue(new CrawlerData<Post>(Path.ChangeExtension(postId, ".json"), post));
-        }
-
-        private static string InlineSearch(Post post)
-        {
-            return string.Join(" ", post.Trail?.Select(trail => trail.ContentRaw) ?? Enumerable.Empty<string>());
-        }
-
-        private async Task AddExternalPhotoUrlToDownloadListAsync(Post post)
-        {
-            string searchableText = InlineSearch(post);
-            string timestamp = post.Timestamp.ToString();
-
-            if (Blog.DownloadImgur)
-            {
-                AddImgurUrl(searchableText, timestamp);
-                await AddImgurAlbumUrlAsync(searchableText, timestamp);
-            }
-
-            if (Blog.DownloadWebmshare)
-            {
-                AddWebmshareUrl(searchableText, timestamp);
-            }
-
-            if (Blog.DownloadUguu)
-            {
-                AddUguuUrl(searchableText, timestamp);
-            }
-
-            if (Blog.DownloadCatBox)
-            {
-                AddCatBoxUrl(searchableText, timestamp);
-            }
+            var blogName = Domain.Models.Blogs.Blog.ExtractName(Blog.Url);
+            var url = $"https://www.tumblr.com/dashboard/blog/{blogName}";
+            return url;
         }
 
         protected virtual void Dispose(bool disposing)
@@ -767,6 +800,7 @@ namespace TumblThree.Applications.Crawler
             {
                 semaphoreSlim?.Dispose();
                 downloader.Dispose();
+                nextPage?.Dispose();
             }
         }
 

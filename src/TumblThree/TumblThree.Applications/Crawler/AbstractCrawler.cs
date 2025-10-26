@@ -168,7 +168,8 @@ namespace TumblThree.Applications.Crawler
 
                     if (responseDetails.HttpStatusCode == HttpStatusCode.Moved)
                     {
-                        Uri uri = new Uri(url);
+                        Uri uri = new Uri(request.RequestUri, url);
+                        url = uri.ToString();
                         if (!uri.Authority.Contains(".tumblr.")) Blog.Url = uri.GetLeftPart(UriPartial.Authority);
                     }
 

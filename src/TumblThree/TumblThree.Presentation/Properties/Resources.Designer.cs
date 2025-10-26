@@ -2771,7 +2771,8 @@ namespace TumblThree.Presentation.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This option can only be enabled if the global check is enabled.
         ///It is useful if you are using the global check and have already downloaded a large number of files.
-        ///Enabling this option reduces memory usage because not all blog databases are kept in memory..
+        ///Enabling this option reduces memory usage because not all blog databases are kept in memory.
+        ///This option will take effect after restarting the program. The first start after activation may take slightly longer than usual..
         /// </summary>
         public static string ToolTipLoadAllDatabasesIntoDbDescription {
             get {

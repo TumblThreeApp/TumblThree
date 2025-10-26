@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-
+using System.Threading.Tasks;
 using TumblThree.Applications.Services;
 using TumblThree.Domain.Models;
 using TumblThree.Domain.Models.Blogs;
@@ -29,6 +29,8 @@ namespace TumblThree.Presentation.DesignData
         public IEnumerable<IFiles> Databases { get; }
 
         public bool IsDragOperationActive { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public bool GlobalDbExisted => throw new NotImplementedException();
 
         public void SetBlogFiles(IEnumerable<IBlog> blogFilesToAdd)
         {
@@ -57,5 +59,9 @@ namespace TumblThree.Presentation.DesignData
         bool IManagerService.UpdateCollectionOnlineStatuses(bool askFirstTime = false) => throw new NotImplementedException();
 
         public IFiles GetDatabase(string blogName, BlogTypes originalBlogType) => throw new NotImplementedException();
+
+        public Task BeforeDatabaseAdding() => throw new NotImplementedException();
+
+        public Task AfterDatabaseAdding() => throw new NotImplementedException();
     }
 }

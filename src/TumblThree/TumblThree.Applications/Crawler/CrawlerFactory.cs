@@ -79,11 +79,10 @@ namespace TumblThree.Applications.Crawler
                         GetUguuParser(), GetCatBoxParser(), postQueue,
                         jsonApiQueue, blog, progress, pt, ct);
                 case BlogTypes.tmblrpriv:
-                    IPostQueue<CrawlerData<DataModels.TumblrSvcJson.Post>> jsonSvcQueue =
-                        GetJsonQueue<DataModels.TumblrSvcJson.Post>();
+                    IPostQueue<CrawlerData<DataModels.TumblrNPF.Post>> jsonSvcQueue = GetJsonQueue<DataModels.TumblrNPF.Post>();
                     return new TumblrHiddenCrawler(shellService, crawlerService, webRequestFactory,
                         cookieService, GetTumblrDownloader(progress, blog, files, postQueue, pt, ct),
-                        GetJsonDownloader(jsonSvcQueue, blog, pt, ct), GetTumblrSvcJsonToTextParser(blog), GetTumblrParser(),
+                        GetJsonDownloader(jsonSvcQueue, blog, pt, ct), GetTumblrApiJsonToTextParser(blog), GetTumblrParser(),
                         imgurParser, GetWebmshareParser(), GetUguuParser(),
                         GetCatBoxParser(), postQueue, jsonSvcQueue, blog, progress, environmentService, loginService, pt, ct);
                 case BlogTypes.tlb:

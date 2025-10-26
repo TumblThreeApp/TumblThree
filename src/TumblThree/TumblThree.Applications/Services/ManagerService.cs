@@ -6,6 +6,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Waf.Applications.Services;
 using System.Waf.Foundation;
 using System.Windows;
@@ -72,6 +73,14 @@ namespace TumblThree.Applications.Services
         }
 
         public ObservableCollection<IBlog> BlogFiles { get; }
+
+        public bool GlobalDbExisted
+        {
+            get
+            {
+                return globalDatabaseService.DbExisted;
+            }
+        }
 
         public bool IsDragOperationActive
         {
@@ -194,6 +203,22 @@ namespace TumblThree.Applications.Services
             finally
             {
                 databasesLock.ExitWriteLock();
+            }
+        }
+
+        public async Task BeforeDatabaseAdding()
+        {
+            if (shellService.Settings.LoadAllDatabasesIntoDb)
+            {
+                await globalDatabaseService.Init();
+            }
+        }
+
+        public async Task AfterDatabaseAdding()
+        {
+            if (shellService.Settings.LoadAllDatabasesIntoDb)
+            {
+                await globalDatabaseService.PostInit();
             }
         }
 
