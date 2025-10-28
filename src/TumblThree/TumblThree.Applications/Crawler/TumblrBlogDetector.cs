@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -37,6 +38,15 @@ namespace TumblThree.Applications.Crawler
                 string location = await GetUrlRedirection(url, false);
                 return location.Contains("login_required") || location.Contains("dashboard/blog/") ||
                     location.Contains("/blog/view/") || location.Contains("/safe-mode?url");
+            }
+            catch (WebException webException)
+            {
+                using (var stream = webException.Response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    string content = await reader.ReadToEndAsync();
+                    return content.Contains("X-Hashcash-Solution");
+                }
             }
             catch (Exception)
             {
