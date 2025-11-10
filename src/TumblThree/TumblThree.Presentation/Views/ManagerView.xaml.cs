@@ -29,6 +29,7 @@ namespace TumblThree.Presentation.Views
         private readonly Lazy<ManagerViewModel> viewModel;
         private List<IBlog> _selected = new List<IBlog>();
         private bool handledLeftMouseButton;
+        private SortDescription? _currentSortDescription = null;
 
         public ManagerView()
         {
@@ -117,20 +118,41 @@ namespace TumblThree.Presentation.Views
                 collectionView.CancelNew();
             }
 
-            if (e.Column.SortMemberPath == "__collection" || e.Column.SortMemberPath == "__progress")
+            e.Handled = true;
+
+            var direction = (e.Column.SortDirection != ListSortDirection.Ascending)
+                ? ListSortDirection.Ascending
+                : ListSortDirection.Descending;
+
+            e.Column.SortDirection = direction;
+
+            string propertyName = e.Column.SortMemberPath;
+            if (string.IsNullOrEmpty(propertyName))
             {
-                e.Handled = true;
-
-                var direction = (e.Column.SortDirection != ListSortDirection.Ascending)
-                    ? ListSortDirection.Ascending
-                    : ListSortDirection.Descending;
-
-                e.Column.SortDirection = direction;
-
-                collectionView.CustomSort = e.Column.SortMemberPath == "__collection" ?
-                    new DelegateComparer(viewModel.Value.GetCollectionName, direction) :
-                    new DelegateComparer(viewModel.Value.GetProgressValue, direction);
+                if (e.Column is DataGridBoundColumn boundColumn && boundColumn.Binding is Binding binding)
+                {
+                    propertyName = binding.Path.Path;
+                }
             }
+
+            if (string.IsNullOrEmpty(propertyName))
+                return;
+
+            _currentSortDescription = new SortDescription(propertyName, direction);
+
+            foreach (var column in blogFilesGrid.Columns)
+            {
+                if (column != e.Column)
+                    column.SortDirection = null;
+            }
+
+            var stableComparer = new StableComparer(
+                collectionView,
+                new[] { _currentSortDescription.Value },
+                viewModel.Value.GetCollectionName,
+                viewModel.Value.GetProgressValue);
+
+            collectionView.CustomSort = stableComparer;
         }
 
         private void FocusBlogFilesGrid()
