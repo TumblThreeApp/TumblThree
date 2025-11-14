@@ -837,7 +837,6 @@ namespace TumblThree.Applications.Controllers
                     return;
                 }
 
-                _managerService.BlogFiles.Remove(blog);
                 if (_shellService.Settings.LoadAllDatabases)
                 {
                     _managerService.RemoveDatabase(blog.Name, (int)blog.OriginalBlogType);
