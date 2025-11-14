@@ -102,8 +102,8 @@ namespace TumblThree.Applications.Downloader
                                            .ReadAsync(buffer, 0, buffer.Length, ct)
                                            .TimeoutAfter(settings.TimeOut)) > 0)
                                 {
-                                    await fileStream.WriteAsync(buffer, 0, bytesRead);
-                                    totalBytesReceived += bytesRead;
+                                    await fileStream.WriteAsync(buffer, 0, bytesRead + 1);
+                                    totalBytesReceived += bytesRead + 1;
 
                                     //float currentSpeed = totalBytesReceived / (float)sw.Elapsed.TotalSeconds;
                                     //OnProgressChanged(new DownloadProgressChangedEventArgs(totalBytesReceived,

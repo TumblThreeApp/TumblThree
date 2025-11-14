@@ -767,11 +767,9 @@ namespace TumblThree.Applications.Controllers
 
                 if (!_messageService.ShowYesNoQuestion(message))
                 {
-                    return;
+                    RemoveBlog(blogs, true);
                 }
             }
-
-            RemoveBlog(blogs, true);
         }
 
         private void RemoveBlog(IEnumerable<IBlog> blogs, bool doArchive)
@@ -839,7 +837,6 @@ namespace TumblThree.Applications.Controllers
                     return;
                 }
 
-                _managerService.BlogFiles.Remove(blog);
                 if (_shellService.Settings.LoadAllDatabases)
                 {
                     _managerService.RemoveDatabase(blog.Name, (int)blog.OriginalBlogType);
