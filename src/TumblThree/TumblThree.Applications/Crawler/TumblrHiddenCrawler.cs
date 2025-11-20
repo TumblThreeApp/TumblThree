@@ -239,28 +239,28 @@ namespace TumblThree.Applications.Crawler
                         if (string.IsNullOrEmpty(url))
                             continue;
 
-                    string document = null;
-                    try
-                    {
-                        document = await GetSvcPageAsync(url);
-                    }
-                    catch (WebException webEx)
-                    {
-                        if (HandleUnauthorizedWebExceptionRetry(webEx))
+                        string document = null;
+                        try
                         {
-                            await FetchCookiesAgainAsync();
                             document = await GetSvcPageAsync(url);
                         }
-                        else
+                        catch (WebException webEx)
                         {
-                            throw;
+                            if (HandleUnauthorizedWebExceptionRetry(webEx))
+                            {
+                                await FetchCookiesAgainAsync();
+                                document = await GetSvcPageAsync(url);
+                            }
+                            else
+                            {
+                                throw;
+                            }
                         }
-                    }
 
-                    var posts = ExtractPosts(document, out var result);
+                        var posts = ExtractPosts(document, out var result);
 
-                    bearerToken = bearerToken ?? result.apiFetchStore.API_TOKEN;
-                    apiUrl = apiUrl ?? result.apiUrl;
+                        bearerToken = bearerToken ?? result.apiFetchStore.API_TOKEN;
+                        apiUrl = apiUrl ?? result.apiUrl;
 
                         if (!posts.Any())
                         {
@@ -268,51 +268,51 @@ namespace TumblThree.Applications.Crawler
                             return;
                         }
 
-                    if (highestId == 0)
-                    {
+                        if (highestId == 0)
+                        {
                             highestId = Math.Max(Blog.LastId, posts.DefaultIfEmpty(new Post()).Max(x => ulong.Parse(x.Id)));
-                        latestPost = DateTimeOffset.FromUnixTimeSeconds(posts.Where(x => !x.IsPinned).Select(s => s.Timestamp).FirstOrDefault()).UtcDateTime;
-                    }
+                            latestPost = DateTimeOffset.FromUnixTimeSeconds(posts.Where(x => !x.IsPinned).Select(s => s.Timestamp).FirstOrDefault()).UtcDateTime;
+                        }
 
                         if (HasProperty(result, "PeeprRoute") && !HasProperty(result.PeeprRoute.initialTimeline, "nextLink") ||
                             HasProperty(result, "response") && !HasProperty(result.response, "_links"))
-                    {
-                        nextPage.CompleteAdding();
+                        {
+                            nextPage.CompleteAdding();
+                        }
+                        else
+                        {
+                            var nextLink = apiUrl + (string)(HasProperty(result, "PeeprRoute") ?
+                                result.PeeprRoute.initialTimeline.nextLink.href : result.response._links.next.href);
+                            nextPage.Add(nextLink);
+                        }
+
+                        if (CheckIfShouldStop()) { return; }
+
+                        CheckIfShouldPause();
+
+                        if (!CheckPostAge(posts)) { return; }
+
+                        await DownloadPage(posts);
+
+                        Interlocked.Increment(ref numberOfPagesCrawled);
+                        UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
                     }
-                    else
+                    catch (WebException webException)
                     {
-                        var nextLink = apiUrl + (string)(HasProperty(result, "PeeprRoute") ?
-                            result.PeeprRoute.initialTimeline.nextLink.href : result.response._links.next.href);
-                        nextPage.Add(nextLink);
-                    }
-
-                    if (CheckIfShouldStop()) { return; }
-
-                    CheckIfShouldPause();
-
-                    if (!CheckPostAge(posts)) { return; }
-
-                    await DownloadPage(posts);
-
-                    Interlocked.Increment(ref numberOfPagesCrawled);
-                    UpdateProgressQueueInformation(Resources.ProgressGetUrlShort, numberOfPagesCrawled);
-                }
-            catch (WebException webException)
-            {
-                if (HandleLimitExceededWebException(webException) ||
-                    HandleUnauthorizedWebExceptionRetry(webException))
-                {
-                    incompleteCrawl = true;
-                }
+                        if (HandleLimitExceededWebException(webException) ||
+                            HandleUnauthorizedWebExceptionRetry(webException))
+                        {
+                            incompleteCrawl = true;
+                        }
                         incompleteCrawl = true;
                         nextPage.Add(url);
-            }
-            catch (TimeoutException timeoutException)
-            {
+                    }
+                    catch (TimeoutException timeoutException)
+                    {
                         HandleTimeoutException(timeoutException, Resources.Crawling);
-                incompleteCrawl = true;
+                        incompleteCrawl = true;
                         nextPage.Add(url);
-            }
+                    }
                 }
             }
             catch (OperationCanceledException)
@@ -449,9 +449,9 @@ namespace TumblThree.Applications.Crawler
                         Tumblelog = new DataModels.TumblrApiJson.TumbleLog2() { Name = post.BlogName },
                         UrlWithSlug = post.PostUrl
                     };
-                    var countImagesVideos = CountImagesAndVideos(post.Content);
+                    var countImagesVideos = CountImagesAndVideos(GetContents(post));
                     int index = -1;
-                    foreach (var content in post.Content)
+                    foreach (var content in GetContents(post))
                     {
                         data.Type = ConvertContentTypeToPostType(content.Type);
                         index += (countImagesVideos > 1) ? 1 : 0;
@@ -474,6 +474,19 @@ namespace TumblThree.Applications.Crawler
                     ShellService.ShowError(e, "{0}: Error parsing post!", Blog.Name);
                 }
             }
+        }
+
+        private List<Content> GetContents(Post post)
+        {
+            if (post.Content?.Count > 0)
+            {
+                return post.Content;
+            }
+            else if (post.Trail?.Count > 0)
+            {
+                return post.Trail.Where(.Trail[0].Content;
+            }
+            return new List<Content>();
         }
 
         private void DownloadText(Post post, DataModels.TumblrApiJson.Post data)
@@ -763,7 +776,7 @@ namespace TumblThree.Applications.Crawler
 
         private bool CheckIfDownloadRebloggedPosts(Post post)
         {
-            return Blog.DownloadRebloggedPosts || string.IsNullOrEmpty(post.RebloggedFromName) || post.RebloggedFromName == Blog.Name;
+            return Blog.DownloadRebloggedPosts || string.IsNullOrEmpty(post.RebloggedFromUuid) || post.RebloggedFromUuid == post.Blog.Uuid;
         }
 
         private void AddToJsonQueue(CrawlerData<Post> addToList)
