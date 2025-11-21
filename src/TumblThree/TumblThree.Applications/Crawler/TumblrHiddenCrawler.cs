@@ -476,7 +476,7 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
-        private List<Content> GetContents(Post post)
+        private static List<Content> GetContents(Post post)
         {
             if (post.Content?.Count > 0)
             {
@@ -484,7 +484,7 @@ namespace TumblThree.Applications.Crawler
             }
             else if (post.Trail?.Count > 0)
             {
-                return post.Trail.Where(.Trail[0].Content;
+                return post.Trail.SelectMany(t => t.Content).ToList();
             }
             return new List<Content>();
         }
