@@ -230,6 +230,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task CrawlPageAsync(int crawlerNumber)
         {
+            string document;
             try
             {
                 foreach (var url in nextPage.GetConsumingEnumerable(Ct))
@@ -239,7 +240,7 @@ namespace TumblThree.Applications.Crawler
                         if (string.IsNullOrEmpty(url))
                             continue;
 
-                        string document = null;
+                        document = null;
                         try
                         {
                             document = await GetSvcPageAsync(url);
@@ -364,7 +365,8 @@ namespace TumblThree.Applications.Crawler
 
             result = JsonConvert.DeserializeObject<ExpandoObject>(json, new JsonSerializerSettings() { Converters = { new ExpandoObjectConverter() } });
 
-            var postsList = (HasProperty(result, "PeeprRoute") ? result.PeeprRoute.initialTimeline.objects : result.response.posts) as IEnumerable<dynamic>;
+            var postsList = (HasProperty(result, "PeeprRoute") ? (HasProperty(result.PeeprRoute, "initialTimeline") ? result.PeeprRoute.initialTimeline.objects : null) : result.response.posts) as IEnumerable<dynamic>;
+            if (postsList is null) return new List<Post>();
 
             var serializerSettings = new JsonSerializerSettings()
             {
