@@ -231,9 +231,14 @@ namespace TumblThree.Applications.Crawler
         private async Task CrawlPageAsync(int crawlerNumber)
         {
             string document;
+            CancellationTokenSource timeoutCts = null;
+            CancellationTokenSource linkedCts = null;
             try
             {
-                foreach (var url in nextPage.GetConsumingEnumerable(Ct))
+                timeoutCts = new CancellationTokenSource(TimeSpan.FromMinutes(3));
+                linkedCts = CancellationTokenSource.CreateLinkedTokenSource(Ct, timeoutCts.Token);
+
+                foreach (var url in nextPage.GetConsumingEnumerable(linkedCts.Token))
                 {
                     try
                     {
@@ -333,6 +338,8 @@ namespace TumblThree.Applications.Crawler
             }
             finally
             {
+                linkedCts?.Dispose();
+                timeoutCts?.Dispose();
                 semaphoreSlim.Release();
             }
         }
