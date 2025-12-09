@@ -1214,6 +1214,15 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The tag cannot be searched anymore..
+        /// </summary>
+        public static string TagCannotBeSearchedAnymore {
+            get {
+                return ResourceManager.GetString("TagCannotBeSearchedAnymore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tags: {0}.
         /// </summary>
         public static string Tags {

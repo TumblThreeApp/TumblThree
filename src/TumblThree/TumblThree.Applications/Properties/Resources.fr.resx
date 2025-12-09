@@ -531,4 +531,7 @@ Continuer à fermer quand même ?</value>
   <data name="LoadExistingCrawlerDataFiles" xml:space="preserve">
     <value>Charger les fichiers de données du robot d'exploration existants...</value>
   </data>
+  <data name="TagCannotBeSearchedAnymore" xml:space="preserve">
+    <value>Ce mot clé n'est plus référencée.</value>
+  </data>
 </root>

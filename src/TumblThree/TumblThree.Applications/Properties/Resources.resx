@@ -550,4 +550,7 @@ Continue close anyway?</value>
   <data name="LoadExistingCrawlerDataFiles" xml:space="preserve">
     <value>Load existing crawler data files...</value>
   </data>
+  <data name="TagCannotBeSearchedAnymore" xml:space="preserve">
+    <value>The tag cannot be searched anymore.</value>
+  </data>
 </root>

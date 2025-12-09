@@ -513,4 +513,7 @@ De lo contrario, debe cambiar al menos las entradas de ubicación "Descargar" y 
   <data name="LoadExistingCrawlerDataFiles" xml:space="preserve">
     <value>Cargar archivos de datos del rastreador existentes...</value>
   </data>
+  <data name="TagCannotBeSearchedAnymore" xml:space="preserve">
+    <value>La etiqueta ya no se puede buscar.</value>
+  </data>
 </root>

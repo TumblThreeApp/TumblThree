@@ -121,7 +121,7 @@ namespace TumblThree.Applications.Crawler
                 if (string.IsNullOrEmpty(json)) json = extractJsonFromSearch2.Match(document).Groups[1].Value;
                 TagSearch result = ConvertJsonToClass<TagSearch>(json);
 
-                if (result.Tagged.ShouldRedirect)
+                if (result.Tagged?.ShouldRedirect == true)
                 {
                     document = await GetTaggedSearchPageAsync(true);
                     json = extractJsonFromSearch.Match(document).Groups[1].Value;
@@ -129,12 +129,17 @@ namespace TumblThree.Applications.Crawler
                     result = ConvertJsonToClass<TagSearch>(json);
                 }
 
-                string nextUrl = result.ApiUrl + (result.Tagged.Timeline?.Links?.Next?.Href ??
-                    result.Queries.Queries.Where(x => x.QueryHash.Contains("hubsTimeline")).FirstOrDefault().State.Data.Pages.FirstOrDefault().NextLink);
+                string nextUrl = result.ApiUrl + (result.Tagged?.Timeline?.Links?.Next?.Href ??
+                    result.Queries.Queries.Where(x => x.QueryHash.Contains("Timeline")).FirstOrDefault().State.Data.Pages.FirstOrDefault().NextLink);
                 string bearerToken = result.ApiFetchStore.APITOKEN;
 
-                var posts = result.Tagged.Timeline?.Elements ??
-                    result.Queries.Queries.Where(x => x.QueryHash.Contains("hubsTimeline")).FirstOrDefault().State.Data.Pages.FirstOrDefault().Items;
+                if (!nextUrl.Contains("/api/v2/hubs/"))
+                {
+                    throw new FormatException(Resources.TagCannotBeSearchedAnymore);
+                }
+
+                var posts = result.Tagged?.Timeline?.Elements ??
+                    result.Queries.Queries.Where(x => x.QueryHash.Contains("Timeline")).FirstOrDefault().State.Data.Pages.FirstOrDefault().Items;
                 DownloadMedia(posts);
                 while (true)
                 {

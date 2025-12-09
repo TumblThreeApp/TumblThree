@@ -519,4 +519,7 @@ Trotzdem fortfahren und schließen?</value>
   <data name="LoadExistingCrawlerDataFiles" xml:space="preserve">
     <value>Lade vorhandene Crawler-Datendateien...</value>
   </data>
+  <data name="TagCannotBeSearchedAnymore" xml:space="preserve">
+    <value>Der Tag kann nicht mehr gesucht werden.</value>
+  </data>
 </root>
