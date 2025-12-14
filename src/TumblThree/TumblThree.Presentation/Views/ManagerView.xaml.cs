@@ -27,9 +27,9 @@ namespace TumblThree.Presentation.Views
     public partial class ManagerView : IManagerView
     {
         private readonly Lazy<ManagerViewModel> viewModel;
-        private List<IBlog> _selected = new List<IBlog>();
+        private readonly List<IBlog> _selected = new List<IBlog>();
         private bool handledLeftMouseButton;
-        private SortDescription? _currentSortDescription = null;
+        private readonly List<SortDescription> _currentSortDescriptions = new List<SortDescription>();
 
         public ManagerView()
         {
@@ -104,19 +104,10 @@ namespace TumblThree.Presentation.Views
         private void BlogFilesGridSorting(object sender, DataGridSortingEventArgs e)
         {
             var collectionView = CollectionViewSource.GetDefaultView(blogFilesGrid.ItemsSource) as ListCollectionView;
-            if (collectionView == null)
-            {
-                return;
-            }
+            if (collectionView == null) return;
 
-            if (collectionView.IsEditingItem && collectionView.CanCancelEdit)
-            {
-                collectionView.CancelEdit();
-            }
-            if (collectionView.IsAddingNew)
-            {
-                collectionView.CancelNew();
-            }
+            if (collectionView.IsEditingItem && collectionView.CanCancelEdit) collectionView.CancelEdit();
+            if (collectionView.IsAddingNew) collectionView.CancelNew();
 
             e.Handled = true;
 
@@ -135,24 +126,33 @@ namespace TumblThree.Presentation.Views
                 }
             }
 
-            if (string.IsNullOrEmpty(propertyName))
-                return;
+            if (string.IsNullOrEmpty(propertyName)) return;
 
-            _currentSortDescription = new SortDescription(propertyName, direction);
+            bool shiftPressed = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift);
 
-            foreach (var column in blogFilesGrid.Columns)
+            if (!shiftPressed)
             {
-                if (column != e.Column)
-                    column.SortDirection = null;
+                _currentSortDescriptions.Clear();
+                foreach (var column in blogFilesGrid.Columns)
+                {
+                    if (column != e.Column)
+                        column.SortDirection = null;
+                }
             }
 
-            var stableComparer = new StableComparer(
+            for (int i = _currentSortDescriptions.Count - 1; i >= 0; i--)
+            {
+                if (_currentSortDescriptions[i].PropertyName == propertyName)
+                    _currentSortDescriptions.RemoveAt(i);
+            }
+
+            _currentSortDescriptions.Add(new SortDescription(propertyName, direction));
+
+            collectionView.CustomSort = new StableComparer(
                 collectionView,
-                new[] { _currentSortDescription.Value },
+                _currentSortDescriptions,
                 viewModel.Value.GetCollectionName,
                 viewModel.Value.GetProgressValue);
-
-            collectionView.CustomSort = stableComparer;
         }
 
         private void FocusBlogFilesGrid()

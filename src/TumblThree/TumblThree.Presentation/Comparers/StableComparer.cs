@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using TumblThree.Domain.Models.Blogs;
 
 namespace TumblThree.Presentation.Comparers
 {
@@ -14,7 +12,7 @@ namespace TumblThree.Presentation.Comparers
         private readonly Func<object, string> _getCollectionName;
         private readonly Func<object, object> _getProgressValue;
 
-        public StableComparer(IEnumerable items, IEnumerable<SortDescription> sortDescriptions, 
+        public StableComparer(IEnumerable items, IEnumerable<SortDescription> sortDescriptions,
             Func<object, string> getCollectionName = null, Func<object, object> getProgressValue = null)
         {
             _currentOrder = new Dictionary<object, int>();
@@ -48,7 +46,7 @@ namespace TumblThree.Presentation.Comparers
             var valueY = GetPropertyValue(y, sortDescription.PropertyName);
 
             int result = CompareValues(valueX, valueY);
-            
+
             return sortDescription.Direction == ListSortDirection.Ascending ? result : -result;
         }
 
@@ -71,7 +69,7 @@ namespace TumblThree.Presentation.Comparers
             }
         }
 
-        private int CompareValues(object valueX, object valueY)
+        private static int CompareValues(object valueX, object valueY)
         {
             if (valueX == null && valueY == null) return 0;
             if (valueX == null) return -1;
