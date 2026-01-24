@@ -496,7 +496,9 @@ namespace TumblThree.Applications.Crawler
         {
             if (response.Data.User?.Result == null && response.Data.SearchByRawQuery == null) throw new Exception("NoPostsYet");
             if (response.Data.User?.Result?.Typename == "UserUnavailable") throw new Exception("UserUnavailable");
-            if (!string.IsNullOrEmpty(response.Errors?.FirstOrDefault()?.Message))
+            DataModels.Twitter.TimelineTweets.Error error = response.Errors?.FirstOrDefault();
+            if (!string.IsNullOrEmpty(error?.Message) &&
+                !(error?.Code == 0 && error?.Name == "OperationalError" && error?.Message == "Query: Unspecified"))
             {
                 var twErrors = $"Twitter Errors:{Environment.NewLine}" + string.Join("," + Environment.NewLine, response.Errors.Select(s => $"{s.Name}: {s.Message}").ToHashSet<string>());
                 throw new Exception($"{response.Errors[0].Name}: {response.Errors[0].Message}", new Exception(twErrors)) { Source = "TwitterError" };
@@ -819,7 +821,7 @@ namespace TumblThree.Applications.Crawler
         private bool CheckIfDownloadRebloggedPosts(Tweet post)
         {
             var rsr = post.Legacy.RetweetedStatusResult;
-            return Blog.DownloadRebloggedPosts || rsr == null || rsr.Result.User.RestId == post.Core.UserResults.Result.RestId;
+            return Blog.DownloadRebloggedPosts || rsr == null || rsr.Result == null || rsr.Result.User.RestId == post.Core.UserResults.Result.RestId;
         }
 
         private bool CheckIfContainsTaggedPost(Tweet post)
