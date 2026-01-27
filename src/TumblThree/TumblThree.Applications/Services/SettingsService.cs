@@ -26,7 +26,7 @@ namespace TumblThree.Applications.Services
             blog.CreateVideoMeta = shellService.Settings.CreateVideoMeta;
             blog.CreateAudioMeta = shellService.Settings.CreateAudioMeta;
             blog.DownloadReplies = shellService.Settings.DownloadReplies;
-            blog.MetadataFormat = shellService.Settings.MetadataFormat;
+            blog.MetadataFormat = blog.BlogType == Domain.Models.BlogTypes.twitter ? Domain.Models.MetadataType.Json : shellService.Settings.MetadataFormat;
             blog.SkipGif = shellService.Settings.SkipGif;
             blog.DownloadVideoThumbnail = shellService.Settings.DownloadVideoThumbnails;
             blog.DownloadRebloggedPosts = shellService.Settings.DownloadRebloggedPosts;

@@ -129,26 +129,8 @@ namespace TumblThree.Applications.Crawler
 
         private IFiles GetFilesDecorator(IBlog blog)
         {
-            IFiles files = LoadFiles(blog);
+            IFiles files = managerService.LoadFiles(blog);
             return new FilesDecorator(files, globalDatabaseService, settings);
-        }
-
-        private IFiles LoadFiles(IBlog blog)
-        {
-            if (settings.LoadAllDatabases && !settings.LoadAllDatabasesIntoDb)
-            {
-                var files = managerService.GetDatabase(blog.Name, blog.OriginalBlogType);
-                if (files == null)
-                {
-                    var s = string.Format("{0} ({1})", blog.Name, blog.BlogType);
-                    Logger.Error(Resources.CouldNotLoadLibrary, s);
-                    shellService.ShowError(new KeyNotFoundException(), Resources.CouldNotLoadLibrary, s);
-                    throw new KeyNotFoundException(s);
-                }
-                return files;
-            }
-
-            return Files.Load(blog.ChildId, settings.BufferSizeIO);
         }
 
         private IWebRequestFactory GetWebRequestFactory()

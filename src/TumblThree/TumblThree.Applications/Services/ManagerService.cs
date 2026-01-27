@@ -107,11 +107,31 @@ namespace TumblThree.Applications.Services
             return databases.FirstOrDefault(file => file.Name.Equals(blogName) && file.BlogType.Equals(originalBlogType));
         }
 
+        public IFiles LoadFiles(IBlog blog)
+        {
+            var settings = shellService.Settings;
+
+            if (settings.LoadAllDatabases && !settings.LoadAllDatabasesIntoDb)
+            {
+                var files = GetDatabase(blog.Name, blog.OriginalBlogType);
+                if (files == null)
+                {
+                    var s = string.Format("{0} ({1})", blog.Name, blog.BlogType);
+                    Logger.Error(Resources.CouldNotLoadLibrary, s);
+                    shellService.ShowError(new KeyNotFoundException(), Resources.CouldNotLoadLibrary, s);
+                    throw new KeyNotFoundException(s);
+                }
+                return files;
+            }
+
+            return Files.Load(blog.ChildId, settings.BufferSizeIO);
+        }
+
         public void EnsureUniqueFolder(IBlog blog)
         {
             int number = 1;
             string appendix = "";
-            while (BlogFiles.Any(b => b.DownloadLocation() == blog.DownloadLocation() + appendix) || Directory.Exists(blog.DownloadLocation() + appendix))
+            while (BlogFiles.ToList().Any(b => b.DownloadLocation() == blog.DownloadLocation() + appendix) || Directory.Exists(blog.DownloadLocation() + appendix))
             {
                 number++;
                 appendix = $"_{number}";

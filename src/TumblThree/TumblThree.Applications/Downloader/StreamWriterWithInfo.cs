@@ -37,7 +37,7 @@ namespace TumblThree.Applications.Downloader
                 {
                     if (hasStartElement)
                     {
-                        _sw.BaseStream.Seek(-5, SeekOrigin.End);
+                        _sw.BaseStream.Seek(-1 - Environment.NewLine.Length * 2, SeekOrigin.End);
                         _sw.WriteLine(",");
                     }
                     else
@@ -66,9 +66,9 @@ namespace TumblThree.Applications.Downloader
                 if (hasElements)
                 {
                     _sw.Flush();
-                    _sw.BaseStream.Seek(-3, SeekOrigin.End);
+                    _sw.BaseStream.Seek(-1 - Environment.NewLine.Length, SeekOrigin.End);
                 }
-                _sw.WriteLine(hasElements ? "\n]" : "]");
+                _sw.WriteLine(hasElements ? Environment.NewLine + "]" : "]");
             }
             _sw.Dispose();
         }

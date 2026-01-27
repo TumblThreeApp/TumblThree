@@ -13,6 +13,8 @@ namespace TumblThree.Applications.Services
 
         IFiles GetDatabase(string blogName, BlogTypes originalBlogType);
 
+        IFiles LoadFiles(IBlog blog);
+
         void EnsureUniqueFolder(IBlog blog);
 
         bool CheckIfFileExistsInDB(string filename, bool checkOriginalLinkFirst, bool checkArchive);

@@ -60,6 +60,8 @@ namespace TumblThree.Presentation.DesignData
 
         public IFiles GetDatabase(string blogName, BlogTypes originalBlogType) => throw new NotImplementedException();
 
+        public IFiles LoadFiles(IBlog blog) => throw new NotImplementedException();
+
         public Task BeforeDatabaseAdding() => throw new NotImplementedException();
 
         public Task AfterDatabaseAdding() => throw new NotImplementedException();

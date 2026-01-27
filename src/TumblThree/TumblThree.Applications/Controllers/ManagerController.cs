@@ -232,6 +232,7 @@ namespace TumblThree.Applications.Controllers
                 await _managerService.BeforeDatabaseAdding();
                 await LoadLibraryAsync();
                 await LoadAllDatabasesAsync();
+                CheckUpdateBlogDatabases();
                 await LoadArchiveAsync();
                 await _managerService.AfterDatabaseAdding();
                 CheckIfDatabasesComplete();
@@ -373,6 +374,35 @@ namespace TumblThree.Applications.Controllers
             Logger.Verbose("ManagerController.GetIBlogsCore End");
 
             return blogs;
+        }
+
+        private void CheckUpdateBlogDatabases()
+        {
+            foreach (var blog in _managerService.BlogFiles)
+            {
+                if (blog.BlogType != BlogTypes.twitter) continue;
+
+                var files = (Files)_managerService.LoadFiles(blog);    //.load.GetDatabase(blog.Name, blog.OriginalBlogType);
+                if (!(files.Updates ?? "").Contains("X01") && files.BlogType == BlogTypes.twitter  &&
+                    new string[] { "1", "2", "3", "4", "5", "6" }.Contains(files.Version) &&
+                    Directory.Exists(blog.DownloadLocation()))
+                {
+                    var filePath = Path.Combine(blog.DownloadLocation(), Resources.FileNameTexts);
+                    if (!File.Exists(filePath)) continue;
+
+                    var text = File.ReadAllText(filePath);
+                    if (!text.StartsWith("["))
+                    {
+                        text = text.Replace("}" + Environment.NewLine + "{", "}," + Environment.NewLine + "{");
+                        File.WriteAllText(filePath, text);
+                    }
+
+                    files.Updates += (string.IsNullOrEmpty(files.Updates) ? "" : "|") + "X01";
+                    files.Save();
+                    blog.MetadataFormat = MetadataType.Json;
+                    blog.Dirty = true;
+                }
+            }
         }
 
         private async Task LoadAllDatabasesAsync()

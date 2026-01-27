@@ -938,6 +938,8 @@ namespace TumblThree.Applications.Crawler
                 }
             }
             var url = post.Legacy.Url ?? $"https://x.com/{post.User.Legacy.ScreenName}/status/{post.RestId}";
+            var replyToId = post.Legacy.InReplyToStatusIdStr;
+
             var dict = new Dictionary<string, object>()
             {
                 { "id", post.RestId },
@@ -945,6 +947,7 @@ namespace TumblThree.Applications.Crawler
                 { "text", text },
                 { "url", url }
             };
+            if (!string.IsNullOrEmpty(replyToId)) dict.Add("inReplyTo", replyToId);
             if (links.Count > 0) dict.Add("links", links);
             var json = JsonConvert.SerializeObject(dict, Formatting.Indented);
             return json;
