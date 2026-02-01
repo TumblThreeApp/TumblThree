@@ -33,6 +33,7 @@ namespace TumblThree.Applications.Crawler
         private const string graphQlTokenUserByScreenName = "xc8f1g7BYqr6VTzTbvNlGw";
         private const string graphQlTokenUserTweets = "2GIWTr7XwadIixZDtyXd4A";
         private const string graphQlTokenSearchTimeline = "NA567V_8AFwu0cZEkAAKcw";
+        private const string graphQlTokenTweetDetail = "nK2WM0mHJKd2-jb6qhmfWA";
         private const string BearerToken = "AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA";
 
         private readonly IDownloader downloader;
@@ -243,6 +244,11 @@ namespace TumblThree.Applications.Crawler
                         "?variables=%7B%22rawQuery%22%3A%22from%3A{1}%20until%3A{2}%22%2C%22count%22%3A{3}{4}%2C%22product%22%3A%22Latest%22%7D&features=%7B%22rweb_lists_timeline_redesign_enabled%22%3Atrue%2C%22responsive_web_graphql_exclude_directive_enabled%22%3Atrue%2C%22verified_phone_label_enabled%22%3Afalse%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22tweetypie_unmention_optimization_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22responsive_web_twitter_article_tweet_consumption_enabled%22%3Afalse%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Atrue%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Atrue%2C%22longform_notetweets_rich_text_read_enabled%22%3Atrue%2C%22longform_notetweets_inline_media_enabled%22%3Atrue%2C%22responsive_web_media_download_video_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D&fieldToggles=%7B%22withAuxiliaryUserLabels%22%3Afalse%2C%22withArticleRichContentState%22%3Afalse%7D",
                         graphQlTokenSearchTimeline, Blog.Name, oldestApiPost, pageSize, cursor);
                     break;
+                case 4:
+                    url = string.Format("https://x.com/i/api/graphql/{0}/TweetDetail" +
+                        "?variables=%7B%22focalTweetId%22%3A%22{1}%22%2C%22referrer%22%3A%22profile%22%2C%22with_rux_injections%22%3Afalse%2C%22rankingMode%22%3A%22Relevance%22%2C%22includePromotedContent%22%3Atrue%2C%22withCommunity%22%3Atrue%2C%22withQuickPromoteEligibilityTweetFields%22%3Atrue%2C%22withBirdwatchNotes%22%3Atrue%2C%22withVoice%22%3Atrue%7D&features=%7B%22rweb_video_screen_enabled%22%3Afalse%2C%22profile_label_improvements_pcf_label_in_post_enabled%22%3Atrue%2C%22responsive_web_profile_redirect_enabled%22%3Afalse%2C%22rweb_tipjar_consumption_enabled%22%3Afalse%2C%22verified_phone_label_enabled%22%3Afalse%2C%22creator_subscriptions_tweet_preview_api_enabled%22%3Atrue%2C%22responsive_web_graphql_timeline_navigation_enabled%22%3Atrue%2C%22responsive_web_graphql_skip_user_profile_image_extensions_enabled%22%3Afalse%2C%22premium_content_api_read_enabled%22%3Afalse%2C%22communities_web_enable_tweet_community_results_fetch%22%3Atrue%2C%22c9s_tweet_anatomy_moderator_badge_enabled%22%3Atrue%2C%22responsive_web_grok_analyze_button_fetch_trends_enabled%22%3Afalse%2C%22responsive_web_grok_analyze_post_followups_enabled%22%3Atrue%2C%22responsive_web_jetfuel_frame%22%3Atrue%2C%22responsive_web_grok_share_attachment_enabled%22%3Atrue%2C%22responsive_web_grok_annotations_enabled%22%3Afalse%2C%22articles_preview_enabled%22%3Atrue%2C%22responsive_web_edit_tweet_api_enabled%22%3Atrue%2C%22graphql_is_translatable_rweb_tweet_is_translatable_enabled%22%3Atrue%2C%22view_counts_everywhere_api_enabled%22%3Atrue%2C%22longform_notetweets_consumption_enabled%22%3Atrue%2C%22responsive_web_twitter_article_tweet_consumption_enabled%22%3Atrue%2C%22tweet_awards_web_tipping_enabled%22%3Afalse%2C%22responsive_web_grok_show_grok_translated_post%22%3Afalse%2C%22responsive_web_grok_analysis_button_from_backend%22%3Atrue%2C%22post_ctas_fetch_enabled%22%3Atrue%2C%22creator_subscriptions_quote_tweet_preview_enabled%22%3Afalse%2C%22freedom_of_speech_not_reach_fetch_enabled%22%3Atrue%2C%22standardized_nudges_misinfo%22%3Atrue%2C%22tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled%22%3Atrue%2C%22longform_notetweets_rich_text_read_enabled%22%3Atrue%2C%22longform_notetweets_inline_media_enabled%22%3Atrue%2C%22responsive_web_grok_image_annotation_enabled%22%3Atrue%2C%22responsive_web_grok_imagine_annotation_enabled%22%3Atrue%2C%22responsive_web_grok_community_note_auto_translation_is_enabled%22%3Afalse%2C%22responsive_web_enhance_cards_enabled%22%3Afalse%7D&fieldToggles=%7B%22withArticleRichContentState%22%3Atrue%2C%22withArticlePlainText%22%3Afalse%2C%22withGrokAnalyze%22%3Afalse%2C%22withDisallowedReplyControls%22%3Afalse%7D",
+                        graphQlTokenTweetDetail, url);
+                    break;
             }
             return url;
         }
@@ -351,7 +357,7 @@ namespace TumblThree.Applications.Crawler
 
         private async Task<string> GetApiPageAsync(byte type, string cursor)
         {
-            string url = await GetApiUrl(Blog.Url, type, cursor, Blog.PageSize == 0 ? 20 : Blog.PageSize);
+            string url = await GetApiUrl(type == 4 ? cursor : Blog.Url, type, cursor, Blog.PageSize == 0 ? 20 : Blog.PageSize);
 
             if (ShellService.Settings.LimitConnectionsTwitterApi)
             {
@@ -363,7 +369,7 @@ namespace TumblThree.Applications.Crawler
                 CrawlerService.TimeconstraintTwitterApi.Acquire();
             }
 
-            var referer = type < 3 ? Blog.Url : $"https://x.com/search?q=from%3A{Blog.Name}%20until%3A{oldestApiPost}&src=typed_query&f=latest";
+            var referer = type == 3 ? $"https://x.com/search?q=from%3A{Blog.Name}%20until%3A{oldestApiPost}&src=typed_query&f=latest" : Blog.Url;
 
             var headers = new Dictionary<string, string>();
             headers.Add("Origin", "https://x.com");
@@ -494,7 +500,7 @@ namespace TumblThree.Applications.Crawler
 
         private static List<Entry> GetEntries(TimelineTweets response, bool includePinEntry = false, bool includeCursors = false)
         {
-            if (response.Data.User?.Result == null && response.Data.SearchByRawQuery == null) throw new Exception("NoPostsYet");
+            if (response.Data.User?.Result == null && response.Data.SearchByRawQuery == null && response.Data.ThreadedConversationWithInjectionsV2 == null) throw new Exception("NoPostsYet");
             if (response.Data.User?.Result?.Typename == "UserUnavailable") throw new Exception("UserUnavailable");
             DataModels.Twitter.TimelineTweets.Error error = response.Errors?.FirstOrDefault();
             if (!string.IsNullOrEmpty(error?.Message) &&
@@ -504,7 +510,8 @@ namespace TumblThree.Applications.Crawler
                 throw new Exception($"{response.Errors[0].Name}: {response.Errors[0].Message}", new Exception(twErrors)) { Source = "TwitterError" };
             }
 
-            List<Entry> entries = response.Timeline.Instructions.Where(x => x.Type == "TimelineAddEntries").FirstOrDefault()?.Entries ?? new List<Entry>();
+            List<Instruction> instructions = response.Timeline?.Instructions ?? response.Data.ThreadedConversationWithInjectionsV2.Instructions;
+            List <Entry> entries = instructions.Where(x => x.Type == "TimelineAddEntries").FirstOrDefault()?.Entries ?? new List<Entry>();
             if (includePinEntry)
             {
                 var pinEntry = response.Timeline.Instructions.Where(x => x.Type == "TimelinePinEntry").FirstOrDefault();
@@ -515,13 +522,13 @@ namespace TumblThree.Applications.Crawler
             }
             entries = entries.Where(x => x.Content.EntryType == "TimelineTimelineItem" || x.Content.EntryType == "TimelineTimelineModule" ||
                     includeCursors && x.Content.EntryType == "TimelineTimelineCursor")
-                .Where(x => x.Content.EntryType == "TimelineTimelineCursor" ||
+                .Where(x => includeCursors && x.Content.EntryType == "TimelineTimelineCursor" ||
                     x.Content.EntryType == "TimelineTimelineItem" && x.Content.ItemContent.TweetDisplayType == "Tweet" && x.Content.ItemContent.TweetResults?.Tweet?.Legacy != null ||
                     x.Content.EntryType == "TimelineTimelineModule" && x.Content.DisplayType.EndsWith("Conversation") &&
                         x.Content.Items.Any(a => a.Item.ItemContent.TweetResults?.Tweet?.Legacy != null)
                 ).ToList();
 
-            List<Entry> replaceEntries = response.Timeline.Instructions.Where(x => x.Type == "TimelineReplaceEntry").Select(x => x.Entry).ToList();
+            List<Entry> replaceEntries = instructions.Where(x => x.Type == "TimelineReplaceEntry").Select(x => x.Entry).ToList();
             if (replaceEntries?.Count > 0)
                 entries.AddRange(replaceEntries);
 
@@ -539,7 +546,7 @@ namespace TumblThree.Applications.Crawler
             List<ItemContent> list = new List<ItemContent>();
             if (entry?.Content?.ItemContent != null) list.Add(entry.Content.ItemContent);
             if (entry?.Content?.Items != null) list.AddRange(entry.Content.Items.Select(s => s.Item.ItemContent));
-            return list.Select(s => s.TweetResults.Tweet).Where(x => x != null).ToList();
+            return list.Select(s => s.TweetResults?.Tweet).Where(x => x != null).ToList();
         }
 
         private async Task CrawlPageAsync(int pageNo)
@@ -780,7 +787,21 @@ namespace TumblThree.Applications.Crawler
                     !entry.EntryId.StartsWith("sq-i-t-", StringComparison.InvariantCultureIgnoreCase) &&
                     !entry.EntryId.StartsWith("profile-conversation", StringComparison.InvariantCultureIgnoreCase)) continue;
 
-                foreach (Tweet post in SelectTweets(entry))
+                var tweets = SelectTweets(entry);
+
+                if (entry.Content?.Items != null && entry.Content?.EntryType == "TimelineTimelineModule" && entry.Content?.DisplayType == "VerticalConversation")
+                {
+                    var list = entry.Content.Items.Select(s => s.Item.ItemContent).ToList();
+                    if (list.Count > 1 && list[0].TweetResults?.Result?.Legacy?.IdStr != list[1].TweetResults?.Result?.Legacy?.InReplyToStatusIdStr)
+                    {
+                        string document = await GetUserTweetsAsync(4, list[0].TweetResults?.Result?.Legacy?.IdStr);
+                        var response = ConvertJsonToClassNew<TimelineTweets>(document);
+                        var entries2 = GetEntries(response, false, false);
+                        tweets = entries2.SelectMany(s => SelectTweets(s)).ToList();
+                    }
+                }
+
+                foreach (Tweet post in tweets)
                 {
                     try
                     {

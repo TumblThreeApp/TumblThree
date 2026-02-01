@@ -12,7 +12,7 @@ namespace TumblThree.Applications.DataModels.Twitter.TimelineTweets
         public List<Error> Errors { get; } = new List<Error>();
 
         [JsonIgnore]
-        public Timeline Timeline => Data.User?.Result.TimelineV2.Timeline ?? Data.SearchByRawQuery.SearchTimeline.Timeline;
+        public Timeline Timeline => Data.User?.Result.TimelineV2.Timeline ?? Data.SearchByRawQuery?.SearchTimeline.Timeline;
     }
 
     public class AdditionalMediaInfo
