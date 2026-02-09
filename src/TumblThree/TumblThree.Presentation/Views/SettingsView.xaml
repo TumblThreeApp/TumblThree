@@ -2641,6 +2641,29 @@
                                 </CheckBox>
                             </Grid>
                         </GroupBox>
+                        <GroupBox Header="General" Grid.Row="3" Grid.ColumnSpan="4" Margin="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <CheckBox x:Name="checkBoxLoadAllDatabasesIntoDbSyncBlogDbs"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="5"
+                                    Content="{x:Static p:Resources.LoadAllDatabasesIntoDbSyncBlogDbs}"
+                                    IsChecked="{Binding LoadAllDatabasesIntoDbSyncBlogDbs, Mode=TwoWay}">
+                                    <CheckBox.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipLoadAllDatabasesIntoDbSyncBlogDbs}" />
+                                                <TextBlock Text="{x:Static p:Resources.ToolTipLoadAllDatabasesIntoDbSyncBlogDbsDescription}" />
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </CheckBox.ToolTip>
+                                </CheckBox>
+                            </Grid>
+                        </GroupBox>
                     </Grid>
                 </TabItem>
             </TabControl>

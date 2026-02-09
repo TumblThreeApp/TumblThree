@@ -106,6 +106,7 @@ namespace TumblThree.Applications.ViewModels
         private bool _loadAllDatabases;
         private bool _loadArchive;
         private bool _loadAllDatabasesIntoDb;
+        private bool _loadAllDatabasesIntoDbSyncBlogDbs;
         private string _proxyHost;
         private string _proxyPort;
         private string _proxyUsername;
@@ -629,6 +630,12 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _loadAllDatabasesIntoDb;
             set => SetProperty(ref _loadAllDatabasesIntoDb, value);
+        }
+
+        public bool LoadAllDatabasesIntoDbSyncBlogDbs
+        {
+            get => _loadAllDatabasesIntoDbSyncBlogDbs;
+            set => SetProperty(ref _loadAllDatabasesIntoDbSyncBlogDbs, value);
         }
 
         public bool LoadAllDatabasesIntoDbEnabled
@@ -1378,6 +1385,7 @@ namespace TumblThree.Applications.ViewModels
                 LoadAllDatabases = _settings.LoadAllDatabases;
                 LoadArchive = _settings.LoadArchive;
                 LoadAllDatabasesIntoDb = _settings.LoadAllDatabasesIntoDb;
+                LoadAllDatabasesIntoDbSyncBlogDbs = _settings.LoadAllDatabasesIntoDbSyncBlogDbs;
                 ProxyHost = _settings.ProxyHost;
                 ProxyPort = _settings.ProxyPort;
                 ProxyUsername = _settings.ProxyUsername;
@@ -1481,6 +1489,8 @@ namespace TumblThree.Applications.ViewModels
                 PortableMode = false;
                 LoadAllDatabases = false;
                 LoadArchive = false;
+                LoadAllDatabasesIntoDb = false;
+                LoadAllDatabasesIntoDbSyncBlogDbs = false;
                 ProxyHost = string.Empty;
                 ProxyPort = string.Empty;
                 ProxyHost = string.Empty;
@@ -1673,6 +1683,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.LoadAllDatabases = LoadAllDatabases;
             _settings.LoadArchive = LoadArchive;
             _settings.LoadAllDatabasesIntoDb = LoadAllDatabasesIntoDb;
+            _settings.LoadAllDatabasesIntoDbSyncBlogDbs = LoadAllDatabasesIntoDbSyncBlogDbs;
             _settings.ProxyHost = ProxyHost;
             _settings.ProxyPort = ProxyPort;
             _settings.ProxyUsername = ProxyUsername;

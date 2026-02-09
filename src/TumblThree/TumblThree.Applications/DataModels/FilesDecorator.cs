@@ -55,7 +55,7 @@ namespace TumblThree.Domain.Models.Files
             {
                 globalDatabaseService.AddFileToDb(blogDatabase.Name, blogDatabase.BlogType, fileNameUrl, fileNameOriginalUrl, fileName);
             }
-            else
+            if (!settings.LoadAllDatabasesIntoDb || settings.LoadAllDatabasesIntoDbSyncBlogDbs)
             {
                 blogDatabase.AddFileToDb(fileNameUrl, fileNameOriginalUrl, fileName);
             }
@@ -63,11 +63,20 @@ namespace TumblThree.Domain.Models.Files
 
         public string AddFileToDb(string fileNameUrl, string fileNameOriginalUrl, string fileName, string appendTemplate)
         {
+            string filename = null;
             if (settings.LoadAllDatabasesIntoDb)
             {
-                globalDatabaseService.AddFileToDb(blogDatabase.Name, blogDatabase.BlogType, fileNameUrl, fileNameOriginalUrl, fileName, appendTemplate);
+                filename = globalDatabaseService.AddFileToDb(blogDatabase.Name, blogDatabase.BlogType, fileNameUrl, fileNameOriginalUrl, fileName, appendTemplate).GetAwaiter().GetResult();
             }
-            return blogDatabase.AddFileToDb(fileNameUrl, fileNameOriginalUrl, fileName, appendTemplate);
+            if (!settings.LoadAllDatabasesIntoDb || settings.LoadAllDatabasesIntoDbSyncBlogDbs)
+            {
+                string filenameLocal = blogDatabase.AddFileToDb(fileNameUrl, fileNameOriginalUrl, fileName, appendTemplate);
+                if (!settings.LoadAllDatabasesIntoDb)
+                {
+                    filename = filenameLocal;
+                }
+            }
+            return filename;
         }
 
         public bool CheckIfFileExistsInDB(string filenameUrl, bool checkOriginalLinkFirst)
@@ -93,7 +102,7 @@ namespace TumblThree.Domain.Models.Files
             {
                 globalDatabaseService.UpdateOriginalLink(blogDatabase.Name, (int)blogDatabase.BlogType, filenameUrl, filenameOriginalUrl);
             }
-            else
+            if (!settings.LoadAllDatabasesIntoDb || settings.LoadAllDatabasesIntoDbSyncBlogDbs)
             {
                 blogDatabase.UpdateOriginalLink(filenameUrl, filenameOriginalUrl);
             }

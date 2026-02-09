@@ -354,6 +354,9 @@ namespace TumblThree.Applications.Properties
         public bool LoadAllDatabasesIntoDb { get; set; }
 
         [DataMember]
+        public bool LoadAllDatabasesIntoDbSyncBlogDbs { get; set; }
+
+        [DataMember]
         public string ProxyHost { get; set; }
 
         [DataMember]
@@ -673,6 +676,7 @@ namespace TumblThree.Applications.Properties
             LoadAllDatabases = false;
             LoadArchive = false;
             LoadAllDatabasesIntoDb = false;
+            LoadAllDatabasesIntoDbSyncBlogDbs = false;
             ProxyHost = string.Empty;
             ProxyPort = string.Empty;
             ProxyUsername = string.Empty;

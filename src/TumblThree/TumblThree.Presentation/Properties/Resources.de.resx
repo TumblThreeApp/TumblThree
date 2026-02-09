@@ -1086,6 +1086,17 @@ eingehalten. Dies kann zu einer Ablehnung durch den Server führen. Dies geschie
     <value>Diese Option kann nur aktiviert werden, wenn die globale Prüfung aktiviert ist.
 Sie ist nützlich, wenn Sie die globale Prüfung verwenden und bereits eine große Anzahl von Dateien heruntergeladen haben.
 Die Aktivierung dieser Option reduziert den Speicherverbrauch, da nicht alle Blog-Datenbanken im Speicher gehalten werden.
-Diese Option wird nach einem Neustart des Programms wirksam. Der erste Start nach der Aktivierung kann etwas länger dauern als üblich.</value>
+Diese Option wird nach einem Neustart des Programms wirksam. Der erste Start nach der Aktivierung kann etwas länger dauern als üblich.
+Hinweis: Einzelne Blogdatenbanken werden nicht mehr aktualisiert.</value>
+  </data>
+  <data name="LoadAllDatabasesIntoDbSyncBlogDbs" xml:space="preserve">
+    <value>Blogdatenbanken im Modus „Globale Datenbank“ synchronisieren</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDbSyncBlogDbs" xml:space="preserve">
+    <value>Blogdatenbanken im Modus „Globale Datenbank“ synchronisieren</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDbSyncBlogDbsDescription" xml:space="preserve">
+    <value>Blogdatenbanken werden im Modus „Globale Datenbank“ normalerweise nicht aktualisiert.
+Wenn diese Option aktiviert ist, werden auch Blogdatenbanken aktualisiert. In diesem Fall kann das Crawlen eines Blogs etwas länger dauern.</value>
   </data>
 </root>

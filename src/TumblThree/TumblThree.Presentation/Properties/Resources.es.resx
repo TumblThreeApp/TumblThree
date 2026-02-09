@@ -1074,6 +1074,17 @@ lo que podría resultar en el rechazo por parte del servidor. Esto es bajo su pr
     <value>Esta opción solo se puede habilitar si la comprobación global está habilitada.
 Resulta útil si se utiliza la comprobación global y ya se ha descargado una gran cantidad de archivos.
 Habilitar esta opción reduce el uso de memoria, ya que no todas las bases de datos del blog se almacenan en memoria.
-Esta opción se activará tras reiniciar el programa. El primer inicio tras la activación puede tardar un poco más de lo habitual.</value>
+Esta opción se activará tras reiniciar el programa. El primer inicio tras la activación puede tardar un poco más de lo habitual.
+Nota: Las bases de datos de blogs individuales ya no se actualizan.</value>
+  </data>
+  <data name="LoadAllDatabasesIntoDbSyncBlogDbs" xml:space="preserve">
+    <value>Sincronizar bases de datos de blogs en modo "Global DB"</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDbSyncBlogDbs" xml:space="preserve">
+    <value>Sincronizar bases de datos de blogs en modo "Global DB"</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDbSyncBlogDbsDescription" xml:space="preserve">
+    <value>Las bases de datos de blogs no suelen actualizarse en el modo "Base de datos global".
+Si esta opción está activada, también se actualizarán. En este caso, el rastreo de un blog puede tardar un poco más.</value>
   </data>
 </root>

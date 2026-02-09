@@ -1078,6 +1078,17 @@ respectées, ce qui peut entraîner un rejet par le serveur. Cette action est à
     <value>Cette option ne peut être activée que si la vérification globale est activée.
 Elle est utile si vous utilisez la vérification globale et avez déjà téléchargé un grand nombre de fichiers.
 L'activation de cette option réduit l'utilisation de la mémoire, car toutes les bases de données de blog ne sont pas conservées en mémoire.
-Cette option prendra effet après le redémarrage du programme. Le premier démarrage après l'activation peut être légèrement plus long que d'habitude.</value>
+Cette option prendra effet après le redémarrage du programme. Le premier démarrage après l'activation peut être légèrement plus long que d'habitude.
+Remarque: Les bases de données individuelles des blogs ne sont plus mises à jour.</value>
+  </data>
+  <data name="LoadAllDatabasesIntoDbSyncBlogDbs" xml:space="preserve">
+    <value>Synchroniser les bases de données de blog en mode « Base de données globale »</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDbSyncBlogDbs" xml:space="preserve">
+    <value>Synchroniser les bases de données de blog en mode « Base de données globale »</value>
+  </data>
+  <data name="ToolTipLoadAllDatabasesIntoDbSyncBlogDbsDescription" xml:space="preserve">
+    <value>Les bases de données des blogs ne sont généralement pas mises à jour en mode « Base de données globale ».
+Si cette option est activée, les bases de données des blogs seront également mises à jour. Dans ce cas, l'exploration d'un blog peut prendre un peu plus de temps.</value>
   </data>
 </root>

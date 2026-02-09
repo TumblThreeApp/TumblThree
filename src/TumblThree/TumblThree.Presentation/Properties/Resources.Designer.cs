@@ -1252,6 +1252,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Synchronize blog databases in Global DB mode.
+        /// </summary>
+        public static string LoadAllDatabasesIntoDbSyncBlogDbs {
+            get {
+                return ResourceManager.GetString("LoadAllDatabasesIntoDbSyncBlogDbs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to including archived blogs.
         /// </summary>
         public static string LoadArchive {
@@ -2274,6 +2283,16 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blog databases are not normally updated in &quot;Global Database&quot; mode.
+        ///If this option is enabled, blog databases will also be updated. In this case, crawling a blog may take slightly longer..
+        /// </summary>
+        public static string ToolTipDownloadTagsToDescription {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadTagsToDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Crawl posts to this date.
         /// </summary>
         public static string ToolTipDownloadTo {
@@ -2777,6 +2796,25 @@ namespace TumblThree.Presentation.Properties {
         public static string ToolTipLoadAllDatabasesIntoDbDescription {
             get {
                 return ResourceManager.GetString("ToolTipLoadAllDatabasesIntoDbDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronize blog databases in Global DB mode.
+        /// </summary>
+        public static string ToolTipLoadAllDatabasesIntoDbSyncBlogDbs {
+            get {
+                return ResourceManager.GetString("ToolTipLoadAllDatabasesIntoDbSyncBlogDbs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blog databases are not normally updated in Global Database mode.
+        ///If this option is enabled, blog databases will also be updated. In this case, crawling a blog may take slightly longer..
+        /// </summary>
+        public static string ToolTipLoadAllDatabasesIntoDbSyncBlogDbsDescription {
+            get {
+                return ResourceManager.GetString("ToolTipLoadAllDatabasesIntoDbSyncBlogDbsDescription", resourceCulture);
             }
         }
         
