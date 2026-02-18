@@ -139,6 +139,7 @@ namespace TumblThree.Applications.Crawler
                     Blog.Title = obj.Response.Blog.Title;
                     Blog.Description = obj.Response.Blog.Description;
                     Blog.Posts = obj.Response.Blog.Posts;
+                    Blog.TotalCount = obj.Response.Blog.Posts;
                 }
             }
             catch (WebException webException)
