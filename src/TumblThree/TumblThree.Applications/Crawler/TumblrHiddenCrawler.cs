@@ -123,6 +123,12 @@ namespace TumblThree.Applications.Crawler
             }
             try
             {
+                if (!await CheckIfLoggedInAsync())
+                {
+                    Logger.Error("TumblrHiddenCrawler:UpdateMetaInformationAsync: {0}", "User not logged in");
+                    ShellService.ShowError(new Exception("User not logged in"), Resources.NotLoggedIn, Blog.Name);
+                    return;
+                }
                 var document = await GetSvcPageAsync(Blog.Url);
                 _ = ExtractPosts(document, out var result);
 
