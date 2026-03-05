@@ -18,6 +18,8 @@ namespace TumblThree.Applications.Services
 
         bool ChangeCollection(IBlog blog, Collection oldItem, Collection newItem);
 
+        bool ChangeCollection(IBlogAll blogs, Collection oldItem, Collection newItem);
+
         event EventHandler DetailsViewModelChanged;
 
         event EventHandler FinishedCrawlingLastBlog;

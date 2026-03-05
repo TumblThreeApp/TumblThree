@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Waf.Applications.Services;
+using System.Windows.Data;
 using TumblThree.Applications.Properties;
 using TumblThree.Applications.Services;
 using TumblThree.Applications.ViewModels;
@@ -27,6 +28,7 @@ namespace TumblThree.Applications.Controllers
         private readonly IShellService _shellService;
         private readonly IManagerService _managerService;
         private readonly IMessageService _messageService;
+        private readonly ICrawlerService _crawlerService;
         private readonly ExportFactory<FullScreenMediaViewModel> _fullScreenMediaViewModelFactory;
 
         private Lazy<IDetailsViewModel> _detailsViewModel;
@@ -41,12 +43,13 @@ namespace TumblThree.Applications.Controllers
 
         [ImportingConstructor]
         public DetailsController(IShellService shellService, ISelectionService selectionService, IManagerService managerService,
-            IMessageService messageService, ExportFactory<FullScreenMediaViewModel> fullScreenMediaViewModelFactory)
+            IMessageService messageService, ICrawlerService crawlerService, ExportFactory<FullScreenMediaViewModel> fullScreenMediaViewModelFactory)
         {
             _shellService = shellService;
             _selectionService = selectionService;
             _managerService = managerService;
             _messageService = messageService;
+            _crawlerService = crawlerService;
             _fullScreenMediaViewModelFactory = fullScreenMediaViewModelFactory;
             _blogsToSave = new HashSet<IBlog>();
         }
@@ -99,6 +102,7 @@ namespace TumblThree.Applications.Controllers
             else if (DetailsViewModel.GetType() == typeof(ViewModels.DetailsViewModels.DetailsAllViewModel))
             {
                 DetailsViewModel.Count = blogFiles.Count;
+                ((DetailsAllViewModel)DetailsViewModel).BlogAll = null;
                 ((DetailsAllViewModel)DetailsViewModel).BlogAll = CreateFromMultiple(blogFiles.ToArray());
                 ((DetailsAllViewModel)DetailsViewModel).BlogAll.PropertyChanged += ChangeBlogSettings;
             }
@@ -133,6 +137,16 @@ namespace TumblThree.Applications.Controllers
         {
             FullScreenMediaViewModel fullScreenMediaViewModel = _fullScreenMediaViewModelFactory.CreateExport().Value;
             fullScreenMediaViewModel.ShowDialog(_shellService.ShellView);
+        }
+
+        public bool ChangeCollection(IBlogAll blogs, Collection oldItem, Collection newItem)
+        {
+            bool ret = true;
+            foreach (IBlog blog in _blogsToSave)
+            {
+                ret &= ChangeCollection(blog, oldItem, newItem);
+            }
+            return ret;
         }
 
         public bool ChangeCollection(IBlog blog, Collection oldItem, Collection newItem)
@@ -344,6 +358,17 @@ namespace TumblThree.Applications.Controllers
             ba.SelectionContainsTwitterBlogs = sharedBlogFiles.Any(x => x.BlogType == BlogTypes.twitter);
             ba.SettingsTabIndex = SetProperty<int>(sharedBlogFiles, "SettingsTabIndex", (outval) => allEqual = outval);
             if (allEqual && ba.SettingsTabIndex > 0 && !sharedBlogFiles.Any(x => x.BlogType != BlogTypes.twitter)) ba.SettingsTabIndex = 2;
+
+            var list = ((DetailsAllViewModel)DetailsViewModel).CollectionList;
+            list.Clear();
+            foreach (var item in _crawlerService.Collections.SourceCollection)
+                list.Add((Collection)item);
+            if (!ba.CollectionIdEnabled)
+            {
+                ba.CollectionId = -1;
+                list.Add(new Collection() { Id = -1, Name = "<diverse>" });
+            }
+            ((DetailsAllViewModel)DetailsViewModel).RaiseCollectionItemChanged();
 
             ba.Dirty = false;
 

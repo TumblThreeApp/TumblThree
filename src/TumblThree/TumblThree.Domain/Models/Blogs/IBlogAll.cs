@@ -1,4 +1,6 @@
-﻿namespace TumblThree.Domain.Models.Blogs
+﻿using System.ComponentModel;
+
+namespace TumblThree.Domain.Models.Blogs
 {
     public interface IBlogAll : IBlog
     {
@@ -31,6 +33,7 @@
         new bool? DownloadLink { get; set; }
         new bool? DownloadReplies { get; set; }
         new bool? SaveTextsIndividualFiles { get; set; }
+        new int? CollectionId { get; set; }
 
         bool DownloadPhotoDiff { get; set; }
         bool DownloadQuoteDiff { get; set; }

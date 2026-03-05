@@ -1,4 +1,6 @@
-﻿namespace TumblThree.Domain.Models.Blogs
+﻿using System.ComponentModel;
+
+namespace TumblThree.Domain.Models.Blogs
 {
     /// <summary>
     /// Helper class for DetailsAll view
@@ -37,6 +39,7 @@
         private bool? downloadLink;
         private bool? downloadReplies;
         private bool? saveTextsIndividualFiles;
+        private int? collectionId;
 
         private bool downloadPhotoDiff;
         private bool downloadQuoteDiff;
@@ -67,6 +70,7 @@
         private bool downloadLinkDiff;
         private bool downloadRepliesDiff;
         private bool saveTextsIndividualFilesDiff;
+        private bool collectionIdDiff;
 
         private bool downloadPagesEnabled;
         private bool pageSizeEnabled;
@@ -744,6 +748,25 @@
             {
                 SetProperty(ref selectionContainsTwitterBlogs, value);
             }
+        }
+                
+        public new int? CollectionId
+        {
+            get
+            {
+                return collectionId.Value;
+            }
+            set
+            {
+                CollectionIdDiff = !value.HasValue;
+                SetProperty(ref collectionId, value);
+            }
+        }
+
+        public bool CollectionIdDiff
+        {
+            get => collectionIdDiff;
+            set => SetProperty(ref collectionIdDiff, value);
         }
     }
 }
