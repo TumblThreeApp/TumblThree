@@ -781,6 +781,7 @@ namespace TumblThree.Applications.Crawler
                 var imageUrl = images[i].Fullsize;
                 var index = images.Count > 1 ? i + 1 : -1;
                 var filename = BuildFileName(imageUrl, post, "photo", index);
+                imageUrl = PrepareImageUrl(post, imageUrl);
                 AddToDownloadList(new PhotoPost(imageUrl, "", PostId(post), UnixTimestamp(post).ToString(), filename));
                 if (i == 0)
                 {
@@ -788,6 +789,56 @@ namespace TumblThree.Applications.Crawler
                     AddToJsonQueue(new CrawlerData<FeedEntry>(Path.ChangeExtension(urlPrepared.Split('/').Last(), ".json"), feedEntry));
                 }
             }
+        }
+
+        private string PrepareImageUrl(Post post, string url)
+        {
+            if (!Blog.DownloadImagesInOriginalFormat) return url;
+
+            var filenameUrl = Path.GetFileName(new Uri(url).AbsolutePath);
+            var mimeType = post.Record.Embed.Images.FirstOrDefault(x => x.Image.Ref.Link == filenameUrl)?.Image.MimeType;
+            var ext = GetExtensionForMimeType(filenameUrl, mimeType);
+
+            return ext == ".jpg" ? url + "@jpeg" :
+                ext == ".png" ? url + "@png" :
+                ext == ".heic" ? url + "@heic" : url;
+        }
+
+        private string GetExtensionForMimeType(string imageUrl, string mimeType)
+        {
+            bool extFound;
+            string extension;
+            switch (mimeType)
+            {
+                // .jpe, .jpeg, .jpg, .pjpg, .jfi, .jfif, .jfif-tbnl, .jif
+                case "image/jpeg":
+                case "image/pjpeg":
+                    extFound = Regex.IsMatch(imageUrl.ToLower(), "(.jpe|.jpeg|.jpg|.pjpg|.jfif|.jif)$");
+                    extension = ".jpg";
+                    break;
+                // .png
+                case "image/png":
+                    extFound = Regex.IsMatch(imageUrl.ToLower(), $".png$");
+                    extension = ".png";
+                    break;
+                // .webp
+                case "image/webp":
+                    extFound = Regex.IsMatch(imageUrl.ToLower(), $".webp$");
+                    extension = ".webp";
+                    break;
+                // .heif, .heic
+                case "image/heic":
+                    extFound = Regex.IsMatch(imageUrl.ToLower(), $"(.heif|.heic)$");
+                    extension = ".heic";
+                    break;
+                case null:
+                    extFound = false;
+                    extension = "";
+                    break;
+                default:
+                    throw new Exception("Unknown mime type found.");
+            }
+            return extFound ? "" : extension;
         }
 
         private void AddVideoUrl(FeedEntry feedEntry)
@@ -806,7 +857,7 @@ namespace TumblThree.Applications.Crawler
                 var urlParts = embededVideo.Playlist.Split('/');
                 urlParts[urlParts.Length - 2] = filenamePrepared;
                 var postedUrl = string.Join("/", urlParts.Take(urlParts.Length - 1));
-                AddToDownloadList(new VideoPost(embededVideo.Playlist, postedUrl, PostId(post), UnixTimestamp(post).ToString(), BuildFileName(filenamePrepared, post, "video", -1)));
+                AddToDownloadList(new VideoPost(embededVideo.Playlist, postedUrl, PostId(post), UnixTimestamp(post).ToString(), BuildFileName(postedUrl, post, "video", -1)));
                 AddToJsonQueue(new CrawlerData<FeedEntry>(Path.ChangeExtension(filenamePrepared, ".json"), feedEntry));
             }
 
@@ -814,6 +865,7 @@ namespace TumblThree.Applications.Crawler
             {
                 var imageUrl = post.Embed.Thumbnail;
                 var filename = FileNameSecondLast(imageUrl);
+                imageUrl = PrepareImageUrl(post, imageUrl);
                 if (!string.Equals(Path.GetFileNameWithoutExtension(filenamePrepared), Path.GetFileNameWithoutExtension(filename), StringComparison.OrdinalIgnoreCase))
                 {
                     filename = Path.GetFileNameWithoutExtension(filenamePrepared) + "_" + filename;
@@ -834,6 +886,14 @@ namespace TumblThree.Applications.Crawler
 
         private string BuildFileName(string url, Post post, string type, int index)
         {
+            url = CorrectUrlFileExtension(url);
+            if (type == "photo")
+            {
+                var filenameUrl = Path.GetFileName(new Uri(url).AbsolutePath);
+                var mimeType = post.Record.Embed.Images.FirstOrDefault(x => x.Image.Ref.Link == filenameUrl)?.Image.MimeType;
+                var ext = GetExtensionForMimeType(filenameUrl, mimeType);
+                url += ext;
+            }
             var reblogged = false;
             //DataModels.Twitter.TimelineTweets.User user = null;
             //if (post.Legacy.RetweetedStatusResult != null)
@@ -859,7 +919,6 @@ namespace TumblThree.Applications.Crawler
             //    reblogId = GetRetweetedTweet(post).Legacy.IdStr;
             //}
             var tags = GetTags(post);
-            url = CorrectUrlFileExtension(url);
             return BuildFileNameCore(url, bsUser.Handle, GetDate(post), UnixTimestamp(post), index, type, PostId(post),
                 tags, "", GetTitle(post.Record.Text, tags), reblogName, "", reblogId, post.LikeCount, type == "video");
         }

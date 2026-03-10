@@ -33,6 +33,7 @@ namespace TumblThree.Domain.Models.Blogs
         new bool? DownloadLink { get; set; }
         new bool? DownloadReplies { get; set; }
         new bool? SaveTextsIndividualFiles { get; set; }
+        new bool? DownloadImagesInOriginalFormat { get; set; }
         new int? CollectionId { get; set; }
 
         bool DownloadPhotoDiff { get; set; }
@@ -64,6 +65,7 @@ namespace TumblThree.Domain.Models.Blogs
         bool DownloadLinkDiff { get; set; }
         bool DownloadRepliesDiff { get; set; }
         bool SaveTextsIndividualFilesDiff { get; set; }
+        bool DownloadImagesInOriginalFormatDiff { get; set; }
 
         bool DownloadPagesEnabled { get; set; }
         bool PageSizeEnabled { get; set; }

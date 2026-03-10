@@ -147,6 +147,7 @@ namespace TumblThree.Applications.ViewModels
         private int _activeCollectionId;
         private int _selectedCollectionId;
         private string _pnjDownloadFormat;
+        private bool _downloadImagesInOriginalFormat;
         private bool _twitterLoggedIn;
         private string _twitterEmail = string.Empty;
         private bool _tumblrAuthErrorAutoRetry;
@@ -538,6 +539,12 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _pnjDownloadFormat;
             set => SetProperty(ref _pnjDownloadFormat, value);
+        }
+
+        public bool DownloadImagesInOriginalFormat
+        {
+            get => _downloadImagesInOriginalFormat;
+            set => SetProperty(ref _downloadImagesInOriginalFormat, value);
         }
 
         public bool TumblrAuthErrorAutoRetry
@@ -1398,6 +1405,7 @@ namespace TumblThree.Applications.ViewModels
                 FilenameTemplate = _settings.FilenameTemplate;
                 Language = _settings.Language;
                 PnjDownloadFormat = _settings.PnjDownloadFormat;
+                DownloadImagesInOriginalFormat = _settings.DownloadImagesInOriginalFormat;
                 TumblrAuthErrorAutoRetry = _settings.TumblrAuthErrorAutoRetry;
                 HideToolBarButtonsText =  _settings.HideToolBarButtonsText;
                 DequeueSelectedCommandVisible = _settings.DequeueSelectedCommandVisible;
@@ -1712,6 +1720,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.Collections = list;
             _settings.ActiveCollectionId = ActiveCollectionId;
             _settings.PnjDownloadFormat = PnjDownloadFormat;
+            _settings.DownloadImagesInOriginalFormat = DownloadImagesInOriginalFormat;
             _settings.TumblrAuthErrorAutoRetry = TumblrAuthErrorAutoRetry;
             _settings.HideToolBarButtonsText = HideToolBarButtonsText;
             _settings.DequeueSelectedCommandVisible = DequeueSelectedCommandVisible;

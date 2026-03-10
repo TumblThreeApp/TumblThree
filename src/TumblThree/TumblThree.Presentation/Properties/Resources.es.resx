@@ -1087,4 +1087,16 @@ Nota: Las bases de datos de blogs individuales ya no se actualizan.</value>
     <value>Las bases de datos de blogs no suelen actualizarse en el modo "Base de datos global".
 Si esta opción está activada, también se actualizarán. En este caso, el rastreo de un blog puede tardar un poco más.</value>
   </data>
+  <data name="ToolTipDownloadImagesInOriginalFormat" xml:space="preserve">
+    <value>Descarga las imágenes en el formato de imagen subido</value>
+  </data>
+  <data name="ToolTipDownloadImagesInOriginalFormatDescription" xml:space="preserve">
+    <value>Por defecto, las imágenes se ofrecen en formato WebP. Si esta opción está activada, las imágenes se solicitarán en el formato en el que se subieron.</value>
+  </data>
+  <data name="ToolTipDownloadImagesInOriginalFormat2" xml:space="preserve">
+    <value>Descarga las imágenes en el formato de imagen subido (Bluesky)</value>
+  </data>
+  <data name="DownloadImagesInOriginalFormat" xml:space="preserve">
+    <value>Descargar imágenes en formato original</value>
+  </data>
 </root>

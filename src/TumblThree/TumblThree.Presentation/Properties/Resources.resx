@@ -1339,4 +1339,17 @@ If this option is enabled, blog databases will also be updated. In this case, cr
     <value>Blog databases are not normally updated in "Global Database" mode.
 If this option is enabled, blog databases will also be updated. In this case, crawling a blog may take slightly longer.</value>
   </data>
+  <data name="DownloadImagesInOriginalFormat" xml:space="preserve">
+    <value>Download images in original format</value>
+  </data>
+  <data name="ToolTipDownloadImagesInOriginalFormat" xml:space="preserve">
+    <value>Download images in uploaded image format</value>
+  </data>
+  <data name="ToolTipDownloadImagesInOriginalFormatDescription" xml:space="preserve">
+    <value>By default images are offered in WebP format. If this option is 
+enabled, images are requested in the format they have been uploaded.</value>
+  </data>
+  <data name="ToolTipDownloadImagesInOriginalFormat2" xml:space="preserve">
+    <value>Download images in uploaded image format (Bluesky)</value>
+  </data>
 </root>

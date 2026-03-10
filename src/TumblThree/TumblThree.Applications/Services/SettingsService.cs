@@ -53,6 +53,7 @@ namespace TumblThree.Applications.Services
             blog.FilenameTemplate = shellService.Settings.FilenameTemplate;
             blog.CollectionId = shellService.Settings.ActiveCollectionId;
             blog.PnjDownloadFormat = shellService.Settings.PnjDownloadFormat;
+            blog.DownloadImagesInOriginalFormat = shellService.Settings.DownloadImagesInOriginalFormat;
             blog.SaveTextsIndividualFiles = shellService.Settings.SaveTextsIndividualFiles;
             blog.ZipCrawlerData = shellService.Settings.ZipCrawlerData;
             return blog;

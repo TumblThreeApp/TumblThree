@@ -97,6 +97,7 @@ namespace TumblThree.Domain.Models.Blogs
         private int collectionId;
         private int downloadedItemsNew;
         private string pnjDownloadFormat;
+        private bool downloadImagesInOriginalFormat;
         private bool saveTextsIndividualFiles;
         private bool zipCrawlerData;
 
@@ -806,6 +807,13 @@ namespace TumblThree.Domain.Models.Blogs
         {
             get => pnjDownloadFormat;
             set => SetProperty(ref pnjDownloadFormat, value);
+        }
+
+        [DataMember]
+        public bool DownloadImagesInOriginalFormat
+        {
+            get => downloadImagesInOriginalFormat;
+            set => SetProperty(ref downloadImagesInOriginalFormat, value);
         }
 
         [DataMember]

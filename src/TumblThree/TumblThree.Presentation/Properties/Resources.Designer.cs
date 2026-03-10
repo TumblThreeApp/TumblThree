@@ -691,6 +691,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download images in original format.
+        /// </summary>
+        public static string DownloadImagesInOriginalFormat {
+            get {
+                return ResourceManager.GetString("DownloadImagesInOriginalFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download imgur.
         /// </summary>
         public static string DownloadImgur {
@@ -2220,6 +2229,34 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download images in uploaded image format.
+        /// </summary>
+        public static string ToolTipDownloadImagesInOriginalFormat {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadImagesInOriginalFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download images in uploaded image format (Bluesky).
+        /// </summary>
+        public static string ToolTipDownloadImagesInOriginalFormat2 {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadImagesInOriginalFormat2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By default images are offered in WebP format. If this option is 
+        ///enabled, images are requested in the format they have been uploaded..
+        /// </summary>
+        public static string ToolTipDownloadImagesInOriginalFormatDescription {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadImagesInOriginalFormatDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download linked imgur.com files.
         /// </summary>
         public static string ToolTipDownloadImgur {
@@ -2791,7 +2828,8 @@ namespace TumblThree.Presentation.Properties {
         ///   Looks up a localized string similar to This option can only be enabled if the global check is enabled.
         ///It is useful if you are using the global check and have already downloaded a large number of files.
         ///Enabling this option reduces memory usage because not all blog databases are kept in memory.
-        ///This option will take effect after restarting the program. The first start after activation may take slightly longer than usual..
+        ///This option will take effect after restarting the program. The first start after activation may take slightly longer than usual.
+        ///Note: Individual blog databases are no longer being updated..
         /// </summary>
         public static string ToolTipLoadAllDatabasesIntoDbDescription {
             get {

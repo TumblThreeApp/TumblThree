@@ -399,6 +399,9 @@ namespace TumblThree.Applications.Properties
         public string PnjDownloadFormat { get; set; }
 
         [DataMember]
+        public bool DownloadImagesInOriginalFormat { get; set; }
+
+        [DataMember]
         public bool TumblrAuthErrorAutoRetry { get; set; }
 
         [DataMember]
@@ -693,6 +696,7 @@ namespace TumblThree.Applications.Properties
             Language = "en-US";
             ColumnSettings = new Dictionary<object, Tuple<int, double, Visibility>>();
             PnjDownloadFormat = nameof(PnjDownloadType.jpg);
+            DownloadImagesInOriginalFormat = false;
             TumblrAuthErrorAutoRetry = false;
             HideToolBarButtonsText = false;
             DequeueSelectedCommandVisible = false;

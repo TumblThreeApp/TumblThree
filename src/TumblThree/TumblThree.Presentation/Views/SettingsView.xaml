@@ -1796,6 +1796,23 @@
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
+                        <CheckBox
+                            x:Name="checkBoxDownloadImagesInOriginalFormat"
+                            Grid.Row="10"
+                            Grid.Column="4"
+                            Grid.ColumnSpan="3"
+                            Margin="10,9"
+                            Content="{x:Static p:Resources.DownloadImagesInOriginalFormat}"
+                            IsChecked="{Binding DownloadImagesInOriginalFormat, Mode=TwoWay}">
+                            <CheckBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadImagesInOriginalFormat2}" />
+                                        <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadImagesInOriginalFormatDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </CheckBox.ToolTip>
+                        </CheckBox>
                         <Label
                             x:Name="metadataFormatLabel"
                             Grid.Row="11"

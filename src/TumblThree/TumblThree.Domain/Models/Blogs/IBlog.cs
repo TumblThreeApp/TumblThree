@@ -197,6 +197,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         string PnjDownloadFormat { get; set; }
 
+        bool DownloadImagesInOriginalFormat { get; set; }
+
         bool SaveTextsIndividualFiles { get; set; }
 
         bool ZipCrawlerData { get; set; }

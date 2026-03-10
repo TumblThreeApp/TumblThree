@@ -1099,4 +1099,16 @@ Hinweis: Einzelne Blogdatenbanken werden nicht mehr aktualisiert.</value>
     <value>Blogdatenbanken werden im Modus „Globale Datenbank“ normalerweise nicht aktualisiert.
 Wenn diese Option aktiviert ist, werden auch Blogdatenbanken aktualisiert. In diesem Fall kann das Crawlen eines Blogs etwas länger dauern.</value>
   </data>
+  <data name="ToolTipDownloadImagesInOriginalFormat" xml:space="preserve">
+    <value>Bilder im hochgeladenen Bildformat herunterladen</value>
+  </data>
+  <data name="ToolTipDownloadImagesInOriginalFormatDescription" xml:space="preserve">
+    <value>Standardmäßig werden Bilder im WebP-Format angeboten. Wenn diese Option aktiviert ist, werden die Bilder in dem Format angefordert, in dem sie hochgeladen wurden.</value>
+  </data>
+  <data name="ToolTipDownloadImagesInOriginalFormat2" xml:space="preserve">
+    <value>Bilder im hochgeladenen Bildformat herunterladen (Bluesky)</value>
+  </data>
+  <data name="DownloadImagesInOriginalFormat" xml:space="preserve">
+    <value>Bilder im Originalformat herunterladen</value>
+  </data>
 </root>

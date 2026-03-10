@@ -1091,4 +1091,16 @@ Remarque: Les bases de données individuelles des blogs ne sont plus mises à jo
     <value>Les bases de données des blogs ne sont généralement pas mises à jour en mode « Base de données globale ».
 Si cette option est activée, les bases de données des blogs seront également mises à jour. Dans ce cas, l'exploration d'un blog peut prendre un peu plus de temps.</value>
   </data>
+  <data name="ToolTipDownloadImagesInOriginalFormat" xml:space="preserve">
+    <value>Télécharger les images au format d'image téléchargé</value>
+  </data>
+  <data name="ToolTipDownloadImagesInOriginalFormatDescription" xml:space="preserve">
+    <value>Par défaut, les images sont proposées au format WebP. Si cette option est activée, les images seront demandées dans le format où elles ont été téléchargées.</value>
+  </data>
+  <data name="ToolTipDownloadImagesInOriginalFormat2" xml:space="preserve">
+    <value>Télécharger les images au format d'image téléchargé (Bluesky)</value>
+  </data>
+  <data name="DownloadImagesInOriginalFormat" xml:space="preserve">
+    <value>Télécharger les images dans leur format original</value>
+  </data>
 </root>

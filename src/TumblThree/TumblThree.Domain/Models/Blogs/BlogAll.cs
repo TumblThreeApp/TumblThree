@@ -39,6 +39,7 @@ namespace TumblThree.Domain.Models.Blogs
         private bool? downloadLink;
         private bool? downloadReplies;
         private bool? saveTextsIndividualFiles;
+        private bool? downloadImagesInOriginalFormat;
         private int? collectionId;
 
         private bool downloadPhotoDiff;
@@ -70,6 +71,7 @@ namespace TumblThree.Domain.Models.Blogs
         private bool downloadLinkDiff;
         private bool downloadRepliesDiff;
         private bool saveTextsIndividualFilesDiff;
+        private bool downloadImagesInOriginalFormatDiff;
         private bool collectionIdDiff;
 
         private bool downloadPagesEnabled;
@@ -631,6 +633,22 @@ namespace TumblThree.Domain.Models.Blogs
         {
             get => saveTextsIndividualFilesDiff;
             set => SetProperty(ref saveTextsIndividualFilesDiff, value);
+        }
+
+        public new bool? DownloadImagesInOriginalFormat
+        {
+            get => downloadImagesInOriginalFormat;
+            set
+            {
+                DownloadImagesInOriginalFormatDiff = !value.HasValue;
+                SetProperty(ref downloadImagesInOriginalFormat, value);
+            }
+        }
+
+        public bool DownloadImagesInOriginalFormatDiff
+        {
+            get => downloadImagesInOriginalFormatDiff;
+            set => SetProperty(ref downloadImagesInOriginalFormatDiff, value);
         }
 
         public bool DownloadPagesEnabled
