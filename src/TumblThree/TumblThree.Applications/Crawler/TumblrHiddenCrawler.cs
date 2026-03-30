@@ -623,8 +623,9 @@ namespace TumblThree.Applications.Crawler
                 {
                     if (content.Provider == "tumblr" || url.Contains("tumblr.com") || Blog.RegExVideos)
                     {
-                        string thumbnailUrl = content.Poster[0].Url;
-                        AddToDownloadList(new PhotoPost(thumbnailUrl, thumbnailUrl, data.Id, data.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, data, index)));
+                        string thumbnailUrl = content.Poster?.FirstOrDefault()?.Url;
+                        if (thumbnailUrl != null)
+                            AddToDownloadList(new PhotoPost(thumbnailUrl, thumbnailUrl, data.Id, data.UnixTimestamp.ToString(), BuildFileName(thumbnailUrl, data, index)));
                     }
                 }
                 // can only download preview image for non-tumblr (embedded) video posts
