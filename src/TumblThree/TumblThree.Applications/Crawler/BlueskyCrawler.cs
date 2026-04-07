@@ -865,13 +865,13 @@ namespace TumblThree.Applications.Crawler
             {
                 var imageUrl = post.Embed.Thumbnail;
                 var filename = FileNameSecondLast(imageUrl);
-                imageUrl = PrepareImageUrl(post, imageUrl);
+                var imageUrlPrepared = PrepareImageUrl(post, imageUrl);
                 if (!string.Equals(Path.GetFileNameWithoutExtension(filenamePrepared), Path.GetFileNameWithoutExtension(filename), StringComparison.OrdinalIgnoreCase))
                 {
                     filename = Path.GetFileNameWithoutExtension(filenamePrepared) + "_" + filename;
                 }
-                filename = BuildFileName(filename, post, "photo", -1);
-                AddToDownloadList(new PhotoPost(imageUrl, "", PostId(post), UnixTimestamp(post).ToString(), filename));
+                filename = BuildFileName(imageUrl, post, "photo", -1);
+                AddToDownloadList(new PhotoPost(imageUrlPrepared, "", PostId(post), UnixTimestamp(post).ToString(), filename));
                 if (!Blog.DownloadVideo)
                 {
                     AddToJsonQueue(new CrawlerData<FeedEntry>(Path.ChangeExtension(filenamePrepared, ".json"), feedEntry));
