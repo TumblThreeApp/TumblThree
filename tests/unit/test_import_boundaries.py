@@ -49,8 +49,7 @@ def test_core_does_not_import_from_cli() -> None:
             if imported.startswith("tumbl4.cli"):
                 violations.append((path, imported))
     assert not violations, (
-        "tumbl4.core modules must not import from tumbl4.cli; "
-        f"violations: {violations}"
+        f"tumbl4.core modules must not import from tumbl4.cli; violations: {violations}"
     )
 
 
@@ -66,6 +65,5 @@ def test_models_does_not_import_from_cli_or_core() -> None:
             if imported.startswith("tumbl4.cli") or imported.startswith("tumbl4.core"):
                 violations.append((path, imported))
     assert not violations, (
-        "tumbl4.models must not import from cli or core; "
-        f"violations: {violations}"
+        f"tumbl4.models must not import from cli or core; violations: {violations}"
     )

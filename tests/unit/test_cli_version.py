@@ -7,7 +7,6 @@ from typer.testing import CliRunner
 import tumbl4
 from tumbl4.cli.app import app
 
-
 runner = CliRunner()
 
 
