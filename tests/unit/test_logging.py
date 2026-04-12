@@ -73,6 +73,24 @@ def test_secret_filter_is_idempotent() -> None:
     assert msg.count("[REDACTED]") >= 2
 
 
+def test_secret_filter_idempotent_on_authorization_header() -> None:
+    logger, captured = _make_logger_with_capture()
+    logger.info("Authorization: Bearer first Authorization: Bearer second")
+    msg = captured[0].getMessage()
+    assert "first" not in msg
+    assert "second" not in msg
+    assert msg.count("[REDACTED]") >= 2
+
+
+def test_secret_filter_idempotent_on_set_cookie_header() -> None:
+    logger, captured = _make_logger_with_capture()
+    logger.info("Set-Cookie: a=1 Set-Cookie: b=2")
+    msg = captured[0].getMessage()
+    assert "a=1" not in msg
+    assert "b=2" not in msg
+    assert msg.count("[REDACTED]") >= 2
+
+
 def test_secret_filter_redacts_exception_traceback(
     caplog: pytest.LogCaptureFixture,
 ) -> None:

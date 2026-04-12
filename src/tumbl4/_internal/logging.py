@@ -22,8 +22,8 @@ _SECRET_PATTERNS: Final[tuple[re.Pattern[str], ...]] = (
     re.compile(r"(tumblr_[a-zA-Z0-9_]+=[^\s;,&]+)"),
     re.compile(r"(Bearer\s+[A-Za-z0-9._\-~+/]+=*)", re.IGNORECASE),
     re.compile(r"(Cookie:\s*[^\r\n]+?(?=Cookie:|$))", re.IGNORECASE),
-    re.compile(r"(Authorization:\s*[^\r\n]+)", re.IGNORECASE),
-    re.compile(r"(Set-Cookie:\s*[^\r\n]+)", re.IGNORECASE),
+    re.compile(r"(Authorization:\s*[^\r\n]+?(?=Authorization:|$))", re.IGNORECASE),
+    re.compile(r"(Set-Cookie:\s*[^\r\n]+?(?=Set-Cookie:|$))", re.IGNORECASE),
 )
 
 # Key names in structured `extra` dicts whose values should be redacted
