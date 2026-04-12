@@ -31,11 +31,11 @@ def test_settings_accepts_env_overrides(monkeypatch: pytest.MonkeyPatch) -> None
 
 
 def test_settings_output_dir_coerces_to_path(tmp_path: Path) -> None:
-    s = Settings(output_dir=str(tmp_path))
+    s = Settings.model_validate({"output_dir": str(tmp_path)})
     assert s.output_dir == tmp_path
     assert isinstance(s.output_dir, Path)
 
 
 def test_settings_rejects_invalid_log_level() -> None:
     with pytest.raises(ValidationError):
-        Settings(log_level="NONSENSE")
+        Settings.model_validate({"log_level": "NONSENSE"})

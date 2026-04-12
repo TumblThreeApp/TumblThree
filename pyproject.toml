@@ -108,15 +108,10 @@ include = ["src/tumbl4", "tests"]
 exclude = ["**/__pycache__", "**/.venv"]
 pythonVersion = "3.12"
 typeCheckingMode = "basic"
-
-# Strict on correctness-critical subpackages
-[[tool.pyright.executionEnvironments]]
-root = "src/tumbl4/core"
-typeCheckingMode = "strict"
-
-[[tool.pyright.executionEnvironments]]
-root = "src/tumbl4/models"
-typeCheckingMode = "strict"
+strict = [
+    "src/tumbl4/core",
+    "src/tumbl4/models",
+]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
