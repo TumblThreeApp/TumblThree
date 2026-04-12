@@ -1,6 +1,8 @@
-"""Core orchestration, crawling, parsing, download, and state modules.
+"""Core modules — orchestrator, crawlers, parsers, downloaders, state.
 
-Public API is declared in submodules; `tumbl4.core` itself is documented
-as "unstable — may change" until third-party demand proves otherwise
-(see design spec §3).
+Unstable public API — may change between minor versions until v1.0.0.
 """
+
+from tumbl4.core.orchestrator import CrawlResult, run_crawl
+
+__all__ = ["CrawlResult", "run_crawl"]
