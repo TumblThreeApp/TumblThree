@@ -56,5 +56,6 @@ class Settings(BaseSettings):
     )
     log_level: LogLevel = "INFO"
     max_concurrent_downloads: int = Field(default=4, ge=1, le=32)
+    page_size: int = Field(default=50, ge=1, le=50)
     queue: QueueSettings = Field(default_factory=QueueSettings)
     http: HttpSettings = Field(default_factory=HttpSettings)
