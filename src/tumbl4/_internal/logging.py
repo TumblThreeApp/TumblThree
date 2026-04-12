@@ -5,8 +5,9 @@ Per spec §6.2, the SecretFilter intercepts THREE content paths:
     2. Structured `extra` dict fields whose keys match a sensitive-key set
     3. Exception traceback bodies attached to LogRecord.exc_text
 
-The filter is installed on every logger returned by `get_logger()`. For the
-third path, we also scrub `record.exc_text` after Python formats the traceback.
+Callers install the filter on their log handler(s); `get_logger()` itself
+does not attach it automatically. For the third path, we also scrub
+`record.exc_text` after Python formats the traceback.
 """
 
 from __future__ import annotations

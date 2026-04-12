@@ -96,8 +96,13 @@ ignore = [
     "PLR0913",  # allow many args on core functions; revisit after slice 2
 ]
 
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"tumbl4.cli".msg = "core modules must not import from cli; see spec §3 unidirectional-dependency property."
+
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*" = ["S", "PLR2004"]  # tests can use magic values + no bandit
+"tests/**/*" = ["S", "PLR2004", "TID251"]  # tests can import cli for testing
+"src/tumbl4/cli/**/*" = ["TID251"]  # cli may import within its own namespace
+"src/tumbl4/__main__.py" = ["TID251"]  # entry point legitimately imports cli.app
 
 [tool.ruff.format]
 quote-style = "double"
