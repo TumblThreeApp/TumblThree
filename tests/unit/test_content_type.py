@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from tumbl4.core.download.content_type import reconcile_extension
 
 

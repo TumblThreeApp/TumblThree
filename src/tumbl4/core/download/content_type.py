@@ -55,7 +55,7 @@ def reconcile_extension(filename: str, content_type: str | None) -> str:
     # Determine the extension the URL suggests (may be empty string).
     dot_pos = filename.rfind(".")
     url_ext = filename[dot_pos + 1 :] if dot_pos != -1 else ""
-    stem = filename[: dot_pos] if dot_pos != -1 else filename
+    stem = filename[:dot_pos] if dot_pos != -1 else filename
 
     if mime and mime in _MIME_TO_EXT:
         resolved_ext = _MIME_TO_EXT[mime]

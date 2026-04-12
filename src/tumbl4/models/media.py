@@ -33,7 +33,7 @@ class MediaTask(BaseModel):
         # posixpath.splitext analogue — take everything after the last dot
         dot_pos = path.rfind(".")
         if dot_pos != -1 and dot_pos > path.rfind("/"):
-            ext = path[dot_pos + 1:]
+            ext = path[dot_pos + 1 :]
             return f"{self.post_id}_{self.index:02d}.{ext}"
         return f"{self.post_id}_{self.index:02d}"
 

@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import httpx
-import pytest
 import respx
 
 from tumbl4.core.download.file_downloader import download_media
@@ -28,9 +27,7 @@ def _make_task(tmp_path: Path, url: str = "https://64.media.tumblr.com/abc/photo
 async def test_successful_download_file_on_disk(tmp_path: Path) -> None:
     """A successful download writes the file to the output directory."""
     task = _make_task(tmp_path)
-    respx.get(task.url).mock(
-        return_value=httpx.Response(200, content=b"fake image bytes")
-    )
+    respx.get(task.url).mock(return_value=httpx.Response(200, content=b"fake image bytes"))
 
     async with httpx.AsyncClient() as client:
         result = await download_media(task, client)
@@ -46,9 +43,7 @@ async def test_successful_download_correct_content(tmp_path: Path) -> None:
     """Downloaded file contains exactly the bytes served by the server."""
     payload = b"fake image bytes"
     task = _make_task(tmp_path)
-    respx.get(task.url).mock(
-        return_value=httpx.Response(200, content=payload)
-    )
+    respx.get(task.url).mock(return_value=httpx.Response(200, content=payload))
 
     async with httpx.AsyncClient() as client:
         result = await download_media(task, client)
@@ -63,9 +58,7 @@ async def test_successful_download_correct_content(tmp_path: Path) -> None:
 async def test_no_part_file_after_success(tmp_path: Path) -> None:
     """The .part temp file must not exist after a successful download."""
     task = _make_task(tmp_path)
-    respx.get(task.url).mock(
-        return_value=httpx.Response(200, content=b"data")
-    )
+    respx.get(task.url).mock(return_value=httpx.Response(200, content=b"data"))
 
     async with httpx.AsyncClient() as client:
         result = await download_media(task, client)
@@ -101,9 +94,7 @@ async def test_content_type_reconciliation_png_url_jpeg_response(tmp_path: Path)
 async def test_404_returns_failed_result(tmp_path: Path) -> None:
     """A 404 response produces a failed DownloadResult without raising."""
     task = _make_task(tmp_path)
-    respx.get(task.url).mock(
-        return_value=httpx.Response(404, content=b"not found")
-    )
+    respx.get(task.url).mock(return_value=httpx.Response(404, content=b"not found"))
 
     async with httpx.AsyncClient() as client:
         result = await download_media(task, client)

@@ -4,15 +4,12 @@ from __future__ import annotations
 
 import json
 
-import pytest
 import respx
-import httpx
 
 from tumbl4.core.crawl.http_client import TumblrHttpClient
 from tumbl4.core.crawl.tumblr_blog import TumblrBlogCrawler
 from tumbl4.models.blog import BlogRef
 from tumbl4.models.settings import HttpSettings
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -74,9 +71,7 @@ async def _collect(crawler: TumblrBlogCrawler) -> list:  # type: ignore[type-arg
 async def test_crawl_yields_photo_posts() -> None:
     """Two photo posts on one page are both yielded."""
     posts = [_photo_post(300), _photo_post(200)]
-    respx.get(_BASE_URL, params=_PARAMS).respond(
-        200, text=_make_response(posts, total=2)
-    )
+    respx.get(_BASE_URL, params=_PARAMS).respond(200, text=_make_response(posts, total=2))
 
     http = TumblrHttpClient(HttpSettings())
     blog = BlogRef.from_input(_BLOG)
@@ -95,9 +90,7 @@ async def test_crawl_yields_photo_posts() -> None:
 async def test_highest_post_id_tracked() -> None:
     """highest_post_id reflects the largest id seen across the page."""
     posts = [_photo_post(500), _photo_post(100)]
-    respx.get(_BASE_URL, params=_PARAMS).respond(
-        200, text=_make_response(posts, total=2)
-    )
+    respx.get(_BASE_URL, params=_PARAMS).respond(200, text=_make_response(posts, total=2))
 
     http = TumblrHttpClient(HttpSettings())
     blog = BlogRef.from_input(_BLOG)
@@ -114,9 +107,7 @@ async def test_highest_post_id_tracked() -> None:
 async def test_skips_posts_below_last_id() -> None:
     """Posts with id <= last_id are skipped; only the post above the fence is yielded."""
     posts = [_photo_post(200), _photo_post(100)]
-    respx.get(_BASE_URL, params=_PARAMS).respond(
-        200, text=_make_response(posts, total=2)
-    )
+    respx.get(_BASE_URL, params=_PARAMS).respond(200, text=_make_response(posts, total=2))
 
     http = TumblrHttpClient(HttpSettings())
     blog = BlogRef.from_input(_BLOG)
@@ -133,9 +124,7 @@ async def test_skips_posts_below_last_id() -> None:
 @respx.mock
 async def test_empty_blog_yields_nothing() -> None:
     """A blog with no posts yields zero IntermediateDicts."""
-    respx.get(_BASE_URL, params=_PARAMS).respond(
-        200, text=_make_response([], total=0)
-    )
+    respx.get(_BASE_URL, params=_PARAMS).respond(200, text=_make_response([], total=0))
 
     http = TumblrHttpClient(HttpSettings())
     blog = BlogRef.from_input(_BLOG)
@@ -152,9 +141,7 @@ async def test_empty_blog_yields_nothing() -> None:
 async def test_skips_non_photo_posts() -> None:
     """A 'regular' type post is filtered out; nothing is yielded."""
     posts = [_regular_post(300)]
-    respx.get(_BASE_URL, params=_PARAMS).respond(
-        200, text=_make_response(posts, total=1)
-    )
+    respx.get(_BASE_URL, params=_PARAMS).respond(200, text=_make_response(posts, total=1))
 
     http = TumblrHttpClient(HttpSettings())
     blog = BlogRef.from_input(_BLOG)
@@ -171,9 +158,7 @@ async def test_skips_non_photo_posts() -> None:
 async def test_reports_total_posts() -> None:
     """total_posts is set from the API response's posts-total field."""
     posts = [_photo_post(100)]
-    respx.get(_BASE_URL, params=_PARAMS).respond(
-        200, text=_make_response(posts, total=42)
-    )
+    respx.get(_BASE_URL, params=_PARAMS).respond(200, text=_make_response(posts, total=42))
 
     http = TumblrHttpClient(HttpSettings())
     blog = BlogRef.from_input(_BLOG)

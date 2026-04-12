@@ -2,16 +2,15 @@
 
 from __future__ import annotations
 
-from unittest.mock import AsyncMock, MagicMock
-
+import httpx
 import pytest
 import respx
-import httpx
+from aiolimiter import AsyncLimiter
 
+import tumbl4
 from tumbl4.core.crawl.http_client import TumblrHttpClient
 from tumbl4.core.errors import RateLimited, ResponseTooLarge, ServerError
 from tumbl4.models.settings import HttpSettings
-
 
 _TEST_URL = "https://api.tumblr.com/v2/blog/test/posts"
 
@@ -46,9 +45,7 @@ async def test_get_api_raises_rate_limited_on_429() -> None:
 @respx.mock
 async def test_get_api_raises_rate_limited_without_retry_after_header() -> None:
     """get_api raises RateLimited with retry_after=None when Retry-After is absent."""
-    respx.get(_TEST_URL).mock(
-        return_value=httpx.Response(429, text="slow down")
-    )
+    respx.get(_TEST_URL).mock(return_value=httpx.Response(429, text="slow down"))
     client = TumblrHttpClient(HttpSettings())
     try:
         with pytest.raises(RateLimited) as exc_info:
@@ -111,8 +108,6 @@ async def test_user_agent_contains_tumbl4_prefix() -> None:
 
 async def test_user_agent_includes_version_and_suffix() -> None:
     """user_agent includes the version string and the configured suffix."""
-    import tumbl4
-
     settings = HttpSettings(user_agent_suffix="test-suffix")
     client = TumblrHttpClient(settings)
     try:
@@ -125,8 +120,6 @@ async def test_user_agent_includes_version_and_suffix() -> None:
 @respx.mock
 async def test_rate_limiter_is_acquired_before_request() -> None:
     """Rate limiter acquire() is called before every get_api request."""
-    from aiolimiter import AsyncLimiter
-
     respx.get(_TEST_URL).mock(return_value=httpx.Response(200, text="ok"))
 
     acquired: list[bool] = []
@@ -156,8 +149,6 @@ async def test_client_property_returns_httpx_async_client() -> None:
 
 async def test_rate_limiter_property_returns_async_limiter() -> None:
     """The .rate_limiter property returns the AsyncLimiter instance."""
-    from aiolimiter import AsyncLimiter
-
     client = TumblrHttpClient(HttpSettings())
     try:
         assert isinstance(client.rate_limiter, AsyncLimiter)

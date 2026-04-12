@@ -4,10 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import pytest
-
 from tumbl4.core.state.db import StateDb
-
 
 # ---------------------------------------------------------------------------
 # Helpers

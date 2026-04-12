@@ -56,7 +56,7 @@ class StateDb:
         self._conn.execute(f"PRAGMA user_version = {_SCHEMA_VERSION}")
         self._conn.commit()
 
-    def execute(self, sql: str, params: tuple = ()) -> sqlite3.Cursor:
+    def execute(self, sql: str, params: tuple[object, ...] = ()) -> sqlite3.Cursor:
         """Execute a parameterized SQL statement and return the cursor."""
         return self._conn.execute(sql, params)
 

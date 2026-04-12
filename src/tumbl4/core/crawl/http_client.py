@@ -36,7 +36,8 @@ def _check_status(response: httpx.Response) -> None:
         httpx.HTTPStatusError: For any other non-2xx response (via
             :meth:`httpx.Response.raise_for_status`).
     """
-    if response.status_code == 429:
+    _HTTP_429_TOO_MANY_REQUESTS = 429
+    if response.status_code == _HTTP_429_TOO_MANY_REQUESTS:
         retry_after_raw = response.headers.get("Retry-After")
         retry_after: float | None = None
         if retry_after_raw is not None:
@@ -45,7 +46,7 @@ def _check_status(response: httpx.Response) -> None:
             except ValueError:
                 retry_after = None
         raise RateLimited(
-            f"Rate limited by server (HTTP 429)",
+            "Rate limited by server (HTTP 429)",
             retry_after=retry_after,
         )
     if response.is_server_error:
@@ -70,9 +71,7 @@ class TumblrHttpClient:
         settings: HttpSettings,
         rate_limiter: AsyncLimiter | None = None,
     ) -> None:
-        self.user_agent: str = (
-            f"tumbl4/{tumbl4.__version__} ({settings.user_agent_suffix})"
-        )
+        self.user_agent: str = f"tumbl4/{tumbl4.__version__} ({settings.user_agent_suffix})"
         self._rate_limiter: AsyncLimiter = rate_limiter or AsyncLimiter(
             _DEFAULT_RATE_LIMIT_REQUESTS,
             _DEFAULT_RATE_LIMIT_PERIOD,

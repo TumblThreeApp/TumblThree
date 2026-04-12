@@ -11,6 +11,7 @@ This module **never raises** — every outcome is returned as a
 
 from __future__ import annotations
 
+import contextlib
 import os
 from pathlib import Path
 
@@ -51,7 +52,8 @@ async def download_media(task: MediaTask, client: httpx.AsyncClient) -> Download
 
     try:
         async with client.stream("GET", url) as response:
-            if response.status_code >= 400:
+            _HTTP_CLIENT_ERROR = 400
+            if response.status_code >= _HTTP_CLIENT_ERROR:
                 _log.warning(
                     "HTTP %d for %s",
                     response.status_code,
@@ -92,13 +94,11 @@ async def download_media(task: MediaTask, client: httpx.AsyncClient) -> Download
                 status="success",
             )
 
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         _log.error("download failed for %s: %s", url, exc)
         if part_path is not None and part_path.exists():
-            try:
+            with contextlib.suppress(OSError):
                 part_path.unlink()
-            except OSError:
-                pass  # best-effort cleanup
         return DownloadResult(
             url=url,
             post_id=task.post_id,

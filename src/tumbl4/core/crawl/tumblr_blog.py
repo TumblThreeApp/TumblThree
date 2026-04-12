@@ -86,10 +86,7 @@ class TumblrBlogCrawler:
         offset = 0
 
         while True:
-            url = (
-                f"{self._blog.url}api/read/json"
-                f"?debug=1&num={self._page_size}&start={offset}"
-            )
+            url = f"{self._blog.url}api/read/json?debug=1&num={self._page_size}&start={offset}"
             _log.debug(
                 "Fetching V1 API page",
                 extra={"blog": self._blog.name, "offset": offset, "url": url},
@@ -127,8 +124,7 @@ class TumblrBlogCrawler:
                     post_id = 0
 
                 # Track the highest post id seen.
-                if post_id > self.highest_post_id:
-                    self.highest_post_id = post_id
+                self.highest_post_id = max(self.highest_post_id, post_id)
 
                 # Resume fence: skip posts at or below last_id.
                 if post_id <= self._last_id:

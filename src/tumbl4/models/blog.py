@@ -31,11 +31,11 @@ class BlogRef:
 
         if stripped.startswith("https://www.tumblr.com/"):
             # https://www.tumblr.com/photography[/...]
-            path_part = stripped[len("https://www.tumblr.com/"):]
+            path_part = stripped[len("https://www.tumblr.com/") :]
             name = path_part.split("/")[0].lower()
         elif stripped.startswith("https://") and ".tumblr.com" in stripped:
             # https://photography.tumblr.com
-            host = stripped[len("https://"):].split("/")[0]
+            host = stripped[len("https://") :].split("/")[0]
             name = host.replace(".tumblr.com", "").lower()
         else:
             # Bare name
