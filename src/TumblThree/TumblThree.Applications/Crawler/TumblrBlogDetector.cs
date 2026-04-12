@@ -41,6 +41,7 @@ namespace TumblThree.Applications.Crawler
             }
             catch (WebException webException)
             {
+                if (webException.Response is null) return false;
                 using (var stream = webException.Response.GetResponseStream())
                 using (var reader = new StreamReader(stream))
                 {
