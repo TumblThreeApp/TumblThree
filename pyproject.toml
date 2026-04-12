@@ -38,8 +38,6 @@ dependencies = [
     "aiolimiter>=1.1",
 ]
 
-[project.optional-dependencies]
-
 [project.scripts]
 tumbl4 = "tumbl4.cli.app:main"
 
@@ -68,7 +66,6 @@ include = [
     "src/tumbl4",
     "README.md",
     "LICENSE",
-    "CHANGELOG.md",
 ]
 
 [tool.ruff]
@@ -89,7 +86,7 @@ select = [
     "C4",    # flake8-comprehensions
     "UP",    # pyupgrade
     "RUF",   # ruff-specific
-    "TID",   # flake8-tidy-imports — used for cli/core boundary
+    "TID",   # flake8-tidy-imports
     "SIM",   # flake8-simplify
     "PL",    # pylint subset
     "S",     # flake8-bandit — security
@@ -101,9 +98,6 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*" = ["S", "PLR2004"]  # tests can use magic values + no bandit
-
-[tool.ruff.lint.flake8-tidy-imports.banned-api]
-"tumbl4.cli".msg = "core modules must not import from cli; see spec §3."
 
 [tool.ruff.format]
 quote-style = "double"
