@@ -55,3 +55,9 @@ browser_profile/
 # Local working output directories
 output/
 downloads/
+
+# But track the CLI output helper module (not a download directory)
+!src/tumbl4/cli/output/
+
+# TumblThree Reference Folder
+TumblThree/

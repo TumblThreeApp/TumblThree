@@ -49,6 +49,11 @@ def root(
     return None
 
 
+from tumbl4.cli.commands.download import download  # noqa: E402
+
+app.command()(download)
+
+
 def main() -> None:
     """Console-script entry point referenced from pyproject.toml."""
     app()
