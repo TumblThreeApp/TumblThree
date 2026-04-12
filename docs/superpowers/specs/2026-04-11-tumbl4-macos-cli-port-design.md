@@ -79,7 +79,7 @@ The v1 target is: **open-source, fully-functional, secure**. "Fully functional" 
 ## 4. Project structure
 
 ```
-TumblThreeMac/                           # repo root (may rename to tumbl4 later)
+tumbl4/                                  # repo root (renamed from TumblThreeMac as part of v1)
 ├── README.md                            # quickstart, install, basic usage
 ├── LICENSE                              # MIT (inherited from upstream)
 ├── CHANGELOG.md                         # Keep-a-Changelog format
@@ -1005,11 +1005,25 @@ Top risks going into implementation, in rough priority order:
 
 ## 10. Open questions / deferred decisions
 
-- **Repo rename:** keep `TumblThreeMac` or rename to `tumbl4` before v1 release? (Low priority.)
-- **`tumbl4` name:** placeholder, may change before release based on user experience using it day-to-day.
+- **Name is locked:** `tumbl4` is the final name for the project, CLI binary, PyPI package, and Python module. Not a placeholder.
+- **Repo rename is part of v1:** the working directory is renamed from `TumblThreeMac/` to `tumbl4/`, and the GitHub repo is renamed to match, as early tasks in the implementation plan. The rename is not a deferred decision — it's scheduled.
 - **MkDocs site:** deferred until docs volume justifies it. If it doesn't, plain Markdown stays.
 - **Homebrew formula:** deferred to post-v1. Once PyPI publishing is stable, add a tap.
 - **v2 scope:** Twitter, Bluesky, NewTumbl, likes/liked-by/search/tag-search, external-link downloaders, GUI, `--keep-session-alive` mode, bandwidth throttling, PyInstaller binary. Prioritize based on v1 user feedback.
+
+## 10.1 Non-negotiable: crawler functional parity
+
+**User directive (2026-04-11):** "make the crawler as functional as the original if not better. really important that we're able to capture blog content locally."
+
+This elevates crawler completeness from "aspiration" to "quality bar" alongside security. Specifically:
+
+- Every post type the C# `TumblrBlogCrawler` + `TumblrHiddenCrawler` download must be downloaded by tumbl4: photo (single and photoset), video, audio, text, quote, link, answer, chat/conversation
+- Every media shape the C# crawler resolves must resolve: inline photos in answer posts, inline videos, audio enclosures, photoset arrays, reblog chains (the resolved content, not just the top reblog)
+- The mid-stream `Content-Type` reconciliation that renames files when the CDN's MIME disagrees with the URL extension (§5.11) is load-bearing — dropping it produces files that OS tools misidentify
+- Pinned-post handling (§5.8) is load-bearing — without it, resume breaks on every blog with a pinned post
+- Parser snapshot fixtures must cover every post type × every wire format, with edge cases for Tumblr's polymorphic-JSON quirks (see §7.2)
+
+**Any feature cut during implementation must be justified as scope-out (moved to v2) not scope-trim (quietly omitted).** If a crawler feature is too expensive for v1, it goes in Section 2's "explicit non-goals" list with a note explaining why — never silently skipped.
 
 ## 11. Glossary
 
