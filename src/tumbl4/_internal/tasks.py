@@ -19,16 +19,14 @@ from __future__ import annotations
 import asyncio
 import logging
 from collections.abc import Coroutine
-from typing import Any, TypeVar
+from typing import Any
 
 _LOG = logging.getLogger(__name__)
-
-_T = TypeVar("_T")
 
 _tracked: set[asyncio.Task[Any]] = set()
 
 
-def spawn(coro: Coroutine[Any, Any, _T], *, name: str | None = None) -> asyncio.Task[_T]:
+def spawn[T](coro: Coroutine[Any, Any, T], *, name: str | None = None) -> asyncio.Task[T]:
     """Create and supervise an asyncio task.
 
     Args:
@@ -39,7 +37,7 @@ def spawn(coro: Coroutine[Any, Any, _T], *, name: str | None = None) -> asyncio.
         The created task. The task is tracked internally until it finishes;
         callers may still `await` it directly if they care about its result.
     """
-    task: asyncio.Task[_T] = asyncio.create_task(coro, name=name)
+    task: asyncio.Task[T] = asyncio.create_task(coro, name=name)
     _tracked.add(task)
     task.add_done_callback(_on_task_done)
     return task

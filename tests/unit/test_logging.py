@@ -100,7 +100,7 @@ def test_secret_filter_redacts_exception_traceback(
     logger.setLevel(logging.DEBUG)
     logger.propagate = True
 
-    cookie_value = "tumblr_b=super_secret_abc"  # noqa: S105 — test fixture
+    cookie_value = "tumblr_b=super_secret_abc"
     try:
         raise RuntimeError(f"failed while handling {cookie_value}")
     except RuntimeError:

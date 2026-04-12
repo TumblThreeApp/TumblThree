@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from pydantic import ValidationError
 
 from tumbl4.models.settings import Settings
 
@@ -36,7 +37,5 @@ def test_settings_output_dir_coerces_to_path(tmp_path: Path) -> None:
 
 
 def test_settings_rejects_invalid_log_level() -> None:
-    from pydantic import ValidationError
-
     with pytest.raises(ValidationError):
         Settings(log_level="NONSENSE")

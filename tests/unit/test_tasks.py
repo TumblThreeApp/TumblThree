@@ -45,9 +45,10 @@ async def test_spawn_logs_exception_from_failing_task(
         await task
     await asyncio.sleep(0)  # let done-callback run
     # Supervision should have logged the exception via the done-callback.
-    assert any(
-        "synthetic failure" in record.getMessage() for record in caplog.records
-    ), f"expected error log containing 'synthetic failure', got {[r.getMessage() for r in caplog.records]}"
+    assert any("synthetic failure" in record.getMessage() for record in caplog.records), (
+        f"expected error log containing 'synthetic failure', "
+        f"got {[r.getMessage() for r in caplog.records]}"
+    )
 
 
 async def test_spawn_handles_cancellation_without_logging_as_error(
@@ -64,6 +65,6 @@ async def test_spawn_handles_cancellation_without_logging_as_error(
         await task
     await asyncio.sleep(0)
     # Cancellation is expected, not a surprise; do not log as error.
-    assert not any(
-        record.levelno == logging.ERROR for record in caplog.records
-    ), "cancellation should not produce an error log"
+    assert not any(record.levelno == logging.ERROR for record in caplog.records), (
+        "cancellation should not produce an error log"
+    )

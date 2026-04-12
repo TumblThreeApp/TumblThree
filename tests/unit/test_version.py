@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import re
+import tomllib
+from pathlib import Path
 
 import tumbl4
 
@@ -22,9 +24,6 @@ def test_version_matches_pyproject() -> None:
     # We intentionally parse pyproject.toml directly rather than importing
     # build-time metadata, so this test catches the case where someone bumps
     # one but forgets the other.
-    import tomllib
-    from pathlib import Path
-
     pyproject = Path(__file__).resolve().parents[2] / "pyproject.toml"
     data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
     assert data["project"]["version"] == tumbl4.__version__

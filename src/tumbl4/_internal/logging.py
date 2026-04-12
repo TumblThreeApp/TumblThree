@@ -28,20 +28,22 @@ _SECRET_PATTERNS: Final[tuple[re.Pattern[str], ...]] = (
 
 # Key names in structured `extra` dicts whose values should be redacted
 # regardless of content. Matched case-insensitively.
-_SENSITIVE_EXTRA_KEYS: Final[frozenset[str]] = frozenset({
-    "cookie",
-    "cookies",
-    "token",
-    "session",
-    "authorization",
-    "auth",
-    "secret",
-    "password",
-    "bearer",
-    "api_key",
-    "apikey",
-    "headers",  # redact known-sensitive sub-keys inside a headers dict
-})
+_SENSITIVE_EXTRA_KEYS: Final[frozenset[str]] = frozenset(
+    {
+        "cookie",
+        "cookies",
+        "token",
+        "session",
+        "authorization",
+        "auth",
+        "secret",
+        "password",
+        "bearer",
+        "api_key",
+        "apikey",
+        "headers",  # redact known-sensitive sub-keys inside a headers dict
+    }
+)
 
 _REDACTED: Final[str] = "[REDACTED]"
 
@@ -49,31 +51,33 @@ _REDACTED: Final[str] = "[REDACTED]"
 # The fields Python's logging module sets on every LogRecord. Anything outside
 # this set is user-supplied `extra` data that we scan for secrets. Defined
 # before SecretFilter so pyright strict doesn't flag a forward reference.
-_STANDARD_LOGRECORD_ATTRS: Final[frozenset[str]] = frozenset({
-    "args",
-    "asctime",
-    "created",
-    "exc_info",
-    "exc_text",
-    "filename",
-    "funcName",
-    "levelname",
-    "levelno",
-    "lineno",
-    "message",
-    "module",
-    "msecs",
-    "msg",
-    "name",
-    "pathname",
-    "process",
-    "processName",
-    "relativeCreated",
-    "stack_info",
-    "thread",
-    "threadName",
-    "taskName",
-})
+_STANDARD_LOGRECORD_ATTRS: Final[frozenset[str]] = frozenset(
+    {
+        "args",
+        "asctime",
+        "created",
+        "exc_info",
+        "exc_text",
+        "filename",
+        "funcName",
+        "levelname",
+        "levelno",
+        "lineno",
+        "message",
+        "module",
+        "msecs",
+        "msg",
+        "name",
+        "pathname",
+        "process",
+        "processName",
+        "relativeCreated",
+        "stack_info",
+        "thread",
+        "threadName",
+        "taskName",
+    }
+)
 
 
 def _redact_string(text: str) -> str:
@@ -103,7 +107,7 @@ class SecretFilter(logging.Filter):
     handler is scrubbed, regardless of which logger produced it.
     """
 
-    def filter(self, record: logging.LogRecord) -> bool:  # noqa: A003 — logging API
+    def filter(self, record: logging.LogRecord) -> bool:
         # 1. Scrub the formatted message. We do this by replacing `msg` so
         #    downstream getMessage() calls see the redacted text. When `args`
         #    are present we first format them, then blank args, so the final
