@@ -930,19 +930,19 @@ namespace TumblThree.Applications.Crawler
 
         private static DataModels.Twitter.TimelineTweets.User GetRetweetedUser(Tweet post)
         {
-            return (post.Legacy.RetweetedStatusResult.Result.Core ?? post.Legacy.RetweetedStatusResult.Result.TweetWithVisibilityResults.Core).UserResults.Result;
+            return (post.Legacy.RetweetedStatusResult.Result?.Core ?? post.Legacy.RetweetedStatusResult.Result?.TweetWithVisibilityResults?.Core).UserResults.Result;
         }
 
         private static Tweet GetRetweetedTweet(Tweet post)
         {
-            return post.Legacy.RetweetedStatusResult.Result.Legacy is null ? post.Legacy.RetweetedStatusResult.Result.TweetWithVisibilityResults : post.Legacy.RetweetedStatusResult.Result;
+            return post.Legacy.RetweetedStatusResult.Result?.Legacy is null ? post.Legacy.RetweetedStatusResult.Result?.TweetWithVisibilityResults : post.Legacy.RetweetedStatusResult.Result;
         }
 
         private static string GetTweetText(Tweet post)
         {
             var dateString = GetDate(post).ToString("u");
             // shortened FullText can happen for foreign and own retweets
-            var reblogged = post.Legacy.RetweetedStatusResult != null; // && GetUser(post).RestId != post.Legacy.UserIdStr;
+            var reblogged = post.Legacy.RetweetedStatusResult?.Result != null; // && GetUser(post).RestId != post.Legacy.UserIdStr;
             var text = reblogged ? $"RT @{GetRetweetedUser(post).Legacy.ScreenName}: " + GetRetweetedTweet(post).Legacy.FullText : post.Legacy.FullText;
             if (post.Legacy.Entities?.Media?.Any(x => x.Url.Equals(text)) ?? false) return "";
             var links = new Dictionary<string, string>();
@@ -1067,7 +1067,7 @@ namespace TumblThree.Applications.Crawler
         {
             var reblogged = false;
             DataModels.Twitter.TimelineTweets.User user = null;
-            if (post.Legacy.RetweetedStatusResult != null)
+            if (post.Legacy.RetweetedStatusResult?.Result != null)
             {
                 user = GetRetweetedUser(post);
                 reblogged = user.RestId != post.Legacy.UserIdStr;
