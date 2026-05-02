@@ -1790,7 +1790,7 @@
                             <CheckBox.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
-                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadVideoThumbnails}" />
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipDownloadVideoThumbnails2}" />
                                         <TextBlock xml:space="preserve" Text="{x:Static p:Resources.ToolTipDownloadVideoThumbnailsDescription}" />
                                     </StackPanel>
                                 </ToolTip>

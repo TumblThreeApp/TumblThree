@@ -1114,8 +1114,8 @@ old media files manually, if necessary.</value>
   <data name="DownloadVideoThumbnails" xml:space="preserve">
     <value>Download video thumbnails</value>
   </data>
-  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>Download video thumbnails (Twitter/X)</value>
+  <data name="ToolTipDownloadVideoThumbnails2" xml:space="preserve">
+    <value>Download video thumbnails (Twitter/X, Bluesky)</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Downloads available video thumbnails. This setting is independent of 'Download images' and 'Download videos'.</value>
@@ -1351,5 +1351,8 @@ enabled, images are requested in the format they have been uploaded.</value>
   </data>
   <data name="ToolTipDownloadImagesInOriginalFormat2" xml:space="preserve">
     <value>Download images in uploaded image format (Bluesky)</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Download video thumbnails</value>
   </data>
 </root>

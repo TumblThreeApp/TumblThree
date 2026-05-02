@@ -729,13 +729,16 @@ Vaihtoehtoisesti voit ottaa meihin yhteyttä projektisivustomme {Issues-osion} k
   <data name="DownloadVideoThumbnails" xml:space="preserve">
     <value>Lataa videoiden pikkukuvat</value>
   </data>
-  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>Lataa videoiden pikkukuvat (Twitter)</value>
+  <data name="ToolTipDownloadVideoThumbnails2" xml:space="preserve">
+    <value>Lataa videoiden pikkukuvat (Twitter/X, Bluesky)</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Lataa saatavilla olevat videopikkukuvat. Tämä asetus on riippumaton kohdista "Lataa kuvat" ja "Lataa videot".</value>
   </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
     <value>Ladattavien kohteiden määrä</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Lataa videoiden pikkukuvat</value>
   </data>
 </root>

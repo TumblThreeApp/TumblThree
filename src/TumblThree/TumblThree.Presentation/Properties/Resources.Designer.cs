@@ -2384,11 +2384,20 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download video thumbnails (Twitter/X).
+        ///   Looks up a localized string similar to Download video thumbnails.
         /// </summary>
         public static string ToolTipDownloadVideoThumbnails {
             get {
                 return ResourceManager.GetString("ToolTipDownloadVideoThumbnails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download video thumbnails (Twitter/X, Bluesky).
+        /// </summary>
+        public static string ToolTipDownloadVideoThumbnails2 {
+            get {
+                return ResourceManager.GetString("ToolTipDownloadVideoThumbnails2", resourceCulture);
             }
         }
         

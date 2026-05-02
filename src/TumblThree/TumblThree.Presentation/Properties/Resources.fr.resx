@@ -900,8 +900,8 @@ multimédias manuellement, si nécessaire.</value>
   <data name="DownloadVideoThumbnails" xml:space="preserve">
     <value>Télécharger les vignettes vidéo</value>
   </data>
-  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>Télécharger les vignettes vidéo (Twitter/X)</value>
+  <data name="ToolTipDownloadVideoThumbnails2" xml:space="preserve">
+    <value>Télécharger les vignettes vidéo (Twitter/X, Bluesky)</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Télécharge les vignettes vidéo disponibles. Ce paramètre est indépendant de 'Télécharger des images' et 'Télécharger des vidéos'.</value>
@@ -1102,5 +1102,8 @@ Si cette option est activée, les bases de données des blogs seront également 
   </data>
   <data name="DownloadImagesInOriginalFormat" xml:space="preserve">
     <value>Télécharger les images dans leur format original</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Télécharger les vignettes vidéo</value>
   </data>
 </root>

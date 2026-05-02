@@ -896,8 +896,8 @@ Puede mover los archivos multimedia antiguos manualmente, si es necesario.</valu
   <data name="DownloadVideoThumbnails" xml:space="preserve">
     <value>Descargar miniaturas de video</value>
   </data>
-  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>Scarica le miniature dei video (Twitter/X)</value>
+  <data name="ToolTipDownloadVideoThumbnails2" xml:space="preserve">
+    <value>Scarica le miniature dei video (Twitter/X, Bluesky)</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>Descarga miniaturas de video disponibles. Esta configuración es independiente de 'Descargar imágenes' y 'Descargar videos'.</value>
@@ -1098,5 +1098,8 @@ Si esta opción está activada, también se actualizarán. En este caso, el rast
   </data>
   <data name="DownloadImagesInOriginalFormat" xml:space="preserve">
     <value>Descargar imágenes en formato original</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>Scarica le miniature dei video</value>
   </data>
 </root>

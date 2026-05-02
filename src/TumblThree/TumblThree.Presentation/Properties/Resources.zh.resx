@@ -981,8 +981,8 @@
   <data name="ToolTipCollectionDescription" xml:space="preserve">
     <value>如果您更改这个博客的分组，这个博客的数据库文件会复制到新位置，但博客的下载文件夹留在旧位置。将在该分组的根目录下新建一个文件夹来存储新下载的文件。您可以手动转移原有的媒体文件夹。</value>
   </data>
-  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
-    <value>下载视频缩略图（Twitter/X）</value>
+  <data name="ToolTipDownloadVideoThumbnails2" xml:space="preserve">
+    <value>下载视频缩略图（Twitter/X, Bluesky）</value>
   </data>
   <data name="ToolTipDownloadVideoThumbnailsDescription" xml:space="preserve">
     <value>下载可用的视频缩略图。此设置独立于“下载图像”和“下载视频”选项。</value>
@@ -1113,5 +1113,8 @@ best（最佳） - 尽可能下载图像的最大分辨率版本（SVC，API 仅
   </data>
   <data name="NumberOfDownloadableItems" xml:space="preserve">
     <value>可下载项目数</value>
+  </data>
+  <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
+    <value>下载视频缩略图</value>
   </data>
 </root>
