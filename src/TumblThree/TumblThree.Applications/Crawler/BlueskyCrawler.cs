@@ -926,14 +926,14 @@ namespace TumblThree.Applications.Crawler
         private static string CorrectUrlFileExtension(string url)
         {
             return url.EndsWith("@jpeg", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 5) + ".jpg" :
-                url.EndsWith("@png", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 5) + ".png":
+                url.EndsWith("@png", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 4) + ".png" :
                 url.EndsWith("@webp", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 5) + ".webp" :
                 url.EndsWith("@heic", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 5) + ".heic" :
                 url.EndsWith("@heif", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 5) + ".heif" :
-                url.EndsWith("@mp4", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 5) + ".mp4" :
+                url.EndsWith("@mp4", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 4) + ".mp4" :
                 url.EndsWith("@mpeg", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 5) + ".mpeg" :
                 url.EndsWith("@webm", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 5) + ".webm" :
-                url.EndsWith("@mov", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 5) + ".mov" : url;
+                url.EndsWith("@mov", StringComparison.InvariantCultureIgnoreCase) ? url.Substring(0, url.Length - 4) + ".mov" : url;
         }
 
         private static int UnixTimestamp(Post post)
