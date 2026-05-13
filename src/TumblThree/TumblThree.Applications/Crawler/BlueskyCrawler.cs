@@ -797,6 +797,7 @@ namespace TumblThree.Applications.Crawler
 
             var filenameUrl = Path.GetFileName(new Uri(url).AbsolutePath);
             var mimeType = post.Record.Embed.Images.FirstOrDefault(x => x.Image.Ref.Link == filenameUrl)?.Image.MimeType;
+            mimeType = mimeType ?? ((Thumb)post.Record.Embed.External?.Thumb)?.MimeType;
             var ext = GetExtensionForMimeType(filenameUrl, mimeType);
 
             return ext == ".jpg" ? url + "@jpeg" :
@@ -891,6 +892,10 @@ namespace TumblThree.Applications.Crawler
             {
                 var filenameUrl = Path.GetFileName(new Uri(url).AbsolutePath);
                 var mimeType = post.Record.Embed.Images.FirstOrDefault(x => x.Image.Ref.Link == filenameUrl)?.Image.MimeType;
+                if (mimeType is null && post.Record.Embed.External?.Thumb is Thumb thumb && thumb.Ref?.Link == filenameUrl) mimeType = thumb.MimeType;
+                if (mimeType is null) mimeType = post.Embed.Record?.Value?.Embed?.Images?.FirstOrDefault(x => x.Image.Ref.Link == filenameUrl)?.Image.MimeType;
+                if (mimeType is null) mimeType = post.Record.Embed.Media?.Images?.FirstOrDefault(x => x.Image.Ref.Link == filenameUrl)?.Image.MimeType;
+                if (mimeType is null && post.Embed.Record?.Value?.Embed?.External?.Thumb is Thumb thumb2 && thumb2.Ref?.Link == filenameUrl) mimeType = thumb2.MimeType;
                 var ext = GetExtensionForMimeType(filenameUrl, mimeType);
                 url += ext;
             }
