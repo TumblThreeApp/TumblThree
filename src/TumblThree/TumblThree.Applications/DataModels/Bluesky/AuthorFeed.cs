@@ -94,7 +94,7 @@ namespace TumblThree.Applications.DataModels.Bluesky
         public EmbededMedia Media { get; set; }
 
         [JsonProperty("record", NullValueHandling = NullValueHandling.Ignore)]
-        public Record Record { get; set; }
+        public EmbedRecord Record { get; set; }
 
         [JsonProperty("images", NullValueHandling = NullValueHandling.Ignore)]
         public List<ImageItem> Images { get; } = new List<ImageItem>();
@@ -116,6 +116,15 @@ namespace TumblThree.Applications.DataModels.Bluesky
 
         [JsonProperty("external", NullValueHandling = NullValueHandling.Ignore)]
         public External External { get; set; }
+    }
+
+    public class EmbedRecord : Post
+    {
+        [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
+        public Record Value { get; set; }
+
+        [JsonProperty("embeds", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Embed> Embeds { get; } = new List<Embed>();
     }
 
     public class External
@@ -294,6 +303,9 @@ namespace TumblThree.Applications.DataModels.Bluesky
 
         [JsonProperty("embed", NullValueHandling = NullValueHandling.Ignore)]
         public Embed Embed { get; set; }
+
+        [JsonProperty("bookmarkCount", NullValueHandling = NullValueHandling.Ignore)]
+        public int BookmarkCount { get; set; }
 
         [JsonProperty("replyCount", NullValueHandling = NullValueHandling.Ignore)]
         public int ReplyCount { get; set; }
