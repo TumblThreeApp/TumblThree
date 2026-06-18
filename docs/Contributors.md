@@ -2,7 +2,7 @@
 
 People are giving themselves and their free time to contribute to our project in so many ways, so we believe everyone should be praised for their contributions (code or not).
 
-## Special thanks for all the people who have helped this project so far ([emoji-key](https://allcontributors.org/docs/en/emoji-key)):
+## Special thanks for all the people who have helped this project so far ([emoji-key](https://allcontributors.org/en/reference/emoji-key/)):
 
 * [Johannes Meyer zum Alten Borgloh](https://github.com/johanneszab) Originator 💻 🚧 📖 🌍 💬
 * [Thomas](https://github.com/thomas694) 💻 🚧 📖 💬
