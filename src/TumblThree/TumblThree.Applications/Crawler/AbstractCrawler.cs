@@ -366,6 +366,35 @@ namespace TumblThree.Applications.Crawler
             }
         }
 
+        private static readonly Dictionary<AspectRatioType, HashSet<string>> AllowedShapes =
+            new Dictionary<AspectRatioType, HashSet<string>>
+            {
+                { AspectRatioType.All, new HashSet<string> { "Landscape", "Portrait", "Square" } },
+                { AspectRatioType.Landscape, new HashSet<string> { "Landscape" } },
+                { AspectRatioType.Portrait, new HashSet<string> { "Portrait" } },
+                { AspectRatioType.Square, new HashSet<string> { "Square" } },
+                { AspectRatioType.LandscapePortrait, new HashSet<string> { "Landscape", "Portrait" } },
+                { AspectRatioType.LandscapeSquare, new HashSet<string> { "Landscape", "Square" } },
+                { AspectRatioType.PortraitSquare, new HashSet<string> { "Portrait", "Square" } }
+            };
+
+        private static string GetShape(int width, int height)
+        {
+            decimal ratio = (decimal)width / height;
+
+            if (ratio > 0.95m && ratio < 1.05m) return "Square";
+            if (ratio >= 1.05m) return "Landscape";
+            return "Portrait";
+        }
+
+        protected static bool HasVideoCorrectAspectRatio(int width, int height, AspectRatioType selectedShape)
+        {
+            if (selectedShape == AspectRatioType.All || width == 0 || height == 0) return true;
+
+            string shape = GetShape(width, height);
+            return AllowedShapes[selectedShape].Contains(shape);
+        }
+
         protected static string Sanitize(string filename)
         {
             var invalids = System.IO.Path.GetInvalidFileNameChars();

@@ -62,4 +62,6 @@
 
     <c:CollectionOptionEnabledConverter x:Key="CollectionOptionEnabledConverter" />
 
+    <c:MultiplyConverter x:Key="MultiplyConverter" />
+
 </ResourceDictionary>

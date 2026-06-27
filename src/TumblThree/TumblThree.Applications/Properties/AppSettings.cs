@@ -47,6 +47,8 @@ namespace TumblThree.Applications.Properties
                 "large", "medium", "small"
             };
 
+        private static readonly string[] videoAspectRatios = Enum.GetNames(typeof(AspectRatioType));
+
         private static string[] logLevels = Enum.GetNames(typeof(System.Diagnostics.TraceLevel));
 
         private static string[] pnjDownloadFormats = Enum.GetNames(typeof(PnjDownloadType));
@@ -196,6 +198,9 @@ namespace TumblThree.Applications.Properties
 
         [DataMember]
         public string VideoSizeCategory { get; set; }
+
+        [DataMember]
+        public AspectRatioType VideoAspectRatio { get; set; }
 
         [DataMember]
         public string BlogType { get; set; }
@@ -454,6 +459,8 @@ namespace TumblThree.Applications.Properties
 
         public static ObservableCollection<string> VideoSizeCategories => new ObservableCollection<string>(videoSizeCategories);
 
+        public static ObservableCollection<string> VideoAspectRatios => new ObservableCollection<string>(videoAspectRatios);
+
         public static ObservableCollection<string> BlogTypes => new ObservableCollection<string>(blogTypes);
 
         public static ObservableCollection<string> LogLevels => new ObservableCollection<string>(logLevels);
@@ -641,6 +648,7 @@ namespace TumblThree.Applications.Properties
             VideoSize = 1080;
             ImageSizeCategory = "";
             VideoSizeCategory = "";
+            VideoAspectRatio = AspectRatioType.All;
             BlogType = "None";
             CheckClipboard = true;
             ShowPicturePreview = true;

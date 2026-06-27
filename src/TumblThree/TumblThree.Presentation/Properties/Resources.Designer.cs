@@ -3345,6 +3345,24 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Video aspect ratio to download.
+        /// </summary>
+        public static string ToolTipVideoAspectRatio {
+            get {
+                return ResourceManager.GetString("ToolTipVideoAspectRatio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloads video only if it is in the specified aspect ratio..
+        /// </summary>
+        public static string ToolTipVideoAspectRatioDescription {
+            get {
+                return ResourceManager.GetString("ToolTipVideoAspectRatioDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of concurrent connections to the tumblr video host.
         /// </summary>
         public static string ToolTipVideoConnections {
@@ -3498,6 +3516,15 @@ namespace TumblThree.Presentation.Properties {
         public static string Version {
             get {
                 return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Video aspect ratio.
+        /// </summary>
+        public static string VideoAspectRatio {
+            get {
+                return ResourceManager.GetString("VideoAspectRatio", resourceCulture);
             }
         }
         

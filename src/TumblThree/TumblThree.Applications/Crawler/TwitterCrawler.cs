@@ -1032,7 +1032,15 @@ namespace TumblThree.Applications.Crawler
                 var item = media[i].VideoInfo.Variants.First(v => v.Bitrate == max);
                 var urlPrepared = item.Url.IndexOf('?') > 0 ? item.Url.Substring(0, item.Url.IndexOf('?')) : item.Url;
 
-                if (Blog.DownloadVideo)
+                int width = media[i].OriginalInfo?.Width ?? 0;
+                int height = media[i].OriginalInfo?.Height ?? 0;
+                if (width == 0 || height == 0)
+                {
+                    Logger.Warning($"TwitterCrawler.AddVideoUrl: {Blog.Name}, post id {post.Legacy.IdStr}, video size not found");
+                }
+
+                if (Blog.DownloadVideo &&
+                    HasVideoCorrectAspectRatio(width, height, Blog.VideoAspectRatio))
                 {
                     AddToDownloadList(new VideoPost(item.Url, null, post.Legacy.IdStr, UnixTimestamp(post).ToString(), BuildFileName(urlPrepared, post, "video", -1)));
                     if (i == 0)

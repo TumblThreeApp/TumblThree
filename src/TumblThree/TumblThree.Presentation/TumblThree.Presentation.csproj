@@ -271,6 +271,7 @@
     <Compile Include="Converters\BrushResourceConverter.cs" />
     <Compile Include="Converters\CollectionMultiConverter.cs" />
     <Compile Include="Converters\CollectionOptionEnabledConverter.cs" />
+    <Compile Include="Converters\MultiplyConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Converters\TumblrBlogCrawlerTypesConverter.cs" />
     <Compile Include="Converters\BlogtypeToDisplayValueConverter.cs" />

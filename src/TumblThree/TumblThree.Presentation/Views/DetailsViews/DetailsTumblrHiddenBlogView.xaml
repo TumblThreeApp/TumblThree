@@ -23,6 +23,14 @@
                 <x:Type TypeName="Models:TumblrBlogCrawlerTypes" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        <ObjectDataProvider
+            x:Key="AspectRatioType"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Models:AspectRatioType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </UserControl.Resources>
 
     <Grid>
@@ -218,6 +226,9 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{StaticResource Layout.RowSpace}"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="{StaticResource Layout.RowSpace}"/>
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="{StaticResource Layout.RowSpace}" />
@@ -883,18 +894,46 @@
                                 SelectedValue="{Binding BlogFile.MetadataFormat}"
                                 SelectedItem="{Binding BlogFile.MetadataFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
+                            <Label Content="{x:Static p:Resources.VideoAspectRatio}" Grid.Column="0" Grid.Row="42"
+                                  Margin="3,1,0,3" Padding="3,0,0,0">
+                                <Label.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipVideoAspectRatio}" />
+                                            <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipVideoAspectRatioDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Label.ToolTip>
+                            </Label>
+
+                            <ComboBox Grid.Column="1" Grid.Row="42" Padding="5,0,5,0"
+                                      ItemsSource="{Binding Source={StaticResource AspectRatioType}}"
+                                      SelectedItem="{Binding BlogFile.VideoAspectRatio, Mode=TwoWay}"
+                                      Height="18">
+                                <ComboBox.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel>
+                                            <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipVideoAspectRatio}" />
+                                            <TextBlock xml:space="preserve"
+                                                   Text="{x:Static p:Resources.ToolTipVideoAspectRatioDescription}" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </ComboBox.ToolTip>
+                            </ComboBox>
+
                             <CheckBox Content="{x:Static p:Resources.SkipGif}" IsChecked="{Binding BlogFile.SkipGif, Mode=TwoWay}"
-                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="42" Margin="3,0,0,0" Padding="3,0,0,0" />
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="45" Margin="3,0,0,0" Padding="3,0,0,0" />
 
                             <CheckBox Content="{x:Static p:Resources.GroupPhotoSets}" IsChecked="{Binding BlogFile.GroupPhotoSets, Mode=TwoWay}"
-                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="44" Margin="3,0,0,0" Padding="3,0,0,0" />
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="47" Margin="3,0,0,0" Padding="3,0,0,0" />
 
                             <CheckBox Content="{x:Static p:Resources.DownloadRebloggedPosts}"
-                                  IsChecked="{Binding BlogFile.DownloadRebloggedPosts, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="46"
+                                  IsChecked="{Binding BlogFile.DownloadRebloggedPosts, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="49"
                                   Margin="3,0,0,0" Padding="3,0,0,0" />
 
                             <CheckBox Content="{x:Static p:Resources.DownloadVideoThumbnails}" IsChecked="{Binding BlogFile.DownloadVideoThumbnail, Mode=TwoWay}"
-                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="48" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="51" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -908,7 +947,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.SaveTextsIndividualFiles}"
                                   IsChecked="{Binding BlogFile.SaveTextsIndividualFiles, Mode=TwoWay}" 
-                                  Grid.Column="0" Grid.ColumnSpan="6" Margin="3,0,0,0" Padding="3,0,0,0" Grid.Row="50">
+                                  Grid.Column="0" Grid.ColumnSpan="6" Margin="3,0,0,0" Padding="3,0,0,0" Grid.Row="53">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -936,7 +975,7 @@
                         </CheckBox>-->
 
                             <CheckBox Content="{x:Static p:Resources.DownloadUrlList2}"
-                                  IsChecked="{Binding BlogFile.DownloadUrlList, Mode=TwoWay}" Grid.Column="0" Grid.Row="52" Grid.ColumnSpan="5"
+                                  IsChecked="{Binding BlogFile.DownloadUrlList, Mode=TwoWay}" Grid.Column="0" Grid.Row="55" Grid.ColumnSpan="5"
                                   Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
@@ -951,7 +990,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.ForceSize}"
                                   IsChecked="{Binding BlogFile.ForceSize, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                  Grid.Row="54" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Row="57" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -965,7 +1004,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.RegExPhotos}"
                                       IsChecked="{Binding BlogFile.RegExPhotos, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                      Grid.Row="56" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Row="59" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -979,7 +1018,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.RegExVideos}"
                                       IsChecked="{Binding BlogFile.RegExVideos, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                      Grid.Row="58" Margin="3,0,0,0" Padding="3,0,0,0">
+                                      Grid.Row="61" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -993,7 +1032,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.DumpCrawlerData}"
                                   IsChecked="{Binding BlogFile.DumpCrawlerData, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="2"
-                                  Grid.Row="60" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Row="63" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1008,7 +1047,7 @@
                             <CheckBox Content="{x:Static p:Resources.ZipCrawlerData}"
                                   IsEnabled="{Binding BlogFile.DumpCrawlerData}"
                                   IsChecked="{Binding BlogFile.ZipCrawlerData, Mode=TwoWay}" Grid.Column="3" Grid.ColumnSpan="2"
-                                  Grid.Row="60" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Row="63" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>
@@ -1022,7 +1061,7 @@
 
                             <CheckBox Content="{x:Static p:Resources.ForceRescan}"
                                   IsChecked="{Binding BlogFile.ForceRescan, Mode=TwoWay}" Grid.Column="0" Grid.ColumnSpan="5"
-                                  Grid.Row="62" Margin="3,0,0,0" Padding="3,0,0,0">
+                                  Grid.Row="65" Margin="3,0,0,0" Padding="3,0,0,0">
                                 <CheckBox.ToolTip>
                                     <ToolTip>
                                         <StackPanel>

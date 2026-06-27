@@ -131,6 +131,7 @@ namespace TumblThree.Applications.ViewModels
         private string _timerInterval;
         private int _videoSize;
         private string _videoSizeCategory;
+        private AspectRatioType _videoAspectRatio;
         private int _settingsTabIndex;
         private string _userAgent;
         private string _tumblrUser = string.Empty;
@@ -394,6 +395,12 @@ namespace TumblThree.Applications.ViewModels
         {
             get => _videoSizeCategory;
             set => SetProperty(ref _videoSizeCategory, value);
+        }
+
+        public AspectRatioType VideoAspectRatio
+        {
+            get => _videoAspectRatio;
+            set => SetProperty(ref _videoAspectRatio, value);
         }
 
         public string BlogType
@@ -1364,6 +1371,7 @@ namespace TumblThree.Applications.ViewModels
                 CreateVideoMeta = _settings.CreateVideoMeta;
                 CreateAudioMeta = _settings.CreateAudioMeta;
                 MetadataFormat = _settings.MetadataFormat;
+                VideoAspectRatio = _settings.VideoAspectRatio;
                 DumpCrawlerData = _settings.DumpCrawlerData;
                 ZipCrawlerData = _settings.ZipCrawlerData;
                 RegExPhotos = _settings.RegExPhotos;
@@ -1470,6 +1478,7 @@ namespace TumblThree.Applications.ViewModels
                 CreateAudioMeta = false;
                 DownloadReplies = false;
                 MetadataFormat = MetadataType.Text;
+                VideoAspectRatio = AspectRatioType.All;
                 OverrideTumblrBlogCrawler = false;
                 TumblrBlogCrawlerType = TumblrBlogCrawlerTypes.TumblrSVC;
                 DumpCrawlerData = false;
@@ -1658,6 +1667,7 @@ namespace TumblThree.Applications.ViewModels
             _settings.CreateVideoMeta = CreateVideoMeta;
             _settings.CreateAudioMeta = CreateAudioMeta;
             _settings.MetadataFormat = MetadataFormat;
+            _settings.VideoAspectRatio = VideoAspectRatio;
             _settings.OverrideTumblrBlogCrawler = OverrideTumblrBlogCrawler;
             _settings.TumblrBlogCrawlerType = TumblrBlogCrawlerType;
             _settings.DumpCrawlerData = DumpCrawlerData;

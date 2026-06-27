@@ -1106,4 +1106,13 @@ Si cette option est activée, les bases de données des blogs seront également 
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
     <value>Télécharger les vignettes vidéo</value>
   </data>
+  <data name="VideoAspectRatio" xml:space="preserve">
+    <value>Format d'image vidéo</value>
+  </data>
+  <data name="ToolTipVideoAspectRatio" xml:space="preserve">
+    <value>Format vidéo à télécharger</value>
+  </data>
+  <data name="ToolTipVideoAspectRatioDescription" xml:space="preserve">
+    <value>Télécharge la vidéo uniquement si elle respecte le format d'image spécifié.</value>
+  </data>
 </root>

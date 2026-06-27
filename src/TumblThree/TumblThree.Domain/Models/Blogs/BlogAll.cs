@@ -85,6 +85,7 @@ namespace TumblThree.Domain.Models.Blogs
         private bool metadataFormatEnabled;
         private bool blogTypeEnabled;
         private bool collectionIdEnabled;
+        private bool videoAspectRatioEnabled;
         private bool selectionContainsTumblrBlogs;
         private bool selectionContainsTwitterBlogs;
 
@@ -747,6 +748,15 @@ namespace TumblThree.Domain.Models.Blogs
             set
             {
                 SetProperty(ref collectionIdEnabled, value);
+            }
+        }
+
+        public bool VideoAspectRatioEnabled
+        {
+            get { return videoAspectRatioEnabled; }
+            set
+            {
+                SetProperty(ref videoAspectRatioEnabled, value);
             }
         }
 

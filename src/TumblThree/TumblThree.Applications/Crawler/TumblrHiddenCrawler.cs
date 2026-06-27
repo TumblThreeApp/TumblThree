@@ -24,6 +24,7 @@ using TumblThree.Applications.Parser;
 using TumblThree.Applications.Services;
 using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using Resources = TumblThree.Applications.Properties.Resources;
 
 namespace TumblThree.Applications.Crawler
@@ -630,7 +631,16 @@ namespace TumblThree.Applications.Crawler
                 }
                 // can only download preview image for non-tumblr (embedded) video posts
                 if (Blog.DownloadVideo && content.Provider == "tumblr")
-                    AddToDownloadList(new VideoPost(url, null, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+                {
+                    if (content.Media[0].Width == 0 || content.Media[0].Height == 0)
+                    {
+                        Logger.Warning($"TumblrHiddenCrawler.DownloadMedia: {Blog.Name}, post id {data.Id}, video size not found");
+                    }
+                    if (HasVideoCorrectAspectRatio(content.Media[0].Width, content.Media[0].Height, Blog.VideoAspectRatio))
+                    {
+                        AddToDownloadList(new VideoPost(url, null, data.Id, data.UnixTimestamp.ToString(), BuildFileName(url, data, index)));
+                    }
+                }
             }
             else if (type == "audio")
             {

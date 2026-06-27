@@ -56,6 +56,7 @@ namespace TumblThree.Applications.Services
             blog.DownloadImagesInOriginalFormat = shellService.Settings.DownloadImagesInOriginalFormat;
             blog.SaveTextsIndividualFiles = shellService.Settings.SaveTextsIndividualFiles;
             blog.ZipCrawlerData = shellService.Settings.ZipCrawlerData;
+            blog.VideoAspectRatio = shellService.Settings.VideoAspectRatio;
             return blog;
         }
     }

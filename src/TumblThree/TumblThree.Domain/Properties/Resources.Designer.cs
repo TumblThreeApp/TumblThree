@@ -19,7 +19,7 @@ namespace TumblThree.Domain.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -66,6 +66,69 @@ namespace TumblThree.Domain.Properties {
         public static string any {
             get {
                 return ResourceManager.GetString("any", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to all.
+        /// </summary>
+        public static string AspectRatio_All {
+            get {
+                return ResourceManager.GetString("AspectRatio_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to landscape.
+        /// </summary>
+        public static string AspectRatio_Landscape {
+            get {
+                return ResourceManager.GetString("AspectRatio_Landscape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to landscape &amp; portrait.
+        /// </summary>
+        public static string AspectRatio_LandscapePortrait {
+            get {
+                return ResourceManager.GetString("AspectRatio_LandscapePortrait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to landscape &amp; square.
+        /// </summary>
+        public static string AspectRatio_LandscapeSquare {
+            get {
+                return ResourceManager.GetString("AspectRatio_LandscapeSquare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to portrait.
+        /// </summary>
+        public static string AspectRatio_Portrait {
+            get {
+                return ResourceManager.GetString("AspectRatio_Portrait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to portrait &amp; square.
+        /// </summary>
+        public static string AspectRatio_PortraitSquare {
+            get {
+                return ResourceManager.GetString("AspectRatio_PortraitSquare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to square.
+        /// </summary>
+        public static string AspectRatio_Square {
+            get {
+                return ResourceManager.GetString("AspectRatio_Square", resourceCulture);
             }
         }
         

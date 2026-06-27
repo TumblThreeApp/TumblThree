@@ -1355,4 +1355,13 @@ enabled, images are requested in the format they have been uploaded.</value>
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
     <value>Download video thumbnails</value>
   </data>
+  <data name="VideoAspectRatio" xml:space="preserve">
+    <value>Video aspect ratio</value>
+  </data>
+  <data name="ToolTipVideoAspectRatio" xml:space="preserve">
+    <value>Video aspect ratio to download</value>
+  </data>
+  <data name="ToolTipVideoAspectRatioDescription" xml:space="preserve">
+    <value>Downloads video only if it is in the specified aspect ratio.</value>
+  </data>
 </root>

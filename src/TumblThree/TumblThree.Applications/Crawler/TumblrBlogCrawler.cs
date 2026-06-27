@@ -782,7 +782,16 @@ namespace TumblThree.Applications.Crawler
             {
                 videoUrl = Regex.Match(post.VideoPlayer, "\"url\":\"([\\S]*/(tumblr_[\\S]*)_filmstrip[\\S]*)\"").Groups[2].ToString();
 
-                if (!string.IsNullOrEmpty(videoUrl))
+                var groups = Regex.Match(post.VideoPlayer, "width=[\"']([\\d]*)[\"'] height=[\"']([\\d]*)[\"']").Groups;
+                _ = int.TryParse(groups?.Count != 3 ? null : groups[1].Value, out int width);
+                _ = int.TryParse(groups?.Count != 3 ? null : groups[2].Value, out int height);
+                if (width == 0 || height == 0)
+                {
+                    Logger.Warning($"TumblrBlogCrawler.AddVideoUrl: {Blog.Name}, post id {post.Id}, video size not found");
+                }
+
+                if (!string.IsNullOrEmpty(videoUrl) &&
+                    HasVideoCorrectAspectRatio(width, height, Blog.VideoAspectRatio))
                 {
                     if (ShellService.Settings.VideoSize == 480)
                     {

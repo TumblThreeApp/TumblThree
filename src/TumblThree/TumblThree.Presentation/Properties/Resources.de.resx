@@ -1114,4 +1114,13 @@ Wenn diese Option aktiviert ist, werden auch Blogdatenbanken aktualisiert. In di
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
     <value>Video-Thumbnails herunterladen</value>
   </data>
+  <data name="VideoAspectRatio" xml:space="preserve">
+    <value>Video-Seitenverhältnis</value>
+  </data>
+  <data name="ToolTipVideoAspectRatio" xml:space="preserve">
+    <value>Video-Seitenverhältnis</value>
+  </data>
+  <data name="ToolTipVideoAspectRatioDescription" xml:space="preserve">
+    <value>Lädt Videos nur herunter, wenn sie das angegebene Seitenverhältnis aufweisen.</value>
+  </data>
 </root>

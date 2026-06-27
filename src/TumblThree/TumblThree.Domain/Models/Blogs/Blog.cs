@@ -100,6 +100,7 @@ namespace TumblThree.Domain.Models.Blogs
         private bool downloadImagesInOriginalFormat;
         private bool saveTextsIndividualFiles;
         private bool zipCrawlerData;
+        private AspectRatioType videoAspectRatio;
 
         [DataMember(Name = "Links")]
         private List<string> links;
@@ -828,6 +829,13 @@ namespace TumblThree.Domain.Models.Blogs
         {
             get => zipCrawlerData;
             set => SetProperty(ref zipCrawlerData, value);
+        }
+
+        [DataMember]
+        public AspectRatioType VideoAspectRatio
+        {
+            get => videoAspectRatio;
+            set => SetProperty(ref videoAspectRatio, value);
         }
 
         [IgnoreDataMember]

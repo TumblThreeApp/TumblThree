@@ -64,6 +64,15 @@
                 <x:Type TypeName="Models:MetadataType" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+
+        <ObjectDataProvider
+            x:Key="AspectRatioType"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Models:AspectRatioType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </Window.Resources>
 
     <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -1473,6 +1482,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -1779,6 +1789,46 @@
                                 </ToolTip>
                             </ComboBox.ToolTip>
                         </ComboBox>
+                        <Label
+                            x:Name="videoAspectRatioLabel"
+                            Grid.Row="10"
+                            Grid.Column="4"
+                            Margin="10,9"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{x:Static p:Resources.VideoAspectRatio}" Padding="4,0">
+                            <Label.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipVideoAspectRatio}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipVideoAspectRatioDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </Label.ToolTip>
+                        </Label>
+                        <ComboBox
+                            x:Name="videoAspectRatioComboBox"
+                            Grid.Row="10"
+                            Grid.Column="5"
+                            Grid.ColumnSpan="2"
+                            MinWidth="40"
+                            Width="{Binding ActualWidth, ElementName=pnjDownloadFormatComboBox, Converter={StaticResource MultiplyConverter}, ConverterParameter=1.5}"
+                            Margin="0,0,10,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            ItemsSource="{Binding Source={StaticResource AspectRatioType}}"
+                            SelectedItem="{Binding VideoAspectRatio, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                            SelectedValue="{Binding VideoAspectRatio}"
+                            SelectedValuePath="." Padding="6,3,5,3">
+                            <ComboBox.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold" Text="{x:Static p:Resources.ToolTipVideoAspectRatio}" />
+                                        <TextBlock Text="{x:Static p:Resources.ToolTipVideoAspectRatioDescription}" />
+                                    </StackPanel>
+                                </ToolTip>
+                            </ComboBox.ToolTip>
+                        </ComboBox>
                         <CheckBox
                             x:Name="checkBoxDownloadVideoThumbnails"
                             Grid.Row="10"
@@ -1798,8 +1848,8 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxDownloadImagesInOriginalFormat"
-                            Grid.Row="10"
-                            Grid.Column="4"
+                            Grid.Row="11"
+                            Grid.Column="0"
                             Grid.ColumnSpan="3"
                             Margin="10,9"
                             Content="{x:Static p:Resources.DownloadImagesInOriginalFormat}"
@@ -1815,7 +1865,7 @@
                         </CheckBox>
                         <Label
                             x:Name="metadataFormatLabel"
-                            Grid.Row="11"
+                            Grid.Row="12"
                             Grid.Column="0"
                             Margin="10,9"
                             HorizontalAlignment="Left"
@@ -1823,7 +1873,7 @@
                             Content="{x:Static p:Resources.MetadataFormat}" Padding="4,0" />
                         <ComboBox
                             x:Name="metadataFormatComboBox"
-                            Grid.Row="11"
+                            Grid.Row="12"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             Margin="0,0,10,0"
@@ -1836,7 +1886,7 @@
                             SelectedValuePath="." />
                         <CheckBox
                             x:Name="checkBoxOverrideTumblrBlogCrawler"
-                            Grid.Row="11"
+                            Grid.Row="12"
                             Grid.Column="4"
                             Grid.ColumnSpan="2"
                             Margin="10,9"
@@ -1855,7 +1905,7 @@
                         </CheckBox>
                         <ComboBox
                             x:Name="defaultTumblrBlogFormatComboBox"
-                            Grid.Row="11"
+                            Grid.Row="12"
                             Grid.Column="6"
                             MinWidth="40"
                             Margin="0,0,10,0"
@@ -1875,7 +1925,7 @@
                             </ComboBox.ToolTip>
                         </ComboBox>
                         <Label
-                            Grid.Row="12"
+                            Grid.Row="13"
                             Grid.Column="0"
                             Margin="10,9"
                             HorizontalAlignment="Left"
@@ -1891,7 +1941,7 @@
                             </Label.ToolTip>
                         </Label>
                         <TextBox
-                            Grid.Row="12"
+                            Grid.Row="13"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             Margin="0,0,10,0"
@@ -1910,7 +1960,7 @@
                             </TextBox.ToolTip>
                         </TextBox>
                         <Label
-                            Grid.Row="12"
+                            Grid.Row="13"
                             Grid.Column="4"
                             Grid.ColumnSpan="2"
                             Margin="10,9"
@@ -1928,7 +1978,7 @@
                         </Label>
                         <TextBox
                             x:Name="pageSizeTextBox"
-                            Grid.Row="12"
+                            Grid.Row="13"
                             Grid.Column="6"
                             Margin="00,0,10,0"
                             HorizontalAlignment="Stretch"
@@ -1945,7 +1995,7 @@
                             </TextBox.ToolTip>
                         </TextBox>
                         <Label
-                            Grid.Row="13"
+                            Grid.Row="14"
                             Grid.Column="0"
                             Margin="10,9"
                             HorizontalAlignment="Left"
@@ -1961,7 +2011,7 @@
                             </Label.ToolTip>
                         </Label>
                         <TextBox
-                            Grid.Row="13"
+                            Grid.Row="14"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             Margin="0,0,10,0"
@@ -1980,7 +2030,7 @@
                             </TextBox.ToolTip>
                         </TextBox>
                         <Label
-                            Grid.Row="13"
+                            Grid.Row="14"
                             Grid.Column="4"
                             Grid.ColumnSpan="2"
                             Margin="10,9"
@@ -1997,7 +2047,7 @@
                             </Label.ToolTip>
                         </Label>
                         <TextBox
-                            Grid.Row="13"
+                            Grid.Row="14"
                             Grid.Column="6"
                             Margin="00,0,10,0"
                             HorizontalAlignment="Stretch"
@@ -2030,7 +2080,7 @@
                         </CheckBox>-->
                         <CheckBox
                             x:Name="checkBoxDownloadUrlList"
-                            Grid.Row="14"
+                            Grid.Row="15"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
                             Margin="10,9"
@@ -2047,7 +2097,7 @@
                             </CheckBox.ToolTip>
                         </CheckBox>
                         <Label
-                            Grid.Row="14"
+                            Grid.Row="15"
                             Grid.Column="4"
                             Grid.ColumnSpan="2"
                             Margin="10,9"
@@ -2064,7 +2114,7 @@
                             </Label.ToolTip>
                         </Label>
                         <TextBox
-                            Grid.Row="14"
+                            Grid.Row="15"
                             Grid.Column="6"
                             Margin="00,0,10,0"
                             HorizontalAlignment="Stretch"
@@ -2082,13 +2132,13 @@
                         </TextBox>
                         <CheckBox
                             x:Name="checkBoxSkipGif"
-                            Grid.Row="16"
+                            Grid.Row="17"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
                             Margin="10,9"
                             Content="{x:Static p:Resources.SkipGif}"
                             IsChecked="{Binding SkipGif, Mode=TwoWay}" />
-                        <Label Content="{x:Static p:Resources.FilenameTemplate}" Grid.Column="4" Grid.Row="15" Grid.ColumnSpan="2"
+                        <Label Content="{x:Static p:Resources.FilenameTemplate}" Grid.Column="4" Grid.Row="16" Grid.ColumnSpan="2"
                             Margin="10,9" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4,0">
                             <Label.ToolTip>
                                 <ToolTip>
@@ -2100,7 +2150,7 @@
                                 </ToolTip>
                             </Label.ToolTip>
                         </Label>
-                        <TextBox Grid.Column="6" Grid.ColumnSpan="5" Grid.Row="15" Margin="0,0,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                        <TextBox Grid.Column="6" Grid.ColumnSpan="5" Grid.Row="16" Margin="0,0,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                  Text="{Binding FilenameTemplate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                  PreviewLostKeyboardFocus="FilenameTemplate_PreviewLostKeyboardFocus">
                             <TextBox.ToolTip>
@@ -2115,7 +2165,7 @@
                         </TextBox>
                         <CheckBox
                             x:Name="checkBoxForceSize"
-                            Grid.Row="16"
+                            Grid.Row="17"
                             Grid.Column="4"
                             Grid.ColumnSpan="3"
                             Margin="10,9"
@@ -2132,7 +2182,7 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxRegExPhotos"
-                            Grid.Row="17"
+                            Grid.Row="18"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
                             Margin="10,9"
@@ -2147,7 +2197,7 @@
                                 </ToolTip>
                             </CheckBox.ToolTip>
                         </CheckBox>
-                        <StackPanel HorizontalAlignment="Stretch" Grid.Column="4" Grid.Row="18" Grid.ColumnSpan="3">
+                        <StackPanel HorizontalAlignment="Stretch" Grid.Column="4" Grid.Row="19" Grid.ColumnSpan="3">
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -2193,7 +2243,7 @@
 
                         <CheckBox
                             x:Name="checkBoxRegExVideo"
-                            Grid.Row="18"
+                            Grid.Row="19"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
                             Margin="10,9"
@@ -2210,7 +2260,7 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxForceRescan"
-                            Grid.Row="17"
+                            Grid.Row="18"
                             Grid.Column="4"
                             Grid.ColumnSpan="3"
                             Margin="10,9"
@@ -2227,7 +2277,7 @@
                         </CheckBox>
                         <CheckBox
                             x:Name="checkBoxGroupPhotoSets"
-                            Grid.Row="15"
+                            Grid.Row="16"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
                             Margin="10,9"

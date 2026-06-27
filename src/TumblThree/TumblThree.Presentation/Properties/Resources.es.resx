@@ -1102,4 +1102,13 @@ Si esta opción está activada, también se actualizarán. En este caso, el rast
   <data name="ToolTipDownloadVideoThumbnails" xml:space="preserve">
     <value>Scarica le miniature dei video</value>
   </data>
+  <data name="VideoAspectRatio" xml:space="preserve">
+    <value>Relación de aspecto del vídeo</value>
+  </data>
+  <data name="ToolTipVideoAspectRatio" xml:space="preserve">
+    <value>Relación de aspecto del video para descargar</value>
+  </data>
+  <data name="ToolTipVideoAspectRatioDescription" xml:space="preserve">
+    <value>Descarga el vídeo únicamente si tiene la relación de aspecto especificada.</value>
+  </data>
 </root>

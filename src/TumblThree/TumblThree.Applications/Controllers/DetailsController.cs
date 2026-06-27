@@ -349,6 +349,7 @@ namespace TumblThree.Applications.Controllers
             ba.UguuType = SetProperty<UguuTypes>(sharedBlogFiles, "UguuType", (outval) => allEqual = outval);
             ba.CatBoxType = SetProperty<CatBoxTypes>(sharedBlogFiles, "CatBoxType", (outval) => allEqual = outval);
             ba.MetadataFormat = SetProperty<MetadataType>(sharedBlogFiles, "MetadataFormat", (outval) => ba.MetadataFormatEnabled = outval);
+            ba.VideoAspectRatio = SetProperty<AspectRatioType>(sharedBlogFiles, "VideoAspectRatio", (outval) => ba.VideoAspectRatioEnabled = outval);
             ba.BlogType = SetProperty<BlogTypes>(sharedBlogFiles, "BlogType", (outval) => allEqual = outval);
             ba.BlogTypeEnabled = false;
             ba.FileDownloadLocation = SetProperty<string>(sharedBlogFiles, "FileDownloadLocation", (outval) => allEqual = outval);

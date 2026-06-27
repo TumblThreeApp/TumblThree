@@ -76,6 +76,7 @@ namespace TumblThree.Domain.Models.Blogs
         bool FileDownloadLocationEnabled { get; set; }
         bool FilenameTemplateEnabled { get; set; }
         bool MetadataFormatEnabled { get; set; }
+        bool VideoAspectRatioEnabled { get; set; }
         bool BlogTypeEnabled { get; set; }
         bool CollectionIdEnabled { get; set; }
         bool SelectionContainsTumblrBlogs { get; set; }

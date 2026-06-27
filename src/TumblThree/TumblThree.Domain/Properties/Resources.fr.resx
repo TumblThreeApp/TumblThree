@@ -117,67 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="any" xml:space="preserve">
-    <value>any</value>
-  </data>
-  <data name="gif" xml:space="preserve">
-    <value>gif</value>
-  </data>
-  <data name="json" xml:space="preserve">
-    <value>json</value>
-  </data>
-  <data name="max2mbgif" xml:space="preserve">
-    <value>2mb gif</value>
-  </data>
-  <data name="max5mbgif" xml:space="preserve">
-    <value>5mb gif</value>
-  </data>
-  <data name="mjpg" xml:space="preserve">
-    <value>mjpg</value>
-  </data>
-  <data name="mp4" xml:space="preserve">
-    <value>mp4</value>
-  </data>
-  <data name="poster" xml:space="preserve">
-    <value>poster</value>
-  </data>
-  <data name="text" xml:space="preserve">
-    <value>text</value>
-  </data>
-  <data name="TumblrAPI" xml:space="preserve">
-    <value>Tumblr API</value>
-  </data>
-  <data name="TumblrSVC" xml:space="preserve">
-    <value>Tumblr SVC</value>
-  </data>
-  <data name="webm" xml:space="preserve">
-    <value>webm</value>
-  </data>
-  <data name="webp" xml:space="preserve">
-    <value>webp</value>
-  </data>
-  <data name="xml" xml:space="preserve">
-    <value>xml</value>
-  </data>
   <data name="AspectRatio_All" xml:space="preserve">
-    <value>all</value>
+    <value>Tous</value>
   </data>
   <data name="AspectRatio_Landscape" xml:space="preserve">
-    <value>landscape</value>
+    <value>Paysage</value>
   </data>
   <data name="AspectRatio_LandscapeSquare" xml:space="preserve">
-    <value>landscape &amp; square</value>
+    <value>Paysage &amp; Carré</value>
   </data>
   <data name="AspectRatio_Portrait" xml:space="preserve">
-    <value>portrait</value>
+    <value>Portrait</value>
   </data>
   <data name="AspectRatio_PortraitSquare" xml:space="preserve">
-    <value>portrait &amp; square</value>
+    <value>Portrait &amp; Carré</value>
   </data>
   <data name="AspectRatio_Square" xml:space="preserve">
-    <value>square</value>
+    <value>Carré</value>
   </data>
   <data name="AspectRatio_LandscapePortrait" xml:space="preserve">
-    <value>landscape &amp; portrait</value>
+    <value>Paysage &amp; Portrait</value>
   </data>
 </root>

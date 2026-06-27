@@ -203,6 +203,8 @@ namespace TumblThree.Domain.Models.Blogs
 
         bool ZipCrawlerData { get; set; }
 
+        AspectRatioType VideoAspectRatio { get; set; }
+
         void UpdateProgress(bool doCount);
 
         void UpdatePostCount(string propertyName);

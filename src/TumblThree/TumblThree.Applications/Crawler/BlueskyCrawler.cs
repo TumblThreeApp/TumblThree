@@ -853,7 +853,15 @@ namespace TumblThree.Applications.Crawler
             var filenamePrepared = FileNameSecondLast(embededVideo.Playlist) + "." + (post.Record.Embed?.Video?.MimeType ?? "").Split('/').Last();
             if (post.Record.Embed?.Video?.MimeType != "video/mp4") { System.Diagnostics.Debug.WriteLine(""); }
 
-            if (Blog.DownloadVideo)
+            int width = embededVideo.AspectRatio?.Width ?? 0;
+            int height = embededVideo.AspectRatio?.Height ?? 0;
+            if (width == 0 || height == 0)
+            {
+                Logger.Warning($"BlueskyCrawler.AddVideoUrl: {Blog.Name}, post id {PostId(post)}, video size not found");
+            }
+
+            if (Blog.DownloadVideo &&
+                HasVideoCorrectAspectRatio(width, height, Blog.VideoAspectRatio))
             {
                 var urlParts = embededVideo.Playlist.Split('/');
                 urlParts[urlParts.Length - 2] = filenamePrepared;
