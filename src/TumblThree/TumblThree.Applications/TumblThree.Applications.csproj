@@ -152,6 +152,7 @@
     <Compile Include="DataModels\TumblrApi\MetaDataApi.cs" />
     <Compile Include="DataModels\TumblrNPF\Common.cs" />
     <Compile Include="DataModels\TumblrNPF\PostsResponse.cs" />
+    <Compile Include="DataModels\TumblrNPF\RegularBodyNpfData.cs" />
     <Compile Include="DataModels\TumblrSearch\TumblrSearchJson.cs" />
     <Compile Include="DataModels\TumblrSvc\BlogInfo.cs" />
     <Compile Include="DataModels\TumblrNPF\PeeprBlogTimeline.cs" />

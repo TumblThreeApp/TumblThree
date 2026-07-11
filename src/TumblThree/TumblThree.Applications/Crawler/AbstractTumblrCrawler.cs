@@ -23,6 +23,9 @@ using TumblThree.Domain;
 using TumblThree.Domain.Models.Blogs;
 using TumblThree.Applications.Downloader;
 using TumblThree.Domain.Models;
+using TumblThree.Applications.DataModels.TumblrNPF;
+using Post = TumblThree.Applications.DataModels.TumblrApiJson.Post;
+using Resources = TumblThree.Applications.Properties.Resources;
 
 namespace TumblThree.Applications.Crawler
 {
@@ -323,6 +326,43 @@ namespace TumblThree.Applications.Crawler
                 foreach (string thumbnailUrl in TumblrParser.SearchForTumblrVideoThumbnailUrl(text))
                 {
                     var filename = BuildFileName(thumbnailUrl, post, "photo", -1);
+                    AddDownloadedMedia(thumbnailUrl, filename, post);
+                    AddToDownloadList(new PhotoPost(thumbnailUrl, "", post.Id, post.UnixTimestamp.ToString(), filename));
+                }
+            }
+
+            return list.ToArray();
+        }
+
+        protected string[] AddInlineTumblrNpfVideoUrl(Post post)
+        {
+            if (!Blog.DownloadVideo && !Blog.DownloadVideoThumbnail) return Array.Empty<string>();
+
+            var list = new List<string>();
+
+            var match = Regex.Match(post.RegularBody, "data-npf='({.*})'");
+
+            if (!match.Success || match.Groups.Count != 2) return Array.Empty<string>();
+
+            var npfData = JsonConvert.DeserializeObject<RegularBodyNpfData>(match.Groups[1].Value);
+
+            if (npfData.Type != "video" || npfData.Provider != "tumblr") return Array.Empty<string>();
+
+            if (Blog.DownloadVideo)
+            {
+                var url = npfData.Media.Url;
+                var filename = BuildFileName(url, post, -1);
+                AddDownloadedMedia(url, filename, post);
+                AddToDownloadList(new VideoPost(url, null, post.Id, post.UnixTimestamp.ToString(), filename));
+                list.Add(url);
+            }
+
+            if (Blog.DownloadVideoThumbnail)
+            {
+                for (int i = 0; i < npfData.Poster.Count; i++)
+                {
+                    var thumbnailUrl = npfData.Poster[i].Url;
+                    var filename = BuildFileName(thumbnailUrl, post, "photo", (npfData.Poster.Count > 1 ? i : -1));
                     AddDownloadedMedia(thumbnailUrl, filename, post);
                     AddToDownloadList(new PhotoPost(thumbnailUrl, "", post.Id, post.UnixTimestamp.ToString(), filename));
                 }

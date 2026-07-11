@@ -572,9 +572,12 @@ namespace TumblThree.Applications.Crawler
                 postCopy.VideoPlayer = string.Empty;
             }
 
-            var urls = AddTumblrVideoUrl(InlineSearch(post), post);
+            var inlineText = InlineSearch(post);
+            var urls = AddTumblrVideoUrl(inlineText, post);
             AddToJsonQueue(urls, post);
-            urls = AddInlineTumblrVideoUrl(InlineSearch(post), post);
+            urls = AddInlineTumblrVideoUrl(inlineText, post);
+            AddToJsonQueue(urls, post);
+            urls = AddInlineTumblrNpfVideoUrl(post);
             AddToJsonQueue(urls, post);
 
             if (Blog.DownloadVideo && Blog.RegExVideos)
