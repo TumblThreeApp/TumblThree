@@ -336,7 +336,15 @@ namespace TumblThree.Domain.Models.Files
 
                 if (File.Exists(currentIndex))
                 {
-                    Save(newIndex);
+                    try
+                    {
+                        Save(newIndex);
+                    }
+                    catch (IOException)
+                    {
+                        if (File.Exists(newIndex)) File.Delete(newIndex);
+                        throw;
+                    }
 
                     File.Replace(newIndex, currentIndex, backupIndex, true);
                     File.Delete(backupIndex);
