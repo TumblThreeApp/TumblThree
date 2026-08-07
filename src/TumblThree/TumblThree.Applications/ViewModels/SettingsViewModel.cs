@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -8,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Waf.Applications.Services;
+using System.Windows.Data;
 using System.Windows.Input;
 
 using TumblThree.Applications.Data;
@@ -200,6 +203,18 @@ namespace TumblThree.Applications.ViewModels
 
             Task loadSettingsTask = Load();
             view.Closed += ViewClosed;
+
+            CollectionsView = CollectionViewSource.GetDefaultView(Collections);
+            CollectionsView.SortDescriptions.Add(new SortDescription(nameof(Collection.Name), ListSortDirection.Ascending));
+            if (CollectionsView is ICollectionViewLiveShaping live && live.CanChangeLiveSorting)
+            {
+                live.LiveSortingProperties.Add(nameof(Collection.Name));
+                live.IsLiveSorting = true;
+            }
+            else
+            {
+                Collections.CollectionChanged += (s, e) => CollectionsView.Refresh();
+            }
         }
         
 
@@ -522,6 +537,8 @@ namespace TumblThree.Applications.ViewModels
             get => _collections;
             set => SetProperty(ref _collections, value);
         }
+
+        public ICollectionView CollectionsView { get; }
 
         public int ActiveCollectionId
         {

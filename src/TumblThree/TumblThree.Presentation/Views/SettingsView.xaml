@@ -2495,7 +2495,7 @@
                                               MaxWidth="200"
                                               Margin="0,5,5,5"
                                               Height="22" 
-                                              ItemsSource="{Binding Collections, Mode=OneWay}"
+                                              ItemsSource="{Binding CollectionsView, Mode=OneWay}"
                                               SelectedValue="{Binding SelectedCollectionId, Mode=TwoWay}"
                                               DisplayMemberPath="Name" 
                                               SelectedValuePath="Id" />
