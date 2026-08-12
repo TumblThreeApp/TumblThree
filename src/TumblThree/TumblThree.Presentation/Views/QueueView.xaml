@@ -35,6 +35,11 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
+                                <MenuItem Command="{Binding MoveToTopCommand}"
+                                          Header="{x:Static p:Resources.MoveToTop}" />
+                                <MenuItem Command="{Binding MoveToBottomCommand}"
+                                          Header="{x:Static p:Resources.MoveToBottom}" />
+                                <Separator />
                                 <MenuItem Command="{Binding RemoveSelectedCommand}"
                                           Header="{x:Static p:Resources.RemoveSelected}"
                                           InputGestureText="{x:Static p:Resources.Delete}" />

@@ -20,6 +20,8 @@ namespace TumblThree.Applications.ViewModels
         private ICommand _removeSelectedCommand;
         private ICommand _saveQueueCommand;
         private ICommand _showBlogDetailsCommand;
+        private ICommand _moveToTopCommand;
+        private ICommand _moveToBottomCommand;
 
         private QueueManager _queueManager;
         private QueueListItem _selectedQueueItem;
@@ -54,6 +56,18 @@ namespace TumblThree.Applications.ViewModels
         }
 
         public IList<QueueListItem> SelectedQueueItems => _selectedQueueItems;
+
+        public ICommand MoveToTopCommand
+        {
+            get => _moveToTopCommand;
+            set => SetProperty(ref _moveToTopCommand, value);
+        }
+
+        public ICommand MoveToBottomCommand
+        {
+            get => _moveToBottomCommand;
+            set => SetProperty(ref _moveToBottomCommand, value);
+        }
 
         public ICommand RemoveSelectedCommand
         {

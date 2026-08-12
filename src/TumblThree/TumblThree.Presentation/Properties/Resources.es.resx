@@ -1111,4 +1111,10 @@ Si esta opción está activada, también se actualizarán. En este caso, el rast
   <data name="ToolTipVideoAspectRatioDescription" xml:space="preserve">
     <value>Descarga el vídeo únicamente si tiene la relación de aspecto especificada.</value>
   </data>
+  <data name="MoveToBottom" xml:space="preserve">
+    <value>Mover al final</value>
+  </data>
+  <data name="MoveToTop" xml:space="preserve">
+    <value>Mover al principio</value>
+  </data>
 </root>

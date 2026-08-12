@@ -1115,4 +1115,10 @@ Si cette option est activée, les bases de données des blogs seront également 
   <data name="ToolTipVideoAspectRatioDescription" xml:space="preserve">
     <value>Télécharge la vidéo uniquement si elle respecte le format d'image spécifié.</value>
   </data>
+  <data name="MoveToTop" xml:space="preserve">
+    <value>Déplacer en haut de la liste</value>
+  </data>
+  <data name="MoveToBottom" xml:space="preserve">
+    <value>Déplacer en bas de la liste</value>
+  </data>
 </root>

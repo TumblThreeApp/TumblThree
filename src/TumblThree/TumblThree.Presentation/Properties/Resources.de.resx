@@ -1123,4 +1123,10 @@ Wenn diese Option aktiviert ist, werden auch Blogdatenbanken aktualisiert. In di
   <data name="ToolTipVideoAspectRatioDescription" xml:space="preserve">
     <value>Lädt Videos nur herunter, wenn sie das angegebene Seitenverhältnis aufweisen.</value>
   </data>
+  <data name="MoveToBottom" xml:space="preserve">
+    <value>Ans Ende verschieben</value>
+  </data>
+  <data name="MoveToTop" xml:space="preserve">
+    <value>An den Anfang verschieben</value>
+  </data>
 </root>

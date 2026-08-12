@@ -38,6 +38,8 @@ namespace TumblThree.Applications.Controllers
         private readonly DelegateCommand _removeSelectionCommand;
         private readonly DelegateCommand _saveQueueCommand;
         private readonly DelegateCommand _showBlogDetailsCommand;
+        private readonly DelegateCommand _moveSelectedToTopCommand;
+        private readonly DelegateCommand _moveSelectedToBottomCommand;
 
         private readonly Lazy<QueueViewModel> _queueViewModel;
 
@@ -55,9 +57,12 @@ namespace TumblThree.Applications.Controllers
             _managerService = managerService;
             _crawlerService = crawlerService;
             _detailsService = detailsService;
-            _removeSelectedCommand = new DelegateCommand(RemoveSelected, CanRemoveSelected);
+            _removeSelectedCommand = new DelegateCommand(RemoveSelected, AtLeastOneSelected);
             _removeSelectionCommand = new DelegateCommand(RemoveSelection);
             _showBlogDetailsCommand = new DelegateCommand(ShowBlogDetails);
+            _moveSelectedToTopCommand = new DelegateCommand(MoveSelectedToTop, AtLeastOneSelected);
+            _moveSelectedToBottomCommand = new DelegateCommand(MoveSelectedToBottom, AtLeastOneSelected);
+
             _openQueueCommand = new DelegateCommand(OpenList);
             _saveQueueCommand = new DelegateCommand(SaveList);
             _clearQueueCommand = new DelegateCommand(ClearList);
@@ -76,6 +81,8 @@ namespace TumblThree.Applications.Controllers
             QueueViewModel.QueueManager = QueueManager;
             QueueViewModel.RemoveSelectedCommand = _removeSelectedCommand;
             QueueViewModel.ShowBlogDetailsCommand = _showBlogDetailsCommand;
+            QueueViewModel.MoveToTopCommand = _moveSelectedToTopCommand;
+            QueueViewModel.MoveToBottomCommand = _moveSelectedToBottomCommand;
             QueueViewModel.OpenQueueCommand = _openQueueCommand;
             QueueViewModel.SaveQueueCommand = _saveQueueCommand;
             QueueViewModel.ClearQueueCommand = _clearQueueCommand;
@@ -116,7 +123,23 @@ namespace TumblThree.Applications.Controllers
         public void Shutdown() => QueueSettings.ReplaceAll(QueueManager.Items.Select(x => x.Blog.Name).ToArray(),
             QueueManager.Items.Select(x => x.Blog.BlogType).ToArray());
 
-        private bool CanRemoveSelected() => QueueViewModel.SelectedQueueItem != null;
+        private bool AtLeastOneSelected() => QueueViewModel.SelectedQueueItem != null;
+
+        private void MoveSelectedToTop()
+        {
+            MoveSelection(QueueViewModel.SelectedQueueItems, 0);
+        }
+
+        private void MoveSelectedToBottom()
+        {
+            MoveSelection(QueueViewModel.SelectedQueueItems, 1);
+        }
+
+        private void MoveSelection(object list, byte direction)
+        {
+            IEnumerable<QueueListItem> listItems = (IEnumerable<QueueListItem>)list;
+            QueueManager.MoveItems(direction == 0 ? 0 : QueueManager.Items.Count - 1, listItems);
+        }
 
         private void RemoveSelected()
         {
