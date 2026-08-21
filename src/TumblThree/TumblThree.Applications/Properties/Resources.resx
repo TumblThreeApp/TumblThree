@@ -553,4 +553,11 @@ Continue close anyway?</value>
   <data name="TagCannotBeSearchedAnymore" xml:space="preserve">
     <value>The tag cannot be searched anymore.</value>
   </data>
+  <data name="LargeLogFileWarningTitle" xml:space="preserve">
+    <value>Large log file</value>
+  </data>
+  <data name="LargeLogFileWarning" xml:space="preserve">
+    <value>The log file is {0} GB in size.
+Do you want to create a new one? Otherwise, the existing log file will be continued.</value>
+  </data>
 </root>

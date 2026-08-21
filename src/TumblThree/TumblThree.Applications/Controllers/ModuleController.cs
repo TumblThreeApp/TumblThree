@@ -30,6 +30,7 @@ namespace TumblThree.Applications.Controllers
         private const string ManagerSettingsFileName = "Manager.json";
         private const string QueueSettingsFileName = "Queuelist.json";
         private const string CookiesFileName = "Cookies.json";
+        private const long BYTES_PER_GB = 1024 * 1024 * 1024;
 
         private readonly ISharedCookieService _cookieService;
         private readonly IEnvironmentService _environmentService;
@@ -117,6 +118,7 @@ namespace TumblThree.Applications.Controllers
                 logPath = savePath;
             }
 
+            CheckLogFileSize(logPath);
             Logger.Initialize(logPath, TraceLevel.Verbose);
 
             _appSettings = LoadSettings<AppSettings>(Path.Combine(savePath, AppSettingsFileName));
@@ -222,6 +224,21 @@ namespace TumblThree.Applications.Controllers
             ShellViewModel.CloseForced();
 
             SaveSettings();
+        }
+
+        private void CheckLogFileSize(string logPath)
+        {
+            var filename = Path.Combine(logPath, "TumblThree.log");
+            if (!File.Exists(filename)) return;
+
+            var fileSize = new FileInfo(filename).Length;
+            if (fileSize < 5 * BYTES_PER_GB) return;
+            fileSize = fileSize / BYTES_PER_GB;
+
+            if (_messageService.Value.ShowYesNoQuestion(string.Format(Resources.LargeLogFileWarning, fileSize), Resources.LargeLogFileWarningTitle))
+            {
+                File.Delete(filename);
+            }
         }
 
         private bool IsInstanceAlreadyRunning(AppSettings settings)

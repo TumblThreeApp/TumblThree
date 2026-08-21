@@ -824,6 +824,25 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The log file is {0} GB in size.
+        ///Do you want to create a new one? Otherwise, the existing log file will be continued..
+        /// </summary>
+        public static string LargeLogFileWarning {
+            get {
+                return ResourceManager.GetString("LargeLogFileWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Large log file.
+        /// </summary>
+        public static string LargeLogFileWarningTitle {
+            get {
+                return ResourceManager.GetString("LargeLogFileWarningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Limit exceeded: {0}. You should lower the connections to the tumblr api in the Settings-&gt;Connection pane..
         /// </summary>
         public static string LimitExceeded {

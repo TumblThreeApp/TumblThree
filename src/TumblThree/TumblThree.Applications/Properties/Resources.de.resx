@@ -522,4 +522,11 @@ Trotzdem fortfahren und schließen?</value>
   <data name="TagCannotBeSearchedAnymore" xml:space="preserve">
     <value>Der Tag kann nicht mehr gesucht werden.</value>
   </data>
+  <data name="LargeLogFileWarningTitle" xml:space="preserve">
+    <value>Große Logdatei</value>
+  </data>
+  <data name="LargeLogFileWarning" xml:space="preserve">
+    <value>Die Protokolldatei ist {0} GB groß.
+Möchten Sie eine neue erstellen? Andernfalls wird die bestehende Protokolldatei weiterhin verwendet.</value>
+  </data>
 </root>

@@ -534,4 +534,11 @@ Continuer à fermer quand même ?</value>
   <data name="TagCannotBeSearchedAnymore" xml:space="preserve">
     <value>Ce mot clé n'est plus référencée.</value>
   </data>
+  <data name="LargeLogFileWarningTitle" xml:space="preserve">
+    <value>Fichier journal volumineux</value>
+  </data>
+  <data name="LargeLogFileWarning" xml:space="preserve">
+    <value>Le fichier journal a une taille de {0} Go.
+Voulez-vous en créer un nouveau ? Sinon, le fichier journal existant sera conservé.</value>
+  </data>
 </root>
