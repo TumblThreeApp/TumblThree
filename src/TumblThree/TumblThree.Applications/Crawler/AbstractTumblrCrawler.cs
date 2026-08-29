@@ -340,7 +340,7 @@ namespace TumblThree.Applications.Crawler
 
             var list = new List<string>();
 
-            var match = Regex.Match(post.RegularBody, "data-npf='({.*})'");
+            var match = Regex.Match(post.RegularBody, @"data-npf='((?=[^']*""type"":""video"")[^']*)'");
 
             if (!match.Success || match.Groups.Count != 2) return Array.Empty<string>();
 
