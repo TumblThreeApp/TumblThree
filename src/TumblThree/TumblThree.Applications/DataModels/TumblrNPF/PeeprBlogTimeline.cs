@@ -215,25 +215,7 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         [JsonProperty("browser_version")]
         public string BrowserVersion { get; set; }
     }
-
-    public class Colors
-    {
-        [JsonProperty("c0")]
-        public string C0 { get; set; }
-
-        [JsonProperty("c1")]
-        public string C1 { get; set; }
-
-        [JsonProperty("c2")]
-        public string C2 { get; set; }
-
-        [JsonProperty("c3")]
-        public string C3 { get; set; }
-
-        [JsonProperty("c4")]
-        public string C4 { get; set; }
-    }
-
+    
     public class ConfigRef
     {
         [JsonProperty("saberKey")]
@@ -578,15 +560,6 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         public int LoadingStrategy { get; set; }
     }
 
-    public class HeaderContext
-    {
-        [JsonProperty("label")]
-        public Label Label { get; set; }
-
-        [JsonProperty("icon")]
-        public string Icon { get; set; }
-    }
-
     public class InitialTimeline
     {
         [JsonProperty("objects")]
@@ -624,15 +597,6 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
 
         [JsonProperty("configRef")]
         public ConfigRef ConfigRef { get; set; }
-    }
-
-    public class Label
-    {
-        [JsonProperty("type")]
-        public string Type { get; set; }
-
-        [JsonProperty("text")]
-        public string Text { get; set; }
     }
 
     public class LabsSettings
@@ -795,24 +759,6 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
     {
         [JsonProperty("value")]
         public string Value { get; set; }
-    }
-
-    public class RecommendationReason
-    {
-        [JsonProperty("text")]
-        public string Text { get; set; }
-
-        [JsonProperty("icon")]
-        public string Icon { get; set; }
-
-        [JsonProperty("loggingReason")]
-        public string LoggingReason { get; set; }
-
-        [JsonProperty("color")]
-        public string Color { get; set; }
-
-        [JsonProperty("links")]
-        public Links Links { get; set; }
     }
 
     public class ReportingInfo

@@ -151,6 +151,11 @@
     <Compile Include="DataModels\CrawlerData\CrawlerData.cs" />
     <Compile Include="DataModels\TumblrApi\MetaDataApi.cs" />
     <Compile Include="DataModels\TumblrNPF\Common.cs" />
+    <Compile Include="DataModels\TumblrNPF\CommunityCommon.cs" />
+    <Compile Include="DataModels\TumblrNPF\CommunityUser.cs" />
+    <Compile Include="DataModels\TumblrNPF\CommunityPages.cs" />
+    <Compile Include="DataModels\TumblrNPF\StateDataConverter.cs" />
+    <Compile Include="DataModels\TumblrNPF\CommunityTimeline.cs" />
     <Compile Include="DataModels\TumblrNPF\PostsResponse.cs" />
     <Compile Include="DataModels\TumblrNPF\RegularBodyNpfData.cs" />
     <Compile Include="DataModels\TumblrSearch\TumblrSearchJson.cs" />

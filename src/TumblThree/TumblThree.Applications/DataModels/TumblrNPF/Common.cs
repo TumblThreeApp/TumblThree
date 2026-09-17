@@ -184,6 +184,24 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         public string PlacementId { get; set; }
     }
 
+    public class Colors
+    {
+        [JsonProperty("c0")]
+        public string C0 { get; set; }
+
+        [JsonProperty("c1")]
+        public string C1 { get; set; }
+
+        [JsonProperty("c2")]
+        public string C2 { get; set; }
+
+        [JsonProperty("c3")]
+        public string C3 { get; set; }
+
+        [JsonProperty("c4")]
+        public string C4 { get; set; }
+    }
+
     public class CommunityLabels
     {
         [JsonProperty("hasCommunityLabel")]
@@ -218,7 +236,7 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
 
         [JsonProperty("media", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(SingleOrArrayConverter<Medium>))]
-        public List<Medium> Media { get; set; }
+        public List<Medium> Media { get; private set; } = new List<Medium>();
 
         [JsonProperty("alt_text", NullValueHandling = NullValueHandling.Ignore)]
         public string AltText { get; set; }
@@ -256,7 +274,7 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         public string Author { get; set; }
 
         [JsonProperty("poster", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Poster> Poster { get; set; }
+        public List<Poster> Poster { get; private set; } = new List<Poster>();
 
         #endregion
 
@@ -305,7 +323,7 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         //public string EmbedUrl { get; set; }
 
         [JsonProperty("metadata", NullValueHandling = NullValueHandling.Ignore)]
-        public Metadata metadata { get; set; }
+        public Metadata Metadata { get; set; }
 
         //public List<Poster> Poster { get; set; }
 
@@ -316,6 +334,19 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         //public string Type { get; set; }
 
         #endregion
+
+        #region "Community"
+
+        [JsonProperty("duration", NullValueHandling = NullValueHandling.Ignore)]
+        public int Duration { get; set; }
+
+        [JsonProperty("displayUrl", NullValueHandling = NullValueHandling.Ignore)]
+        public string DisplayUrl { get; set; }
+
+        [JsonProperty("siteName", NullValueHandling = NullValueHandling.Ignore)]
+        public string SiteName { get; set; }
+
+        #endregion
     }
 
     public class Context
@@ -323,7 +354,7 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         [JsonProperty("isFirstPage")]
         public bool IsFirstPage { get; set; }
 
-        [JsonProperty("iabCategories")]
+        [JsonProperty("iabCategories", NullValueHandling = NullValueHandling.Ignore)]
         public List<string> IabCategories { get; private set; } = new List<string>();
     }
 
@@ -438,6 +469,15 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         public string Uuid { get; set; }
     }
 
+    public class HeaderContext
+    {
+        [JsonProperty("label")]
+        public Label Label { get; set; }
+
+        [JsonProperty("icon")]
+        public string Icon { get; set; }
+    }
+
     public class HeaderCta
     {
         [JsonProperty("label")]
@@ -445,6 +485,15 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
 
         [JsonProperty("action")]
         public Action2 Action { get; set; }
+    }
+
+    public class Label
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
     }
 
     public class Layout
@@ -462,7 +511,7 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         public List<int> Blocks { get; private set; } = new List<int>();
 
         [JsonProperty("attribution", NullValueHandling = NullValueHandling.Ignore)]
-        public Attribution attribution { get; set; }
+        public Attribution Attribution { get; set; }
     }
 
     public class Links
@@ -594,10 +643,10 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         public string ReblogKey { get; set; }
 
         [JsonProperty("tags", NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> Tags { get; set; }
+        public List<string> Tags { get; private set; } = new List<string>();
 
         [JsonProperty("tagsV2", NullValueHandling = NullValueHandling.Ignore)]
-        public List<TagsV2> TagsV2 { get; set; }
+        public List<TagsV2> TagsV2 { get; private set; } = new List<TagsV2>();
 
         [JsonProperty("shortUrl", NullValueHandling = NullValueHandling.Ignore)]
         public string ShortUrl { get; set; }
@@ -651,16 +700,16 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         public object AskingUrl { get; set; }
 
         [JsonProperty("askingAvatar", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Avatar> AskingAvatar { get; set; }
+        public List<Avatar> AskingAvatar { get; private set; } = new List<Avatar>();
 
         [JsonProperty("askingIsAdult", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool AskingIsAdult { get; set; }
 
         [JsonProperty("content", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Content> Content { get; set; }
+        public List<Content> Content { get; private set; } = new List<Content>();
 
         [JsonProperty("layout", NullValueHandling = NullValueHandling.Ignore)]
-        public List<Layout> Layout { get; set; }
+        public List<Layout> Layout { get; private set; } = new List<Layout>();
 
         [JsonProperty("trail", NullValueHandling = NullValueHandling.Ignore)]
         public List<Trail> Trail { get; private set; } = new List<Trail>();
@@ -806,11 +855,48 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         [JsonProperty("serveId", NullValueHandling = NullValueHandling.Ignore)]
         public string ServeId { get; set; }
 
-        [JsonProperty("streamGlobalPosition")]
+        // maybe old:
+
+        [JsonProperty("streamGlobalPosition", NullValueHandling = NullValueHandling.Ignore)]
         public int StreamGlobalPosition { get; set; }
 
-        [JsonProperty("streamSessionId")]
+        [JsonProperty("streamSessionId", NullValueHandling = NullValueHandling.Ignore)]
         public string StreamSessionId { get; set; }
+
+        // communities
+
+        [JsonProperty("postAuthor", NullValueHandling = NullValueHandling.Ignore)]
+        public string PostAuthor { get; set; }
+
+        [JsonProperty("authorBlog", NullValueHandling = NullValueHandling.Ignore)]
+        public AuthorBlog AuthorBlog { get; set; }
+
+        [JsonProperty("postAuthorAvatar", NullValueHandling = NullValueHandling.Ignore)]
+        public List<PostAuthorAvatar> PostAuthorAvatar { get; private set; } = new List<PostAuthorAvatar>();
+
+        [JsonProperty("isSaved", NullValueHandling = NullValueHandling.Ignore)]
+        public bool IsSaved { get; set; }
+
+        [JsonProperty("selfReplyCount", NullValueHandling = NullValueHandling.Ignore)]
+        public int SelfReplyCount { get; set; }
+
+        [JsonProperty("reblogDisabledReason", NullValueHandling = NullValueHandling.Ignore)]
+        public string ReblogDisabledReason { get; set; }
+
+        [JsonProperty("community", NullValueHandling = NullValueHandling.Ignore)]
+        public Community Community { get; set; }
+
+        [JsonProperty("reactions", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Reaction> Reactions { get; private set; } = new List<Reaction>();
+
+        [JsonProperty("canReact", NullValueHandling = NullValueHandling.Ignore)]
+        public bool CanReact { get; set; }
+
+        [JsonProperty("shouldShowTip", NullValueHandling = NullValueHandling.Ignore)]
+        public bool ShouldShowTip { get; set; }
+
+        [JsonProperty("facepile", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Facepile> Facepile { get; private set; } = new List<Facepile>();
     }
 
     public class Poster
@@ -826,6 +912,9 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
 
         [JsonProperty("height")]
         public int Height { get; set; }
+
+        [JsonProperty("mediaKey", NullValueHandling = NullValueHandling.Ignore)]
+        public string MediaKey { get; set; }
     }
 
     public class QueryParams
@@ -847,6 +936,24 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
 
         [JsonProperty("pageNumber")]
         public string PageNumber { get; set; }
+    }
+
+    public class RecommendationReason
+    {
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("icon")]
+        public string Icon { get; set; }
+
+        [JsonProperty("loggingReason")]
+        public string LoggingReason { get; set; }
+
+        [JsonProperty("color")]
+        public string Color { get; set; }
+
+        [JsonProperty("links")]
+        public Links Links { get; set; }
     }
 
     public class Resources
@@ -881,16 +988,16 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
 
     public class Theme
     {
-        [JsonProperty("headerFullWidth")]
+        [JsonProperty("headerFullWidth", NullValueHandling = NullValueHandling.Ignore)]
         public int HeaderFullWidth { get; set; }
 
-        [JsonProperty("headerFullHeight")]
+        [JsonProperty("headerFullHeight", NullValueHandling = NullValueHandling.Ignore)]
         public int HeaderFullHeight { get; set; }
 
-        [JsonProperty("headerFocusWidth")]
+        [JsonProperty("headerFocusWidth", NullValueHandling = NullValueHandling.Ignore)]
         public int HeaderFocusWidth { get; set; }
 
-        [JsonProperty("headerFocusHeight")]
+        [JsonProperty("headerFocusHeight", NullValueHandling = NullValueHandling.Ignore)]
         public int HeaderFocusHeight { get; set; }
 
         [JsonProperty("avatarShape")]
