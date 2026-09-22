@@ -25,5 +25,7 @@
         bool IsValidNewTumblUrl(string url);
 
         bool IsValidBlueskyUrl(string url);
+
+        bool IsValidTumblrCommunityUrl(string url);
     }
 }

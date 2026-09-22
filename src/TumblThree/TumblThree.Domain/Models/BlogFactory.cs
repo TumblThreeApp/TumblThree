@@ -30,7 +30,8 @@ namespace TumblThree.Domain.Models
                    || _urlValidator.IsTumbexUrl(blogUrl)
                    || _urlValidator.IsValidTwitterUrl(blogUrl)
                    || _urlValidator.IsValidNewTumblUrl(blogUrl)
-                   || _urlValidator.IsValidBlueskyUrl(blogUrl);
+                   || _urlValidator.IsValidBlueskyUrl(blogUrl)
+                   || _urlValidator.IsValidTumblrCommunityUrl(blogUrl);
         }
 
         public bool IsValidUrl(string url)
@@ -92,6 +93,11 @@ namespace TumblThree.Domain.Models
             if (_urlValidator.IsValidBlueskyUrl(blogUrl))
             {
                 return BlueskyBlog.Create(blogUrl, path, filenameTemplate);
+            }
+
+            if (_urlValidator.IsValidTumblrCommunityUrl(blogUrl))
+            {
+                return TumblrCommunityBlog.Create(blogUrl, path, filenameTemplate);
             }
 
             throw new ArgumentException("Website is not supported!", nameof(blogUrl));

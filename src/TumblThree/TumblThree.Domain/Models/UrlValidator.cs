@@ -14,8 +14,9 @@ namespace TumblThree.Domain.Models
         private static readonly Regex twitterRegex = new Regex("(^https?://x.com/[A-Za-z0-9_]+$)");
         private static readonly Regex newTumblRegex = new Regex(@"(^(?:https?://)?(?:(?!.+like$)(?:[\w-]+\.{1})|.{0})newtumbl.com[/]??(?:like|.{0})$)");
         private static readonly Regex tumblrUrl = new Regex(@"^(?:http(?:s)?:\/\/)(?!www)[\w-]+.tumblr.com[/]??");
-        private static readonly Regex tumblrUrlNew = new Regex(@"^(?:http(?:s)?:\/\/)www.tumblr.com\/((?!dashboard|like(s|d)|search|tagged)[^/]+)");
+        private static readonly Regex tumblrUrlNew = new Regex(@"^(?:http(?:s)?:\/\/)www.tumblr.com\/((?!dashboard|like(s|d)|search|tagged|communities)[^/]+)");
         private static readonly Regex blueskyRegex = new Regex(@"^(?:http(?:s)?:\/\/)bsky.app/profile/[A-Za-z0-9_.-]+$");
+        private static readonly Regex tumblrCommunity = new Regex(@"^(?:http(?:s)?:\/\/)www.tumblr.com\/communities\/([^/]+)");
 
         private static bool CheckNullLengthProtocolAndWhiteSpace(string url, int minLength)
         {
@@ -93,6 +94,11 @@ namespace TumblThree.Domain.Models
         public bool IsValidBlueskyUrl(string url)
         {
             return url != null && blueskyRegex.IsMatch(url);
+        }
+
+        public bool IsValidTumblrCommunityUrl(string url)
+        {
+            return url != null && tumblrCommunity.IsMatch(url);
         }
 
         public string AddHttpsProtocol(string url)

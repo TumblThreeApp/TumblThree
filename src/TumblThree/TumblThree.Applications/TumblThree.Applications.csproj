@@ -129,6 +129,7 @@
     <Compile Include="Crawler\AbstractTumblrCrawler.cs" />
     <Compile Include="Crawler\BlueskyCrawler.cs" />
     <Compile Include="Crawler\NewTumblCrawler.cs" />
+    <Compile Include="Crawler\TumblrCommunityCrawler.cs" />
     <Compile Include="Crawler\TumblrPhotoLookup.cs" />
     <Compile Include="Crawler\TwitterCrawler.cs" />
     <Compile Include="DataModels\Bluesky\AuthorFeed.cs" />

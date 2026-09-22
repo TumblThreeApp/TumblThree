@@ -106,6 +106,13 @@ namespace TumblThree.Applications.Crawler
                         GetJsonDownloader(jsonTagSearchQueue, blog, pt, ct), GetTumblrParser(),
                         imgurParser, GetWebmshareParser(), GetUguuParser(),
                         GetCatBoxParser(), postQueue, jsonTagSearchQueue, blog, progress, pt, ct);
+                case BlogTypes.tumblrcommunity:
+                    IPostQueue<CrawlerData<DataModels.TumblrNPF.Post>> jsonSvcQueue2 = GetJsonQueue<DataModels.TumblrNPF.Post>();
+                    return new TumblrCommunityCrawler(shellService, crawlerService, webRequestFactory,
+                        cookieService, GetTumblrDownloader(progress, blog, files, postQueue, pt, ct),
+                        GetJsonDownloader(jsonSvcQueue2, blog, pt, ct), GetTumblrApiJsonToTextParser(blog), GetTumblrParser(),
+                        imgurParser, GetWebmshareParser(), GetUguuParser(),
+                        GetCatBoxParser(), postQueue, jsonSvcQueue2, blog, progress, environmentService, loginService, pt, ct);
                 case BlogTypes.twitter:
                     IPostQueue<CrawlerData<Tweet>> jsonTwitterQueue = GetJsonQueue<Tweet>();
                     return new TwitterCrawler(shellService, crawlerService, progress, webRequestFactory,

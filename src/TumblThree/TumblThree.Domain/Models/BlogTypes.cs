@@ -12,6 +12,7 @@
         tumblrtagsearch,
         newtumbl,
         bluesky,
+        tumblrcommunity,
         all
 #pragma warning restore SA1300
     }
