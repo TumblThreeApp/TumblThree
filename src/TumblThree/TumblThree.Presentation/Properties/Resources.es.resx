@@ -1117,4 +1117,7 @@ Si esta opción está activada, también se actualizarán. En este caso, el rast
   <data name="MoveToTop" xml:space="preserve">
     <value>Mover al principio</value>
   </data>
+  <data name="BlogtypeTumblrCommunity" xml:space="preserve">
+    <value>Tumblr Community</value>
+  </data>
 </root>

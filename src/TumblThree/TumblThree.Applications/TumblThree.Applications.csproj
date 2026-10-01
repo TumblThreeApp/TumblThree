@@ -280,6 +280,7 @@
     <Compile Include="Services\WindowsFormsFolderBrowserDialog.cs" />
     <Compile Include="Services\ZipStorer.cs" />
     <Compile Include="ThrottledStream.cs" />
+    <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrCommunityBlogViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsBlueskyBlogViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsNewTumblBlogViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModels\DetailsTumblrHiddenBlogViewModel.cs" />

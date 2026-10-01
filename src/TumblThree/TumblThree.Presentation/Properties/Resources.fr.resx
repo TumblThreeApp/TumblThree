@@ -1121,4 +1121,7 @@ Si cette option est activée, les bases de données des blogs seront également 
   <data name="MoveToBottom" xml:space="preserve">
     <value>Déplacer en bas de la liste</value>
   </data>
+  <data name="BlogtypeTumblrCommunity" xml:space="preserve">
+    <value>Tumblr Community</value>
+  </data>
 </root>

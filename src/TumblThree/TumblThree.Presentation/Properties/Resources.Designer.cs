@@ -259,6 +259,15 @@ namespace TumblThree.Presentation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tumblr Community.
+        /// </summary>
+        public static string BlogtypeTumblrCommunity {
+            get {
+                return ResourceManager.GetString("BlogtypeTumblrCommunity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tumblr Liked-by.
         /// </summary>
         public static string BlogtypeTumblrLikedBy {

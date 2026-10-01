@@ -1129,4 +1129,7 @@ Wenn diese Option aktiviert ist, werden auch Blogdatenbanken aktualisiert. In di
   <data name="MoveToTop" xml:space="preserve">
     <value>An den Anfang verschieben</value>
   </data>
+  <data name="BlogtypeTumblrCommunity" xml:space="preserve">
+    <value>Tumblr Community</value>
+  </data>
 </root>

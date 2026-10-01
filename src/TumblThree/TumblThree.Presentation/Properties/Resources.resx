@@ -1370,4 +1370,7 @@ enabled, images are requested in the format they have been uploaded.</value>
   <data name="MoveToBottom" xml:space="preserve">
     <value>Move to Bottom</value>
   </data>
+  <data name="BlogtypeTumblrCommunity" xml:space="preserve">
+    <value>Tumblr Community</value>
+  </data>
 </root>

@@ -24,6 +24,8 @@ namespace TumblThree.Presentation.Converters
                     return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeTumblrTagSearch);
                 case BlogTypes.tlb:
                     return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeTumblrLikedBy);
+                case BlogTypes.tumblrcommunity:
+                    return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeTumblrCommunity);
                 case BlogTypes.instagram:
                     return string.Format(CultureInfo.CurrentCulture, Resources.BlogtypeInstagram);
                 case BlogTypes.twitter:
