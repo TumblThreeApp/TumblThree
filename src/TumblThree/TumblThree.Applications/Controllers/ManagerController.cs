@@ -786,6 +786,7 @@ namespace TumblThree.Applications.Controllers
             catch (Exception ex)
             {
                 Logger.Error($"ManagerController:ImportBlogs: {ex}");
+                _shellService.ShowError(ex, Resources.CouldNotAddBlog, ex.Message);
             }
         }
 
@@ -809,6 +810,9 @@ namespace TumblThree.Applications.Controllers
             }
 
             RemoveBlog(blogs, true);
+
+            // allow a removed blog to be added again by copying its url once more
+            oldContent = null;
         }
 
         private void RemoveBlog(IEnumerable<IBlog> blogs, bool doArchive)
@@ -1101,7 +1105,9 @@ namespace TumblThree.Applications.Controllers
             QueueOnDispatcher.CheckBeginInvokeOnUI(() => Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait);
             try
             {
-                IEnumerable<Task> tasks = urls.Select(async url => await AddBlogsAsync(semaphoreSlim, url, fromClipboard));
+                // skip duplicate entries so that each blog is only processed (and reported) once
+                IEnumerable<Task> tasks = urls.Distinct(StringComparer.OrdinalIgnoreCase)
+                    .Select(async url => await AddBlogsAsync(semaphoreSlim, url, fromClipboard));
                 await Task.WhenAll(tasks);
             }
             catch (Exception ex)
