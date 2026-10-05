@@ -643,7 +643,14 @@ namespace TumblThree.Applications.Controllers
 
         private void DequeueSelected() => Dequeue(_selectionService.SelectedBlogFiles.ToArray());
 
-        private void Enqueue(IEnumerable<IBlog> blogFiles) => QueueManager.AddItems(blogFiles.Select(x => new QueueListItem(x)));
+        private void Enqueue(IEnumerable<IBlog> blogFiles)
+        {
+            // skip blogs that are already waiting in the queue
+            QueueListItem[] newItems = blogFiles
+                .Where(blog => !QueueManager.Items.Any(x => x.Blog.Name == blog.Name && x.Blog.BlogType == blog.BlogType))
+                .Select(x => new QueueListItem(x)).ToArray();
+            QueueManager.AddItems(newItems);
+        }
 
         private void Dequeue(IEnumerable<IBlog> blogFiles)
         {
@@ -891,7 +898,10 @@ namespace TumblThree.Applications.Controllers
             {
                 try
                 {
-                    Process.Start("explorer.exe", blog.DownloadLocation());
+                    string blogPath = blog.DownloadLocation();
+                    if (!Directory.Exists(blogPath))
+                        throw new DirectoryNotFoundException(blogPath);
+                    Process.Start("explorer.exe", blogPath);
                 }
                 catch (Exception ex)
                 {
@@ -921,8 +931,15 @@ namespace TumblThree.Applications.Controllers
         {
             foreach (IBlog blog in _selectionService.SelectedBlogFiles.ToArray())
             {
-                string tumbexUrl = $"https://www.tumbex.com/{blog.Name}.tumblr/";
-                Process.Start(tumbexUrl);
+                try
+                {
+                    string tumbexUrl = $"https://www.tumbex.com/{blog.Name}.tumblr/";
+                    Process.Start(tumbexUrl);
+                }
+                catch (Exception ex)
+                {
+                    _shellService.ShowError(ex, Resources.ErrorOpeningBlogUrl, blog.Name);
+                }
             }
         }
 
