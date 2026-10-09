@@ -176,31 +176,52 @@ namespace TumblThree.Applications.Downloader
                     var m = Regex.Match(lines[i], "BANDWIDTH=([0-9]+),");
                     var bandwidth = m.Success ? int.Parse(m.Groups[1].Value) : i;
                     var newUrl = string.Join("/", url.Split('/').Take(url.Split('/').Length - 1)) + "/" + lines[i + 1];
-                    videoUrlsList.Add(bandwidth, newUrl);
+                    videoUrlsList[bandwidth] = newUrl;
                 }
             }
 
             // download playlist with video parts
-            var partsPlaylistUrl = videoUrlsList.Last().Value;
-            var partsPlaylist = await DownloadPageAsync(partsPlaylistUrl);
+            // a playlist without variants already lists the video parts itself
+            var partsPlaylistUrl = videoUrlsList.Count > 0 ? videoUrlsList.Last().Value : url;
+            var partsPlaylist = videoUrlsList.Count > 0 ? await DownloadPageAsync(partsPlaylistUrl) : playlist;
             partsPlaylist = Regex.Replace(partsPlaylist, @"\r\n?|\n", Environment.NewLine);
             lines = partsPlaylist.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             
             // download all video parts and concat them
-            using (var fs = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
+            var completed = false;
+            try
             {
-                foreach (var line in lines)
+                using (var fs = new FileStream(fileLocation, FileMode.Create, FileAccess.Write))
                 {
-                    if (line.StartsWith("#") || string.IsNullOrWhiteSpace(line)) continue;
-                    var newUrl = string.Join("/", partsPlaylistUrl.Split('/').Take(partsPlaylistUrl.Split('/').Length - 1)) + "/" + line;
-                    if (File.Exists(fileLocation + ".tmp")) File.Delete(fileLocation + ".tmp");
-                    var result = await fileDownloader.DownloadFileWithResumeAsync(newUrl, fileLocation + ".tmp");
-                    if (!result.result) return (false, result.destinationPath);
-                    using (var fs2 = File.OpenRead(fileLocation + ".tmp"))
+                    foreach (var line in lines)
                     {
-                        await fs2.CopyToAsync(fs);
+                        if (line.StartsWith("#") || string.IsNullOrWhiteSpace(line)) continue;
+                        var newUrl = string.Join("/", partsPlaylistUrl.Split('/').Take(partsPlaylistUrl.Split('/').Length - 1)) + "/" + line;
+                        if (File.Exists(fileLocation + ".tmp")) File.Delete(fileLocation + ".tmp");
+                        var result = await fileDownloader.DownloadFileWithResumeAsync(newUrl, fileLocation + ".tmp");
+                        if (!result.result) return (false, result.destinationPath);
+                        using (var fs2 = File.OpenRead(fileLocation + ".tmp"))
+                        {
+                            await fs2.CopyToAsync(fs);
+                        }
+                        File.Delete(fileLocation + ".tmp");
                     }
-                    File.Delete(fileLocation + ".tmp");
+                }
+                completed = true;
+            }
+            finally
+            {
+                if (!completed)
+                {
+                    // don't leave an incomplete video and its temporary part behind
+                    try
+                    {
+                        File.Delete(fileLocation + ".tmp");
+                        File.Delete(fileLocation);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
 
