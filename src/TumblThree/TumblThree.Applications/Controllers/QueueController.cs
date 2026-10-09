@@ -213,7 +213,9 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
-                InsertBlogFiles(index, names.Zip(blogTypes, Tuple.Create).Select(x => _managerService.BlogFiles.First(blogs => blogs.Name.Equals(x.Item1) && blogs.BlogType.Equals(x.Item2))));
+                InsertBlogFiles(index, names.Zip(blogTypes, Tuple.Create)
+                    .Select(x => _managerService.BlogFiles.FirstOrDefault(blogs => blogs.Name.Equals(x.Item1) && blogs.BlogType.Equals(x.Item2)))
+                    .Where(blog => blog != null).ToArray());
             }
             catch (Exception ex)
             {
