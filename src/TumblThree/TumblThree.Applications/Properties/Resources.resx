@@ -163,7 +163,7 @@
     <value>Could not load file in library: {0}</value>
   </data>
   <data name="CouldNotLoadQueuelist" xml:space="preserve">
-    <value>The queuelist could not be loaded. Maybe some referenced blogs do not exist anymore.</value>
+    <value>The queuelist could not be loaded completely. Maybe some referenced blogs do not exist anymore.</value>
   </data>
   <data name="CouldNotOpenFiles" xml:space="preserve">
     <value>A file could not be opened.</value>

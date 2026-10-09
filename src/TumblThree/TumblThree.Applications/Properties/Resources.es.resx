@@ -157,7 +157,7 @@
     <value>No se pudo cargar el archivo en la biblioteca: {0}</value>
   </data>
   <data name="CouldNotLoadQueuelist" xml:space="preserve">
-    <value>El queuelist no podía ser cargado. Tal vez algunos blogs de referencia ya no existen.</value>
+    <value>El queuelist no podía ser cargado completamente. Tal vez algunos blogs de referencia ya no existen.</value>
   </data>
   <data name="CouldNotOpenFiles" xml:space="preserve">
     <value>No se pudo abrir un archivo.</value>

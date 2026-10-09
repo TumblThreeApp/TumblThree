@@ -157,7 +157,7 @@
     <value>Impossible de charger le fichier dans la bibliothèque: {0}</value>
   </data>
   <data name="CouldNotLoadQueuelist" xml:space="preserve">
-    <value>Le noeliste ne pouvait pas être chargé. Peut-être que certains blogs référencés n'existent plus.</value>
+    <value>Le noeliste ne pouvait pas être chargé entièrement. Peut-être que certains blogs référencés n'existent plus.</value>
   </data>
   <data name="CouldNotOpenFiles" xml:space="preserve">
     <value>Un fichier n'a pas pu être ouvert.</value>

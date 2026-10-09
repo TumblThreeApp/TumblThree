@@ -344,7 +344,7 @@ Möchten Sie es jetzt herunterladen?</value>
     <value>Die Bestätigung der Tumblr-Datenschutzvereinbarung ist fehlgeschlagen. Möglicherweise liegt ein Verbindungsproblem vor.</value>
   </data>
   <data name="CouldNotLoadQueuelist" xml:space="preserve">
-    <value>Die Downloadliste konnte nicht geladen werden. Vielleicht existieren manche referenzierte Blogs nicht mehr.</value>
+    <value>Die Downloadliste konnte nicht vollständig geladen werden. Vielleicht existieren manche referenzierte Blogs nicht mehr.</value>
   </data>
   <data name="Textfile" xml:space="preserve">
     <value>Textdatei</value>

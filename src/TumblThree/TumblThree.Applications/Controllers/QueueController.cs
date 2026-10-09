@@ -213,9 +213,19 @@ namespace TumblThree.Applications.Controllers
         {
             try
             {
+                var missingBlogs = names.Zip(blogTypes, Tuple.Create)
+                    .Select(x => (_managerService.BlogFiles.FirstOrDefault(blogs => blogs.Name.Equals(x.Item1) && blogs.BlogType.Equals(x.Item2)) == null) ? x.Item1 : null)
+                    .Where(x => x != null)
+                    .ToArray();
                 InsertBlogFiles(index, names.Zip(blogTypes, Tuple.Create)
                     .Select(x => _managerService.BlogFiles.FirstOrDefault(blogs => blogs.Name.Equals(x.Item1) && blogs.BlogType.Equals(x.Item2)))
                     .Where(blog => blog != null).ToArray());
+                if (missingBlogs.Length > 0)
+                {
+                    var text = string.Join(", ", missingBlogs);
+                    Logger.Warning("QueueController.InsertFileCore: Missing blogs: {0}", text);
+                    _shellService.ShowError(new QueuelistLoadException(string.Format("Missing blogs: {0}", text)), Resources.CouldNotLoadQueuelist);
+                }
             }
             catch (Exception ex)
             {

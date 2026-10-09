@@ -334,7 +334,7 @@ namespace TumblThree.Applications.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The queuelist could not be loaded. Maybe some referenced blogs do not exist anymore..
+        ///   Looks up a localized string similar to The queuelist could not be loaded completely. Maybe some referenced blogs do not exist anymore..
         /// </summary>
         public static string CouldNotLoadQueuelist {
             get {
