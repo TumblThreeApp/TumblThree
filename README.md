@@ -88,7 +88,7 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
   </details>
 * <details><summary><b>Tumblr Communities</b></summary>
 
-  * A downloader for downloading photos and videos from Tumblr Communities (e.g. https://www.tumblr.com/communities/browse/tumblr) (login required)
+  * A downloader for downloading photos and videos from Tumblr Communities (e.g. https://www.tumblr.com/communities/dogs) (login required)
   * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
   * Allows to download posts in a defined time span
 
