@@ -7,7 +7,7 @@
 [![Github Releases (current repo)](https://img.shields.io/github/downloads/TumblThreeApp/TumblThree/total.svg?style=flat)](https://github.com/TumblThreeApp/TumblThree/releases)
 <br>
 [![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat)](https://www.firsttimersonly.com/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://makeapullrequest.com)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/TumblThreeApp/TumblThree/issues)
 
 TumblThree is a free and open source Tumblr and Twitter blog backup application. It downloads photo, video, audio and text posts from a given Tumblr or Twitter blog. [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://x.com/intent/tweet?text=Check%20out%20TumblThree%20-%20A%20Tumblr%20and%20Twitter%20Blog%20Backup%20Application%0AIt%20downloads%20photo,%20video,%20audio%20and%20text%20posts%20from%20a%20given%20blog.&url=https%3A%2F%2Ftumblthreeapp.github.io&hashtags=tumblr,blog,backup,application)<br/>
@@ -29,7 +29,8 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
 * Image viewer with slideshow mode
 * Automated update process
 * Group blogs into collections
-* :star: Download of Bluesky (user feed) blogs 🆕
+* Download of Bluesky (user feed) blogs
+* :star: Download of Tumblr Communities 🆕
 <details>
   <summary>click for more</summary><br/>
 
@@ -55,7 +56,7 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
   * Download meta information for photo, video and audio posts
   * Download inlined photos and videos (e.g. photos embedded in question&answer posts)
   * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
-  * Support for downloading Imgur, Gfycat, Webmshare, Uguu and Catbox linked files in tumblr posts
+  * Support for downloading Imgur, Gfycat, Webmshare, Uguu and Catbox linked files in Tumblr posts
   * Download of safe mode/NSFW blogs
   * Allows to download only original content of the blog and skip reblogged posts
   * Can download only tagged posts
@@ -66,21 +67,28 @@ It is the code rewrite of [TumblTwo](https://github.com/johanneszab/TumblTwo), u
   </details>
 * <details><summary><b>Liked/by and Likes</b></summary>
   
-  * A downloader for downloading "liked by" (e.g. https://www.tumblr.com/liked/by/wallpaperfx/) and "likes" (e.g. https://www.tumblr.com/likes) photos and videos instead of a tumblr blog (login required)
+  * A downloader for downloading "liked by" (e.g. https://www.tumblr.com/liked/by/wallpaperfx/) and "likes" (e.g. https://www.tumblr.com/likes) photos and videos instead of a Tumblr blog (login required)
   * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
   * Allows to download posts in a defined time span
 
   </details>
 * <details><summary><b>Tumblr searches</b></summary>
 
-  * A downloader for downloading photos and videos from the tumblr search (e.g. http://www.tumblr.com/search/my+keywords)
+  * A downloader for downloading photos and videos from the Tumblr search (e.g. https://www.tumblr.com/search/my+keywords)
   * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
   * Allows to download posts in a defined time span
 
   </details>
 * <details><summary><b>Tumblr tag searches</b></summary>
 
-  * A downloader for downloading photos and videos from the tumblr tag search (e.g. http://www.tumblr.com/tagged/my+keywords) (login required)
+  * A downloader for downloading photos and videos from the Tumblr tag search (e.g. https://www.tumblr.com/tagged/my+keywords) (login required)
+  * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
+  * Allows to download posts in a defined time span
+
+  </details>
+* <details><summary><b>Tumblr Communities</b></summary>
+
+  * A downloader for downloading photos and videos from Tumblr Communities (e.g. https://www.tumblr.com/communities/browse/tumblr) (login required)
   * Download of all image sizes possible (SVC, API only for newer blogs, higher resolution not possible for old blogs)
   * Allows to download posts in a defined time span
 
