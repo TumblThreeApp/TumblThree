@@ -28,6 +28,108 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         public Blog Blog { get; set; }
     }
 
+    public class AuthorBlog
+    {
+        [JsonProperty("avatar")]
+        public List<Avatar> Avatar { get; private set; } = new List<Avatar>();
+
+        [JsonProperty("blogViewUrl")]
+        public string BlogViewUrl { get; set; }
+
+        [JsonProperty("canBeFollowed")]
+        public bool CanBeFollowed { get; set; }
+
+        [JsonProperty("canShowBadges")]
+        public bool CanShowBadges { get; set; }
+
+        [JsonProperty("canSubscribe")]
+        public bool CanSubscribe { get; set; }
+
+        [JsonProperty("descriptionNpf")]
+        public List<DescriptionNpf> DescriptionNpf { get; private set; } = new List<DescriptionNpf>();
+
+        [JsonProperty("followed")]
+        public bool Followed { get; set; }
+
+        [JsonProperty("isAdult")]
+        public bool IsAdult { get; set; }
+
+        [JsonProperty("isMember")]
+        public bool IsMember { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("subscribed")]
+        public bool Subscribed { get; set; }
+
+        [JsonProperty("theme")]
+        public Theme Theme { get; set; }
+
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("tumblrmartAccessories")]
+        public TumblrmartAccessories TumblrmartAccessories { get; set; }
+
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [JsonProperty("uuid")]
+        public string Uuid { get; set; }
+
+        [JsonProperty("ask")]
+        public bool Ask { get; set; }
+
+        [JsonProperty("canSubmit")]
+        public bool CanSubmit { get; set; }
+
+        [JsonProperty("isBlockedFromPrimary")]
+        public bool IsBlockedFromPrimary { get; set; }
+
+        [JsonProperty("isPasswordProtected")]
+        public bool IsPasswordProtected { get; set; }
+
+        [JsonProperty("shareFollowing")]
+        public bool ShareFollowing { get; set; }
+
+        [JsonProperty("shareLikes")]
+        public bool ShareLikes { get; set; }
+
+        [JsonProperty("shareReplies")]
+        public bool ShareReplies { get; set; }
+
+        [JsonProperty("canMessage")]
+        public bool CanMessage { get; set; }
+
+        [JsonProperty("askPageTitle")]
+        public string AskPageTitle { get; set; }
+
+        [JsonProperty("topTags")]
+        public List<TopTag> TopTags { get; private set; } = new List<TopTag>();
+
+        [JsonProperty("allowSearchIndexing")]
+        public bool AllowSearchIndexing { get; set; }
+
+        [JsonProperty("isHiddenFromBlogNetwork")]
+        public bool IsHiddenFromBlogNetwork { get; set; }
+
+        [JsonProperty("shouldShowGift")]
+        public bool ShouldShowGift { get; set; }
+
+        [JsonProperty("shouldShowTumblrmartGift")]
+        public bool ShouldShowTumblrmartGift { get; set; }
+
+        [JsonProperty("shouldBlur")]
+        public bool ShouldBlur { get; set; }
+
+        [JsonProperty("isAdultLastReporter")]
+        public object IsAdultLastReporter { get; set; }
+
+        [JsonProperty("isAdmin", NullValueHandling = NullValueHandling.Ignore)]
+        public bool IsAdmin { get; set; }
+    }
+
     public class Avatar
     {
         [JsonProperty("width")]
@@ -41,6 +143,9 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
 
         [JsonProperty("accessories")]
         public List<object> Accessories { get; private set; } = new List<object>();
+
+        [JsonProperty("poster")]
+        public Poster Poster { get; set; }
     }
 
     public class Badge
@@ -904,7 +1009,7 @@ namespace TumblThree.Applications.DataModels.TumblrNPF
         [JsonProperty("url")]
         public string Url { get; set; }
 
-        [JsonProperty("type")]
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
         public string Type { get; set; }
 
         [JsonProperty("width")]

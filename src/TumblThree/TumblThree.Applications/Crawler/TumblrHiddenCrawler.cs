@@ -392,7 +392,7 @@ namespace TumblThree.Applications.Crawler
                     new FlexibleNamingConverter<CommunityLabels>(), new FlexibleNamingConverter<Badge>(), new FlexibleNamingConverter<TumblrmartAccessories>(),
                     new FlexibleNamingConverter<Poster>(), new FlexibleNamingConverter<Content>(), new FlexibleNamingConverter<Medium>(),
                     new FlexibleNamingConverter<Attribution>(), new FlexibleNamingConverter<Trail>(), new FlexibleNamingConverter<Style>(),
-                    new FlexibleNamingConverter<Layout>() }
+                    new FlexibleNamingConverter<Layout>(), new FlexibleNamingConverter<AuthorBlog>() }
             };
 
             try
