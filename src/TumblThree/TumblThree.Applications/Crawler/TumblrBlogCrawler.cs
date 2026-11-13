@@ -74,6 +74,12 @@ namespace TumblThree.Applications.Crawler
                 {
                     return;
                 }
+                if (webException.Response is HttpWebResponse response && response.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    Logger.Error("TumblrBlogCrawler:IsBlogOnlineAsync: {0}, {1}", Blog.Name, webException);
+                    ShellService.ShowError(webException, "{0}, {1}", Blog.Name, webException.Message);
+                    return;
+                }
 
                 if (HandleUnauthorizedWebException(webException))
                 {

@@ -35,6 +35,7 @@ namespace TumblThree.Applications.Crawler
         {
             try
             {
+                url = url + "api/read/json?num=1";
                 string location = await GetUrlRedirection(url, false);
                 return location.Contains("login_required") || location.Contains("dashboard/blog/") ||
                     location.Contains("/blog/view/") || location.Contains("/safe-mode?url");
@@ -46,7 +47,7 @@ namespace TumblThree.Applications.Crawler
                 using (var reader = new StreamReader(stream))
                 {
                     string content = await reader.ReadToEndAsync();
-                    return content.Contains("X-Hashcash-Solution");
+                    return content.Contains("X-Hashcash-Solution") || content.Contains("HASHCASH_CONFIG");
                 }
             }
             catch (Exception)
