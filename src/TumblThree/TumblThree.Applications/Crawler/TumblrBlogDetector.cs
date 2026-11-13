@@ -37,7 +37,7 @@ namespace TumblThree.Applications.Crawler
             {
                 url = url + "api/read/json?num=1";
                 string location = await GetUrlRedirection(url, false);
-                return location.Contains("login_required") || location.Contains("dashboard/blog/") ||
+                return location.Contains("login_required") || location.Contains("login_register_required") || location.Contains("dashboard/blog/") ||
                     location.Contains("/blog/view/") || location.Contains("/safe-mode?url");
             }
             catch (WebException webException)
